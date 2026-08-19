@@ -8,7 +8,8 @@
 <div class="space-y-5">
 
     {{-- Header --}}
-    <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white p-5 md:flex-row md:items-center md:justify-between">
+    <div
+        class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white p-5 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                 <i class="bi bi-gear text-base"></i>
@@ -16,7 +17,8 @@
 
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-slate-800">System Settings</h1>
-                <p class="mt-1 text-sm text-slate-500">Manage organization, system, membership and finance configuration.</p>
+                <p class="mt-1 text-sm text-slate-500">Manage organization, system, membership and finance
+                    configuration.</p>
             </div>
         </div>
 
@@ -35,15 +37,15 @@
 
         {{-- Empty / Skeleton State --}}
         <div id="settingsSkeleton" class="space-y-4 p-5">
-            @for($i = 0; $i < 4; $i++)
-                <div class="h-16 animate-pulse rounded-md bg-slate-100"></div>
-            @endfor
+            @for($i = 0; $i < 4; $i++) <div class="h-16 animate-pulse rounded-md bg-slate-100">
         </div>
-
-        {{-- Panels --}}
-        <div id="settingsPanels" class="hidden"></div>
-
+        @endfor
     </div>
+
+    {{-- Panels --}}
+    <div id="settingsPanels" class="hidden"></div>
+
+</div>
 
 </div>
 
@@ -51,7 +53,7 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
     const canUpdate = @json(auth()->user()->hasPermission('Setting.update'));
 
@@ -193,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const fieldsHtml = otherFields.map(function (setting) {
             if (setting.type === 'boolean') return renderToggleField(setting);
             if (setting.type === 'password') return renderPasswordField(setting);
+            if (setting.type === 'select') return renderSelectField(setting);
             return renderTextField(setting);
         }).join('');
 
@@ -266,8 +269,66 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
     }
 
+    function renderSelectField(setting) {
+    const options = Array.isArray(setting.options) ? setting.options : [];
+
+    const optionsHtml = options.map(function (opt) {
+        const selected = String(setting.value) === String(opt) ? 'selected' : '';
+
+        // value always stays the raw stored value (e.g. 'd-m-Y'); only the
+        // visible label gets a human preview in brackets for date_format.
+        const label = setting.key === 'date_format'
+            ? `${formatDatePreview(opt)} (${opt})`
+            : titleCase(opt);
+
+        return `<option value="${escapeHtml(opt)}" ${selected}>${escapeHtml(label)}</option>`;
+    }).join('');
+
+    return `
+        <div>
+            <div class="mb-1.5 flex items-center justify-between">
+                <label class="text-sm font-semibold text-slate-700">
+                    ${setting.description || titleCase(setting.key)}
+                </label>
+
+                ${setting.is_public ? '<span class="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-600">Public</span>' : ''}
+            </div>
+
+            <select
+                name="${setting.key}"
+                ${canUpdate ? '' : 'disabled'}
+                class="app-input"
+            >
+                ${optionsHtml}
+            </select>
+
+            <p class="mt-1 text-[11px] text-slate-400">${setting.key}</p>
+        </div>
+    `;
+}
+
+function formatDatePreview(format) {
+    const now = new Date();
+
+    const d = String(now.getDate()).padStart(2, '0');
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const Y = now.getFullYear();
+
+    const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monthFull  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    const M = monthShort[now.getMonth()];
+    const F = monthFull[now.getMonth()];
+
+    const tokens = { d, m, Y, M, F };
+
+    return format.replace(/d|m|Y|M|F/g, function (token) {
+        return tokens[token] !== undefined ? String(tokens[token]) : token;
+    });
+}
+
     function renderPasswordField(setting) {
-        const hasValue = setting.value === '';           // '' = set but hidden, null = not set
+        const hasValue = setting.value === '';
         const placeholder = hasValue
             ? 'Leave blank to keep current password'
             : 'Not set';
@@ -455,24 +516,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (setting.type === 'boolean') {
                     value = input.checked ? '1' : '0';
                 } else if (setting.type === 'password') {
-                    // Empty = keep existing password, don't overwrite.
                     if (input.value === '') continue;
                     value = input.value;
                 } else {
+                    // covers text, select, integer, float, json
                     value = input.value;
                 }
 
                 await api('/api/settings', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        key: setting.key,
-                        value: value,
-                        type: setting.type,
-                        group: setting.group,
-                        description: setting.description,
-                        is_public: setting.is_public,
-                    }),
-                });
+    method: 'POST',
+    body: JSON.stringify({
+        key: setting.key,
+        value: value,
+        type: setting.type,
+        group: setting.group,
+        description: setting.description,
+        is_public: setting.is_public,
+        options: setting.options ?? null,
+    }),
+});
 
                 if (setting.type !== 'password') {
                     setting.value = value;

@@ -45,10 +45,7 @@ class SettingController extends Controller
 
     public function show(string $key)
     {
-        $setting = Setting::where(
-            'key',
-            $key
-        )->first();
+        $setting = Setting::where('key', $key)->first();
 
         if (!$setting) {
             return response()->json([
@@ -61,10 +58,9 @@ class SettingController extends Controller
             'success' => true,
             'data' => [
                 'key' => $setting->key,
-                'value' => $this->settingService->get(
-                    $setting->key
-                ),
+                'value' => $this->settingService->get($setting->key),
                 'type' => $setting->type,
+                'options' => $setting->options,
                 'group' => $setting->group,
                 'description' => $setting->description,
             ]
@@ -83,10 +79,12 @@ class SettingController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:255',
             'value' => 'nullable',
-            'type' => 'required|in:string,boolean,integer,float,json,password,image',
+            'type' => 'required|in:string,boolean,integer,float,json,password,image,select',
             'group' => 'required|string|max:100',
             'description' => 'nullable|string',
             'is_public' => 'boolean',
+            'options' => 'nullable|array',
+            'options.*' => 'string',
         ]);
 
         $setting = $this->settingService->set(
@@ -95,7 +93,8 @@ class SettingController extends Controller
             $validated['type'],
             $validated['group'],
             $validated['description'] ?? null,
-            $validated['is_public'] ?? false
+            $validated['is_public'] ?? false,
+            $validated['options'] ?? null
         );
 
         return response()->json([
@@ -131,7 +130,7 @@ class SettingController extends Controller
         return response()->json([
             'success' => true,
             'message' =>
-                'Setting deleted successfully.'
+            'Setting deleted successfully.'
         ]);
     }
 
@@ -148,8 +147,8 @@ class SettingController extends Controller
             'success' => true,
 
             'data' =>
-                $this->settingService
-                    ->publicSettings()
+            $this->settingService
+                ->publicSettings()
         ]);
     }
 

@@ -28,7 +28,8 @@ class SettingService
         string $type = 'string',
         string $group = 'general',
         ?string $description = null,
-        bool $isPublic = false
+        bool $isPublic = false,
+        ?array $options = null
     ): Setting {
 
         $attributes = [
@@ -36,6 +37,7 @@ class SettingService
             'group' => $group,
             'description' => $description,
             'is_public' => $isPublic,
+            'options' => $options,
         ];
 
         /*
@@ -87,7 +89,7 @@ class SettingService
         }
 
         return $query->get()->map(
-            fn ($setting) => $this->redactForOutput($setting)
+            fn($setting) => $this->redactForOutput($setting)
         );
     }
 
@@ -102,7 +104,7 @@ class SettingService
             ->orderBy('key')
             ->get()
             ->map(
-                fn ($setting) => $this->redactForOutput($setting)
+                fn($setting) => $this->redactForOutput($setting)
             );
     }
 
@@ -124,45 +126,28 @@ class SettingService
 
 
     private function castValue($value, string $type)
-    {
-        return match ($type) {
-            'boolean' => filter_var(
-                $value,
-                FILTER_VALIDATE_BOOLEAN
-            ),
+{
+    return match ($type) {
+        'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
+        'integer' => (int) $value,
+        'float' => (float) $value,
+        'json' => json_decode($value, true),
+        'password' => $this->decryptSafely($value),
+        'select' => $value,
+        default => $value,
+    };
+}
 
-            'integer' => (int) $value,
-
-            'float' => (float) $value,
-
-            'json' => json_decode(
-                $value,
-                true
-            ),
-
-            'password' => $this->decryptSafely($value),
-
-            default => $value,
-        };
-    }
-
-
-    private function prepareValue($value, string $type)
-    {
-        return match ($type) {
-            'boolean' => $value ? '1' : '0',
-
-            'json' => json_encode(
-                $value
-            ),
-
-            'password' => Crypt::encryptString(
-                (string) $value
-            ),
-
-            default => (string) $value,
-        };
-    }
+private function prepareValue($value, string $type)
+{
+    return match ($type) {
+        'boolean' => $value ? '1' : '0',
+        'json' => json_encode($value),
+        'password' => Crypt::encryptString((string) $value),
+        'select' => (string) $value,
+        default => (string) $value,
+    };
+}
 
 
     private function decryptSafely(?string $value): ?string

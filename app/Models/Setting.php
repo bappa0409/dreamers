@@ -10,6 +10,7 @@ class Setting extends Model
         'key',
         'value',
         'type',
+        'options',
         'group',
         'description',
         'is_public',
@@ -17,5 +18,6 @@ class Setting extends Model
 
     protected $casts = [
         'is_public' => 'boolean',
+        'options'   => 'array',
     ];
 }
