@@ -492,32 +492,41 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
+    // Route::prefix('settings')->group(function () {
+
+    //     Route::get('/', [
+    //         SettingController::class,
+    //         'index'
+    //     ]);
+
+    //     Route::get('/public', [
+    //         SettingController::class,
+    //         'publicSettings'
+    //     ]);
+
+    //     Route::get('/{key}', [
+    //         SettingController::class,
+    //         'show'
+    //     ]);
+
+    //     Route::post('/', [
+    //         SettingController::class,
+    //         'store'
+    //     ]);
+
+    //     Route::delete('/{key}', [
+    //         SettingController::class,
+    //         'destroy'
+    //     ]);
+    // });
+
     Route::prefix('settings')->group(function () {
-
-        Route::get('/', [
-            SettingController::class,
-            'index'
-        ]);
-
-        Route::get('/public', [
-            SettingController::class,
-            'publicSettings'
-        ]);
-
-        Route::get('/{key}', [
-            SettingController::class,
-            'show'
-        ]);
-
-        Route::post('/', [
-            SettingController::class,
-            'store'
-        ]);
-
-        Route::delete('/{key}', [
-            SettingController::class,
-            'destroy'
-        ]);
+        Route::get('/', [SettingController::class, 'index'])->middleware('permission:Setting.view');
+        Route::get('/public', [SettingController::class, 'publicSettings']);
+        Route::post('/upload', [SettingController::class, 'uploadImage'])->middleware('permission:Setting.update');
+        Route::get('/{key}', [SettingController::class, 'show'])->middleware('permission:Setting.view');
+        Route::post('/', [SettingController::class, 'store'])->middleware('permission:Setting.update');
+        Route::delete('/{key}', [SettingController::class, 'destroy'])->middleware('permission:Setting.update');
     });
 
 

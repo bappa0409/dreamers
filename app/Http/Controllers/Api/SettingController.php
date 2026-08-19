@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -80,23 +81,12 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'key' =>
-                'required|string|max:255',
-
-            'value' =>
-                'nullable',
-
-            'type' =>
-                'required|in:string,boolean,integer,float,json',
-
-            'group' =>
-                'required|string|max:100',
-
-            'description' =>
-                'nullable|string',
-
-            'is_public' =>
-                'boolean',
+            'key' => 'required|string|max:255',
+            'value' => 'nullable',
+            'type' => 'required|in:string,boolean,integer,float,json,password,image',
+            'group' => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'is_public' => 'boolean',
         ]);
 
         $setting = $this->settingService->set(
@@ -110,8 +100,7 @@ class SettingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' =>
-                'Setting saved successfully.',
+            'message' => 'Setting saved successfully.',
             'data' => $setting
         ]);
     }
@@ -161,6 +150,66 @@ class SettingController extends Controller
             'data' =>
                 $this->settingService
                     ->publicSettings()
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upload Image Setting (Logo / Favicon)
+    |--------------------------------------------------------------------------
+    */
+
+    public function uploadImage(Request $request)
+    {
+        $definitions = [
+            'site_logo' => [
+                'group' => 'branding',
+                'description' => 'Organization logo',
+            ],
+            'site_favicon' => [
+                'group' => 'branding',
+                'description' => 'Browser favicon',
+            ],
+        ];
+
+        $validated = $request->validate([
+            'key' => 'required|string|in:' . implode(',', array_keys($definitions)),
+            'file' => 'required|image|mimes:png,jpg,jpeg,webp,svg,ico|max:2048',
+        ]);
+
+        $meta = $definitions[$validated['key']];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Remove Previous File
+        |--------------------------------------------------------------------------
+        */
+
+        $existing = Setting::where('key', $validated['key'])->first();
+
+        if ($existing && $existing->value && Storage::disk('public')->exists($existing->value)) {
+            Storage::disk('public')->delete($existing->value);
+        }
+
+        $path = $request->file('file')->store('settings', 'public');
+
+        $setting = $this->settingService->set(
+            $validated['key'],
+            $path,
+            'image',
+            $meta['group'],
+            $meta['description'],
+            true
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Uploaded successfully.',
+            'data' => [
+                'key' => $setting->key,
+                'value' => $setting->value,
+                'url' => Storage::disk('public')->url($setting->value),
+            ],
         ]);
     }
 }

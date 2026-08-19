@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordSetupController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,12 @@ Route::middleware('guest')->group(function(){
 
     Route::get('/setup-password',[PasswordSetupController::class,'show'])->name('password.setup');
     Route::post('/setup-password',[PasswordSetupController::class,'setup'])->middleware('throttle:5,1')->name('password.setup.submit');
+
+    Route::get('/forgot-password',[PasswordResetController::class,'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password',[PasswordResetController::class,'sendResetLink'])->middleware('throttle:5,1')->name('password.email');
+
+    Route::get('/reset-password',[PasswordResetController::class,'showResetForm'])->name('password.reset');
+    Route::post('/reset-password',[PasswordResetController::class,'resetPassword'])->middleware('throttle:5,1')->name('password.update');
 });
 
 /*
