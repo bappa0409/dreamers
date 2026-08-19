@@ -15,11 +15,17 @@ class AdminController extends Controller
     {
         return view('admin.members.index');
     }
-    public function userRoles()
-{
-    return view('admin.users.roles');
-}
 
+    public function userRoles()
+    {
+        return view('admin.users.roles');
+    }
+
+    public function backups(): View
+    {
+        return view('admin.backups.index');
+    }
+    
     public function createMember(): View
     {
         return view('admin.members.create');
@@ -35,6 +41,10 @@ class AdminController extends Controller
         return view('admin.land.index');
     }
 
+    public function finance()
+{
+    return view('admin.finance.index');
+}
     public function projects(): View
     {
         return view('admin.projects.index');
@@ -99,4 +109,5 @@ class AdminController extends Controller
     {
         return view('admin.roles.index');
     }
+
 }

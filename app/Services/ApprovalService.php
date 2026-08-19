@@ -15,11 +15,12 @@ use Illuminate\Database\Eloquent\Model;
 class ApprovalService
 {
     public function __construct(
-    protected PasswordSetupService $passwordSetupService,
-    protected DashboardService $dashboardService
-){}
+        protected PasswordSetupService $passwordSetupService,
+        protected DashboardService $dashboardService
+    ) {}
 
-    public function createRequest(Model $approvable,
+    public function createRequest(
+        Model $approvable,
         string $module,
         string $action,
         ?int $requestedBy = null,
@@ -93,10 +94,7 @@ class ApprovalService
             ]);
 
             $this->forgetApprovalCaches();
-            Cache::forget('members:summary');
-            Cache::forget('dashboard.members.summary');
-            Cache::forget('dashboard.members.active_count');
-            Cache::forget('dashboard.members.pending_count');
+            $this->forgetMemberCaches();
 
             if ($setupUser) {
                 DB::afterCommit(function () use ($setupUser) {
@@ -171,8 +169,7 @@ class ApprovalService
             ]);
 
             $this->forgetApprovalCaches();
-            Cache::forget('members:summary');
-            Cache::forget('dashboard.members.summary');
+            $this->forgetMemberCaches();
 
             return $approval->fresh([
                 'approvable',
@@ -216,11 +213,19 @@ class ApprovalService
     }
 
     public function forgetApprovalCaches(): void
-{
-    Cache::forget('approvals:statistics');
-    Cache::forget('dashboard.approvals.summary');
-    Cache::forget('dashboard.approvals.pending');
+    {
+        Cache::forget('approvals:statistics');
+        Cache::forget('dashboard.approvals.summary');
+        Cache::forget('dashboard.approvals.pending');
+        $this->dashboardService->forgetDashboardCaches();
+    }
 
-    $this->dashboardService->forgetDashboardCaches();
-}
+    protected function forgetMemberCaches(): void
+    {
+        Cache::forget('members:summary');
+        Cache::forget('dashboard.members.summary');
+        Cache::forget('dashboard.members.active_count');
+        Cache::forget('dashboard.members.pending_count');
+        $this->dashboardService->forgetDashboardCaches();
+    }
 }

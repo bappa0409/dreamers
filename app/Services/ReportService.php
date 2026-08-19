@@ -2,222 +2,148 @@
 
 namespace App\Services;
 
-use App\Models\Member;
-use App\Models\Account;
-use App\Models\Transaction;
+use App\Models\ApprovalRequest;
 use App\Models\Investment;
-use App\Models\Land;
+use App\Models\Member;
+use App\Models\Notice;
 use App\Models\Project;
-use App\Models\Poll;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class ReportService
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Member Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function memberReport()
+    public function summary(?string $from=null,?string $to=null): array
     {
+        $key='reports:summary:'.md5(($from??'').':'.($to??''));
+
+        return Cache::remember($key,now()->addMinutes(10),function()use($from,$to){
+            return [
+                'members'=>$this->memberSummary($from,$to),
+                'investments'=>$this->investmentSummary($from,$to),
+                'projects'=>$this->projectSummary($from,$to),
+                'approvals'=>$this->approvalSummary($from,$to),
+                'notices'=>$this->noticeSummary($from,$to),
+            ];
+        });
+    }
+
+    public function memberSummary(?string $from=null,?string $to=null): array
+    {
+        $query=Member::query();
+
+        $this->applyDateFilter($query,$from,$to);
+
+        $row=(clone $query)->selectRaw("
+            COUNT(*) total,
+            SUM(CASE WHEN status='active' THEN 1 ELSE 0 END) active,
+            SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) pending,
+            SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) rejected,
+            SUM(CASE WHEN status='suspended' THEN 1 ELSE 0 END) suspended
+        ")->first();
+
         return [
-            'total' => Member::count(),
-
-            'active' => Member::where('status', 'active')->count(),
-
-            'pending' => Member::where('status', 'pending')->count(),
-
-            'inactive' => Member::where('status', 'inactive')->count(),
-
-            'suspended' => Member::where('status', 'suspended')->count(),
-
-            'rejected' => Member::where('status', 'rejected')->count(),
+            'total'=>(int)($row->total??0),
+            'active'=>(int)($row->active??0),
+            'pending'=>(int)($row->pending??0),
+            'rejected'=>(int)($row->rejected??0),
+            'suspended'=>(int)($row->suspended??0),
         ];
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Finance Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function financeReport()
+    public function investmentSummary(?string $from=null,?string $to=null): array
     {
-        $accounts = Account::where('is_active', true)
-            ->get();
+        $query=Investment::query();
 
-        $totalDebit = DB::table('transaction_entries')
-            ->sum('debit');
+        $this->applyDateFilter($query,$from,$to);
 
-        $totalCredit = DB::table('transaction_entries')
-            ->sum('credit');
+        $row=(clone $query)->selectRaw("
+            COUNT(*) total_records,
+            COALESCE(SUM(amount),0) total_amount
+        ")->first();
 
         return [
-            'total_accounts' => Account::count(),
-
-            'active_accounts' => Account::where(
-                'is_active',
-                true
-            )->count(),
-
-            'total_debit' => $totalDebit,
-
-            'total_credit' => $totalCredit,
-
-            'accounts' => $accounts,
+            'total_records'=>(int)($row->total_records??0),
+            'total_amount'=>(float)($row->total_amount??0),
         ];
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Investment Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function investmentReport()
+    public function projectSummary(?string $from=null,?string $to=null): array
     {
+        $query=Project::query();
+
+        $this->applyDateFilter($query,$from,$to);
+
+        $row=(clone $query)->selectRaw("
+            COUNT(*) total,
+            SUM(CASE WHEN status='active' THEN 1 ELSE 0 END) active,
+            SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) completed,
+            SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) pending
+        ")->first();
+
         return [
-            'total_investments' => Investment::count(),
-
-            'pending' => Investment::where(
-                'status',
-                'pending'
-            )->count(),
-
-            'active' => Investment::where(
-                'status',
-                'active'
-            )->count(),
-
-            'completed' => Investment::where(
-                'status',
-                'completed'
-            )->count(),
-
-            'cancelled' => Investment::where(
-                'status',
-                'cancelled'
-            )->count(),
-
-            'total_amount' => Investment::sum('amount'),
-
-            'total_expected_return' =>
-                Investment::sum('expected_return'),
+            'total'=>(int)($row->total??0),
+            'active'=>(int)($row->active??0),
+            'completed'=>(int)($row->completed??0),
+            'pending'=>(int)($row->pending??0),
         ];
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Land Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function landReport()
+    public function approvalSummary(?string $from=null,?string $to=null): array
     {
+        $query=ApprovalRequest::query();
+
+        $this->applyDateFilter($query,$from,$to);
+
+        $row=(clone $query)->selectRaw("
+            COUNT(*) total,
+            SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) pending,
+            SUM(CASE WHEN status='approved' THEN 1 ELSE 0 END) approved,
+            SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) rejected,
+            SUM(CASE WHEN status='cancelled' THEN 1 ELSE 0 END) cancelled
+        ")->first();
+
         return [
-            'total_land' => Land::count(),
-
-            'planned' => Land::where(
-                'status',
-                'planned'
-            )->count(),
-
-            'negotiating' => Land::where(
-                'status',
-                'negotiating'
-            )->count(),
-
-            'purchased' => Land::where(
-                'status',
-                'purchased'
-            )->count(),
-
-            'sold' => Land::where(
-                'status',
-                'sold'
-            )->count(),
-
-            'cancelled' => Land::where(
-                'status',
-                'cancelled'
-            )->count(),
-
-            'total_purchase_price' =>
-                Land::sum('purchase_price'),
+            'total'=>(int)($row->total??0),
+            'pending'=>(int)($row->pending??0),
+            'approved'=>(int)($row->approved??0),
+            'rejected'=>(int)($row->rejected??0),
+            'cancelled'=>(int)($row->cancelled??0),
         ];
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Project Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function projectReport()
+    public function noticeSummary(?string $from=null,?string $to=null): array
     {
+        $query=Notice::query();
+
+        $this->applyDateFilter($query,$from,$to);
+
+        $row=(clone $query)->selectRaw("
+            COUNT(*) total,
+            SUM(CASE WHEN is_published=1 THEN 1 ELSE 0 END) published,
+            SUM(CASE WHEN is_published=0 THEN 1 ELSE 0 END) draft,
+            SUM(CASE WHEN priority='urgent' THEN 1 ELSE 0 END) urgent
+        ")->first();
+
         return [
-            'total_projects' => Project::count(),
-
-            'planned' => Project::where(
-                'status',
-                'planned'
-            )->count(),
-
-            'active' => Project::where(
-                'status',
-                'active'
-            )->count(),
-
-            'on_hold' => Project::where(
-                'status',
-                'on_hold'
-            )->count(),
-
-            'completed' => Project::where(
-                'status',
-                'completed'
-            )->count(),
-
-            'cancelled' => Project::where(
-                'status',
-                'cancelled'
-            )->count(),
-
-            'total_budget' =>
-                Project::sum('budget'),
-
-            'total_actual_cost' =>
-                Project::sum('actual_cost'),
+            'total'=>(int)($row->total??0),
+            'published'=>(int)($row->published??0),
+            'draft'=>(int)($row->draft??0),
+            'urgent'=>(int)($row->urgent??0),
         ];
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Poll Report
-    |--------------------------------------------------------------------------
-    */
-
-    public function pollReport()
+    protected function applyDateFilter($query,?string $from,?string $to): void
     {
-        $polls = Poll::with([
-            'options.votes'
-        ])->get();
+        if($from){
+            $query->whereDate('created_at','>=',$from);
+        }
 
-        return [
-            'total_polls' => Poll::count(),
+        if($to){
+            $query->whereDate('created_at','<=',$to);
+        }
+    }
 
-            'active_polls' => Poll::where(
-                'is_active',
-                true
-            )->count(),
-
-            'polls' => $polls,
-        ];
+    public function forgetCaches(): void
+    {
+        Cache::flush();
     }
 }

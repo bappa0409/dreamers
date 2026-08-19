@@ -11,3 +11,13 @@ Artisan::command('inspire', function () {
 Schedule::command('auth:clear-expired-setup-tokens')
     ->dailyAt('02:00')
     ->withoutOverlapping();
+
+    Schedule::command('database:backup')
+    ->dailyAt('02:30')
+    ->when(
+        fn()=>(bool)setting(
+            'automatic_backup_enabled',
+            true
+        )
+    )
+    ->withoutOverlapping();

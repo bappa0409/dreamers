@@ -15,7 +15,7 @@ class MemberDashboardController extends Controller
     {
         $user = auth()->user();
 
-        $member = \App\Models\Member::where('user_id', $user->id)->first();
+        $member = Member::where('user_id', $user->id)->first();
 
         if (!$member) {
             return response()->json([
@@ -41,8 +41,8 @@ class MemberDashboardController extends Controller
             'address' => $member->address,
             'city' => $member->city,
             'district' => $member->district,
-            'joining_date' => $member->joining_date,
-            'status' => $member->status,
+            'joining_date' => app_date($member->joining_date),
+            'status' => $member->status
         ];
 
         /*
@@ -51,15 +51,19 @@ class MemberDashboardController extends Controller
     |--------------------------------------------------------------------------
     */
 
-        $investments = \App\Models\Investment::where(
-            'member_id',
-            $member->id
-        )->with('returns')->latest()->get();
+        $investments = Investment::where('member_id', $member->id)
+            ->with('returns')
+            ->latest()
+            ->get();
 
         $investmentSummary = [
             'total_investments' => $investments->count(),
-            'total_amount' => $investments->sum('amount'),
-            'total_expected_return' => $investments->sum('expected_return'),
+            'total_amount' => (float)$investments->sum('amount'),
+            'total_expected_return' => (float)$investments->sum('expected_return'),
+            'total_paid_return' => (float)$investments
+                ->flatMap(fn($investment) => $investment->returns)
+                ->where('status', 'paid')
+                ->sum('amount')
         ];
 
         /*
@@ -68,13 +72,18 @@ class MemberDashboardController extends Controller
     |--------------------------------------------------------------------------
     */
 
-        $projectMembers = \App\Models\ProjectMember::where(
-            'member_id',
-            $member->id
-        )->with('project')->latest()->get();
+        $projectMembers = ProjectMember::where('member_id', $member->id)
+            ->with('project')
+            ->latest()
+            ->get();
 
         $projectSummary = [
             'total_projects' => $projectMembers->count(),
+            'active_projects' => $projectMembers
+                ->where('status', 'active')
+                ->count(),
+            'total_contribution' => (float)$projectMembers
+                ->sum('contribution')
         ];
 
         /*
@@ -83,16 +92,88 @@ class MemberDashboardController extends Controller
     |--------------------------------------------------------------------------
     */
 
-        $landInvestments = \App\Models\LandInvestment::where(
-            'member_id',
-            $member->id
-        )->with('land')->latest()->get();
+        $landInvestments = LandInvestment::where('member_id', $member->id)
+            ->with('land')
+            ->latest('investment_date')
+            ->get();
+
+        $landEstimatedProfit = 0;
+        $landCurrentValue = 0;
+
+        foreach ($landInvestments as $investment) {
+            $land = $investment->land;
+
+            if (!$land) {
+                continue;
+            }
+
+            $ownership = (float)$investment->ownership_percentage;
+
+            /*
+        |--------------------------------------------------------------------------
+        | Member's Estimated Current Land Value
+        |--------------------------------------------------------------------------
+        */
+
+            if (
+                $land->status === 'purchased' &&
+                $ownership > 0 &&
+                $land->current_value !== null
+            ) {
+                $landCurrentValue +=
+                    ((float)$land->current_value * $ownership) / 100;
+            }
+
+            /*
+        |--------------------------------------------------------------------------
+        | Member's Realized Profit/Loss
+        |--------------------------------------------------------------------------
+        */
+
+            if (
+                $land->status === 'sold' &&
+                $ownership > 0
+            ) {
+                $landEstimatedProfit +=
+                    ((float)$land->profit_loss * $ownership) / 100;
+            }
+        }
 
         $landSummary = [
             'total_land_investments' => $landInvestments->count(),
-            'total_amount' => $landInvestments->sum('amount'),
+
+            'total_amount' =>
+            (float)$landInvestments->sum('amount'),
+
+            'active_amount' =>
+            (float)$landInvestments
+                ->where('status', 'active')
+                ->sum('amount'),
+
+            'returned_amount' =>
+            (float)$landInvestments
+                ->where('status', 'returned')
+                ->sum('amount'),
+
             'total_ownership_percentage' =>
-            $landInvestments->sum('ownership_percentage'),
+            (float)$landInvestments
+                ->sum('ownership_percentage'),
+
+            'current_value' =>
+            round($landCurrentValue, 2),
+
+            'estimated_profit' =>
+            round($landEstimatedProfit, 2),
+
+            'active' =>
+            $landInvestments
+                ->where('status', 'active')
+                ->count(),
+
+            'returned' =>
+            $landInvestments
+                ->where('status', 'returned')
+                ->count()
         ];
 
         /*
@@ -114,10 +195,9 @@ class MemberDashboardController extends Controller
             ->latest()
             ->get();
 
-        $myVotes = \App\Models\PollVote::where(
-            'member_id',
-            $member->id
-        )->with('pollOption')->get();
+        $myVotes = PollVote::where('member_id', $member->id)
+            ->with('pollOption')
+            ->get();
 
         /*
     |--------------------------------------------------------------------------
@@ -125,9 +205,12 @@ class MemberDashboardController extends Controller
     |--------------------------------------------------------------------------
     */
 
-        $unreadNotifications = $user->unreadNotifications()->count();
+        $unreadNotifications = $user
+            ->unreadNotifications()
+            ->count();
 
-        $notifications = $user->notifications()
+        $notifications = $user
+            ->notifications()
             ->latest()
             ->limit(5)
             ->get()
@@ -136,7 +219,7 @@ class MemberDashboardController extends Controller
                     'id' => $notification->id,
                     'data' => $notification->data,
                     'read_at' => $notification->read_at,
-                    'created_at' => $notification->created_at,
+                    'created_at' => $notification->created_at
                 ];
             });
 
@@ -161,45 +244,34 @@ class MemberDashboardController extends Controller
 
         /*
     |--------------------------------------------------------------------------
-    | Final Dashboard Response
+    | Response
     |--------------------------------------------------------------------------
     */
 
         return response()->json([
             'message' => 'Member dashboard retrieved successfully.',
-
             'data' => [
-
                 'profile' => $profile,
-
                 'investment_summary' => $investmentSummary,
-
                 'project_summary' => $projectSummary,
-
                 'land_summary' => $landSummary,
 
                 'poll_summary' => [
                     'active_polls' => $activePolls->count(),
-                    'total_votes' => $myVotes->count(),
+                    'total_votes' => $myVotes->count()
                 ],
 
                 'notification_summary' => [
-                    'unread_notifications' => $unreadNotifications,
+                    'unread_notifications' => $unreadNotifications
                 ],
 
                 'investments' => $investments,
-
                 'projects' => $projectMembers,
-
                 'land_investments' => $landInvestments,
-
                 'active_polls' => $activePolls,
-
                 'voting_history' => $myVotes,
-
                 'notifications' => $notifications,
-
-                'notices' => $notices,
+                'notices' => $notices
             ]
         ]);
     }
@@ -235,7 +307,7 @@ class MemberDashboardController extends Controller
                     'address' => $member->address,
                     'city' => $member->city,
                     'district' => $member->district,
-                    'joining_date' => $member->joining_date,
+                    'joining_date' => app_date($member->joining_date),
                     'status' => $member->status,
                     'profile_photo' => $member->profile_photo,
                     'notes' => $member->notes,
@@ -433,16 +505,46 @@ class MemberDashboardController extends Controller
             ->latest('investment_date')
             ->get();
 
-        $totalAmount = (float) $investments->sum('amount');
+        $totalAmount = (float)$investments->sum('amount');
+        $totalOwnership = (float)$investments->sum('ownership_percentage');
 
-        $totalOwnership = (float) $investments->sum('ownership_percentage');
+        $activeAmount = (float)$investments
+            ->where('status', 'active')
+            ->sum('amount');
+
+        $returnedAmount = (float)$investments
+            ->where('status', 'returned')
+            ->sum('amount');
+
+        $estimatedProfit = 0;
+
+        foreach ($investments as $investment) {
+            $land = $investment->land;
+
+            if (!$land || $land->status !== 'sold') {
+                continue;
+            }
+
+            $ownership = (float)$investment->ownership_percentage;
+
+            if ($ownership <= 0) {
+                continue;
+            }
+
+            $estimatedProfit +=
+                ((float)$land->profit_loss * $ownership) / 100;
+        }
 
         return response()->json([
+            'success' => true,
             'data' => [
                 'summary' => [
                     'total_land_investments' => $investments->count(),
                     'total_amount' => $totalAmount,
+                    'active_amount' => $activeAmount,
+                    'returned_amount' => $returnedAmount,
                     'total_ownership_percentage' => $totalOwnership,
+                    'estimated_profit' => (float)$estimatedProfit
                 ],
 
                 'investments' => $investments->map(function ($investment) {
@@ -461,22 +563,53 @@ class MemberDashboardController extends Controller
                             'mouza' => $land->mouza,
                             'khatian_no' => $land->khatian_no,
                             'dag_no' => $land->dag_no,
-                            'land_area' => (float) $land->land_area,
+                            'land_area' => (float)$land->land_area,
                             'area_unit' => $land->area_unit,
-                            'purchase_price' => (float) $land->purchase_price,
+
+                            'purchase_price' => (float)$land->purchase_price,
+                            'current_value' => (float)($land->current_value ?? 0),
+
                             'purchase_date' => $land->purchase_date,
-                            'status' => $land->status,
+
+                            'sale_price' => $land->sale_price !== null
+                                ? (float)$land->sale_price
+                                : null,
+
+                            'selling_expense' => (float)($land->selling_expense ?? 0),
+
+                            'sale_date' => $land->sale_date,
+
+                            'buyer_name' => $land->buyer_name,
+                            'buyer_phone' => $land->buyer_phone,
+
+                            'net_sale_amount' => (float)$land->net_sale_amount,
+                            'profit_loss' => (float)$land->profit_loss,
+                            'profit_percentage' => (float)$land->profit_percentage,
+
+                            'status' => $land->status
                         ] : null,
 
-                        'amount' => (float) $investment->amount,
+                        'amount' => (float)$investment->amount,
+
                         'ownership_percentage' =>
-                        (float) $investment->ownership_percentage,
+                        (float)$investment->ownership_percentage,
+
                         'investment_date' => $investment->investment_date,
+
                         'status' => $investment->status,
-                        'notes' => $investment->notes,
+
+                        'estimated_profit' => $land && $land->status === 'sold'
+                            ? round(
+                                ((float)$land->profit_loss *
+                                    (float)$investment->ownership_percentage) / 100,
+                                2
+                            )
+                            : 0,
+
+                        'notes' => $investment->notes
                     ];
-                })->values()->toArray(),
-            ],
+                })->values()->toArray()
+            ]
         ]);
     }
 

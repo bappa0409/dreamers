@@ -58,11 +58,14 @@ class SettingController extends Controller
             'success' => true,
             'data' => [
                 'key' => $setting->key,
-                'value' => $this->settingService->get($setting->key),
+                'value' => $setting->type === 'password'
+                    ? ($setting->value ? '' : null)
+                    : $this->settingService->get($setting->key),
                 'type' => $setting->type,
                 'options' => $setting->options,
                 'group' => $setting->group,
                 'description' => $setting->description,
+                'is_public' => $setting->is_public
             ]
         ]);
     }
@@ -113,10 +116,7 @@ class SettingController extends Controller
 
     public function destroy(string $key)
     {
-        $setting = Setting::where(
-            'key',
-            $key
-        )->first();
+        $setting = Setting::where('key', $key)->first();
 
         if (!$setting) {
             return response()->json([
@@ -125,12 +125,21 @@ class SettingController extends Controller
             ], 404);
         }
 
+        if (
+            $setting->type === 'image' &&
+            $setting->value &&
+            Storage::disk('public')->exists($setting->value)
+        ) {
+            Storage::disk('public')->delete($setting->value);
+        }
+
         $setting->delete();
+
+        $this->settingService->forgetCache();
 
         return response()->json([
             'success' => true,
-            'message' =>
-            'Setting deleted successfully.'
+            'message' => 'Setting deleted successfully.'
         ]);
     }
 
@@ -143,12 +152,29 @@ class SettingController extends Controller
 
     public function publicSettings()
     {
+        $settings = $this->settingService
+            ->publicSettings()
+            ->mapWithKeys(function ($setting) {
+                $value = $setting->type === 'password'
+                    ? null
+                    : $this->settingService->get(
+                        $setting->key
+                    );
+
+                if ($setting->type === 'image' && $value) {
+                    $value = Storage::disk('public')->url(
+                        $value
+                    );
+                }
+
+                return [
+                    $setting->key => $value
+                ];
+            });
+
         return response()->json([
             'success' => true,
-
-            'data' =>
-            $this->settingService
-                ->publicSettings()
+            'data' => $settings
         ]);
     }
 

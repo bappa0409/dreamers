@@ -10,20 +10,20 @@ class LandInvestment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable=[
         'land_id',
         'member_id',
         'amount',
         'ownership_percentage',
         'investment_date',
         'status',
-        'notes',
+        'notes'
     ];
 
-    protected $casts = [
-        'amount' => 'decimal:2',
-        'ownership_percentage' => 'decimal:4',
-        'investment_date' => 'date',
+    protected $casts=[
+        'amount'=>'decimal:2',
+        'ownership_percentage'=>'decimal:4',
+        'investment_date'=>'date'
     ];
 
     public function land(): BelongsTo

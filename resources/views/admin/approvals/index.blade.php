@@ -16,7 +16,7 @@
 
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-slate-800">Approval Management</h1>
-                <p class="mt-1 text-sm text-slate-500">Review, approve and reject pending association requests.</p>
+                <p class="text-sm text-slate-500">Review, approve and reject pending association requests.</p>
             </div>
         </div>
 

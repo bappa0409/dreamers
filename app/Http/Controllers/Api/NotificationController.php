@@ -3,82 +3,99 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    public function __construct(
+        protected NotificationService $notificationService
+    ){}
+
     public function index(Request $request)
     {
-        $notifications = $request->user()
-            ->notifications()
-            ->latest()
-            ->paginate(15);
+        $validated=$request->validate([
+            'unread'=>'nullable|boolean',
+            'per_page'=>'nullable|integer|min:5|max:100',
+        ]);
 
-        return response()->json($notifications);
+        $query=$request->user()
+            ->notifications()
+            ->latest();
+
+        if($request->boolean('unread')){
+            $query->whereNull('read_at');
+        }
+
+        return response()->json([
+            'success'=>true,
+            'data'=>$query->paginate(
+                min((int)($validated['per_page']??15),100)
+            ),
+            'unread_count'=>$this->notificationService
+                ->unreadCount($request->user())
+        ]);
     }
 
     public function unread(Request $request)
     {
-        $notifications = $request->user()
+        $notifications=$request->user()
             ->unreadNotifications()
             ->latest()
+            ->limit(50)
             ->get();
 
         return response()->json([
-            'count' => $notifications->count(),
-            'notifications' => $notifications,
+            'success'=>true,
+            'count'=>$notifications->count(),
+            'notifications'=>$notifications
         ]);
     }
 
     public function unreadCount(Request $request)
     {
         return response()->json([
-            'count' => $request->user()
-                ->unreadNotifications()
-                ->count(),
+            'success'=>true,
+            'count'=>$this->notificationService
+                ->unreadCount($request->user())
         ]);
     }
 
-    public function markAsRead(
-        Request $request,
-        string $id
-    ) {
-        $notification = $request->user()
-            ->notifications()
-            ->where('id', $id)
-            ->firstOrFail();
-
-        $notification->markAsRead();
+    public function markAsRead(Request $request,string $id)
+    {
+        $this->notificationService->markRead(
+            $request->user(),
+            $id
+        );
 
         return response()->json([
-            'message' => 'Notification marked as read.',
+            'success'=>true,
+            'message'=>'Notification marked as read.'
         ]);
     }
 
     public function markAllAsRead(Request $request)
     {
-        $request->user()
-            ->unreadNotifications
-            ->markAsRead();
+        $this->notificationService->markAllRead(
+            $request->user()
+        );
 
         return response()->json([
-            'message' => 'All notifications marked as read.',
+            'success'=>true,
+            'message'=>'All notifications marked as read.'
         ]);
     }
 
-    public function destroy(
-        Request $request,
-        string $id
-    ) {
-        $notification = $request->user()
-            ->notifications()
-            ->where('id', $id)
-            ->firstOrFail();
-
-        $notification->delete();
+    public function destroy(Request $request,string $id)
+    {
+        $this->notificationService->delete(
+            $request->user(),
+            $id
+        );
 
         return response()->json([
-            'message' => 'Notification deleted successfully.',
+            'success'=>true,
+            'message'=>'Notification deleted successfully.'
         ]);
     }
 }

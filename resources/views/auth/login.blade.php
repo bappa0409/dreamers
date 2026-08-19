@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Login | Dreamers Association')
+@section('title', 'Login')
 
 @section('brand-heading')
     Build dreams.

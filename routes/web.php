@@ -57,6 +57,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function(){
     Route::get('/members/create',[AdminController::class,'createMember'])->middleware('permission:Member.create')->name('members.create');
 
     Route::get('/investments',[AdminController::class,'investments'])->middleware('permission:Investment.view')->name('investments');
+
+    Route::get('/finance',[AdminController::class,'finance'])->middleware('permission:Finance.view')->name('finance');
+
     Route::get('/land',[AdminController::class,'land'])->middleware('permission:Land.view')->name('land');
     Route::get('/projects',[AdminController::class,'projects'])->middleware('permission:Project.view')->name('projects');
     Route::get('/polls',[AdminController::class,'polls'])->middleware('permission:Poll.view')->name('polls');
@@ -73,6 +76,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function(){
 
     Route::get('/landing-page',[AdminController::class,'landingPage'])->middleware('permission:Setting.view')->name('landing-page');
     Route::get('/settings',[AdminController::class,'settings'])->middleware('permission:Setting.view')->name('settings');
+    Route::get('/backups',[AdminController::class,'backups'])->middleware('permission:Backup.view')->name('backups');
     Route::get('/activity-logs',[AdminController::class,'activityLogs'])->middleware('permission:Audit.view')->name('activity-logs');
 });
 
@@ -87,4 +91,5 @@ Route::middleware(['auth','member'])->prefix('member')->name('member.')->group(f
     Route::get('/projects',[MemberController::class,'projects'])->name('projects');
     Route::get('/land-investments',[MemberController::class,'landInvestments'])->name('land-investments');
     Route::get('/polls',[MemberController::class,'polls'])->name('polls');
+    Route::get('/notices',[MemberController::class,'notices'])->name('notices');
 });

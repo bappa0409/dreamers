@@ -120,48 +120,60 @@ class MemberController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:150',
-            'email' => 'required|email:rfc|max:255|unique:users,email',
-            'mobile' => 'nullable|string|max:20|unique:users,mobile',
-            'language' => 'nullable|in:en,bn',
-            'phone' => 'nullable|string|max:30',
-            'alternate_phone' => 'nullable|string|max:30',
-            'date_of_birth' => 'nullable|date|before:today',
-            'gender' => 'nullable|string|max:30',
-            'address' => 'nullable|string|max:2000',
-            'city' => 'nullable|string|max:100',
-            'district' => 'nullable|string|max:100',
-            'notes' => 'nullable|string|max:5000',
-        ]);
+{
+    $validated=$request->validate([
+        'name'=>'required|string|max:150',
+        'email'=>'required|email:rfc|max:255|unique:users,email',
+        'mobile'=>'nullable|string|max:20|unique:users,mobile',
+        'language'=>'nullable|in:en,bn',
+        'phone'=>'nullable|string|max:30',
+        'alternate_phone'=>'nullable|string|max:30',
+        'date_of_birth'=>'nullable|date|before:today',
+        'gender'=>'nullable|string|max:30',
+        'address'=>'nullable|string|max:2000',
+        'city'=>'nullable|string|max:100',
+        'district'=>'nullable|string|max:100',
+        'notes'=>'nullable|string|max:5000',
+    ]);
 
-        $result = DB::transaction(function () use ($validated) {
-            $member = $this->memberService->createMember($validated);
+    $autoActivate=(bool)setting('auto_activate_member',false);
 
-            $approval = $this->approvalService->createRequest(
-                $member,
-                'Member',
-                'create',
-                auth()->id(),
-                'New member registration requires approval.'
-            );
+    $member=$this->memberService->createMember($validated);
+    $approval=null;
 
-            return [
-                'member' => $member,
-                'approval' => $approval,
-            ];
+    if(!$autoActivate){
+        $approval=$this->approvalService->createRequest(
+            $member,
+            'Member',
+            'create',
+            auth()->id(),
+            'New member registration requires approval.'
+        );
+    }else{
+        DB::afterCommit(function() use($member){
+            try{
+                $member->loadMissing('user');
+
+                if($member->user){
+                    $this->passwordSetupService->send($member->user);
+                }
+            }catch(\Throwable $e){
+                report($e);
+            }
         });
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Member created successfully and sent for approval.',
-            'data' => [
-                'member' => $result['member']->loadMissing(['user.roles']),
-                'approval' => $result['approval'],
-            ],
-        ], 201);
     }
+
+    return response()->json([
+        'success'=>true,
+        'message'=>$autoActivate
+            ?'Member created and activated successfully.'
+            :'Member created successfully and sent for approval.',
+        'data'=>[
+            'member'=>$member->loadMissing('user.roles'),
+            'approval'=>$approval
+        ]
+    ],201);
+}
 
     public function update(Request $request, Member $member)
     {
@@ -269,7 +281,7 @@ class MemberController extends Controller
 
             $member->update([
                 'status' => 'active',
-                'joining_date' => $member->joining_date ?? now()->toDateString(),
+                'joining_date' => app_date($member->joining_date) ?? now()->toDateString(),
             ]);
 
             $member->user->update(['is_active' => true]);

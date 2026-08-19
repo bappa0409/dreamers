@@ -23,11 +23,14 @@ use App\Http\Controllers\Api\TellerController;
 use App\Http\Controllers\Api\TellerClosingController;
 use App\Http\Controllers\Api\TellerManagementController;
 use App\Http\Controllers\Api\TellerDashboardController;
+use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\AccountingController;
+use App\Http\Controllers\Api\BackupController;
 use App\Http\Controllers\Api\MemberDashboardController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserRoleController;
+use App\Http\Controllers\Api\NotificationCampaignController;
 
 
 /*
@@ -146,7 +149,17 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::apiResource('investments', InvestmentController::class);
+    Route::prefix('investments')->group(function(){
+        Route::get('/statistics',[InvestmentController::class,'statistics'])->middleware('permission:Investment.view');
+        Route::get('/members',[InvestmentController::class,'members'])->middleware('permission:Investment.view');
+        Route::get('/',[InvestmentController::class,'index'])->middleware('permission:Investment.view');
+        Route::post('/',[InvestmentController::class,'store'])->middleware('permission:Investment.create');
+        Route::get('/{investment}',[InvestmentController::class,'show'])->middleware('permission:Investment.view');
+        Route::put('/{investment}',[InvestmentController::class,'update'])->middleware('permission:Investment.update');
+        Route::patch('/{investment}',[InvestmentController::class,'update'])->middleware('permission:Investment.update');
+        Route::delete('/{investment}',[InvestmentController::class,'destroy'])->middleware('permission:Investment.delete');
+        Route::post('/{investment}/returns',[InvestmentController::class,'storeReturn'])->middleware('permission:Investment.update');
+    });
 
 
     /*
@@ -154,8 +167,18 @@ Route::middleware('auth:sanctum')->group(function () {
     | Lands
     |--------------------------------------------------------------------------
     */
-
-    Route::apiResource('lands', LandController::class);
+    Route::prefix('lands')->group(function(){
+        Route::get('/statistics',[LandController::class,'statistics'])->middleware('permission:Land.view');
+        Route::get('/members',[LandController::class,'members'])->middleware('permission:Land.view');
+        Route::get('/',[LandController::class,'index'])->middleware('permission:Land.view');
+        Route::post('/',[LandController::class,'store'])->middleware('permission:Land.create');
+        Route::get('/{land}',[LandController::class,'show'])->middleware('permission:Land.view');
+        Route::put('/{land}',[LandController::class,'update'])->middleware('permission:Land.update');
+        Route::patch('/{land}',[LandController::class,'update'])->middleware('permission:Land.update');
+        Route::post('/{land}/sell',[LandController::class,'sell'])->middleware('permission:Land.update');
+        Route::post('/{land}/investments',[LandController::class,'storeInvestment'])->middleware('permission:Land.update');
+        Route::delete('/{land}',[LandController::class,'destroy'])->middleware('permission:Land.delete');
+    });
 
 
     /*
@@ -163,8 +186,40 @@ Route::middleware('auth:sanctum')->group(function () {
     | Projects
     |--------------------------------------------------------------------------
     */
+    Route::prefix('projects')->group(function(){
+        Route::get('/statistics',[ProjectController::class,'statistics'])
+            ->middleware('permission:Project.view');
 
-    Route::apiResource('projects', ProjectController::class);
+        Route::get('/members',[ProjectController::class,'members'])
+            ->middleware('permission:Project.view');
+
+        Route::get('/',[ProjectController::class,'index'])
+            ->middleware('permission:Project.view');
+
+        Route::post('/',[ProjectController::class,'store'])
+            ->middleware('permission:Project.create');
+
+        Route::get('/{project}',[ProjectController::class,'show'])
+            ->middleware('permission:Project.view');
+
+        Route::put('/{project}',[ProjectController::class,'update'])
+            ->middleware('permission:Project.update');
+
+        Route::patch('/{project}',[ProjectController::class,'update'])
+            ->middleware('permission:Project.update');
+
+        Route::post('/{project}/members',[ProjectController::class,'storeMember'])
+            ->middleware('permission:Project.update');
+
+        Route::patch('/{project}/members/{projectMember}',[ProjectController::class,'updateMember'])
+            ->middleware('permission:Project.update');
+
+        Route::delete('/{project}/members/{projectMember}',[ProjectController::class,'destroyMember'])
+            ->middleware('permission:Project.update');
+
+        Route::delete('/{project}',[ProjectController::class,'destroy'])
+            ->middleware('permission:Project.delete');
+    });
 
 
     /*
@@ -203,18 +258,36 @@ Route::middleware('auth:sanctum')->group(function () {
     | Polls
     |--------------------------------------------------------------------------
     */
+    Route::prefix('polls')->group(function(){
+        Route::get('/statistics',[PollController::class,'statistics'])
+            ->middleware('permission:Poll.view');
 
-    Route::apiResource('polls', PollController::class);
+        Route::get('/',[PollController::class,'index'])
+            ->middleware('permission:Poll.view');
 
-    Route::post(
-        '/polls/{poll}/vote',
-        [PollController::class, 'vote']
-    );
+        Route::post('/',[PollController::class,'store'])
+            ->middleware('permission:Poll.create');
 
-    Route::get(
-        '/polls/{poll}/results',
-        [PollController::class, 'results']
-    );
+        Route::get('/{poll}',[PollController::class,'show'])
+            ->middleware('permission:Poll.view');
+
+        Route::put('/{poll}',[PollController::class,'update'])
+            ->middleware('permission:Poll.update');
+
+        Route::patch('/{poll}',[PollController::class,'update'])
+            ->middleware('permission:Poll.update');
+
+        Route::patch('/{poll}/toggle',[PollController::class,'toggle'])
+            ->middleware('permission:Poll.update');
+
+        Route::post('/{poll}/vote',[PollController::class,'vote']);
+
+        Route::get('/{poll}/results',[PollController::class,'results'])
+            ->middleware('permission:Poll.view');
+
+        Route::delete('/{poll}',[PollController::class,'destroy'])
+            ->middleware('permission:Poll.delete');
+    });
 
 
     /*
@@ -222,13 +295,15 @@ Route::middleware('auth:sanctum')->group(function () {
     | Notices
     |--------------------------------------------------------------------------
     */
-
-    Route::apiResource('notices', NoticeController::class);
-
-    Route::patch(
-        '/notices/{notice}/toggle-publish',
-        [NoticeController::class, 'togglePublish']
-    );
+    Route::prefix('notices')->group(function () {
+        Route::get('/',[NoticeController::class,'index'])->middleware('permission:Notice.view');
+        Route::post('/',[NoticeController::class,'store'])->middleware('permission:Notice.create');
+        Route::get('/{notice}',[NoticeController::class,'show'])->middleware('permission:Notice.view');
+        Route::put('/{notice}',[NoticeController::class,'update'])->middleware('permission:Notice.update');
+        Route::patch('/{notice}',[NoticeController::class,'update'])->middleware('permission:Notice.update');
+        Route::delete('/{notice}',[NoticeController::class,'destroy'])->middleware('permission:Notice.delete');
+        Route::patch('/{notice}/toggle-publish',[NoticeController::class,'togglePublish'])->middleware('permission:Notice.update');
+    });
 
 
     /*
@@ -236,90 +311,86 @@ Route::middleware('auth:sanctum')->group(function () {
     | Finance
     |--------------------------------------------------------------------------
     */
+    Route::prefix('finance')->middleware('permission:Finance.view')->group(function(){
 
-    Route::prefix('finance')->group(function () {
+        Route::get('/transactions',[
+            FinanceController::class,
+            'index'
+        ]);
 
-        Route::get('/accounts', [
-            AccountingController::class,
-            'accounts'
-        ])->middleware('permission:Finance.view');
+        Route::get('/transactions/{transaction}',[
+            FinanceController::class,
+            'show'
+        ]);
 
-        Route::get('/accounts/{account}', [
-            AccountingController::class,
-            'account'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/cash-bank', [
-            AccountingController::class,
-            'cashBank'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/income-expense', [
-            AccountingController::class,
-            'incomeExpense'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/accounts/{account}/ledger', [
-            AccountingController::class,
-            'ledger'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/trial-balance', [
-            AccountingController::class,
-            'trialBalance'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/profit-loss', [
-            AccountingController::class,
-            'profitAndLoss'
-        ])->middleware('permission:Finance.view');
-
-        Route::get('/dashboard', [
+        Route::get('/dashboard',[
             AccountingController::class,
             'dashboard'
-        ])->middleware('permission:Finance.view');
+        ]);
+
+        Route::get('/accounts',[
+            AccountingController::class,
+            'accounts'
+        ]);
+
+        Route::get('/accounts/{account}',[
+            AccountingController::class,
+            'account'
+        ]);
+
+        Route::get('/accounts/{account}/ledger',[
+            AccountingController::class,
+            'ledger'
+        ]);
+
+        Route::get('/cash-bank',[
+            AccountingController::class,
+            'cashBank'
+        ]);
+
+        Route::get('/income-expense',[
+            AccountingController::class,
+            'incomeExpense'
+        ]);
+
+        Route::get('/trial-balance',[
+            AccountingController::class,
+            'trialBalance'
+        ]);
+
+        Route::get('/profit-loss',[
+            AccountingController::class,
+            'profitAndLoss'
+        ]);
     });
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Campaigns
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('notification-campaigns')->group(function(){
+        Route::get('/',[NotificationCampaignController::class,'index'])->middleware('permission:Notification.view');
+        Route::get('/statistics',[NotificationCampaignController::class,'statistics'])->middleware('permission:Notification.view');
+        Route::get('/recipients',[NotificationCampaignController::class,'recipients'])->middleware('permission:Notification.send');
+        Route::post('/send',[NotificationCampaignController::class,'send'])->middleware('permission:Notification.send');
+        Route::get('/{campaign}',[NotificationCampaignController::class,'show'])->middleware('permission:Notification.view');
+    });
 
     /*
     |--------------------------------------------------------------------------
     | Notifications
     |--------------------------------------------------------------------------
     */
-
-    Route::prefix('notifications')->group(function () {
-
-        Route::get('/', [
-            NotificationController::class,
-            'index'
-        ]);
-
-        Route::get('/unread', [
-            NotificationController::class,
-            'unread'
-        ]);
-
-        Route::get('/unread-count', [
-            NotificationController::class,
-            'unreadCount'
-        ]);
-
-        Route::patch('/{id}/read', [
-            NotificationController::class,
-            'markAsRead'
-        ]);
-
-        Route::patch('/read-all', [
-            NotificationController::class,
-            'markAllAsRead'
-        ]);
-
-        Route::delete('/{id}', [
-            NotificationController::class,
-            'destroy'
-        ]);
+    Route::prefix('notifications')->group(function(){
+        Route::get('/',[NotificationController::class,'index']);
+        Route::get('/unread',[NotificationController::class,'unread']);
+        Route::get('/unread-count',[NotificationController::class,'unreadCount']);
+        Route::patch('/{id}/read',[NotificationController::class,'markAsRead']);
+        Route::patch('/read-all',[NotificationController::class,'markAllAsRead']);
+        Route::delete('/{id}',[NotificationController::class,'destroy']);
     });
-
 
     /*
     |--------------------------------------------------------------------------
@@ -367,17 +438,10 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::prefix('activity-logs')->group(function () {
-
-        Route::get('/', [
-            ActivityLogController::class,
-            'index'
-        ]);
-
-        Route::get('/{activityLog}', [
-            ActivityLogController::class,
-            'show'
-        ]);
+    Route::prefix('activity-logs')->middleware('permission:Audit.view')->group(function () {
+        Route::get('/', [ActivityLogController::class, 'index']);
+        Route::get('/filters', [ActivityLogController::class, 'filters']);
+        Route::get('/{activityLog}', [ActivityLogController::class, 'show']);
     });
 
 
@@ -407,12 +471,15 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::prefix('reports')->group(function () {
+    Route::prefix('reports')->middleware('permission:Report.view')->group(function () {
 
         Route::get('/', [
             ReportController::class,
             'index'
         ]);
+
+        Route::get('/summary',[ReportController::class,'summary']);
+        
 
         Route::get('/members', [
             ReportController::class,
@@ -451,38 +518,18 @@ Route::middleware('auth:sanctum')->group(function () {
     | Documents
     |--------------------------------------------------------------------------
     */
+    Route::prefix('documents')->group(function(){
+        Route::get('/',[DocumentController::class,'index'])->middleware('permission:Document.view');
+        Route::get('/filters',[DocumentController::class,'filters'])->middleware('permission:Document.view');
+        Route::post('/',[DocumentController::class,'store'])->middleware('permission:Document.create');
 
-    Route::prefix('documents')->group(function () {
+        Route::get('/{document}/preview',[DocumentController::class,'preview'])->middleware('permission:Document.view');
+        Route::get('/{document}/download',[DocumentController::class,'download'])->middleware('permission:Document.view');
 
-        Route::get('/', [
-            DocumentController::class,
-            'index'
-        ]);
-
-        Route::post('/', [
-            DocumentController::class,
-            'store'
-        ]);
-
-        Route::get('/{document}', [
-            DocumentController::class,
-            'show'
-        ]);
-
-        Route::put('/{document}', [
-            DocumentController::class,
-            'update'
-        ]);
-
-        Route::get('/{document}/download', [
-            DocumentController::class,
-            'download'
-        ]);
-
-        Route::delete('/{document}', [
-            DocumentController::class,
-            'destroy'
-        ]);
+        Route::get('/{document}',[DocumentController::class,'show'])->middleware('permission:Document.view');
+        Route::post('/{document}',[DocumentController::class,'update'])->middleware('permission:Document.update');
+        Route::put('/{document}',[DocumentController::class,'update'])->middleware('permission:Document.update');
+        Route::delete('/{document}',[DocumentController::class,'destroy'])->middleware('permission:Document.delete');
     });
 
 
@@ -491,35 +538,6 @@ Route::middleware('auth:sanctum')->group(function () {
     | Settings
     |--------------------------------------------------------------------------
     */
-
-    // Route::prefix('settings')->group(function () {
-
-    //     Route::get('/', [
-    //         SettingController::class,
-    //         'index'
-    //     ]);
-
-    //     Route::get('/public', [
-    //         SettingController::class,
-    //         'publicSettings'
-    //     ]);
-
-    //     Route::get('/{key}', [
-    //         SettingController::class,
-    //         'show'
-    //     ]);
-
-    //     Route::post('/', [
-    //         SettingController::class,
-    //         'store'
-    //     ]);
-
-    //     Route::delete('/{key}', [
-    //         SettingController::class,
-    //         'destroy'
-    //     ]);
-    // });
-
     Route::prefix('settings')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->middleware('permission:Setting.view');
         Route::get('/public', [SettingController::class, 'publicSettings']);
@@ -527,6 +545,19 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{key}', [SettingController::class, 'show'])->middleware('permission:Setting.view');
         Route::post('/', [SettingController::class, 'store'])->middleware('permission:Setting.update');
         Route::delete('/{key}', [SettingController::class, 'destroy'])->middleware('permission:Setting.update');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Backup
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('backups')->group(function () {
+        Route::get('/', [BackupController::class, 'index'])->middleware('permission:Backup.view');
+        Route::post('/', [BackupController::class, 'store'])->middleware('permission:Backup.create');
+        Route::get('/{backup}/download', [BackupController::class, 'download'])->middleware('permission:Backup.view');
+        Route::delete('/{backup}', [BackupController::class, 'destroy'])->middleware('permission:Backup.delete');
+        Route::post('/import', [BackupController::class, 'import'])->middleware('permission:Backup.import');
     });
 
 

@@ -16,7 +16,7 @@
 
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-slate-800">User Accounts</h1>
-                <p class="mt-1 text-sm text-slate-500">Manage login accounts, account status and password resets.</p>
+                <p class="text-sm text-slate-500">Manage login accounts, account status and password resets.</p>
             </div>
         </div>
 
@@ -96,7 +96,7 @@
 <div id="userModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-2xl overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
+        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-600 text-white">
                     <i class="bi bi-person"></i>
@@ -104,7 +104,7 @@
 
                 <div>
                     <h2 id="userModalTitle" class="text-lg font-bold text-slate-800">Add User</h2>
-                    <p class="mt-1 text-sm text-slate-500">Manage user account information.</p>
+                    <p class="text-sm text-slate-500">Manage user account information.</p>
                 </div>
             </div>
 
@@ -175,7 +175,7 @@
 <div id="passwordModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-md overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-5">
+        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-amber-500 text-white">
                     <i class="bi bi-key"></i>
@@ -183,7 +183,7 @@
 
                 <div>
                     <h2 class="text-lg font-bold text-slate-800">Reset Password</h2>
-                    <p id="passwordUserName" class="mt-1 text-sm text-slate-500"></p>
+                    <p id="passwordUserName" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 

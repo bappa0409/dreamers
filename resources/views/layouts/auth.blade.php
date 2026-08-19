@@ -5,9 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'Dreamers Association')</title>
+    <title>
+        @yield('title', {{ setting('organization_name','Dreamers Association') }})
+    </title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+     @if(setting('site_favicon'))
+        <link rel="icon" href="{{ asset('storage/'.setting('site_favicon')) }}">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -317,7 +323,7 @@
                         Dreamers Association
                     </h1>
 
-                    <p class="mt-1 text-sm text-slate-500">
+                    <p class="text-sm text-slate-500">
                         Together We Dream. Together We Grow.
                     </p>
                 </div>

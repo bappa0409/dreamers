@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Traits\LogsActivity;
 
 class Permission extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
+
+    protected string $activityLogModule = 'Permission';
+    protected string $activityLogLabelColumn = 'display_name';
 
     protected $fillable=[
         'name',

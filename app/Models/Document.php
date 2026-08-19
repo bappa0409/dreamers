@@ -2,25 +2,56 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Document extends Model
 {
-    protected $fillable = [
+    use LogsActivity;
+
+    protected string $activityLogModule='Document';
+    protected string $activityLogLabelColumn='title';
+
+    protected $fillable=[
         'title',
-        'document_type',
+        'original_name',
+        'path',
+        'disk',
+        'mime_type',
+        'extension',
+        'size',
+        'category',
         'description',
-        'file_path',
-        'file_name',
-        'file_extension',
-        'file_size',
-        'uploaded_by',
-        'status',
+        'visibility',
+        'is_active',
+        'uploaded_by'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'size'=>'integer',
+            'is_active'=>'boolean'
+        ];
+    }
 
     public function uploader(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'uploaded_by');
+        return $this->belongsTo(User::class,'uploaded_by');
+    }
+
+    public function scopeVisibleTo($query,User $user)
+    {
+        if($user->isSystemAnalyst()||$user->hasPermission('Document.manage')){
+            return $query;
+        }
+
+        return $query
+            ->where('is_active',true)
+            ->whereIn('visibility',[
+                'public',
+                'members'
+            ]);
     }
 }

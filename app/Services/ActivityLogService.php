@@ -16,28 +16,18 @@ class ActivityLogService
         ?array $oldValues = null,
         ?array $newValues = null
     ): ActivityLog {
+        
         return ActivityLog::create([
-            'user_id' => Auth::id(),
-
-            'action' => $action,
-
-            'module' => $module,
-
-            'description' => $description,
-
-            'subject_type' => $subject
-                ? get_class($subject)
-                : null,
-
-            'subject_id' => $subject?->getKey(),
-
-            'ip_address' => request()->ip(),
-
-            'user_agent' => request()->userAgent(),
-
-            'old_values' => $oldValues,
-
-            'new_values' => $newValues,
+            'user_id'=>Auth::id(),
+            'action'=>$action,
+            'module'=>$module,
+            'description'=>$description,
+            'subject_type'=>$subject?->getMorphClass(),
+            'subject_id'=>$subject?->getKey(),
+            'ip_address'=>request()?->ip(),
+            'user_agent'=>request()?->userAgent(),
+            'old_values'=>$oldValues,
+            'new_values'=>$newValues,
         ]);
     }
 }

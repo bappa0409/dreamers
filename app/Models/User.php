@@ -11,10 +11,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Cache;
+use App\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, LogsActivity;
+
+    protected string $activityLogModule = 'User';
+    protected string $activityLogLabelColumn = 'name';
+    
+    protected array $activityLogHidden=[
+        'password',
+        'remember_token',
+        'password_setup_token',
+        'password_setup_expires_at',
+    ];
 
     protected $fillable = [
         'name',
@@ -50,6 +62,12 @@ class User extends Authenticatable
     | Relationships
     |--------------------------------------------------------------------------
     */
+
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
 
     public function member(): HasOne
     {

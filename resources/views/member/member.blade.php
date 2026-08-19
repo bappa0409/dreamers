@@ -12,7 +12,7 @@
         Member Dashboard
     </h1>
 
-    <p class="mt-1 text-sm text-slate-500">
+    <p class="text-sm text-slate-500">
         Welcome back. Here is an overview of your membership.
     </p>
 
@@ -214,7 +214,7 @@
                         My Membership
                     </h2>
 
-                    <p class="mt-1 text-sm text-slate-500">
+                    <p class="text-sm text-slate-500">
                         Your current membership information.
                     </p>
 
@@ -501,7 +501,7 @@ async function loadMemberDashboard() {
                     Failed to load dashboard.
                 </p>
 
-                <p class="mt-1 text-sm text-slate-500">
+                <p class="text-sm text-slate-500">
                     Please refresh the page and try again.
                 </p>
             </div>

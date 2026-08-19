@@ -3,41 +3,209 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Models\ProjectMember;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class ProjectService
 {
+    public function __construct(
+        protected DashboardService $dashboardService
+    ){}
+
     public function create(array $data): Project
     {
-        return DB::transaction(function () use ($data) {
-
-            $lastProject = Project::latest('id')->first();
-
-            $nextNumber = $lastProject
-                ? $lastProject->id + 1
-                : 1;
-
-            $projectCode = 'PROJ-' . str_pad(
-                $nextNumber,
-                6,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            return Project::create([
-                'project_code' => $projectCode,
-                'name' => $data['name'],
-                'description' => $data['description'] ?? null,
-                'location' => $data['location'] ?? null,
-                'budget' => $data['budget'] ?? 0,
-                'actual_cost' => $data['actual_cost'] ?? 0,
-                'start_date' => $data['start_date'] ?? null,
-                'expected_end_date' => $data['expected_end_date'] ?? null,
-                'actual_end_date' => $data['actual_end_date'] ?? null,
-                'progress' => $data['progress'] ?? 0,
-                'status' => $data['status'] ?? 'planned',
-                'notes' => $data['notes'] ?? null,
+        return DB::transaction(function()use($data){
+            $project=Project::create([
+                ...$data,
+                'project_code'=>$this->generateProjectCode(),
+                'budget'=>$data['budget']??0,
+                'actual_cost'=>$data['actual_cost']??0,
+                'progress'=>$data['progress']??0,
+                'status'=>$data['status']??'planned'
             ]);
+
+            $this->forgetCaches();
+
+            return $project;
         });
+    }
+
+    public function update(Project $project,array $data): Project
+    {
+        return DB::transaction(function()use($project,$data){
+            if(isset($data['progress'])){
+                $data['progress']=min(
+                    max((int)$data['progress'],0),
+                    100
+                );
+            }
+
+            if(
+                isset($data['status'])&&
+                $data['status']==='completed'
+            ){
+                $data['progress']=100;
+                $data['actual_end_date']=$data['actual_end_date']
+                    ??now()->toDateString();
+            }
+
+            if(
+                isset($data['progress'])&&
+                (int)$data['progress']===100&&
+                ($data['status']??$project->status)!=='cancelled'
+            ){
+                $data['status']='completed';
+                $data['actual_end_date']=$data['actual_end_date']
+                    ??now()->toDateString();
+            }
+
+            $project->update($data);
+
+            $this->forgetCaches();
+
+            return $project->fresh();
+        });
+    }
+
+    public function delete(Project $project): void
+    {
+        DB::transaction(function()use($project){
+            $project->delete();
+            $this->forgetCaches();
+        });
+    }
+
+    public function addMember(
+        Project $project,
+        array $data
+    ): ProjectMember{
+        return DB::transaction(function()use($project,$data){
+            if($project->status==='cancelled'){
+                throw ValidationException::withMessages([
+                    'project'=>[
+                        'Member cannot be added to a cancelled project.'
+                    ]
+                ]);
+            }
+
+            $exists=$project->members()
+                ->where('member_id',$data['member_id'])
+                ->exists();
+
+            if($exists){
+                throw ValidationException::withMessages([
+                    'member_id'=>[
+                        'This member is already assigned to the project.'
+                    ]
+                ]);
+            }
+
+            $member=$project->members()->create([
+                ...$data,
+                'status'=>$data['status']??'active'
+            ]);
+
+            $this->forgetCaches();
+
+            return $member;
+        });
+    }
+
+    public function updateMember(
+        ProjectMember $projectMember,
+        array $data
+    ): ProjectMember{
+        return DB::transaction(function()use($projectMember,$data){
+            $projectMember->update($data);
+
+            $this->forgetCaches();
+
+            return $projectMember->fresh();
+        });
+    }
+
+    public function removeMember(ProjectMember $projectMember): void
+    {
+        DB::transaction(function()use($projectMember){
+            $projectMember->delete();
+            $this->forgetCaches();
+        });
+    }
+
+    public function statistics(): array
+    {
+        return Cache::remember(
+            'projects:statistics',
+            now()->addMinutes(5),
+            function(){
+                $row=Project::query()
+                    ->selectRaw("
+                        COUNT(*) total,
+                        COALESCE(SUM(budget),0) total_budget,
+                        COALESCE(SUM(actual_cost),0) actual_cost,
+                        COALESCE(AVG(progress),0) average_progress,
+                        SUM(CASE WHEN status='planned' THEN 1 ELSE 0 END) planned,
+                        SUM(CASE WHEN status='active' THEN 1 ELSE 0 END) active,
+                        SUM(CASE WHEN status='on_hold' THEN 1 ELSE 0 END) on_hold,
+                        SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) completed,
+                        SUM(CASE WHEN status='cancelled' THEN 1 ELSE 0 END) cancelled
+                    ")
+                    ->first();
+
+                return [
+                    'total'=>(int)($row->total??0),
+                    'total_budget'=>(float)($row->total_budget??0),
+                    'actual_cost'=>(float)($row->actual_cost??0),
+                    'remaining_budget'=>
+                        (float)($row->total_budget??0)
+                        -(float)($row->actual_cost??0),
+                    'average_progress'=>
+                        round((float)($row->average_progress??0),2),
+                    'planned'=>(int)($row->planned??0),
+                    'active'=>(int)($row->active??0),
+                    'on_hold'=>(int)($row->on_hold??0),
+                    'completed'=>(int)($row->completed??0),
+                    'cancelled'=>(int)($row->cancelled??0)
+                ];
+            }
+        );
+    }
+
+    protected function generateProjectCode(): string
+    {
+        $last=Project::query()
+            ->lockForUpdate()
+            ->orderByDesc('id')
+            ->first();
+
+        $next=$last?$last->id+1:1;
+
+        $prefix=strtoupper(
+            trim((string)setting(
+                'project_code_prefix',
+                'PROJ'
+            ))
+        );
+
+        if($prefix===''){
+            $prefix='PROJ';
+        }
+
+        return $prefix.'-'.str_pad(
+            (string)$next,
+            6,
+            '0',
+            STR_PAD_LEFT
+        );
+    }
+
+    public function forgetCaches(): void
+    {
+        Cache::forget('projects:statistics');
+        Cache::forget('dashboard.projects.summary');
+
+        $this->dashboardService->forgetDashboardCaches();
     }
 }

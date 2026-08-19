@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PollOption extends Model
 {
-    protected $fillable = [
-        'poll_id',
-        'option_text',
-        'sort_order',
+    protected $fillable=[
+        'poll_id','option_text','sort_order'
     ];
 
     public function poll(): BelongsTo

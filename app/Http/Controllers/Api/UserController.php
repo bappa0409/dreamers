@@ -75,7 +75,7 @@ class UserController extends Controller
             'email'=>$validated['email'],
             'mobile'=>$validated['mobile']??null,
             'password'=>Hash::make($validated['password']),
-            'language'=>$validated['language']??'en',
+            'language'=>$validated['language']??setting('default_language','en'),
             'is_active'=>true,
         ]);
 
@@ -109,7 +109,7 @@ class UserController extends Controller
             'name'=>$validated['name'],
             'email'=>$validated['email'],
             'mobile'=>$validated['mobile']??null,
-            'language'=>$validated['language']??'en',
+            'language'=>$validated['language']??setting('default_language','en'),
         ]);
 
         return response()->json([

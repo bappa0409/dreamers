@@ -8,6 +8,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
+    public function __construct(
+        protected ActivityLogService $activityLogService
+    ) {
+    }
+
     /**
      * Authenticate user using:
      * - Email
@@ -15,6 +20,24 @@ class AuthService
      * - Member Code
      */
     public function authenticate(
+        string $login,
+        string $password
+    ): User {
+        try {
+            return $this->attemptAuthenticate($login, $password);
+        } catch (ValidationException $e) {
+            $this->activityLogService->log(
+                action: 'login_failed',
+                module: 'Auth',
+                description: 'Failed login attempt for "' . $login . '": ' .
+                    collect($e->errors())->flatten()->first(),
+            );
+
+            throw $e;
+        }
+    }
+
+    private function attemptAuthenticate(
         string $login,
         string $password
     ): User {
@@ -126,7 +149,6 @@ class AuthService
         return $user;
     }
 
-
     /**
      * Standard authenticated user payload.
      * This same structure can later be reused by Blade/API/Flutter.
@@ -163,19 +185,12 @@ class AuthService
 
         return [
             'id' => $user->id,
-
             'name' => $user->name,
-
             'email' => $user->email,
-
             'mobile' => $user->mobile,
-
             'language' => $user->language,
-
             'is_active' => (bool) $user->is_active,
-
             'member' => $user->member,
-
             'roles' => $user->roles
                 ->map(function ($role) {
                     return [
@@ -185,11 +200,8 @@ class AuthService
                     ];
                 })
                 ->values(),
-
             'permissions' => $permissions,
-
             'is_system_analyst' => $allAccess,
-
             'all_access' => $allAccess,
         ];
     }

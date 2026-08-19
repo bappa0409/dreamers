@@ -11,7 +11,7 @@
         My Profile
     </h1>
 
-    <p class="mt-1 text-sm text-slate-500">
+    <p class="text-sm text-slate-500">
         View your account and membership information.
     </p>
 </div>
@@ -71,7 +71,7 @@
 
                     <p
                         id="profileEmail"
-                        class="mt-1 text-sm text-slate-500">
+                        class="text-sm text-slate-500">
                         -
                     </p>
 
@@ -513,7 +513,7 @@ async function loadMemberProfile() {
                     Failed to load profile.
                 </p>
 
-                <p class="mt-1 text-sm text-slate-500">
+                <p class="text-sm text-slate-500">
                     Please refresh the page and try again.
                 </p>
 

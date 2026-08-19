@@ -18,6 +18,11 @@ body {
         "Segoe UI",
         sans-serif;
 }
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
 
 /* Global Clickable Cursor */
 button:not(:disabled),
@@ -156,4 +161,136 @@ button:not(:disabled):active,
     .app-modal-overlay{
         padding:.75rem;
     }
+}
+
+/* =========================================================
+   Compact Flatpickr
+   ========================================================= */
+
+.flatpickr-calendar {
+    width: 280px !important;
+    font-size: 12px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.12) !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Header */
+.flatpickr-months {
+    height: 40px !important;
+}
+
+.flatpickr-month {
+    height: 40px !important;
+}
+
+.flatpickr-current-month {
+    font-size: 13px !important;
+    padding-top: 8px !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-size: 13px !important;
+}
+
+.flatpickr-current-month input.cur-year {
+    font-size: 13px !important;
+}
+
+/* Previous / Next buttons */
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    height: 40px !important;
+    width: 35px !important;
+    padding: 9px !important;
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+    width: 12px !important;
+    height: 12px !important;
+}
+
+/* Week days */
+.flatpickr-weekdays {
+    height: 28px !important;
+}
+
+span.flatpickr-weekday {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+}
+
+/* Day container */
+.flatpickr-days {
+    width: 280px !important;
+}
+
+.dayContainer {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+}
+
+/* Individual days */
+.flatpickr-day {
+    max-width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+}
+
+/* Hover */
+.flatpickr-day:hover {
+    background: #f1f5f9 !important;
+    border-color: #f1f5f9 !important;
+}
+
+/* Today */
+.flatpickr-day.today {
+    border-color: #6366f1 !important;
+}
+
+/* Selected */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+    background: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+    color: #fff !important;
+}
+
+/* Range */
+.flatpickr-day.inRange {
+    background: #eef2ff !important;
+    border-color: #eef2ff !important;
+    box-shadow: -5px 0 0 #eef2ff,
+                5px 0 0 #eef2ff !important;
+    color: #4338ca !important;
+}
+
+/* Start / End range */
+.flatpickr-day.startRange {
+    border-radius: 6px 0 0 6px !important;
+}
+
+.flatpickr-day.endRange {
+    border-radius: 0 6px 6px 0 !important;
+}
+
+/* Disabled */
+.flatpickr-day.disabled,
+.flatpickr-day.disabled:hover {
+    color: #cbd5e1 !important;
+}
+
+/* Footer / time area if used */
+.flatpickr-time {
+    height: 35px !important;
+}
+
+.flatpickr-time input {
+    font-size: 11px !important;
 }

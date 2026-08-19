@@ -19,7 +19,7 @@
                     Welcome, {{ $user->name }}
                 </h1>
 
-                <p class="mt-1 text-sm text-slate-500">
+                <p class="text-sm text-slate-500">
                     Dreamers Association overview and recent activities.
                 </p>
             </div>
@@ -131,7 +131,7 @@
                     <p class="text-[11px] text-indigo-500">Total Amount</p>
 
                     <p class="mt-1 text-lg font-bold text-indigo-700">
-                        ৳{{ number_format($dashboard['investments']['total_amount'],2) }}
+                        ৳{{ money($dashboard['investments']['total_amount']) }}
                     </p>
                 </div>
             </div>
@@ -314,7 +314,7 @@
                         Member Dashboard
                     </h2>
 
-                    <p class="mt-1 text-sm text-slate-500">
+                    <p class="text-sm text-slate-500">
                         Welcome to Dreamers Association. Use the available menu items to access your personal information and association services.
                     </p>
                 </div>

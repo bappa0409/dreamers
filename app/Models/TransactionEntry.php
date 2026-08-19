@@ -10,18 +10,21 @@ class TransactionEntry extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable=[
         'transaction_id',
         'account_id',
         'debit',
         'credit',
-        'description',
+        'description'
     ];
 
-    protected $casts = [
-        'debit' => 'decimal:2',
-        'credit' => 'decimal:2',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'debit'=>'decimal:2',
+            'credit'=>'decimal:2'
+        ];
+    }
 
     public function transaction(): BelongsTo
     {

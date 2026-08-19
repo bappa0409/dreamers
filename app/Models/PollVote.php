@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PollVote extends Model
 {
-    protected $fillable = [
-        'poll_id',
-        'poll_option_id',
-        'member_id',
+    protected $fillable=[
+        'poll_id','poll_option_id','member_id'
     ];
 
     public function poll(): BelongsTo
@@ -18,9 +16,14 @@ class PollVote extends Model
         return $this->belongsTo(Poll::class);
     }
 
+    public function pollOption(): BelongsTo
+    {
+        return $this->belongsTo(PollOption::class,'poll_option_id');
+    }
+
     public function option(): BelongsTo
     {
-        return $this->belongsTo(PollOption::class, 'poll_option_id');
+        return $this->pollOption();
     }
 
     public function member(): BelongsTo

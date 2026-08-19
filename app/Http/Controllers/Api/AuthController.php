@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use App\Services\ActivityLogService;
 
 class AuthController extends Controller
 {
     public function __construct(
-        protected AuthService $authService
+        protected AuthService $authService,
+        protected ActivityLogService $activityLogService
     ) {
     }
 
@@ -27,39 +29,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'email' => [
-                'nullable',
-                'email',
-                'max:255',
-                'unique:users,email',
-            ],
-
-            'mobile' => [
-                'nullable',
-                'string',
-                'max:20',
-                'regex:/^[0-9+()\-\s]+$/',
-                'unique:users,mobile',
-            ],
-
-            'password' => [
-                'required',
-                'string',
-                Password::min(8)
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
-
-                'confirmed',
-            ],
+            'name' => ['required','string','max:255'],
+            'email' => ['nullable','email','max:255','unique:users,email'],
+            'mobile' => ['nullable','string','max:20','regex:/^[0-9+()\-\s]+$/','unique:users,mobile'],
+            'password' => ['required','string',Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(),'confirmed',],
         ]);
 
 
@@ -74,13 +47,8 @@ class AuthController extends Controller
             empty($validated['mobile'])
         ) {
             throw ValidationException::withMessages([
-                'email' => [
-                    'Please provide either an email address or mobile number.'
-                ],
-
-                'mobile' => [
-                    'Please provide either an email address or mobile number.'
-                ],
+                'email' => ['Please provide either an email address or mobile number.'],
+                'mobile' => ['Please provide either an email address or mobile number.'],
             ]);
         }
 
@@ -91,17 +59,12 @@ class AuthController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $memberRole = Role::where(
-            'name',
-            'member'
-        )->first();
+        $memberRole = Role::where('name','member')->first();
 
         if (!$memberRole) {
             return response()->json([
                 'success' => false,
-
-                'message' =>
-                    'Member role is not configured.',
+                'message' => 'Member role is not configured.',
             ], 500);
         }
 
@@ -115,17 +78,12 @@ class AuthController extends Controller
         $user = User::create([
 
             'name' => $validated['name'],
-
             'email' => $validated['email'] ?? null,
-
             'mobile' => $validated['mobile'] ?? null,
-
             'password' => Hash::make(
                 $validated['password']
             ),
-
             'role_id' => $memberRole->id,
-
             'is_active' => true,
         ]);
 
@@ -137,26 +95,16 @@ class AuthController extends Controller
         */
 
         $token = $user->createToken(
-            $request->input(
-                'device_name',
-                'api'
-            )
+            $request->input('device_name','api')
         )->plainTextToken;
 
 
         return response()->json([
-
             'success' => true,
-
-            'message' =>
-                'Registration successful.',
-
+            'message' => 'Registration successful.',
             'data' => [
-
                 'token' => $token,
-
-                'user' =>
-                    $this->authService->userData($user),
+                'user' => $this->authService->userData($user),
             ],
 
         ], 201);
@@ -169,22 +117,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-
-            'login' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'password' => [
-                'required',
-                'string',
-            ],
+            'login' => ['required','string','max:255'],
+            'password' => ['required','string'],
         ]);
 
-
         try {
-
             $user = $this->authService->authenticate(
                 $credentials['login'],
                 $credentials['password']
@@ -193,14 +130,9 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
 
             return response()->json([
-
                 'success' => false,
-
-                'message' =>
-                    'The email/mobile or password is incorrect.',
-
+                'message' => 'The email/mobile or password is incorrect.',
                 'errors' => $e->errors(),
-
             ], 422);
         }
 
@@ -221,28 +153,35 @@ class AuthController extends Controller
         */
 
         $token = $user->createToken(
-            $request->input(
-                'device_name',
-                'api'
-            )
+            $request->input('device_name','api')
         )->plainTextToken;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Audit Log
+        |--------------------------------------------------------------------------
+        |
+        | AuthController never calls Auth::login(), so the Login
+        | event listener in AppServiceProvider never fires for the
+        | API/SPA token flow — log it explicitly here instead.
+        |
+        */
+
+        $this->activityLogService->log(
+            action: 'login',
+            module: 'Auth',
+            description: "{$user->name} logged in",
+            subject: $user,
+        );
 
 
         return response()->json([
-
             'success' => true,
-
-            'message' =>
-                'Login successful.',
-
+            'message' => 'Login successful.',
             'data' => [
-
                 'token' => $token,
-
-                'user' =>
-                    $this->authService->userData($user),
+                'user' => $this->authService->userData($user),
             ],
-
         ]);
     }
 
@@ -259,12 +198,16 @@ class AuthController extends Controller
             $token->delete();
         }
 
+        $this->activityLogService->log(
+            action: 'logout',
+            module: 'Auth',
+            description: "{$user->name} logged out",
+            subject: $user,
+        );
+
         return response()->json([
-
             'success' => true,
-
-            'message' =>
-                'Logout successful.',
+            'message' => 'Logout successful.',
         ]);
     }
 
@@ -275,13 +218,8 @@ class AuthController extends Controller
     public function profile(Request $request)
     {
         return response()->json([
-
             'success' => true,
-
-            'data' =>
-                $this->authService->userData(
-                    $request->user()
-                ),
+            'data' =>$this->authService->userData($request->user()),
         ]);
     }
 }

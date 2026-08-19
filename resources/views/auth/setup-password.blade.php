@@ -42,7 +42,7 @@
                     Create Your Password
                 </h2>
 
-                <p class="mt-1 text-sm text-slate-500">
+                <p class="text-sm text-slate-500">
                     Welcome {{ $user->name }}. Set a secure password for your account.
                 </p>
             </div>

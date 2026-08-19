@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller
@@ -34,6 +35,17 @@ class ActivityLogController extends Controller
             );
         }
 
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('description', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
         if ($request->filled('from')) {
             $query->whereDate(
                 'created_at',
@@ -51,7 +63,7 @@ class ActivityLogController extends Controller
         }
 
         return response()->json(
-            $query->paginate(20)
+            $query->paginate($request->input('per_page', 20))
         );
     }
 
@@ -63,5 +75,34 @@ class ActivityLogController extends Controller
                 'subject',
             ])
         );
+    }
+
+    /**
+     * Distinct filter options for the audit log screen — modules,
+     * actions and the users who actually appear in the log, so the
+     * filter dropdowns only ever offer values that return results.
+     */
+    public function filters()
+    {
+        return response()->json([
+
+            'modules' => ActivityLog::query()
+                ->whereNotNull('module')
+                ->distinct()
+                ->orderBy('module')
+                ->pluck('module'),
+
+            'actions' => ActivityLog::query()
+                ->whereNotNull('action')
+                ->distinct()
+                ->orderBy('action')
+                ->pluck('action'),
+
+            'users' => User::query()
+                ->whereHas('activityLogs')
+                ->orderBy('name')
+                ->get(['id', 'name']),
+
+        ]);
     }
 }

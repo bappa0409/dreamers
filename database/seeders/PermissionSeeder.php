@@ -57,6 +57,7 @@ class PermissionSeeder extends Seeder
             ['name'=>'Notice.delete','display_name'=>'Delete Notice','module'=>'Notice'],
 
             ['name'=>'Notification.view','display_name'=>'View Notifications','module'=>'Notification'],
+            ['name'=>'Notification.send','display_name'=>'Send Notifications','module'=>'Notification'],
 
             ['name'=>'Approval.view','display_name'=>'View Approvals','module'=>'Approval'],
             ['name'=>'Approval.approve','display_name'=>'Approve Requests','module'=>'Approval'],
@@ -64,15 +65,21 @@ class PermissionSeeder extends Seeder
             ['name'=>'Approval.update','display_name'=>'Update Approvals','module'=>'Approval'],
 
             ['name'=>'Document.view','display_name'=>'View Documents','module'=>'Document'],
-            ['name'=>'Document.create','display_name'=>'Create Document','module'=>'Document'],
-            ['name'=>'Document.update','display_name'=>'Update Document','module'=>'Document'],
-            ['name'=>'Document.delete','display_name'=>'Delete Document','module'=>'Document'],
+            ['name'=>'Document.create','display_name'=>'Upload Documents','module'=>'Document'],
+            ['name'=>'Document.update','display_name'=>'Update Documents','module'=>'Document'],
+            ['name'=>'Document.delete','display_name'=>'Delete Documents','module'=>'Document'],
+            ['name'=>'Document.manage','display_name'=>'Manage All Documents','module'=>'Document'],
 
             ['name'=>'Report.view','display_name'=>'View Reports','module'=>'Report'],
             ['name'=>'Mailing.view','display_name'=>'View Mailing','module'=>'Mailing'],
             ['name'=>'Setting.view','display_name'=>'View Settings','module'=>'Setting'],
             ['name'=>'Setting.update','display_name'=>'Update Settings','module'=>'Setting'],
             ['name'=>'Audit.view','display_name'=>'View Audit Logs','module'=>'Audit'],
+
+            ['name'=>'Backup.view','display_name'=>'View Backups','module'=>'Backup'],
+            ['name'=>'Backup.create','display_name'=>'Create Backup','module'=>'Backup'],
+            ['name'=>'Backup.import','display_name'=>'Import Database','module'=>'Backup'],
+            ['name'=>'Backup.delete','display_name'=>'Delete Backup','module'=>'Backup'],
         ];
 
         foreach($permissions as $permission){

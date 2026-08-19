@@ -1,4 +1,9 @@
 import './bootstrap';
+import './api';
+import './admin-ui';
+import './admin-toast';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.css';
 
 
 /*
@@ -204,3 +209,65 @@ window.logout = async function () {
     window.location.href = '/login';
 
 };
+
+/*
+|--------------------------------------------------------------------------
+| Date Pickers
+|--------------------------------------------------------------------------
+*/
+
+function initDatePickers() {
+
+    // Single Date Picker
+    document.querySelectorAll('.js-date-picker').forEach((element) => {
+
+        if (element._flatpickr) {
+            return;
+        }
+
+        flatpickr(element, {
+            dateFormat: 'Y-m-d',
+            allowInput: true,
+            disableMobile: true,
+            monthSelectorType: 'dropdown',
+        });
+
+    });
+
+
+    // Date Range Picker
+    document.querySelectorAll('.js-date-range').forEach((element) => {
+
+        if (element._flatpickr) {
+            return;
+        }
+
+        flatpickr(element, {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+            allowInput: true,
+            disableMobile: true,
+            monthSelectorType: 'dropdown',
+        });
+
+    });
+
+    document.querySelectorAll('.js-datetime-picker').forEach(element=>{
+        if(element._flatpickr){
+            return;
+        }
+
+        flatpickr(element,{
+            enableTime:true,
+            time_24hr:true,
+            dateFormat:'Y-m-d H:i',
+            allowInput:true,
+            disableMobile:true,
+            monthSelectorType:'dropdown'
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initDatePickers);
+
+window.initDatePickers = initDatePickers;

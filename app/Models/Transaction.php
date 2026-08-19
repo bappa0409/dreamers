@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,9 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
 
-    protected $fillable = [
+    protected string $activityLogModule='Transaction';
+    protected string $activityLogLabelColumn='transaction_no';
+
+    protected $fillable=[
         'transaction_no',
         'transaction_date',
         'type',
@@ -19,12 +23,15 @@ class Transaction extends Model
         'reference_id',
         'created_by',
         'description',
-        'status',
+        'status'
     ];
 
-    protected $casts = [
-        'transaction_date' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'transaction_date'=>'date'
+        ];
+    }
 
     public function entries(): HasMany
     {
@@ -33,6 +40,6 @@ class Transaction extends Model
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class,'created_by');
     }
 }

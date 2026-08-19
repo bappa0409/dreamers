@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\AuthService;
-
+use App\Services\ActivityLogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +14,9 @@ use Illuminate\View\View;
 class LoginController extends Controller
 {
     public function __construct(
-        protected AuthService $authService
-    ) {
-    }
+        protected AuthService $authService,
+        protected ActivityLogService $activityLogService
+    ){}
 
 
     /*
@@ -128,6 +128,12 @@ class LoginController extends Controller
             ->session()
             ->regenerate();
 
+        $this->activityLogService->log(
+            action:'login',
+            module:'Authentication',
+            description:'User logged in successfully.',
+            subject:$user
+        );
 
         /*
         |--------------------------------------------------------------------------
@@ -156,36 +162,24 @@ class LoginController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function logout(
-        Request $request
-    ): RedirectResponse {
+    public function logout(Request $request): RedirectResponse
+{
+    $user=Auth::user();
 
-        Auth::logout();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Destroy Current Session
-        |--------------------------------------------------------------------------
-        */
-
-        $request
-            ->session()
-            ->invalidate();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Regenerate CSRF Token
-        |--------------------------------------------------------------------------
-        */
-
-        $request
-            ->session()
-            ->regenerateToken();
-
-
-        return redirect()
-            ->route('login');
+    if($user){
+        $this->activityLogService->log(
+            action:'logout',
+            module:'Authentication',
+            description:'User logged out.',
+            subject:$user
+        );
     }
+
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+}
 }

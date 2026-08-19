@@ -16,7 +16,7 @@
 
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-slate-800">Membership Management</h1>
-                <p class="mt-1 text-sm text-slate-500">Manage association members, status and assigned roles.</p>
+                <p class="text-sm text-slate-500">Manage association members, status and assigned roles.</p>
             </div>
         </div>
 
@@ -161,7 +161,7 @@
 <div id="memberModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-600 text-white">
                     <i class="bi bi-person-plus"></i>
@@ -169,7 +169,7 @@
 
                 <div>
                     <h2 id="modalTitle" class="text-lg font-bold text-slate-800">Add Member</h2>
-                    <p id="modalDescription" class="mt-1 text-sm text-slate-500">Create member profile and login account.</p>
+                    <p id="modalDescription" class="text-sm text-slate-500">Create member profile and login account.</p>
                 </div>
             </div>
 
@@ -316,7 +316,7 @@
 <div id="roleModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5">
+        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-violet-600 text-white">
                     <i class="bi bi-shield-lock"></i>
@@ -324,7 +324,7 @@
 
                 <div>
                     <h2 class="text-lg font-bold text-slate-800">Manage Roles</h2>
-                    <p id="roleMemberName" class="mt-1 text-sm text-slate-500"></p>
+                    <p id="roleMemberName" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 

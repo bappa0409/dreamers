@@ -3,17 +3,20 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class SettingService
 {
-    public function get(string $key, $default = null)
-    {
-        $setting = Setting::where('key', $key)->first();
+    private const CACHE_KEY='settings:all';
 
-        if (!$setting) {
-            return $default;
-        }
+    public function get(string $key,$default=null)
+    {
+        $setting=$this->cachedSettings()->firstWhere('key',$key);
+
+        if(!$setting)return $default;
 
         return $this->castValue(
             $setting->value,
@@ -21,144 +24,163 @@ class SettingService
         );
     }
 
-
     public function set(
         string $key,
-        $value,
-        string $type = 'string',
-        string $group = 'general',
-        ?string $description = null,
-        bool $isPublic = false,
-        ?array $options = null
-    ): Setting {
+        mixed $value,
+        string $type='string',
+        string $group='general',
+        ?string $description=null,
+        bool $isPublic=false,
+        ?array $options=null
+    ): Setting{
+        $setting=Setting::where('key',$key)->first();
 
-        $attributes = [
-            'type' => $type,
-            'group' => $group,
-            'description' => $description,
-            'is_public' => $isPublic,
-            'options' => $options,
+        $attributes=[
+            'type'=>$type,
+            'group'=>$group,
+            'description'=>$description,
+            'is_public'=>$isPublic,
+            'options'=>$options,
         ];
 
-        /*
-        |--------------------------------------------------------------------------
-        | Password Fields
-        |--------------------------------------------------------------------------
-        |
-        | An empty submitted value means "keep the existing secret",
-        | not "clear it". This avoids wiping out SMTP passwords etc.
-        | when the admin re-saves a form without retyping them.
-        |
-        */
-
-        if ($type === 'password' && ($value === null || $value === '')) {
-
-            $existing = Setting::where('key', $key)->first();
-
-            if (!$existing) {
-                return Setting::create(
-                    array_merge($attributes, [
-                        'key' => $key,
-                        'value' => null,
-                    ])
-                );
+        if($type==='password'&&($value===null||$value==='')){
+            if($setting){
+                $setting->update($attributes);
+                $this->forgetCache();
+                return $setting->fresh();
             }
 
-            $existing->update($attributes);
+            $attributes['key']=$key;
+            $attributes['value']=null;
 
-            return $existing;
+            $setting=Setting::create($attributes);
+            $this->forgetCache();
+
+            return $setting;
         }
 
-        $attributes['value'] = $this->prepareValue($value, $type);
+        $attributes['value']=$this->prepareValue($value,$type);
 
-        return Setting::updateOrCreate(
-            ['key' => $key],
+        $setting=Setting::updateOrCreate(
+            ['key'=>$key],
             $attributes
         );
-    }
 
-
-    public function all(?string $group = null)
-    {
-        $query = Setting::query()
-            ->orderBy('group')
-            ->orderBy('key');
-
-        if ($group) {
-            $query->where('group', $group);
-        }
-
-        return $query->get()->map(
-            fn($setting) => $this->redactForOutput($setting)
-        );
-    }
-
-
-    public function publicSettings()
-    {
-        return Setting::where(
-            'is_public',
-            true
-        )
-            ->orderBy('group')
-            ->orderBy('key')
-            ->get()
-            ->map(
-                fn($setting) => $this->redactForOutput($setting)
-            );
-    }
-
-
-    /**
-     * Never leak encrypted secrets to the frontend.
-     * '' means "a value exists but is hidden",
-     * null means "not set yet".
-     */
-    private function redactForOutput(Setting $setting): Setting
-    {
-        if ($setting->type === 'password') {
-            $setting = $setting->replicate();
-            $setting->value = $setting->getRawOriginal('value') ? '' : null;
-        }
+        $this->forgetCache();
 
         return $setting;
     }
 
-
-    private function castValue($value, string $type)
-{
-    return match ($type) {
-        'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
-        'integer' => (int) $value,
-        'float' => (float) $value,
-        'json' => json_decode($value, true),
-        'password' => $this->decryptSafely($value),
-        'select' => $value,
-        default => $value,
-    };
-}
-
-private function prepareValue($value, string $type)
-{
-    return match ($type) {
-        'boolean' => $value ? '1' : '0',
-        'json' => json_encode($value),
-        'password' => Crypt::encryptString((string) $value),
-        'select' => (string) $value,
-        default => (string) $value,
-    };
-}
-
-
-    private function decryptSafely(?string $value): ?string
+    public function all(?string $group=null): Collection
     {
-        if (!$value) {
-            return null;
+        $settings=$this->cachedSettings();
+
+        if($group){
+            $settings=$settings->where('group',$group);
         }
 
-        try {
+        return $settings
+            ->values()
+            ->map(fn(Setting $setting)=>$this->redactForOutput($setting));
+    }
+
+    public function grouped(): Collection
+    {
+        return $this->all()->groupBy('group');
+    }
+
+    public function publicSettings(): Collection
+    {
+        return $this->cachedSettings()
+            ->where('is_public',true)
+            ->values()
+            ->map(fn(Setting $setting)=>$this->redactForOutput($setting));
+    }
+
+    public function delete(string $key): bool
+    {
+        $setting=Setting::where('key',$key)->first();
+
+        if(!$setting)return false;
+
+        if(
+            $setting->type==='image' &&
+            $setting->value &&
+            Storage::disk('public')->exists($setting->value)
+        ){
+            Storage::disk('public')->delete($setting->value);
+        }
+
+        $setting->delete();
+        $this->forgetCache();
+
+        return true;
+    }
+
+    public function forgetCache(): void
+    {
+        Cache::forget(self::CACHE_KEY);
+        Cache::forget('settings:public');
+    }
+
+    protected function cachedSettings(): Collection
+    {
+        return Cache::remember(
+            self::CACHE_KEY,
+            now()->addHours(6),
+            fn()=>Setting::query()
+                ->orderBy('group')
+                ->orderBy('id')
+                ->get()
+        );
+    }
+
+    protected function redactForOutput(Setting $setting): Setting
+    {
+        $copy=$setting->replicate();
+
+        $copy->id=$setting->id;
+        $copy->created_at=$setting->created_at;
+        $copy->updated_at=$setting->updated_at;
+
+        if($setting->type==='password'){
+            $copy->value=$setting->getRawOriginal('value')?'':null;
+        }
+
+        return $copy;
+    }
+
+    protected function castValue(mixed $value,string $type): mixed
+    {
+        return match($type){
+            'boolean'=>filter_var($value,FILTER_VALIDATE_BOOLEAN),
+            'integer'=>(int)$value,
+            'float'=>(float)$value,
+            'json'=>$value?json_decode($value,true):null,
+            'password'=>$this->decryptSafely($value),
+            default=>$value,
+        };
+    }
+
+    protected function prepareValue(mixed $value,string $type): ?string
+    {
+        if($value===null)return null;
+
+        return match($type){
+            'boolean'=>$value?'1':'0',
+            'json'=>json_encode($value,JSON_UNESCAPED_UNICODE),
+            'password'=>Crypt::encryptString((string)$value),
+            default=>(string)$value,
+        };
+    }
+
+    protected function decryptSafely(?string $value): ?string
+    {
+        if(!$value)return null;
+
+        try{
             return Crypt::decryptString($value);
-        } catch (\Exception $e) {
+        }catch(\Throwable){
             return null;
         }
     }

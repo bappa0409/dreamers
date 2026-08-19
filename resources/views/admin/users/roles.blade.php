@@ -16,7 +16,7 @@
 
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-slate-800">User Role Assignment</h1>
-                <p class="mt-1 text-sm text-slate-500">Assign one or more roles to association members.</p>
+                <p class="text-sm text-slate-500">Assign one or more roles to association members.</p>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
 <div id="roleModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-2xl overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
+        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-600 text-white">
                     <i class="bi bi-person-gear"></i>
@@ -88,7 +88,7 @@
 
                 <div>
                     <h2 class="text-lg font-bold text-slate-800">Assign Roles</h2>
-                    <p id="roleUserName" class="mt-1 text-sm text-slate-500"></p>
+                    <p id="roleUserName" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 

@@ -28,6 +28,11 @@ class MemberController extends Controller
         return view('member.projects');
     }
 
+    public function notices()
+    {
+        return view('member.notices');
+    }
+
     public function landInvestments(): View
     {
         return view('member.land-investments');

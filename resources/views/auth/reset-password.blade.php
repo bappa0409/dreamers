@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Reset Password | Dreamers Association')
+@section('title', 'Reset Password')
 
 @section('brand-eyebrow', 'ACCOUNT RECOVERY')
 @section('brand-features-cols', 'grid-cols-1')
