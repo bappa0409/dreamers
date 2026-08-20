@@ -382,7 +382,7 @@ $financeOpen=request()->is('admin/finance*');
             {{ request()->routeIs('admin.finance.subscription-payments')
                 ? 'bg-white/[0.08] font-semibold text-sky-300'
                 : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
-            <i class="bi bi-credit-card-check text-[11px]"></i>
+            <i class="bi bi-cash-stack text-[11px]"></i>
             <span>Subscription Payments</span>
         </a>
 
