@@ -7,19 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MailRecipient extends Model
 {
-    protected $fillable = [
+    protected $fillable=[
         'mail_campaign_id',
         'user_id',
-        'member_id',
-        'email',
         'name',
+        'email',
         'status',
         'sent_at',
-        'error_message',
+        'error_message'
     ];
 
-    protected $casts = [
-        'sent_at' => 'datetime',
+    protected $casts=[
+        'sent_at'=>'datetime'
     ];
 
     public function campaign(): BelongsTo
@@ -33,10 +32,5 @@ class MailRecipient extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function member(): BelongsTo
-    {
-        return $this->belongsTo(Member::class);
     }
 }

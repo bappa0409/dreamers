@@ -26,6 +26,12 @@ class PermissionSeeder extends Seeder
             ['name'=>'Role.update','display_name'=>'Update Role','module'=>'Role'],
             ['name'=>'Role.delete','display_name'=>'Delete Role','module'=>'Role'],
 
+            ['name'=>'Mail.view','display_name'=>'View Mailing','module'=>'Mail'],
+            ['name'=>'Mail.create','display_name'=>'Create Mail Campaign','module'=>'Mail'],
+            ['name'=>'Mail.update','display_name'=>'Update Mail Campaign','module'=>'Mail'],
+            ['name'=>'Mail.send','display_name'=>'Send Mail Campaign','module'=>'Mail'],
+            ['name'=>'Mail.delete','display_name'=>'Delete Mail Campaign','module'=>'Mail'],
+
             ['name'=>'Finance.view','display_name'=>'View Finance','module'=>'Finance'],
             ['name'=>'Finance.create','display_name'=>'Create Finance Entry','module'=>'Finance'],
             ['name'=>'Finance.update','display_name'=>'Update Finance Entry','module'=>'Finance'],

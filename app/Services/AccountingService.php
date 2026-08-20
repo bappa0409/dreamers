@@ -3,386 +3,231 @@
 namespace App\Services;
 
 use App\Models\Account;
-use App\Models\TransactionEntry;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Cache;
 
 class AccountingService
 {
-    public function getAccountBalance(Account $account): float
+    public function post(array $data): Transaction
     {
-        $debit = TransactionEntry::where('account_id', $account->id)
-            ->whereHas('transaction', function ($query) {
-                $query->where('status', 'posted');
-            })
-            ->sum('debit');
+        return DB::transaction(function()use($data){
+            $entries=$data['entries']??[];
 
-        $credit = TransactionEntry::where('account_id', $account->id)
-            ->whereHas('transaction', function ($query) {
-                $query->where('status', 'posted');
-            })
-            ->sum('credit');
+            if(count($entries)<2){
+                throw ValidationException::withMessages([
+                    'entries'=>[
+                        'At least two journal entries are required.'
+                    ]
+                ]);
+            }
 
-        return match ($account->type) {
-            'asset', 'expense' => (float) (
-                $account->opening_balance + $debit - $credit
-            ),
-
-            'liability', 'income', 'equity' => (float) (
-                $account->opening_balance + $credit - $debit
-            ),
-
-            default => 0,
-        };
-    }
-
-    public function getAccountSummary(): array
-    {
-        $accounts = Account::where('is_active', true)
-            ->get();
-
-        return $accounts->map(function ($account) {
-            return [
-                'id' => $account->id,
-                'code' => $account->code,
-                'name' => $account->name,
-                'type' => $account->type,
-                'opening_balance' => (float) $account->opening_balance,
-                'balance' => $this->getAccountBalance($account),
-            ];
-        })->values()->toArray();
-    }
-
-    public function validateDoubleEntry(array $entries): bool
-    {
-        $totalDebit = collect($entries)->sum(function ($entry) {
-            return (float) ($entry['debit'] ?? 0);
-        });
-
-        $totalCredit = collect($entries)->sum(function ($entry) {
-            return (float) ($entry['credit'] ?? 0);
-        });
-
-        return round($totalDebit, 2) === round($totalCredit, 2);
-    }
-
-    public function validateAndPost(Transaction $transaction): void
-    {
-        $entries = $transaction->entries;
-
-        if ($entries->count() < 2) {
-            throw new \Exception('A transaction must have at least two entries.');
-        }
-
-        $totalDebit = round((float) $entries->sum('debit'), 2);
-        $totalCredit = round((float) $entries->sum('credit'), 2);
-
-        if ($totalDebit <= 0 || $totalCredit <= 0) {
-            throw new \Exception('Transaction must contain both debit and credit amounts.');
-        }
-
-        if ($totalDebit !== $totalCredit) {
-            throw new \Exception(
-                "Double-entry validation failed. Debit: {$totalDebit}, Credit: {$totalCredit}."
+            $debit=round(
+                collect($entries)->sum(
+                    fn($entry)=>(float)(
+                        $entry['debit']??0
+                    )
+                ),
+                2
             );
-        }
 
-        $transaction->update([
-            'status' => 'posted',
-        ]);
+            $credit=round(
+                collect($entries)->sum(
+                    fn($entry)=>(float)(
+                        $entry['credit']??0
+                    )
+                ),
+                2
+            );
+
+            if(
+                $debit<=0||
+                $debit!==$credit
+            ){
+                throw ValidationException::withMessages([
+                    'entries'=>[
+                        'Total debit and credit must be equal and greater than zero.'
+                    ]
+                ]);
+            }
+
+            $accountIds=collect($entries)
+                ->pluck('account_id')
+                ->map(fn($id)=>(int)$id)
+                ->unique()
+                ->values();
+
+            $accounts=Account::query()
+                ->whereIn(
+                    'id',
+                    $accountIds
+                )
+                ->where('is_active',true)
+                ->withCount('children')
+                ->get()
+                ->keyBy('id');
+
+            if(
+                $accounts->count()!==
+                $accountIds->count()
+            ){
+                throw ValidationException::withMessages([
+                    'entries'=>[
+                        'One or more accounts are invalid or inactive.'
+                    ]
+                ]);
+            }
+
+            foreach($accountIds as $accountId){
+                $account=$accounts->get(
+                    $accountId
+                );
+
+                if($account->children_count>0){
+                    throw ValidationException::withMessages([
+                        'entries'=>[
+                            "Account {$account->code} - {$account->name} is a parent account and cannot receive journal postings."
+                        ]
+                    ]);
+                }
+            }
+
+            foreach($entries as $entry){
+                $entryDebit=round(
+                    (float)(
+                        $entry['debit']??0
+                    ),
+                    2
+                );
+
+                $entryCredit=round(
+                    (float)(
+                        $entry['credit']??0
+                    ),
+                    2
+                );
+
+                if(
+                    (
+                        $entryDebit<=0&&
+                        $entryCredit<=0
+                    )||
+                    (
+                        $entryDebit>0&&
+                        $entryCredit>0
+                    )
+                ){
+                    throw ValidationException::withMessages([
+                        'entries'=>[
+                            'Each journal line must contain either a debit or credit amount.'
+                        ]
+                    ]);
+                }
+            }
+
+            $userId=$data['user_id']
+                ??auth()->id();
+
+            $transaction=Transaction::create([
+                'transaction_no'=>$this->generateNumber(),
+                'transaction_date'=>$data['transaction_date']
+                    ??now()->toDateString(),
+                'type'=>$data['type']
+                    ??'manual_journal',
+                'source_module'=>$data['source_module']
+                    ??'manual',
+                'source_id'=>$data['source_id']
+                    ??null,
+                'reference_type'=>$data['reference_type']
+                    ??null,
+                'reference_id'=>$data['reference_id']
+                    ??null,
+                'description'=>$data['description']
+                    ??null,
+                'status'=>'posted',
+                'created_by'=>$userId,
+                'posted_at'=>now(),
+                'posted_by'=>$userId
+            ]);
+
+            $transaction->entries()->createMany(
+                collect($entries)
+                    ->map(fn($entry)=>[
+                        'account_id'=>$entry['account_id'],
+                        'debit'=>round(
+                            (float)(
+                                $entry['debit']??0
+                            ),
+                            2
+                        ),
+                        'credit'=>round(
+                            (float)(
+                                $entry['credit']??0
+                            ),
+                            2
+                        ),
+                        'description'=>$entry['description']
+                            ??null
+                    ])
+                    ->all()
+            );
+
+            Cache::forget('finance:dashboard');
+            
+            return $transaction->load(
+                'entries.account'
+            );
+        });
     }
 
-    public function getCashBankSummary(): array
+    public function account(string $subType): Account
     {
-        $accounts = Account::where('is_active', true)
-            ->whereIn('type', ['cash', 'bank'])
-            ->get();
+        $account=Account::query()
+            ->where('sub_type',$subType)
+            ->where('is_active',true)
+            ->whereDoesntHave('children')
+            ->first();
 
-        $data = $accounts->map(function ($account) {
-            return [
-                'id' => $account->id,
-                'code' => $account->code,
-                'name' => $account->name,
-                'type' => $account->type,
-                'opening_balance' => (float) $account->opening_balance,
-                'balance' => $this->getAccountBalance($account),
-            ];
-        })->values();
+        if(!$account){
+            throw ValidationException::withMessages([
+                'account'=>[
+                    "Active posting account for '{$subType}' was not found."
+                ]
+            ]);
+        }
 
-        return [
-            'accounts' => $data->toArray(),
-            'total_cash' => (float) $data
-                ->where('type', 'cash')
-                ->sum('balance'),
-            'total_bank' => (float) $data
-                ->where('type', 'bank')
-                ->sum('balance'),
-            'total_cash_bank' => (float) $data->sum('balance'),
-        ];
+        return $account;
     }
 
-    public function getIncomeExpenseSummary(): array
-{
-    $incomeAccounts = Account::where('is_active', true)
-        ->where('type', 'income')
-        ->get();
+    private function generateNumber(): string
+    {
+        $prefix='JV-'.
+            now()->format('Ym').
+            '-';
 
-    $expenseAccounts = Account::where('is_active', true)
-        ->where('type', 'expense')
-        ->get();
+        $last=Transaction::query()
+            ->where(
+                'transaction_no',
+                'like',
+                $prefix.'%'
+            )
+            ->lockForUpdate()
+            ->orderByDesc('id')
+            ->value('transaction_no');
 
-    $income = $incomeAccounts->map(function ($account) {
-        return [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'balance' => $this->getAccountBalance($account),
-        ];
-    })->values();
+        $next=$last
+            ?((int)substr(
+                $last,
+                -6
+            ))+1
+            :1;
 
-    $expense = $expenseAccounts->map(function ($account) {
-        return [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'balance' => $this->getAccountBalance($account),
-        ];
-    })->values();
-
-    $totalIncome = (float) $income->sum('balance');
-    $totalExpense = (float) $expense->sum('balance');
-
-    return [
-        'income_accounts' => $income->toArray(),
-        'expense_accounts' => $expense->toArray(),
-        'total_income' => $totalIncome,
-        'total_expense' => $totalExpense,
-        'net_profit_loss' => $totalIncome - $totalExpense,
-    ];
-}
-
-public function getLedger(Account $account): array
-{
-    $entries = TransactionEntry::with('transaction')
-        ->where('account_id', $account->id)
-        ->whereHas('transaction', function ($query) {
-            $query->where('status', 'posted');
-        })
-        ->get()
-        ->sortBy(function ($entry) {
-            return $entry->transaction->transaction_date
-                . '-' . $entry->transaction->id;
-        })
-        ->values();
-
-    $runningBalance = (float) $account->opening_balance;
-
-    $ledger = $entries->map(function ($entry) use ($account, &$runningBalance) {
-
-        $debit = (float) $entry->debit;
-        $credit = (float) $entry->credit;
-
-        if (in_array($account->type, ['asset', 'expense'])) {
-            $runningBalance += $debit - $credit;
-        } else {
-            $runningBalance += $credit - $debit;
-        }
-
-        return [
-            'entry_id' => $entry->id,
-            'transaction_id' => $entry->transaction_id,
-            'transaction_no' => $entry->transaction->transaction_no,
-            'date' => $entry->transaction->transaction_date,
-            'description' => $entry->description
-                ?? $entry->transaction->description,
-            'debit' => $debit,
-            'credit' => $credit,
-            'balance' => round($runningBalance, 2),
-        ];
-    });
-
-    return [
-        'account' => [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'type' => $account->type,
-            'opening_balance' => (float) $account->opening_balance,
-        ],
-        'entries' => $ledger->toArray(),
-        'closing_balance' => round($runningBalance, 2),
-    ];
-}
-
-public function getTrialBalance(): array
-{
-    $accounts = Account::where('is_active', true)
-        ->orderBy('code')
-        ->get();
-
-    $data = $accounts->map(function ($account) {
-        $balance = $this->getAccountBalance($account);
-
-        $debit = 0;
-        $credit = 0;
-
-        if (in_array($account->type, ['asset', 'expense'])) {
-            if ($balance >= 0) {
-                $debit = $balance;
-            } else {
-                $credit = abs($balance);
-            }
-        } else {
-            if ($balance >= 0) {
-                $credit = $balance;
-            } else {
-                $debit = abs($balance);
-            }
-        }
-
-        return [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'type' => $account->type,
-            'debit' => round($debit, 2),
-            'credit' => round($credit, 2),
-        ];
-    })->values();
-
-    $totalDebit = (float) $data->sum('debit');
-    $totalCredit = (float) $data->sum('credit');
-
-    return [
-        'accounts' => $data->toArray(),
-        'total_debit' => round($totalDebit, 2),
-        'total_credit' => round($totalCredit, 2),
-        'difference' => round($totalDebit - $totalCredit, 2),
-        'is_balanced' => round($totalDebit, 2) === round($totalCredit, 2),
-    ];
-}
-
-public function getProfitAndLoss(): array
-{
-    $incomeAccounts = Account::where('is_active', true)
-        ->where('type', 'income')
-        ->orderBy('code')
-        ->get();
-
-    $expenseAccounts = Account::where('is_active', true)
-        ->where('type', 'expense')
-        ->orderBy('code')
-        ->get();
-
-    $income = $incomeAccounts->map(function ($account) {
-        return [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'amount' => round(
-                $this->getAccountBalance($account),
-                2
-            ),
-        ];
-    })->values();
-
-    $expense = $expenseAccounts->map(function ($account) {
-        return [
-            'id' => $account->id,
-            'code' => $account->code,
-            'name' => $account->name,
-            'amount' => round(
-                $this->getAccountBalance($account),
-                2
-            ),
-        ];
-    })->values();
-
-    $totalIncome = round(
-        (float) $income->sum('amount'),
-        2
-    );
-
-    $totalExpense = round(
-        (float) $expense->sum('amount'),
-        2
-    );
-
-    $netProfitLoss = round(
-        $totalIncome - $totalExpense,
-        2
-    );
-
-    return [
-        'income' => $income->toArray(),
-        'total_income' => $totalIncome,
-
-        'expense' => $expense->toArray(),
-        'total_expense' => $totalExpense,
-
-        'net_profit_loss' => $netProfitLoss,
-
-        'status' => match (true) {
-            $netProfitLoss > 0 => 'profit',
-            $netProfitLoss < 0 => 'loss',
-            default => 'break_even',
-        },
-    ];
-}
-
-public function getFinanceDashboard(): array
-{
-    $cashBank = $this->getCashBankSummary();
-    $incomeExpense = $this->getIncomeExpenseSummary();
-    $trialBalance = $this->getTrialBalance();
-
-    $recentTransactions = Transaction::with('entries.account')
-        ->where('status', 'posted')
-        ->latest('transaction_date')
-        ->latest('id')
-        ->limit(10)
-        ->get()
-        ->map(function ($transaction) {
-            return [
-                'id' => $transaction->id,
-                'transaction_no' => $transaction->transaction_no,
-                'date' => $transaction->transaction_date,
-                'type' => $transaction->type,
-                'description' => $transaction->description,
-                'status' => $transaction->status,
-                'entries' => $transaction->entries->map(function ($entry) {
-                    return [
-                        'account_id' => $entry->account_id,
-                        'account_code' => $entry->account?->code,
-                        'account_name' => $entry->account?->name,
-                        'debit' => (float) $entry->debit,
-                        'credit' => (float) $entry->credit,
-                    ];
-                })->values()->toArray(),
-            ];
-        })
-        ->values()
-        ->toArray();
-
-    return [
-        'cash' => $cashBank['total_cash'],
-        'bank' => $cashBank['total_bank'],
-        'cash_bank_total' => $cashBank['total_cash_bank'],
-
-        'total_income' => $incomeExpense['total_income'],
-        'total_expense' => $incomeExpense['total_expense'],
-        'net_profit_loss' => $incomeExpense['net_profit_loss'],
-        'profit_loss_status' => $incomeExpense['net_profit_loss'] > 0
-            ? 'profit'
-            : ($incomeExpense['net_profit_loss'] < 0 ? 'loss' : 'break_even'),
-
-        'trial_balance' => [
-            'total_debit' => $trialBalance['total_debit'],
-            'total_credit' => $trialBalance['total_credit'],
-            'difference' => $trialBalance['difference'],
-            'is_balanced' => $trialBalance['is_balanced'],
-        ],
-
-        'recent_transactions' => $recentTransactions,
-    ];
-}
+        return $prefix.str_pad(
+            (string)$next,
+            6,
+            '0',
+            STR_PAD_LEFT
+        );
+    }
 }

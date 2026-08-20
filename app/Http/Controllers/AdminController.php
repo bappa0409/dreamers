@@ -42,9 +42,80 @@ class AdminController extends Controller
     }
 
     public function finance()
+    {
+        return view('admin.finance.index');
+    }
+    
+    public function incomes()
+    {
+        return view('admin.finance.incomes.index');
+    }
+    
+    public function expenses()
+    {
+        return view('admin.finance.expenses.index');
+    }
+
+    public function charges(): View
+    {
+        return view('admin.finance.charges.index');
+    }
+    
+    public function assets(): View
+    {
+        return view('admin.finance.assets.index');
+    }
+    
+    public function accounts(): View
 {
-    return view('admin.finance.index');
+    return view(
+        'admin.finance.accounts.index'
+    );
 }
+
+public function journals(): View
+{
+    return view('admin.finance.journals.index');
+}
+
+public function ledger(): View
+{
+    return view(
+        'admin.finance.ledger.index'
+    );
+}
+
+public function trialBalance(): View
+{
+    return view(
+        'admin.finance.reports.trial-balance'
+    );
+}
+
+public function balanceSheet(): View
+{
+    return view(
+        'admin.finance.reports.balance-sheet'
+    );
+}
+
+public function profitLoss(): View
+{
+    return view(
+        'admin.finance.reports.profit-loss'
+    );
+}
+
+public function subscriptionPayments()
+{
+    return view('admin.finance.subscription-payments.index');
+}
+
+public function sharePurchases()
+{
+    return view('admin.finance.share-purchases.index');
+}
+
     public function projects(): View
     {
         return view('admin.projects.index');
@@ -78,6 +149,11 @@ class AdminController extends Controller
     public function approvals(): View
     {
         return view('admin.approvals.index');
+    }
+
+    public function approvalWorkflows(): View
+    {
+        return view('admin.approvals.workflows');
     }
 
     public function mailing(): View

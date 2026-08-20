@@ -4,26 +4,17 @@
 @section('page_title','Roles & Permissions')
 
 @section('content')
-
 <div class="space-y-5">
-
-    {{-- =========================================================
-    HEADER
-    ========================================================== --}}
-    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white p-5 md:flex-row md:items-center md:justify-between">
+    {{-- Header --}}
+    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                 <i class="bi bi-shield-lock"></i>
             </div>
 
             <div>
-                <h1 class="text-xl font-bold text-slate-800">
-                    Roles & Permissions
-                </h1>
-
-                <p class="mt-1 text-sm text-slate-500">
-                    Manage system roles, custom roles and access permissions.
-                </p>
+                <h1 class="text-base font-bold text-slate-800">Roles & Permissions</h1>
+                <p class="text-sm text-slate-500">Manage system roles, custom roles and access permissions.</p>
             </div>
         </div>
 
@@ -39,23 +30,13 @@
         @endif
     </div>
 
-
-    {{-- =========================================================
-    STATISTICS
-    ========================================================== --}}
+    {{-- Statistics --}}
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
-
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-500">Total Roles</p>
-
-                    <p
-                        id="totalRoles"
-                        class="mt-2 text-xl font-bold text-slate-800"
-                    >
-                        0
-                    </p>
+                    <p id="totalRoles" class="mt-2 text-xl font-bold text-slate-800">0</p>
                 </div>
 
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
@@ -64,20 +45,11 @@
             </div>
         </div>
 
-
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-indigo-600">
-                        System Roles
-                    </p>
-
-                    <p
-                        id="systemRoles"
-                        class="mt-2 text-xl font-bold text-indigo-700"
-                    >
-                        0
-                    </p>
+                    <p class="text-xs text-indigo-600">System Roles</p>
+                    <p id="systemRoles" class="mt-2 text-xl font-bold text-indigo-700">0</p>
                 </div>
 
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
@@ -86,20 +58,11 @@
             </div>
         </div>
 
-
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-emerald-600">
-                        Custom Roles
-                    </p>
-
-                    <p
-                        id="customRoles"
-                        class="mt-2 text-xl font-bold text-emerald-700"
-                    >
-                        0
-                    </p>
+                    <p class="text-xs text-emerald-600">Custom Roles</p>
+                    <p id="customRoles" class="mt-2 text-xl font-bold text-emerald-700">0</p>
                 </div>
 
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -108,20 +71,11 @@
             </div>
         </div>
 
-
         <div class="col-span-2 rounded-md border border-amber-200 bg-amber-50/40 p-4 xl:col-span-1">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-amber-600">
-                        Permissions
-                    </p>
-
-                    <p
-                        id="totalPermissions"
-                        class="mt-2 text-xl font-bold text-amber-700"
-                    >
-                        0
-                    </p>
+                    <p class="text-xs text-amber-600">Permissions</p>
+                    <p id="totalPermissions" class="mt-2 text-xl font-bold text-amber-700">0</p>
                 </div>
 
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
@@ -129,32 +83,21 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-
-    {{-- =========================================================
-    SEARCH
-    ========================================================== --}}
+    {{-- Search --}}
     <div class="rounded-md border border-slate-200 bg-white p-3">
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-search text-sm"></i>
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-slate-700">
-                        Search Roles
-                    </p>
-
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
-                        Search by role name, display name or description
-                    </p>
+                    <p class="text-sm font-semibold text-slate-700">Search Roles</p>
+                    <p class="hidden text-[11px] text-slate-400 sm:block">Search by role name, display name or description</p>
                 </div>
             </div>
-
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
@@ -177,113 +120,59 @@
                     Clear
                 </button>
             </div>
-
         </div>
     </div>
 
-
-    {{-- =========================================================
-    TABLE
-    ========================================================== --}}
+    {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[900px] text-sm">
-
+        <div class="w-full overflow-hidden">
+            <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Role
-                        </th>
-
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Type
-                        </th>
-
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Users
-                        </th>
-
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Permissions
-                        </th>
-
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                            Actions
-                        </th>
+                        <th class="w-[34%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Role</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Users</th>
+                        <th class="w-[24%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Permissions</th>
+                        <th class="w-[16%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="rolesTable">
                     <tr>
-                        <td
-                            colspan="5"
-                            class="px-5 py-10 text-center text-slate-400"
-                        >
+                        <td colspan="5" class="px-5 py-10 text-center text-slate-400">
                             Loading roles...
                         </td>
                     </tr>
                 </tbody>
-
             </table>
         </div>
 
-        <div
-            id="paginationContainer"
-            class="border-t border-slate-200 px-4 py-3"
-        ></div>
+        <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
-
 </div>
 
-
-{{-- =============================================================
-ROLE MODAL
-============================================================= --}}
-<div
-    id="roleModal"
-    class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5"
->
+{{-- Role Modal --}}
+<div id="roleModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
-
-        {{-- Header --}}
-        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3 sm:px-6">
             <div class="flex min-w-0 items-center gap-3">
-
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-shield-lock"></i>
                 </div>
 
                 <div class="min-w-0">
-                    <h2
-                        id="roleModalTitle"
-                        class="text-lg font-bold text-slate-800"
-                    >
-                        Add Role
-                    </h2>
-
-                    <p class="mt-1 text-xs text-slate-500">
-                        Configure role information and access permissions.
-                    </p>
+                    <h2 id="roleModalTitle" class="text-lg font-bold text-slate-800">Add Role</h2>
+                    <p class="text-xs text-slate-500">Configure role information and access permissions.</p>
                 </div>
             </div>
 
-            <button
-                type="button"
-                onclick="closeRoleModal()"
-                class="app-modal-close"
-            >
+            <button type="button" onclick="closeRoleModal()" class="app-modal-close">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
 
-
-        {{-- Form --}}
-        <form
-            id="roleForm"
-            class="flex min-h-0 flex-1 flex-col"
-        >
+        <form id="roleForm" class="flex min-h-0 flex-1 flex-col">
             <div class="space-y-4 overflow-y-auto p-5 sm:p-6">
-
                 {{-- Role Information --}}
                 <section class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="mb-4 flex items-center gap-2">
@@ -292,23 +181,14 @@ ROLE MODAL
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">
-                                Role Information
-                            </h3>
-
-                            <p class="text-[11px] text-slate-400">
-                                Basic identity of this role.
-                            </p>
+                            <h3 class="text-sm font-semibold text-slate-800">Role Information</h3>
+                            <p class="text-[11px] text-slate-400">Basic identity of this role.</p>
                         </div>
                     </div>
 
-
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-
                         <div>
-                            <label class="form-label">
-                                Role Name *
-                            </label>
+                            <label class="form-label">Role Name *</label>
 
                             <div class="relative">
                                 <i class="bi bi-code-slash pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
@@ -316,21 +196,17 @@ ROLE MODAL
                                 <input
                                     id="roleName"
                                     type="text"
+                                    maxlength="100"
                                     class="app-input !pl-9"
                                     placeholder="project_manager"
                                 >
                             </div>
 
-                            <p class="mt-1 text-[10px] text-slate-400">
-                                Lowercase letters, numbers and underscore only.
-                            </p>
+                            <p class="mt-1 text-[10px] text-slate-400">Lowercase letters, numbers and underscore only.</p>
                         </div>
 
-
                         <div>
-                            <label class="form-label">
-                                Display Name *
-                            </label>
+                            <label class="form-label">Display Name *</label>
 
                             <div class="relative">
                                 <i class="bi bi-type pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
@@ -338,51 +214,40 @@ ROLE MODAL
                                 <input
                                     id="roleDisplayName"
                                     type="text"
+                                    maxlength="150"
                                     class="app-input !pl-9"
                                     placeholder="Project Manager"
                                 >
                             </div>
                         </div>
-
                     </div>
 
-
                     <div class="mt-4">
-                        <label class="form-label">
-                            Description
-                        </label>
+                        <label class="form-label">Description</label>
 
                         <textarea
                             id="roleDescription"
                             rows="3"
+                            maxlength="1000"
                             class="app-input resize-none"
                             placeholder="Describe what this role is responsible for..."
                         ></textarea>
                     </div>
                 </section>
 
-
                 {{-- Permissions --}}
                 <section class="overflow-hidden rounded-md border border-slate-200 bg-white">
-
                     <div class="flex flex-col gap-3 border-b border-slate-200 bg-slate-50/70 p-4 sm:flex-row sm:items-center sm:justify-between">
-
                         <div class="flex items-center gap-2">
                             <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-100 text-violet-600">
                                 <i class="bi bi-key"></i>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold text-slate-800">
-                                    Access Permissions
-                                </h3>
-
-                                <p class="text-[11px] text-slate-400">
-                                    Select exactly what this role can access.
-                                </p>
+                                <h3 class="text-sm font-semibold text-slate-800">Access Permissions</h3>
+                                <p class="text-[11px] text-slate-400">Select exactly what this role can access.</p>
                             </div>
                         </div>
-
 
                         <div class="flex gap-2">
                             <button
@@ -403,33 +268,19 @@ ROLE MODAL
                                 Clear
                             </button>
                         </div>
-
                     </div>
 
-
-                    <div
-                        id="permissionContainer"
-                        class="space-y-3 p-4"
-                    >
+                    <div id="permissionContainer" class="space-y-3 p-4">
                         <div class="py-8 text-center text-sm text-slate-400">
                             Loading permissions...
                         </div>
                     </div>
-
                 </section>
 
-
-                <div
-                    id="roleFormError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
-                ></div>
-
+                <div id="roleFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
             </div>
 
-
-            {{-- Footer --}}
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
-
                 <button
                     type="button"
                     onclick="closeRoleModal()"
@@ -445,13 +296,10 @@ ROLE MODAL
                 >
                     Save Role
                 </button>
-
             </div>
         </form>
-
     </div>
 </div>
-
 
 <style>
 .form-label{
@@ -463,14 +311,11 @@ ROLE MODAL
 }
 </style>
 
-
 <script>
 let roles=[];
 let permissionGroups={};
 let editingRole=null;
-
 let currentPage=1;
-let lastPage=1;
 
 const perPage=10;
 
@@ -494,77 +339,52 @@ const el={
     saveButton:document.getElementById('saveRoleButton')
 };
 
-
-/*
-|--------------------------------------------------------------------------
-| Load Roles
-|--------------------------------------------------------------------------
-*/
-
 async function loadRoles(){
-    el.table.innerHTML=
-        AdminUI.loadingState(
-            'Loading roles...',
-            5
-        );
+    el.table.innerHTML=AdminUI.loadingState('Loading roles...',5);
 
     try{
-        const response=
-            await api('/api/roles');
+        const response=await api('/api/roles');
 
         roles=Array.isArray(response.data)
             ?response.data
             :[];
 
-        currentPage=1;
-
-        updateRoleStats();
         renderRoles();
-
+        updateRoleStats();
     }catch(error){
-        el.table.innerHTML=
-            AdminUI.emptyState(
-                AdminUI.extractError(error),
-                5
-            );
+        el.table.innerHTML=AdminUI.emptyState(
+            AdminUI.extractError(error),
+            5
+        );
     }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Load Permissions
-|--------------------------------------------------------------------------
-*/
-
 async function loadPermissions(){
+    el.permissionContainer.innerHTML=`
+        <div class="py-8 text-center text-sm text-slate-400">
+            <span class="inline-flex items-center gap-2">
+                <i class="bi bi-arrow-repeat animate-spin"></i>
+                Loading permissions...
+            </span>
+        </div>
+    `;
+
     try{
-        const response=
-            await api('/api/roles/permissions');
+        const response=await api('/api/roles/permissions');
 
         permissionGroups=
             response.data??{};
 
         renderPermissionGroups();
         updateRoleStats();
-
     }catch(error){
         el.permissionContainer.innerHTML=`
             <div class="rounded-md border border-red-200 bg-red-50 p-5 text-center text-xs text-red-600">
-                ${AdminUI.escapeHtml(
-                    AdminUI.extractError(error)
-                )}
+                ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         `;
     }
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| Filter Roles
-|--------------------------------------------------------------------------
-*/
 
 function filteredRoles(){
     const search=
@@ -577,41 +397,24 @@ function filteredRoles(){
     }
 
     return roles.filter(role=>{
-        return String(
-            role.name??''
-        )
-        .toLowerCase()
-        .includes(search)
-        ||
-        String(
-            role.display_name??''
-        )
-        .toLowerCase()
-        .includes(search)
-        ||
-        String(
-            role.description??''
-        )
-        .toLowerCase()
-        .includes(search);
+        const haystack=[
+            role.name,
+            role.display_name,
+            role.description
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return haystack.includes(search);
     });
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Pagination
-|--------------------------------------------------------------------------
-*/
-
 function paginatedRoles(){
-    const filtered=
-        filteredRoles();
+    const filtered=filteredRoles();
 
-    lastPage=Math.max(
-        Math.ceil(
-            filtered.length/perPage
-        ),
+    const lastPage=Math.max(
+        Math.ceil(filtered.length/perPage),
         1
     );
 
@@ -622,31 +425,20 @@ function paginatedRoles(){
     const start=
         (currentPage-1)*perPage;
 
-    return {
+    return{
         data:filtered.slice(
             start,
             start+perPage
         ),
-
-        total:filtered.length
+        total:filtered.length,
+        lastPage
     };
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Render Roles
-|--------------------------------------------------------------------------
-*/
-
 function renderRoles(){
-    const result=
-        paginatedRoles();
+    const result=paginatedRoles();
 
-    const data=
-        result.data;
-
-    if(!data.length){
+    if(!result.data.length){
         el.table.innerHTML=
             AdminUI.emptyState(
                 'No roles found.',
@@ -654,13 +446,14 @@ function renderRoles(){
             );
 
         renderRolePagination(
-            result.total
+            result.total,
+            result.lastPage
         );
 
         return;
     }
 
-    el.table.innerHTML=data.map(role=>{
+    el.table.innerHTML=result.data.map(role=>{
         const isSystem=
             Boolean(role.is_system);
 
@@ -673,89 +466,80 @@ function renderRoles(){
         const userCount=
             role.users_count??0;
 
-        return `
-            <tr class="border-b border-slate-100 transition hover:bg-slate-50">
-
-                <td class="px-4 py-4">
-                    <div class="max-w-[340px]">
-
-                        <p class="truncate text-xs font-semibold text-slate-800">
-                            ${AdminUI.escapeHtml(
-                                role.display_name||
-                                role.name
-                            )}
+        return`
+            <tr class="border-b border-slate-100 transition last:border-0 hover:bg-slate-50">
+                <td class="min-w-0 px-4 py-3">
+                    <div class="min-w-0">
+                        <p
+                            class="truncate text-xs font-semibold text-slate-800"
+                            title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
+                        >
+                            ${AdminUI.escapeHtml(role.display_name||role.name||'—')}
                         </p>
 
-                        <p class="mt-1 truncate font-mono text-[10px] text-slate-400">
-                            ${AdminUI.escapeHtml(
-                                role.name
-                            )}
+                        <p
+                            class="mt-1 truncate font-mono text-[10px] text-slate-400"
+                            title="${AdminUI.escapeHtml(role.name??'')}"
+                        >
+                            ${AdminUI.escapeHtml(role.name??'')}
                         </p>
 
                         ${
                             role.description
                                 ?`
-                                    <p class="mt-1 truncate text-[11px] text-slate-500">
-                                        ${AdminUI.escapeHtml(
-                                            role.description
-                                        )}
+                                    <p
+                                        class="mt-1 truncate text-[11px] text-slate-500"
+                                        title="${AdminUI.escapeHtml(role.description)}"
+                                    >
+                                        ${AdminUI.escapeHtml(role.description)}
                                     </p>
                                 `
                                 :''
                         }
-
                     </div>
                 </td>
 
-
-                <td class="px-4 py-4">
+                <td class="px-4 py-3">
                     ${
                         isSystem
                             ?`
-                                <span class="rounded-md bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
+                                <span class="inline-flex rounded-md bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
                                     System
                                 </span>
                             `
                             :`
-                                <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
+                                <span class="inline-flex rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
                                     Custom
                                 </span>
                             `
                     }
                 </td>
 
-
-                <td class="px-4 py-4">
-                    <p class="text-xs font-semibold text-slate-700">
-                        ${userCount}
-                    </p>
-
+                <td class="px-4 py-3">
+                    <p class="text-xs font-semibold text-slate-700">${userCount}</p>
                     <p class="mt-0.5 text-[10px] text-slate-400">
-                        users
+                        ${Number(userCount)===1?'user':'users'}
                     </p>
                 </td>
 
-
-                <td class="px-4 py-4">
+                <td class="min-w-0 px-4 py-3">
                     ${
                         isSystemAnalyst
                             ?`
-                                <span class="rounded-md bg-violet-50 px-2 py-1 text-[10px] font-semibold text-violet-700">
+                                <span class="inline-flex rounded-md bg-violet-50 px-2 py-1 text-[10px] font-semibold text-violet-700">
                                     Full Access
                                 </span>
                             `
                             :`
-                                <span class="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">
-                                    ${permissionCount} permissions
+                                <span class="inline-flex max-w-full rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">
+                                    ${permissionCount} permission${Number(permissionCount)===1?'':'s'}
                                 </span>
                             `
                     }
                 </td>
 
-
-                <td class="px-4 py-4">
-                    <div class="flex justify-end gap-1">
-
+                <td class="px-4 py-3">
+                    <div class="flex items-center justify-end gap-1">
                         ${
                             canEditRole&&!isSystemAnalyst
                                 ?`
@@ -798,100 +582,54 @@ function renderRoles(){
                                 `
                                 :''
                         }
-
                     </div>
                 </td>
-
             </tr>
         `;
     }).join('');
 
     renderRolePagination(
-        result.total
+        result.total,
+        result.lastPage
     );
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Render Pagination
-|--------------------------------------------------------------------------
-*/
-
-function renderRolePagination(total){
+function renderRolePagination(total,lastPage){
     AdminUI.renderPagination({
         container:'paginationContainer',
         currentPage,
         lastPage,
         total,
-
         onPageChange:page=>{
             currentPage=page;
-
             renderRoles();
-
-            window.scrollTo({
-                top:document
-                    .getElementById('rolesTable')
-                    .closest('table')
-                    .offsetTop,
-
-                behavior:'smooth'
-            });
         }
     });
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Statistics
-|--------------------------------------------------------------------------
-*/
-
 function updateRoleStats(){
-    document.getElementById(
-        'totalRoles'
-    ).innerText=
+    document.getElementById('totalRoles').innerText=
         roles.length;
 
-    document.getElementById(
-        'systemRoles'
-    ).innerText=
+    document.getElementById('systemRoles').innerText=
         roles.filter(
             role=>Boolean(role.is_system)
         ).length;
 
-    document.getElementById(
-        'customRoles'
-    ).innerText=
+    document.getElementById('customRoles').innerText=
         roles.filter(
             role=>!Boolean(role.is_system)
         ).length;
 
-    const permissions=
-        Object.values(
-            permissionGroups
-        ).flat();
-
-    document.getElementById(
-        'totalPermissions'
-    ).innerText=
-        permissions.length;
+    document.getElementById('totalPermissions').innerText=
+        Object.values(permissionGroups)
+            .flat()
+            .length;
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| Permission Groups
-|--------------------------------------------------------------------------
-*/
 
 function renderPermissionGroups(){
     const groups=
-        Object.entries(
-            permissionGroups
-        );
+        Object.entries(permissionGroups);
 
     if(!groups.length){
         el.permissionContainer.innerHTML=`
@@ -904,115 +642,84 @@ function renderPermissionGroups(){
     }
 
     el.permissionContainer.innerHTML=
-        groups.map(
-            ([module,permissions])=>`
-                <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-
-                    <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
-
-                        <div class="flex items-center gap-2">
-
-                            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
-                                <i class="bi bi-grid"></i>
-                            </div>
-
-                            <div>
-                                <h4 class="text-xs font-semibold text-slate-800">
-                                    ${AdminUI.escapeHtml(module)}
-                                </h4>
-
-                                <p class="text-[10px] text-slate-400">
-                                    ${permissions.length} permissions
-                                </p>
-                            </div>
-
+        groups.map(([module,permissions])=>`
+            <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+                <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
+                    <div class="flex min-w-0 items-center gap-2">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                            <i class="bi bi-grid"></i>
                         </div>
 
+                        <div class="min-w-0">
+                            <h4 class="truncate text-xs font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(module)}
+                            </h4>
 
-                        <button
-                            type="button"
-                            data-module="${AdminUI.escapeHtml(module)}"
-                            class="module-toggle-btn cursor-pointer rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[10px] font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
-                        >
-                            Toggle All
-                        </button>
-
+                            <p class="text-[10px] text-slate-400">
+                                ${permissions.length} permission${permissions.length===1?'':'s'}
+                            </p>
+                        </div>
                     </div>
 
+                    <button
+                        type="button"
+                        data-module="${AdminUI.escapeHtml(module)}"
+                        class="module-toggle-btn cursor-pointer rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[10px] font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
+                    >
+                        Toggle All
+                    </button>
+                </div>
 
-                    <div class="grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    ${permissions.map(permission=>`
+                        <label class="group flex min-w-0 cursor-pointer items-start gap-2.5 rounded-md border border-slate-200 bg-white p-3 transition hover:border-indigo-200 hover:bg-indigo-50/40">
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-slate-300 text-indigo-600"
+                                value="${permission.id}"
+                                data-module="${AdminUI.escapeHtml(module)}"
+                            >
 
-                        ${permissions.map(permission=>`
-                            <label class="group flex cursor-pointer items-start gap-2.5 rounded-md border border-slate-200 bg-white p-3 transition hover:border-indigo-200 hover:bg-indigo-50/40">
-
-                                <input
-                                    type="checkbox"
-                                    class="permission-checkbox mt-0.5 h-4 w-4 cursor-pointer rounded border-slate-300 text-indigo-600"
-                                    value="${permission.id}"
-                                    data-module="${AdminUI.escapeHtml(module)}"
+                            <span class="min-w-0">
+                                <span
+                                    class="block truncate text-xs font-semibold text-slate-700 group-hover:text-indigo-700"
+                                    title="${AdminUI.escapeHtml(permission.display_name||permission.name||'')}"
                                 >
-
-                                <span class="min-w-0">
-                                    <span class="block text-xs font-semibold text-slate-700 group-hover:text-indigo-700">
-                                        ${AdminUI.escapeHtml(
-                                            permission.display_name||
-                                            permission.name
-                                        )}
-                                    </span>
-
-                                    <span class="mt-1 block break-all font-mono text-[9px] text-slate-400">
-                                        ${AdminUI.escapeHtml(
-                                            permission.name
-                                        )}
-                                    </span>
+                                    ${AdminUI.escapeHtml(permission.display_name||permission.name||'')}
                                 </span>
 
-                            </label>
-                        `).join('')}
-
-                    </div>
-
+                                <span
+                                    class="mt-1 block truncate font-mono text-[9px] text-slate-400"
+                                    title="${AdminUI.escapeHtml(permission.name??'')}"
+                                >
+                                    ${AdminUI.escapeHtml(permission.name??'')}
+                                </span>
+                            </span>
+                        </label>
+                    `).join('')}
                 </div>
-            `
-        ).join('');
+            </div>
+        `).join('');
 
     document
         .querySelectorAll('.module-toggle-btn')
         .forEach(button=>{
-            button.addEventListener(
-                'click',
-                ()=>{
-                    toggleModulePermissions(
-                        button.dataset.module
-                    );
-                }
-            );
+            button.addEventListener('click',()=>{
+                toggleModulePermissions(
+                    button.dataset.module
+                );
+            });
         });
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Open Modal
-|--------------------------------------------------------------------------
-*/
-
-function openRoleModal(role=null){
+window.openRoleModal=function(role=null){
     editingRole=role;
 
-    AdminUI.resetForm(
-        el.form
-    );
-
-    AdminUI.clearError(
-        'roleFormError'
-    );
-
+    AdminUI.resetForm(el.form);
+    AdminUI.clearError('roleFormError');
     clearAllPermissions();
 
-    document.getElementById(
-        'roleModalTitle'
-    ).innerText=
+    document.getElementById('roleModalTitle').innerText=
         role
             ?'Edit Role'
             :'Add Role';
@@ -1021,6 +728,9 @@ function openRoleModal(role=null){
         role
             ?'Update Role'
             :'Save Role';
+
+    el.name.disabled=
+        Boolean(role);
 
     if(role){
         el.name.value=
@@ -1032,55 +742,33 @@ function openRoleModal(role=null){
         el.description.value=
             role.description??'';
 
-        const ids=
+        const permissionIds=
             (role.permissions??[])
-                .map(
-                    permission=>
-                        Number(permission.id)
+                .map(permission=>
+                    Number(permission.id)
                 );
 
         document
-            .querySelectorAll(
-                '.permission-checkbox'
-            )
+            .querySelectorAll('.permission-checkbox')
             .forEach(checkbox=>{
                 checkbox.checked=
-                    ids.includes(
-                        Number(
-                            checkbox.value
-                        )
+                    permissionIds.includes(
+                        Number(checkbox.value)
                     );
             });
     }
 
-    AdminUI.openModal(
-        'roleModal'
-    );
-}
+    AdminUI.openModal('roleModal');
+};
 
-
-/*
-|--------------------------------------------------------------------------
-| Close Modal
-|--------------------------------------------------------------------------
-*/
-
-function closeRoleModal(){
-    AdminUI.closeModal(
-        'roleModal'
-    );
+window.closeRoleModal=function(){
+    AdminUI.closeModal('roleModal');
 
     editingRole=null;
-}
+    el.name.disabled=false;
+};
 
-
-/*
-|--------------------------------------------------------------------------
-| Edit
-|--------------------------------------------------------------------------
-*/
-
-function editRole(id){
+window.editRole=function(id){
     const role=
         roles.find(
             item=>
@@ -1089,10 +777,7 @@ function editRole(id){
         );
 
     if(!role){
-        Toast.error(
-            'Role not found.'
-        );
-
+        Toast.error('Role not found.');
         return;
     }
 
@@ -1105,54 +790,34 @@ function editRole(id){
     }
 
     openRoleModal(role);
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Permission Helpers
-|--------------------------------------------------------------------------
-*/
+};
 
 function selectedPermissionIds(){
-    return [
+    return[
         ...document.querySelectorAll(
             '.permission-checkbox:checked'
         )
     ].map(
         checkbox=>
-            Number(
-                checkbox.value
-            )
+            Number(checkbox.value)
     );
 }
 
-
-function selectAllPermissions(){
+window.selectAllPermissions=function(){
     document
-        .querySelectorAll(
-            '.permission-checkbox'
-        )
-        .forEach(
-            checkbox=>{
-                checkbox.checked=true;
-            }
-        );
-}
+        .querySelectorAll('.permission-checkbox')
+        .forEach(checkbox=>{
+            checkbox.checked=true;
+        });
+};
 
-
-function clearAllPermissions(){
+window.clearAllPermissions=function(){
     document
-        .querySelectorAll(
-            '.permission-checkbox'
-        )
-        .forEach(
-            checkbox=>{
-                checkbox.checked=false;
-            }
-        );
-}
-
+        .querySelectorAll('.permission-checkbox')
+        .forEach(checkbox=>{
+            checkbox.checked=false;
+        });
+};
 
 function toggleModulePermissions(module){
     const checkboxes=[
@@ -1161,172 +826,122 @@ function toggleModulePermissions(module){
         )
     ].filter(
         checkbox=>
-            checkbox.dataset.module===
-            module
+            checkbox.dataset.module===module
     );
 
     const shouldCheck=
         checkboxes.some(
-            checkbox=>
-                !checkbox.checked
+            checkbox=>!checkbox.checked
         );
 
-    checkboxes.forEach(
-        checkbox=>{
-            checkbox.checked=
-                shouldCheck;
-        }
-    );
+    checkboxes.forEach(checkbox=>{
+        checkbox.checked=shouldCheck;
+    });
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Role Name Formatter
-|--------------------------------------------------------------------------
-*/
-
-el.name.addEventListener(
-    'input',
-    function(){
-        if(editingRole){
-            return;
-        }
-
-        this.value=
-            this.value
-                .toLowerCase()
-                .replace(/\s+/g,'_')
-                .replace(
-                    /[^a-z0-9_]/g,
-                    ''
-                );
+el.name.addEventListener('input',function(){
+    if(editingRole){
+        return;
     }
-);
 
+    this.value=
+        this.value
+            .toLowerCase()
+            .replace(/\s+/g,'_')
+            .replace(/[^a-z0-9_]/g,'');
+});
 
-/*
-|--------------------------------------------------------------------------
-| Save Role
-|--------------------------------------------------------------------------
-*/
+el.form.addEventListener('submit',async event=>{
+    event.preventDefault();
 
-el.form.addEventListener(
-    'submit',
-    async event=>{
-        event.preventDefault();
+    AdminUI.clearError('roleFormError');
 
-        AdminUI.clearError(
-            'roleFormError'
+    const data={
+        name:el.name.value.trim(),
+        display_name:el.displayName.value.trim(),
+        description:
+            el.description.value.trim()||null,
+        permission_ids:
+            selectedPermissionIds()
+    };
+
+    if(!data.name){
+        AdminUI.showError(
+            'roleFormError',
+            'Role name is required.'
         );
 
-        const data={
-            name:
-                el.name.value.trim(),
+        return;
+    }
 
-            display_name:
-                el.displayName.value.trim(),
-
-            description:
-                el.description.value.trim()
-                ||null,
-
-            permission_ids:
-                selectedPermissionIds()
-        };
-
-
-        if(!data.name){
-            AdminUI.showError(
-                'roleFormError',
-                'Role name is required.'
-            );
-
-            return;
-        }
-
-
-        if(!data.display_name){
-            AdminUI.showError(
-                'roleFormError',
-                'Display name is required.'
-            );
-
-            return;
-        }
-
-
-        AdminUI.setLoading(
-            el.saveButton,
-            editingRole
-                ?'Updating...'
-                :'Saving...'
+    if(!/^[a-z0-9_]+$/.test(data.name)){
+        AdminUI.showError(
+            'roleFormError',
+            'Role name may contain only lowercase letters, numbers and underscores.'
         );
 
-
-        try{
-            const editing=
-                Boolean(
-                    editingRole
-                );
-
-            await api(
-                editing
-                    ?`/api/roles/${editingRole.id}`
-                    :'/api/roles',
-                {
-                    method:
-                        editing
-                            ?'PUT'
-                            :'POST',
-
-                    body:
-                        JSON.stringify(
-                            data
-                        )
-                }
-            );
-
-
-            closeRoleModal();
-
-
-            Toast.success(
-                editing
-                    ?'Role updated successfully.'
-                    :'Role created successfully.'
-            );
-
-
-            await Promise.all([
-                loadRoles(),
-                loadPermissions()
-            ]);
-
-        }catch(error){
-            AdminUI.showError(
-                'roleFormError',
-                AdminUI.extractError(
-                    error
-                )
-            );
-
-        }finally{
-            AdminUI.resetLoading(
-                el.saveButton
-            );
-        }
+        return;
     }
-);
 
+    if(!data.display_name){
+        AdminUI.showError(
+            'roleFormError',
+            'Display name is required.'
+        );
 
-/*
-|--------------------------------------------------------------------------
-| Delete Role
-|--------------------------------------------------------------------------
-*/
+        return;
+    }
 
-function deleteRole(id){
+    AdminUI.setLoading(
+        el.saveButton,
+        editingRole
+            ?'Updating...'
+            :'Saving...'
+    );
+
+    try{
+        const editing=
+            Boolean(editingRole);
+
+        await api(
+            editing
+                ?`/api/roles/${editingRole.id}`
+                :'/api/roles',
+            {
+                method:
+                    editing
+                        ?'PUT'
+                        :'POST',
+
+                body:JSON.stringify(data)
+            }
+        );
+
+        closeRoleModal();
+
+        Toast.success(
+            editing
+                ?'Role updated successfully.'
+                :'Role created successfully.'
+        );
+
+        await Promise.all([
+            loadRoles(),
+            loadPermissions()
+        ]);
+    }catch(error){
+        AdminUI.showError(
+            'roleFormError',
+            AdminUI.extractError(error)
+        );
+    }finally{
+        AdminUI.resetLoading(
+            el.saveButton
+        );
+    }
+});
+
+window.deleteRole=function(id){
     const role=
         roles.find(
             item=>
@@ -1335,9 +950,9 @@ function deleteRole(id){
         );
 
     if(!role){
+        Toast.error('Role not found.');
         return;
     }
-
 
     if(role.is_system){
         Toast.warning(
@@ -1347,17 +962,28 @@ function deleteRole(id){
         return;
     }
 
-
     AdminUI.deleteRequest(
         `/api/roles/${id}`,
         {
-            message:
-                `Delete role "${role.display_name||role.name}"?`,
-
-            successMessage:
-                'Role deleted successfully.',
-
+            title:'Delete Role?',
+            message:'This role will be permanently deleted. Users assigned to this role may lose related access permissions.',
+            confirmText:'Delete',
+            successMessage:'Role deleted successfully.',
             onSuccess:async()=>{
+                const remaining=
+                    filteredRoles().length-1;
+
+                if(
+                    remaining>0&&
+                    (currentPage-1)*perPage>=remaining
+                ){
+                    currentPage=
+                        Math.max(
+                            currentPage-1,
+                            1
+                        );
+                }
+
                 await Promise.all([
                     loadRoles(),
                     loadPermissions()
@@ -1365,29 +991,14 @@ function deleteRole(id){
             }
         }
     );
-}
+};
 
-
-/*
-|--------------------------------------------------------------------------
-| Search
-|--------------------------------------------------------------------------
-*/
-
-function clearRoleSearch(){
+window.clearRoleSearch=function(){
     el.search.value='';
-
     currentPage=1;
 
     renderRoles();
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Initialize
-|--------------------------------------------------------------------------
-*/
+};
 
 async function initRolePage(){
     if(
@@ -1402,27 +1013,21 @@ async function initRolePage(){
         return;
     }
 
-
     el.search.addEventListener(
         'input',
-        AdminUI.debounce(
-            ()=>{
-                currentPage=1;
-                renderRoles();
-            }
-        )
+        AdminUI.debounce(()=>{
+            currentPage=1;
+            renderRoles();
+        })
     );
-
 
     await Promise.all([
         loadPermissions(),
         loadRoles()
     ]);
 
-
     updateRoleStats();
 }
-
 
 if(document.readyState==='loading'){
     document.addEventListener(
@@ -1433,5 +1038,4 @@ if(document.readyState==='loading'){
     initRolePage();
 }
 </script>
-
 @endsection

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
@@ -120,60 +121,72 @@ class MemberController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated=$request->validate([
-        'name'=>'required|string|max:150',
-        'email'=>'required|email:rfc|max:255|unique:users,email',
-        'mobile'=>'nullable|string|max:20|unique:users,mobile',
-        'language'=>'nullable|in:en,bn',
-        'phone'=>'nullable|string|max:30',
-        'alternate_phone'=>'nullable|string|max:30',
-        'date_of_birth'=>'nullable|date|before:today',
-        'gender'=>'nullable|string|max:30',
-        'address'=>'nullable|string|max:2000',
-        'city'=>'nullable|string|max:100',
-        'district'=>'nullable|string|max:100',
-        'notes'=>'nullable|string|max:5000',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:150',
+            'email' => 'required|email:rfc|max:255|unique:users,email',
+            'mobile' => 'nullable|string|max:20|unique:users,mobile',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'language' => 'nullable|in:en,bn',
+            'phone' => 'nullable|string|max:30',
+            'alternate_phone' => 'nullable|string|max:30',
+            'date_of_birth' => 'nullable|date|before:today',
+            'gender' => 'nullable|string|max:30',
+            'address' => 'nullable|string|max:2000',
+            'city' => 'nullable|string|max:100',
+            'district' => 'nullable|string|max:100',
+            'notes' => 'nullable|string|max:5000',
+        ]);
 
-    $autoActivate=(bool)setting('auto_activate_member',false);
-
-    $member=$this->memberService->createMember($validated);
-    $approval=null;
-
-    if(!$autoActivate){
-        $approval=$this->approvalService->createRequest(
-            $member,
-            'Member',
-            'create',
-            auth()->id(),
-            'New member registration requires approval.'
+        $autoActivate = (bool)setting(
+            'auto_activate_member',
+            false
         );
-    }else{
-        DB::afterCommit(function() use($member){
-            try{
-                $member->loadMissing('user');
 
-                if($member->user){
-                    $this->passwordSetupService->send($member->user);
+        $member = $this->memberService
+            ->createMember($validated);
+
+        $approval = null;
+
+        if (!$autoActivate) {
+            $approval =
+                $this->approvalService
+                ->createRequest(
+                    $member,
+                    'Member',
+                    'create',
+                    auth()->id(),
+                    'New member registration requires approval.'
+                );
+        } else {
+            DB::afterCommit(
+                function () use ($member) {
+                    try {
+                        $member->loadMissing('user');
+
+                        if ($member->user) {
+                            $this->passwordSetupService
+                                ->send($member->user);
+                        }
+                    } catch (\Throwable $e) {
+                        report($e);
+                    }
                 }
-            }catch(\Throwable $e){
-                report($e);
-            }
-        });
-    }
+            );
+        }
 
-    return response()->json([
-        'success'=>true,
-        'message'=>$autoActivate
-            ?'Member created and activated successfully.'
-            :'Member created successfully and sent for approval.',
-        'data'=>[
-            'member'=>$member->loadMissing('user.roles'),
-            'approval'=>$approval
-        ]
-    ],201);
-}
+        return response()->json([
+            'success' => true,
+            'message' => $autoActivate
+                ? 'Member created and activated successfully.'
+                : 'Member created successfully and sent for approval.',
+            'data' => [
+                'member' => $member
+                    ->loadMissing('user.roles'),
+                'approval' => $approval,
+            ],
+        ], 201);
+    }
 
     public function update(Request $request, Member $member)
     {

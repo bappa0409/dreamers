@@ -36,6 +36,17 @@ class Member extends Model
         'joining_date' => 'date',
     ];
 
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    public function getProfilePhotoUrlAttribute(): ?string
+    {
+        return $this->profile_photo
+            ? asset('storage/' . $this->profile_photo)
+            : null;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -64,5 +75,31 @@ class Member extends Model
     public function tellerTransactions()
     {
         return $this->hasMany(TellerTransaction::class);
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(MemberSubscription::class);
+    }
+
+    public function subscriptionPayments(): HasMany
+    {
+        return $this->hasMany(SubscriptionPayment::class);
+    }
+
+    public function charges(): HasMany
+    {
+        return $this->hasMany(MemberCharge::class);
+    }
+
+    public function shares(): HasMany
+    {
+        return $this->hasMany(MemberShare::class);
+    }
+
+    public function activeShares(): HasMany
+    {
+        return $this->hasMany(MemberShare::class)
+            ->where('status', 'active');
     }
 }

@@ -15,7 +15,7 @@
             </div>
 
             <div>
-                <h1 class="text-xl font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-bold tracking-tight text-slate-800">
                     Welcome, {{ $user->name }}
                 </h1>
 

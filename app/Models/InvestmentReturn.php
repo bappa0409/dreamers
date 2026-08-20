@@ -15,12 +15,13 @@ class InvestmentReturn extends Model
     protected string $activityLogLabelColumn='id';
 
     protected $fillable=[
-        'investment_id','amount','return_date','description','status'
+        'investment_id','return_type','receive_account_id','amount','return_date',
+        'description','status','finance_transaction_id'
     ];
 
     protected function casts(): array
     {
-        return [
+        return[
             'amount'=>'decimal:2',
             'return_date'=>'date'
         ];
@@ -29,5 +30,15 @@ class InvestmentReturn extends Model
     public function investment(): BelongsTo
     {
         return $this->belongsTo(Investment::class);
+    }
+
+    public function receiveAccount(): BelongsTo
+    {
+        return $this->belongsTo(Account::class,'receive_account_id');
+    }
+
+    public function financeTransaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class,'finance_transaction_id');
     }
 }

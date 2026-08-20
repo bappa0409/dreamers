@@ -13,27 +13,20 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-
-            $table->string('name');
+            $table->foreignId('parent_id')->nullable()->constrained('accounts')->nullOnDelete();
+            $table->string('name')->index();
             $table->string('code')->unique();
-
-            $table->enum('type', [
-                'cash',
-                'bank',
-                'asset',
-                'liability',
-                'income',
-                'expense',
-                'equity',
-            ]);
-
+            $table->enum('type', ['cash','bank','asset','liability','income','expense','equity'])->index();
+            $table->string('sub_type', 50)->nullable()->index();
             $table->decimal('opening_balance', 15, 2)->default(0);
-
+            $table->boolean('is_system')->default(false);
             $table->boolean('is_active')->default(true);
-
             $table->text('description')->nullable();
-
             $table->timestamps();
+            
+            $table->index(['type', 'is_active']);
+            $table->index(['parent_id', 'is_active']);
+            $table->index(['is_system', 'is_active']);
         });
     }
 

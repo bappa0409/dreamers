@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             SettingSeeder::class,
             UserSeeder::class,
+            ChartOfAccountsSeeder::class,
+            SubscriptionPlanSeeder::class,
+            TestMemberSeeder::class,
         ]);
     }
 }

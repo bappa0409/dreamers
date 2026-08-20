@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\AuthService;
 use App\Services\ActivityLogService;
+use App\Services\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,115 +18,36 @@ class LoginController extends Controller
         protected ActivityLogService $activityLogService
     ){}
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Show Login Page
-    |--------------------------------------------------------------------------
-    */
-
     public function showLogin(): View|RedirectResponse
     {
-        /*
-         * Already authenticated users should
-         * not see the login screen again.
-         */
-
-        if (Auth::check()) {
-            return redirect()
-                ->route('dashboard');
+        if(Auth::check()){
+            return $this->redirectAfterLogin(Auth::user());
         }
 
         return view('auth.login');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Login
-    |--------------------------------------------------------------------------
-    */
-
-    public function login(
-        Request $request
-    ): RedirectResponse {
-
-        /*
-        |--------------------------------------------------------------------------
-        | Validate Input
-        |--------------------------------------------------------------------------
-        */
-
-        $credentials = $request->validate([
-            'login' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'password' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'remember' => [
-                'nullable',
-                'boolean',
-            ],
+    public function login(Request $request): RedirectResponse
+    {
+        $credentials=$request->validate([
+            'login'=>['required','string','max:255'],
+            'password'=>['required','string','max:255'],
+            'remember'=>['nullable','boolean'],
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Authenticate
-        |--------------------------------------------------------------------------
-        */
-
-        try {
-
-            $user = $this->authService
-                ->authenticate(
-                    $credentials['login'],
-                    $credentials['password']
-                );
-
-        } catch (ValidationException $exception) {
-
+        try{
+            $user=$this->authService->authenticate(
+                $credentials['login'],
+                $credentials['password']
+            );
+        }catch(ValidationException $exception){
             return back()
-                ->withErrors(
-                    $exception->errors()
-                )
-                ->withInput(
-                    $request->only([
-                        'login',
-                        'remember',
-                    ])
-                );
+                ->withErrors($exception->errors())
+                ->withInput($request->only(['login','remember']));
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Login User
-        |--------------------------------------------------------------------------
-        */
-
-        Auth::login(
-            $user,
-            $request->boolean('remember')
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Session Fixation Protection
-        |--------------------------------------------------------------------------
-        */
-
-        $request
-            ->session()
-            ->regenerate();
+        Auth::login($user,$request->boolean('remember'));
+        $request->session()->regenerate();
 
         $this->activityLogService->log(
             action:'login',
@@ -135,51 +56,43 @@ class LoginController extends Controller
             subject:$user
         );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Unified Dashboard
-        |--------------------------------------------------------------------------
-        |
-        | System Analyst
-        | Admin
-        | Teller
-        | Member
-        |
-        | Everyone enters the same dashboard.
-        |
-        */
-
-        return redirect()
-            ->intended(
-                route('dashboard')
-            );
+        return $this->redirectAfterLogin($user,true);
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logout
-    |--------------------------------------------------------------------------
-    */
 
     public function logout(Request $request): RedirectResponse
-{
-    $user=Auth::user();
+    {
+        $user=Auth::user();
 
-    if($user){
-        $this->activityLogService->log(
-            action:'logout',
-            module:'Authentication',
-            description:'User logged out.',
-            subject:$user
-        );
+        if($user){
+            $this->activityLogService->log(
+                action:'logout',
+                module:'Authentication',
+                description:'User logged out.',
+                subject:$user
+            );
+        }
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 
-    Auth::logout();
+    private function redirectAfterLogin($user,bool $intended=false): RedirectResponse
+    {
+        $user->loadMissing(['member','roles']);
 
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+        $isActiveMember=$user->member?->status==='active';
+        $isOnlyMember=$user->roles->isNotEmpty()
+            &&$user->roles->every(fn($role)=>$role->name==='member');
 
-    return redirect()->route('login');
-}
+        $route=$isActiveMember&&$isOnlyMember
+            ?route('member.dashboard')
+            :route('dashboard');
+
+        return $intended
+            ?redirect()->intended($route)
+            :redirect()->to($route);
+    }
 }

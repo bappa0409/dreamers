@@ -2,24 +2,37 @@
 
 namespace App\Mail;
 
-use App\Models\MailCampaign;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class CampaignMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable,SerializesModels;
 
     public function __construct(
-        public MailCampaign $campaign
-    ) {
+        public string $subject,
+        public string $body
+    ){}
+
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject:$this->subject
+        );
     }
 
-    public function build()
+    public function content(): Content
     {
-        return $this
-            ->subject($this->campaign->subject)
-            ->view('emails.campaign');
+        return new Content(
+            view:'emails.campaign'
+        );
+    }
+
+    public function attachments(): array
+    {
+        return [];
     }
 }

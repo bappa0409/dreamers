@@ -21,7 +21,7 @@
 
     <div class="w-full max-w-md overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl">
 
-        <div class="bg-gradient-to-r from-[#0d3b66] to-[#145da0] px-6 py-6 text-center text-white">
+        <div class="bg-gradient-to-r from-[#4680b7] to-[#145da0]  px-6 py-6 text-center text-white">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-white/10">
                 <i class="bi bi-shield-lock text-xl"></i>
             </div>

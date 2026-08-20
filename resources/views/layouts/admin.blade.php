@@ -311,30 +311,166 @@
 
 
 
+                       
+
                     {{-- =================================================
-                    FINANCE
-                    ================================================== --}}
+FINANCE
+================================================== --}}
+@if($can('Finance.view'))
+@php
+$financeOpen=request()->is('admin/finance*');
+@endphp
 
-                    @if($can('Finance.view'))
+<div class="space-y-0.5">
+    <button
+        type="button"
+        onclick="toggleFinanceMenu()"
+        class="menu-link group flex w-full items-center gap-3 rounded-md px-3 py-1 text-[13px] font-medium transition-all
+        {{ $financeOpen
+            ? 'active bg-sky-400/15 text-white'
+            : 'text-sky-100/75 hover:bg-white/[0.07] hover:text-white' }}">
 
-                    <a href="/admin/finance" class="menu-link group flex items-center gap-3 rounded-md px-3 py-1
-                               text-[13px] font-medium text-sky-100/75 transition-all
-                               hover:bg-white/[0.07] hover:text-white
-                               {{ request()->is('admin/finance*')
-                                    ? 'active bg-sky-400/15 text-white'
-                                    : ''
-                               }}">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-white/[0.05] text-sky-100/65">
+            <i class="bi bi-cash-coin text-[14px]"></i>
+        </span>
 
-                        <span class="flex h-7 w-7 shrink-0 items-center justify-center
-                                   rounded-md bg-white/[0.05] text-sky-100/65">
-                            <i class="bi bi-cash-coin text-[14px]"></i>
-                        </span>
+        <span class="flex-1 text-left">
+            Finance
+        </span>
 
-                        <span>Finance</span>
+        <i
+            id="financeMenuArrow"
+            class="bi bi-chevron-down text-[11px] transition-transform duration-200
+            {{ $financeOpen ? 'rotate-180' : '' }}">
+        </i>
+    </button>
 
-                    </a>
+    <div
+        id="financeSubmenu"
+        class="ml-[26px] overflow-hidden border-l border-white/10 pl-4 transition-all duration-200
+        {{ $financeOpen ? '' : 'hidden' }}">
 
-                    @endif
+        <a href="{{ route('admin.finance') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-speedometer2 text-[11px]"></i>
+            <span>Finance Dashboard</span>
+        </a>
+
+        <a href="{{ route('admin.incomes') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.incomes')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-arrow-down-circle text-[11px]"></i>
+            <span>Incomes</span>
+        </a>
+
+        <a href="{{ route('admin.expenses') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.expenses')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-arrow-up-circle text-[11px]"></i>
+            <span>Expenses</span>
+        </a>
+
+        <a href="{{ route('admin.finance.subscription-payments') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.subscription-payments')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-credit-card-check text-[11px]"></i>
+            <span>Subscription Payments</span>
+        </a>
+
+        <a href="{{ route('admin.finance.share-purchases') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.share-purchases')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-layers text-[11px]"></i>
+            <span>Share Purchases</span>
+        </a>
+
+        <a href="{{ route('admin.charges') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.charges')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-receipt text-[11px]"></i>
+            <span>Charges</span>
+        </a>
+
+        <a href="{{ route('admin.assets') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.assets')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-box-seam text-[11px]"></i>
+            <span>Assets</span>
+        </a>
+
+        <div class="my-1.5 border-t border-white/[0.07]"></div>
+
+        <a href="{{ route('admin.finance.accounts') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.accounts')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-diagram-3 text-[11px]"></i>
+            <span>Chart of Accounts</span>
+        </a>
+
+        <a href="{{ route('admin.finance.journals') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.journals')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-journal-text text-[11px]"></i>
+            <span>Journal Entries</span>
+        </a>
+
+        <a href="{{ route('admin.finance.ledger') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.ledger')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-journal-bookmark text-[11px]"></i>
+            <span>General Ledger</span>
+        </a>
+
+        <a href="{{ route('admin.finance.trial-balance') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.trial-balance')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-bar-chart-steps text-[11px]"></i>
+            <span>Trial Balance</span>
+        </a>
+
+        <a href="{{ route('admin.finance.balance-sheet') }}"
+            class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+            {{ request()->routeIs('admin.finance.balance-sheet')
+                ? 'bg-white/[0.08] font-semibold text-sky-300'
+                : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+            <i class="bi bi-table text-[11px]"></i>
+            <span>Balance Sheet</span>
+        </a>
+
+        <a href="{{ route('admin.finance.profit-loss') }}"
+    class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition
+    {{ request()->routeIs('admin.finance.profit-loss')
+        ? 'bg-white/[0.08] font-semibold text-sky-300'
+        : 'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+    <i class="bi bi-graph-up text-[11px]"></i>
+    <span>Profit & Loss</span>
+</a>
+    </div>
+</div>
+@endif
 
 
 
@@ -910,7 +1046,7 @@
 
                             <div class="flex h-8 w-8 items-center justify-center
                                    rounded-full bg-gradient-to-br
-                                   from-[#0d3b66] to-[#145da0]
+                                   from-[#4680b7] to-[#145da0] 
                                    text-[11px] font-bold text-white">
                                 {{
                                 strtoupper(
@@ -1439,6 +1575,21 @@
 
     </script>
 
+<script>
+function toggleFinanceMenu(){
+    const menu=document.getElementById('financeSubmenu');
+    const arrow=document.getElementById('financeMenuArrow');
+
+    if(!menu||!arrow){
+        return;
+    }
+
+    const isHidden=menu.classList.contains('hidden');
+
+    menu.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180',isHidden);
+}
+</script>
 
     @stack('scripts')
 

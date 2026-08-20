@@ -2,34 +2,39 @@
 
 namespace App\Models;
 
-use App\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\LogsActivity;
 
 class Transaction extends Model
 {
-    use HasFactory,LogsActivity;
+    use LogsActivity;
 
-    protected string $activityLogModule='Transaction';
+    protected string $activityLogModule='Accounting';
     protected string $activityLogLabelColumn='transaction_no';
 
     protected $fillable=[
         'transaction_no',
         'transaction_date',
         'type',
+        'source_module',
+        'source_id',
         'reference_type',
         'reference_id',
-        'created_by',
         'description',
-        'status'
+        'status',
+        'created_by',
+        'posted_at',
+        'posted_by',
+        'cancel_reason',
     ];
 
     protected function casts(): array
     {
-        return [
-            'transaction_date'=>'date'
+        return[
+            'transaction_date'=>'date',
+            'posted_at'=>'datetime',
         ];
     }
 
@@ -41,5 +46,10 @@ class Transaction extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class,'created_by');
+    }
+
+    public function poster(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'posted_by');
     }
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('teller_transactions', function (Blueprint $table) {
             $table->id();
-
             $table->string('transaction_no')->unique();
 
             $table->foreignId('teller_id')
@@ -25,23 +24,30 @@ return new class extends Migration
                 ->constrained('members')
                 ->nullOnDelete();
 
+            $table->foreignId('cash_account_id')
+                ->nullable()
+                ->constrained('accounts')
+                ->restrictOnDelete();
+
+            $table->foreignId('counter_account_id')
+                ->nullable()
+                ->constrained('accounts')
+                ->restrictOnDelete();
+
             $table->enum('type', [
                 'receive',
-                'payment'
+                'payment',
             ]);
 
             $table->decimal('amount', 15, 2);
-
             $table->string('purpose')->nullable();
-
             $table->text('description')->nullable();
-
             $table->date('transaction_date');
 
             $table->enum('status', [
                 'pending',
                 'completed',
-                'cancelled'
+                'cancelled',
             ])->default('completed');
 
             $table->foreignId('finance_transaction_id')
@@ -50,6 +56,14 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamps();
+
+            $table->index('transaction_date');
+            $table->index('status');
+            $table->index(['teller_id', 'transaction_date', 'status']);
+            $table->index(['member_id', 'transaction_date']);
+            $table->index(['cash_account_id', 'transaction_date']);
+            $table->index(['counter_account_id', 'transaction_date']);
+            $table->index('finance_transaction_id');
         });
     }
 

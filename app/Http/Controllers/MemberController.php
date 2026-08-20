@@ -2,15 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Services\MemberDashboardService;
 
 class MemberController extends Controller
 {
+    public function __construct(
+        protected MemberDashboardService $memberDashboardService
+    ) {}
+
     public function dashboard(): View
     {
-        return view('member.dashboard');
+        $user = auth()->user();
+
+        $member = $user->member;
+
+        abort_unless(
+            $member && $member->status === 'active',
+            403
+        );
+
+        return view('member.dashboard', [
+            'member' => $member,
+            'summary' => $this->memberDashboardService
+                ->summary($member),
+        ]);
     }
 
     public function profile(): View
@@ -18,38 +34,30 @@ class MemberController extends Controller
         return view('member.profile');
     }
 
-    public function investments(): View
-    {
-        return view('member.investments');
-    }
-
-    public function projects(): View
-    {
-        return view('member.projects');
-    }
-
-    public function notices()
-    {
-        return view('member.notices');
-    }
-
-    public function landInvestments(): View
-    {
-        return view('member.land-investments');
-    }
-
     public function polls(): View
     {
         return view('member.polls');
     }
 
-    public function logout(Request $request)
+    public function notices(): View
     {
-        Auth::logout();
+        return view('member.notices');
+    }
+    public function shares(): View
+    {
+        abort_unless(
+            filter_var(
+                setting('share_enabled',false),
+                FILTER_VALIDATE_BOOLEAN
+            ),
+            404
+        );
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        return view('member.shares');
+    }
 
-        return redirect()->route('login');
+    public function subscriptions(): View
+    {
+        return view('member.subscriptions.index');
     }
 }

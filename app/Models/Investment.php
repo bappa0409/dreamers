@@ -16,13 +16,13 @@ class Investment extends Model
     protected string $activityLogLabelColumn='investment_no';
 
     protected $fillable=[
-        'investment_no','member_id','title','description','amount',
-        'expected_return','investment_date','maturity_date','status'
+        'investment_no','member_id','payment_account_id','title','description','amount',
+        'expected_return','investment_date','maturity_date','status','finance_transaction_id'
     ];
 
     protected function casts(): array
     {
-        return [
+        return[
             'amount'=>'decimal:2',
             'expected_return'=>'decimal:2',
             'investment_date'=>'date',
@@ -33,6 +33,16 @@ class Investment extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function paymentAccount(): BelongsTo
+    {
+        return $this->belongsTo(Account::class,'payment_account_id');
+    }
+
+    public function financeTransaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class,'finance_transaction_id');
     }
 
     public function returns(): HasMany

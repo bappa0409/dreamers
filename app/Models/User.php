@@ -20,8 +20,8 @@ class User extends Authenticatable
 
     protected string $activityLogModule = 'User';
     protected string $activityLogLabelColumn = 'name';
-    
-    protected array $activityLogHidden=[
+
+    protected array $activityLogHidden = [
         'password',
         'remember_token',
         'password_setup_token',
@@ -37,13 +37,13 @@ class User extends Authenticatable
         'is_active',
         'role_id',
         'password_setup_token',
-'password_setup_expires_at',
+        'password_setup_expires_at',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
-         'password_setup_token',
+        'password_setup_token',
     ];
 
     protected function casts(): array
@@ -52,7 +52,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
-            'password_setup_expires_at'=>'datetime',
+            'password_setup_expires_at' => 'datetime',
         ];
     }
 
@@ -84,9 +84,9 @@ class User extends Authenticatable
     }
 
     public function role(): BelongsTo
-{
-    return $this->belongsTo(Role::class);
-}
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -95,72 +95,70 @@ class User extends Authenticatable
     */
 
     public function hasRole(string $role): bool
-{
-    return in_array(
-        $role,
-        $this->cachedRoleNames(),
-        true
-    );
-}
+    {
+        return in_array(
+            $role,
+            $this->cachedRoleNames(),
+            true
+        );
+    }
 
 
     public function hasAnyRole(array $roles): bool
-{
-    return !empty(
-        array_intersect(
-            $roles,
-            $this->cachedRoleNames()
-        )
-    );
-}
+    {
+        return !empty(array_intersect(
+                $roles,
+                $this->cachedRoleNames()
+            ));
+    }
 
 
     public function assignRole(Role|string|int $role): void
-{
-    $roleId = $this->resolveRoleId($role);
+    {
+        $roleId = $this->resolveRoleId($role);
 
-    $this->roles()
-        ->syncWithoutDetaching([
-            $roleId,
-        ]);
+        $this->roles()
+            ->syncWithoutDetaching([
+                $roleId,
+            ]);
 
-    $this->unsetRelation('roles');
+        $this->unsetRelation('roles');
 
-    $this->forgetAuthorizationCache();
-}
+        $this->forgetAuthorizationCache();
+    }
 
 
     public function removeRole(Role|string|int $role): void
-{
-    $roleId = $this->resolveRoleId($role);
+    {
+        $roleId = $this->resolveRoleId($role);
 
-    $this->roles()
-        ->detach($roleId);
+        $this->roles()
+            ->detach($roleId);
 
-    $this->unsetRelation('roles');
+        $this->unsetRelation('roles');
 
-    $this->forgetAuthorizationCache();
-}
+        $this->forgetAuthorizationCache();
+    }
 
 
     public function syncRoles(array $roles): void
-{
-    $roleIds = collect($roles)
-        ->map(
-            fn ($role) =>
+    {
+        $roleIds = collect($roles)
+            ->map(
+                fn($role) =>
                 $this->resolveRoleId($role)
-        )
-        ->unique()
-        ->values()
-        ->all();
+            )
+            ->unique()
+            ->values()
+            ->all();
 
-    $this->roles()
-        ->sync($roleIds);
+        $this->roles()
+            ->sync($roleIds);
 
-    $this->unsetRelation('roles');
+        $this->unsetRelation('roles');
 
-    $this->forgetAuthorizationCache();
-}
+        $this->forgetAuthorizationCache();
+    }
 
 
     /*
@@ -178,54 +176,52 @@ class User extends Authenticatable
 
 
     public function hasPermission(string $permission): bool
-{
-    if ($this->isSystemAnalyst()) {
-        return true;
-    }
+    {
+        if ($this->isSystemAnalyst()) {
+            return true;
+        }
 
-    return in_array(
-        $permission,
-        $this->cachedPermissionNames(),
-        true
-    );
-}
+        return in_array(
+            $permission,
+            $this->cachedPermissionNames(),
+            true
+        );
+    }
 
 
     public function hasAnyPermission(array $permissions): bool
-{
-    if ($this->isSystemAnalyst()) {
-        return true;
-    }
+    {
+        if ($this->isSystemAnalyst()) {
+            return true;
+        }
 
-    return !empty(
-        array_intersect(
-            $permissions,
-            $this->cachedPermissionNames()
-        )
-    );
-}
+        return !empty(array_intersect(
+                $permissions,
+                $this->cachedPermissionNames()
+            ));
+    }
 
 
     public function hasAllPermissions(array $permissions): bool
-{
-    if ($this->isSystemAnalyst()) {
+    {
+        if ($this->isSystemAnalyst()) {
+            return true;
+        }
+
+        $userPermissions = $this->cachedPermissionNames();
+
+        foreach ($permissions as $permission) {
+            if (!in_array(
+                $permission,
+                $userPermissions,
+                true
+            )) {
+                return false;
+            }
+        }
+
         return true;
     }
-
-    $userPermissions = $this->cachedPermissionNames();
-
-    foreach ($permissions as $permission) {
-        if (!in_array(
-            $permission,
-            $userPermissions,
-            true
-        )) {
-            return false;
-        }
-    }
-
-    return true;
-}
 
 
     /*
@@ -285,65 +281,65 @@ class User extends Authenticatable
 |--------------------------------------------------------------------------
 */
 
-public function cachedRoleNames(): array
-{
-    return Cache::remember(
-        $this->roleCacheKey(),
-        now()->addMinutes(30),
-        function () {
-            return $this->roles()
-                ->pluck('roles.name')
-                ->unique()
-                ->values()
-                ->all();
-        }
-    );
-}
+    public function cachedRoleNames(): array
+    {
+        return Cache::remember(
+            $this->roleCacheKey(),
+            now()->addMinutes(30),
+            function () {
+                return $this->roles()
+                    ->pluck('roles.name')
+                    ->unique()
+                    ->values()
+                    ->all();
+            }
+        );
+    }
 
 
-public function cachedPermissionNames(): array
-{
-    return Cache::remember(
-        $this->permissionCacheKey(),
-        now()->addMinutes(30),
-        function () {
+    public function cachedPermissionNames(): array
+    {
+        return Cache::remember(
+            $this->permissionCacheKey(),
+            now()->addMinutes(30),
+            function () {
 
-            return $this->roles()
-                ->with('permissions:id,name')
-                ->get()
-                ->flatMap(
-                    fn ($role) =>
+                return $this->roles()
+                    ->with('permissions:id,name')
+                    ->get()
+                    ->flatMap(
+                        fn($role) =>
                         $role->permissions
                             ->pluck('name')
-                )
-                ->unique()
-                ->values()
-                ->all();
-        }
-    );
-}
+                    )
+                    ->unique()
+                    ->values()
+                    ->all();
+            }
+        );
+    }
 
 
-public function forgetAuthorizationCache(): void
-{
-    Cache::forget(
-        $this->roleCacheKey()
-    );
+    public function forgetAuthorizationCache(): void
+    {
+        Cache::forget(
+            $this->roleCacheKey()
+        );
 
-    Cache::forget(
-        $this->permissionCacheKey()
-    );
-}
-
-
-protected function roleCacheKey(): string
-{
-    return "rbac:user:{$this->id}:roles";
-}
+        Cache::forget(
+            $this->permissionCacheKey()
+        );
+    }
 
 
-protected function permissionCacheKey(): string
-{
-    return "rbac:user:{$this->id}:permissions";
-}
+    protected function roleCacheKey(): string
+    {
+        return "rbac:user:{$this->id}:roles";
+    }
+
+
+    protected function permissionCacheKey(): string
+    {
+        return "rbac:user:{$this->id}:permissions";
+    }
 }
