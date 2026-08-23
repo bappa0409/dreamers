@@ -93,6 +93,63 @@ class Member extends Model
         return $this->hasMany(MemberShare::class);
     }
 
+    public function committeeMemberships(): HasMany
+    {
+        return $this->hasMany(CommitteeMember::class);
+    }
+
+    public function activeCommitteeMemberships(): HasMany
+    {
+        return $this->committeeMemberships()->where('status', 'active');
+    }
+
+    public function electionCandidates(): HasMany
+    {
+        return $this->hasMany(ElectionCandidate::class);
+    }
+
+    public function loans(): HasMany
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+    public function nominees(): HasMany
+    {
+        return $this->hasMany(MemberNominee::class);
+    }
+
+    public function activeNominees(): HasMany
+    {
+        return $this->nominees()
+            ->where('is_active', true);
+    }
+
+    public function exits(): HasMany
+    {
+        return $this->hasMany(MemberExit::class);
+    }
+
+    public function currentExit()
+    {
+        return $this->hasOne(MemberExit::class)
+            ->whereNotIn('status', [
+                'closed',
+                'rejected',
+                'cancelled',
+            ])
+            ->latestOfMany();
+    }
+
+    public function welfareRequests(): HasMany
+    {
+        return $this->hasMany(WelfareRequest::class);
+    }
+
+    public function feedbackSupports(): HasMany
+    {
+        return $this->hasMany(FeedbackSupport::class);
+    }
+
     public function activeShares(): HasMany
     {
         return $this->hasMany(MemberShare::class)

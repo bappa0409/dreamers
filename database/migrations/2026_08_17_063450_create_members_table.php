@@ -39,6 +39,8 @@ return new class extends Migration
                 'inactive',
                 'suspended',
                 'rejected',
+                'exited',
+                'deceased',
             ])->default('pending');
 
             $table->string('profile_photo')->nullable();

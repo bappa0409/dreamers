@@ -16,6 +16,22 @@ class AdminController extends Controller
         return view('admin.members.index');
     }
 
+    public function welfare(): View
+{
+    return view('admin.welfare.index');
+}
+
+public function feedbackSupport(): View
+{
+    return view(
+        'admin.feedback-support.index'
+    );
+}
+    public function memberExits(): View
+{
+    return view('admin.member-exits.index');
+}
+
     public function userRoles()
     {
         return view('admin.users.roles');
@@ -126,6 +142,30 @@ class AdminController extends Controller
         return view('admin.polls.index');
     }
 
+    public function tours()
+    {
+        return view('admin.tours.index');
+    }
+
+    public function meetings()
+    {
+        return view('admin.meetings.index');
+    }
+
+    public function committees(): View
+    {
+        return view('admin.committees.index');
+    }
+
+    public function loans(): View
+    {
+        return view('admin.loans.index');
+    }
+
+    public function nominees(): View
+    {
+        return view('admin.nominees.index');
+    }
     public function notices(): View
     {
         return view('admin.notices.index');

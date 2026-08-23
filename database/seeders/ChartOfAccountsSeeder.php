@@ -14,6 +14,7 @@ class ChartOfAccountsSeeder extends Seeder
             ['1100','Cash','asset','cash','1000'],
             ['1200','Bank','asset','bank','1000'],
             ['1300','Accounts Receivable','asset','receivable','1000'],
+            ['1310','Member Loan Receivable','asset','member_loan_receivable','1300'],
             ['1400','Investments','asset','investment','1000'],
             ['1500','Fixed Assets','asset','fixed_asset','1000'],
             ['1510','Furniture & Fixtures','asset','fixed_asset','1500'],
@@ -29,13 +30,17 @@ class ChartOfAccountsSeeder extends Seeder
             ['3000','Equity','equity',null,null],
             ['3100','Association Fund','equity','capital','3000'],
             ['3200','Accumulated Fund','equity','retained_earnings','3000'],
+['3300','Member Share Capital','equity','member_equity','3000'],
+
+
 
             ['4000','Income','income',null,null],
             ['4100','Subscription Income','income','subscription_income','4000'],
             ['4200','Investment Income','income','investment_income','4000'],
             ['4300','Donation Income','income','donation_income','4000'],
             ['4400','Fine Income','income','fine_income','4000'],
-            ['4400','Late Fine Income','income','fine_income','4000'],
+            ['4410','Late Fine Income','income','late_fine_income','4000'],
+            ['4500','Loan Interest Income','income','loan_interest_income','4000'],
             ['4900','Other Income','income','other_income','4000'],
             ['4910','Gain on Asset Disposal','income','asset_disposal_gain','4000'],
 
@@ -43,6 +48,7 @@ class ChartOfAccountsSeeder extends Seeder
             ['5100','Office Expense','expense','operating_expense','5000'],
             ['5200','Maintenance Expense','expense','operating_expense','5000'],
             ['5300','Utility Expense','expense','operating_expense','5000'],
+            ['5400','Welfare Assistance Expense','expense','welfare_assistance_expense','5000'],
             ['5900','Other Expense','expense','other_expense','5000'],
             ['5910','Loss on Asset Disposal','expense','asset_disposal_loss','5000'],
         ];

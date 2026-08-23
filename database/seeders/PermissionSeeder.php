@@ -42,6 +42,47 @@ class PermissionSeeder extends Seeder
             ['name'=>'Investment.update','display_name'=>'Update Investment','module'=>'Investment'],
             ['name'=>'Investment.delete','display_name'=>'Delete Investment','module'=>'Investment'],
 
+            ['name'=>'Committee.view','display_name'=>'View Committees','module'=>'Committee'],
+            ['name'=>'Committee.create','display_name'=>'Create Committee','module'=>'Committee'],
+            ['name'=>'Committee.update','display_name'=>'Update Committee','module'=>'Committee'],
+            ['name'=>'Committee.manage','display_name'=>'Manage Committee & Election','module'=>'Committee'],
+
+            ['name'=>'Loan.view','display_name'=>'View Loans','module'=>'Loan'],
+            ['name'=>'Loan.create','display_name'=>'Create Loan Request','module'=>'Loan'],
+            ['name'=>'Loan.update','display_name'=>'Update Loan','module'=>'Loan'],
+            ['name'=>'Loan.approve','display_name'=>'Approve or Reject Loan','module'=>'Loan'],
+            ['name'=>'Loan.disburse','display_name'=>'Disburse Loan','module'=>'Loan'],
+            ['name'=>'Loan.repay','display_name'=>'Receive Loan Repayment','module'=>'Loan'],
+
+            ['name'=>'Nominee.view','display_name'=>'View Nominees','module'=>'Nominee'],
+            ['name'=>'Nominee.create','display_name'=>'Create Nominee','module'=>'Nominee'],
+            ['name'=>'Nominee.update','display_name'=>'Update Nominee','module'=>'Nominee'],
+            ['name'=>'Nominee.verify','display_name'=>'Verify Nominee','module'=>'Nominee'],
+            ['name'=>'Nominee.delete','display_name'=>'Remove Nominee','module'=>'Nominee'],
+
+            ['name'=>'MemberExit.view','display_name'=>'View Member Exits','module'=>'Member Exit'],
+['name'=>'MemberExit.create','display_name'=>'Initiate Member Exit','module'=>'Member Exit'],
+['name'=>'MemberExit.review','display_name'=>'Review Member Exit','module'=>'Member Exit'],
+['name'=>'MemberExit.approve','display_name'=>'Approve Member Exit','module'=>'Member Exit'],
+['name'=>'MemberExit.settle','display_name'=>'Settle Member Exit','module'=>'Member Exit'],
+
+['name'=>'Welfare.view','display_name'=>'View Welfare','module'=>'Welfare'],
+['name'=>'Welfare.create','display_name'=>'Create Welfare Request','module'=>'Welfare'],
+['name'=>'Welfare.review','display_name'=>'Review Welfare Request','module'=>'Welfare'],
+['name'=>'Welfare.approve','display_name'=>'Approve Welfare Request','module'=>'Welfare'],
+['name'=>'Welfare.disburse','display_name'=>'Disburse Welfare Assistance','module'=>'Welfare'],
+['name'=>'Welfare.manage','display_name'=>'Manage Welfare Funds','module'=>'Welfare'],
+
+            ['name'=>'Tour.view','display_name'=>'View Tours','module'=>'Tour'],
+            ['name'=>'Tour.create','display_name'=>'Create Tour','module'=>'Tour'],
+            ['name'=>'Tour.update','display_name'=>'Update Tour','module'=>'Tour'],
+            ['name'=>'Tour.delete','display_name'=>'Delete Tour','module'=>'Tour'],
+
+            ['name'=>'Meeting.view','display_name'=>'View Meetings','module'=>'Meeting'],
+            ['name'=>'Meeting.create','display_name'=>'Create Meeting','module'=>'Meeting'],
+            ['name'=>'Meeting.update','display_name'=>'Update Meeting','module'=>'Meeting'],
+            ['name'=>'Meeting.delete','display_name'=>'Delete Meeting','module'=>'Meeting'],
+
             ['name'=>'Land.view','display_name'=>'View Land','module'=>'Land'],
             ['name'=>'Land.create','display_name'=>'Create Land','module'=>'Land'],
             ['name'=>'Land.update','display_name'=>'Update Land','module'=>'Land'],
@@ -81,6 +122,14 @@ class PermissionSeeder extends Seeder
             ['name'=>'Setting.view','display_name'=>'View Settings','module'=>'Setting'],
             ['name'=>'Setting.update','display_name'=>'Update Settings','module'=>'Setting'],
             ['name'=>'Audit.view','display_name'=>'View Audit Logs','module'=>'Audit'],
+
+            ['name'=>'FeedbackSupport.view','display_name'=>'View Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.create','display_name'=>'Create Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.review','display_name'=>'Review Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.assign','display_name'=>'Assign Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.resolve','display_name'=>'Resolve Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.confidential','display_name'=>'View Confidential Feedback & Support','module'=>'Feedback & Support'],
+            ['name'=>'FeedbackSupport.manage','display_name'=>'Manage Feedback & Support','module'=>'Feedback & Support'],
 
             ['name'=>'Backup.view','display_name'=>'View Backups','module'=>'Backup'],
             ['name'=>'Backup.create','display_name'=>'Create Backup','module'=>'Backup'],

@@ -39,9 +39,24 @@ class MemberController extends Controller
         return view('member.polls');
     }
 
+    public function tours()
+    {
+        return view('member.tours');
+    }
+
+    public function meetings()
+    {
+        return view('member.meetings');
+    }
+
     public function notices(): View
     {
         return view('member.notices');
+    }
+
+    public function committee(): View
+    {
+        return view('member.committee');
     }
 
     public function subscriptionPayments()
@@ -51,23 +66,33 @@ class MemberController extends Controller
 
     public function investments()
     {
-        return view('member.investments',['investmentStatus' => '',]);
+        return view('member.investments', ['investmentStatus' => '',]);
     }
 
     public function activeInvestments()
     {
-        return view('member.investments',['investmentStatus' => 'active',]);
+        return view('member.investments', ['investmentStatus' => 'active',]);
     }
 
     public function completedInvestments()
     {
-        return view('member.investments',['investmentStatus' => 'completed',]);
+        return view('member.investments', ['investmentStatus' => 'completed',]);
     }
 
     public function notifications()
-{
-    return view('member.notifications');
-}
+    {
+        return view('member.notifications');
+    }
+
+    public function loans(): View
+    {
+        return view('member.loans');
+    }
+
+    public function nominees(): View
+    {
+        return view('member.nominees');
+    }
     public function shares(): View
     {
         abort_unless(
@@ -80,6 +105,22 @@ class MemberController extends Controller
 
         return view('member.shares');
     }
+public function welfare(): View
+{
+    return view('member.welfare');
+}
+
+public function feedbackSupport(): View
+{
+    return view(
+        'member.feedback-support'
+    );
+}
+
+    public function exit(): View
+{
+    return view('member.exit');
+}
 
     public function subscriptions(): View
     {

@@ -629,6 +629,52 @@ class SettingSeeder extends Seeder
                 'description'=>'Subscription late fine amount or percentage',
                 'is_public'=>false,
             ],
+
+            [
+                'key'=>'loan_enabled',
+                'value'=>'1',
+                'type'=>'boolean',
+                'options'=>null,
+                'group'=>'loan',
+                'description'=>'Enable member loan management',
+                'is_public'=>false,
+            ],
+            [
+                'key'=>'loan_default_interest_rate',
+                'value'=>'10',
+                'type'=>'number',
+                'options'=>null,
+                'group'=>'loan',
+                'description'=>'Default loan interest percentage',
+                'is_public'=>false,
+            ],
+            [
+                'key'=>'loan_default_duration_months',
+                'value'=>'12',
+                'type'=>'number',
+                'options'=>null,
+                'group'=>'loan',
+                'description'=>'Default loan duration in months',
+                'is_public'=>false,
+            ],
+            [
+                'key'=>'loan_max_amount',
+                'value'=>'0',
+                'type'=>'number',
+                'options'=>null,
+                'group'=>'loan',
+                'description'=>'Maximum loan amount. Zero means no configured global limit.',
+                'is_public'=>false,
+            ],
+            [
+                'key'=>'loan_allow_multiple_active',
+                'value'=>'0',
+                'type'=>'boolean',
+                'options'=>null,
+                'group'=>'loan',
+                'description'=>'Allow one member to have multiple outstanding loans',
+                'is_public'=>false,
+            ],
         ];
 
         foreach($settings as $setting){

@@ -12,6 +12,30 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
     Route::get('/members/create', 'createMember')->middleware('permission:Member.create')->name('members.create');
     Route::get('/members', 'members')->middleware('permission:Member.view')->name('members');
 
+    Route::get('/nominees','nominees')
+    ->middleware('permission:Nominee.view')
+    ->name('nominees');
+
+    Route::get(
+    '/member-exits',
+    'memberExits'
+)
+    ->middleware('permission:MemberExit.view')
+    ->name('member-exits');
+
+    Route::get('/welfare','welfare')
+    ->middleware('permission:Welfare.view')
+    ->name('welfare');
+
+    Route::get(
+    '/feedback-support',
+    'feedbackSupport'
+)
+    ->middleware(
+        'permission:FeedbackSupport.view'
+    )
+    ->name('feedback-support');
+
     Route::get('/investments', 'investments')->middleware('permission:Investment.view')->name('investments');
 
     Route::prefix('finance')->middleware('permission:Finance.view')->group(function () {
@@ -32,6 +56,16 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
 
     Route::get('/land', 'land')->middleware('permission:Land.view')->name('land');
     Route::get('/projects', 'projects')->middleware('permission:Project.view')->name('projects');
+    Route::get('/loans','loans')
+    ->middleware('permission:Loan.view')
+    ->name('loans');
+
+     // Association Activities
+    Route::get('/tours', 'tours')->middleware('permission:Tour.view')->name('tours');
+    Route::get('/meetings', 'meetings')->middleware('permission:Meeting.view')->name('meetings');
+    Route::get('/committees','committees')
+    ->middleware('permission:Committee.view')
+    ->name('committees');
 
     Route::get('/polls', 'polls')->middleware('permission:Poll.view')->name('polls');
     Route::get('/notices', 'notices')->middleware('permission:Notice.view')->name('notices');

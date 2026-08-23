@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             ChartOfAccountsSeeder::class,
             SubscriptionPlanSeeder::class,
             TestMemberSeeder::class,
+            CommitteePositionSeeder::class,
+            FeedbackSupportCategorySeeder::class,
         ]);
     }
 }
