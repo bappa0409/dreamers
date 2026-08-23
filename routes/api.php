@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\AccountingController;
 use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\ApprovalController;
@@ -19,9 +21,28 @@ use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\MailCampaignController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MemberDashboardController;
+use App\Http\Controllers\Api\MemberExitController;
+use App\Http\Controllers\Api\MemberExitPortalController;
+use App\Http\Controllers\Api\MemberFeedbackSupportController;
+use App\Http\Controllers\Api\MemberInvestmentController;
+use App\Http\Controllers\Api\MemberLoanController;
+use App\Http\Controllers\Api\MemberMeetingController;
+use App\Http\Controllers\Api\MemberNomineeController;
 use App\Http\Controllers\Api\MemberShareController;
 use App\Http\Controllers\Api\MemberSubscriptionAdminController;
 use App\Http\Controllers\Api\MemberSubscriptionController;
+use App\Http\Controllers\Api\MemberTourController;
+use App\Http\Controllers\Api\MemberWelfareController;
+use App\Http\Controllers\Api\MeetingAgendaController;
+use App\Http\Controllers\Api\MeetingAttendeeController;
+use App\Http\Controllers\Api\MeetingController;
+use App\Http\Controllers\Api\MeetingDecisionController;
+use App\Http\Controllers\Api\MeetingExpenseController;
+use App\Http\Controllers\Api\MemberChargeController;
+use App\Http\Controllers\Api\ChargePaymentController;
+use App\Http\Controllers\Api\CommitteeController;
+use App\Http\Controllers\Api\LoanController;
+use App\Http\Controllers\Api\NomineeController;
 use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\NotificationCampaignController;
 use App\Http\Controllers\Api\NotificationController;
@@ -36,32 +57,13 @@ use App\Http\Controllers\Api\TellerClosingController;
 use App\Http\Controllers\Api\TellerController;
 use App\Http\Controllers\Api\TellerDashboardController;
 use App\Http\Controllers\Api\TellerManagementController;
+use App\Http\Controllers\Api\TourController;
+use App\Http\Controllers\Api\TourExpenseController;
+use App\Http\Controllers\Api\TourParticipantController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserRoleController;
-use App\Http\Controllers\Api\MemberChargeController;
-use App\Http\Controllers\Api\ChargePaymentController;
-use App\Http\Controllers\Api\MemberInvestmentController;
-use App\Http\Controllers\Api\TourController;
-use App\Http\Controllers\Api\TourParticipantController;
-use App\Http\Controllers\Api\TourExpenseController;
-use App\Http\Controllers\Api\MemberTourController;
-use App\Http\Controllers\Api\MeetingController;
-use App\Http\Controllers\Api\MeetingAgendaController;
-use App\Http\Controllers\Api\MeetingAttendeeController;
-use App\Http\Controllers\Api\MeetingDecisionController;
-use App\Http\Controllers\Api\MeetingExpenseController;
-use App\Http\Controllers\Api\MemberMeetingController;
-use App\Http\Controllers\Api\CommitteeController;
-use App\Http\Controllers\Api\LoanController;
-use App\Http\Controllers\Api\MemberLoanController;
-use App\Http\Controllers\Api\NomineeController;
-use App\Http\Controllers\Api\MemberNomineeController;
-use App\Http\Controllers\Api\MemberExitController;
-use App\Http\Controllers\Api\MemberExitPortalController;
 use App\Http\Controllers\Api\WelfareController;
-use App\Http\Controllers\Api\MemberWelfareController;
 use App\Http\Controllers\Api\FeedbackSupportController;
-use App\Http\Controllers\Api\MemberFeedbackSupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,7 @@ use App\Http\Controllers\Api\MemberFeedbackSupportController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [AuthController::class, 'profile']);
@@ -85,7 +88,12 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Dashboard
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     /*
@@ -103,59 +111,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->middleware('permission:User.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('permission:User.delete');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Welfare
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('welfare')->group(function () {
-        Route::get('/statistics', [WelfareController::class, 'statistics'])
-            ->middleware('permission:Welfare.view');
-
-        Route::get('/options', [WelfareController::class, 'options'])
-            ->middleware('permission:Welfare.view');
-
-        Route::get('/funds', [WelfareController::class, 'funds'])
-            ->middleware('permission:Welfare.view');
-
-        Route::post('/funds', [WelfareController::class, 'storeFund'])
-            ->middleware('permission:Welfare.manage');
-
-        Route::post('/funds/{fund}/allocations', [WelfareController::class, 'allocate'])
-            ->middleware('permission:Welfare.manage');
-
-        Route::get('/', [WelfareController::class, 'index'])
-            ->middleware('permission:Welfare.view');
-
-        Route::post('/', [WelfareController::class, 'store'])
-            ->middleware('permission:Welfare.create');
-
-        Route::get('/documents/{document}', [WelfareController::class, 'document'])
-            ->middleware('permission:Welfare.view');
-
-        Route::get('/{welfareRequest}', [WelfareController::class, 'show'])
-            ->middleware('permission:Welfare.view');
-
-        Route::post('/{welfareRequest}/review', [WelfareController::class, 'review'])
-            ->middleware('permission:Welfare.review');
-
-        Route::post('/{welfareRequest}/approve', [WelfareController::class, 'approve'])
-            ->middleware('permission:Welfare.approve');
-
-        Route::post('/{welfareRequest}/reject', [WelfareController::class, 'reject'])
-            ->middleware('permission:Welfare.approve');
-
-        Route::post('/{welfareRequest}/disburse', [WelfareController::class, 'disburse'])
-            ->middleware('permission:Welfare.disburse');
-
-        Route::post('/{welfareRequest}/cancel', [WelfareController::class, 'cancel'])
-            ->middleware('permission:Welfare.review');
-
-        Route::post('/{welfareRequest}/reverse', [WelfareController::class, 'reverse'])
-            ->middleware('permission:Welfare.disburse');
-    });
-
     /*
     |--------------------------------------------------------------------------
     | Members
@@ -165,17 +120,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/members', [MemberController::class, 'index'])->middleware('permission:Member.view');
     Route::post('/members', [MemberController::class, 'store'])->middleware('permission:Member.create');
     Route::get('/members/{member}', [MemberController::class, 'show'])->middleware('permission:Member.view');
-    Route::put('/members/{member}', [MemberController::class, 'update'])
-        ->middleware('permission:Member.update');
-
-    Route::patch('/members/{member}', [MemberController::class, 'update'])
-        ->middleware('permission:Member.update');
-
-    Route::post('/members/{member}/suspend', [MemberController::class, 'suspend'])
-        ->middleware('permission:Member.update');
-
-    Route::post('/members/{member}/activate', [MemberController::class, 'activate'])
-        ->middleware('permission:Member.update');
+    Route::put('/members/{member}', [MemberController::class, 'update'])->middleware('permission:Member.update');
+    Route::patch('/members/{member}', [MemberController::class, 'update'])->middleware('permission:Member.update');
+    Route::post('/members/{member}/suspend', [MemberController::class, 'suspend'])->middleware('permission:Member.update');
+    Route::post('/members/{member}/activate', [MemberController::class, 'activate'])->middleware('permission:Member.update');
     Route::post('/members/{member}/send-password-setup', [MemberController::class, 'sendPasswordSetup'])->middleware('permission:Member.update');
 
     /*
@@ -190,7 +138,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Member Shares - Admin
+    | Member Shares
     |--------------------------------------------------------------------------
     */
 
@@ -203,75 +151,48 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Nominee Management
+    | Welfare
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('welfare')->group(function () {
+        Route::get('/statistics', [WelfareController::class, 'statistics'])->middleware('permission:Welfare.view');
+        Route::get('/options', [WelfareController::class, 'options'])->middleware('permission:Welfare.view');
+        Route::get('/funds', [WelfareController::class, 'funds'])->middleware('permission:Welfare.view');
+        Route::post('/funds', [WelfareController::class, 'storeFund'])->middleware('permission:Welfare.manage');
+        Route::post('/funds/{fund}/allocations', [WelfareController::class, 'allocate'])->middleware('permission:Welfare.manage');
+        Route::get('/', [WelfareController::class, 'index'])->middleware('permission:Welfare.view');
+        Route::post('/', [WelfareController::class, 'store'])->middleware('permission:Welfare.create');
+        Route::get('/documents/{document}', [WelfareController::class, 'document'])->middleware('permission:Welfare.view');
+        Route::get('/{welfareRequest}', [WelfareController::class, 'show'])->middleware('permission:Welfare.view');
+        Route::post('/{welfareRequest}/review', [WelfareController::class, 'review'])->middleware('permission:Welfare.review');
+        Route::post('/{welfareRequest}/approve', [WelfareController::class, 'approve'])->middleware('permission:Welfare.approve');
+        Route::post('/{welfareRequest}/reject', [WelfareController::class, 'reject'])->middleware('permission:Welfare.approve');
+        Route::post('/{welfareRequest}/disburse', [WelfareController::class, 'disburse'])->middleware('permission:Welfare.disburse');
+        Route::post('/{welfareRequest}/cancel', [WelfareController::class, 'cancel'])->middleware('permission:Welfare.review');
+        Route::post('/{welfareRequest}/reverse', [WelfareController::class, 'reverse'])->middleware('permission:Welfare.disburse');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nominees
     |--------------------------------------------------------------------------
     */
 
     Route::prefix('nominees')->group(function () {
-        Route::get(
-            '/statistics',
-            [NomineeController::class, 'statistics']
-        )->middleware('permission:Nominee.view');
-
-        Route::get(
-            '/options',
-            [NomineeController::class, 'options']
-        )->middleware('permission:Nominee.view');
-
-        Route::get(
-            '/',
-            [NomineeController::class, 'index']
-        )->middleware('permission:Nominee.view');
-
-        Route::post(
-            '/',
-            [NomineeController::class, 'store']
-        )->middleware('permission:Nominee.create');
-
-        Route::get(
-            '/{nominee}',
-            [NomineeController::class, 'show']
-        )->middleware('permission:Nominee.view');
-
-        Route::put(
-            '/{nominee}',
-            [NomineeController::class, 'update']
-        )->middleware('permission:Nominee.update');
-
-        Route::patch(
-            '/{nominee}',
-            [NomineeController::class, 'update']
-        )->middleware('permission:Nominee.update');
-
-        Route::post(
-            '/{nominee}/verify',
-            [NomineeController::class, 'verify']
-        )->middleware('permission:Nominee.verify');
-
-        Route::post(
-            '/{nominee}/reject',
-            [NomineeController::class, 'reject']
-        )->middleware('permission:Nominee.verify');
-
-        Route::patch(
-            '/{nominee}/active',
-            [NomineeController::class, 'toggle']
-        )->middleware('permission:Nominee.update');
-
-        Route::post(
-            '/{nominee}/documents',
-            [NomineeController::class, 'uploadDocument']
-        )->middleware('permission:Nominee.update');
-
-        Route::delete(
-            '/documents/{document}',
-            [NomineeController::class, 'deleteDocument']
-        )->middleware('permission:Nominee.update');
-
-        Route::delete(
-            '/{nominee}',
-            [NomineeController::class, 'destroy']
-        )->middleware('permission:Nominee.delete');
+        Route::get('/statistics', [NomineeController::class, 'statistics'])->middleware('permission:Nominee.view');
+        Route::get('/options', [NomineeController::class, 'options'])->middleware('permission:Nominee.view');
+        Route::get('/', [NomineeController::class, 'index'])->middleware('permission:Nominee.view');
+        Route::post('/', [NomineeController::class, 'store'])->middleware('permission:Nominee.create');
+        Route::get('/{nominee}', [NomineeController::class, 'show'])->middleware('permission:Nominee.view');
+        Route::put('/{nominee}', [NomineeController::class, 'update'])->middleware('permission:Nominee.update');
+        Route::patch('/{nominee}', [NomineeController::class, 'update'])->middleware('permission:Nominee.update');
+        Route::post('/{nominee}/verify', [NomineeController::class, 'verify'])->middleware('permission:Nominee.verify');
+        Route::post('/{nominee}/reject', [NomineeController::class, 'reject'])->middleware('permission:Nominee.verify');
+        Route::patch('/{nominee}/active', [NomineeController::class, 'toggle'])->middleware('permission:Nominee.update');
+        Route::post('/{nominee}/documents', [NomineeController::class, 'uploadDocument'])->middleware('permission:Nominee.update');
+        Route::delete('/documents/{document}', [NomineeController::class, 'deleteDocument'])->middleware('permission:Nominee.update');
+        Route::delete('/{nominee}', [NomineeController::class, 'destroy'])->middleware('permission:Nominee.delete');
     });
 
     /*
@@ -281,101 +202,46 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::prefix('member-exits')->group(function () {
-        Route::get('/statistics', [MemberExitController::class, 'statistics'])
-            ->middleware('permission:MemberExit.view');
-
-        Route::get('/options', [MemberExitController::class, 'options'])
-            ->middleware('permission:MemberExit.view');
-
-        Route::get('/', [MemberExitController::class, 'index'])
-            ->middleware('permission:MemberExit.view');
-
-        Route::post('/', [MemberExitController::class, 'store'])
-            ->middleware('permission:MemberExit.create');
-
-        Route::get('/{memberExit}', [MemberExitController::class, 'show'])
-            ->middleware('permission:MemberExit.view');
-
-        Route::post('/{memberExit}/review', [MemberExitController::class, 'review'])
-            ->middleware('permission:MemberExit.review');
-
-        Route::post('/{memberExit}/assess', [MemberExitController::class, 'assess'])
-            ->middleware('permission:MemberExit.review');
-
-        Route::post('/{memberExit}/approve', [MemberExitController::class, 'approve'])
-            ->middleware('permission:MemberExit.approve');
-
-        Route::post('/{memberExit}/reject', [MemberExitController::class, 'reject'])
-            ->middleware('permission:MemberExit.approve');
-
-        Route::post('/{memberExit}/cancel', [MemberExitController::class, 'cancel'])
-            ->middleware('permission:MemberExit.review');
-
-        Route::post('/{memberExit}/settle', [MemberExitController::class, 'settle'])
-            ->middleware('permission:MemberExit.settle');
-
-        Route::post('/{memberExit}/close', [MemberExitController::class, 'close'])
-            ->middleware('permission:MemberExit.settle');
+        Route::get('/statistics', [MemberExitController::class, 'statistics'])->middleware('permission:MemberExit.view');
+        Route::get('/options', [MemberExitController::class, 'options'])->middleware('permission:MemberExit.view');
+        Route::get('/', [MemberExitController::class, 'index'])->middleware('permission:MemberExit.view');
+        Route::post('/', [MemberExitController::class, 'store'])->middleware('permission:MemberExit.create');
+        Route::get('/{memberExit}', [MemberExitController::class, 'show'])->middleware('permission:MemberExit.view');
+        Route::post('/{memberExit}/review', [MemberExitController::class, 'review'])->middleware('permission:MemberExit.review');
+        Route::post('/{memberExit}/assess', [MemberExitController::class, 'assess'])->middleware('permission:MemberExit.review');
+        Route::post('/{memberExit}/approve', [MemberExitController::class, 'approve'])->middleware('permission:MemberExit.approve');
+        Route::post('/{memberExit}/reject', [MemberExitController::class, 'reject'])->middleware('permission:MemberExit.approve');
+        Route::post('/{memberExit}/cancel', [MemberExitController::class, 'cancel'])->middleware('permission:MemberExit.review');
+        Route::post('/{memberExit}/settle', [MemberExitController::class, 'settle'])->middleware('permission:MemberExit.settle');
+        Route::post('/{memberExit}/close', [MemberExitController::class, 'close'])->middleware('permission:MemberExit.settle');
     });
 
     /*
     |--------------------------------------------------------------------------
-    | Committees & Election
+    | Committees
     |--------------------------------------------------------------------------
     */
+
     Route::get('/committees/current', [CommitteeController::class, 'current']);
 
     Route::prefix('committees')->group(function () {
-        Route::get('/statistics', [CommitteeController::class, 'statistics'])
-            ->middleware('permission:Committee.view');
-
-        Route::get('/options', [CommitteeController::class, 'options'])
-            ->middleware('permission:Committee.view');
-
-        Route::get('/', [CommitteeController::class, 'index'])
-            ->middleware('permission:Committee.view');
-
-        Route::post('/', [CommitteeController::class, 'store'])
-            ->middleware('permission:Committee.create');
-
-        Route::post('/positions', [CommitteeController::class, 'storePosition'])
-            ->middleware('permission:Committee.manage');
-
-        Route::put('/positions/{position}', [CommitteeController::class, 'updatePosition'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/terms/{term}/activate', [CommitteeController::class, 'activateTerm'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/terms/{term}/complete', [CommitteeController::class, 'completeTerm'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/terms/{term}/members', [CommitteeController::class, 'assignMember'])
-            ->middleware('permission:Committee.manage');
-
-        Route::put('/memberships/{membership}', [CommitteeController::class, 'endMembership'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/terms/{term}/elections', [CommitteeController::class, 'storeElection'])
-            ->middleware('permission:Committee.manage');
-
-        Route::put('/elections/{election}/status', [CommitteeController::class, 'electionStatus'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/elections/{election}/candidates', [CommitteeController::class, 'addCandidate'])
-            ->middleware('permission:Committee.manage');
-
-        Route::put('/candidates/{candidate}/result', [CommitteeController::class, 'result'])
-            ->middleware('permission:Committee.manage');
-
-        Route::post('/{committee}/terms', [CommitteeController::class, 'storeTerm'])
-            ->middleware('permission:Committee.manage');
-
-        Route::get('/{committee}', [CommitteeController::class, 'show'])
-            ->middleware('permission:Committee.view');
-
-        Route::put('/{committee}', [CommitteeController::class, 'update'])
-            ->middleware('permission:Committee.update');
+        Route::get('/statistics', [CommitteeController::class, 'statistics'])->middleware('permission:Committee.view');
+        Route::get('/options', [CommitteeController::class, 'options'])->middleware('permission:Committee.view');
+        Route::get('/', [CommitteeController::class, 'index'])->middleware('permission:Committee.view');
+        Route::post('/', [CommitteeController::class, 'store'])->middleware('permission:Committee.create');
+        Route::post('/positions', [CommitteeController::class, 'storePosition'])->middleware('permission:Committee.manage');
+        Route::put('/positions/{position}', [CommitteeController::class, 'updatePosition'])->middleware('permission:Committee.manage');
+        Route::post('/terms/{term}/activate', [CommitteeController::class, 'activateTerm'])->middleware('permission:Committee.manage');
+        Route::post('/terms/{term}/complete', [CommitteeController::class, 'completeTerm'])->middleware('permission:Committee.manage');
+        Route::post('/terms/{term}/members', [CommitteeController::class, 'assignMember'])->middleware('permission:Committee.manage');
+        Route::put('/memberships/{membership}', [CommitteeController::class, 'endMembership'])->middleware('permission:Committee.manage');
+        Route::post('/terms/{term}/elections', [CommitteeController::class, 'storeElection'])->middleware('permission:Committee.manage');
+        Route::put('/elections/{election}/status', [CommitteeController::class, 'electionStatus'])->middleware('permission:Committee.manage');
+        Route::post('/elections/{election}/candidates', [CommitteeController::class, 'addCandidate'])->middleware('permission:Committee.manage');
+        Route::put('/candidates/{candidate}/result', [CommitteeController::class, 'result'])->middleware('permission:Committee.manage');
+        Route::post('/{committee}/terms', [CommitteeController::class, 'storeTerm'])->middleware('permission:Committee.manage');
+        Route::get('/{committee}', [CommitteeController::class, 'show'])->middleware('permission:Committee.view');
+        Route::put('/{committee}', [CommitteeController::class, 'update'])->middleware('permission:Committee.update');
     });
 
     /*
@@ -383,129 +249,21 @@ Route::middleware('auth:sanctum')->group(function () {
     | Loans
     |--------------------------------------------------------------------------
     */
+
     Route::prefix('loans')->group(function () {
-        Route::get('/statistics', [LoanController::class, 'statistics'])
-            ->middleware('permission:Loan.view');
-
-        Route::get('/options', [LoanController::class, 'options'])
-            ->middleware('permission:Loan.view');
-
-        Route::get('/', [LoanController::class, 'index'])
-            ->middleware('permission:Loan.view');
-
-        Route::post('/', [LoanController::class, 'store'])
-            ->middleware('permission:Loan.create');
-
-        Route::get('/{loan}', [LoanController::class, 'show'])
-            ->middleware('permission:Loan.view');
-
-        Route::put('/{loan}', [LoanController::class, 'update'])
-            ->middleware('permission:Loan.update');
-
-        Route::patch('/{loan}', [LoanController::class, 'update'])
-            ->middleware('permission:Loan.update');
-
-        Route::post('/{loan}/approve', [LoanController::class, 'approve'])
-            ->middleware('permission:Loan.approve');
-
-        Route::post('/{loan}/reject', [LoanController::class, 'reject'])
-            ->middleware('permission:Loan.approve');
-
-        Route::post('/{loan}/cancel', [LoanController::class, 'cancel'])
-            ->middleware('permission:Loan.update');
-
-        Route::post('/{loan}/disburse', [LoanController::class, 'disburse'])
-            ->middleware('permission:Loan.disburse');
-
-        Route::post('/{loan}/repay', [LoanController::class, 'repay'])
-            ->middleware('permission:Loan.repay');
-
-        Route::post('/{loan}/default', [LoanController::class, 'markDefaulted'])
-            ->middleware('permission:Loan.update');
-    });
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | User Role Assignment
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/user-roles', [UserRoleController::class, 'index'])->middleware('permission:Role.view');
-    Route::get('/user-roles/available', [UserRoleController::class, 'roles'])->middleware('permission:Role.view');
-    Route::get('/user-roles/{user}', [UserRoleController::class, 'show'])->middleware('permission:Role.view');
-    Route::put('/user-roles/{user}', [UserRoleController::class, 'sync'])->middleware('permission:Role.update,Role.edit');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Feedback & Support
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('feedback-support')->group(function () {
-        Route::get('/statistics', [
-            FeedbackSupportController::class,
-            'statistics'
-        ])->middleware('permission:FeedbackSupport.view');
-
-        Route::get('/options', [
-            FeedbackSupportController::class,
-            'options'
-        ])->middleware('permission:FeedbackSupport.view');
-
-        Route::get('/', [
-            FeedbackSupportController::class,
-            'index'
-        ])->middleware('permission:FeedbackSupport.view');
-
-        Route::post('/', [
-            FeedbackSupportController::class,
-            'store'
-        ])->middleware('permission:FeedbackSupport.create');
-
-        Route::get('/attachments/{attachment}', [
-            FeedbackSupportController::class,
-            'document'
-        ])->middleware('permission:FeedbackSupport.view');
-
-        Route::get('/{feedbackSupport}', [
-            FeedbackSupportController::class,
-            'show'
-        ])->middleware('permission:FeedbackSupport.view');
-
-        Route::post('/{feedbackSupport}/review', [
-            FeedbackSupportController::class,
-            'review'
-        ])->middleware('permission:FeedbackSupport.review');
-
-        Route::post('/{feedbackSupport}/assign', [
-            FeedbackSupportController::class,
-            'assign'
-        ])->middleware('permission:FeedbackSupport.assign');
-
-        Route::post('/{feedbackSupport}/progress', [
-            FeedbackSupportController::class,
-            'progress'
-        ])->middleware('permission:FeedbackSupport.review');
-
-        Route::post('/{feedbackSupport}/internal-note', [
-            FeedbackSupportController::class,
-            'internalNote'
-        ])->middleware('permission:FeedbackSupport.review');
-
-        Route::post('/{feedbackSupport}/response', [
-            FeedbackSupportController::class,
-            'response'
-        ])->middleware('permission:FeedbackSupport.review');
-
-        Route::post('/{feedbackSupport}/resolve', [
-            FeedbackSupportController::class,
-            'resolve'
-        ])->middleware('permission:FeedbackSupport.resolve');
-
-        Route::post('/{feedbackSupport}/close', [
-            FeedbackSupportController::class,
-            'close'
-        ])->middleware('permission:FeedbackSupport.resolve');
+        Route::get('/statistics', [LoanController::class, 'statistics'])->middleware('permission:Loan.view');
+        Route::get('/options', [LoanController::class, 'options'])->middleware('permission:Loan.view');
+        Route::get('/', [LoanController::class, 'index'])->middleware('permission:Loan.view');
+        Route::post('/', [LoanController::class, 'store'])->middleware('permission:Loan.create');
+        Route::get('/{loan}', [LoanController::class, 'show'])->middleware('permission:Loan.view');
+        Route::put('/{loan}', [LoanController::class, 'update'])->middleware('permission:Loan.update');
+        Route::patch('/{loan}', [LoanController::class, 'update'])->middleware('permission:Loan.update');
+        Route::post('/{loan}/approve', [LoanController::class, 'approve'])->middleware('permission:Loan.approve');
+        Route::post('/{loan}/reject', [LoanController::class, 'reject'])->middleware('permission:Loan.approve');
+        Route::post('/{loan}/cancel', [LoanController::class, 'cancel'])->middleware('permission:Loan.update');
+        Route::post('/{loan}/disburse', [LoanController::class, 'disburse'])->middleware('permission:Loan.disburse');
+        Route::post('/{loan}/repay', [LoanController::class, 'repay'])->middleware('permission:Loan.repay');
+        Route::post('/{loan}/default', [LoanController::class, 'markDefaulted'])->middleware('permission:Loan.update');
     });
 
     /*
@@ -513,6 +271,7 @@ Route::middleware('auth:sanctum')->group(function () {
     | Investments
     |--------------------------------------------------------------------------
     */
+
     Route::prefix('investments')->group(function () {
         Route::get('/statistics', [InvestmentController::class, 'statistics'])->middleware('permission:Investment.view');
         Route::get('/options', [InvestmentController::class, 'options'])->middleware('permission:Investment.view');
@@ -536,43 +295,19 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::prefix('lands')->group(function () {
-        Route::get('/statistics', [LandController::class, 'statistics'])
-            ->middleware('permission:Land.view');
-
-        Route::get('/options', [LandController::class, 'options'])
-            ->middleware('permission:Land.view');
-
-        Route::get('/', [LandController::class, 'index'])
-            ->middleware('permission:Land.view');
-
-        Route::post('/', [LandController::class, 'store'])
-            ->middleware('permission:Land.create');
-
-        Route::get('/{land}', [LandController::class, 'show'])
-            ->middleware('permission:Land.view');
-
-        Route::put('/{land}', [LandController::class, 'update'])
-            ->middleware('permission:Land.update');
-
-        Route::patch('/{land}', [LandController::class, 'update'])
-            ->middleware('permission:Land.update');
-
-        Route::post('/{land}/valuations', [LandController::class, 'addValuation'])
-            ->middleware('permission:Land.update');
-
-        Route::post('/{land}/documents', [LandController::class, 'uploadDocument'])
-            ->middleware('permission:Land.update');
-
-        Route::delete('/{land}/documents/{landDocument}', [LandController::class, 'deleteDocument'])
-            ->middleware('permission:Land.update');
-
-        Route::post('/{land}/sell', [LandController::class, 'sell'])
-            ->middleware('permission:Land.update');
-
-        Route::delete('/{land}', [LandController::class, 'destroy'])
-            ->middleware('permission:Land.delete');
+        Route::get('/statistics', [LandController::class, 'statistics'])->middleware('permission:Land.view');
+        Route::get('/options', [LandController::class, 'options'])->middleware('permission:Land.view');
+        Route::get('/', [LandController::class, 'index'])->middleware('permission:Land.view');
+        Route::post('/', [LandController::class, 'store'])->middleware('permission:Land.create');
+        Route::get('/{land}', [LandController::class, 'show'])->middleware('permission:Land.view');
+        Route::put('/{land}', [LandController::class, 'update'])->middleware('permission:Land.update');
+        Route::patch('/{land}', [LandController::class, 'update'])->middleware('permission:Land.update');
+        Route::post('/{land}/valuations', [LandController::class, 'addValuation'])->middleware('permission:Land.update');
+        Route::post('/{land}/documents', [LandController::class, 'uploadDocument'])->middleware('permission:Land.update');
+        Route::delete('/{land}/documents/{landDocument}', [LandController::class, 'deleteDocument'])->middleware('permission:Land.update');
+        Route::post('/{land}/sell', [LandController::class, 'sell'])->middleware('permission:Land.update');
+        Route::delete('/{land}', [LandController::class, 'destroy'])->middleware('permission:Land.delete');
     });
-
 
     /*
     |--------------------------------------------------------------------------
@@ -624,9 +359,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{tour}/approve', [TourController::class, 'approve'])->middleware('permission:Tour.update');
         Route::put('/{tour}/status', [TourController::class, 'status'])->middleware('permission:Tour.update');
         Route::delete('/{tour}', [TourController::class, 'destroy'])->middleware('permission:Tour.delete');
+
         Route::post('/{tour}/participants', [TourParticipantController::class, 'store'])->middleware('permission:Tour.update');
         Route::put('/participants/{participant}', [TourParticipantController::class, 'update'])->middleware('permission:Tour.update');
         Route::delete('/participants/{participant}', [TourParticipantController::class, 'destroy'])->middleware('permission:Tour.update');
+
         Route::post('/{tour}/expenses', [TourExpenseController::class, 'store'])->middleware('permission:Tour.update');
         Route::post('/expenses/{expense}/cancel', [TourExpenseController::class, 'cancel'])->middleware('permission:Tour.update');
     });
@@ -661,13 +398,43 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/roles/permissions', [RoleController::class, 'permissions'])->middleware('permission:Role.view');
     Route::post('/roles', [RoleController::class, 'store'])->middleware('permission:Role.create');
     Route::get('/roles/{role}', [RoleController::class, 'show'])->middleware('permission:Role.view');
-    Route::put('/roles/{role}', [RoleController::class, 'update'])
-        ->middleware('permission:Role.update');
-    Route::patch('/roles/{role}', [RoleController::class, 'update'])
-        ->middleware('permission:Role.update');
+    Route::put('/roles/{role}', [RoleController::class, 'update'])->middleware('permission:Role.update');
+    Route::patch('/roles/{role}', [RoleController::class, 'update'])->middleware('permission:Role.update');
     Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->middleware('permission:Role.delete');
-    Route::put('/roles/{role}/permissions', [RoleController::class, 'syncPermissions'])
-        ->middleware('permission:Role.update');
+    Route::put('/roles/{role}/permissions', [RoleController::class, 'syncPermissions'])->middleware('permission:Role.update');
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Roles
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/user-roles', [UserRoleController::class, 'index'])->middleware('permission:Role.view');
+    Route::get('/user-roles/available', [UserRoleController::class, 'roles'])->middleware('permission:Role.view');
+    Route::get('/user-roles/{user}', [UserRoleController::class, 'show'])->middleware('permission:Role.view');
+    Route::put('/user-roles/{user}', [UserRoleController::class, 'sync'])->middleware('permission:Role.update,Role.edit');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Feedback & Support
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('feedback-support')->group(function () {
+        Route::get('/statistics', [FeedbackSupportController::class, 'statistics'])->middleware('permission:FeedbackSupport.view');
+        Route::get('/options', [FeedbackSupportController::class, 'options'])->middleware('permission:FeedbackSupport.view');
+        Route::get('/', [FeedbackSupportController::class, 'index'])->middleware('permission:FeedbackSupport.view');
+        Route::post('/', [FeedbackSupportController::class, 'store'])->middleware('permission:FeedbackSupport.create');
+        Route::get('/attachments/{attachment}', [FeedbackSupportController::class, 'document'])->middleware('permission:FeedbackSupport.view');
+        Route::get('/{feedbackSupport}', [FeedbackSupportController::class, 'show'])->middleware('permission:FeedbackSupport.view');
+        Route::post('/{feedbackSupport}/review', [FeedbackSupportController::class, 'review'])->middleware('permission:FeedbackSupport.review');
+        Route::post('/{feedbackSupport}/assign', [FeedbackSupportController::class, 'assign'])->middleware('permission:FeedbackSupport.assign');
+        Route::post('/{feedbackSupport}/progress', [FeedbackSupportController::class, 'progress'])->middleware('permission:FeedbackSupport.review');
+        Route::post('/{feedbackSupport}/internal-note', [FeedbackSupportController::class, 'internalNote'])->middleware('permission:FeedbackSupport.review');
+        Route::post('/{feedbackSupport}/response', [FeedbackSupportController::class, 'response'])->middleware('permission:FeedbackSupport.review');
+        Route::post('/{feedbackSupport}/resolve', [FeedbackSupportController::class, 'resolve'])->middleware('permission:FeedbackSupport.resolve');
+        Route::post('/{feedbackSupport}/close', [FeedbackSupportController::class, 'close'])->middleware('permission:FeedbackSupport.resolve');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -706,7 +473,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Accounts & Finance
+    | Finance
     |--------------------------------------------------------------------------
     */
 
@@ -723,7 +490,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/transactions/{transaction}', [FinanceController::class, 'show'])->middleware('permission:Finance.view');
         Route::post('/transactions/{transaction}/reverse', [FinanceController::class, 'reverse'])->middleware('permission:Finance.update');
 
-        // Chart of Accounts
+        // Accounts
         Route::get('/accounts/summary', [AccountingController::class, 'accountSummary'])->middleware('permission:Finance.view');
         Route::get('/accounts/options', [AccountingController::class, 'accountOptions'])->middleware('permission:Finance.view');
         Route::get('/accounts/{account}/options', [AccountingController::class, 'accountOptions'])->middleware('permission:Finance.view');
@@ -739,87 +506,31 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/ledger/accounts', [AccountingController::class, 'ledgerAccounts'])->middleware('permission:Finance.view');
         Route::get('/accounts/{account}/ledger', [AccountingController::class, 'ledger'])->middleware('permission:Finance.view');
 
-        // Financial Reports
-        // Route::get('/cash-bank',[AccountingController::class,'cashBank'])->middleware('permission:Finance.view');
-        // Route::get('/income-expense',[AccountingController::class,'incomeExpense'])->middleware('permission:Finance.view');
+        // Reports
         Route::get('/trial-balance', [AccountingController::class, 'trialBalance'])->middleware('permission:Finance.view');
         Route::get('/profit-loss', [AccountingController::class, 'profitLoss'])->middleware('permission:Finance.view');
         Route::get('/balance-sheet', [AccountingController::class, 'balanceSheet'])->middleware('permission:Finance.view');
 
         // Charges
         Route::prefix('charges')->group(function () {
-            Route::get(
-                '/summary',
-                [MemberChargeController::class, 'summary']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/options',
-                [MemberChargeController::class, 'options']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/',
-                [MemberChargeController::class, 'index']
-            )->middleware('permission:Finance.view');
-
-            Route::post(
-                '/',
-                [MemberChargeController::class, 'store']
-            )->middleware('permission:Finance.create');
-
-            Route::get(
-                '/{memberCharge}',
-                [MemberChargeController::class, 'show']
-            )->middleware('permission:Finance.view');
-
-            Route::put(
-                '/{memberCharge}',
-                [MemberChargeController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::patch(
-                '/{memberCharge}',
-                [MemberChargeController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::post(
-                '/{memberCharge}/pay',
-                [MemberChargeController::class, 'pay']
-            )->middleware('permission:Finance.create');
-
-            Route::post(
-                '/{memberCharge}/cancel',
-                [MemberChargeController::class, 'cancel']
-            )->middleware('permission:Finance.update');
-
-            Route::post(
-                '/{memberCharge}/waive',
-                [MemberChargeController::class, 'waive']
-            )->middleware('permission:Finance.update');
-
-            Route::delete(
-                '/{memberCharge}',
-                [MemberChargeController::class, 'destroy']
-            )->middleware('permission:Finance.delete');
+            Route::get('/summary', [MemberChargeController::class, 'summary'])->middleware('permission:Finance.view');
+            Route::get('/options', [MemberChargeController::class, 'options'])->middleware('permission:Finance.view');
+            Route::get('/', [MemberChargeController::class, 'index'])->middleware('permission:Finance.view');
+            Route::post('/', [MemberChargeController::class, 'store'])->middleware('permission:Finance.create');
+            Route::get('/{memberCharge}', [MemberChargeController::class, 'show'])->middleware('permission:Finance.view');
+            Route::put('/{memberCharge}', [MemberChargeController::class, 'update'])->middleware('permission:Finance.update');
+            Route::patch('/{memberCharge}', [MemberChargeController::class, 'update'])->middleware('permission:Finance.update');
+            Route::post('/{memberCharge}/pay', [MemberChargeController::class, 'pay'])->middleware('permission:Finance.create');
+            Route::post('/{memberCharge}/cancel', [MemberChargeController::class, 'cancel'])->middleware('permission:Finance.update');
+            Route::post('/{memberCharge}/waive', [MemberChargeController::class, 'waive'])->middleware('permission:Finance.update');
+            Route::delete('/{memberCharge}', [MemberChargeController::class, 'destroy'])->middleware('permission:Finance.delete');
         });
 
         // Charge Payments
         Route::prefix('charge-payments')->group(function () {
-            Route::get(
-                '/summary',
-                [ChargePaymentController::class, 'summary']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/',
-                [ChargePaymentController::class, 'index']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/{chargePayment}',
-                [ChargePaymentController::class, 'show']
-            )->middleware('permission:Finance.view');
+            Route::get('/summary', [ChargePaymentController::class, 'summary'])->middleware('permission:Finance.view');
+            Route::get('/', [ChargePaymentController::class, 'index'])->middleware('permission:Finance.view');
+            Route::get('/{chargePayment}', [ChargePaymentController::class, 'show'])->middleware('permission:Finance.view');
         });
 
         // Assets
@@ -832,16 +543,8 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{asset}/sell', [AssetController::class, 'sell'])->middleware('permission:Finance.update');
             Route::post('/{asset}/dispose', [AssetController::class, 'dispose'])->middleware('permission:Finance.update');
             Route::post('/{asset}/cancel', [AssetController::class, 'cancel'])->middleware('permission:Finance.update');
-
-            Route::post(
-                '/{asset}/depreciate',
-                [AssetController::class, 'depreciate']
-            )->middleware('permission:Finance.update');
-
-            Route::get(
-                '/{asset}/depreciations',
-                [AssetController::class, 'depreciations']
-            )->middleware('permission:Finance.view');
+            Route::post('/{asset}/depreciate', [AssetController::class, 'depreciate'])->middleware('permission:Finance.update');
+            Route::get('/{asset}/depreciations', [AssetController::class, 'depreciations'])->middleware('permission:Finance.view');
         });
 
         // Subscription Plans
@@ -855,88 +558,26 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Income
         Route::prefix('incomes')->group(function () {
-            Route::get(
-                '/options',
-                [IncomeController::class, 'options']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/',
-                [IncomeController::class, 'index']
-            )->middleware('permission:Finance.view');
-
-            Route::post(
-                '/',
-                [IncomeController::class, 'store']
-            )->middleware('permission:Finance.create');
-
-            Route::get(
-                '/{income}',
-                [IncomeController::class, 'show']
-            )->middleware('permission:Finance.view');
-
-            Route::put(
-                '/{income}',
-                [IncomeController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::patch(
-                '/{income}',
-                [IncomeController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::post(
-                '/{income}/cancel',
-                [IncomeController::class, 'cancel']
-            )->middleware('permission:Finance.update');
-
-            Route::delete(
-                '/{income}',
-                [IncomeController::class, 'destroy']
-            )->middleware('permission:Finance.delete');
+            Route::get('/options', [IncomeController::class, 'options'])->middleware('permission:Finance.view');
+            Route::get('/', [IncomeController::class, 'index'])->middleware('permission:Finance.view');
+            Route::post('/', [IncomeController::class, 'store'])->middleware('permission:Finance.create');
+            Route::get('/{income}', [IncomeController::class, 'show'])->middleware('permission:Finance.view');
+            Route::put('/{income}', [IncomeController::class, 'update'])->middleware('permission:Finance.update');
+            Route::patch('/{income}', [IncomeController::class, 'update'])->middleware('permission:Finance.update');
+            Route::post('/{income}/cancel', [IncomeController::class, 'cancel'])->middleware('permission:Finance.update');
+            Route::delete('/{income}', [IncomeController::class, 'destroy'])->middleware('permission:Finance.delete');
         });
 
         // Expenses
         Route::prefix('expenses')->group(function () {
-            Route::get(
-                '/options',
-                [ExpenseController::class, 'options']
-            )->middleware('permission:Finance.view');
-
-            Route::get(
-                '/',
-                [ExpenseController::class, 'index']
-            )->middleware('permission:Finance.view');
-
-            Route::post(
-                '/',
-                [ExpenseController::class, 'store']
-            )->middleware('permission:Finance.create');
-
-            Route::get(
-                '/{expense}',
-                [ExpenseController::class, 'show']
-            )->middleware('permission:Finance.view');
-
-            Route::put(
-                '/{expense}',
-                [ExpenseController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::patch(
-                '/{expense}',
-                [ExpenseController::class, 'update']
-            )->middleware('permission:Finance.update');
-
-            Route::post(
-                '/{expense}/cancel',
-                [ExpenseController::class, 'cancel']
-            )->middleware('permission:Finance.update');
-
-            Route::delete(
-                '/{expense}',
-                [ExpenseController::class, 'destroy']
-            )->middleware('permission:Finance.delete');
+            Route::get('/options', [ExpenseController::class, 'options'])->middleware('permission:Finance.view');
+            Route::get('/', [ExpenseController::class, 'index'])->middleware('permission:Finance.view');
+            Route::post('/', [ExpenseController::class, 'store'])->middleware('permission:Finance.create');
+            Route::get('/{expense}', [ExpenseController::class, 'show'])->middleware('permission:Finance.view');
+            Route::put('/{expense}', [ExpenseController::class, 'update'])->middleware('permission:Finance.update');
+            Route::patch('/{expense}', [ExpenseController::class, 'update'])->middleware('permission:Finance.update');
+            Route::post('/{expense}/cancel', [ExpenseController::class, 'cancel'])->middleware('permission:Finance.update');
+            Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->middleware('permission:Finance.delete');
         });
 
         // Monthly Subscriptions
@@ -961,20 +602,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Notification Campaigns
-    |--------------------------------------------------------------------------
-    */
-
-    Route::prefix('notification-campaigns')->group(function () {
-        Route::get('/', [NotificationCampaignController::class, 'index'])->middleware('permission:Notification.view');
-        Route::get('/statistics', [NotificationCampaignController::class, 'statistics'])->middleware('permission:Notification.view');
-        Route::get('/recipients', [NotificationCampaignController::class, 'recipients'])->middleware('permission:Notification.send');
-        Route::post('/send', [NotificationCampaignController::class, 'send'])->middleware('permission:Notification.send');
-        Route::get('/{campaign}', [NotificationCampaignController::class, 'show'])->middleware('permission:Notification.view');
-    });
-
-    /*
-    |--------------------------------------------------------------------------
     | Notifications
     |--------------------------------------------------------------------------
     */
@@ -986,6 +613,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/read-all', [NotificationController::class, 'markAllAsRead']);
         Route::patch('/{id}/read', [NotificationController::class, 'markAsRead']);
         Route::delete('/{id}', [NotificationController::class, 'destroy']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Campaigns
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('notification-campaigns')->group(function () {
+        Route::get('/', [NotificationCampaignController::class, 'index'])->middleware('permission:Notification.view');
+        Route::get('/statistics', [NotificationCampaignController::class, 'statistics'])->middleware('permission:Notification.view');
+        Route::get('/recipients', [NotificationCampaignController::class, 'recipients'])->middleware('permission:Notification.send');
+        Route::post('/send', [NotificationCampaignController::class, 'send'])->middleware('permission:Notification.send');
+        Route::get('/{campaign}', [NotificationCampaignController::class, 'show'])->middleware('permission:Notification.view');
     });
 
     /*
@@ -1038,8 +679,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('reports')->middleware('permission:Report.view')->group(function () {
         Route::get('/summary', [ReportController::class, 'summary']);
         Route::get('/branding', [ReportController::class, 'branding']);
-        Route::get('/{module}', [ReportController::class, 'module'])->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices']);
-        Route::get('/{module}/export/{format}', [ReportController::class, 'export'])->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices'])->whereIn('format', ['pdf']);
+        Route::get('/{module}', [ReportController::class, 'module'])
+            ->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices']);
+        Route::get('/{module}/export/{format}', [ReportController::class, 'export'])
+            ->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices'])
+            ->whereIn('format', ['pdf']);
     });
 
     /*
@@ -1077,7 +721,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Backup
+    | Backups
     |--------------------------------------------------------------------------
     */
 
@@ -1125,35 +769,16 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::prefix('teller')->group(function () {
-        Route::get('/dashboard', [TellerDashboardController::class, 'index'])
-            ->middleware('permission:Finance.view');
-
-        Route::get('/options', [TellerController::class, 'options'])
-            ->middleware('permission:Finance.view');
-
-        Route::get('/balance', [TellerController::class, 'balance'])
-            ->middleware('permission:Finance.view');
-
-        Route::get('/transactions', [TellerController::class, 'transactions'])
-            ->middleware('permission:Finance.view');
-
-        Route::post('/receive', [TellerController::class, 'receive'])
-            ->middleware('permission:Finance.create');
-
-        Route::post('/payment', [TellerController::class, 'payment'])
-            ->middleware('permission:Finance.create');
-
-        Route::post('/transactions/{tellerTransaction}/cancel', [TellerController::class, 'cancel'])
-            ->middleware('permission:Finance.update');
-
-        Route::get('/closing/summary', [TellerClosingController::class, 'summary'])
-            ->middleware('permission:Finance.view');
-
-        Route::post('/closing', [TellerClosingController::class, 'close'])
-            ->middleware('permission:Finance.create');
-
-        Route::post('/closing/{date}/reopen', [TellerClosingController::class, 'reopen'])
-            ->middleware('permission:Finance.update');
+        Route::get('/dashboard', [TellerDashboardController::class, 'index'])->middleware('permission:Finance.view');
+        Route::get('/options', [TellerController::class, 'options'])->middleware('permission:Finance.view');
+        Route::get('/balance', [TellerController::class, 'balance'])->middleware('permission:Finance.view');
+        Route::get('/transactions', [TellerController::class, 'transactions'])->middleware('permission:Finance.view');
+        Route::post('/receive', [TellerController::class, 'receive'])->middleware('permission:Finance.create');
+        Route::post('/payment', [TellerController::class, 'payment'])->middleware('permission:Finance.create');
+        Route::post('/transactions/{tellerTransaction}/cancel', [TellerController::class, 'cancel'])->middleware('permission:Finance.update');
+        Route::get('/closing/summary', [TellerClosingController::class, 'summary'])->middleware('permission:Finance.view');
+        Route::post('/closing', [TellerClosingController::class, 'close'])->middleware('permission:Finance.create');
+        Route::post('/closing/{date}/reopen', [TellerClosingController::class, 'reopen'])->middleware('permission:Finance.update');
     });
 
     /*
@@ -1177,58 +802,47 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::prefix('member')->middleware('member')->group(function () {
+
         Route::get('/dashboard', [MemberDashboardController::class, 'index']);
         Route::get('/profile', [MemberDashboardController::class, 'profile']);
         Route::put('/profile', [MemberDashboardController::class, 'updateProfile']);
         Route::get('/polls', [MemberDashboardController::class, 'polls']);
         Route::get('/notices', [MemberDashboardController::class, 'notices']);
 
+        // Subscriptions
         Route::prefix('subscriptions')->group(function () {
-            Route::get(
-                '/payments',
-                [MemberSubscriptionController::class, 'payments']
-            );
-
-            Route::get(
-                '/',
-                [MemberSubscriptionController::class, 'index']
-            );
-
-            Route::post(
-                '/dues/{subscriptionDue}/pay',
-                [MemberSubscriptionController::class, 'pay']
-            );
+            Route::get('/payments', [MemberSubscriptionController::class, 'payments']);
+            Route::get('/', [MemberSubscriptionController::class, 'index']);
+            Route::post('/dues/{subscriptionDue}/pay', [MemberSubscriptionController::class, 'pay']);
         });
 
+        // Shares
         Route::prefix('shares')->group(function () {
             Route::get('/', [MemberShareController::class, 'myShares']);
             Route::post('/', [MemberShareController::class, 'purchase']);
         });
 
+        // Investments
         Route::prefix('investments')->group(function () {
-            Route::get(
-                '/',
-                [MemberInvestmentController::class, 'index']
-            );
-
-            Route::get(
-                '/{investment}',
-                [MemberInvestmentController::class, 'show']
-            );
+            Route::get('/', [MemberInvestmentController::class, 'index']);
+            Route::get('/{investment}', [MemberInvestmentController::class, 'show']);
         });
 
+        // Tours
         Route::prefix('tours')->group(function () {
             Route::get('/summary', [MemberTourController::class, 'summary']);
             Route::get('/', [MemberTourController::class, 'index']);
             Route::get('/{tour}', [MemberTourController::class, 'show']);
         });
 
+        // Meetings
         Route::prefix('meetings')->group(function () {
             Route::get('/summary', [MemberMeetingController::class, 'summary']);
             Route::get('/', [MemberMeetingController::class, 'index']);
             Route::get('/{meeting}', [MemberMeetingController::class, 'show']);
         });
 
+        // Loans
         Route::prefix('loans')->group(function () {
             Route::get('/', [MemberLoanController::class, 'index']);
             Route::post('/', [MemberLoanController::class, 'store']);
@@ -1236,131 +850,56 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{loan}/cancel', [MemberLoanController::class, 'cancel']);
         });
 
+        // Nominees
         Route::prefix('nominees')->group(function () {
-            Route::get(
-                '/',
-                [MemberNomineeController::class, 'index']
-            );
-
-            Route::post(
-                '/',
-                [MemberNomineeController::class, 'store']
-            );
-
-            Route::put(
-                '/{nominee}',
-                [MemberNomineeController::class, 'update']
-            );
-
-            Route::patch(
-                '/{nominee}',
-                [MemberNomineeController::class, 'update']
-            );
-
-            Route::post(
-                '/{nominee}/submit',
-                [MemberNomineeController::class, 'submit']
-            );
-
-            Route::patch(
-                '/{nominee}/active',
-                [MemberNomineeController::class, 'toggle']
-            );
-
-            Route::post(
-                '/{nominee}/documents',
-                [MemberNomineeController::class, 'uploadDocument']
-            );
-
-            Route::delete(
-                '/documents/{document}',
-                [MemberNomineeController::class, 'deleteDocument']
-            );
-
-            Route::delete(
-                '/{nominee}',
-                [MemberNomineeController::class, 'destroy']
-            );
+            Route::get('/', [MemberNomineeController::class, 'index']);
+            Route::post('/', [MemberNomineeController::class, 'store']);
+            Route::put('/{nominee}', [MemberNomineeController::class, 'update']);
+            Route::patch('/{nominee}', [MemberNomineeController::class, 'update']);
+            Route::post('/{nominee}/submit', [MemberNomineeController::class, 'submit']);
+            Route::patch('/{nominee}/active', [MemberNomineeController::class, 'toggle']);
+            Route::post('/{nominee}/documents', [MemberNomineeController::class, 'uploadDocument']);
+            Route::delete('/documents/{document}', [MemberNomineeController::class, 'deleteDocument']);
+            Route::delete('/{nominee}', [MemberNomineeController::class, 'destroy']);
         });
 
+        // Welfare
         Route::prefix('welfare')->group(function () {
-            Route::get('/', [
-                MemberWelfareController::class,
-                'index'
-            ]);
-
-            Route::post('/', [
-                MemberWelfareController::class,
-                'store'
-            ]);
-
-            Route::post('/{welfareRequest}/documents', [
-                MemberWelfareController::class,
-                'upload'
-            ]);
-
-            Route::post('/{welfareRequest}/cancel', [
-                MemberWelfareController::class,
-                'cancel'
-            ]);
-
-            Route::get('/documents/{document}', [
-                MemberWelfareController::class,
-                'document'
-            ]);
+            Route::get('/', [MemberWelfareController::class, 'index']);
+            Route::post('/', [MemberWelfareController::class, 'store']);
+            Route::post('/{welfareRequest}/documents', [MemberWelfareController::class, 'upload']);
+            Route::post('/{welfareRequest}/cancel', [MemberWelfareController::class, 'cancel']);
+            Route::get('/documents/{document}', [MemberWelfareController::class, 'document']);
         });
 
+        // Feedback & Support
         Route::prefix('feedback-support')->group(function () {
-            Route::get('/', [
-                MemberFeedbackSupportController::class,
-                'index'
-            ]);
-
-            Route::post('/', [
-                MemberFeedbackSupportController::class,
-                'store'
-            ]);
-
-            Route::post('/{feedbackSupport}/follow-up', [
-                MemberFeedbackSupportController::class,
-                'followUp'
-            ]);
-
-            Route::post('/{feedbackSupport}/attachments', [
-                MemberFeedbackSupportController::class,
-                'upload'
-            ]);
-
-            Route::get('/attachments/{attachment}', [
-                MemberFeedbackSupportController::class,
-                'document'
-            ]);
-
-            Route::post('/{feedbackSupport}/cancel', [
-                MemberFeedbackSupportController::class,
-                'cancel'
-            ]);
+            Route::get('/', [MemberFeedbackSupportController::class, 'index']);
+            Route::post('/', [MemberFeedbackSupportController::class, 'store']);
+            Route::post('/{feedbackSupport}/follow-up', [MemberFeedbackSupportController::class, 'followUp']);
+            Route::post('/{feedbackSupport}/attachments', [MemberFeedbackSupportController::class, 'upload']);
+            Route::get('/attachments/{attachment}', [MemberFeedbackSupportController::class, 'document']);
+            Route::post('/{feedbackSupport}/cancel', [MemberFeedbackSupportController::class, 'cancel']);
         });
 
+        // Member Exit
         Route::prefix('exit')->group(function () {
-            Route::get('/', [
-                MemberExitPortalController::class,
-                'index'
-            ]);
-
-            Route::post('/', [
-                MemberExitPortalController::class,
-                'store'
-            ]);
-
-            Route::post('/{memberExit}/cancel', [
-                MemberExitPortalController::class,
-                'cancel'
-            ]);
+            Route::get('/', [MemberExitPortalController::class, 'index']);
+            Route::post('/', [MemberExitPortalController::class, 'store']);
+            Route::post('/{memberExit}/cancel', [MemberExitPortalController::class, 'cancel']);
         });
     });
 
-    Route::post('/admin/system/refresh-cache',function(){
+    /*
+    |--------------------------------------------------------------------------
+    | System
+    |--------------------------------------------------------------------------
+    |
+    | POST /api/admin/system/refresh-cache
+    |
+    */
+
+    Route::post('/admin/system/refresh-cache', function () {
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
         Artisan::call('event:clear');
@@ -1372,8 +911,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Artisan::call('event:cache');
 
         return response()->json([
-            'success'=>true,
-            'message'=>'System cache cleared and rebuilt successfully.'
+            'success' => true,
+            'message' => 'System cache cleared and rebuilt successfully.',
         ]);
     })->name('admin.system.refresh-cache');
 });
