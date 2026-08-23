@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lands', function (Blueprint $table) {
-            $table->id();
-
+             $table->id();
             $table->string('land_code')->unique();
-
             $table->string('title');
 
             $table->text('description')->nullable();
@@ -27,18 +25,39 @@ return new class extends Migration
             $table->string('khatian_no')->nullable();
             $table->string('dag_no')->nullable();
 
-            $table->decimal('land_area', 12, 4)->nullable();
+            $table->string('deed_no',150)->nullable();
+            $table->string('registration_no',150)->nullable();
 
-            $table->string('area_unit')->default('decimal');
+            $table->decimal('land_area',12,4)->nullable();
 
-            $table->decimal('purchase_price', 15, 2)->default(0);
+            $table->enum('area_unit',[
+                'decimal',
+                'katha',
+                'bigha',
+                'acre',
+                'sqft',
+                'hectare',
+            ])->default('decimal');
+
+            $table->decimal('purchase_price',15,2)->default(0);
+            $table->decimal('current_value',15,2)->nullable();
 
             $table->date('purchase_date')->nullable();
 
-            $table->string('seller_name')->nullable();
-            $table->string('seller_phone')->nullable();
+            $table->foreignId('payment_account_id')
+                ->nullable()
+                ->constrained('accounts')
+                ->restrictOnDelete();
 
-            $table->enum('status', [
+            $table->foreignId('finance_transaction_id')
+                ->nullable()
+                ->constrained('transactions')
+                ->nullOnDelete();
+
+            $table->string('seller_name')->nullable();
+            $table->string('seller_phone',30)->nullable();
+
+            $table->enum('status',[
                 'planned',
                 'negotiating',
                 'purchased',
@@ -48,7 +67,17 @@ return new class extends Migration
 
             $table->text('notes')->nullable();
 
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
             $table->timestamps();
+
+            $table->index(['status','purchase_date']);
+            $table->index(['district','upazila']);
+            $table->index(['mouza','khatian_no','dag_no']);
+            $table->index('registration_no');
         });
     }
 

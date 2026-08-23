@@ -12,7 +12,6 @@ class SettingSeeder extends Seeder
         Setting::whereIn('key',[
             'member_approval_type',
             'theme_mode',
-            'backup_frequency',
         ])->delete();
 
         $settings=[
@@ -28,6 +27,62 @@ class SettingSeeder extends Seeder
                 'options'=>null,
                 'group'=>'organization',
                 'description'=>'Organization name',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_type',
+                'value'=>'association',
+                'type'=>'select',
+                'options'=>[
+                    'association',
+                    'cooperative',
+                    'society',
+                    'club',
+                    'foundation',
+                    'trust',
+                    'ngo',
+                    'non_profit',
+                    'community_organization',
+                    'other',
+                ],
+                'group'=>'organization',
+                'description'=>'Organization type',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_registration_no',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Registration number',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_registration_authority',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Registration authority',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_registration_date',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Registration date',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_established_date',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Established date',
                 'is_public'=>true,
             ],
             [
@@ -49,6 +104,24 @@ class SettingSeeder extends Seeder
                 'is_public'=>true,
             ],
             [
+                'key'=>'organization_alternative_phone',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Alternative phone number',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'organization_website',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
+                'group'=>'organization',
+                'description'=>'Organization website',
+                'is_public'=>true,
+            ],
+            [
                 'key'=>'organization_address',
                 'value'=>null,
                 'type'=>'string',
@@ -58,18 +131,12 @@ class SettingSeeder extends Seeder
                 'is_public'=>true,
             ],
             [
-                'key'=>'organization_type',
-                'value'=>'cooperative',
-                'type'=>'select',
-                'options'=>[
-                    'cooperative',
-                    'ngo',
-                    'trust',
-                    'club',
-                    'other',
-                ],
+                'key'=>'organization_description',
+                'value'=>null,
+                'type'=>'string',
+                'options'=>null,
                 'group'=>'organization',
-                'description'=>'Organization type',
+                'description'=>'About organization',
                 'is_public'=>true,
             ],
 
@@ -463,7 +530,7 @@ class SettingSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | General
+            | General - Code Prefixes
             |--------------------------------------------------------------------------
             */
             [
@@ -496,12 +563,12 @@ class SettingSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | General - Member Shares
+            | General - Shares
             |--------------------------------------------------------------------------
             */
             [
                 'key'=>'share_enabled',
-                'value'=>'0',
+                'value'=>'1',
                 'type'=>'boolean',
                 'options'=>null,
                 'group'=>'general',
@@ -511,7 +578,7 @@ class SettingSeeder extends Seeder
             [
                 'key'=>'default_share_value',
                 'value'=>'50000',
-                'type'=>'decimal',
+                'type'=>'float',
                 'options'=>null,
                 'group'=>'general',
                 'description'=>'Default value of one association share',
@@ -555,8 +622,8 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'subscription_fine_value',
-                'value'=>'200',
-                'type'=>'decimal',
+                'value'=>'100',
+                'type'=>'float',
                 'options'=>null,
                 'group'=>'general',
                 'description'=>'Subscription late fine amount or percentage',

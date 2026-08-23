@@ -850,7 +850,8 @@ function renderJournals(){
         if(
             canUpdate&&
             journal.status==='posted'&&
-            journal.type!=='journal_reversal'
+            journal.type!=='journal_reversal'&&
+            !journal.reversed_at
         ){
             actions.push(`
                 <button

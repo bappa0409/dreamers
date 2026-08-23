@@ -88,5 +88,13 @@ class SubscriptionDue extends Model
             $this->month
         );
     }
-    
+
+    public function getIsSettledAttribute(): bool
+    {
+        return in_array(
+            $this->status,
+            ['paid','waived'],
+            true
+        );
+    }
 }

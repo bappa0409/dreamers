@@ -67,8 +67,8 @@ button:not(:disabled):active,
 /* Global Modal Overlay */
 .app-modal-overlay{
     background:rgba(15,23,42,.55);
-    backdrop-filter:blur(4px);
-    -webkit-backdrop-filter:blur(4px);
+    backdrop-filter:blur(1px);
+    -webkit-backdrop-filter:blur(1px);
 }
 
 /* Global Modal Panel */
@@ -293,4 +293,83 @@ span.flatpickr-weekday {
 
 .flatpickr-time input {
     font-size: 11px !important;
+}
+
+/* =========================================================
+   Form Validation
+   Bootstrap-like .is-invalid / .invalid-feedback
+   ========================================================= */
+
+.is-invalid{
+    border-color:#ef4444 !important;
+    background-color:#fff !important;
+    box-shadow:0 0 0 1px rgba(239,68,68,.08);
+}
+
+.is-invalid:focus{
+    border-color:#ef4444 !important;
+    outline:0 !important;
+    box-shadow:0 0 0 3px rgba(239,68,68,.12) !important;
+}
+
+/* Select */
+select.is-invalid{
+    border-color:#ef4444 !important;
+}
+
+/* Textarea */
+textarea.is-invalid{
+    border-color:#ef4444 !important;
+}
+
+/* Checkbox / Radio */
+input[type="checkbox"].is-invalid,
+input[type="radio"].is-invalid{
+    border-color:#ef4444 !important;
+}
+
+input[type="checkbox"].is-invalid:checked,
+input[type="radio"].is-invalid:checked{
+    background-color:#ef4444 !important;
+    border-color:#ef4444 !important;
+}
+
+/* Bootstrap-like error message */
+.invalid-feedback{
+    display:none;
+    width:100%;
+    margin-top:.25rem;
+    font-size:.75rem;
+    line-height:1.25rem;
+    color:#dc2626;
+}
+
+.is-invalid~.invalid-feedback,
+.is-invalid+.invalid-feedback{
+    display:block;
+}
+
+/* Optional valid state */
+.is-valid{
+    border-color:#10b981 !important;
+}
+
+.is-valid:focus{
+    border-color:#10b981 !important;
+    outline:0 !important;
+    box-shadow:0 0 0 3px rgba(16,185,129,.12) !important;
+}
+
+.valid-feedback{
+    display:none;
+    width:100%;
+    margin-top:.25rem;
+    font-size:.75rem;
+    line-height:1.25rem;
+    color:#059669;
+}
+
+.is-valid~.valid-feedback,
+.is-valid+.valid-feedback{
+    display:block;
 }

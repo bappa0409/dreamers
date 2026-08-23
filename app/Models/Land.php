@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Land extends Model
 {
@@ -15,74 +17,90 @@ class Land extends Model
     protected string $activityLogLabelColumn='land_code';
 
     protected $fillable=[
-        'land_code','title','description','district','upazila','mouza',
-        'khatian_no','dag_no','land_area','area_unit','purchase_price',
-        'current_value','sale_price','selling_expense','purchase_date',
-        'sale_date','seller_name','seller_phone','buyer_name','buyer_phone',
-        'status','notes'
+        'land_code',
+        'title',
+        'description',
+        'district',
+        'upazila',
+        'mouza',
+        'khatian_no',
+        'dag_no',
+        'land_area',
+        'area_unit',
+        'purchase_price',
+        'current_value',
+        'purchase_date',
+        'seller_name',
+        'seller_phone',
+        'deed_no',
+        'registration_no',
+        'payment_account_id',
+        'finance_transaction_id',
+        'created_by',
+        'status',
+        'notes',
     ];
 
     protected function casts(): array
     {
-        return [
+        return[
             'land_area'=>'decimal:4',
             'purchase_price'=>'decimal:2',
             'current_value'=>'decimal:2',
-            'sale_price'=>'decimal:2',
-            'selling_expense'=>'decimal:2',
             'purchase_date'=>'date',
-            'sale_date'=>'date'
         ];
     }
 
-    protected $appends=[
-        'net_sale_amount',
-        'profit_loss',
-        'profit_percentage'
-    ];
-
-    public function investments(): HasMany
+    public function paymentAccount(): BelongsTo
     {
-        return $this->hasMany(LandInvestment::class);
+        return $this->belongsTo(
+            Account::class,
+            'payment_account_id'
+        );
+    }
+
+    public function financeTransaction(): BelongsTo
+    {
+        return $this->belongsTo(
+            Transaction::class,
+            'finance_transaction_id'
+        );
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(
+            User::class,
+            'created_by'
+        );
     }
 
     public function documents(): HasMany
     {
-        return $this->hasMany(LandDocument::class);
-    }
-
-    public function getNetSaleAmountAttribute(): float
-    {
-        if($this->sale_price===null){
-            return 0;
-        }
-
-        return max(
-            (float)$this->sale_price-(float)$this->selling_expense,
-            0
+        return $this->hasMany(
+            LandDocument::class
         );
     }
 
-    public function getProfitLossAttribute(): float
+    public function valuations(): HasMany
     {
-        if($this->sale_price===null){
-            return 0;
-        }
-
-        return $this->net_sale_amount-(float)$this->purchase_price;
+        return $this->hasMany(
+            LandValuation::class
+        );
     }
 
-    public function getProfitPercentageAttribute(): float
+    public function disposal(): HasOne
     {
-        $purchase=(float)$this->purchase_price;
+        return $this->hasOne(
+            LandDisposal::class
+        );
+    }
 
-        if($purchase<=0||$this->sale_price===null){
-            return 0;
-        }
-
-        return round(
-            ($this->profit_loss/$purchase)*100,
-            2
+    public function scopeActive($query)
+    {
+        return $query->whereNotIn(
+            'status',
+            ['sold','cancelled']
         );
     }
 }

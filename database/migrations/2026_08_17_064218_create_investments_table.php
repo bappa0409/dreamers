@@ -15,10 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('investment_no')->unique();
 
-            $table->foreignId('member_id')
-                ->constrained('members')
-                ->cascadeOnDelete();
-
             $table->foreignId('payment_account_id')
                 ->nullable()
                 ->constrained('accounts')
@@ -48,10 +44,16 @@ return new class extends Migration
             $table->index('investment_date');
             $table->index('maturity_date');
             $table->index('status');
-            $table->index(['member_id', 'status']);
             $table->index(['payment_account_id', 'investment_date']);
             $table->index(['status', 'maturity_date']);
-            $table->index('finance_transaction_id');
+            $table->index(
+                [
+                    'status',
+                    'investment_date',
+                    'id'
+                ],
+                'investments_status_date_id_idx'
+            );
         });
     }
 

@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('payment_no',50)->unique();
 
             $table->foreignId('member_id')
-                ->constrained('members')
-                ->cascadeOnDelete();
+    ->constrained('members')
+    ->restrictOnDelete();
 
             $table->foreignId('subscription_due_id')
-                ->constrained('subscription_dues')
-                ->cascadeOnDelete();
+    ->constrained('subscription_dues')
+    ->restrictOnDelete();
 
             $table->decimal('amount',15,2);
 
@@ -70,6 +70,15 @@ return new class extends Migration
             $table->index(['payment_method', 'status']);
             $table->index('transaction_reference');
             $table->index('finance_transaction_id');
+            $table->index(
+    ['status','verified_at'],
+    'subscription_payments_status_verified_idx'
+);
+
+$table->index(
+    ['member_id','paid_at'],
+    'subscription_payments_member_paid_idx'
+);
         });
     }
 

@@ -412,15 +412,7 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="form-label">Acquired Date <span class="text-red-500">*</span></label>
-
-                                <div class="relative">
-                                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-
-                                    <input id="share_acquired_date" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
-                                </div>
-                            </div>
+                        
 
                             <div>
                                 <label class="form-label">Payment Method <span class="text-red-500">*</span></label>

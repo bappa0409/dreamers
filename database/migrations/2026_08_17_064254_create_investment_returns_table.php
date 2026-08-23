@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('investment_returns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('investment_id')
-                ->constrained('investments')
-                ->cascadeOnDelete();
+    ->constrained('investments')
+    ->restrictOnDelete();
 
             $table->enum('return_type', [
                 'income',
@@ -50,6 +50,7 @@ return new class extends Migration
             $table->index(['receive_account_id', 'return_date']);
             $table->index(['investment_id', 'return_date']);
             $table->index('finance_transaction_id');
+            $table->index(['investment_id','status','return_type'],'investment_returns_summary_idx');
         });
     }
 

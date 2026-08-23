@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
 use App\Models\Land;
-use App\Models\Member;
+use App\Models\LandDocument;
 use App\Services\LandService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LandController extends Controller
 {
@@ -20,50 +22,107 @@ class LandController extends Controller
             'search'=>'nullable|string|max:150',
             'status'=>'nullable|in:planned,negotiating,purchased,sold,cancelled',
             'district'=>'nullable|string|max:100',
-            'per_page'=>'nullable|integer|min:5|max:100'
+            'per_page'=>'nullable|integer|min:5|max:100',
         ]);
 
+        $perPage=min(
+            max((int)($validated['per_page']??15),5),
+            100
+        );
+
         $query=Land::query()
-            ->withCount('investments')
-            ->withSum([
-                'investments as invested_amount'=>fn($q)=>
-                    $q->whereNotIn('status',['cancelled'])
-            ],'amount')
-            ->latest('id');
-
-        if(!empty($validated['search'])){
-            $search=$validated['search'];
-
-            $query->where(function($q)use($search){
-                $q->where('land_code','like',"%{$search}%")
-                    ->orWhere('title','like',"%{$search}%")
-                    ->orWhere('district','like',"%{$search}%")
-                    ->orWhere('upazila','like',"%{$search}%")
-                    ->orWhere('mouza','like',"%{$search}%")
-                    ->orWhere('khatian_no','like',"%{$search}%")
-                    ->orWhere('dag_no','like',"%{$search}%");
-            });
-        }
-
-        if(!empty($validated['status'])){
-            $query->where(
-                'status',
-                $validated['status']
-            );
-        }
-
-        if(!empty($validated['district'])){
-            $query->where(
+            ->select([
+                'id',
+                'land_code',
+                'title',
                 'district',
-                $validated['district']
-            );
-        }
+                'upazila',
+                'mouza',
+                'khatian_no',
+                'dag_no',
+                'land_area',
+                'area_unit',
+                'purchase_price',
+                'current_value',
+                'purchase_date',
+                'status',
+                'created_at',
+            ])
+            ->when(
+                !empty($validated['search']),
+                function($query)use($validated){
+                    $search=trim($validated['search']);
+
+                    $query->where(function($q)use($search){
+                        $q->where(
+                            'land_code',
+                            'like',
+                            "%{$search}%"
+                        )
+                            ->orWhere(
+                                'title',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'district',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'upazila',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'mouza',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'khatian_no',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'dag_no',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'deed_no',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'registration_no',
+                                'like',
+                                "%{$search}%"
+                            );
+                    });
+                }
+            )
+            ->when(
+                !empty($validated['status']),
+                fn($q)=>$q->where(
+                    'status',
+                    $validated['status']
+                )
+            )
+            ->when(
+                !empty($validated['district']),
+                fn($q)=>$q->where(
+                    'district',
+                    trim($validated['district'])
+                )
+            )
+            ->latest('id');
 
         return response()->json([
             'success'=>true,
-            'data'=>$query->paginate(
-                min((int)($validated['per_page']??15),100)
-            )
+            'data'=>$query
+                ->paginate($perPage)
+                ->withQueryString(),
         ]);
     }
 
@@ -71,62 +130,102 @@ class LandController extends Controller
     {
         return response()->json([
             'success'=>true,
-            'data'=>$this->landService->statistics()
+            'data'=>$this->landService
+                ->statistics(),
         ]);
     }
 
-    public function members(Request $request)
+    public function options()
     {
-        $search=trim(
-            (string)$request->input('search','')
-        );
-
-        $members=Member::query()
-            ->with('user:id,name,email,mobile')
-            ->where('status','active')
-            ->when($search,function($query)use($search){
-                $query->where(function($q)use($search){
-                    $q->where('member_code','like',"%{$search}%")
-                        ->orWhereHas('user',function($uq)use($search){
-                            $uq->where('name','like',"%{$search}%")
-                                ->orWhere('email','like',"%{$search}%")
-                                ->orWhere('mobile','like',"%{$search}%");
-                        });
-                });
-            })
-            ->orderBy('member_code')
-            ->limit(30)
-            ->get();
+        $accounts=Account::query()
+            ->active()
+            ->posting()
+            ->where('type','asset')
+            ->whereIn('sub_type',[
+                'cash',
+                'bank',
+                'cash_bank',
+            ])
+            ->orderBy('code')
+            ->get([
+                'id',
+                'code',
+                'name',
+                'sub_type',
+            ]);
 
         return response()->json([
             'success'=>true,
-            'data'=>$members
+            'data'=>[
+                'accounts'=>$accounts,
+                'statuses'=>[
+                    'planned',
+                    'negotiating',
+                    'purchased',
+                    'sold',
+                    'cancelled',
+                ],
+                'area_units'=>[
+                    'decimal',
+                    'katha',
+                    'bigha',
+                    'acre',
+                    'sqft',
+                    'hectare',
+                ],
+                'document_types'=>[
+                    'deed',
+                    'registration',
+                    'mutation',
+                    'khatian',
+                    'tax_receipt',
+                    'survey',
+                    'valuation',
+                    'agreement',
+                    'map',
+                    'other',
+                ],
+            ],
         ]);
     }
 
     public function store(Request $request)
     {
-        $validated=$this->validateLand($request);
+        $validated=$this->validateLand(
+            $request
+        );
 
         $land=$this->landService->create(
-            $validated
+            $validated,
+            $request->user()->id
         );
 
         return response()->json([
             'success'=>true,
             'message'=>'Land created successfully.',
-            'data'=>$land
+            'data'=>$land,
         ],201);
     }
 
     public function show(Land $land)
     {
+        $land->load([
+            'paymentAccount:id,code,name,type,sub_type',
+            'creator:id,name,email',
+            'financeTransaction.entries.account',
+            'documents.uploader:id,name,email',
+            'valuations'=>fn($q)=>
+                $q->latest('valuation_date')
+                    ->latest('id'),
+            'valuations.creator:id,name,email',
+            'disposal.receiveAccount:id,code,name,type,sub_type',
+            'disposal.creator:id,name,email',
+            'disposal.financeTransaction.entries.account',
+        ]);
+
         return response()->json([
             'success'=>true,
-            'data'=>$land->load([
-                'investments.member.user',
-                'documents'
-            ])
+            'data'=>$land,
         ]);
     }
 
@@ -141,14 +240,40 @@ class LandController extends Controller
 
         $land=$this->landService->update(
             $land,
-            $validated
+            $validated,
+            $request->user()->id
         );
 
         return response()->json([
             'success'=>true,
             'message'=>'Land updated successfully.',
-            'data'=>$land
+            'data'=>$land,
         ]);
+    }
+
+    public function addValuation(
+        Request $request,
+        Land $land
+    ){
+        $validated=$request->validate([
+            'valuation_date'=>'required|date_format:Y-m-d',
+            'current_value'=>'required|numeric|min:0|max:9999999999999.99',
+            'valued_by'=>'nullable|string|max:255',
+            'notes'=>'nullable|string|max:3000',
+        ]);
+
+        $valuation=$this->landService
+            ->addValuation(
+                $land,
+                $validated,
+                $request->user()->id
+            );
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Land valuation added successfully.',
+            'data'=>$valuation,
+        ],201);
     }
 
     public function sell(
@@ -156,58 +281,110 @@ class LandController extends Controller
         Land $land
     ){
         $validated=$request->validate([
-            'sale_price'=>'required|numeric|min:0.01',
-            'selling_expense'=>'nullable|numeric|min:0',
-            'sale_date'=>'required|date',
+            'sale_price'=>'required|numeric|min:0.01|max:9999999999999.99',
+            'selling_expense'=>'nullable|numeric|min:0|max:9999999999999.99',
+            'sale_date'=>'required|date_format:Y-m-d',
+            'receive_account_id'=>'required|integer|exists:accounts,id',
             'buyer_name'=>'nullable|string|max:255',
-            'buyer_phone'=>'nullable|string|max:30'
+            'buyer_phone'=>'nullable|string|max:30',
+            'reference_no'=>'nullable|string|max:150',
+            'notes'=>'nullable|string|max:3000',
         ]);
 
-        $land=$this->landService->sell(
+        $disposal=$this->landService->sell(
             $land,
-            $validated
+            $validated,
+            $request->user()->id
         );
 
         return response()->json([
             'success'=>true,
             'message'=>'Land sold successfully.',
-            'data'=>$land
+            'data'=>$disposal,
         ]);
     }
 
-    public function storeInvestment(
+    public function uploadDocument(
         Request $request,
         Land $land
     ){
         $validated=$request->validate([
-            'member_id'=>'required|exists:members,id',
-            'amount'=>'required|numeric|min:0.01',
-            'ownership_percentage'=>'nullable|numeric|min:0.0001|max:100',
-            'investment_date'=>'nullable|date',
-            'status'=>'nullable|in:pending,active,returned,cancelled',
-            'notes'=>'nullable|string|max:3000'
+            'document_type'=>'required|string|max:100',
+            'document_number'=>'nullable|string|max:150',
+            'document_date'=>'nullable|date_format:Y-m-d',
+            'description'=>'nullable|string|max:3000',
+            'file'=>'required|file|mimes:pdf,jpg,jpeg,png,webp|max:10240',
         ]);
 
-        $investment=$this->landService
-            ->addInvestment(
-                $land,
-                $validated
-            );
+        $file=$request->file('file');
+
+        $path=$file->store(
+            "lands/{$land->id}",
+            'public'
+        );
+
+        $document=$land->documents()->create([
+            'document_type'=>$validated['document_type'],
+            'document_number'=>
+                isset($validated['document_number'])
+                    ?trim($validated['document_number'])
+                    :null,
+            'file_path'=>$path,
+            'file_name'=>$file->getClientOriginalName(),
+            'document_date'=>$validated['document_date']??null,
+            'description'=>
+                isset($validated['description'])
+                    ?trim($validated['description'])
+                    :null,
+            'uploaded_by'=>$request->user()->id,
+        ]);
 
         return response()->json([
             'success'=>true,
-            'message'=>'Land investment added successfully.',
-            'data'=>$investment->load('member.user')
+            'message'=>'Land document uploaded successfully.',
+            'data'=>$document->fresh([
+                'uploader:id,name,email',
+            ]),
         ],201);
+    }
+
+    public function deleteDocument(
+        Land $land,
+        LandDocument $landDocument
+    ){
+        abort_unless(
+            (int)$landDocument->land_id===(int)$land->id,
+            404
+        );
+
+        if(
+            $landDocument->file_path&&
+            Storage::disk('public')->exists(
+                $landDocument->file_path
+            )
+        ){
+            Storage::disk('public')->delete(
+                $landDocument->file_path
+            );
+        }
+
+        $landDocument->delete();
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Land document deleted successfully.',
+        ]);
     }
 
     public function destroy(Land $land)
     {
-        $this->landService->delete($land);
+        $this->landService->delete(
+            $land
+        );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Land deleted successfully.'
+            'message'=>'Land deleted successfully.',
         ]);
     }
 
@@ -215,25 +392,43 @@ class LandController extends Controller
         Request $request,
         bool $update=false
     ): array{
-        $required=$update?'sometimes|required':'required';
+        $required=$update
+            ?'sometimes|required'
+            :'required';
 
         return $request->validate([
             'title'=>"{$required}|string|max:255",
+
             'description'=>'nullable|string|max:5000',
+
             'district'=>'nullable|string|max:100',
             'upazila'=>'nullable|string|max:100',
-            'mouza'=>'nullable|string|max:100',
+            'mouza'=>'nullable|string|max:150',
+
             'khatian_no'=>'nullable|string|max:100',
             'dag_no'=>'nullable|string|max:100',
-            'land_area'=>'nullable|numeric|min:0',
-            'area_unit'=>'nullable|string|max:30',
-            'purchase_price'=>'nullable|numeric|min:0',
-            'current_value'=>'nullable|numeric|min:0',
-            'purchase_date'=>'nullable|date',
+
+            'land_area'=>'nullable|numeric|min:0.0001|max:999999999999.9999',
+
+            'area_unit'=>'nullable|in:decimal,katha,bigha,acre,sqft,hectare',
+
+            'purchase_price'=>'nullable|numeric|min:0|max:9999999999999.99',
+
+            'current_value'=>'nullable|numeric|min:0|max:9999999999999.99',
+
+            'purchase_date'=>'nullable|date_format:Y-m-d',
+
             'seller_name'=>'nullable|string|max:255',
             'seller_phone'=>'nullable|string|max:30',
+
+            'deed_no'=>'nullable|string|max:100',
+            'registration_no'=>'nullable|string|max:100',
+
+            'payment_account_id'=>'nullable|integer|exists:accounts,id',
+
             'status'=>'nullable|in:planned,negotiating,purchased,sold,cancelled',
-            'notes'=>'nullable|string|max:5000'
+
+            'notes'=>'nullable|string|max:5000',
         ]);
     }
 }

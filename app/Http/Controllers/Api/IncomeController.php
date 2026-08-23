@@ -62,14 +62,16 @@ class IncomeController extends Controller
             'success'=>true,
             'data'=>[
                 'income_accounts'=>Account::active()
-                    ->where('type','income')
-                    ->orderBy('code')
-                    ->get(['id','code','name']),
+    ->where('type','income')
+    ->whereDoesntHave('children')
+    ->orderBy('code')
+    ->get(['id','code','name']),
 
-                'receive_accounts'=>Account::active()
-                    ->whereIn('sub_type',['cash','bank'])
-                    ->orderBy('code')
-                    ->get(['id','code','name','sub_type']),
+'receive_accounts'=>Account::active()
+    ->whereIn('sub_type',['cash','bank'])
+    ->whereDoesntHave('children')
+    ->orderBy('code')
+    ->get(['id','code','name','sub_type']),
 
                 'members'=>Member::query()
                     ->where('status','active')
@@ -117,6 +119,43 @@ class IncomeController extends Controller
             ]),
         ]);
     }
+
+    public function update(
+    Request $request,
+    Income $income
+){
+    $validated=$request->validate([
+        'member_id'=>'nullable|exists:members,id',
+        'income_account_id'=>'sometimes|exists:accounts,id',
+        'receive_account_id'=>'sometimes|exists:accounts,id',
+        'amount'=>'sometimes|numeric|min:0.01|max:999999999999.99',
+        'income_date'=>'sometimes|date',
+        'reference'=>'nullable|string|max:150',
+        'description'=>'nullable|string|max:2000',
+        'attachment'=>'nullable|string|max:500',
+    ]);
+
+    $income=$this->incomeService->update(
+        $income,
+        $validated
+    );
+
+    return response()->json([
+        'success'=>true,
+        'message'=>'Income updated successfully.',
+        'data'=>$income,
+    ]);
+}
+
+public function destroy(Income $income)
+{
+    $this->incomeService->delete($income);
+
+    return response()->json([
+        'success'=>true,
+        'message'=>'Income deleted successfully.',
+    ]);
+}
 
     public function cancel(Request $request,Income $income)
     {

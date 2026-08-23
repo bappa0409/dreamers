@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Account;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ProfitLossService
 {
@@ -13,29 +14,12 @@ class ProfitLossService
         $to=$filters['to']??now()->endOfMonth()->toDateString();
 
         $accounts=$this->balances($from,$to);
+        $income=$accounts->where('type','income')->values();
+        $expenses=$accounts->where('type','expense')->values();
 
-        $income=$accounts
-            ->where('type','income')
-            ->values();
-
-        $expenses=$accounts
-            ->where('type','expense')
-            ->values();
-
-        $totalIncome=round(
-            $income->sum('balance'),
-            2
-        );
-
-        $totalExpense=round(
-            $expenses->sum('balance'),
-            2
-        );
-
-        $net=round(
-            $totalIncome-$totalExpense,
-            2
-        );
+        $totalIncome=round((float)$income->sum('balance'),2);
+        $totalExpense=round((float)$expenses->sum('balance'),2);
+        $net=round($totalIncome-$totalExpense,2);
 
         return[
             'from'=>$from,
@@ -46,15 +30,33 @@ class ProfitLossService
                 'total_income'=>$totalIncome,
                 'total_expense'=>$totalExpense,
                 'net_surplus'=>$net,
-                'is_surplus'=>$net>=0
-            ]
+                'net_deficit'=>$net<0?abs($net):0,
+                'is_surplus'=>$net>=0,
+            ],
         ];
     }
 
-    private function balances(
-        string $from,
-        string $to
-    ): Collection{
+    private function balances(string $from,string $to): Collection
+    {
+        $movements=DB::table('transaction_entries as te')
+            ->join(
+                'transactions as t',
+                't.id',
+                '=',
+                'te.transaction_id'
+            )
+            ->where('t.status','posted')
+            ->whereBetween(
+                't.transaction_date',
+                [$from,$to]
+            )
+            ->selectRaw('
+                te.account_id,
+                COALESCE(SUM(te.debit),0) total_debit,
+                COALESCE(SUM(te.credit),0) total_credit
+            ')
+            ->groupBy('te.account_id');
+
         return Account::query()
             ->select([
                 'accounts.id',
@@ -62,76 +64,57 @@ class ProfitLossService
                 'accounts.name',
                 'accounts.type',
                 'accounts.sub_type',
-                'accounts.is_active'
+                'accounts.is_active',
             ])
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.debit ELSE 0 END),0) AS total_debit'
+            ->leftJoinSub(
+                $movements,
+                'movements',
+                fn($join)=>$join->on(
+                    'movements.account_id',
+                    '=',
+                    'accounts.id'
+                )
             )
             ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.credit ELSE 0 END),0) AS total_credit'
+                'COALESCE(movements.total_debit,0) AS total_debit'
             )
-            ->leftJoin(
-                'transaction_entries',
-                'transaction_entries.account_id',
-                '=',
-                'accounts.id'
-            )
-            ->leftJoin(
-                'transactions',
-                function($join)use($from,$to){
-                    $join->on(
-                        'transactions.id',
-                        '=',
-                        'transaction_entries.transaction_id'
-                    )
-                    ->where(
-                        'transactions.status',
-                        '=',
-                        'posted'
-                    )
-                    ->whereBetween(
-                        'transactions.transaction_date',
-                        [$from,$to]
-                    );
-                }
+            ->selectRaw(
+                'COALESCE(movements.total_credit,0) AS total_credit'
             )
             ->whereDoesntHave('children')
             ->whereIn(
                 'accounts.type',
                 ['income','expense']
             )
-            ->groupBy([
-                'accounts.id',
-                'accounts.code',
-                'accounts.name',
-                'accounts.type',
-                'accounts.sub_type',
-                'accounts.is_active'
-            ])
             ->orderBy('accounts.code')
             ->get()
-            ->map(function($account){
-                $debit=(float)$account->total_debit;
-                $credit=(float)$account->total_credit;
-
-                $balance=$account->type==='income'
-                    ?$credit-$debit
-                    :$debit-$credit;
-
-                return[
-                    'id'=>$account->id,
-                    'code'=>$account->code,
-                    'name'=>$account->name,
-                    'type'=>$account->type,
-                    'sub_type'=>$account->sub_type,
-                    'is_active'=>(bool)$account->is_active,
-                    'balance'=>round($balance,2)
-                ];
-            })
+            ->map(fn(Account $account)=>$this->transform($account))
             ->filter(
-                fn($account)=>
+                fn(array $account)=>
                     abs($account['balance'])>0.004
             )
             ->values();
+    }
+
+    private function transform(Account $account): array
+    {
+        $debit=(float)($account->total_debit??0);
+        $credit=(float)($account->total_credit??0);
+
+        $balance=$account->type==='income'
+            ?$credit-$debit
+            :$debit-$credit;
+
+        return[
+            'id'=>$account->id,
+            'code'=>$account->code,
+            'name'=>$account->name,
+            'type'=>$account->type,
+            'sub_type'=>$account->sub_type,
+            'is_active'=>(bool)$account->is_active,
+            'debit'=>round($debit,2),
+            'credit'=>round($credit,2),
+            'balance'=>round($balance,2),
+        ];
     }
 }

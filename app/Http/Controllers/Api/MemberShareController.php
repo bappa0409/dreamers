@@ -12,16 +12,16 @@ class MemberShareController extends Controller
 {
     public function __construct(
         protected MemberShareService $memberShareService
-    ){}
+    ) {}
 
     public function index(Member $member)
     {
         return response()->json([
-            'success'=>true,
-            'data'=>[
-                'summary'=>$this->memberShareService
+            'success' => true,
+            'data' => [
+                'summary' => $this->memberShareService
                     ->summary($member),
-                'shares'=>$this->memberShareService
+                'shares' => $this->memberShareService
                     ->memberShares($member),
             ],
         ]);
@@ -30,235 +30,251 @@ class MemberShareController extends Controller
     public function store(
         Request $request,
         Member $member
-    ){
-        $validated=$this->validatePurchase($request);
+    ) {
+        $validated = $this->validatePurchase($request);
 
-        $share=$this->memberShareService->issue(
+        $share = $this->memberShareService->issue(
             $member,
             $validated,
             $request->user()->id
         );
 
         return response()->json([
-            'success'=>true,
-            'message'=>'Share purchase submitted for verification.',
-            'data'=>$share,
-        ],201);
+            'success' => true,
+            'message' => 'Share purchase submitted for verification.',
+            'data' => $share,
+        ], 201);
     }
 
     public function myShares(Request $request)
-    {
-        $member=$request->user()->member;
+{
+    $member=$request->user()->member;
 
-        abort_unless(
-            $member&&$member->status==='active',
-            403,
-            'Active membership is required.'
-        );
+    abort_unless(
+        $member&&$member->status==='active',
+        403,
+        'Active membership is required.'
+    );
 
-        abort_unless(
-            filter_var(
-                setting('share_enabled',false),
-                FILTER_VALIDATE_BOOLEAN
-            ),
-            403,
-            'Share purchasing is currently disabled.'
-        );
+    $shareEnabled=filter_var(
+        setting('share_enabled',false),
+        FILTER_VALIDATE_BOOLEAN
+    );
 
-        return response()->json([
-            'success'=>true,
-            'data'=>[
-                'summary'=>$this->memberShareService
-                    ->summary($member),
-                'shares'=>$this->memberShareService
-                    ->memberShares($member),
-                'settings'=>[
-                    'share_enabled'=>true,
-                    'default_share_value'=>(float)setting(
+    return response()->json([
+        'success'=>true,
+        'data'=>[
+            'summary'=>$this->memberShareService
+                ->summary($member),
+
+            'shares'=>$this->memberShareService
+                ->memberShares($member),
+
+            'settings'=>[
+                'share_enabled'=>$shareEnabled,
+
+                'default_share_value'=>round(
+                    (float)setting(
                         'default_share_value',
                         0
                     ),
-                    'minimum_share_purchase_amount'=>(float)setting(
+                    2
+                ),
+
+                'minimum_share_purchase_amount'=>round(
+                    (float)setting(
                         'minimum_share_purchase_amount',
                         0
                     ),
-                ],
+                    2
+                ),
             ],
-        ]);
-    }
+        ],
+    ]);
+}
 
     public function purchase(Request $request)
     {
-        $member=$request->user()->member;
+        $member = $request->user()->member;
 
         abort_unless(
-            $member&&$member->status==='active',
+            $member && $member->status === 'active',
             403,
             'Active membership is required.'
         );
 
-        $validated=$this->validatePurchase($request);
+        $validated = $this->validatePurchase($request);
 
-        $share=$this->memberShareService->issue(
+        $share = $this->memberShareService->issue(
             $member,
             $validated,
             $request->user()->id
         );
 
         return response()->json([
-            'success'=>true,
-            'message'=>'Share purchase submitted for verification.',
-            'data'=>$share,
-        ],201);
+            'success' => true,
+            'message' => 'Share purchase submitted for verification.',
+            'data' => $share,
+        ], 201);
     }
 
     public function verify(
         Request $request,
         MemberShare $memberShare
-    ){
-        $validated=$request->validate([
-            'note'=>'nullable|string|max:3000',
+    ) {
+        $validated = $request->validate([
+            'note' => 'nullable|string|max:3000',
         ]);
 
-        $share=$this->memberShareService->verify(
+        $share = $this->memberShareService->verify(
             $memberShare,
             $request->user()->id,
-            $validated['note']??null
+            $validated['note'] ?? null
         );
 
         return response()->json([
-            'success'=>true,
-            'message'=>'Share purchase verified successfully.',
-            'data'=>$share,
+            'success' => true,
+            'message' => 'Share purchase verified successfully.',
+            'data' => $share,
         ]);
     }
 
     public function reject(
         Request $request,
         MemberShare $memberShare
-    ){
-        $validated=$request->validate([
-            'note'=>'required|string|max:3000',
+    ) {
+        $validated = $request->validate([
+            'note' => 'required|string|max:3000',
         ]);
 
-        $share=$this->memberShareService->reject(
+        $share = $this->memberShareService->reject(
             $memberShare,
             $request->user()->id,
             $validated['note']
         );
 
         return response()->json([
-            'success'=>true,
-            'message'=>'Share purchase rejected.',
-            'data'=>$share,
+            'success' => true,
+            'message' => 'Share purchase rejected.',
+            'data' => $share,
         ]);
     }
 
     protected function validatePurchase(
         Request $request
-    ): array{
+    ): array {
         return $request->validate([
-            'purchase_amount'=>'required|numeric|min:0.01',
-            'payment_method'=>'required|in:cash,bank,mobile_banking,online',
-            'transaction_reference'=>'nullable|string|max:255',
-            'notes'=>'nullable|string|max:3000',
+            'purchase_amount' => 'required|numeric|min:0.01',
+            'payment_method' => 'required|in:cash,bank,mobile_banking,online',
+            'transaction_reference' => 'nullable|string|max:255',
+            'notes' => 'nullable|string|max:3000',
         ]);
     }
 
     public function adminIndex(Request $request)
-{
-    $validated=$request->validate([
-        'status'=>'nullable|in:pending,active,rejected,cancelled,transferred,retired',
-        'search'=>'nullable|string|max:150',
-        'per_page'=>'nullable|integer|min:5|max:100',
-    ]);
+    {
+        $validated = $request->validate([
+            'status' => 'nullable|in:pending,active,rejected,cancelled,transferred,retired',
+            'search' => 'nullable|string|max:150',
+            'per_page' => 'nullable|integer|min:5|max:100',
+        ]);
 
-    $query=MemberShare::query()
-        ->with([
-            'member.user:id,name,email,mobile',
-            'creator:id,name,email',
-            'verifier:id,name,email',
-        ])
-        ->latest('id');
+        $baseQuery = MemberShare::query()
+            ->when(
+                !empty($validated['search']),
+                function ($query) use ($validated) {
+                    $search = trim($validated['search']);
 
-    if(!empty($validated['status'])){
-        $query->where(
-            'status',
-            $validated['status']
-        );
-    }
+                    $query->where(function ($q) use ($search) {
+                        $q->where('share_no', 'like', "%{$search}%")
+                            ->orWhere('transaction_reference', 'like', "%{$search}%")
+                            ->orWhereHas('member', function ($memberQuery) use ($search) {
+                                $memberQuery
+                                    ->where('member_code', 'like', "%{$search}%")
+                                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                                        $userQuery
+                                            ->where('name', 'like', "%{$search}%")
+                                            ->orWhere('email', 'like', "%{$search}%")
+                                            ->orWhere('mobile', 'like', "%{$search}%");
+                                    });
+                            });
+                    });
+                }
+            );
 
-    if(!empty($validated['search'])){
-        $search=trim($validated['search']);
+        $summary = (clone $baseQuery)
+            ->selectRaw("
+            COUNT(*) total,
+            SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) pending,
+            SUM(CASE WHEN status='active' THEN 1 ELSE 0 END) active,
+            SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) rejected,
+            SUM(CASE WHEN status='cancelled' THEN 1 ELSE 0 END) cancelled,
+            SUM(CASE WHEN status='transferred' THEN 1 ELSE 0 END) transferred,
+            SUM(CASE WHEN status='retired' THEN 1 ELSE 0 END) retired,
+            COALESCE(SUM(CASE WHEN status='active' THEN purchase_amount ELSE 0 END),0) active_value,
+            COALESCE(SUM(CASE WHEN status='pending' THEN purchase_amount ELSE 0 END),0) pending_value
+        ")
+            ->first();
 
-        $query->where(function($query)use($search){
-            $query
-                ->where(
-                    'share_no',
-                    'like',
-                    "%{$search}%"
+        $query = (clone $baseQuery)
+            ->with([
+                'member:id,user_id,member_code,status',
+                'member.user:id,name,email,mobile',
+                'creator:id,name,email',
+                'verifier:id,name,email',
+            ])
+            ->when(
+                !empty($validated['status']),
+                fn($q) => $q->where(
+                    'status',
+                    $validated['status']
                 )
-                ->orWhere(
-                    'transaction_reference',
-                    'like',
-                    "%{$search}%"
-                )
-                ->orWhereHas(
-                    'member',
-                    function($memberQuery)use($search){
-                        $memberQuery
-                            ->where(
-                                'member_code',
-                                'like',
-                                "%{$search}%"
-                            )
-                            ->orWhereHas(
-                                'user',
-                                function($userQuery)use($search){
-                                    $userQuery
-                                        ->where(
-                                            'name',
-                                            'like',
-                                            "%{$search}%"
-                                        )
-                                        ->orWhere(
-                                            'email',
-                                            'like',
-                                            "%{$search}%"
-                                        )
-                                        ->orWhere(
-                                            'mobile',
-                                            'like',
-                                            "%{$search}%"
-                                        );
-                                }
-                            );
-                    }
-                );
-        });
-    }
-
-    return response()->json([
-        'success'=>true,
-        'data'=>$query->paginate(
-            min(
-                (int)($validated['per_page']??20),
-                100
             )
-        ),
-    ]);
-}
+            ->latest('id');
 
-public function show(MemberShare $memberShare)
-{
-    return response()->json([
-        'success'=>true,
-        'data'=>$memberShare->load([
-            'member.user:id,name,email,mobile',
-            'creator:id,name,email',
-            'verifier:id,name,email',
-            'financeTransaction.entries.account',
-        ]),
-    ]);
-}
+        $perPage = min(
+            max(
+                (int)($validated['per_page'] ?? 20),
+                5
+            ),
+            100
+        );
+
+        return response()->json([
+            'success' => true,
+            'data' => $query
+                ->paginate($perPage)
+                ->withQueryString(),
+            'summary' => [
+                'total' => (int)($summary->total ?? 0),
+                'pending' => (int)($summary->pending ?? 0),
+                'active' => (int)($summary->active ?? 0),
+                'rejected' => (int)($summary->rejected ?? 0),
+                'cancelled' => (int)($summary->cancelled ?? 0),
+                'transferred' => (int)($summary->transferred ?? 0),
+                'retired' => (int)($summary->retired ?? 0),
+                'active_value' => round(
+                    (float)($summary->active_value ?? 0),
+                    2
+                ),
+                'pending_value' => round(
+                    (float)($summary->pending_value ?? 0),
+                    2
+                ),
+            ],
+        ]);
+    }
+
+    public function show(MemberShare $memberShare)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $memberShare->load([
+                'member.user:id,name,email,mobile',
+                'creator:id,name,email',
+                'verifier:id,name,email',
+                'financeTransaction.entries.account',
+            ]),
+        ]);
+    }
 }

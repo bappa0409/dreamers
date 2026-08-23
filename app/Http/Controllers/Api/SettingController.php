@@ -78,34 +78,51 @@ class SettingController extends Controller
     */
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'key' => 'required|string|max:255',
-            'value' => 'nullable',
-            'type' => 'required|in:string,boolean,integer,float,json,password,image,select',
-            'group' => 'required|string|max:100',
-            'description' => 'nullable|string',
-            'is_public' => 'boolean',
-            'options' => 'nullable|array',
-            'options.*' => 'string',
-        ]);
+{
+    $type=strtolower(
+        trim(
+            (string)$request->input('type','string')
+        )
+    );
 
-        $setting = $this->settingService->set(
-            $validated['key'],
-            $validated['value'] ?? null,
-            $validated['type'],
-            $validated['group'],
-            $validated['description'] ?? null,
-            $validated['is_public'] ?? false,
-            $validated['options'] ?? null
-        );
+    $type=match($type){
+        'bool'=>'boolean',
+        'int'=>'integer',
+        'decimal','double'=>'float',
+        default=>$type,
+    };
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Setting saved successfully.',
-            'data' => $setting
-        ]);
-    }
+    $request->merge([
+        'type'=>$type,
+    ]);
+
+    $validated=$request->validate([
+        'key'=>'required|string|max:255',
+        'value'=>'nullable',
+        'type'=>'required|in:string,boolean,integer,float,json,password,image,select',
+        'group'=>'required|string|max:100',
+        'description'=>'nullable|string',
+        'is_public'=>'boolean',
+        'options'=>'nullable|array',
+        'options.*'=>'string',
+    ]);
+
+    $setting=$this->settingService->set(
+        $validated['key'],
+        $validated['value']??null,
+        $validated['type'],
+        $validated['group'],
+        $validated['description']??null,
+        $validated['is_public']??false,
+        $validated['options']??null
+    );
+
+    return response()->json([
+        'success'=>true,
+        'message'=>'Setting saved successfully.',
+        'data'=>$setting,
+    ]);
+}
 
 
     /*

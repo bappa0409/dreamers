@@ -1,23 +1,48 @@
 window.api=async(url,options={})=>{
+    const method=String(
+        options.method??'GET'
+    ).toUpperCase();
+
+    const headers={
+        Accept:'application/json',
+        ...(options.headers||{})
+    };
+
+    const csrfToken=document
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute('content');
+
+    if(
+        csrfToken&&
+        !['GET','HEAD','OPTIONS'].includes(method)
+    ){
+        headers['X-CSRF-TOKEN']=csrfToken;
+    }
+
     const config={
         credentials:'same-origin',
         ...options,
-        headers:{
-            Accept:'application/json',
-            ...(options.headers||{})
-        }
+        method,
+        headers
     };
 
-    if(config.body&&!(config.body instanceof FormData)){
+    if(
+        config.body&&
+        !(config.body instanceof FormData)&&
+        !config.headers['Content-Type']
+    ){
         config.headers['Content-Type']='application/json';
     }
 
     let response;
 
     try{
-        response=await fetch(url,config);
+        response=await fetch(
+            url,
+            config
+        );
     }catch{
-        throw {
+        throw{
             message:'Network error. Please check your connection.',
             data:null
         };
@@ -25,14 +50,29 @@ window.api=async(url,options={})=>{
 
     let data={};
 
+    const contentType=
+        response.headers.get('content-type')??'';
+
     try{
-        data=await response.json();
+        if(
+            contentType.includes(
+                'application/json'
+            )
+        ){
+            data=await response.json();
+        }else{
+            const text=await response.text();
+
+            data=text
+                ?{message:text}
+                :{};
+        }
     }catch{}
 
     if(response.status===401){
         window.location.href='/login';
 
-        throw {
+        throw{
             response,
             data,
             message:'Your session has expired.'
@@ -40,44 +80,50 @@ window.api=async(url,options={})=>{
     }
 
     if(response.status===403){
-        throw {
+        throw{
             response,
             data,
-            message:data.message||'You do not have permission to perform this action.'
+            message:
+                data.message||
+                'You do not have permission to perform this action.'
         };
     }
 
     if(response.status===419){
-        window.location.reload();
-
-        throw {
+        throw{
             response,
             data,
-            message:'Session token expired.'
+            message:
+                'CSRF token mismatch. Please refresh the page and try again.'
         };
     }
 
     if(response.status===422){
-        throw {
+        throw{
             response,
             data,
-            message:data.message||'Validation failed.'
+            message:
+                data.message||
+                'Validation failed.'
         };
     }
 
     if(response.status===429){
-        throw {
+        throw{
             response,
             data,
-            message:'Too many requests. Please try again shortly.'
+            message:
+                'Too many requests. Please try again shortly.'
         };
     }
 
     if(!response.ok){
-        throw {
+        throw{
             response,
             data,
-            message:data.message||`Request failed (${response.status}).`
+            message:
+                data.message||
+                `Request failed (${response.status}).`
         };
     }
 

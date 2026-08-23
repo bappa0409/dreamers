@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Account;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class BalanceSheetService
 {
@@ -12,67 +13,31 @@ class BalanceSheetService
         $asOf=$filters['as_of']??now()->toDateString();
         $accounts=$this->balances($asOf);
 
-        $assets=$accounts
-            ->where('type','asset')
-            ->values();
+        $assets=$accounts->where('type','asset')->values();
+        $liabilities=$accounts->where('type','liability')->values();
+        $equity=$accounts->where('type','equity')->values();
 
-        $liabilities=$accounts
-            ->where('type','liability')
-            ->values();
+        $income=round((float)$accounts->where('type','income')->sum('balance'),2);
+        $expenses=round((float)$accounts->where('type','expense')->sum('balance'),2);
+        $currentSurplus=round($income-$expenses,2);
 
-        $equity=$accounts
-            ->where('type','equity')
-            ->values();
-
-        $income=$accounts
-            ->where('type','income')
-            ->sum('balance');
-
-        $expenses=$accounts
-            ->where('type','expense')
-            ->sum('balance');
-
-        $currentSurplus=round(
-            (float)$income-(float)$expenses,
-            2
-        );
-
-        $totalAssets=round(
-            $assets->sum('balance'),
-            2
-        );
-
-        $totalLiabilities=round(
-            $liabilities->sum('balance'),
-            2
-        );
-
-        $baseEquity=round(
-            $equity->sum('balance'),
-            2
-        );
-
-        $totalEquity=round(
-            $baseEquity+$currentSurplus,
-            2
-        );
-
-        $liabilitiesAndEquity=round(
-            $totalLiabilities+$totalEquity,
-            2
-        );
-
-        $difference=round(
-            $totalAssets-$liabilitiesAndEquity,
-            2
-        );
+        $totalAssets=round((float)$assets->sum('balance'),2);
+        $totalLiabilities=round((float)$liabilities->sum('balance'),2);
+        $baseEquity=round((float)$equity->sum('balance'),2);
+        $totalEquity=round($baseEquity+$currentSurplus,2);
+        $liabilitiesAndEquity=round($totalLiabilities+$totalEquity,2);
+        $difference=round($totalAssets-$liabilitiesAndEquity,2);
 
         return[
             'as_of'=>$asOf,
             'assets'=>$assets,
             'liabilities'=>$liabilities,
             'equity'=>$equity,
-            'current_surplus'=>$currentSurplus,
+            'current_period'=>[
+                'income'=>$income,
+                'expense'=>$expenses,
+                'surplus'=>$currentSurplus,
+            ],
             'summary'=>[
                 'total_assets'=>$totalAssets,
                 'total_liabilities'=>$totalLiabilities,
@@ -81,13 +46,24 @@ class BalanceSheetService
                 'total_equity'=>$totalEquity,
                 'liabilities_and_equity'=>$liabilitiesAndEquity,
                 'difference'=>$difference,
-                'is_balanced'=>abs($difference)<0.01
-            ]
+                'is_balanced'=>abs($difference)<0.01,
+            ],
         ];
     }
 
     private function balances(string $asOf): Collection
     {
+        $movements=DB::table('transaction_entries as te')
+            ->join('transactions as t','t.id','=','te.transaction_id')
+            ->where('t.status','posted')
+            ->whereDate('t.transaction_date','<=',$asOf)
+            ->selectRaw('
+                te.account_id,
+                COALESCE(SUM(te.debit),0) total_debit,
+                COALESCE(SUM(te.credit),0) total_credit
+            ')
+            ->groupBy('te.account_id');
+
         return Account::query()
             ->select([
                 'accounts.id',
@@ -96,86 +72,44 @@ class BalanceSheetService
                 'accounts.type',
                 'accounts.sub_type',
                 'accounts.opening_balance',
-                'accounts.is_active'
+                'accounts.is_active',
             ])
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.debit ELSE 0 END),0) AS total_debit'
+            ->leftJoinSub(
+                $movements,
+                'movements',
+                fn($join)=>$join->on(
+                    'movements.account_id',
+                    '=',
+                    'accounts.id'
+                )
             )
             ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.credit ELSE 0 END),0) AS total_credit'
+                'COALESCE(movements.total_debit,0) AS total_debit'
             )
-            ->leftJoin(
-                'transaction_entries',
-                'transaction_entries.account_id',
-                '=',
-                'accounts.id'
-            )
-            ->leftJoin(
-                'transactions',
-                function($join)use($asOf){
-                    $join->on(
-                        'transactions.id',
-                        '=',
-                        'transaction_entries.transaction_id'
-                    )
-                    ->where(
-                        'transactions.status',
-                        '=',
-                        'posted'
-                    )
-                    ->whereDate(
-                        'transactions.transaction_date',
-                        '<=',
-                        $asOf
-                    );
-                }
+            ->selectRaw(
+                'COALESCE(movements.total_credit,0) AS total_credit'
             )
             ->whereDoesntHave('children')
-            ->whereIn(
-                'accounts.type',
-                [
-                    'asset',
-                    'liability',
-                    'equity',
-                    'income',
-                    'expense'
-                ]
-            )
-            ->groupBy([
-                'accounts.id',
-                'accounts.code',
-                'accounts.name',
-                'accounts.type',
-                'accounts.sub_type',
-                'accounts.opening_balance',
-                'accounts.is_active'
+            ->whereIn('accounts.type',[
+                'asset',
+                'liability',
+                'equity',
+                'income',
+                'expense',
             ])
             ->orderBy('accounts.code')
             ->get()
-            ->map(
-                fn($account)=>
-                    $this->transform($account)
-            )
-            ->filter(
-                fn($account)=>
-                    abs($account['balance'])>0.004
-            )
+            ->map(fn(Account $account)=>$this->transform($account))
+            ->filter(fn(array $account)=>abs($account['balance'])>0.004)
             ->values();
     }
 
     private function transform(Account $account): array
     {
-        $opening=(float)$account->opening_balance;
-        $debit=(float)$account->total_debit;
-        $credit=(float)$account->total_credit;
-
-        $balance=in_array(
-            $account->type,
-            ['asset','expense'],
-            true
-        )
-            ?$opening+$debit-$credit
-            :$opening+$credit-$debit;
+        $balance=$account->calculateBalance(
+            (float)($account->total_debit??0),
+            (float)($account->total_credit??0)
+        );
 
         return[
             'id'=>$account->id,
@@ -184,7 +118,7 @@ class BalanceSheetService
             'type'=>$account->type,
             'sub_type'=>$account->sub_type,
             'is_active'=>(bool)$account->is_active,
-            'balance'=>round($balance,2)
+            'balance'=>round($balance,2),
         ];
     }
 }

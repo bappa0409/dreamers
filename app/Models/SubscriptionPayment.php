@@ -39,7 +39,9 @@ class SubscriptionPayment extends Model
 
     public function member(): BelongsTo
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(
+            Member::class
+        );
     }
 
     public function due(): BelongsTo
@@ -64,5 +66,15 @@ class SubscriptionPayment extends Model
             Transaction::class,
             'finance_transaction_id'
         );
+    }
+
+    public function getIsPendingAttribute(): bool
+    {
+        return $this->status==='pending';
+    }
+
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->status==='verified';
     }
 }

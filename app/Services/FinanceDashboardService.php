@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Account;
 use App\Models\Asset;
 use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
 use App\Models\Transaction;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +20,7 @@ class FinanceDashboardService
             fn()=>[
                 'summary'=>$this->summary(),
                 'monthly_trend'=>$this->monthlyTrend(),
-                'recent_transactions'=>$this->recentTransactions()
+                'recent_transactions'=>$this->recentTransactions(),
             ]
         );
     }
@@ -32,31 +32,17 @@ class FinanceDashboardService
 
     private function summary(): array
     {
-        $today=now()->toDateString();
-        $monthStart=now()->startOfMonth()->toDateString();
-        $monthEnd=now()->endOfMonth()->toDateString();
+        $now=now();
+        $today=$now->toDateString();
+        $monthStart=$now->copy()->startOfMonth()->toDateString();
+        $monthEnd=$now->copy()->endOfMonth()->toDateString();
 
         $balances=$this->accountBalances($today);
 
-        $cash=$this->sumSubtype(
-            $balances,
-            'cash'
-        );
-
-        $bank=$this->sumSubtype(
-            $balances,
-            'bank'
-        );
-
-        $receivable=$this->sumSubtype(
-            $balances,
-            'receivable'
-        );
-
-        $investments=$this->sumSubtype(
-            $balances,
-            'investment'
-        );
+        $cash=$this->sumSubtype($balances,'cash');
+        $bank=$this->sumSubtype($balances,'bank');
+        $receivable=$this->sumSubtype($balances,'receivable');
+        $investments=$this->sumSubtype($balances,'investment');
 
         $monthly=$this->incomeExpense(
             $monthStart,
@@ -64,33 +50,28 @@ class FinanceDashboardService
         );
 
         $subscriptionDue=(float)SubscriptionDue::query()
-            ->whereIn(
-                'status',
-                [
-                    'unpaid',
-                    'partial'
-                ]
-            )
+            ->whereIn('status',[
+                'unpaid',
+                'partial',
+                'overdue',
+            ])
             ->selectRaw(
-                'COALESCE(SUM(amount-paid_amount),0) total'
+                'COALESCE(SUM(GREATEST(amount-paid_amount,0)),0) total'
             )
             ->value('total');
 
         $subscriptionCollected=(float)SubscriptionPayment::query()
             ->where('status','verified')
-            ->whereBetween(
-                'verified_at',
-                [
-                    now()->startOfMonth(),
-                    now()->endOfMonth()
-                ]
-            )
+            ->whereBetween('verified_at',[
+                $now->copy()->startOfMonth(),
+                $now->copy()->endOfMonth(),
+            ])
             ->sum('amount');
 
         $assetBookValue=(float)Asset::query()
             ->where('status','active')
             ->selectRaw(
-                'COALESCE(SUM(purchase_cost-accumulated_depreciation),0) total'
+                'COALESCE(SUM(GREATEST(purchase_cost-accumulated_depreciation,0)),0) total'
             )
             ->value('total');
 
@@ -98,10 +79,7 @@ class FinanceDashboardService
             ->where('status','posted')
             ->whereBetween(
                 'transaction_date',
-                [
-                    $monthStart,
-                    $monthEnd
-                ]
+                [$monthStart,$monthEnd]
             )
             ->count();
 
@@ -110,116 +88,104 @@ class FinanceDashboardService
             'bank'=>round($bank,2),
             'cash_bank'=>round($cash+$bank,2),
             'receivable'=>round($receivable,2),
+
             'subscription_outstanding'=>round(
                 $subscriptionDue,
                 2
             ),
+
             'subscription_collected'=>round(
                 $subscriptionCollected,
                 2
             ),
+
             'monthly_income'=>round(
                 $monthly['income'],
                 2
             ),
+
             'monthly_expense'=>round(
                 $monthly['expense'],
                 2
             ),
+
             'net_surplus'=>round(
-                $monthly['income']-
-                $monthly['expense'],
+                $monthly['income']-$monthly['expense'],
                 2
             ),
+
             'asset_book_value'=>round(
                 $assetBookValue,
                 2
             ),
+
             'investment_balance'=>round(
                 $investments,
                 2
             ),
-            'posted_transactions'=>$postedTransactions
+
+            'posted_transactions'=>$postedTransactions,
         ];
     }
 
-    private function accountBalances(
-        string $asOf
-    ){
-        return DB::table('accounts')
-            ->leftJoin(
-                'transaction_entries',
-                'transaction_entries.account_id',
+    private function accountBalances(string $asOf)
+    {
+        $movements=DB::table('transaction_entries as te')
+            ->join(
+                'transactions as t',
+                't.id',
                 '=',
-                'accounts.id'
+                'te.transaction_id'
             )
-            ->leftJoin(
-                'transactions',
-                function($join)use($asOf){
-                    $join->on(
-                        'transactions.id',
-                        '=',
-                        'transaction_entries.transaction_id'
-                    )
-                    ->where(
-                        'transactions.status',
-                        '=',
-                        'posted'
-                    )
-                    ->whereDate(
-                        'transactions.transaction_date',
-                        '<=',
-                        $asOf
-                    );
-                }
+            ->where('t.status','posted')
+            ->whereDate(
+                't.transaction_date',
+                '<=',
+                $asOf
             )
-            ->whereNotExists(function($query){
-                $query->selectRaw('1')
-                    ->from('accounts as children')
-                    ->whereColumn(
-                        'children.parent_id',
-                        'accounts.id'
-                    );
-            })
+            ->selectRaw('
+                te.account_id,
+                COALESCE(SUM(te.debit),0) total_debit,
+                COALESCE(SUM(te.credit),0) total_credit
+            ')
+            ->groupBy('te.account_id');
+
+        return Account::query()
             ->select([
                 'accounts.id',
                 'accounts.type',
                 'accounts.sub_type',
-                'accounts.opening_balance'
+                'accounts.opening_balance',
             ])
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.debit ELSE 0 END),0) total_debit'
-            )
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.credit ELSE 0 END),0) total_credit'
-            )
-            ->groupBy([
-                'accounts.id',
-                'accounts.type',
-                'accounts.sub_type',
-                'accounts.opening_balance'
-            ])
-            ->get()
-            ->map(function($account){
-                $opening=(float)$account->opening_balance;
-                $debit=(float)$account->total_debit;
-                $credit=(float)$account->total_credit;
-
-                $balance=in_array(
-                    $account->type,
-                    [
-                        'asset',
-                        'expense'
-                    ],
-                    true
+            ->leftJoinSub(
+                $movements,
+                'movements',
+                fn($join)=>$join->on(
+                    'movements.account_id',
+                    '=',
+                    'accounts.id'
                 )
-                    ?$opening+$debit-$credit
-                    :$opening+$credit-$debit;
-
+            )
+            ->selectRaw(
+                'COALESCE(movements.total_debit,0) total_debit'
+            )
+            ->selectRaw(
+                'COALESCE(movements.total_credit,0) total_credit'
+            )
+            ->whereDoesntHave('children')
+            ->get()
+            ->map(function(Account $account){
                 return[
                     'type'=>$account->type,
                     'sub_type'=>$account->sub_type,
-                    'balance'=>round($balance,2)
+
+                    'balance'=>round(
+                        $account->calculateBalance(
+                            (float)($account->total_debit??0),
+                            (float)($account->total_credit??0)
+                        ),
+                        2
+                    ),
                 ];
             });
     }
@@ -229,10 +195,7 @@ class FinanceDashboardService
         string $subType
     ): float{
         return (float)$balances
-            ->where(
-                'sub_type',
-                $subType
-            )
+            ->where('sub_type',$subType)
             ->sum('balance');
     }
 
@@ -240,49 +203,41 @@ class FinanceDashboardService
         string $from,
         string $to
     ): array{
-        $rows=DB::table('transaction_entries')
+        $row=DB::table('transaction_entries as te')
             ->join(
-                'transactions',
-                'transactions.id',
+                'transactions as t',
+                't.id',
                 '=',
-                'transaction_entries.transaction_id'
+                'te.transaction_id'
             )
             ->join(
-                'accounts',
-                'accounts.id',
+                'accounts as a',
+                'a.id',
                 '=',
-                'transaction_entries.account_id'
+                'te.account_id'
             )
-            ->where(
-                'transactions.status',
-                'posted'
-            )
+            ->where('t.status','posted')
             ->whereBetween(
-                'transactions.transaction_date',
-                [
-                    $from,
-                    $to
-                ]
+                't.transaction_date',
+                [$from,$to]
             )
             ->whereIn(
-                'accounts.type',
-                [
-                    'income',
-                    'expense'
-                ]
+                'a.type',
+                ['income','expense']
             )
             ->selectRaw("
                 COALESCE(SUM(
                     CASE
-                        WHEN accounts.type='income'
-                        THEN transaction_entries.credit-transaction_entries.debit
+                        WHEN a.type='income'
+                        THEN te.credit-te.debit
                         ELSE 0
                     END
                 ),0) income,
+
                 COALESCE(SUM(
                     CASE
-                        WHEN accounts.type='expense'
-                        THEN transaction_entries.debit-transaction_entries.credit
+                        WHEN a.type='expense'
+                        THEN te.debit-te.credit
                         ELSE 0
                     END
                 ),0) expense
@@ -290,16 +245,14 @@ class FinanceDashboardService
             ->first();
 
         return[
-            'income'=>(float)($rows->income??0),
-            'expense'=>(float)($rows->expense??0)
+            'income'=>(float)($row->income??0),
+            'expense'=>(float)($row->expense??0),
         ];
     }
 
     private function monthlyTrend(): array
     {
-        $months=collect(
-            range(5,0)
-        )
+        $months=collect(range(5,0))
             ->map(function($offset){
                 $month=now()
                     ->copy()
@@ -308,83 +261,74 @@ class FinanceDashboardService
                 return[
                     'key'=>$month->format('Y-m'),
                     'label'=>$month->format('M Y'),
+
                     'from'=>$month
                         ->copy()
                         ->startOfMonth()
                         ->toDateString(),
+
                     'to'=>$month
                         ->copy()
                         ->endOfMonth()
-                        ->toDateString()
+                        ->toDateString(),
                 ];
             });
 
-        $from=$months
-            ->first()['from'];
-
-        $to=$months
-            ->last()['to'];
-
-        $rows=DB::table('transaction_entries')
+        $rows=DB::table('transaction_entries as te')
             ->join(
-                'transactions',
-                'transactions.id',
+                'transactions as t',
+                't.id',
                 '=',
-                'transaction_entries.transaction_id'
+                'te.transaction_id'
             )
             ->join(
-                'accounts',
-                'accounts.id',
+                'accounts as a',
+                'a.id',
                 '=',
-                'transaction_entries.account_id'
+                'te.account_id'
             )
-            ->where(
-                'transactions.status',
-                'posted'
-            )
+            ->where('t.status','posted')
             ->whereBetween(
-                'transactions.transaction_date',
+                't.transaction_date',
                 [
-                    $from,
-                    $to
+                    $months->first()['from'],
+                    $months->last()['to'],
                 ]
             )
             ->whereIn(
-                'accounts.type',
-                [
-                    'income',
-                    'expense'
-                ]
+                'a.type',
+                ['income','expense']
             )
             ->selectRaw("
-                YEAR(transactions.transaction_date) year,
-                MONTH(transactions.transaction_date) month,
+                YEAR(t.transaction_date) year,
+                MONTH(t.transaction_date) month,
+
                 COALESCE(SUM(
                     CASE
-                        WHEN accounts.type='income'
-                        THEN transaction_entries.credit-transaction_entries.debit
+                        WHEN a.type='income'
+                        THEN te.credit-te.debit
                         ELSE 0
                     END
                 ),0) income,
+
                 COALESCE(SUM(
                     CASE
-                        WHEN accounts.type='expense'
-                        THEN transaction_entries.debit-transaction_entries.credit
+                        WHEN a.type='expense'
+                        THEN te.debit-te.credit
                         ELSE 0
                     END
                 ),0) expense
             ")
             ->groupByRaw(
-                'YEAR(transactions.transaction_date), MONTH(transactions.transaction_date)'
+                'YEAR(t.transaction_date),MONTH(t.transaction_date)'
             )
             ->get()
             ->keyBy(
-                fn($row)=>
-                    sprintf(
-                        '%04d-%02d',
-                        $row->year,
-                        $row->month
-                    )
+                fn($row)=>sprintf(
+                    '%04d-%02d',
+                    $row->year,
+                    $row->month
+                )
             );
 
         return $months
@@ -393,29 +337,18 @@ class FinanceDashboardService
                     $month['key']
                 );
 
-                $income=(float)(
-                    $row->income??0
-                );
-
-                $expense=(float)(
-                    $row->expense??0
-                );
+                $income=(float)($row->income??0);
+                $expense=(float)($row->expense??0);
 
                 return[
                     'month'=>$month['key'],
                     'label'=>$month['label'],
-                    'income'=>round(
-                        $income,
-                        2
-                    ),
-                    'expense'=>round(
-                        $expense,
-                        2
-                    ),
+                    'income'=>round($income,2),
+                    'expense'=>round($expense,2),
                     'net'=>round(
                         $income-$expense,
                         2
-                    )
+                    ),
                 ];
             })
             ->values()
@@ -428,15 +361,13 @@ class FinanceDashboardService
             ->where('status','posted')
             ->with([
                 'entries.account:id,code,name',
-                'poster:id,name'
+                'poster:id,name',
             ])
             ->withSum(
                 'entries as total_debit',
                 'debit'
             )
-            ->latest(
-                'transaction_date'
-            )
+            ->latest('transaction_date')
             ->latest('id')
             ->limit(8)
             ->get([
@@ -447,7 +378,7 @@ class FinanceDashboardService
                 'source_module',
                 'description',
                 'status',
-                'posted_by'
+                'posted_by',
             ]);
     }
 }

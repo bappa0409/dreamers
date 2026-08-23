@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PermissionMiddleware;
 use App\Http\Middleware\MemberMiddleware;
 use App\Http\Middleware\CheckMaintenanceMode;
@@ -13,32 +14,28 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
-    )
-    ->withMiddleware(function (Middleware $middleware): void {
-        /*
-        |--------------------------------------------------------------------------
-        | Sanctum Stateful API
-        |--------------------------------------------------------------------------
-        */
+        then: function(){
+            Route::middleware('web')
+                ->group(base_path('routes/admin.php'));
 
+            Route::middleware('web')
+                ->group(base_path('routes/member.php'));
+        },
+    )
+    ->withMiddleware(function(Middleware $middleware): void{
         $middleware->statefulApi();
 
-        /*
-        |--------------------------------------------------------------------------
-        | Custom Middleware Aliases
-        |--------------------------------------------------------------------------
-        */
-
         $middleware->alias([
-            'permission' => PermissionMiddleware::class,
-            'member' => MemberMiddleware::class,
-            'maintenance' => CheckMaintenanceMode::class,
+            'permission'=>PermissionMiddleware::class,
+            'member'=>MemberMiddleware::class,
+            'maintenance'=>CheckMaintenanceMode::class,
         ]);
 
-        $middleware->web(append: [
+        $middleware->web(append:[
             CheckMaintenanceMode::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function(Exceptions $exceptions): void{
         //
-    })->create();
+    })
+    ->create();

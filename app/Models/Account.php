@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Traits\LogsActivity;
 
 class Account extends Model
 {
@@ -37,37 +37,97 @@ class Account extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class,'parent_id');
+        return $this->belongsTo(
+            self::class,
+            'parent_id'
+        );
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class,'parent_id')->orderBy('code');
+        return $this->hasMany(
+            self::class,
+            'parent_id'
+        )->orderBy('code');
     }
 
     public function entries(): HasMany
     {
-        return $this->hasMany(TransactionEntry::class);
+        return $this->hasMany(
+            TransactionEntry::class
+        );
+    }
+
+    public function postedEntries(): HasMany
+    {
+        return $this->hasMany(
+            TransactionEntry::class
+        )->whereHas(
+            'transaction',
+            fn($query)=>$query->where(
+                'status',
+                'posted'
+            )
+        );
     }
 
     public function scopeActive($query)
     {
-        return $query->where('is_active',true);
+        return $query->where(
+            'is_active',
+            true
+        );
     }
 
     public function scopePosting($query)
     {
-        return $query->whereDoesntHave('children');
+        return $query->whereDoesntHave(
+            'children'
+        );
+    }
+
+    public function calculateBalance(
+        ?float $debit=null,
+        ?float $credit=null
+    ): float{
+        if($debit===null){
+            $debit=array_key_exists(
+                'total_debit',
+                $this->attributes
+            )
+                ?(float)$this->attributes['total_debit']
+                :(float)$this->postedEntries()
+                    ->sum('debit');
+        }
+
+        if($credit===null){
+            $credit=array_key_exists(
+                'total_credit',
+                $this->attributes
+            )
+                ?(float)$this->attributes['total_credit']
+                :(float)$this->postedEntries()
+                    ->sum('credit');
+        }
+
+        $opening=(float)$this->opening_balance;
+
+        $balance=in_array(
+            $this->type,
+            ['asset','expense'],
+            true
+        )
+            ?$opening+$debit-$credit
+            :$opening+$credit-$debit;
+
+        return round(
+            $balance,
+            2
+        );
     }
 
     public function getCurrentBalanceAttribute(): float
     {
-        $debit=(float)$this->entries()->sum('debit');
-        $credit=(float)$this->entries()->sum('credit');
-        $opening=(float)$this->opening_balance;
-
-        return in_array($this->type,['asset','expense'],true)
-            ?$opening+$debit-$credit
-            :$opening+$credit-$debit;
+        return $this->calculateBalance();
     }
 }

@@ -21,71 +21,59 @@ class GeneralLedgerService
                 'name',
                 'type',
                 'sub_type',
-                'is_active'
+                'is_active',
             ]);
     }
 
-    public function ledger(
-        Account $account,
-        array $filters=[]
-    ): array{
+    public function ledger(Account $account,array $filters=[]): array
+    {
         if($account->children()->exists()){
             throw ValidationException::withMessages([
                 'account'=>[
                     'General Ledger can only be viewed for posting/leaf accounts.'
-                ]
+                ],
             ]);
         }
 
         $from=$filters['from']??null;
         $to=$filters['to']??null;
-        $perPage=min((int)($filters['per_page']??25),100);
+        $perPage=min(
+            max((int)($filters['per_page']??25),5),
+            100
+        );
 
         $openingBalance=$this->openingBalance(
             $account,
             $from
         );
 
-        $periodBase=$this->periodQuery(
-            $account,
-            $from,
-            $to
-        );
-
-        $periodDebit=(float)(clone $periodBase)->sum(
-            'transaction_entries.debit'
-        );
-
-        $periodCredit=(float)(clone $periodBase)->sum(
-            'transaction_entries.credit'
+        $periodTotals=$this->totals(
+            $this->periodQuery(
+                $account,
+                $from,
+                $to
+            )
         );
 
         $closingBalance=$this->applyMovement(
             $account,
             $openingBalance,
-            $periodDebit,
-            $periodCredit
+            $periodTotals['debit'],
+            $periodTotals['credit']
         );
 
-        $entries=$this->periodQuery(
-            $account,
-            $from,
-            $to
+        $entries=$this->ordered(
+            $this->periodQuery(
+                $account,
+                $from,
+                $to
+            )
         )
             ->with([
                 'transaction:id,transaction_no,transaction_date,type,source_module,source_id,description,status,created_by,posted_by',
                 'transaction.creator:id,name',
-                'transaction.poster:id,name'
+                'transaction.poster:id,name',
             ])
-            ->orderBy(
-                'transactions.transaction_date'
-            )
-            ->orderBy(
-                'transaction_entries.transaction_id'
-            )
-            ->orderBy(
-                'transaction_entries.id'
-            )
             ->paginate($perPage)
             ->withQueryString();
 
@@ -104,15 +92,17 @@ class GeneralLedgerService
                 'name'=>$account->name,
                 'type'=>$account->type,
                 'sub_type'=>$account->sub_type,
-                'is_active'=>$account->is_active
+                'is_active'=>(bool)$account->is_active,
             ],
+
             'summary'=>[
                 'opening_balance'=>round($openingBalance,2),
-                'period_debit'=>round($periodDebit,2),
-                'period_credit'=>round($periodCredit,2),
-                'closing_balance'=>round($closingBalance,2)
+                'period_debit'=>round($periodTotals['debit'],2),
+                'period_credit'=>round($periodTotals['credit'],2),
+                'closing_balance'=>round($closingBalance,2),
             ],
-            'entries'=>$entries
+
+            'entries'=>$entries,
         ];
     }
 
@@ -139,21 +129,19 @@ class GeneralLedgerService
             )
             ->when(
                 $from,
-                fn($query)=>
-                    $query->whereDate(
-                        'transactions.transaction_date',
-                        '>=',
-                        $from
-                    )
+                fn($query)=>$query->whereDate(
+                    'transactions.transaction_date',
+                    '>=',
+                    $from
+                )
             )
             ->when(
                 $to,
-                fn($query)=>
-                    $query->whereDate(
-                        'transactions.transaction_date',
-                        '<=',
-                        $to
-                    )
+                fn($query)=>$query->whereDate(
+                    'transactions.transaction_date',
+                    '<=',
+                    $to
+                )
             );
     }
 
@@ -189,15 +177,13 @@ class GeneralLedgerService
                 $from
             );
 
+        $totals=$this->totals($before);
+
         return $this->applyMovement(
             $account,
             $opening,
-            (float)(clone $before)->sum(
-                'transaction_entries.debit'
-            ),
-            (float)(clone $before)->sum(
-                'transaction_entries.credit'
-            )
+            $totals['debit'],
+            $totals['credit']
         );
     }
 
@@ -215,37 +201,46 @@ class GeneralLedgerService
         }
 
         $first=$items->first();
+        $firstDate=$first->transaction
+            ->transaction_date
+            ->toDateString();
 
         $beforePage=$this->periodQuery(
             $account,
             $from,
             $to
-        )->where(function($query)use($first){
+        )->where(function($query)use(
+            $first,
+            $firstDate
+        ){
             $query
-                ->where(
+                ->whereDate(
                     'transactions.transaction_date',
                     '<',
-                    $first->transaction->transaction_date
+                    $firstDate
                 )
-                ->orWhere(function($q)use($first){
-                    $q->where(
+                ->orWhere(function($q)use(
+                    $first,
+                    $firstDate
+                ){
+                    $q->whereDate(
                         'transactions.transaction_date',
-                        '=',
-                        $first->transaction->transaction_date
+                        $firstDate
                     )->where(
                         'transaction_entries.transaction_id',
                         '<',
                         $first->transaction_id
                     );
                 })
-                ->orWhere(function($q)use($first){
-                    $q->where(
+                ->orWhere(function($q)use(
+                    $first,
+                    $firstDate
+                ){
+                    $q->whereDate(
                         'transactions.transaction_date',
-                        '=',
-                        $first->transaction->transaction_date
+                        $firstDate
                     )->where(
                         'transaction_entries.transaction_id',
-                        '=',
                         $first->transaction_id
                     )->where(
                         'transaction_entries.id',
@@ -255,15 +250,15 @@ class GeneralLedgerService
                 });
         });
 
+        $totals=$this->totals(
+            $beforePage
+        );
+
         $running=$this->applyMovement(
             $account,
             $openingBalance,
-            (float)(clone $beforePage)->sum(
-                'transaction_entries.debit'
-            ),
-            (float)(clone $beforePage)->sum(
-                'transaction_entries.credit'
-            )
+            $totals['debit'],
+            $totals['credit']
         );
 
         $items->transform(function($entry)use(
@@ -288,22 +283,47 @@ class GeneralLedgerService
         $entries->setCollection($items);
     }
 
+    private function totals(Builder $query): array
+    {
+        $totals=(clone $query)
+            ->selectRaw('
+                COALESCE(SUM(transaction_entries.debit),0) total_debit,
+                COALESCE(SUM(transaction_entries.credit),0) total_credit
+            ')
+            ->first();
+
+        return[
+            'debit'=>(float)($totals->total_debit??0),
+            'credit'=>(float)($totals->total_credit??0),
+        ];
+    }
+
+    private function ordered(Builder $query): Builder
+    {
+        return $query
+            ->orderBy(
+                'transactions.transaction_date'
+            )
+            ->orderBy(
+                'transaction_entries.transaction_id'
+            )
+            ->orderBy(
+                'transaction_entries.id'
+            );
+    }
+
     private function applyMovement(
         Account $account,
         float $balance,
         float $debit,
         float $credit
     ): float{
-        if(
-            in_array(
-                $account->type,
-                ['asset','expense'],
-                true
-            )
-        ){
-            return $balance+$debit-$credit;
-        }
-
-        return $balance+$credit-$debit;
+        return in_array(
+            $account->type,
+            ['asset','expense'],
+            true
+        )
+            ?$balance+$debit-$credit
+            :$balance+$credit-$debit;
     }
 }

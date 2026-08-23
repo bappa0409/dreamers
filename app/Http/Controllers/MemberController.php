@@ -43,11 +43,36 @@ class MemberController extends Controller
     {
         return view('member.notices');
     }
+
+    public function subscriptionPayments()
+    {
+        return view('member.subscriptions.subscription-payments');
+    }
+
+    public function investments()
+    {
+        return view('member.investments',['investmentStatus' => '',]);
+    }
+
+    public function activeInvestments()
+    {
+        return view('member.investments',['investmentStatus' => 'active',]);
+    }
+
+    public function completedInvestments()
+    {
+        return view('member.investments',['investmentStatus' => 'completed',]);
+    }
+
+    public function notifications()
+{
+    return view('member.notifications');
+}
     public function shares(): View
     {
         abort_unless(
             filter_var(
-                setting('share_enabled',false),
+                setting('share_enabled', false),
                 FILTER_VALIDATE_BOOLEAN
             ),
             404
@@ -58,6 +83,6 @@ class MemberController extends Controller
 
     public function subscriptions(): View
     {
-        return view('member.subscriptions.index');
+        return view('member.subscriptions.monthly-due');
     }
 }

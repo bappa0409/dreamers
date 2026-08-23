@@ -29,7 +29,16 @@ return new class extends Migration
             $table->date('document_date')->nullable();
 
             $table->text('description')->nullable();
+            $table->foreignId('uploaded_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
+                $table->index([
+                'land_id',
+                'document_type'
+            ]);
+            
             $table->timestamps();
         });
     }

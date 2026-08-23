@@ -10,7 +10,8 @@ use Illuminate\Validation\ValidationException;
 class MemberShareService
 {
     public function __construct(
-        protected AccountingService $accounting
+        protected AccountingService $accounting,
+        protected NumberSequenceService $numberSequenceService
     ){}
 
     public function issue(
@@ -38,8 +39,24 @@ class MemberShareService
                 ]);
             }
 
+            $configuredShareValue=round(
+                (float)setting(
+                    'default_share_value',
+                    0
+                ),
+                2
+            );
+
+            if($configuredShareValue<=0){
+                throw ValidationException::withMessages([
+                    'purchase_amount'=>[
+                        'Share value is not configured.'
+                    ],
+                ]);
+            }
+
             $amount=round(
-                (float)$data['purchase_amount'],
+                (float)($data['purchase_amount']??0),
                 2
             );
 
@@ -51,20 +68,41 @@ class MemberShareService
                 ]);
             }
 
-            $minimum=(float)setting(
-                'minimum_share_purchase_amount',
-                0
-            );
-
             if(
-                $minimum>0&&
-                $amount<$minimum
+                abs(
+                    $amount-$configuredShareValue
+                )>0.001
             ){
                 throw ValidationException::withMessages([
                     'purchase_amount'=>[
-                        'Minimum share purchase amount is '.
-                        number_format($minimum,2).
+                        'Each share price is '.
+                        number_format(
+                            $configuredShareValue,
+                            2
+                        ).
                         '.'
+                    ],
+                ]);
+            }
+
+            $paymentMethod=
+                $data['payment_method']??null;
+
+            if(
+                !in_array(
+                    $paymentMethod,
+                    [
+                        'cash',
+                        'bank',
+                        'mobile_banking',
+                        'online',
+                    ],
+                    true
+                )
+            ){
+                throw ValidationException::withMessages([
+                    'payment_method'=>[
+                        'Invalid payment method.'
                     ],
                 ]);
             }
@@ -74,12 +112,16 @@ class MemberShareService
                 'share_no'=>$this->generateShareNumber(),
                 'purchase_amount'=>$amount,
                 'acquired_date'=>null,
-                'payment_method'=>$data['payment_method'],
+                'payment_method'=>$paymentMethod,
                 'transaction_reference'=>
-                    $data['transaction_reference']??null,
+                    $this->nullableString(
+                        $data['transaction_reference']??null
+                    ),
                 'status'=>'pending',
                 'created_by'=>$userId??auth()->id(),
-                'notes'=>$data['notes']??null,
+                'notes'=>$this->nullableString(
+                    $data['notes']??null
+                ),
             ])->load([
                 'member.user',
                 'creator',
@@ -139,15 +181,20 @@ class MemberShareService
                 2
             );
 
+            if($amount<=0){
+                throw ValidationException::withMessages([
+                    'share'=>[
+                        'Share purchase amount is invalid.'
+                    ],
+                ]);
+            }
+
             $receiveAccount=
                 $this->resolveReceiveAccount(
                     $share->payment_method
                 );
 
-            $capitalAccount=
-                $this->accounting->account(
-                    'capital'
-                );
+            $capitalAccount=$this->accounting->account('member_equity');
 
             $memberName=
                 $member->user?->name
@@ -155,32 +202,47 @@ class MemberShareService
                 ??'Member';
 
             $transaction=$this->accounting->post([
-                'transaction_date'=>now()->toDateString(),
-                'type'=>'member_share_purchase',
-                'source_module'=>'member_share',
-                'source_id'=>$share->id,
-                'reference_type'=>MemberShare::class,
-                'reference_id'=>$share->id,
+                'idempotency_key'=>
+                    "member-share:verify:{$share->id}",
+
+                'transaction_date'=>
+                    now()->toDateString(),
+
+                'type'=>
+                    'member_share_purchase',
+
+                'source_module'=>
+                    'member_share',
+
+                'source_id'=>
+                    $share->id,
+
+                'reference_type'=>
+                    MemberShare::class,
+
+                'reference_id'=>
+                    $share->id,
+
                 'description'=>
-                    "Share purchase {$share->share_no} - ".
-                    $memberName,
-                'user_id'=>$verifiedBy,
+                    "Share purchase {$share->share_no} - {$memberName}",
+
+                'user_id'=>
+                    $verifiedBy,
+
                 'entries'=>[
                     [
                         'account_id'=>$receiveAccount->id,
                         'debit'=>$amount,
                         'credit'=>0,
                         'description'=>
-                            "Share purchase received - ".
-                            $share->share_no,
+                            "Share purchase received - {$share->share_no}",
                     ],
                     [
                         'account_id'=>$capitalAccount->id,
                         'debit'=>0,
                         'credit'=>$amount,
                         'description'=>
-                            "Association fund - ".
-                            $share->share_no,
+                            "Association capital - {$share->share_no}",
                     ],
                 ],
             ]);
@@ -190,15 +252,17 @@ class MemberShareService
                 'acquired_date'=>now()->toDateString(),
                 'verified_by'=>$verifiedBy,
                 'verified_at'=>now(),
-                'verification_note'=>$note,
-                'finance_transaction_id'=>$transaction->id,
+                'verification_note'=>
+                    $this->nullableString($note),
+                'finance_transaction_id'=>
+                    $transaction->id,
             ]);
 
             return $share->fresh([
                 'member.user',
                 'creator',
                 'verifier',
-                'financeTransaction',
+                'financeTransaction.entries.account',
             ]);
         });
     }
@@ -226,6 +290,24 @@ class MemberShareService
                 ]);
             }
 
+            if($share->finance_transaction_id){
+                throw ValidationException::withMessages([
+                    'share'=>[
+                        'Posted share history cannot be rejected.'
+                    ],
+                ]);
+            }
+
+            $note=$this->nullableString($note);
+
+            if(!$note){
+                throw ValidationException::withMessages([
+                    'note'=>[
+                        'Rejection note is required.'
+                    ],
+                ]);
+            }
+
             $share->update([
                 'status'=>'rejected',
                 'verified_by'=>$rejectedBy,
@@ -247,6 +329,7 @@ class MemberShareService
             ->with([
                 'creator:id,name,email',
                 'verifier:id,name,email',
+                'financeTransaction:id,transaction_no,status',
             ])
             ->latest('id')
             ->get();
@@ -256,34 +339,71 @@ class MemberShareService
     {
         $base=$member->shares();
 
-        $totalShares=(clone $base)->count();
-
-        $activeShares=(clone $base)
-            ->where('status','active')
-            ->count();
-
-        $pendingShares=(clone $base)
-            ->where('status','pending')
-            ->count();
-
-        $activeValue=(float)(clone $base)
-            ->where('status','active')
-            ->sum('purchase_amount');
-
-        $pendingValue=(float)(clone $base)
-            ->where('status','pending')
-            ->sum('purchase_amount');
+        $summary=(clone $base)
+            ->selectRaw("
+                COUNT(*) total_shares,
+                SUM(CASE WHEN status='active' THEN 1 ELSE 0 END) active_shares,
+                SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) pending_shares,
+                SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) rejected_shares,
+                SUM(CASE WHEN status='cancelled' THEN 1 ELSE 0 END) cancelled_shares,
+                SUM(CASE WHEN status='transferred' THEN 1 ELSE 0 END) transferred_shares,
+                SUM(CASE WHEN status='retired' THEN 1 ELSE 0 END) retired_shares,
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN status='active'
+                            THEN purchase_amount
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) active_share_value,
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN status='pending'
+                            THEN purchase_amount
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) pending_share_value
+            ")
+            ->first();
 
         return[
-            'total_shares'=>$totalShares,
-            'active_shares'=>$activeShares,
-            'pending_shares'=>$pendingShares,
+            'total_shares'=>
+                (int)($summary->total_shares??0),
+
+            'active_shares'=>
+                (int)($summary->active_shares??0),
+
+            'pending_shares'=>
+                (int)($summary->pending_shares??0),
+
+            'rejected_shares'=>
+                (int)($summary->rejected_shares??0),
+
+            'cancelled_shares'=>
+                (int)($summary->cancelled_shares??0),
+
+            'transferred_shares'=>
+                (int)($summary->transferred_shares??0),
+
+            'retired_shares'=>
+                (int)($summary->retired_shares??0),
+
             'active_share_value'=>round(
-                $activeValue,
+                (float)(
+                    $summary->active_share_value??0
+                ),
                 2
             ),
+
             'pending_share_value'=>round(
-                $pendingValue,
+                (float)(
+                    $summary->pending_share_value??0
+                ),
                 2
             ),
         ];
@@ -296,19 +416,35 @@ class MemberShareService
             'bank',
             'mobile_banking',
             'online'=>
-                $this->accounting->account('bank'),
+                $this->accounting->account(
+                    'bank'
+                ),
+
+            'cash'=>
+                $this->accounting->account(
+                    'cash'
+                ),
 
             default=>
-                $this->accounting->account('cash'),
+                throw ValidationException::withMessages([
+                    'payment_method'=>[
+                        'Invalid payment method.'
+                    ],
+                ]),
         };
     }
 
     protected function ensureShareEnabled(): void
     {
-        if(!filter_var(
-            setting('share_enabled',false),
-            FILTER_VALIDATE_BOOLEAN
-        )){
+        if(
+            !filter_var(
+                setting(
+                    'share_enabled',
+                    false
+                ),
+                FILTER_VALIDATE_BOOLEAN
+            )
+        ){
             throw ValidationException::withMessages([
                 'share'=>[
                     'Share purchasing is currently disabled.'
@@ -317,44 +453,45 @@ class MemberShareService
         }
     }
 
+    protected function nullableString(
+        mixed $value
+    ): ?string{
+        if($value===null){
+            return null;
+        }
+
+        $value=trim(
+            (string)$value
+        );
+
+        return $value===''
+            ?null
+            :$value;
+    }
+
     protected function generateShareNumber(): string
     {
-        $prefix='SH-';
+        return $this->numberSequenceService->next(
+            key:'member-share',
+            prefix:'SH-',
+            digits:6,
+            initialValue:function(){
+                $last=MemberShare::query()
+                    ->where(
+                        'share_no',
+                        'like',
+                        'SH-%'
+                    )
+                    ->orderByDesc('id')
+                    ->value('share_no');
 
-        $last=MemberShare::query()
-            ->where(
-                'share_no',
-                'like',
-                $prefix.'%'
-            )
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('share_no');
-
-        $number=$last
-            ?((int)substr($last,-6))+1
-            :1;
-
-        do{
-            $shareNo=
-                $prefix.
-                str_pad(
-                    (string)$number,
-                    6,
-                    '0',
-                    STR_PAD_LEFT
-                );
-
-            $exists=MemberShare::query()
-                ->where(
-                    'share_no',
-                    $shareNo
-                )
-                ->exists();
-
-            $number++;
-        }while($exists);
-
-        return $shareNo;
+                return $last
+                    ?(int)substr(
+                        $last,
+                        -6
+                    )
+                    :0;
+            }
+        );
     }
 }

@@ -12,119 +12,144 @@ return new class extends Migration
             $table->id();
 
             $table->string('transaction_no',50)->unique();
-            $table->date('transaction_date')->index();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Transaction Type
-            |--------------------------------------------------------------------------
-            | Examples:
-            | income, expense, subscription_due, subscription_payment,
-            | charge, asset_purchase, investment, transfer,
-            | adjustment, manual_journal
-            */
-            $table->string('type',50)->index();
+            $table->string(
+                'idempotency_key',
+                191
+            )->nullable()->unique();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Source
-            |--------------------------------------------------------------------------
-            | Identifies which business module generated the journal.
-            */
-            $table->string('source_module',50)->nullable();
-            $table->unsignedBigInteger('source_id')->nullable();
+            $table->date('transaction_date');
 
-            /*
-            |--------------------------------------------------------------------------
-            | Polymorphic Reference
-            |--------------------------------------------------------------------------
-            */
-            $table->string('reference_type')->nullable();
-            $table->unsignedBigInteger('reference_id')->nullable();
+            $table->string('type',50);
 
-            /*
-            |--------------------------------------------------------------------------
-            | Description
-            |--------------------------------------------------------------------------
-            */
-            $table->text('description')->nullable();
+            $table->string(
+                'source_module',
+                50
+            )->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Status
-            |--------------------------------------------------------------------------
-            */
+            $table->unsignedBigInteger(
+                'source_id'
+            )->nullable();
+
+            $table->string(
+                'reference_type'
+            )->nullable();
+
+            $table->unsignedBigInteger(
+                'reference_id'
+            )->nullable();
+
+            $table->text(
+                'description'
+            )->nullable();
+
             $table->enum('status',[
                 'draft',
                 'posted',
                 'cancelled',
-            ])->default('draft')->index();
+            ])->default('draft');
 
-            /*
-            |--------------------------------------------------------------------------
-            | Created / Posted
-            |--------------------------------------------------------------------------
-            */
-            $table->foreignId('created_by')
+            $table->foreignId(
+                'created_by'
+            )
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->timestamp('posted_at')->nullable();
+            $table->timestamp(
+                'posted_at'
+            )->nullable();
 
-            $table->foreignId('posted_by')
+            $table->foreignId(
+                'posted_by'
+            )
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Cancellation
-            |--------------------------------------------------------------------------
-            */
-            $table->text('cancel_reason')->nullable();
+            $table->text(
+                'cancel_reason'
+            )->nullable();
+
+            $table->foreignId(
+                'reversal_transaction_id'
+            )
+                ->nullable()
+                ->constrained('transactions')
+                ->nullOnDelete();
+
+            $table->foreignId(
+                'reversed_by'
+            )
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table->timestamp(
+                'reversed_at'
+            )->nullable();
 
             $table->timestamps();
 
             /*
             |--------------------------------------------------------------------------
-            | Indexes
+            | Optimized indexes
             |--------------------------------------------------------------------------
             */
-            $table->index([
-                'source_module',
-                'source_id',
-            ]);
 
-            $table->index([
-                'reference_type',
-                'reference_id',
-            ]);
+            // Core report queries
+            $table->index(
+                ['status','transaction_date'],
+                'transactions_status_date_idx'
+            );
 
-            $table->index([
-                'transaction_date',
-                'status',
-            ]);
+            // Journal type filtering
+            $table->index(
+                ['type','status','transaction_date'],
+                'transactions_type_status_date_idx'
+            );
 
-            $table->index([
-                'type',
-                'status',
-            ]);
+            // Business-module source lookup
+            $table->index(
+                ['source_module','source_id'],
+                'transactions_source_idx'
+            );
 
-            $table->index([
-                'created_by',
-                'transaction_date',
-            ]);
+            // Polymorphic/business reference lookup
+            $table->index(
+                ['reference_type','reference_id'],
+                'transactions_reference_idx'
+            );
 
-            $table->index([
-                'posted_by',
-                'posted_at',
-            ]);
+            // Created-by audit/history
+            $table->index(
+                ['created_by','transaction_date'],
+                'transactions_creator_date_idx'
+            );
+
+            // Posting audit
+            $table->index(
+                ['posted_by','posted_at'],
+                'transactions_poster_date_idx'
+            );
+
+            // Reversal queries
+            $table->index(
+                ['status','reversed_at'],
+                'transactions_status_reversed_idx'
+            );
+
+            $table->index(
+                'reversal_transaction_id',
+                'transactions_reversal_idx'
+            );
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists(
+            'transactions'
+        );
     }
 };

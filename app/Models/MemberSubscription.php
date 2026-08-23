@@ -33,7 +33,9 @@ class MemberSubscription extends Model
 
     public function member(): BelongsTo
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(
+            Member::class
+        );
     }
 
     public function plan(): BelongsTo
@@ -49,6 +51,14 @@ class MemberSubscription extends Model
         return $this->hasMany(
             SubscriptionDue::class,
             'member_subscription_id'
+        );
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where(
+            'is_active',
+            true
         );
     }
 }

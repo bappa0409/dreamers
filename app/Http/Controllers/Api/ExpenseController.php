@@ -60,14 +60,16 @@ class ExpenseController extends Controller
             'success'=>true,
             'data'=>[
                 'expense_accounts'=>Account::active()
-                    ->where('type','expense')
-                    ->orderBy('code')
-                    ->get(['id','code','name']),
+    ->where('type','expense')
+    ->whereDoesntHave('children')
+    ->orderBy('code')
+    ->get(['id','code','name']),
 
-                'payment_accounts'=>Account::active()
-                    ->whereIn('sub_type',['cash','bank'])
-                    ->orderBy('code')
-                    ->get(['id','code','name','sub_type']),
+'payment_accounts'=>Account::active()
+    ->whereIn('sub_type',['cash','bank'])
+    ->whereDoesntHave('children')
+    ->orderBy('code')
+    ->get(['id','code','name','sub_type']),
             ],
         ]);
     }
@@ -109,6 +111,42 @@ class ExpenseController extends Controller
         ]);
     }
 
+    public function update(
+    Request $request,
+    Expense $expense
+){
+    $validated=$request->validate([
+        'expense_account_id'=>'sometimes|exists:accounts,id',
+        'payment_account_id'=>'sometimes|exists:accounts,id',
+        'amount'=>'sometimes|numeric|min:0.01|max:999999999999.99',
+        'expense_date'=>'sometimes|date',
+        'payee'=>'nullable|string|max:150',
+        'reference'=>'nullable|string|max:150',
+        'description'=>'nullable|string|max:2000',
+        'attachment'=>'nullable|string|max:500',
+    ]);
+
+    $expense=$this->expenseService->update(
+        $expense,
+        $validated
+    );
+
+    return response()->json([
+        'success'=>true,
+        'message'=>'Expense updated successfully.',
+        'data'=>$expense,
+    ]);
+}
+
+public function destroy(Expense $expense)
+{
+    $this->expenseService->delete($expense);
+
+    return response()->json([
+        'success'=>true,
+        'message'=>'Expense deleted successfully.',
+    ]);
+}
     public function cancel(Request $request,Expense $expense)
     {
         $validated=$request->validate([

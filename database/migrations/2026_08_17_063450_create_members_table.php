@@ -46,6 +46,8 @@ return new class extends Migration
             $table->text('notes')->nullable();
 
             $table->timestamps();
+
+            $table->index(['status','member_code'],'members_status_code_idx');
         });
     }
 

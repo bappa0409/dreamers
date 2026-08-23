@@ -57,10 +57,6 @@ class Member extends Model
         return $this->hasMany(Investment::class);
     }
 
-    public function landInvestments(): HasMany
-    {
-        return $this->hasMany(LandInvestment::class);
-    }
 
     public function projects(): HasMany
     {

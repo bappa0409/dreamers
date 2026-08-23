@@ -18,123 +18,43 @@ class TrialBalanceService
             $filters['show_zero']??false,
             FILTER_VALIDATE_BOOLEAN
         );
+
         $perPage=min(
             max((int)($filters['per_page']??25),5),
             100
         );
+
         $page=max(
             (int)($filters['page']??1),
             1
         );
 
-        $rows=Account::query()
-            ->select([
-                'accounts.id',
-                'accounts.code',
-                'accounts.name',
-                'accounts.type',
-                'accounts.sub_type',
-                'accounts.opening_balance',
-                'accounts.is_active'
-            ])
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.debit ELSE 0 END),0) AS total_debit'
-            )
-            ->selectRaw(
-                'COALESCE(SUM(CASE WHEN transactions.id IS NOT NULL THEN transaction_entries.credit ELSE 0 END),0) AS total_credit'
-            )
-            ->leftJoin(
-                'transaction_entries',
-                'transaction_entries.account_id',
-                '=',
-                'accounts.id'
-            )
-            ->leftJoin(
-                'transactions',
-                function($join)use($asOf){
-                    $join->on(
-                        'transactions.id',
-                        '=',
-                        'transaction_entries.transaction_id'
-                    )
-                    ->where(
-                        'transactions.status',
-                        '=',
-                        'posted'
-                    )
-                    ->whereDate(
-                        'transactions.transaction_date',
-                        '<=',
-                        $asOf
-                    );
-                }
-            )
-            ->whereDoesntHave('children')
-            ->when(
-                $type,
-                fn($query,$type)=>
-                    $query->where(
-                        'accounts.type',
-                        $type
-                    )
-            )
-            ->when(
-                $search,
-                function($query,$search){
-                    $query->where(function($q)use($search){
-                        $q->where(
-                            'accounts.code',
-                            'like',
-                            "%{$search}%"
-                        )
-                        ->orWhere(
-                            'accounts.name',
-                            'like',
-                            "%{$search}%"
-                        )
-                        ->orWhere(
-                            'accounts.sub_type',
-                            'like',
-                            "%{$search}%"
-                        );
-                    });
-                }
-            )
-            ->groupBy([
-                'accounts.id',
-                'accounts.code',
-                'accounts.name',
-                'accounts.type',
-                'accounts.sub_type',
-                'accounts.opening_balance',
-                'accounts.is_active'
-            ])
-            ->orderBy('accounts.code')
-            ->get()
-            ->map(
-                fn($account)=>
-                    $this->transformAccount(
-                        $account
-                    )
-            );
+        /*
+        |--------------------------------------------------------------------------
+        | All accounts
+        |--------------------------------------------------------------------------
+        |
+        | Summary MUST be calculated before search/type filters.
+        | Otherwise filtered Trial Balance can incorrectly appear unbalanced.
+        |
+        */
 
-        if(!$showZero){
-            $rows=$rows
-                ->filter(
-                    fn($row)=>
-                        abs($row['debit_balance'])>0.004||
-                        abs($row['credit_balance'])>0.004
-                )
-                ->values();
-        }
+        $allRows=$this->balances($asOf);
+
+        $summaryRows=$allRows
+            ->filter(fn(array $row)=>
+                abs($row['debit_balance'])>0.004||
+                abs($row['credit_balance'])>0.004
+            )
+            ->values();
 
         $totalDebit=round(
-            $rows->sum('debit_balance'),
+            (float)$summaryRows->sum('debit_balance'),
             2
         );
 
         $totalCredit=round(
-            $rows->sum('credit_balance'),
+            (float)$summaryRows->sum('credit_balance'),
             2
         );
 
@@ -143,31 +63,189 @@ class TrialBalanceService
             2
         );
 
-        $paginator=$this->paginate(
-            $rows,
-            $perPage,
-            $page
+        /*
+        |--------------------------------------------------------------------------
+        | Display filters
+        |--------------------------------------------------------------------------
+        */
+
+        $rows=$allRows;
+
+        if($type){
+            $rows=$rows
+                ->where('type',$type)
+                ->values();
+        }
+
+        if($search!==''){
+            $needle=mb_strtolower($search);
+
+            $rows=$rows
+                ->filter(function(array $row)use($needle){
+                    return str_contains(
+                        mb_strtolower((string)$row['code']),
+                        $needle
+                    )||
+                    str_contains(
+                        mb_strtolower((string)$row['name']),
+                        $needle
+                    )||
+                    str_contains(
+                        mb_strtolower((string)($row['sub_type']??'')),
+                        $needle
+                    );
+                })
+                ->values();
+        }
+
+        if(!$showZero){
+            $rows=$rows
+                ->filter(fn(array $row)=>
+                    abs($row['debit_balance'])>0.004||
+                    abs($row['credit_balance'])>0.004
+                )
+                ->values();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filtered totals
+        |--------------------------------------------------------------------------
+        |
+        | Useful for UI while overall Trial Balance remains independently checked.
+        |
+        */
+
+        $filteredDebit=round(
+            (float)$rows->sum('debit_balance'),
+            2
+        );
+
+        $filteredCredit=round(
+            (float)$rows->sum('credit_balance'),
+            2
         );
 
         return[
             'as_of'=>$asOf,
+
             'summary'=>[
-                'total_accounts'=>$rows->count(),
+                'total_accounts'=>$summaryRows->count(),
                 'total_debit'=>$totalDebit,
                 'total_credit'=>$totalCredit,
                 'difference'=>$difference,
-                'is_balanced'=>abs($difference)<0.01
+                'is_balanced'=>abs($difference)<0.01,
             ],
-            'accounts'=>$paginator
+
+            'filtered_summary'=>[
+                'total_accounts'=>$rows->count(),
+                'total_debit'=>$filteredDebit,
+                'total_credit'=>$filteredCredit,
+            ],
+
+            'accounts'=>$this->paginate(
+                $rows,
+                $perPage,
+                $page
+            ),
         ];
+    }
+
+    private function balances(string $asOf): Collection
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Aggregate posted movements first
+        |--------------------------------------------------------------------------
+        */
+
+        $movements=DB::table('transaction_entries as te')
+            ->join(
+                'transactions as t',
+                't.id',
+                '=',
+                'te.transaction_id'
+            )
+            ->where(
+                't.status',
+                'posted'
+            )
+            ->whereDate(
+                't.transaction_date',
+                '<=',
+                $asOf
+            )
+            ->selectRaw('
+                te.account_id,
+                COALESCE(SUM(te.debit),0) total_debit,
+                COALESCE(SUM(te.credit),0) total_credit
+            ')
+            ->groupBy(
+                'te.account_id'
+            );
+
+        return Account::query()
+            ->select([
+                'accounts.id',
+                'accounts.code',
+                'accounts.name',
+                'accounts.type',
+                'accounts.sub_type',
+                'accounts.opening_balance',
+                'accounts.is_active',
+            ])
+            ->leftJoinSub(
+                $movements,
+                'movements',
+                fn($join)=>$join->on(
+                    'movements.account_id',
+                    '=',
+                    'accounts.id'
+                )
+            )
+            ->selectRaw(
+                'COALESCE(movements.total_debit,0) AS total_debit'
+            )
+            ->selectRaw(
+                'COALESCE(movements.total_credit,0) AS total_credit'
+            )
+            ->whereDoesntHave(
+                'children'
+            )
+            ->whereIn(
+                'accounts.type',
+                [
+                    'asset',
+                    'liability',
+                    'equity',
+                    'income',
+                    'expense',
+                ]
+            )
+            ->orderBy(
+                'accounts.code'
+            )
+            ->get()
+            ->map(
+                fn(Account $account)=>
+                    $this->transformAccount(
+                        $account
+                    )
+            )
+            ->values();
     }
 
     private function transformAccount(
         Account $account
     ): array{
         $opening=(float)$account->opening_balance;
-        $debit=(float)$account->total_debit;
-        $credit=(float)$account->total_credit;
+        $debit=(float)($account->total_debit??0);
+        $credit=(float)($account->total_credit??0);
+
+        $balance=$account->calculateBalance(
+            $debit,
+            $credit
+        );
 
         $debitNormal=in_array(
             $account->type,
@@ -175,29 +253,17 @@ class TrialBalanceService
             true
         );
 
-        $balance=$debitNormal
-            ?$opening+$debit-$credit
-            :$opening+$credit-$debit;
-
-        $debitBalance=0;
-        $creditBalance=0;
+        $debitBalance=0.0;
+        $creditBalance=0.0;
 
         if($debitNormal){
-            if($balance>=0){
-                $debitBalance=$balance;
-            }else{
-                $creditBalance=abs(
-                    $balance
-                );
-            }
+            $balance>=0
+                ?$debitBalance=$balance
+                :$creditBalance=abs($balance);
         }else{
-            if($balance>=0){
-                $creditBalance=$balance;
-            }else{
-                $debitBalance=abs(
-                    $balance
-                );
-            }
+            $balance>=0
+                ?$creditBalance=$balance
+                :$debitBalance=abs($balance);
         }
 
         return[
@@ -207,26 +273,40 @@ class TrialBalanceService
             'type'=>$account->type,
             'sub_type'=>$account->sub_type,
             'is_active'=>(bool)$account->is_active,
+
             'opening_balance'=>round(
                 $opening,
                 2
             ),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Kept for frontend backward compatibility
+            |--------------------------------------------------------------------------
+            |
+            | Technically these are movements up to as_of, not a bounded "period".
+            |
+            */
+
             'period_debit'=>round(
                 $debit,
                 2
             ),
+
             'period_credit'=>round(
                 $credit,
                 2
             ),
+
             'debit_balance'=>round(
                 $debitBalance,
                 2
             ),
+
             'credit_balance'=>round(
                 $creditBalance,
                 2
-            )
+            ),
         ];
     }
 
@@ -242,12 +322,16 @@ class TrialBalanceService
                     $perPage
                 )
                 ->values(),
+
             $items->count(),
+
             $perPage,
+
             $page,
+
             [
                 'path'=>request()->url(),
-                'query'=>request()->query()
+                'query'=>request()->query(),
             ]
         );
     }

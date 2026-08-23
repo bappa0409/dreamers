@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Investment;
 use App\Models\InvestmentReturn;
-use App\Models\Member;
 use App\Services\InvestmentService;
 use Illuminate\Http\Request;
 
@@ -21,83 +20,102 @@ class InvestmentController extends Controller
         $validated=$request->validate([
             'search'=>'nullable|string|max:150',
             'status'=>'nullable|in:pending,active,completed,cancelled',
-            'member_id'=>'nullable|integer|exists:members,id',
-            'from'=>'nullable|date',
-            'to'=>'nullable|date|after_or_equal:from',
-            'per_page'=>'nullable|integer|min:5|max:100'
+            'from'=>'nullable|date_format:Y-m-d',
+            'to'=>'nullable|date_format:Y-m-d|after_or_equal:from',
+            'per_page'=>'nullable|integer|min:5|max:100',
         ]);
 
         $query=Investment::query()
+            ->select([
+                'id',
+                'investment_no',
+                'payment_account_id',
+                'title',
+                'description',
+                'amount',
+                'expected_return',
+                'investment_date',
+                'maturity_date',
+                'status',
+                'finance_transaction_id',
+            ])
             ->with([
-                'member.user:id,name,email,mobile',
-                'paymentAccount:id,code,name'
+                'paymentAccount:id,code,name,sub_type',
             ])
             ->withSum([
                 'returns as paid_return_total'=>fn($q)=>
                     $q->where('status','paid')
-                        ->where('return_type','income')
+                        ->where('return_type','income'),
             ],'amount')
             ->withSum([
                 'returns as principal_return_total'=>fn($q)=>
                     $q->where('status','paid')
-                        ->where('return_type','principal')
+                        ->where('return_type','principal'),
             ],'amount')
+            ->when(
+                !empty($validated['status']),
+                fn($q)=>$q->where(
+                    'status',
+                    $validated['status']
+                )
+            )
+            ->when(
+                !empty($validated['from']),
+                fn($q)=>$q->whereDate(
+                    'investment_date',
+                    '>=',
+                    $validated['from']
+                )
+            )
+            ->when(
+                !empty($validated['to']),
+                fn($q)=>$q->whereDate(
+                    'investment_date',
+                    '<=',
+                    $validated['to']
+                )
+            )
+            ->when(
+                !empty($validated['search']),
+                function($q)use($validated){
+                    $search=trim($validated['search']);
+
+                    $q->where(function($query)use($search){
+                        $query
+                            ->where(
+                                'investment_no',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'title',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'description',
+                                'like',
+                                "%{$search}%"
+                            );
+                    });
+                }
+            )
             ->latest('investment_date')
             ->latest('id');
 
-        if(!empty($validated['search'])){
-            $search=trim($validated['search']);
-
-            $query->where(function($q)use($search){
-                $q->where('investment_no','like',"%{$search}%")
-                    ->orWhere('title','like',"%{$search}%")
-                    ->orWhere('description','like',"%{$search}%")
-                    ->orWhereHas('member',function($mq)use($search){
-                        $mq->where('member_code','like',"%{$search}%")
-                            ->orWhereHas('user',function($uq)use($search){
-                                $uq->where('name','like',"%{$search}%")
-                                    ->orWhere('email','like',"%{$search}%")
-                                    ->orWhere('mobile','like',"%{$search}%");
-                            });
-                    });
-            });
-        }
-
-        if(!empty($validated['status'])){
-            $query->where(
-                'status',
-                $validated['status']
-            );
-        }
-
-        if(!empty($validated['member_id'])){
-            $query->where(
-                'member_id',
-                $validated['member_id']
-            );
-        }
-
-        if(!empty($validated['from'])){
-            $query->whereDate(
-                'investment_date',
-                '>=',
-                $validated['from']
-            );
-        }
-
-        if(!empty($validated['to'])){
-            $query->whereDate(
-                'investment_date',
-                '<=',
-                $validated['to']
-            );
-        }
+        $perPage=min(
+            max(
+                (int)($validated['per_page']??15),
+                5
+            ),
+            100
+        );
 
         return response()->json([
             'success'=>true,
-            'data'=>$query->paginate(
-                min((int)($validated['per_page']??15),100)
-            )
+            'data'=>$query
+                ->paginate($perPage)
+                ->withQueryString(),
         ]);
     }
 
@@ -105,7 +123,8 @@ class InvestmentController extends Controller
     {
         return response()->json([
             'success'=>true,
-            'data'=>$this->investmentService->statistics()
+            'data'=>$this->investmentService
+                ->statistics(),
         ]);
     }
 
@@ -113,128 +132,98 @@ class InvestmentController extends Controller
     {
         $accounts=Account::query()
             ->active()
-            ->whereIn('sub_type',['cash','bank'])
+            ->whereIn(
+                'sub_type',
+                ['cash','bank']
+            )
+            ->whereDoesntHave('children')
             ->orderBy('code')
             ->get([
                 'id',
                 'code',
                 'name',
-                'sub_type'
+                'sub_type',
             ]);
 
         return response()->json([
             'success'=>true,
             'data'=>[
-                'cash_bank_accounts'=>$accounts
-            ]
-        ]);
-    }
-
-    public function members(Request $request)
-    {
-        $validated=$request->validate([
-            'search'=>'nullable|string|max:150'
-        ]);
-
-        $search=trim(
-            (string)($validated['search']??'')
-        );
-
-        $members=Member::query()
-            ->with('user:id,name,email,mobile')
-            ->where('status','active')
-            ->when($search,function($query)use($search){
-                $query->where(function($q)use($search){
-                    $q->where(
-                        'member_code',
-                        'like',
-                        "%{$search}%"
-                    )->orWhereHas(
-                        'user',
-                        function($uq)use($search){
-                            $uq->where(
-                                'name',
-                                'like',
-                                "%{$search}%"
-                            )->orWhere(
-                                'email',
-                                'like',
-                                "%{$search}%"
-                            )->orWhere(
-                                'mobile',
-                                'like',
-                                "%{$search}%"
-                            );
-                        }
-                    );
-                });
-            })
-            ->orderBy('member_code')
-            ->limit(50)
-            ->get();
-
-        return response()->json([
-            'success'=>true,
-            'data'=>$members
+                'cash_bank_accounts'=>$accounts,
+            ],
         ]);
     }
 
     public function store(Request $request)
     {
         $validated=$request->validate([
-            'member_id'=>'required|exists:members,id',
-            'payment_account_id'=>'required|exists:accounts,id',
-            'title'=>'required|string|max:255',
-            'description'=>'nullable|string|max:5000',
-            'amount'=>'required|numeric|min:0.01|max:9999999999999.99',
-            'expected_return'=>'nullable|numeric|min:0|max:9999999999999.99',
-            'investment_date'=>'required|date',
-            'maturity_date'=>'nullable|date|after_or_equal:investment_date',
-            'status'=>'nullable|in:pending,active,completed'
+            'payment_account_id'=>
+                'required|integer|exists:accounts,id',
+
+            'title'=>
+                'required|string|max:150',
+
+            'description'=>
+                'nullable|string|max:5000',
+
+            'amount'=>
+                'required|numeric|min:0.01|max:9999999999999.99',
+
+            'expected_return'=>
+                'nullable|numeric|min:0|max:9999999999999.99',
+
+            'investment_date'=>
+                'required|date_format:Y-m-d',
+
+            'maturity_date'=>
+                'nullable|date_format:Y-m-d|after_or_equal:investment_date',
+
+            'status'=>
+                'nullable|in:pending,active',
         ]);
 
-        $investment=$this->investmentService->create(
-            $validated,
-            $request->user()->id
-        );
+        $investment=$this->investmentService
+            ->create(
+                $validated,
+                $request->user()->id
+            );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Investment created and accounting entry posted successfully.',
-            'data'=>$investment
+            'message'=>'Investment created successfully.',
+            'data'=>$investment,
         ],201);
     }
 
     public function show(Investment $investment)
     {
         $investment->load([
-            'member.user',
             'paymentAccount',
             'financeTransaction.entries.account',
+
             'returns'=>fn($q)=>
                 $q->with([
                     'receiveAccount',
-                    'financeTransaction.entries.account'
+                    'financeTransaction.entries.account',
                 ])
                 ->latest('return_date')
-                ->latest('id')
+                ->latest('id'),
         ]);
 
         $investment->loadSum([
             'returns as paid_return_total'=>fn($q)=>
                 $q->where('status','paid')
-                    ->where('return_type','income')
+                    ->where('return_type','income'),
         ],'amount');
 
         $investment->loadSum([
             'returns as principal_return_total'=>fn($q)=>
                 $q->where('status','paid')
-                    ->where('return_type','principal')
+                    ->where('return_type','principal'),
         ],'amount');
 
         return response()->json([
             'success'=>true,
-            'data'=>$investment
+            'data'=>$investment,
         ]);
     }
 
@@ -243,26 +232,73 @@ class InvestmentController extends Controller
         Investment $investment
     ){
         $validated=$request->validate([
-            'member_id'=>'sometimes|required|exists:members,id',
-            'payment_account_id'=>'sometimes|required|exists:accounts,id',
-            'title'=>'sometimes|required|string|max:255',
-            'description'=>'nullable|string|max:5000',
-            'amount'=>'sometimes|required|numeric|min:0.01|max:9999999999999.99',
-            'expected_return'=>'nullable|numeric|min:0|max:9999999999999.99',
-            'investment_date'=>'sometimes|required|date',
-            'maturity_date'=>'nullable|date',
-            'status'=>'sometimes|required|in:pending,active,completed,cancelled'
+            'payment_account_id'=>
+                'sometimes|required|integer|exists:accounts,id',
+
+            'title'=>
+                'sometimes|required|string|max:150',
+
+            'description'=>
+                'nullable|string|max:5000',
+
+            'amount'=>
+                'sometimes|required|numeric|min:0.01|max:9999999999999.99',
+
+            'expected_return'=>
+                'nullable|numeric|min:0|max:9999999999999.99',
+
+            'investment_date'=>
+                'sometimes|required|date_format:Y-m-d',
+
+            'maturity_date'=>
+                'nullable|date_format:Y-m-d',
+
+            /*
+            |--------------------------------------------------------------------------
+            | Status
+            |--------------------------------------------------------------------------
+            |
+            | completed is system-managed.
+            | cancelled must use cancel().
+            |
+            */
+            'status'=>
+                'sometimes|required|in:pending,active',
         ]);
 
-        $investment=$this->investmentService->update(
-            $investment,
-            $validated
-        );
+        if(!empty($validated['maturity_date'])){
+            $investmentDate=
+                $validated['investment_date']
+                ??$investment->investment_date
+                    ->toDateString();
+
+            if(
+                $validated['maturity_date']<
+                $investmentDate
+            ){
+                return response()->json([
+                    'message'=>
+                        'The maturity date must be on or after the investment date.',
+
+                    'errors'=>[
+                        'maturity_date'=>[
+                            'The maturity date must be on or after the investment date.',
+                        ],
+                    ],
+                ],422);
+            }
+        }
+
+        $investment=$this->investmentService
+            ->update(
+                $investment,
+                $validated
+            );
 
         return response()->json([
             'success'=>true,
             'message'=>'Investment updated successfully.',
-            'data'=>$investment
+            'data'=>$investment,
         ]);
     }
 
@@ -270,27 +306,28 @@ class InvestmentController extends Controller
         Request $request,
         Investment $investment
     ){
-        $investment=$this->investmentService->cancel(
-            $investment,
-            $request->user()->id
-        );
+        $investment=$this->investmentService
+            ->cancel(
+                $investment,
+                $request->user()->id
+            );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Investment cancelled and accounting entry reversed successfully.',
-            'data'=>$investment
+            'message'=>'Investment cancelled successfully.',
+            'data'=>$investment,
         ]);
     }
 
-    public function destroy(Investment $investment)
-    {
-        $this->investmentService->delete(
-            $investment
-        );
+    public function destroy(
+        Investment $investment
+    ){
+        $this->investmentService
+            ->delete($investment);
 
         return response()->json([
             'success'=>true,
-            'message'=>'Investment deleted successfully.'
+            'message'=>'Investment deleted successfully.',
         ]);
     }
 
@@ -299,26 +336,38 @@ class InvestmentController extends Controller
         Investment $investment
     ){
         $validated=$request->validate([
-            'return_type'=>'required|in:income,principal',
-            'receive_account_id'=>'nullable|exists:accounts,id',
-            'amount'=>'required|numeric|min:0.01|max:9999999999999.99',
-            'return_date'=>'required|date',
-            'description'=>'nullable|string|max:3000',
-            'status'=>'required|in:pending,paid,cancelled'
+            'return_type'=>
+                'required|in:income,principal',
+
+            'receive_account_id'=>
+                'nullable|integer|exists:accounts,id',
+
+            'amount'=>
+                'required|numeric|min:0.01|max:9999999999999.99',
+
+            'return_date'=>
+                'required|date_format:Y-m-d',
+
+            'description'=>
+                'nullable|string|max:3000',
+
+            'status'=>
+                'required|in:pending,paid,cancelled',
         ]);
 
-        $return=$this->investmentService->addReturn(
-            $investment,
-            $validated,
-            $request->user()->id
-        );
+        $return=$this->investmentService
+            ->addReturn(
+                $investment,
+                $validated,
+                $request->user()->id
+            );
 
         return response()->json([
             'success'=>true,
             'message'=>$return->status==='paid'
                 ?'Investment return added and accounting entry posted successfully.'
                 :'Investment return added successfully.',
-            'data'=>$return
+            'data'=>$return,
         ],201);
     }
 
@@ -327,37 +376,50 @@ class InvestmentController extends Controller
         InvestmentReturn $investmentReturn
     ){
         $validated=$request->validate([
-            'return_type'=>'sometimes|required|in:income,principal',
-            'receive_account_id'=>'nullable|exists:accounts,id',
-            'amount'=>'sometimes|required|numeric|min:0.01|max:9999999999999.99',
-            'return_date'=>'sometimes|required|date',
-            'description'=>'nullable|string|max:3000',
-            'status'=>'sometimes|required|in:pending,paid,cancelled'
+            'return_type'=>
+                'sometimes|required|in:income,principal',
+
+            'receive_account_id'=>
+                'nullable|integer|exists:accounts,id',
+
+            'amount'=>
+                'sometimes|required|numeric|min:0.01|max:9999999999999.99',
+
+            'return_date'=>
+                'sometimes|required|date_format:Y-m-d',
+
+            'description'=>
+                'nullable|string|max:3000',
+
+            'status'=>
+                'sometimes|required|in:pending,paid,cancelled',
         ]);
 
-        $return=$this->investmentService->updateReturn(
-            $investmentReturn,
-            $validated,
-            $request->user()->id
-        );
+        $return=$this->investmentService
+            ->updateReturn(
+                $investmentReturn,
+                $validated,
+                $request->user()->id
+            );
 
         return response()->json([
             'success'=>true,
             'message'=>'Investment return updated successfully.',
-            'data'=>$return
+            'data'=>$return,
         ]);
     }
 
     public function destroyReturn(
         InvestmentReturn $investmentReturn
     ){
-        $this->investmentService->deleteReturn(
-            $investmentReturn
-        );
+        $this->investmentService
+            ->deleteReturn(
+                $investmentReturn
+            );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Investment return deleted successfully.'
+            'message'=>'Investment return deleted successfully.',
         ]);
     }
 }

@@ -540,10 +540,17 @@ async function loadCharges(page=1){
 }
 
 function renderSummary(data){
-    document.getElementById('summaryCharged').textContent=money(data.total_charged);
-    document.getElementById('summaryPaid').textContent=money(data.total_paid);
-    document.getElementById('summaryOutstanding').textContent=money(data.outstanding);
-    document.getElementById('summaryUnpaid').textContent=Number(data.unpaid_count??0);
+    document.getElementById('summaryCharged').textContent=
+        money(data.total_charged);
+
+    document.getElementById('summaryPaid').textContent=
+        money(data.total_paid);
+
+    document.getElementById('summaryOutstanding').textContent=
+        money(data.outstanding);
+
+    document.getElementById('summaryUnpaid').textContent=
+        Number(data.unpaid_count??0);
 }
 
 function renderCharges(){
@@ -814,7 +821,7 @@ document.getElementById('paymentForm').addEventListener('submit',async event=>{
 
     try{
         const response=await api(
-            `/api/finance/charges/${id}/payments`,
+            `/api/finance/charges/${id}/pay`,
             {
                 method:'POST',
                 body:JSON.stringify(data)

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Asset extends Model
 {
@@ -54,27 +55,49 @@ class Asset extends Model
 
     public function assetAccount(): BelongsTo
     {
-        return $this->belongsTo(Account::class,'asset_account_id');
+        return $this->belongsTo(
+            Account::class,
+            'asset_account_id'
+        );
     }
 
     public function paymentAccount(): BelongsTo
     {
-        return $this->belongsTo(Account::class,'payment_account_id');
+        return $this->belongsTo(
+            Account::class,
+            'payment_account_id'
+        );
     }
 
     public function financeTransaction(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class,'finance_transaction_id');
+        return $this->belongsTo(
+            Transaction::class,
+            'finance_transaction_id'
+        );
     }
 
     public function disposalTransaction(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class,'disposal_transaction_id');
+        return $this->belongsTo(
+            Transaction::class,
+            'disposal_transaction_id'
+        );
     }
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(
+            User::class,
+            'created_by'
+        );
+    }
+
+    public function depreciations(): HasMany
+    {
+        return $this->hasMany(
+            AssetDepreciation::class
+        );
     }
 
     public function getBookValueAttribute(): float
@@ -86,6 +109,44 @@ class Asset extends Model
                 2
             ),
             0
+        );
+    }
+
+    public function getDepreciableAmountAttribute(): float
+    {
+        return max(
+            round(
+                (float)$this->purchase_cost-
+                (float)$this->salvage_value,
+                2
+            ),
+            0
+        );
+    }
+
+    public function getRemainingDepreciableAmountAttribute(): float
+    {
+        return max(
+            round(
+                $this->depreciable_amount-
+                (float)$this->accumulated_depreciation,
+                2
+            ),
+            0
+        );
+    }
+
+    public function getMonthlyDepreciationAttribute(): float
+    {
+        $life=(int)$this->useful_life_months;
+
+        if($life<=0){
+            return 0;
+        }
+
+        return round(
+            $this->depreciable_amount/$life,
+            2
         );
     }
 }

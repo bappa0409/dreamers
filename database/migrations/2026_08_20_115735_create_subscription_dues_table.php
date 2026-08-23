@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('member_subscription_id')
-                ->constrained('member_subscriptions')
-                ->cascadeOnDelete();
+    ->constrained('member_subscriptions')
+    ->restrictOnDelete();
 
             $table->unsignedSmallInteger('year');
             $table->unsignedTinyInteger('month');
