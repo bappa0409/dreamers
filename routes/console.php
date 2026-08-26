@@ -13,29 +13,44 @@ Artisan::command('inspire', function () {
 
 Schedule::command('auth:clear-expired-setup-tokens')
     ->dailyAt('02:00')
-    ->withoutOverlapping();
+    ->withoutOverlapping()
+    ->onOneServer();
 
 Schedule::command('database:backup')
     ->dailyAt('02:30')
     ->when(fn() => (bool)setting('automatic_backup_enabled', true))
-    ->withoutOverlapping();
-
-Schedule::command('subscriptions:generate')
-    ->monthlyOn(1, '00:10')
     ->withoutOverlapping()
     ->onOneServer();
 
+// Pre-generate next month's dues a few days early (configurable day),
+// so members can see/pay upcoming dues in advance.
+$subscriptionGenerateDay = min(max((int)setting('subscription_generate_day', 25), 1), 28);
+Schedule::call(function () {
+    $next = now()->addMonthNoOverflow();
+
+    Artisan::call('subscriptions:generate-dues', [
+        '--year' => $next->year,
+        '--month' => $next->month,
+    ]);
+})
+    ->name('subscriptions:generate-dues-next-month')
+    ->monthlyOn($subscriptionGenerateDay, '00:01')
+    ->withoutOverlapping()
+    ->onOneServer();
+
+// Fallback: generate current month's dues on day 1 for any subscription
+// that wasn't covered by the early-generation run above (e.g. created
+// or reactivated after the pre-generation date).
 Schedule::command('subscriptions:generate-dues')
     ->monthlyOn(1, '00:05')
     ->withoutOverlapping()
     ->onOneServer();
 
+// Apply late fines to overdue dues. This is the single place fines are
+// applied — do not also schedule subscriptions:process, which duplicates
+// this same call.
 Schedule::command('subscriptions:apply-fines')
     ->dailyAt('00:15')
-    ->withoutOverlapping();
-
-Schedule::command('subscriptions:process')
-    ->dailyAt('00:10')
     ->withoutOverlapping()
     ->onOneServer();
 
@@ -44,9 +59,13 @@ Schedule::call(function () {
 })
     ->name('loans:mark-overdue')
     ->dailyAt('00:10')
-    ->withoutOverlapping();
-
+    ->withoutOverlapping()
+    ->onOneServer();
 
 Schedule::call(function () {
     ActivityLog::where('created_at', '<', now()->subMonths(6))->delete();
-})->monthly();
+})
+    ->name('activity-log:prune')
+    ->monthly()
+    ->withoutOverlapping()
+    ->onOneServer();

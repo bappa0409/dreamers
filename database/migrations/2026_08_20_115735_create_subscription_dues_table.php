@@ -58,7 +58,6 @@ return new class extends Migration
             $table->index(['year','month']);
             $table->index(['status','due_date']);
             $table->index('fine_applied_at');
-            $table->index(['member_id', 'status']);
         });
     }
 

@@ -126,7 +126,7 @@ class SubscriptionService
             $dueDay = max(
                 1,
                 min(
-                    (int)setting('subscription_due_day', 10),
+                    (int)$subscription->plan->due_day,
                     $period->daysInMonth
                 )
             );

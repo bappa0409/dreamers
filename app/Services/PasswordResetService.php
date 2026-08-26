@@ -45,7 +45,7 @@ class PasswordResetService
     {
         $resetUrl = $this->generate($user);
 
-        Mail::to($user->email)->send(
+        Mail::to($user->email)->queue(
             new PasswordResetMail($user, $resetUrl)
         );
     }

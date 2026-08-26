@@ -55,6 +55,7 @@ class ChargeService
                 ]);
             }
 
+            dd('test');
             $charge=MemberCharge::create([
                 'charge_no'=>$this->generateChargeNumber(),
                 'member_id'=>$data['member_id'],

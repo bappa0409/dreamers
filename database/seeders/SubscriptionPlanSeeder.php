@@ -22,6 +22,8 @@ class SubscriptionPlanSeeder extends Seeder
             [
                 'amount'=>1000,
                 'due_day'=>10,
+                'fine_type'=>'fixed',
+                'grace_days'=>1,
                 'is_default'=>true,
                 'is_active'=>true,
                 'description'=>'Default monthly subscription plan for active association members.',

@@ -384,10 +384,7 @@ class ApprovalService
             );
 
             if($member->user){
-                $this->passwordSetupService
-                    ->sendSetupLink(
-                        $member->user
-                    );
+                $this->passwordSetupService->send($member->user);
             }
 
             return;

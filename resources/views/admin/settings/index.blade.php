@@ -85,6 +85,7 @@
         general:'bi-sliders',
         system:'bi-hdd-stack',
         membership:'bi-people',
+        loan: 'bi-bank',
         finance:'bi-cash-coin',
         mail:'bi-envelope-at',
         security:'bi-shield-lock',
@@ -96,6 +97,7 @@
         general:'General',
         system:'System',
         membership:'Membership',
+        loan: 'Loan',
         finance:'Finance',
         mail:'Mail / SMTP',
         security:'Security',
@@ -107,6 +109,7 @@
         'general',
         'system',
         'membership',
+        'loan',
         'finance',
         'mail',
         'security',
@@ -137,10 +140,8 @@
     ];
 
     const subscriptionKeys=[
-        'subscription_fine_enabled',
-        'subscription_fine_apply_day',
-        'subscription_fine_type',
-        'subscription_fine_value'
+        'subscription_generate_day',
+        'subscription_fine_enabled'
     ];
 
     const generalPrefixKeys=[

@@ -591,6 +591,15 @@ class SettingSeeder extends Seeder
             |--------------------------------------------------------------------------
             */
             [
+                'key'=>'subscription_generate_day',
+                'value'=>'25',
+                'type'=>'integer',
+                'options'=>null,
+                'group'=>'general',
+                'description'=>'Day of month when next month\'s subscription due is auto-generated',
+                'is_public'=>false,
+            ],
+            [
                 'key'=>'subscription_fine_enabled',
                 'value'=>'1',
                 'type'=>'boolean',
@@ -599,36 +608,7 @@ class SettingSeeder extends Seeder
                 'description'=>'Enable late fine for overdue monthly subscriptions',
                 'is_public'=>false,
             ],
-            [
-                'key'=>'subscription_fine_apply_day',
-                'value'=>'15',
-                'type'=>'integer',
-                'options'=>null,
-                'group'=>'general',
-                'description'=>'Day of month when subscription late fine is applied',
-                'is_public'=>false,
-            ],
-            [
-                'key'=>'subscription_fine_type',
-                'value'=>'fixed',
-                'type'=>'select',
-                'options'=>[
-                    'fixed',
-                    'percentage',
-                ],
-                'group'=>'general',
-                'description'=>'Subscription late fine calculation type',
-                'is_public'=>false,
-            ],
-            [
-                'key'=>'subscription_fine_value',
-                'value'=>'100',
-                'type'=>'float',
-                'options'=>null,
-                'group'=>'general',
-                'description'=>'Subscription late fine amount or percentage',
-                'is_public'=>false,
-            ],
+           
 
             [
                 'key'=>'loan_enabled',
