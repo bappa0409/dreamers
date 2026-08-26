@@ -40,7 +40,7 @@ class MemberSubscriptionController extends Controller
             ])
             ->latest('id')
             ->first();
-
+            
         $dues=SubscriptionDue::query()
             ->select([
                 'id',

@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportService
 {
@@ -62,92 +63,218 @@ class ReportService
         $this->dateFilter($notices,'created_at',$from,$to);
         $this->dateFilter($transactions,'transaction_date',$from,$to);
 
-        $incomeTransactions=(clone $transactions)
-            ->where('type','income')
-            ->with('entries')
-            ->get();
+        $memberSummary=$members
+            ->selectRaw("
+                COUNT(*) total,
+                SUM(status='active') active,
+                SUM(status='pending') pending,
+                SUM(status='inactive') inactive,
+                SUM(status='suspended') suspended,
+                SUM(status='rejected') rejected
+            ")
+            ->first();
 
-        $expenseTransactions=(clone $transactions)
-            ->where('type','expense')
-            ->with('entries')
-            ->get();
+        $investmentSummary=$investments
+            ->selectRaw("
+                COUNT(*) total,
+                COALESCE(SUM(amount),0) amount,
+                COALESCE(SUM(expected_return),0) expected_return,
+                SUM(status='pending') pending,
+                SUM(status='active') active,
+                SUM(status='completed') completed,
+                SUM(status='cancelled') cancelled
+            ")
+            ->first();
 
-        $income=(float)$incomeTransactions->sum(
-            fn($transaction)=>(float)$transaction->entries->sum('credit')
-        );
+        $landSummary=$lands
+            ->selectRaw("
+                COUNT(*) total,
+                SUM(status='planned') planned,
+                SUM(status='negotiating') negotiating,
+                SUM(status='purchased') purchased,
+                SUM(status='sold') sold,
+                SUM(status='cancelled') cancelled,
+                COALESCE(SUM(purchase_price),0) purchase_value
+            ")
+            ->first();
 
-        $expense=(float)$expenseTransactions->sum(
-            fn($transaction)=>(float)$transaction->entries->sum('debit')
-        );
+        $projectSummary=$projects
+            ->selectRaw("
+                COUNT(*) total,
+                SUM(status='planned') planned,
+                SUM(status='active') active,
+                SUM(status='on_hold') on_hold,
+                SUM(status='completed') completed,
+                SUM(status='cancelled') cancelled,
+                COALESCE(SUM(budget),0) budget,
+                COALESCE(SUM(actual_cost),0) cost
+            ")
+            ->first();
+
+        $now=now();
+
+        $pollSummary=$polls
+            ->selectRaw("
+                COUNT(*) total,
+                SUM(
+                    is_active=1
+                    AND start_at<=?
+                    AND end_at>=?
+                ) active,
+                SUM(
+                    is_active=1
+                    AND start_at>?
+                ) upcoming,
+                SUM(end_at<?) ended,
+                SUM(is_active=0) inactive
+            ",[
+                $now,
+                $now,
+                $now,
+                $now,
+            ])
+            ->first();
+
+        $noticeSummary=$notices
+            ->selectRaw("
+                COUNT(*) total,
+                SUM(is_published=1) published,
+                SUM(is_published=0) draft,
+                SUM(priority='urgent') urgent,
+                SUM(priority='high') high
+            ")
+            ->first();
+
+        $voteQuery=DB::table('poll_votes as pv')
+            ->join(
+                'polls as p',
+                'p.id',
+                '=',
+                'pv.poll_id'
+            );
+
+        if($from){
+            $voteQuery->where('p.created_at','>=',$from.' 00:00:00');
+        }
+
+        if($to){
+            $voteQuery->where('p.created_at','<=',$to.' 23:59:59');
+        }
+
+        $votes=(int)$voteQuery->count();
+
+        $financeSummary=DB::table('transactions as t')
+            ->leftJoin(
+                'transaction_entries as te',
+                'te.transaction_id',
+                '=',
+                't.id'
+            )
+            ->where('t.status','posted')
+            ->when(
+                $from,
+                fn($q)=>$q->where(
+                    't.transaction_date',
+                    '>=',
+                    $from
+                )
+            )
+            ->when(
+                $to,
+                fn($q)=>$q->where(
+                    't.transaction_date',
+                    '<=',
+                    $to
+                )
+            )
+            ->selectRaw("
+                COUNT(DISTINCT t.id) transactions,
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN t.type='income'
+                            THEN te.credit
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) income,
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN t.type='expense'
+                            THEN te.debit
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) expense
+            ")
+            ->first();
+
+        $income=(float)($financeSummary->income??0);
+        $expense=(float)($financeSummary->expense??0);
 
         return[
             'members'=>[
-                'total'=>(clone $members)->count(),
-                'active'=>(clone $members)->where('status','active')->count(),
-                'pending'=>(clone $members)->where('status','pending')->count(),
-                'inactive'=>(clone $members)->where('status','inactive')->count(),
-                'suspended'=>(clone $members)->where('status','suspended')->count(),
-                'rejected'=>(clone $members)->where('status','rejected')->count(),
+                'total'=>(int)($memberSummary->total??0),
+                'active'=>(int)($memberSummary->active??0),
+                'pending'=>(int)($memberSummary->pending??0),
+                'inactive'=>(int)($memberSummary->inactive??0),
+                'suspended'=>(int)($memberSummary->suspended??0),
+                'rejected'=>(int)($memberSummary->rejected??0),
             ],
+
             'investments'=>[
-                'total'=>(clone $investments)->count(),
-                'amount'=>(float)(clone $investments)->sum('amount'),
-                'expected_return'=>(float)(clone $investments)->sum('expected_return'),
-                'pending'=>(clone $investments)->where('status','pending')->count(),
-                'active'=>(clone $investments)->where('status','active')->count(),
-                'completed'=>(clone $investments)->where('status','completed')->count(),
-                'cancelled'=>(clone $investments)->where('status','cancelled')->count(),
+                'total'=>(int)($investmentSummary->total??0),
+                'amount'=>(float)($investmentSummary->amount??0),
+                'expected_return'=>(float)($investmentSummary->expected_return??0),
+                'pending'=>(int)($investmentSummary->pending??0),
+                'active'=>(int)($investmentSummary->active??0),
+                'completed'=>(int)($investmentSummary->completed??0),
+                'cancelled'=>(int)($investmentSummary->cancelled??0),
             ],
+
             'land'=>[
-                'total'=>(clone $lands)->count(),
-                'planned'=>(clone $lands)->where('status','planned')->count(),
-                'negotiating'=>(clone $lands)->where('status','negotiating')->count(),
-                'purchased'=>(clone $lands)->where('status','purchased')->count(),
-                'sold'=>(clone $lands)->where('status','sold')->count(),
-                'cancelled'=>(clone $lands)->where('status','cancelled')->count(),
-                'purchase_value'=>(float)(clone $lands)->sum('purchase_price'),
+                'total'=>(int)($landSummary->total??0),
+                'planned'=>(int)($landSummary->planned??0),
+                'negotiating'=>(int)($landSummary->negotiating??0),
+                'purchased'=>(int)($landSummary->purchased??0),
+                'sold'=>(int)($landSummary->sold??0),
+                'cancelled'=>(int)($landSummary->cancelled??0),
+                'purchase_value'=>(float)($landSummary->purchase_value??0),
             ],
+
             'projects'=>[
-                'total'=>(clone $projects)->count(),
-                'planned'=>(clone $projects)->where('status','planned')->count(),
-                'active'=>(clone $projects)->where('status','active')->count(),
-                'on_hold'=>(clone $projects)->where('status','on_hold')->count(),
-                'completed'=>(clone $projects)->where('status','completed')->count(),
-                'cancelled'=>(clone $projects)->where('status','cancelled')->count(),
-                'budget'=>(float)(clone $projects)->sum('budget'),
-                'cost'=>(float)(clone $projects)->sum('actual_cost'),
+                'total'=>(int)($projectSummary->total??0),
+                'planned'=>(int)($projectSummary->planned??0),
+                'active'=>(int)($projectSummary->active??0),
+                'on_hold'=>(int)($projectSummary->on_hold??0),
+                'completed'=>(int)($projectSummary->completed??0),
+                'cancelled'=>(int)($projectSummary->cancelled??0),
+                'budget'=>(float)($projectSummary->budget??0),
+                'cost'=>(float)($projectSummary->cost??0),
             ],
+
             'polls'=>[
-                'total'=>(clone $polls)->count(),
-                'active'=>(clone $polls)
-                    ->where('is_active',true)
-                    ->where('start_at','<=',now())
-                    ->where('end_at','>=',now())
-                    ->count(),
-                'upcoming'=>(clone $polls)
-                    ->where('is_active',true)
-                    ->where('start_at','>',now())
-                    ->count(),
-                'ended'=>(clone $polls)
-                    ->where('end_at','<',now())
-                    ->count(),
-                'inactive'=>(clone $polls)
-                    ->where('is_active',false)
-                    ->count(),
-                'votes'=>(clone $polls)
-                    ->withCount('votes')
-                    ->get()
-                    ->sum('votes_count'),
+                'total'=>(int)($pollSummary->total??0),
+                'active'=>(int)($pollSummary->active??0),
+                'upcoming'=>(int)($pollSummary->upcoming??0),
+                'ended'=>(int)($pollSummary->ended??0),
+                'inactive'=>(int)($pollSummary->inactive??0),
+                'votes'=>$votes,
             ],
+
             'notices'=>[
-                'total'=>(clone $notices)->count(),
-                'published'=>(clone $notices)->where('is_published',true)->count(),
-                'draft'=>(clone $notices)->where('is_published',false)->count(),
-                'urgent'=>(clone $notices)->where('priority','urgent')->count(),
-                'high'=>(clone $notices)->where('priority','high')->count(),
+                'total'=>(int)($noticeSummary->total??0),
+                'published'=>(int)($noticeSummary->published??0),
+                'draft'=>(int)($noticeSummary->draft??0),
+                'urgent'=>(int)($noticeSummary->urgent??0),
+                'high'=>(int)($noticeSummary->high??0),
             ],
+
             'finance'=>[
-                'transactions'=>(clone $transactions)->count(),
+                'transactions'=>(int)($financeSummary->transactions??0),
                 'income'=>$income,
                 'expense'=>$expense,
                 'net'=>$income-$expense,
@@ -641,15 +768,14 @@ class ReportService
         ];
     }
 
-    private function dateFilter(Builder $query,string $column,?string $from,?string $to): void
-    {
-        if($from){
-            $query->whereDate($column,'>=',$from);
-        }
-
-        if($to){
-            $query->whereDate($column,'<=',$to);
-        }
+    private function dateFilter(
+        Builder $query,
+        string $column,
+        ?string $from,
+        ?string $to
+    ): void{
+        if($from)$query->where($column,'>=',$from);
+        if($to)$query->where($column,'<=',$to);
     }
 
     private function date($value): string

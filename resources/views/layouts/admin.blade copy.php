@@ -148,7 +148,6 @@
     ['admin.finance','admin.finance','bi-speedometer2','Finance Dashboard'],
     ['admin.incomes','admin.incomes*','bi-arrow-down-circle','Incomes'],
     ['admin.expenses','admin.expenses*','bi-arrow-up-circle','Expenses'],
-    ['admin.finance.subscription-plans','admin.finance.subscription-plans*','bi-card-checklist','Subscription Plans'],
     ['admin.finance.subscription-payments','admin.finance.subscription-payments*','bi-cash-stack','Subscription
     Payments'],
     ['admin.finance.share-purchases','admin.finance.share-purchases*','bi-layers','Share Purchases'],

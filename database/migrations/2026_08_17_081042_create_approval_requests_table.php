@@ -14,94 +14,58 @@ return new class extends Migration
         Schema::create('approval_requests', function (Blueprint $table) {
             $table->id();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Approveable Model
-            |--------------------------------------------------------------------------
-            */
+            // Approveable model
             $table->string('approvable_type');
             $table->unsignedBigInteger('approvable_id');
 
-            /*
-            |--------------------------------------------------------------------------
-            | Approval Information
-            |--------------------------------------------------------------------------
-            */
+            // Approval information
             $table->string('module');
             $table->string('action');
+            $table->string('status')->default('pending');
 
-            $table->string('status')
-                ->default('pending');
+            // Multi-step approval
+            $table->unsignedTinyInteger('current_step')->default(1);
+            $table->unsignedTinyInteger('total_steps')->default(1);
+            $table->timestamp('completed_at')->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Requester
-            |--------------------------------------------------------------------------
-            */
+            // Requester
             $table->foreignId('requested_by')
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->text('request_note')
-                ->nullable();
+            $table->text('request_note')->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Approver
-            |--------------------------------------------------------------------------
-            */
+            // Approval
             $table->foreignId('approved_by')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->timestamp('approved_at')
-                ->nullable();
+            $table->timestamp('approved_at')->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Rejection
-            |--------------------------------------------------------------------------
-            */
+            // Rejection
             $table->foreignId('rejected_by')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->timestamp('rejected_at')
-                ->nullable();
+            $table->timestamp('rejected_at')->nullable();
 
-            $table->text('rejection_reason')
-                ->nullable();
+            $table->text('rejection_reason')->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Cancellation
-            |--------------------------------------------------------------------------
-            */
+            // Cancellation
             $table->foreignId('cancelled_by')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->timestamp('cancelled_at')
-                ->nullable();
+            $table->timestamp('cancelled_at')->nullable();
 
-            $table->text('cancellation_reason')
-                ->nullable();
+            $table->text('cancellation_reason')->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Timestamps
-            |--------------------------------------------------------------------------
-            */
             $table->timestamps();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Indexes
-            |--------------------------------------------------------------------------
-            */
+            // Indexes
             $table->index(
                 ['approvable_type', 'approvable_id'],
                 'approval_requests_approvable_index'

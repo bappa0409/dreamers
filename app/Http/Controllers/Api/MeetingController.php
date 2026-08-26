@@ -48,7 +48,12 @@ class MeetingController extends Controller
         }
 
         if($request->filled('year')){
-            $query->whereYear('meeting_date',(int)$request->year);
+            $year=(int)$request->year;
+
+            $query->whereBetween('meeting_date',[
+                "{$year}-01-01",
+                "{$year}-12-31"
+            ]);
         }
 
         return response()->json([
@@ -64,10 +69,7 @@ class MeetingController extends Controller
     {
         return response()->json([
             'success'=>true,
-            'data'=>$this->meetingService->updateMinutes(
-                $meeting,
-                $meeting->minutes
-            )
+            'data'=>$this->meetingService->details($meeting)
         ]);
     }
 

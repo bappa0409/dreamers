@@ -72,13 +72,15 @@ use App\Http\Controllers\Api\FeedbackSupportController;
 */
 
 Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [AuthController::class, 'profile']);
     });
 });
+
+Route::get('/settings/public',[SettingController::class, 'publicSettings']);
 
 /*
 |--------------------------------------------------------------------------
@@ -594,6 +596,8 @@ Route::middleware('auth:sanctum')->group(function () {
         // Subscription Payments
         Route::prefix('subscription-payments')->group(function () {
             Route::get('/', [SubscriptionPaymentController::class, 'index'])->middleware('permission:Finance.view');
+            Route::get('/outstanding-dues', [SubscriptionPaymentController::class, 'outstandingDues'])->middleware('permission:Finance.view');
+            Route::post('/', [SubscriptionPaymentController::class, 'store'])->middleware('permission:Finance.create');
             Route::get('/{subscriptionPayment}', [SubscriptionPaymentController::class, 'show'])->middleware('permission:Finance.view');
             Route::post('/{subscriptionPayment}/verify', [SubscriptionPaymentController::class, 'verify'])->middleware('permission:Finance.update');
             Route::post('/{subscriptionPayment}/reject', [SubscriptionPaymentController::class, 'reject'])->middleware('permission:Finance.update');
@@ -900,13 +904,8 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::post('/admin/system/refresh-cache', function () {
-        Artisan::call('optimize:clear');
-        Artisan::call('config:clear');
-        Artisan::call('event:clear');
-        Artisan::call('route:clear');
-        Artisan::call('view:clear');
-        Artisan::call('cache:clear');
 
+        Artisan::call('optimize:clear');
         Artisan::call('config:cache');
         Artisan::call('event:cache');
 
@@ -914,5 +913,6 @@ Route::middleware('auth:sanctum')->group(function () {
             'success' => true,
             'message' => 'System cache cleared and rebuilt successfully.',
         ]);
-    })->name('admin.system.refresh-cache');
+
+    })->middleware('permission:System.manage')->name('admin.system.refresh-cache');
 });

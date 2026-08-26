@@ -14,30 +14,47 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
 
+            // Basic information
             $table->string('title');
-
             $table->string('document_type')->nullable();
 
+            $table->string('original_name')->nullable();
+
+            // File information
+            $table->string('path')->nullable();
+            $table->string('disk', 30)->default('local');
+            $table->string('mime_type', 150)->nullable();
+            $table->string('extension', 20)->nullable()->index();
+            $table->unsignedBigInteger('size')->default(0);
+
+            // Classification
+            $table->string('category', 100)->nullable()->index();
+
+            // Description
             $table->text('description')->nullable();
 
-            $table->string('file_path');
+            // Access / visibility
+            $table->string('visibility', 30)
+                ->default('internal')
+                ->index();
 
-            $table->string('file_name');
+            // Status
+            $table->string('status')
+                ->default('active');
 
-            $table->string('file_extension')->nullable();
+            $table->boolean('is_active')
+                ->default(true)
+                ->index();
 
-            $table->unsignedBigInteger('file_size')->nullable();
-
+            // User who uploaded the document
             $table->foreignId('uploaded_by')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->string('status')
-                ->default('active');
-
             $table->timestamps();
 
+            // Indexes
             $table->index('document_type');
             $table->index('status');
         });

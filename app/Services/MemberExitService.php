@@ -8,7 +8,6 @@ use App\Models\Loan;
 use App\Models\Member;
 use App\Models\MemberCharge;
 use App\Models\MemberExit;
-use App\Models\MemberExitItem;
 use App\Models\MemberExitNomineeAllocation;
 use App\Models\MemberNominee;
 use App\Models\MemberShare;
@@ -33,55 +32,33 @@ class MemberExitService
         int $userId,
         bool $memberInitiated=false
     ): MemberExit{
-        return DB::transaction(function()use(
-            $member,
-            $data,
-            $userId,
-            $memberInitiated
-        ){
+        return DB::transaction(function()use($member,$data,$userId,$memberInitiated){
             $member=Member::query()
+                ->select(['id','user_id','member_code','status'])
                 ->whereKey($member->id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if(in_array(
-                $member->status,
-                ['rejected','exited','deceased'],
-                true
-            )){
+            if(in_array($member->status,['rejected','exited','deceased'],true)){
                 throw ValidationException::withMessages([
-                    'member'=>[
-                        'This member cannot start a new exit process.'
-                    ],
+                    'member'=>['This member cannot start a new exit process.'],
                 ]);
             }
 
-            if(
-                $memberInitiated&&
-                ($data['exit_type']??null)!=='resignation'
-            ){
+            if($memberInitiated&&($data['exit_type']??null)!=='resignation'){
                 throw ValidationException::withMessages([
-                    'exit_type'=>[
-                        'Member can only initiate a resignation request.'
-                    ],
+                    'exit_type'=>['Member can only initiate a resignation request.'],
                 ]);
             }
 
             $exists=MemberExit::query()
                 ->where('member_id',$member->id)
-                ->whereNotIn('status',[
-                    'closed',
-                    'rejected',
-                    'cancelled',
-                ])
-                ->lockForUpdate()
+                ->whereNotIn('status',['closed','rejected','cancelled'])
                 ->exists();
 
             if($exists){
                 throw ValidationException::withMessages([
-                    'member'=>[
-                        'This member already has an active exit process.'
-                    ],
+                    'member'=>['This member already has an active exit process.'],
                 ]);
             }
 
@@ -89,10 +66,8 @@ class MemberExitService
                 'exit_no'=>$this->generateNumber(),
                 'member_id'=>$member->id,
                 'exit_type'=>$data['exit_type'],
-                'request_date'=>$data['request_date']
-                    ??now()->toDateString(),
-                'proposed_exit_date'=>
-                    $data['proposed_exit_date']??null,
+                'request_date'=>$data['request_date']??now()->toDateString(),
+                'proposed_exit_date'=>$data['proposed_exit_date']??null,
                 'reason'=>trim($data['reason']),
                 'status'=>'submitted',
                 'member_initiated'=>$memberInitiated,
@@ -118,18 +93,12 @@ class MemberExitService
         ?string $note,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $note,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$note,$userId){
             $exit=$this->lockExit($exit);
 
             if($exit->status!=='submitted'){
                 throw ValidationException::withMessages([
-                    'exit'=>[
-                        'Only submitted exit requests can enter review.'
-                    ],
+                    'exit'=>['Only submitted exit requests can enter review.'],
                 ]);
             }
 
@@ -140,10 +109,7 @@ class MemberExitService
                 'reviewed_at'=>now(),
             ]);
 
-            return $this->assessLocked(
-                $exit,
-                $userId
-            );
+            return $this->assessLocked($exit,$userId);
         });
     }
 
@@ -151,33 +117,21 @@ class MemberExitService
         MemberExit $exit,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$userId){
             $exit=$this->lockExit($exit);
 
-            if(!in_array(
-                $exit->status,
-                [
-                    'submitted',
-                    'under_review',
-                    'liabilities_pending',
-                    'ready_for_approval',
-                ],
-                true
-            )){
+            if(!in_array($exit->status,[
+                'submitted',
+                'under_review',
+                'liabilities_pending',
+                'ready_for_approval',
+            ],true)){
                 throw ValidationException::withMessages([
-                    'exit'=>[
-                        'Financial assessment is not allowed at this stage.'
-                    ],
+                    'exit'=>['Financial assessment is not allowed at this stage.'],
                 ]);
             }
 
-            return $this->assessLocked(
-                $exit,
-                $userId
-            );
+            return $this->assessLocked($exit,$userId);
         });
     }
 
@@ -186,17 +140,27 @@ class MemberExitService
         int $userId
     ): MemberExit{
         $member=Member::query()
+            ->select(['id','status'])
             ->whereKey($exit->member_id)
             ->lockForUpdate()
             ->firstOrFail();
 
-        $exit->items()->delete();
+        /*
+        |--------------------------------------------------------------------------
+        | Delete old assessment items
+        |--------------------------------------------------------------------------
+        */
 
-        $subscriptionDue=0;
-        $chargeDue=0;
-        $loanDue=0;
-        $shareRefund=0;
+        DB::table('member_exit_items')
+            ->where('member_exit_id',$exit->id)
+            ->delete();
+
+        $subscriptionDue=0.0;
+        $chargeDue=0.0;
+        $loanDue=0.0;
+        $shareRefund=0.0;
         $blockers=0;
+        $items=[];
 
         /*
         |--------------------------------------------------------------------------
@@ -205,23 +169,35 @@ class MemberExitService
         */
 
         $subscriptionDues=SubscriptionDue::query()
-            ->whereHas(
-                'subscription',
-                fn($q)=>$q->where(
-                    'member_id',
-                    $member->id
-                )
+            ->select([
+                'subscription_dues.id',
+                'subscription_dues.year',
+                'subscription_dues.month',
+                'subscription_dues.amount',
+                'subscription_dues.paid_amount',
+            ])
+            ->join(
+                'member_subscriptions as ms',
+                'ms.id',
+                '=',
+                'subscription_dues.member_subscription_id'
             )
-            ->whereNotIn(
-                'status',
-                ['paid','waived']
+            ->where('ms.member_id',$member->id)
+            ->whereNotIn('subscription_dues.status',['paid','waived'])
+            ->whereColumn(
+                'subscription_dues.amount',
+                '>',
+                'subscription_dues.paid_amount'
             )
             ->get();
 
         foreach($subscriptionDues as $due){
-            $amount=round(
-                (float)$due->outstanding,
-                2
+            $amount=max(
+                round(
+                    (float)$due->amount-(float)$due->paid_amount,
+                    2
+                ),
+                0
             );
 
             if($amount<=0){
@@ -231,15 +207,19 @@ class MemberExitService
             $subscriptionDue+=$amount;
             $blockers++;
 
-            $this->addItem(
-                $exit,
-                'subscription_due',
-                'liability',
-                SubscriptionDue::class,
-                $due->id,
-                "Subscription due {$due->period}",
-                $amount,
-                true
+            $items[]=$this->itemData(
+                exitId:$exit->id,
+                category:'subscription_due',
+                direction:'liability',
+                referenceType:SubscriptionDue::class,
+                referenceId:(int)$due->id,
+                description:sprintf(
+                    'Subscription due %04d-%02d',
+                    $due->year,
+                    $due->month
+                ),
+                amount:$amount,
+                blocking:true
             );
         }
 
@@ -250,17 +230,24 @@ class MemberExitService
         */
 
         $charges=MemberCharge::query()
+            ->select([
+                'id',
+                'charge_no',
+                'amount',
+                'paid_amount',
+            ])
             ->where('member_id',$member->id)
-            ->whereNotIn(
-                'status',
-                ['paid','waived','cancelled']
-            )
+            ->whereNotIn('status',['paid','waived','cancelled'])
+            ->whereColumn('amount','>','paid_amount')
             ->get();
 
         foreach($charges as $charge){
-            $amount=round(
-                (float)$charge->outstanding,
-                2
+            $amount=max(
+                round(
+                    (float)$charge->amount-(float)$charge->paid_amount,
+                    2
+                ),
+                0
             );
 
             if($amount<=0){
@@ -270,15 +257,15 @@ class MemberExitService
             $chargeDue+=$amount;
             $blockers++;
 
-            $this->addItem(
-                $exit,
-                'charge',
-                'liability',
-                MemberCharge::class,
-                $charge->id,
-                "Outstanding charge {$charge->charge_no}",
-                $amount,
-                true
+            $items[]=$this->itemData(
+                exitId:$exit->id,
+                category:'charge',
+                direction:'liability',
+                referenceType:MemberCharge::class,
+                referenceId:(int)$charge->id,
+                description:"Outstanding charge {$charge->charge_no}",
+                amount:$amount,
+                blocking:true
             );
         }
 
@@ -289,6 +276,12 @@ class MemberExitService
         */
 
         $loans=Loan::query()
+            ->select([
+                'id',
+                'loan_no',
+                'status',
+                'total_payable',
+            ])
             ->where('member_id',$member->id)
             ->whereIn('status',[
                 'approved',
@@ -306,15 +299,15 @@ class MemberExitService
             if($loan->status==='approved'){
                 $blockers++;
 
-                $this->addItem(
-                    $exit,
-                    'loan',
-                    'process',
-                    Loan::class,
-                    $loan->id,
-                    "Approved loan {$loan->loan_no} must be cancelled before exit.",
-                    0,
-                    true
+                $items[]=$this->itemData(
+                    exitId:$exit->id,
+                    category:'loan',
+                    direction:'process',
+                    referenceType:Loan::class,
+                    referenceId:(int)$loan->id,
+                    description:"Approved loan {$loan->loan_no} must be cancelled before exit.",
+                    amount:0,
+                    blocking:true
                 );
 
                 continue;
@@ -336,109 +329,134 @@ class MemberExitService
             $loanDue+=$outstanding;
             $blockers++;
 
-            $this->addItem(
-                $exit,
-                'loan',
-                'liability',
-                Loan::class,
-                $loan->id,
-                "Outstanding loan {$loan->loan_no}",
-                $outstanding,
-                true
+            $items[]=$this->itemData(
+                exitId:$exit->id,
+                category:'loan',
+                direction:'liability',
+                referenceType:Loan::class,
+                referenceId:(int)$loan->id,
+                description:"Outstanding loan {$loan->loan_no}",
+                amount:$outstanding,
+                blocking:true
             );
         }
 
         /*
         |--------------------------------------------------------------------------
-        | Active shares = member entitlement
+        | Shares
+        |--------------------------------------------------------------------------
+        | Active  = refundable entitlement
+        | Pending = unresolved process/blocker
         |--------------------------------------------------------------------------
         */
 
         $shares=MemberShare::query()
+            ->select([
+                'id',
+                'share_no',
+                'status',
+                'purchase_amount',
+            ])
             ->where('member_id',$member->id)
-            ->where('status','active')
+            ->whereIn('status',['active','pending'])
             ->get();
 
         foreach($shares as $share){
-            $amount=round(
-                (float)$share->purchase_amount,
-                2
-            );
+            if($share->status==='active'){
+                $amount=max(
+                    round((float)$share->purchase_amount,2),
+                    0
+                );
 
-            $shareRefund+=$amount;
+                $shareRefund+=$amount;
 
-            $this->addItem(
-                $exit,
-                'share',
-                'entitlement',
-                MemberShare::class,
-                $share->id,
-                "Share refund {$share->share_no}",
-                $amount,
-                false
-            );
-        }
+                $items[]=$this->itemData(
+                    exitId:$exit->id,
+                    category:'share',
+                    direction:'entitlement',
+                    referenceType:MemberShare::class,
+                    referenceId:(int)$share->id,
+                    description:"Share refund {$share->share_no}",
+                    amount:$amount,
+                    blocking:false
+                );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Pending share purchases are unresolved processes
-        |--------------------------------------------------------------------------
-        */
+                continue;
+            }
 
-        $pendingShares=MemberShare::query()
-            ->where('member_id',$member->id)
-            ->where('status','pending')
-            ->get();
-
-        foreach($pendingShares as $share){
             $blockers++;
 
-            $this->addItem(
-                $exit,
-                'pending_share',
-                'process',
-                MemberShare::class,
-                $share->id,
-                "Pending share purchase {$share->share_no} must be resolved.",
-                0,
-                true
+            $items[]=$this->itemData(
+                exitId:$exit->id,
+                category:'pending_share',
+                direction:'process',
+                referenceType:MemberShare::class,
+                referenceId:(int)$share->id,
+                description:"Pending share purchase {$share->share_no} must be resolved.",
+                amount:0,
+                blocking:true
             );
         }
 
         /*
         |--------------------------------------------------------------------------
-        | Committee position
+        | Committee positions
         |--------------------------------------------------------------------------
-        |
-        | Normal resignation/removal requires explicit replacement/removal.
-        | Death case will be auto-ended during closure.
-        |
+        | For death cases positions are automatically closed during settlement.
+        |--------------------------------------------------------------------------
         */
 
         if($exit->exit_type!=='death'){
-            $committeeMemberships=
-                CommitteeMember::query()
-                    ->where('member_id',$member->id)
-                    ->where('status','active')
-                    ->with('position:id,name')
-                    ->get();
+            $committeeMemberships=CommitteeMember::query()
+                ->select([
+                    'committee_members.id',
+                    'positions.name as position_name',
+                ])
+                ->leftJoin(
+                    'positions',
+                    'positions.id',
+                    '=',
+                    'committee_members.position_id'
+                )
+                ->where('committee_members.member_id',$member->id)
+                ->where('committee_members.status','active')
+                ->get();
 
             foreach($committeeMemberships as $membership){
                 $blockers++;
 
-                $this->addItem(
-                    $exit,
-                    'committee_position',
-                    'process',
-                    CommitteeMember::class,
-                    $membership->id,
-                    'Active committee position: '.
-                    ($membership->position?->name??'Committee Member'),
-                    0,
-                    true
+                $items[]=$this->itemData(
+                    exitId:$exit->id,
+                    category:'committee_position',
+                    direction:'process',
+                    referenceType:CommitteeMember::class,
+                    referenceId:(int)$membership->id,
+                    description:'Active committee position: '.
+                        ($membership->position_name?:'Committee Member'),
+                    amount:0,
+                    blocking:true
                 );
             }
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bulk insert assessment items
+        |--------------------------------------------------------------------------
+        | Previously each item used its own INSERT query.
+        |--------------------------------------------------------------------------
+        */
+
+        if(!empty($items)){
+            foreach(array_chunk($items,500) as $chunk){
+                DB::table('member_exit_items')->insert($chunk);
+            }
+        }
+
+        $subscriptionDue=round($subscriptionDue,2);
+        $chargeDue=round($chargeDue,2);
+        $loanDue=round($loanDue,2);
+        $shareRefund=round($shareRefund,2);
 
         $totalLiabilities=round(
             $subscriptionDue+
@@ -449,16 +467,12 @@ class MemberExitService
 
         /*
         |--------------------------------------------------------------------------
-        | Do not auto-net financial sub-ledgers
+        | Financial liabilities are not auto-netted
         |--------------------------------------------------------------------------
-        |
-        | Liabilities must be cleared through their own payment flows.
-        | Therefore final payable is only released once blockers = 0.
-        |
         */
 
         $netSettlement=$blockers===0
-            ?round($shareRefund,2)
+            ?$shareRefund
             :0;
 
         $status=$blockers>0
@@ -466,11 +480,11 @@ class MemberExitService
             :'ready_for_approval';
 
         $exit->update([
-            'subscription_due'=>round($subscriptionDue,2),
-            'charge_due'=>round($chargeDue,2),
-            'loan_due'=>round($loanDue,2),
+            'subscription_due'=>$subscriptionDue,
+            'charge_due'=>$chargeDue,
+            'loan_due'=>$loanDue,
             'total_liabilities'=>$totalLiabilities,
-            'share_refund'=>round($shareRefund,2),
+            'share_refund'=>$shareRefund,
             'net_settlement_amount'=>$netSettlement,
             'blocking_items_count'=>$blockers,
             'status'=>$status,
@@ -487,26 +501,20 @@ class MemberExitService
         MemberExit $exit,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$userId){
             $exit=$this->lockExit($exit);
 
             /*
             |--------------------------------------------------------------------------
-            | Refresh financial position
+            | Re-assess before approval
             |--------------------------------------------------------------------------
             */
 
-            $exit=$this->assessLocked(
-                $exit,
-                $userId
-            );
+            $exit=$this->assessLocked($exit,$userId);
 
             if(
                 $exit->status!=='ready_for_approval'||
-                $exit->blocking_items_count>0||
+                (int)$exit->blocking_items_count>0||
                 (float)$exit->total_liabilities>0
             ){
                 throw ValidationException::withMessages([
@@ -520,9 +528,7 @@ class MemberExitService
                 $exit->exit_type==='death'&&
                 (float)$exit->share_refund>0
             ){
-                $this->buildDeathNomineeAllocations(
-                    $exit
-                );
+                $this->buildDeathNomineeAllocations($exit);
             }
 
             $exit->update([
@@ -551,27 +557,17 @@ class MemberExitService
         string $reason,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $reason,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$reason,$userId){
             $exit=$this->lockExit($exit);
 
-            if(!in_array(
-                $exit->status,
-                [
-                    'submitted',
-                    'under_review',
-                    'liabilities_pending',
-                    'ready_for_approval',
-                ],
-                true
-            )){
+            if(!in_array($exit->status,[
+                'submitted',
+                'under_review',
+                'liabilities_pending',
+                'ready_for_approval',
+            ],true)){
                 throw ValidationException::withMessages([
-                    'exit'=>[
-                        'This exit request can no longer be rejected.'
-                    ],
+                    'exit'=>['This exit request can no longer be rejected.'],
                 ]);
             }
 
@@ -579,9 +575,7 @@ class MemberExitService
 
             if($reason===''){
                 throw ValidationException::withMessages([
-                    'rejection_reason'=>[
-                        'Rejection reason is required.'
-                    ],
+                    'rejection_reason'=>['Rejection reason is required.'],
                 ]);
             }
 
@@ -611,34 +605,21 @@ class MemberExitService
         int $userId,
         bool $memberAction=false
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $userId,
-            $memberAction
-        ){
+        return DB::transaction(function()use($exit,$userId,$memberAction){
             $exit=$this->lockExit($exit);
 
-            if(!in_array(
-                $exit->status,
-                [
-                    'submitted',
-                    'under_review',
-                    'liabilities_pending',
-                    'ready_for_approval',
-                ],
-                true
-            )){
+            if(!in_array($exit->status,[
+                'submitted',
+                'under_review',
+                'liabilities_pending',
+                'ready_for_approval',
+            ],true)){
                 throw ValidationException::withMessages([
-                    'exit'=>[
-                        'This exit process can no longer be cancelled.'
-                    ],
+                    'exit'=>['This exit process can no longer be cancelled.'],
                 ]);
             }
 
-            if(
-                $memberAction&&
-                !$exit->member_initiated
-            ){
+            if($memberAction&&!$exit->member_initiated){
                 throw ValidationException::withMessages([
                     'exit'=>[
                         'Member cannot cancel an admin-initiated exit process.'
@@ -661,24 +642,18 @@ class MemberExitService
         array $data,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $data,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$data,$userId){
             $exit=$this->lockExit($exit);
 
             if($exit->status!=='approved'){
                 throw ValidationException::withMessages([
-                    'exit'=>[
-                        'Only approved exit processes can be settled.'
-                    ],
+                    'exit'=>['Only approved exit processes can be settled.'],
                 ]);
             }
 
             /*
             |--------------------------------------------------------------------------
-            | Re-check current blockers
+            | Re-check all current blockers
             |--------------------------------------------------------------------------
             */
 
@@ -696,12 +671,26 @@ class MemberExitService
             }
 
             $member=Member::query()
-                ->with('user')
+                ->select([
+                    'id',
+                    'user_id',
+                    'status',
+                ])
                 ->whereKey($exit->member_id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
+            /*
+            |--------------------------------------------------------------------------
+            | Lock active shares before refund calculation
+            |--------------------------------------------------------------------------
+            */
+
             $shares=MemberShare::query()
+                ->select([
+                    'id',
+                    'purchase_amount',
+                ])
                 ->where('member_id',$member->id)
                 ->where('status','active')
                 ->lockForUpdate()
@@ -715,6 +704,12 @@ class MemberExitService
             $transaction=null;
             $account=null;
 
+            /*
+            |--------------------------------------------------------------------------
+            | Post accounting settlement
+            |--------------------------------------------------------------------------
+            */
+
             if($refund>0){
                 $account=$this->cashBankAccount(
                     (int)$data['payout_account_id']
@@ -725,32 +720,20 @@ class MemberExitService
 
                 /*
                 |--------------------------------------------------------------------------
-                | Share capital refund
-                |--------------------------------------------------------------------------
-                |
                 | Dr Member Share Capital
                 | Cr Cash / Bank
-                |
-                | NOT an expense.
-                |
+                |--------------------------------------------------------------------------
                 */
 
                 $transaction=$this->accounting->post([
-                    'idempotency_key'=>
-                        "member-exit:settlement:{$exit->id}",
-
-                    'transaction_date'=>
-                        $data['settlement_date'],
-
+                    'idempotency_key'=>"member-exit:settlement:{$exit->id}",
+                    'transaction_date'=>$data['settlement_date'],
                     'type'=>'member_exit_settlement',
                     'source_module'=>'member_exit',
                     'source_id'=>$exit->id,
                     'reference_type'=>MemberExit::class,
                     'reference_id'=>$exit->id,
-
-                    'description'=>
-                        "Member exit settlement {$exit->exit_no}",
-
+                    'description'=>"Member exit settlement {$exit->exit_no}",
                     'user_id'=>$userId,
 
                     'entries'=>[
@@ -758,15 +741,13 @@ class MemberExitService
                             'account_id'=>$memberEquity->id,
                             'debit'=>$refund,
                             'credit'=>0,
-                            'description'=>
-                                "Member share capital refund {$exit->exit_no}",
+                            'description'=>"Member share capital refund {$exit->exit_no}",
                         ],
                         [
                             'account_id'=>$account->id,
                             'debit'=>0,
                             'credit'=>$refund,
-                            'description'=>
-                                "Exit settlement payout {$exit->exit_no}",
+                            'description'=>"Exit settlement payout {$exit->exit_no}",
                         ],
                     ],
                 ]);
@@ -774,7 +755,7 @@ class MemberExitService
 
             /*
             |--------------------------------------------------------------------------
-            | Retire member shares
+            | Retire active shares
             |--------------------------------------------------------------------------
             */
 
@@ -790,20 +771,22 @@ class MemberExitService
 
             /*
             |--------------------------------------------------------------------------
-            | Stop subscription generation
+            | Disable future subscriptions
             |--------------------------------------------------------------------------
             */
 
-            $member->subscriptions()
+            DB::table('member_subscriptions')
+                ->where('member_id',$member->id)
                 ->where('is_active',true)
                 ->update([
                     'is_active'=>false,
                     'end_date'=>$data['settlement_date'],
+                    'updated_at'=>now(),
                 ]);
 
             /*
             |--------------------------------------------------------------------------
-            | Death: end active committee positions automatically
+            | Death: automatically close active committee positions
             |--------------------------------------------------------------------------
             */
 
@@ -820,29 +803,49 @@ class MemberExitService
                     ]);
             }
 
-            $memberStatus=$exit->exit_type==='death'
-                ?'deceased'
-                :'exited';
+            /*
+            |--------------------------------------------------------------------------
+            | Member status
+            |--------------------------------------------------------------------------
+            */
 
             $member->update([
-                'status'=>$memberStatus,
+                'status'=>$exit->exit_type==='death'
+                    ?'deceased'
+                    :'exited',
             ]);
 
             /*
             |--------------------------------------------------------------------------
-            | Disable member login
+            | Disable login
+            |--------------------------------------------------------------------------
+            | Direct UPDATE avoids SELECTing the User model first.
+            | If User model observers are required, replace this with model update.
             |--------------------------------------------------------------------------
             */
 
-            if($member->user){
-                $member->user->update([
-                    'is_active'=>false,
-                ]);
+            if($member->user_id){
+                DB::table('users')
+                    ->where('id',$member->user_id)
+                    ->update([
+                        'is_active'=>false,
+                        'updated_at'=>now(),
+                    ]);
             }
 
-            $exit->items()
+            /*
+            |--------------------------------------------------------------------------
+            | Mark entitlement items settled
+            |--------------------------------------------------------------------------
+            */
+
+            DB::table('member_exit_items')
+                ->where('member_exit_id',$exit->id)
                 ->where('direction','entitlement')
-                ->update(['status'=>'settled']);
+                ->update([
+                    'status'=>'settled',
+                    'updated_at'=>now(),
+                ]);
 
             $exit->update([
                 'share_refund'=>$refund,
@@ -864,10 +867,7 @@ class MemberExitService
         MemberExit $exit,
         int $userId
     ): MemberExit{
-        return DB::transaction(function()use(
-            $exit,
-            $userId
-        ){
+        return DB::transaction(function()use($exit,$userId){
             $exit=$this->lockExit($exit);
 
             if($exit->status!=='settled'){
@@ -890,53 +890,113 @@ class MemberExitService
         });
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Statistics
+    |--------------------------------------------------------------------------
+    | 5+ COUNT queries -> 1 aggregate query.
+    |--------------------------------------------------------------------------
+    */
+
     public function statistics(): array
     {
         return Cache::remember(
             'member-exits:statistics',
             now()->addMinutes(5),
-            fn()=>[
-                'total'=>MemberExit::count(),
+            function(){
+                $row=MemberExit::query()
+                    ->selectRaw("
+                        COUNT(*) AS total,
 
-                'pending'=>MemberExit::whereIn(
-                    'status',
-                    [
-                        'submitted',
-                        'under_review',
-                        'liabilities_pending',
-                        'ready_for_approval',
-                    ]
-                )->count(),
+                        SUM(
+                            CASE
+                                WHEN status IN (
+                                    'submitted',
+                                    'under_review',
+                                    'liabilities_pending',
+                                    'ready_for_approval'
+                                )
+                                THEN 1 ELSE 0
+                            END
+                        ) AS pending,
 
-                'approved'=>MemberExit::where(
-                    'status',
-                    'approved'
-                )->count(),
+                        SUM(
+                            CASE
+                                WHEN status='approved'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS approved,
 
-                'closed'=>MemberExit::where(
-                    'status',
-                    'closed'
-                )->count(),
+                        SUM(
+                            CASE
+                                WHEN status='settled'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS settled,
 
-                'death'=>MemberExit::where(
-                    'exit_type',
-                    'death'
-                )->count(),
-            ]
+                        SUM(
+                            CASE
+                                WHEN status='closed'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS closed,
+
+                        SUM(
+                            CASE
+                                WHEN status='rejected'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS rejected,
+
+                        SUM(
+                            CASE
+                                WHEN status='cancelled'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS cancelled,
+
+                        SUM(
+                            CASE
+                                WHEN exit_type='death'
+                                THEN 1 ELSE 0
+                            END
+                        ) AS death
+                    ")
+                    ->first();
+
+                return[
+                    'total'=>(int)($row->total??0),
+                    'pending'=>(int)($row->pending??0),
+                    'approved'=>(int)($row->approved??0),
+                    'settled'=>(int)($row->settled??0),
+                    'closed'=>(int)($row->closed??0),
+                    'rejected'=>(int)($row->rejected??0),
+                    'cancelled'=>(int)($row->cancelled??0),
+                    'death'=>(int)($row->death??0),
+                ];
+            }
         );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Death nominee allocation
+    |--------------------------------------------------------------------------
+    */
 
     protected function buildDeathNomineeAllocations(
         MemberExit $exit
     ): void{
         $nominees=MemberNominee::query()
+            ->select([
+                'id',
+                'allocation_percentage',
+            ])
             ->where('member_id',$exit->member_id)
             ->where('is_active',true)
-            ->where(
-                'verification_status',
-                'verified'
-            )
+            ->where('verification_status','verified')
             ->orderBy('priority')
+            ->orderBy('id')
             ->lockForUpdate()
             ->get();
 
@@ -949,9 +1009,7 @@ class MemberExitService
         }
 
         $totalPercentage=round(
-            (float)$nominees->sum(
-                'allocation_percentage'
-            ),
+            (float)$nominees->sum('allocation_percentage'),
             2
         );
 
@@ -963,103 +1021,136 @@ class MemberExitService
             ]);
         }
 
-        $exit->nomineeAllocations()->delete();
+        DB::table('member_exit_nominee_allocations')
+            ->where('member_exit_id',$exit->id)
+            ->delete();
 
         $refund=round(
             (float)$exit->share_refund,
             2
         );
 
-        $allocated=0;
-        $lastId=$nominees->last()->id;
+        $allocated=0.0;
+        $lastId=(int)$nominees->last()->id;
+        $now=now();
+        $rows=[];
 
         foreach($nominees as $nominee){
-            $amount=$nominee->id===$lastId
-                ?round($refund-$allocated,2)
-                :round(
+            $nomineeId=(int)$nominee->id;
+
+            if($nomineeId===$lastId){
+                $amount=round(
+                    $refund-$allocated,
+                    2
+                );
+            }else{
+                $amount=round(
                     $refund*
                     ((float)$nominee->allocation_percentage/100),
                     2
                 );
 
-            $allocated+=
-                $nominee->id===$lastId
-                    ?0
-                    :$amount;
+                $allocated+=$amount;
+            }
 
-            MemberExitNomineeAllocation::create([
+            $rows[]=[
                 'member_exit_id'=>$exit->id,
-                'member_nominee_id'=>$nominee->id,
-                'allocation_percentage'=>
-                    $nominee->allocation_percentage,
+                'member_nominee_id'=>$nomineeId,
+                'allocation_percentage'=>$nominee->allocation_percentage,
                 'amount'=>$amount,
-            ]);
+                'created_at'=>$now,
+                'updated_at'=>$now,
+            ];
+        }
+
+        if(!empty($rows)){
+            DB::table('member_exit_nominee_allocations')
+                ->insert($rows);
         }
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Current blockers
+    |--------------------------------------------------------------------------
+    | Multiple COUNT round-trips -> one database round-trip.
+    |--------------------------------------------------------------------------
+    */
 
     protected function currentBlockerSummary(
         int $memberId,
         string $exitType
     ): array{
-        $subscription=SubscriptionDue::query()
-            ->whereHas(
-                'subscription',
-                fn($q)=>$q->where(
-                    'member_id',
-                    $memberId
-                )
-            )
-            ->whereNotIn(
-                'status',
-                ['paid','waived']
-            )
-            ->get()
-            ->filter(
-                fn($due)=>
-                    $due->outstanding>0
-            )
-            ->count();
+        $row=DB::selectOne("
+            SELECT
+                (
+                    SELECT COUNT(*)
+                    FROM subscription_dues sd
+                    INNER JOIN member_subscriptions ms
+                        ON ms.id=sd.member_subscription_id
+                    WHERE ms.member_id=?
+                    AND sd.status NOT IN ('paid','waived')
+                    AND sd.amount>sd.paid_amount
+                ) AS subscriptions,
 
-        $charges=MemberCharge::query()
-            ->where('member_id',$memberId)
-            ->whereNotIn(
-                'status',
-                ['paid','waived','cancelled']
-            )
-            ->get()
-            ->filter(
-                fn($charge)=>
-                    $charge->outstanding>0
-            )
-            ->count();
+                (
+                    SELECT COUNT(*)
+                    FROM member_charges mc
+                    WHERE mc.member_id=?
+                    AND mc.status NOT IN ('paid','waived','cancelled')
+                    AND mc.amount>mc.paid_amount
+                ) AS charges,
 
-        $loans=Loan::query()
-            ->where('member_id',$memberId)
-            ->whereIn('status',[
-                'approved',
-                'active',
-                'overdue',
-                'defaulted',
-            ])
-            ->count();
+                (
+                    SELECT COUNT(*)
+                    FROM loans l
+                    WHERE l.member_id=?
+                    AND l.status IN (
+                        'approved',
+                        'active',
+                        'overdue',
+                        'defaulted'
+                    )
+                ) AS loans,
 
-        $pendingShares=MemberShare::query()
-            ->where('member_id',$memberId)
-            ->where('status','pending')
-            ->count();
+                (
+                    SELECT COUNT(*)
+                    FROM member_shares ms2
+                    WHERE ms2.member_id=?
+                    AND ms2.status='pending'
+                ) AS pending_shares,
 
-        $committee=0;
+                (
+                    SELECT COUNT(*)
+                    FROM committee_members cm
+                    WHERE cm.member_id=?
+                    AND cm.status='active'
+                ) AS committee
+        ",[
+            $memberId,
+            $memberId,
+            $memberId,
+            $memberId,
+            $memberId,
+        ]);
 
-        if($exitType!=='death'){
-            $committee=CommitteeMember::query()
-                ->where('member_id',$memberId)
-                ->where('status','active')
-                ->count();
-        }
+        $subscriptions=(int)($row->subscriptions??0);
+        $charges=(int)($row->charges??0);
+        $loans=(int)($row->loans??0);
+        $pendingShares=(int)($row->pending_shares??0);
+
+        $committee=$exitType==='death'
+            ?0
+            :(int)($row->committee??0);
 
         return[
+            'subscriptions'=>$subscriptions,
+            'charges'=>$charges,
+            'loans'=>$loans,
+            'pending_shares'=>$pendingShares,
+            'committee'=>$committee,
             'count'=>
-                $subscription+
+                $subscriptions+
                 $charges+
                 $loans+
                 $pendingShares+
@@ -1067,8 +1158,16 @@ class MemberExitService
         ];
     }
 
-    protected function addItem(
-        MemberExit $exit,
+    /*
+    |--------------------------------------------------------------------------
+    | Assessment item builder
+    |--------------------------------------------------------------------------
+    | Creates array data only. Actual INSERT is done in bulk.
+    |--------------------------------------------------------------------------
+    */
+
+    protected function itemData(
+        int $exitId,
         string $category,
         string $direction,
         ?string $referenceType,
@@ -1076,8 +1175,11 @@ class MemberExitService
         string $description,
         float $amount,
         bool $blocking
-    ): MemberExitItem{
-        return $exit->items()->create([
+    ): array{
+        $now=now();
+
+        return[
+            'member_exit_id'=>$exitId,
             'category'=>$category,
             'direction'=>$direction,
             'reference_type'=>$referenceType,
@@ -1085,23 +1187,41 @@ class MemberExitService
             'description'=>$description,
             'amount'=>round($amount,2),
             'is_blocking'=>$blocking,
-            'status'=>$blocking
-                ?'pending'
-                :'cleared',
-        ]);
+            'status'=>$blocking?'pending':'cleared',
+            'created_at'=>$now,
+            'updated_at'=>$now,
+        ];
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cash/Bank leaf account
+    |--------------------------------------------------------------------------
+    */
 
     protected function cashBankAccount(
         int $accountId
     ): Account{
         $account=Account::query()
-            ->whereKey($accountId)
-            ->where('is_active',true)
+            ->select([
+                'accounts.id',
+                'accounts.code',
+                'accounts.name',
+                'accounts.sub_type',
+            ])
+            ->leftJoin(
+                'accounts as child',
+                'child.parent_id',
+                '=',
+                'accounts.id'
+            )
+            ->where('accounts.id',$accountId)
+            ->where('accounts.is_active',true)
             ->whereIn(
-                'sub_type',
+                'accounts.sub_type',
                 ['cash','bank']
             )
-            ->whereDoesntHave('children')
+            ->whereNull('child.id')
             ->first();
 
         if(!$account){
@@ -1115,6 +1235,12 @@ class MemberExitService
         return $account;
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Row locking
+    |--------------------------------------------------------------------------
+    */
+
     protected function lockExit(
         MemberExit $exit
     ): MemberExit{
@@ -1124,23 +1250,130 @@ class MemberExitService
             ->firstOrFail();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Lightweight mutation response
+    |--------------------------------------------------------------------------
+    | Do not load items, nominees, transaction entries, etc.
+    |--------------------------------------------------------------------------
+    */
+
     protected function freshExit(
         MemberExit $exit
     ): MemberExit{
-        return $exit->fresh([
-            'member.user:id,name,email,is_active',
-            'initiator:id,name',
-            'reviewer:id,name',
-            'approver:id,name',
-            'payoutAccount:id,code,name,sub_type',
-            'settlementTransaction.entries.account',
-            'items'=>fn($q)=>$q
-                ->orderByDesc('is_blocking')
-                ->orderBy('category'),
-
-            'nomineeAllocations.nominee',
-        ]);
+        return MemberExit::query()
+            ->with([
+                'member'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'user_id',
+                        'member_code',
+                        'status',
+                    ])
+            ])
+            ->findOrFail($exit->id);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Full detail response
+    |--------------------------------------------------------------------------
+    | Use only for show/detail page.
+    |--------------------------------------------------------------------------
+    */
+
+    public function details(
+        MemberExit $exit
+    ): MemberExit{
+        return MemberExit::query()
+            ->with([
+                'member'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'user_id',
+                        'member_code',
+                        'status',
+                    ])
+                    ->with(
+                        'user:id,name,email,is_active'
+                    ),
+
+                'initiator:id,name',
+                'reviewer:id,name',
+                'approver:id,name',
+
+                'payoutAccount:id,code,name,sub_type',
+
+                'settlementTransaction'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'transaction_no',
+                        'transaction_date',
+                        'type',
+                        'status',
+                        'description',
+                    ])
+                    ->with([
+                        'entries'=>fn($q)=>$q
+                            ->select([
+                                'id',
+                                'transaction_id',
+                                'account_id',
+                                'debit',
+                                'credit',
+                                'description',
+                            ])
+                            ->with(
+                                'account:id,code,name'
+                            )
+                    ]),
+
+                'items'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'member_exit_id',
+                        'category',
+                        'direction',
+                        'reference_type',
+                        'reference_id',
+                        'description',
+                        'amount',
+                        'is_blocking',
+                        'status',
+                    ])
+                    ->orderByDesc('is_blocking')
+                    ->orderBy('category')
+                    ->orderBy('id'),
+
+                'nomineeAllocations'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'member_exit_id',
+                        'member_nominee_id',
+                        'allocation_percentage',
+                        'amount',
+                    ])
+                    ->with([
+                        'nominee'=>fn($q)=>$q
+                            ->select([
+                                'id',
+                                'member_id',
+                                'name',
+                                'relationship',
+                                'phone',
+                                'allocation_percentage',
+                                'priority',
+                            ])
+                    ])
+            ])
+            ->findOrFail($exit->id);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Exit number
+    |--------------------------------------------------------------------------
+    */
 
     protected function generateNumber(): string
     {
@@ -1165,6 +1398,14 @@ class MemberExitService
         );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Notification
+    |--------------------------------------------------------------------------
+    | Direct member -> user_id lookup avoids loading Member + User models.
+    |--------------------------------------------------------------------------
+    */
+
     protected function notify(
         MemberExit $exit,
         string $title,
@@ -1172,13 +1413,15 @@ class MemberExitService
         string $type,
         int $senderId
     ): void{
-        $exit->loadMissing('member.user');
-
-        $userId=$exit->member?->user_id;
+        $userId=DB::table('members')
+            ->where('id',$exit->member_id)
+            ->value('user_id');
 
         if(!$userId){
             return;
         }
+
+        $userId=(int)$userId;
 
         DB::afterCommit(function()use(
             $userId,
@@ -1193,28 +1436,27 @@ class MemberExitService
                 'type'=>$type,
                 'audience_type'=>'users',
                 'user_ids'=>[$userId],
-                'action_url'=>route(
-                    'member.exit'
-                ),
+                'action_url'=>route('member.exit'),
                 'sent_by'=>$senderId,
             ]);
         });
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache invalidation
+    |--------------------------------------------------------------------------
+    */
 
     protected function forgetCaches(
         int $memberId
     ): void{
         DB::afterCommit(function()use($memberId){
             Cache::forget('member-exits:statistics');
-            Cache::forget(
-                "member-exits:member:{$memberId}"
-            );
+            Cache::forget("member-exits:member:{$memberId}");
 
-            $this->financeDashboard
-                ->forgetCache();
-
-            $this->memberDashboard
-                ->forgetFinancialCache();
+            $this->financeDashboard->forgetCache();
+            $this->memberDashboard->forgetFinancialCache();
         });
     }
 
@@ -1225,12 +1467,8 @@ class MemberExitService
             return null;
         }
 
-        $value=trim(
-            (string)$value
-        );
+        $value=trim((string)$value);
 
-        return $value===''
-            ?null
-            :$value;
+        return $value===''?null:$value;
     }
 }

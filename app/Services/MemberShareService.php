@@ -335,6 +335,28 @@ class MemberShareService
             ->get();
     }
 
+    public function memberSharesPaginated(
+        Member $member,
+        ?string $status = null,
+        int $perPage = 15
+    ) {
+        $perPage = min(max($perPage, 5), 50);
+
+        return $member->shares()
+            ->with([
+                'creator:id,name,email',
+                'verifier:id,name,email',
+                'financeTransaction:id,transaction_no,status',
+            ])
+            ->when(
+                $status,
+                fn ($query) => $query->where('status', $status)
+            )
+            ->latest('id')
+            ->paginate($perPage)
+            ->withQueryString();
+    }
+
     public function summary(Member $member): array
     {
         $base=$member->shares();

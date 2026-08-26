@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
+use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
 use App\Services\SubscriptionService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SubscriptionPaymentController extends Controller
 {
@@ -83,6 +86,125 @@ class SubscriptionPaymentController extends Controller
                 ),
             ],
         ]);
+    }
+
+    /**
+     * Outstanding (unpaid/partial/overdue) dues for a given member,
+     * used to populate the "Add Payment" form in the admin panel.
+     */
+    public function outstandingDues(Request $request)
+    {
+        $validated=$request->validate([
+            'member_id'=>'required|integer|exists:members,id',
+        ]);
+
+        $dues=SubscriptionDue::query()
+            ->select([
+                'id',
+                'member_subscription_id',
+                'year',
+                'month',
+                'base_amount',
+                'share_count',
+                'fine_amount',
+                'amount',
+                'paid_amount',
+                'due_date',
+                'status',
+            ])
+            ->whereHas(
+                'subscription',
+                function($query)use($validated){
+                    $query->where(
+                        'member_id',
+                        $validated['member_id']
+                    );
+                }
+            )
+            ->whereIn('status',[
+                'unpaid',
+                'partial',
+                'overdue',
+            ])
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get()
+            ->map(function($due){
+                $due->outstanding=round(
+                    (float)$due->amount-(float)$due->paid_amount,
+                    2
+                );
+
+                return $due;
+            });
+
+        return response()->json([
+            'success'=>true,
+            'data'=>$dues,
+        ]);
+    }
+
+    /**
+     * Admin-recorded subscription payment (e.g. cash collected in person).
+     * Created and verified in a single step since the admin is the one
+     * confirming the payment was received.
+     */
+    public function store(Request $request)
+    {
+        $validated=$request->validate([
+            'member_id'=>'required|integer|exists:members,id',
+            'subscription_due_id'=>[
+                'required',
+                'integer',
+                Rule::exists('subscription_dues','id'),
+            ],
+            'amount'=>'required|numeric|min:0.01|max:9999999999999.99',
+            'payment_method'=>'required|in:cash,bank,mobile_banking,online',
+            'transaction_reference'=>'nullable|string|max:255',
+            'note'=>'nullable|string|max:2000',
+        ]);
+
+        $member=Member::query()
+            ->findOrFail($validated['member_id']);
+
+        $due=SubscriptionDue::query()
+            ->findOrFail($validated['subscription_due_id']);
+
+        abort_unless(
+            $due->subscription()
+                ->where('member_id',$member->id)
+                ->exists(),
+            422,
+            'This subscription due does not belong to the selected member.'
+        );
+
+        $payment=$this->subscriptionService->submitPayment(
+            $member,
+            $due,
+            [
+                'amount'=>$validated['amount'],
+                'payment_method'=>$validated['payment_method'],
+                'transaction_reference'=>isset(
+                    $validated['transaction_reference']
+                )
+                    ?trim($validated['transaction_reference'])
+                    :null,
+            ]
+        );
+
+        $payment=$this->subscriptionService->verifyPayment(
+            $payment,
+            $request->user()->id,
+            isset($validated['note'])
+                ?trim($validated['note'])
+                :'Recorded and verified by admin.'
+        );
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Subscription payment recorded and verified successfully.',
+            'data'=>$payment,
+        ],201);
     }
 
     public function show(

@@ -105,22 +105,22 @@ class MemberController extends Controller
 
         return view('member.shares');
     }
-public function welfare(): View
-{
-    return view('member.welfare');
-}
+    public function welfare(): View
+    {
+        return view('member.welfare');
+    }
 
-public function feedbackSupport(): View
-{
-    return view(
-        'member.feedback-support'
-    );
-}
+    public function feedbackSupport(): View
+    {
+        return view(
+            'member.feedback-support'
+        );
+    }
 
     public function exit(): View
-{
-    return view('member.exit');
-}
+    {
+        return view('member.exit');
+    }
 
     public function subscriptions(): View
     {

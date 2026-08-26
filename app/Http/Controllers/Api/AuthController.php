@@ -191,6 +191,8 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        $user=$request->user();
+        
         $token = $request->user()
             ->currentAccessToken();
 

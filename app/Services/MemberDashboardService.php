@@ -44,19 +44,22 @@ class MemberDashboardService
         */
         $currentDue=SubscriptionDue::query()
             ->select([
-                'id',
-                'member_subscription_id',
-                'amount',
-                'paid_amount',
-                'fine_amount',
-                'status',
+                'subscription_dues.id',
+                'subscription_dues.member_subscription_id',
+                'subscription_dues.amount',
+                'subscription_dues.paid_amount',
+                'subscription_dues.fine_amount',
+                'subscription_dues.status',
             ])
-            ->whereHas(
-                'subscription',
-                fn($q)=>$q->where('member_id',$member->id)
+            ->join(
+                'member_subscriptions as ms',
+                'ms.id',
+                '=',
+                'subscription_dues.member_subscription_id'
             )
-            ->where('year',now()->year)
-            ->where('month',now()->month)
+            ->where('ms.member_id',$member->id)
+            ->where('subscription_dues.year',now()->year)
+            ->where('subscription_dues.month',now()->month)
             ->first();
 
         /*
@@ -78,34 +81,39 @@ class MemberDashboardService
         |--------------------------------------------------------------------------
         */
         $dueSummary=SubscriptionDue::query()
-            ->whereHas(
-                'subscription',
-                fn($q)=>$q->where('member_id',$member->id)
-            )
-            ->selectRaw("
-                COALESCE(
-                    SUM(
-                        CASE
-                            WHEN status IN ('unpaid','partial','overdue')
-                            THEN GREATEST(amount-paid_amount,0)
-                            ELSE 0
-                        END
-                    ),
-                    0
-                ) AS outstanding,
-
-                COALESCE(
-                    SUM(
-                        CASE
-                            WHEN status IN ('unpaid','partial','overdue')
-                            THEN fine_amount
-                            ELSE 0
-                        END
-                    ),
-                    0
-                ) AS fine
-            ")
-            ->first();
+        ->join(
+            'member_subscriptions as ms',
+            'ms.id',
+            '=',
+            'subscription_dues.member_subscription_id'
+        )
+        ->where('ms.member_id',$member->id)
+        ->selectRaw("
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN subscription_dues.status IN ('unpaid','partial','overdue')
+                        THEN GREATEST(
+                            subscription_dues.amount-subscription_dues.paid_amount,
+                            0
+                        )
+                        ELSE 0
+                    END
+                ),
+                0
+            ) outstanding,
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN subscription_dues.status IN ('unpaid','partial','overdue')
+                        THEN subscription_dues.fine_amount
+                        ELSE 0
+                    END
+                ),
+                0
+            ) fine
+        ")
+        ->first();
 
         /*
         |--------------------------------------------------------------------------

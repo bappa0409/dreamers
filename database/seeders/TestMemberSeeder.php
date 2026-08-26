@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Member;
+use App\Models\MemberSubscription;
 use App\Models\Role;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +31,7 @@ class TestMemberSeeder extends Seeder
 
             $user->assignRole($memberRole);
 
-            Member::updateOrCreate(
+            $member=Member::updateOrCreate(
                 ['user_id'=>$user->id],
                 [
                     'member_code'=>'DA-900001',
@@ -46,6 +48,30 @@ class TestMemberSeeder extends Seeder
                     'notes'=>'Seeded active member for Member Portal testing.',
                 ]
             );
+
+            $plan=SubscriptionPlan::query()
+                ->where('is_default',true)
+                ->where('is_active',true)
+                ->first()
+                ??SubscriptionPlan::query()
+                    ->where('is_active',true)
+                    ->orderBy('id')
+                    ->first();
+
+            if($plan){
+                MemberSubscription::updateOrCreate(
+                    [
+                        'member_id'=>$member->id,
+                        'subscription_plan_id'=>$plan->id,
+                    ],
+                    [
+                        'start_date'=>$member->joining_date
+                            ??now()->toDateString(),
+                        'end_date'=>null,
+                        'is_active'=>true,
+                    ]
+                );
+            }
         });
     }
 }

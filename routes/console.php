@@ -4,8 +4,10 @@ use App\Services\LoanService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
+use App\Models\ActivityLog;
 
-Artisan::command('inspire',function(){
+
+Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
@@ -15,16 +17,16 @@ Schedule::command('auth:clear-expired-setup-tokens')
 
 Schedule::command('database:backup')
     ->dailyAt('02:30')
-    ->when(fn()=>(bool)setting('automatic_backup_enabled',true))
+    ->when(fn() => (bool)setting('automatic_backup_enabled', true))
     ->withoutOverlapping();
 
 Schedule::command('subscriptions:generate')
-    ->monthlyOn(1,'00:10')
+    ->monthlyOn(1, '00:10')
     ->withoutOverlapping()
     ->onOneServer();
 
 Schedule::command('subscriptions:generate-dues')
-    ->monthlyOn(1,'00:05')
+    ->monthlyOn(1, '00:05')
     ->withoutOverlapping()
     ->onOneServer();
 
@@ -37,9 +39,14 @@ Schedule::command('subscriptions:process')
     ->withoutOverlapping()
     ->onOneServer();
 
-Schedule::call(function(){
+Schedule::call(function () {
     app(LoanService::class)->markOverdueLoans();
 })
     ->name('loans:mark-overdue')
     ->dailyAt('00:10')
     ->withoutOverlapping();
+
+
+Schedule::call(function () {
+    ActivityLog::where('created_at', '<', now()->subMonths(6))->delete();
+})->monthly();

@@ -35,6 +35,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
         Route::get('/balance-sheet', 'balanceSheet')->name('finance.balance-sheet');
         Route::get('/profit-loss', 'profitLoss')->name('finance.profit-loss');
         Route::get('/subscription-payments', 'subscriptionPayments')->name('finance.subscription-payments');
+        Route::get('/subscription-plans', 'subscriptionPlans')->name('finance.subscription-plans');
         Route::get('/share-purchases', 'sharePurchases')->name('finance.share-purchases');
     });
 

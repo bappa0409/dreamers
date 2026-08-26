@@ -17,7 +17,8 @@ class MeetingService
 {
     public function __construct(
         protected AccountingService $accounting,
-        protected NotificationService $notificationService
+        protected NotificationService $notificationService,
+        protected NumberSequenceService $numberSequence
     ){}
 
     public function create(array $data,?int $userId=null): Meeting
@@ -42,6 +43,145 @@ class MeetingService
 
             return $this->fresh($meeting);
         });
+    }
+
+    public function details(Meeting $meeting): Meeting
+    {
+        return Meeting::query()
+            ->select([
+                'id',
+                'meeting_no',
+                'title',
+                'type',
+                'meeting_date',
+                'start_time',
+                'end_time',
+                'venue',
+                'description',
+                'budget_amount',
+                'status',
+                'created_by',
+                'completed_by',
+                'completed_at',
+                'minutes',
+                'notes',
+                'created_at',
+                'updated_at'
+            ])
+            ->with([
+                'creator:id,name,email',
+                'completer:id,name,email',
+
+                'agendas'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'meeting_id',
+                        'sort_order',
+                        'title',
+                        'description',
+                        'status',
+                        'created_at',
+                        'updated_at'
+                    ])
+                    ->orderBy('sort_order')
+                    ->orderBy('id'),
+
+                'attendees'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'meeting_id',
+                        'member_id',
+                        'status',
+                        'notes',
+                        'created_at',
+                        'updated_at'
+                    ])
+                    ->with([
+                        'member'=>fn($q)=>$q
+                            ->select([
+                                'id',
+                                'user_id',
+                                'member_code',
+                                'status'
+                            ])
+                            ->with('user:id,name,email')
+                    ])
+                    ->orderBy('id'),
+
+                'decisions'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'meeting_id',
+                        'meeting_agenda_id',
+                        'decision_no',
+                        'title',
+                        'decision',
+                        'result',
+                        'votes_for',
+                        'votes_against',
+                        'votes_abstain',
+                        'responsible_user_id',
+                        'due_date',
+                        'status',
+                        'completed_at',
+                        'completion_notes',
+                        'created_at',
+                        'updated_at'
+                    ])
+                    ->with([
+                        'agenda:id,meeting_id,sort_order,title',
+                        'responsibleUser:id,name,email'
+                    ])
+                    ->orderBy('id'),
+
+                'expenses'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'meeting_id',
+                        'expense_no',
+                        'category',
+                        'expense_account_id',
+                        'payment_account_id',
+                        'amount',
+                        'expense_date',
+                        'payee',
+                        'reference_no',
+                        'description',
+                        'status',
+                        'finance_transaction_id',
+                        'created_by',
+                        'created_at',
+                        'updated_at'
+                    ])
+                    ->with([
+                        'expenseAccount:id,code,name',
+                        'paymentAccount:id,code,name',
+                        'creator:id,name,email',
+                        'financeTransaction'=>fn($q)=>$q
+                            ->select([
+                                'id',
+                                'transaction_no',
+                                'transaction_date',
+                                'type',
+                                'status'
+                            ])
+                            ->with([
+                                'entries'=>fn($q)=>$q
+                                    ->select([
+                                        'id',
+                                        'transaction_id',
+                                        'account_id',
+                                        'debit',
+                                        'credit',
+                                        'description'
+                                    ])
+                                    ->with('account:id,code,name')
+                            ])
+                    ])
+                    ->latest('expense_date')
+                    ->latest('id')
+            ])
+            ->findOrFail($meeting->id);
     }
 
     public function update(Meeting $meeting,array $data): Meeting
@@ -291,8 +431,6 @@ class MeetingService
                 'description'=>$data['description']??null,
                 'status'=>$data['status']??'pending'
             ]);
-
-            return $agenda->fresh();
         });
     }
 
@@ -323,8 +461,8 @@ class MeetingService
                     :$agenda->description,
                 'status'=>$data['status']??$agenda->status
             ]);
-
-            return $agenda->fresh();
+            
+            return $agenda;
         });
     }
 
@@ -364,6 +502,15 @@ class MeetingService
     ): MeetingAttendee{
         return DB::transaction(function()use($meeting,$member,$data){
             $meeting=Meeting::query()
+                ->select([
+                    'id',
+                    'title',
+                    'type',
+                    'meeting_date',
+                    'start_time',
+                    'venue',
+                    'status'
+                ])
                 ->whereKey($meeting->id)
                 ->lockForUpdate()
                 ->firstOrFail();
@@ -384,20 +531,18 @@ class MeetingService
                 ]);
             }
 
-            $existing=MeetingAttendee::query()
-                ->where('meeting_id',$meeting->id)
-                ->where('member_id',$member->id)
-                ->first();
-
-            $attendee=MeetingAttendee::updateOrCreate([
+            $attendee=MeetingAttendee::query()->firstOrNew([
                 'meeting_id'=>$meeting->id,
                 'member_id'=>$member->id
-            ],[
-                'status'=>$data['status']??'invited',
-                'notes'=>$data['notes']??null
             ]);
 
-            if(!$existing&&$member->user_id){
+            $isNew=!$attendee->exists;
+
+            $attendee->status=$data['status']??'invited';
+            $attendee->notes=$data['notes']??null;
+            $attendee->save();
+
+            if($isNew&&$member->user_id){
                 $this->afterCommitNotification([
                     'title'=>'Meeting Invitation',
                     'message'=>$this->invitationMessage($meeting),
@@ -408,7 +553,16 @@ class MeetingService
                 ]);
             }
 
-            return $attendee->fresh('member.user');
+            return $attendee->load([
+                'member'=>fn($q)=>$q
+                    ->select([
+                        'id',
+                        'user_id',
+                        'member_code',
+                        'status'
+                    ])
+                    ->with('user:id,name,email')
+            ]);
         });
     }
 
@@ -851,19 +1005,19 @@ class MeetingService
         array $data
     ): void{
         if($meeting->type==='executive'){
-            $userIds=MeetingAttendee::query()
-                ->where('meeting_id',$meeting->id)
-                ->whereHas('member',fn($query)=>
-                    $query
-                        ->where('status','active')
-                        ->whereNotNull('user_id')
+            $userIds=DB::table('meeting_attendees as ma')
+                ->join(
+                    'members as m',
+                    'm.id',
+                    '=',
+                    'ma.member_id'
                 )
-                ->with('member:id,user_id')
-                ->get()
-                ->pluck('member.user_id')
-                ->filter()
-                ->unique()
-                ->values()
+                ->where('ma.meeting_id',$meeting->id)
+                ->where('m.status','active')
+                ->whereNotNull('m.user_id')
+                ->distinct()
+                ->pluck('m.user_id')
+                ->map(fn($id)=>(int)$id)
                 ->all();
 
             if(empty($userIds)){
@@ -1009,117 +1163,75 @@ class MeetingService
 
     protected function generateMeetingNo(): string
     {
-        $prefix='MTG-'.now()->format('Y').'-';
+        $year=now()->format('Y');
+        $prefix="MTG-{$year}-";
 
-        $last=Meeting::query()
-            ->where('meeting_no','like',$prefix.'%')
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('meeting_no');
+        return $this->numberSequence->next(
+            "meeting:{$year}",
+            $prefix,
+            4,
+            function()use($prefix){
+                $last=Meeting::query()
+                    ->where('meeting_no','like',$prefix.'%')
+                    ->orderByDesc('id')
+                    ->value('meeting_no');
 
-        $number=$last
-            ?(int)substr($last,-4)+1
-            :1;
-
-        do{
-            $no=$prefix.str_pad(
-                (string)$number,
-                4,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            $number++;
-        }while(
-            Meeting::query()
-                ->where('meeting_no',$no)
-                ->exists()
+                return $last
+                    ?(int)substr($last,-4)
+                    :0;
+            }
         );
-
-        return $no;
     }
 
     protected function generateDecisionNo(): string
     {
-        $prefix='DEC-'.now()->format('Y').'-';
+        $year=now()->format('Y');
+        $prefix="DEC-{$year}-";
 
-        $last=MeetingDecision::query()
-            ->where('decision_no','like',$prefix.'%')
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('decision_no');
+        return $this->numberSequence->next(
+            "meeting-decision:{$year}",
+            $prefix,
+            5,
+            function()use($prefix){
+                $last=MeetingDecision::query()
+                    ->where('decision_no','like',$prefix.'%')
+                    ->orderByDesc('id')
+                    ->value('decision_no');
 
-        $number=$last
-            ?(int)substr($last,-5)+1
-            :1;
-
-        do{
-            $no=$prefix.str_pad(
-                (string)$number,
-                5,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            $number++;
-        }while(
-            MeetingDecision::query()
-                ->where('decision_no',$no)
-                ->exists()
+                return $last
+                    ?(int)substr($last,-5)
+                    :0;
+            }
         );
-
-        return $no;
     }
 
     protected function generateExpenseNo(): string
     {
-        $prefix='MEXP-'.now()->format('Y').'-';
+        $year=now()->format('Y');
+        $prefix="MEXP-{$year}-";
 
-        $last=MeetingExpense::query()
-            ->where('expense_no','like',$prefix.'%')
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('expense_no');
+        return $this->numberSequence->next(
+            "meeting-expense:{$year}",
+            $prefix,
+            6,
+            function()use($prefix){
+                $last=MeetingExpense::query()
+                    ->where('expense_no','like',$prefix.'%')
+                    ->orderByDesc('id')
+                    ->value('expense_no');
 
-        $number=$last
-            ?(int)substr($last,-6)+1
-            :1;
-
-        do{
-            $no=$prefix.str_pad(
-                (string)$number,
-                6,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            $number++;
-        }while(
-            MeetingExpense::query()
-                ->where('expense_no',$no)
-                ->exists()
+                return $last
+                    ?(int)substr($last,-6)
+                    :0;
+            }
         );
-
-        return $no;
     }
 
     protected function fresh(Meeting $meeting): Meeting
     {
         return $meeting->fresh([
             'creator:id,name,email',
-            'completer:id,name,email',
-            'agendas',
-            'attendees.member.user:id,name,email',
-            'decisions.agenda',
-            'decisions.responsibleUser:id,name,email',
-            'expenses'=>fn($query)=>
-                $query
-                    ->with([
-                        'expenseAccount:id,code,name',
-                        'paymentAccount:id,code,name',
-                        'financeTransaction.entries.account'
-                    ])
-                    ->latest('expense_date')
+            'completer:id,name,email'
         ]);
     }
 

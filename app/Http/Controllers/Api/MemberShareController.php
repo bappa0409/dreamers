@@ -47,51 +47,57 @@ class MemberShareController extends Controller
     }
 
     public function myShares(Request $request)
-{
-    $member=$request->user()->member;
+    {
+        $member = $request->user()->member;
 
-    abort_unless(
-        $member&&$member->status==='active',
-        403,
-        'Active membership is required.'
-    );
+        abort_unless(
+            $member && $member->status === 'active',
+            403,
+            'Active membership is required.'
+        );
 
-    $shareEnabled=filter_var(
-        setting('share_enabled',false),
-        FILTER_VALIDATE_BOOLEAN
-    );
+        $validated = $request->validate([
+            'status' => 'nullable|in:pending,active,rejected,cancelled,transferred,retired',
+            'per_page' => 'nullable|integer|min:5|max:50',
+        ]);
 
-    return response()->json([
-        'success'=>true,
-        'data'=>[
-            'summary'=>$this->memberShareService
-                ->summary($member),
+        $shareEnabled = filter_var(
+            setting('share_enabled', false),
+            FILTER_VALIDATE_BOOLEAN
+        );
 
-            'shares'=>$this->memberShareService
-                ->memberShares($member),
+        return response()->json([
+            'success' => true,
+            'data' => [
+                // Summary intentionally remains global, not status-filtered.
+                'summary' => $this->memberShareService
+                    ->summary($member),
 
-            'settings'=>[
-                'share_enabled'=>$shareEnabled,
-
-                'default_share_value'=>round(
-                    (float)setting(
-                        'default_share_value',
-                        0
+                // Only one page of history is transferred to the app.
+                'shares' => $this->memberShareService
+                    ->memberSharesPaginated(
+                        $member,
+                        $validated['status'] ?? null,
+                        (int) ($validated['per_page'] ?? 15)
                     ),
-                    2
-                ),
 
-                'minimum_share_purchase_amount'=>round(
-                    (float)setting(
-                        'minimum_share_purchase_amount',
-                        0
+                'settings' => [
+                    'share_enabled' => $shareEnabled,
+                    'default_share_value' => round(
+                        (float) setting('default_share_value', 0),
+                        2
                     ),
-                    2
-                ),
+                    'minimum_share_purchase_amount' => round(
+                        (float) setting(
+                            'minimum_share_purchase_amount',
+                            0
+                        ),
+                        2
+                    ),
+                ],
             ],
-        ],
-    ]);
-}
+        ]);
+    }
 
     public function purchase(Request $request)
     {

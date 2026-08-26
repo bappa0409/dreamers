@@ -226,6 +226,11 @@
                     </div>
 
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
+                        <span class="text-xs text-slate-500">Late Fine</span>
+                        <span id="planLateFine" class="text-right text-xs font-semibold text-amber-600">-</span>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-3 px-4 py-3">
                         <span class="text-xs text-slate-500">Started</span>
                         <span id="subscriptionStartDate" class="text-xs font-semibold text-slate-700">-</span>
                     </div>
@@ -503,7 +508,22 @@ function renderPlan(subscription){
     document.getElementById('planName').textContent=plan.name??'-';
     document.getElementById('planAmount').textContent=money(plan.amount);
     document.getElementById('planDueDay').textContent=plan.due_day?`Day ${plan.due_day} of every month`:'-';
+    document.getElementById('planLateFine').textContent=lateFineText(plan);
     document.getElementById('subscriptionStartDate').textContent=formatDate(subscription?.start_date);
+}
+
+function lateFineText(plan){
+    if(!plan.fine_type||plan.fine_type==='none'){
+        return'No fine';
+    }
+
+    const value=plan.fine_type==='percentage'
+        ?`${Number(plan.fine_value??0)}%`
+        :money(plan.fine_value);
+
+    const graceDays=Number(plan.grace_days??0);
+
+    return`${value} after ${graceDays} day${graceDays===1?'':'s'}`;
 }
 
 function renderHistory(){

@@ -522,6 +522,30 @@ class NomineeService
         });
     }
 
+    public function memberNomineesPaginated(
+        Member $member,
+        ?string $verificationStatus=null,
+        int $perPage=10
+    ){
+        $perPage=max(5,min($perPage,50));
+
+        return $member->nominees()
+            ->with([
+                'verifier:id,name',
+                'documents.uploader:id,name'
+            ])
+            ->when(
+                $verificationStatus,
+                fn($query)=>$query->where(
+                    'verification_status',
+                    $verificationStatus
+                )
+            )
+            ->orderBy('priority')
+            ->orderBy('id')
+            ->paginate($perPage);
+    }
+
     public function summary(Member $member): array
     {
         return Cache::remember(
@@ -560,7 +584,10 @@ class NomineeService
                     ),
 
                     'allocation_complete'=>
-                        abs($allocation-100)<0.009
+                        abs($allocation-100)<0.009,
+
+                    'next_priority'=>
+                        ((int)(clone $query)->max('priority'))+1
                 ];
             }
         );

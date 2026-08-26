@@ -17,20 +17,20 @@ class AdminController extends Controller
     }
 
     public function welfare(): View
-{
-    return view('admin.welfare.index');
-}
+    {
+        return view('admin.welfare.index');
+    }
 
-public function feedbackSupport(): View
-{
-    return view(
-        'admin.feedback-support.index'
-    );
-}
+    public function feedbackSupport(): View
+    {
+        return view(
+            'admin.feedback-support.index'
+        );
+    }
     public function memberExits(): View
-{
-    return view('admin.member-exits.index');
-}
+    {
+        return view('admin.member-exits.index');
+    }
 
     public function userRoles()
     {
@@ -204,6 +204,11 @@ public function feedbackSupport(): View
     public function users(): View
     {
         return view('admin.users.index');
+    }
+    
+    public function subscriptionPlans()
+    {
+        return view('admin.subscription-plans.index');
     }
 
     public function landingPage(): View

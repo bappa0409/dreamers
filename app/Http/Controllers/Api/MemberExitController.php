@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\MemberExit;
 use App\Services\MemberExitService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MemberExitController extends Controller
 {
@@ -81,12 +82,51 @@ class MemberExitController extends Controller
         ]);
     }
 
-    public function statistics()
+    public function statistics(): array
     {
-        return response()->json([
-            'success'=>true,
-            'data'=>$this->service->statistics(),
-        ]);
+        return Cache::remember(
+            'member-exits:statistics',
+            now()->addMinutes(5),
+            function(){
+                $row=MemberExit::query()
+                    ->selectRaw("
+                        COUNT(*) total,
+
+                        SUM(
+                            status IN (
+                                'submitted',
+                                'under_review',
+                                'liabilities_pending',
+                                'ready_for_approval'
+                            )
+                        ) pending,
+
+                        SUM(status='approved') approved,
+
+                        SUM(status='settled') settled,
+
+                        SUM(status='closed') closed,
+
+                        SUM(status='rejected') rejected,
+
+                        SUM(status='cancelled') cancelled,
+
+                        SUM(exit_type='death') death
+                    ")
+                    ->first();
+
+                return[
+                    'total'=>(int)($row->total??0),
+                    'pending'=>(int)($row->pending??0),
+                    'approved'=>(int)($row->approved??0),
+                    'settled'=>(int)($row->settled??0),
+                    'closed'=>(int)($row->closed??0),
+                    'rejected'=>(int)($row->rejected??0),
+                    'cancelled'=>(int)($row->cancelled??0),
+                    'death'=>(int)($row->death??0),
+                ];
+            }
+        );
     }
 
     public function options(Request $request)
@@ -189,16 +229,9 @@ class MemberExitController extends Controller
     {
         return response()->json([
             'success'=>true,
-            'data'=>$memberExit->load([
-                'member.user',
-                'initiator:id,name',
-                'reviewer:id,name',
-                'approver:id,name',
-                'items',
-                'payoutAccount',
-                'settlementTransaction.entries.account',
-                'nomineeAllocations.nominee',
-            ]),
+            'data'=>$this->service->details(
+                $memberExit
+            ),
         ]);
     }
 

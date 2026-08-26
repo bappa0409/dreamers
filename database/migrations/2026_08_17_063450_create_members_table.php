@@ -50,6 +50,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['status','member_code'],'members_status_code_idx');
+            $table->fullText(['member_code','phone','city','district']);
         });
     }
 

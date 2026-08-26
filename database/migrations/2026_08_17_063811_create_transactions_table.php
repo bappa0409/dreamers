@@ -143,6 +143,7 @@ return new class extends Migration
                 'reversal_transaction_id',
                 'transactions_reversal_idx'
             );
+            $table->index(['status', 'created_at']);
         });
     }
 

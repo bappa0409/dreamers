@@ -16,13 +16,18 @@ return new class extends Migration
             $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
             $table->boolean('is_active')->default(true);
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->string('mobile', 20)->nullable()->unique();
             $table->string('language', 5)->default('en');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('password_setup_token', 64)->nullable()->unique();
+            $table->timestamp('password_setup_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // Full-text search index
+            $table->fullText(['name', 'email', 'mobile']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -39,6 +44,8 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        
     }
 
     /**

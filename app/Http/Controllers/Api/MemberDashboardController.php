@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Notice;
 use App\Models\Poll;
+use App\Models\PollVote;
 use App\Services\MemberDashboardService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -121,7 +122,40 @@ class MemberDashboardController extends Controller
     {
         $member=$this->activeMember($request);
 
-        $polls=$this->activePollQuery()
+        $validated=$request->validate([
+            'page'=>'nullable|integer|min:1',
+            'per_page'=>'nullable|integer|min:5|max:30',
+            'state'=>'nullable|in:voted,available',
+            'history_page'=>'nullable|integer|min:1',
+            'history_per_page'=>'nullable|integer|min:5|max:30',
+        ]);
+
+        $perPage=min(
+            max((int)($validated['per_page']??10),5),
+            30
+        );
+
+        $historyPerPage=min(
+            max((int)($validated['history_per_page']??10),5),
+            30
+        );
+
+        $state=$validated['state']??null;
+
+        $activeBase=$this->activePollQuery();
+
+        $activeCount=(clone $activeBase)->count();
+
+        $votedActive=(clone $activeBase)
+            ->whereHas(
+                'votes',
+                fn($q)=>$q->where('member_id',$member->id)
+            )
+            ->count();
+
+        $availableActive=$activeCount-$votedActive;
+
+        $pollQuery=$this->activePollQuery()
             ->with([
                 'options',
                 'votes'=>fn($q)=>$q->where(
@@ -129,12 +163,84 @@ class MemberDashboardController extends Controller
                     $member->id
                 ),
             ])
+            ->latest('id');
+
+        if($state==='voted'){
+            $pollQuery->whereHas(
+                'votes',
+                fn($q)=>$q->where('member_id',$member->id)
+            );
+        }elseif($state==='available'){
+            $pollQuery->whereDoesntHave(
+                'votes',
+                fn($q)=>$q->where('member_id',$member->id)
+            );
+        }
+
+        $activePolls=$pollQuery->paginate(
+            $perPage,
+            ['*'],
+            'page',
+            (int)($validated['page']??1)
+        );
+
+        $activePolls->setCollection(
+            $activePolls->getCollection()
+                ->map(function(Poll $poll){
+                    $myVote=$poll->votes->first();
+
+                    return [
+                        'id'=>$poll->id,
+                        'title'=>$poll->title,
+                        'description'=>$poll->description,
+                        'start_at'=>$poll->start_at,
+                        'end_at'=>$poll->end_at,
+                        'options'=>$poll->options,
+                        'has_voted'=>(bool)$myVote,
+                        'my_vote_option_id'=>$myVote?->poll_option_id,
+                    ];
+                })
+                ->values()
+        );
+
+        $votingHistory=PollVote::query()
+            ->where('member_id',$member->id)
+            ->with([
+                'poll:id,title',
+                'pollOption:id,option_text',
+            ])
             ->latest('id')
-            ->get();
+            ->paginate(
+                $historyPerPage,
+                ['*'],
+                'history_page',
+                (int)($validated['history_page']??1)
+            );
+
+        $votingHistory->setCollection(
+            $votingHistory->getCollection()
+                ->map(fn(PollVote $vote)=>[
+                    'poll_title'=>$vote->poll?->title,
+                    'option_text'=>$vote->pollOption?->option_text,
+                    'created_at'=>$vote->created_at,
+                ])
+                ->values()
+        );
 
         return response()->json([
             'success'=>true,
-            'data'=>$polls,
+            'data'=>[
+                'active_polls'=>$activePolls,
+                'voting_history'=>$votingHistory,
+                'summary'=>[
+                    'active_polls'=>$activeCount,
+                    'available_active'=>$availableActive,
+                    'voted_active'=>$votedActive,
+                    'total_votes'=>PollVote::query()
+                        ->where('member_id',$member->id)
+                        ->count(),
+                ],
+            ],
         ]);
     }
 
@@ -142,14 +248,93 @@ class MemberDashboardController extends Controller
     {
         $this->activeMember($request);
 
+        $validated=$request->validate([
+            'page'=>'nullable|integer|min:1',
+            'per_page'=>'nullable|integer|min:5|max:30',
+            'type'=>'nullable|in:notice,announcement,event,urgent',
+            'priority'=>'nullable|in:low,normal,high,urgent',
+        ]);
+
+        $perPage=min(
+            max((int)($validated['per_page']??20),5),
+            30
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Global summary
+        |--------------------------------------------------------------------------
+        |
+        | Summary intentionally ignores the current type/priority filter.
+        | This keeps the four summary cards useful while browsing a filtered
+        | page and avoids calculating counts from only the current page.
+        |
+        */
+        $summary=Notice::query()
+            ->visible()
+            ->selectRaw("
+                COUNT(*) AS total,
+                SUM(CASE WHEN type='announcement' THEN 1 ELSE 0 END)
+                    AS announcements,
+                SUM(CASE WHEN type='event' THEN 1 ELSE 0 END)
+                    AS events,
+                SUM(
+                    CASE
+                        WHEN priority IN ('high','urgent') THEN 1
+                        ELSE 0
+                    END
+                ) AS important
+            ")
+            ->first();
+
+        $query=Notice::query()
+            ->visible()
+            ->select([
+                'id',
+                'title',
+                'content',
+                'type',
+                'priority',
+                'attachment',
+                'publish_at',
+                'expires_at',
+                'created_by',
+                'created_at',
+            ])
+            ->when(
+                !empty($validated['type']),
+                fn($q)=>$q->where('type',$validated['type'])
+            )
+            ->when(
+                !empty($validated['priority']),
+                fn($q)=>$q->where(
+                    'priority',
+                    $validated['priority']
+                )
+            )
+            ->with('creator:id,name,email')
+            ->latest('id');
+
+        $notices=$query
+            ->paginate(
+                $perPage,
+                ['*'],
+                'page',
+                (int)($validated['page']??1)
+            )
+            ->withQueryString();
+
         return response()->json([
             'success'=>true,
-            'data'=>Notice::query()
-                ->visible()
-                ->with('creator:id,name,email')
-                ->latest('id')
-                ->paginate(20)
-                ->withQueryString(),
+            'data'=>[
+                'notices'=>$notices,
+                'summary'=>[
+                    'total'=>(int)($summary->total??0),
+                    'announcements'=>(int)($summary->announcements??0),
+                    'events'=>(int)($summary->events??0),
+                    'important'=>(int)($summary->important??0),
+                ],
+            ],
         ]);
     }
 

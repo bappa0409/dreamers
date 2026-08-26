@@ -138,11 +138,12 @@ class FinanceDashboardService
                 'te.transaction_id'
             )
             ->where('t.status','posted')
-            ->whereDate(
+            ->where(
                 't.transaction_date',
                 '<=',
                 $asOf
             )
+
             ->selectRaw('
                 te.account_id,
                 COALESCE(SUM(te.debit),0) total_debit,
@@ -166,13 +167,15 @@ class FinanceDashboardService
                     'accounts.id'
                 )
             )
-            ->selectRaw(
-                'COALESCE(movements.total_debit,0) total_debit'
+            ->leftJoin(
+                'accounts as child',
+                'child.parent_id',
+                '=',
+                'accounts.id'
             )
-            ->selectRaw(
-                'COALESCE(movements.total_credit,0) total_credit'
-            )
-            ->whereDoesntHave('children')
+            ->whereNull('child.id')
+            ->selectRaw('COALESCE(movements.total_debit,0) total_debit')
+            ->selectRaw('COALESCE(movements.total_credit,0) total_credit')
             ->get()
             ->map(function(Account $account){
                 return[

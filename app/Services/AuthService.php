@@ -67,26 +67,11 @@ class AuthService
         |--------------------------------------------------------------------------
         */
 
-        if (!$user || !Hash::check($password, $user->password)) {
+       if (!$user || !Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
                 'login' => [
                     'The email, mobile, member ID or password is incorrect.'
                 ],
-            ]);
-        }
-        
-
-        if(!Hash::check($password,$user->password)){
-            throw ValidationException::withMessages([
-                'login'=>['Invalid login credentials.']
-            ]);
-        }
-
-        if(!$user->is_active){
-            throw ValidationException::withMessages([
-                'login'=>[
-                    'Your account is not active. Please contact the association administrator.'
-                ]
             ]);
         }
 
@@ -99,7 +84,7 @@ class AuthService
         if (!$user->is_active) {
             throw ValidationException::withMessages([
                 'login' => [
-                    'Your account is inactive.'
+                    'Your account is not active. Please contact the association administrator.'
                 ],
             ]);
         }

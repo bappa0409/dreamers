@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+
+        RateLimiter::for('login',function(Request $request){
+            return Limit::perMinute(10)->by(
+                strtolower((string)$request->input('login')).'|'.$request->ip()
+            );
+        });
+
         $this->registerActivityLogListeners();
 
         /*

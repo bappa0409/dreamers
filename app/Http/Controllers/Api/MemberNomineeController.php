@@ -20,6 +20,17 @@ class MemberNomineeController extends Controller
 
         abort_unless($member,403);
 
+        $validated=$request->validate([
+            'page'=>'nullable|integer|min:1',
+            'per_page'=>'nullable|integer|min:5|max:50',
+            'verification_status'=>
+                'nullable|in:unverified,pending,verified,rejected'
+        ]);
+
+        $perPage=(int)($validated['per_page']??10);
+        $verificationStatus=
+            $validated['verification_status']??null;
+
         return response()->json([
             'success'=>true,
             'data'=>[
@@ -27,14 +38,12 @@ class MemberNomineeController extends Controller
                     $this->nomineeService
                         ->summary($member),
 
-                'nominees'=>$member->nominees()
-                    ->with([
-                        'verifier:id,name',
-                        'documents.uploader:id,name'
-                    ])
-                    ->orderBy('priority')
-                    ->orderBy('id')
-                    ->get()
+                'nominees'=>$this->nomineeService
+                    ->memberNomineesPaginated(
+                        $member,
+                        $verificationStatus,
+                        $perPage
+                    )
             ]
         ]);
     }
