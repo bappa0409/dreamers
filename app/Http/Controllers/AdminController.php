@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -42,9 +43,9 @@ class AdminController extends Controller
         return view('admin.backups.index');
     }
 
-    public function createMember(): View
+    public function createMember(): RedirectResponse
     {
-        return view('admin.members.create');
+        return redirect()->route('admin.members');
     }
 
     public function investments(): View
@@ -152,11 +153,6 @@ class AdminController extends Controller
         return view('admin.meetings.index');
     }
 
-    public function committees(): View
-    {
-        return view('admin.committees.index');
-    }
-
     public function loans(): View
     {
         return view('admin.loans.index');
@@ -211,9 +207,11 @@ class AdminController extends Controller
         return view('admin.subscription-plans.index');
     }
 
-    public function landingPage(): View
+    public function landingPage(): RedirectResponse
     {
-        return view('admin.landing-page.index');
+        // The admin landing-page management view does not exist yet.
+        // Redirect safely instead of throwing a ViewNotFoundException.
+        return redirect()->route('admin.settings');
     }
 
     public function settings(): View

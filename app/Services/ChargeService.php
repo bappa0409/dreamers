@@ -55,7 +55,6 @@ class ChargeService
                 ]);
             }
 
-            dd('test');
             $charge=MemberCharge::create([
                 'charge_no'=>$this->generateChargeNumber(),
                 'member_id'=>$data['member_id'],
@@ -265,6 +264,125 @@ class ChargeService
             $charge->update([
                 'paid_amount'=>$newPaid,
                 'status'=>$newStatus,
+            ]);
+
+            return $payment->fresh([
+                'charge.member.user',
+                'receiveAccount',
+                'creator',
+                'financeTransaction.entries.account',
+            ]);
+        });
+    }
+
+    public function cancelPayment(
+        ChargePayment $payment,
+        string $reason,
+        int $userId
+    ): ChargePayment{
+        return DB::transaction(function()use(
+            $payment,
+            $reason,
+            $userId
+        ){
+            $payment=ChargePayment::query()
+                ->whereKey($payment->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($payment->status==='cancelled'){
+                throw ValidationException::withMessages([
+                    'payment'=>[
+                        'Charge payment is already cancelled.'
+                    ],
+                ]);
+            }
+
+            if($payment->status!=='posted'){
+                throw ValidationException::withMessages([
+                    'payment'=>[
+                        'Only a posted charge payment can be cancelled.'
+                    ],
+                ]);
+            }
+
+            $reason=trim($reason);
+
+            if($reason===''){
+                throw ValidationException::withMessages([
+                    'reason'=>[
+                        'Payment cancellation reason is required.'
+                    ],
+                ]);
+            }
+
+            $charge=MemberCharge::query()
+                ->whereKey($payment->member_charge_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if(in_array($charge->status,['cancelled','waived'],true)){
+                throw ValidationException::withMessages([
+                    'payment'=>[
+                        'Payment cannot be cancelled because the related charge is no longer active.'
+                    ],
+                ]);
+            }
+
+            $payment->loadMissing('financeTransaction.entries');
+
+            if($payment->financeTransaction){
+                $entries=$payment
+                    ->financeTransaction
+                    ->entries
+                    ->map(fn($entry)=>[
+                        'account_id'=>$entry->account_id,
+                        'debit'=>(float)$entry->credit,
+                        'credit'=>(float)$entry->debit,
+                        'description'=>
+                            "Reversal of {$payment->payment_no}",
+                    ])
+                    ->all();
+
+                $this->accountingService->post([
+                    'idempotency_key'=>
+                        "charge:payment:cancel:{$payment->id}",
+                    'transaction_date'=>$this->reversalDate(
+                        $payment->payment_date
+                    ),
+                    'type'=>'charge_payment_reversal',
+                    'source_module'=>'charge_payment',
+                    'source_id'=>$payment->id,
+                    'reference_type'=>ChargePayment::class,
+                    'reference_id'=>$payment->id,
+                    'description'=>
+                        "Cancellation of {$payment->payment_no}: {$reason}",
+                    'user_id'=>$userId,
+                    'entries'=>$entries,
+                ]);
+            }
+
+            $payment->update([
+                'status'=>'cancelled',
+            ]);
+
+            $paidAmount=round(
+                (float)$charge
+                    ->payments()
+                    ->where('status','posted')
+                    ->sum('amount'),
+                2
+            );
+
+            $chargeStatus=$paidAmount<=0
+                ?'unpaid'
+                :($paidAmount>=(float)$charge->amount
+                    ?'paid'
+                    :'partial');
+
+            $charge->update([
+                'paid_amount'=>$paidAmount,
+                'status'=>$chargeStatus,
             ]);
 
             return $payment->fresh([
@@ -516,7 +634,7 @@ class ChargeService
                     'idempotency_key'=>
                         "charge:cancel:{$charge->id}",
                     'transaction_date'=>
-                        now()->toDateString(),
+                        $this->reversalDate($charge->charge_date),
                     'type'=>'member_charge_reversal',
                     'source_module'=>'member_charge',
                     'source_id'=>$charge->id,
@@ -616,7 +734,7 @@ class ChargeService
                     'idempotency_key'=>
                         "charge:waive:{$charge->id}",
                     'transaction_date'=>
-                        now()->toDateString(),
+                        $this->reversalDate($charge->charge_date),
                     'type'=>'member_charge_waiver',
                     'source_module'=>'member_charge',
                     'source_id'=>$charge->id,
@@ -689,6 +807,7 @@ class ChargeService
     ): Account{
         $account=Account::query()
             ->whereKey($accountId)
+            ->where('type','asset')
             ->whereIn(
                 'sub_type',
                 [
@@ -721,6 +840,21 @@ class ChargeService
             'financeTransaction.entries.account',
             'payments.receiveAccount',
         ]);
+    }
+
+    protected function reversalDate(\DateTimeInterface|string|null $originalDate): string
+    {
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :(string)$originalDate;
+
+        return $date>$today?$date:$today;
     }
 
     protected function changed(

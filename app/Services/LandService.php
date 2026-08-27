@@ -15,7 +15,8 @@ class LandService
 {
     public function __construct(
         protected DashboardService $dashboardService,
-        protected AccountingService $accounting
+        protected AccountingService $accounting,
+        protected NumberSequenceService $numberSequenceService
     ){}
 
     public function create(
@@ -74,10 +75,12 @@ class LandService
                 );
             }
 
-            $currentValue=array_key_exists(
-                'current_value',
-                $data
-            )
+            $hasCurrentValue=
+                array_key_exists('current_value',$data)&&
+                $data['current_value']!==null&&
+                $data['current_value']!=='';
+
+            $currentValue=$hasCurrentValue
                 ?round((float)$data['current_value'],2)
                 :$purchasePrice;
 
@@ -217,6 +220,22 @@ class LandService
                         ]);
                     }
                 }
+
+                if(
+                    array_key_exists('current_value',$data)&&
+                    $data['current_value']!==null&&
+                    $data['current_value']!==''&&
+                    $this->valueChanged(
+                        $land->current_value,
+                        $data['current_value']
+                    )
+                ){
+                    throw ValidationException::withMessages([
+                        'current_value'=>[
+                            'Use the valuation action to change the current value of purchased land.'
+                        ],
+                    ]);
+                }
             }
 
             $purchasePrice=round(
@@ -325,20 +344,35 @@ class LandService
             }
 
             if(array_key_exists('current_value',$clean)){
-                $currentValue=round(
-                    (float)$clean['current_value'],
-                    2
-                );
+                if(
+                    $clean['current_value']===null||
+                    $clean['current_value']===''
+                ){
+                    $clean['current_value']=
+                        $newStatus==='purchased'
+                            ?(
+                                $land->current_value!==null
+                                    ?round((float)$land->current_value,2)
+                                    :$purchasePrice
+                            )
+                            :null;
 
-                if($currentValue<0){
-                    throw ValidationException::withMessages([
-                        'current_value'=>[
-                            'Current value cannot be negative.'
-                        ],
-                    ]);
+                }else{
+                    $currentValue=round(
+                        (float)$clean['current_value'],
+                        2
+                    );
+
+                    if($currentValue<0){
+                        throw ValidationException::withMessages([
+                            'current_value'=>[
+                                'Current value cannot be negative.'
+                            ],
+                        ]);
+                    }
+
+                    $clean['current_value']=$currentValue;
                 }
-
-                $clean['current_value']=$currentValue;
             }
 
             if($paymentAccount){
@@ -399,6 +433,21 @@ class LandService
                 ]);
             }
 
+            $valuationDate=$data['valuation_date'];
+
+            if(
+                $land->purchase_date&&
+                Carbon::parse($valuationDate)->lt(
+                    $land->purchase_date->copy()->startOfDay()
+                )
+            ){
+                throw ValidationException::withMessages([
+                    'valuation_date'=>[
+                        'Valuation date cannot be earlier than purchase date.'
+                    ],
+                ]);
+            }
+
             $value=round(
                 (float)$data['current_value'],
                 2
@@ -419,7 +468,7 @@ class LandService
 
             $valuation=LandValuation::create([
                 'land_id'=>$land->id,
-                'valuation_date'=>$data['valuation_date'],
+                'valuation_date'=>$valuationDate,
                 'previous_value'=>$previousValue,
                 'current_value'=>$value,
                 'valued_by'=>$this->clean(
@@ -1045,15 +1094,6 @@ class LandService
 
     protected function generateLandCode(): string
     {
-        $last=Land::query()
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->first();
-
-        $next=$last
-            ?$last->id+1
-            :1;
-
         $prefix=strtoupper(
             trim(
                 (string)setting(
@@ -1067,11 +1107,26 @@ class LandService
             $prefix='LAND';
         }
 
-        return $prefix.'-'.str_pad(
-            (string)$next,
-            6,
-            '0',
-            STR_PAD_LEFT
+        $codePrefix=$prefix.'-';
+
+        return $this->numberSequenceService->next(
+            key:"land:{$prefix}",
+            prefix:$codePrefix,
+            digits:6,
+            initialValue:function()use($codePrefix){
+                $last=Land::query()
+                    ->where(
+                        'land_code',
+                        'like',
+                        $codePrefix.'%'
+                    )
+                    ->orderByDesc('id')
+                    ->value('land_code');
+
+                return $last
+                    ?(int)substr($last,-6)
+                    :0;
+            }
         );
     }
 

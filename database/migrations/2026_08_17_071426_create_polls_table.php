@@ -28,6 +28,11 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamps();
+
+             $table->index(
+                ['is_active','start_at','end_at'],
+                'polls_active_window_idx'
+            );
         });
     }
 

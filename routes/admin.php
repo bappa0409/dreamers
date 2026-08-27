@@ -47,13 +47,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
     // Association Activities
     Route::get('/tours', 'tours')->middleware('permission:Tour.view')->name('tours');
     Route::get('/meetings', 'meetings')->middleware('permission:Meeting.view')->name('meetings');
-    Route::get('/committees', 'committees')->middleware('permission:Committee.view')->name('committees');
 
     // Engagement
     Route::get('/polls', 'polls')->middleware('permission:Poll.view')->name('polls');
     Route::get('/notices', 'notices')->middleware('permission:Notice.view')->name('notices');
     Route::get('/notifications', 'notifications')->middleware('permission:Notification.view')->name('notifications');
-    Route::get('/mailing', 'mailing')->middleware('permission:Mailing.view')->name('mailing');
+    Route::get('/mailing', 'mailing')->middleware('permission:Mail.view,Mailing.view')->name('mailing');
 
     // Approvals
     Route::get('/approvals', 'approvals')->middleware('permission:Approval.view')->name('approvals');

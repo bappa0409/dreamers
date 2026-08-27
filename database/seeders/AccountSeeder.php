@@ -105,6 +105,16 @@ class AccountSeeder extends Seeder
             'description'=>'Amounts receivable from members and other parties.',
         ]);
 
+        $this->account([
+            'parent_id'=>$currentAssets->id,
+            'code'=>'1140',
+            'name'=>'Member Loan Receivable',
+            'type'=>'asset',
+            'sub_type'=>'member_loan_receivable',
+            'is_system'=>true,
+            'description'=>'Outstanding principal receivable from member loans.',
+        ]);
+
         /*
         |--------------------------------------------------------------------------
         | Investments
@@ -247,7 +257,7 @@ class AccountSeeder extends Seeder
             'code'=>'4110',
             'name'=>'Subscription Income',
             'type'=>'income',
-            'sub_type'=>'subscription',
+            'sub_type'=>'subscription_income',
             'is_system'=>true,
             'description'=>'Monthly subscription income.',
         ]);
@@ -290,6 +300,26 @@ class AccountSeeder extends Seeder
             'sub_type'=>'gain_on_land_sale',
             'is_system'=>true,
             'description'=>'Realized gain from sale of association-owned land.',
+        ]);
+
+        $this->account([
+            'parent_id'=>$income->id,
+            'code'=>'4400',
+            'name'=>'Fine Income',
+            'type'=>'income',
+            'sub_type'=>'fine_income',
+            'is_system'=>true,
+            'description'=>'Late fees and fines received from members.',
+        ]);
+
+        $this->account([
+            'parent_id'=>$income->id,
+            'code'=>'4500',
+            'name'=>'Loan Interest Income',
+            'type'=>'income',
+            'sub_type'=>'loan_interest_income',
+            'is_system'=>true,
+            'description'=>'Interest income recognized from member loans.',
         ]);
 
         $this->account([
@@ -340,7 +370,7 @@ class AccountSeeder extends Seeder
             'code'=>'5200',
             'name'=>'Depreciation Expense',
             'type'=>'expense',
-            'sub_type'=>'depreciation',
+            'sub_type'=>'depreciation_expense',
             'is_system'=>true,
             'description'=>'Periodic depreciation expense of fixed assets.',
         ]);

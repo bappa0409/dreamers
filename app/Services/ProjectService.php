@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Member;
 use App\Models\Project;
 use App\Models\ProjectMember;
 use Illuminate\Support\Facades\Cache;
@@ -11,12 +12,15 @@ use Illuminate\Validation\ValidationException;
 class ProjectService
 {
     public function __construct(
-        protected DashboardService $dashboardService
+        protected DashboardService $dashboardService,
+        protected NumberSequenceService $numberSequenceService
     ){}
 
     public function create(array $data): Project
     {
         return DB::transaction(function()use($data){
+            $this->validateProjectDates(null,$data);
+
             $project=Project::create([
                 ...$data,
                 'project_code'=>$this->generateProjectCode(),
@@ -61,6 +65,8 @@ class ProjectService
                     ??now()->toDateString();
             }
 
+            $this->validateProjectDates($project,$data);
+
             $project->update($data);
 
             $this->forgetCaches();
@@ -86,6 +92,18 @@ class ProjectService
                 throw ValidationException::withMessages([
                     'project'=>[
                         'Member cannot be added to a cancelled project.'
+                    ]
+                ]);
+            }
+
+            $member=Member::query()
+                ->sharedLock()
+                ->find($data['member_id']);
+
+            if(!$member||$member->status!=='active'){
+                throw ValidationException::withMessages([
+                    'member_id'=>[
+                        'Only an active member can be assigned to a project.'
                     ]
                 ]);
             }
@@ -175,13 +193,6 @@ class ProjectService
 
     protected function generateProjectCode(): string
     {
-        $last=Project::query()
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->first();
-
-        $next=$last?$last->id+1:1;
-
         $prefix=strtoupper(
             trim((string)setting(
                 'project_code_prefix',
@@ -193,12 +204,42 @@ class ProjectService
             $prefix='PROJ';
         }
 
-        return $prefix.'-'.str_pad(
-            (string)$next,
+        return $this->numberSequenceService->next(
+            'project_code',
+            $prefix.'-',
             6,
-            '0',
-            STR_PAD_LEFT
+            fn()=>(int)Project::query()->max('id')
         );
+    }
+
+    protected function validateProjectDates(
+        ?Project $project,
+        array $data
+    ): void{
+        $start=$data['start_date']
+            ??$project?->start_date?->toDateString();
+
+        $expected=$data['expected_end_date']
+            ??$project?->expected_end_date?->toDateString();
+
+        $actual=$data['actual_end_date']
+            ??$project?->actual_end_date?->toDateString();
+
+        if($start&&$expected&&$expected<$start){
+            throw ValidationException::withMessages([
+                'expected_end_date'=>[
+                    'Expected end date cannot be earlier than the project start date.'
+                ]
+            ]);
+        }
+
+        if($start&&$actual&&$actual<$start){
+            throw ValidationException::withMessages([
+                'actual_end_date'=>[
+                    'Actual end date cannot be earlier than the project start date.'
+                ]
+            ]);
+        }
     }
 
     public function forgetCaches(): void

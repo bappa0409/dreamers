@@ -18,16 +18,56 @@ class FeedbackSupportController extends Controller
         protected FeedbackSupportService $service
     ){}
 
-    public function statistics()
+    public function statistics(Request $request)
     {
         return response()->json([
             'success'=>true,
-            'data'=>$this->service->statistics()
+            'data'=>$this->service->statistics(
+                $request->user()->hasPermission(
+                    'FeedbackSupport.confidential'
+                )
+            )
         ]);
     }
 
     public function options()
     {
+        $users=User::query()
+            ->where('is_active',true)
+            ->where(function($query){
+                $query->whereHas('roles',function($role){
+                    $role->where('name','system_analyst')
+                        ->orWhereHas('permissions',fn($permission)=>
+                            $permission->whereIn('name',[
+                                'FeedbackSupport.review',
+                                'FeedbackSupport.resolve',
+                                'FeedbackSupport.manage',
+                            ])
+                        );
+                })
+                ->orWhereHas('role',function($role){
+                    $role->where('name','system_analyst')
+                        ->orWhereHas('permissions',fn($permission)=>
+                            $permission->whereIn('name',[
+                                'FeedbackSupport.review',
+                                'FeedbackSupport.resolve',
+                                'FeedbackSupport.manage',
+                            ])
+                        );
+                });
+            })
+            ->orderBy('name')
+            ->get(['id','name','email'])
+            ->filter(fn($user)=>
+                $user->hasPermission('FeedbackSupport.view')&&
+                $user->hasAnyPermission([
+                    'FeedbackSupport.review',
+                    'FeedbackSupport.resolve',
+                    'FeedbackSupport.manage',
+                ])
+            )
+            ->values();
+
         return response()->json([
             'success'=>true,
             'data'=>[
@@ -46,10 +86,7 @@ class FeedbackSupportController extends Controller
                     ->limit(50)
                     ->get(),
 
-                'users'=>User::query()
-                    ->where('is_active',true)
-                    ->orderBy('name')
-                    ->get(['id','name','email'])
+                'users'=>$users
             ]
         ]);
     }

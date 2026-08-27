@@ -67,8 +67,33 @@ class ReportController extends Controller
         $this->validateFormat($format);
         $this->validateFilters($request);
 
-        $records=$this->reportService
-            ->query($module,$request)
+        $query=$this->reportService
+            ->query($module,$request);
+
+        $defaultLimit=$format==='pdf'?5000:20000;
+        $settingKey=$format==='pdf'
+            ?'report_pdf_export_max_rows'
+            :'report_excel_export_max_rows';
+
+        $maxRows=max(
+            100,
+            min(
+                (int)setting($settingKey,$defaultLimit),
+                50000
+            )
+        );
+
+        $total=(clone $query)->count();
+
+        if($total>$maxRows){
+            return response()->json([
+                'success'=>false,
+                'message'=>"This export contains {$total} rows. Narrow the filters to {$maxRows} rows or fewer before exporting.",
+            ],422);
+        }
+
+        $records=$query
+            ->limit($maxRows)
             ->get();
 
         $report=$this->reportService
@@ -391,11 +416,15 @@ class ReportController extends Controller
         */
 
         $logo=setting(
-            'organization_logo',
+            'site_logo',
 
             setting(
-                'logo',
-                null
+                'organization_logo',
+
+                setting(
+                    'logo',
+                    null
+                )
             )
         );
 

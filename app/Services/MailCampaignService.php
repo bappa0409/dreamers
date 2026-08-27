@@ -21,198 +21,270 @@ class MailCampaignService
                 'created_by' => $userId,
                 'recipients_count' => 0,
                 'sent_count' => 0,
-                'failed_count' => 0
+                'failed_count' => 0,
             ]);
         });
     }
 
-    public function update(
-        MailCampaign $campaign,
-        array $data
-    ): MailCampaign {
-        if ($campaign->status !== 'draft') {
-            throw ValidationException::withMessages([
-                'campaign' => [
-                    'Only draft campaigns can be edited.'
-                ]
+    public function update(MailCampaign $campaign, array $data): MailCampaign
+    {
+        return DB::transaction(function () use ($campaign, $data) {
+            $campaign = MailCampaign::query()
+                ->whereKey($campaign->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($campaign->status !== 'draft') {
+                throw ValidationException::withMessages([
+                    'campaign' => ['Only draft campaigns can be edited.'],
+                ]);
+            }
+
+            $campaign->update([
+                'subject' => $data['subject'] ?? $campaign->subject,
+                'body' => $data['body'] ?? $campaign->body,
             ]);
-        }
 
-        $campaign->update([
-            'subject' => $data['subject'] ?? $campaign->subject,
-            'body' => $data['body'] ?? $campaign->body
-        ]);
-
-        return $campaign->fresh();
+            return $campaign->fresh();
+        });
     }
 
-    public function addRecipients(
-        MailCampaign $campaign,
-        array $data
-    ): void {
-        if ($campaign->status !== 'draft') {
-            throw ValidationException::withMessages([
-                'campaign' => [
-                    'Recipients cannot be changed after sending starts.'
-                ]
-            ]);
-        }
-
+    public function addRecipients(MailCampaign $campaign, array $data): void
+    {
         DB::transaction(function () use ($campaign, $data) {
+            $campaign = MailCampaign::query()
+                ->whereKey($campaign->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($campaign->status !== 'draft') {
+                throw ValidationException::withMessages([
+                    'campaign' => ['Recipients cannot be changed after sending starts.'],
+                ]);
+            }
+
             $audience = $data['audience_type'];
 
             if ($audience === 'all_active_members') {
-                $users = User::query()
+                User::query()
                     ->where('is_active', true)
-                    ->whereHas('member', function ($q) {
-                        $q->where('status', 'active');
-                    })
-                    ->get(['id', 'name', 'email']);
-
-                foreach ($users as $user) {
-                    $this->attachRecipient(
-                        $campaign,
-                        $user->id,
-                        $user->name,
-                        $user->email
-                    );
-                }
+                    ->whereNotNull('email')
+                    ->whereHas('member', fn ($q) => $q->where('status', 'active'))
+                    ->select('id', 'name', 'email')
+                    ->orderBy('id')
+                    ->chunkById(500, function ($users) use ($campaign) {
+                        $this->attachRecipientRows(
+                            $campaign,
+                            $users->map(fn ($user) => [
+                                'user_id' => $user->id,
+                                'name' => $user->name,
+                                'email' => $user->email,
+                            ])->all()
+                        );
+                    });
             }
 
             if ($audience === 'selected_members') {
-                $users = User::query()
-                    ->whereIn(
-                        'id',
-                        $data['user_ids'] ?? []
-                    )
-                    ->get(['id', 'name', 'email']);
+                $requestedUserIds = collect($data['user_ids'] ?? [])
+                    ->map(fn ($id) => (int) $id)
+                    ->unique()
+                    ->values();
 
-                foreach ($users as $user) {
-                    $this->attachRecipient(
-                        $campaign,
-                        $user->id,
-                        $user->name,
-                        $user->email
-                    );
+                $eligibleCount = User::query()
+                    ->whereIn('id', $requestedUserIds->all())
+                    ->where('is_active', true)
+                    ->whereNotNull('email')
+                    ->whereHas('member', fn ($q) => $q->where('status', 'active'))
+                    ->count();
+
+                if ($eligibleCount !== $requestedUserIds->count()) {
+                    throw ValidationException::withMessages([
+                        'user_ids' => ['Every selected recipient must be an active member with an email address.'],
+                    ]);
                 }
+
+                User::query()
+                    ->whereIn('id', $requestedUserIds->all())
+                    ->where('is_active', true)
+                    ->whereNotNull('email')
+                    ->whereHas('member', fn ($q) => $q->where('status', 'active'))
+                    ->select('id', 'name', 'email')
+                    ->orderBy('id')
+                    ->chunkById(500, function ($users) use ($campaign) {
+                        $this->attachRecipientRows(
+                            $campaign,
+                            $users->map(fn ($user) => [
+                                'user_id' => $user->id,
+                                'name' => $user->name,
+                                'email' => $user->email,
+                            ])->all()
+                        );
+                    });
             }
 
             if ($audience === 'manual') {
-                foreach ($data['manual_emails'] ?? [] as $item) {
-                    $this->attachRecipient(
-                        $campaign,
-                        null,
-                        $item['name'] ?? null,
-                        $item['email']
-                    );
-                }
+                $this->attachRecipientRows(
+                    $campaign,
+                    collect($data['manual_emails'] ?? [])
+                        ->map(fn ($item) => [
+                            'user_id' => null,
+                            'name' => $item['name'] ?? null,
+                            'email' => $item['email'] ?? '',
+                        ])
+                        ->all()
+                );
             }
 
-            $this->refreshRecipientCount(
-                $campaign
-            );
+            $this->refreshRecipientCount($campaign);
         });
     }
 
-    protected function attachRecipient(
+    protected function attachRecipientRows(
         MailCampaign $campaign,
-        ?int $userId,
-        ?string $name,
-        string $email
+        array $rows
     ): void {
-        $email = strtolower(trim($email));
+        $rows = collect($rows)
+            ->map(function (array $row) {
+                $email = strtolower(trim((string) ($row['email'] ?? '')));
 
-        if ($email === '') {
+                if ($email === '') {
+                    return null;
+                }
+
+                return [
+                    'user_id' => $row['user_id'] ?? null,
+                    'name' => $row['name'] ?? null,
+                    'email' => $email,
+                ];
+            })
+            ->filter()
+            ->unique('email')
+            ->values();
+
+        if ($rows->isEmpty()) {
             return;
         }
 
-        MailRecipient::firstOrCreate(
-            [
+        $existing = $campaign->recipients()
+            ->whereIn('email', $rows->pluck('email')->all())
+            ->pluck('email')
+            ->map(fn ($email) => strtolower((string) $email))
+            ->flip();
+
+        $now = now();
+
+        $insert = $rows
+            ->reject(fn ($row) => $existing->has($row['email']))
+            ->map(fn ($row) => [
                 'mail_campaign_id' => $campaign->id,
-                'email' => $email
-            ],
-            [
-                'user_id' => $userId,
-                'name' => $name,
-                'status' => 'pending'
-            ]
-        );
+                'user_id' => $row['user_id'],
+                'member_id' => null,
+                'email' => $row['email'],
+                'name' => $row['name'],
+                'status' => 'pending',
+                'sent_at' => null,
+                'error_message' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ])
+            ->values()
+            ->all();
+
+        if ($insert) {
+            DB::table('mail_recipients')->insert($insert);
+        }
     }
 
     public function removeRecipient(
         MailCampaign $campaign,
         MailRecipient $recipient
     ): void {
-        if ($campaign->status !== 'draft') {
-            throw ValidationException::withMessages([
-                'campaign' => [
-                    'Recipients cannot be removed after sending starts.'
-                ]
-            ]);
-        }
+        DB::transaction(function () use ($campaign, $recipient) {
+            $campaign = MailCampaign::query()
+                ->whereKey($campaign->id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        if ($recipient->mail_campaign_id !== $campaign->id) {
-            abort(404);
-        }
+            if ($campaign->status !== 'draft') {
+                throw ValidationException::withMessages([
+                    'campaign' => ['Recipients cannot be removed after sending starts.'],
+                ]);
+            }
 
-        $recipient->delete();
+            if ((int) $recipient->mail_campaign_id !== (int) $campaign->id) {
+                abort(404);
+            }
 
-        $this->refreshRecipientCount(
-            $campaign
-        );
+            $recipient = MailRecipient::query()
+                ->whereKey($recipient->id)
+                ->where('mail_campaign_id', $campaign->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $recipient->delete();
+            $this->refreshRecipientCount($campaign);
+        });
     }
 
-    /**
-     * Dispatch the campaign to the queue.
-     *
-     * Actual sending happens asynchronously in SendCampaignMailJob.
-     * Call refreshSendStatus() later (e.g. via a scheduled command,
-     * or a "check status" button) to finalize sent/failed counts.
-     */
     public function send(MailCampaign $campaign): MailCampaign
     {
-        if ($campaign->status !== 'draft') {
-            throw ValidationException::withMessages([
-                'campaign' => [
-                    'This campaign has already been processed.'
-                ]
-            ]);
-        }
+        $campaignId = (int) $campaign->id;
 
-        $recipients = $campaign
-            ->recipients()
+        DB::transaction(function () use ($campaignId) {
+            $campaign = MailCampaign::query()
+                ->whereKey($campaignId)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($campaign->status !== 'draft') {
+                throw ValidationException::withMessages([
+                    'campaign' => ['This campaign has already been processed.'],
+                ]);
+            }
+
+            $recipientCount = $campaign->recipients()
+                ->where('status', 'pending')
+                ->count();
+
+            if ($recipientCount < 1) {
+                throw ValidationException::withMessages([
+                    'recipients' => ['Add at least one recipient before sending.'],
+                ]);
+            }
+
+            $campaign->update([
+                'status' => 'sending',
+                'sent_at' => null,
+                'sent_count' => 0,
+                'failed_count' => 0,
+                'recipients_count' => $recipientCount,
+            ]);
+        });
+
+        // Dispatch in bounded chunks instead of loading every recipient id into
+        // memory. The campaign row was already atomically moved out of draft,
+        // so a concurrent second Send request cannot dispatch the same campaign.
+        MailRecipient::query()
+            ->where('mail_campaign_id', $campaignId)
             ->where('status', 'pending')
-            ->get();
+            ->select('id')
+            ->orderBy('id')
+            ->chunkById(500, function ($recipients) use ($campaign) {
+                foreach ($recipients as $recipient) {
+                    SendCampaignMailJob::dispatch(
+                        (int) $recipient->id,
+                        $campaign->subject,
+                        (string) $campaign->body
+                    );
+                }
+            });
 
-        if ($recipients->isEmpty()) {
-            throw ValidationException::withMessages([
-                'recipients' => [
-                    'Add at least one recipient before sending.'
-                ]
-            ]);
-        }
-
-        $campaign->update([
-            'status' => 'sending'
-        ]);
-
-        foreach ($recipients as $recipient) {
-            SendCampaignMailJob::dispatch(
-                $recipient->id,
-                $campaign->subject,
-                $campaign->body,
-            );
-        }
-
-        return $campaign->fresh();
+        return MailCampaign::findOrFail($campaignId);
     }
 
     /**
-     * Recompute sent/failed counts from recipient statuses and
-     * finalize the campaign status once all jobs have finished.
-     *
-     * Call this after the queue has had time to process
-     * (e.g. from a scheduled command, or a manual "refresh" action).
+     * Manual reconciliation helper. Queue jobs also update counts and final
+     * status automatically, so this is safe to call from maintenance code.
      */
     public function refreshSendStatus(MailCampaign $campaign): MailCampaign
     {
@@ -232,9 +304,7 @@ class MailCampaignService
 
         if ($pending === 0) {
             $campaign->update([
-                'status' => $failed > 0
-                    ? 'completed_with_errors'
-                    : 'completed',
+                'status' => $failed > 0 ? 'failed' : 'completed',
                 'sent_at' => now(),
             ]);
         }
@@ -244,23 +314,26 @@ class MailCampaignService
 
     public function delete(MailCampaign $campaign): void
     {
-        if (!in_array($campaign->status, ['draft', 'cancelled'], true)) {
-            throw ValidationException::withMessages([
-                'campaign' => [
-                    'Only draft or cancelled campaigns can be deleted.'
-                ]
-            ]);
-        }
+        DB::transaction(function () use ($campaign) {
+            $campaign = MailCampaign::query()
+                ->whereKey($campaign->id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        $campaign->delete();
+            if (!in_array($campaign->status, ['draft', 'cancelled'], true)) {
+                throw ValidationException::withMessages([
+                    'campaign' => ['Only draft or cancelled campaigns can be deleted.'],
+                ]);
+            }
+
+            $campaign->delete();
+        });
     }
 
-    protected function refreshRecipientCount(
-        MailCampaign $campaign
-    ): void {
+    protected function refreshRecipientCount(MailCampaign $campaign): void
+    {
         $campaign->update([
-            'recipients_count' =>
-                $campaign->recipients()->count()
+            'recipients_count' => $campaign->recipients()->count(),
         ]);
     }
 }

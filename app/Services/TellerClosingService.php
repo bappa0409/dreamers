@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\TellerClosing;
 use App\Models\TellerTransaction;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -105,6 +106,8 @@ class TellerClosingService
             $actualBalance,
             $notes
         ){
+            $this->lockTeller($tellerId);
+
             $date=now()->toDateString();
 
             $existing=TellerClosing::query()
@@ -188,6 +191,8 @@ class TellerClosingService
             $tellerId,
             $date
         ){
+            $this->lockTeller($tellerId);
+
             $closing=TellerClosing::query()
                 ->where(
                     'teller_id',
@@ -216,6 +221,20 @@ class TellerClosingService
                 ]);
             }
 
+            $laterClosed=TellerClosing::query()
+                ->where('teller_id',$tellerId)
+                ->whereDate('closing_date','>',$date)
+                ->where('status','closed')
+                ->exists();
+
+            if($laterClosed){
+                throw ValidationException::withMessages([
+                    'closing'=>[
+                        'A later teller day is already closed. Reopen later closed days first.'
+                    ]
+                ]);
+            }
+
             $closing->update([
                 'status'=>'reopened',
                 'closed_at'=>null
@@ -227,4 +246,12 @@ class TellerClosingService
             ]);
         });
     }
+    protected function lockTeller(int $tellerId): void
+    {
+        User::query()
+            ->whereKey($tellerId)
+            ->lockForUpdate()
+            ->firstOrFail();
+    }
+
 }

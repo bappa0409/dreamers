@@ -156,7 +156,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('fundModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="fundForm" novalidate>
+<form id="fundForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 <div id="fundError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -202,7 +202,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('allocationModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="allocationForm" novalidate>
+<form id="allocationForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 <div id="allocationError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -260,7 +260,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('requestModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="requestForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="requestForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 <div id="requestError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -370,7 +370,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('reviewModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="reviewForm" novalidate>
+<form id="reviewForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="reviewError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 <label class="form-label">Review Note</label>
@@ -396,7 +396,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('approveModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="approveForm" novalidate>
+<form id="approveForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 <div id="approveError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -429,7 +429,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="rejectForm" novalidate>
+<form id="rejectForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="rejectError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
@@ -456,7 +456,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('disburseModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="disburseForm" novalidate>
+<form id="disburseForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 <div id="disburseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -495,7 +495,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('reverseModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="reverseForm" novalidate>
+<form id="reverseForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="reverseError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 <label class="form-label">Reversal Reason <span class="text-red-500">*</span></label>
@@ -777,7 +777,7 @@ e.preventDefault();
 AdminUI.clearError('fundError');
 AdminUI.clearFieldErrors('fundForm');
 
-if(!AdminUI.validateRequired('fundForm',{
+if(!AdminUI.validateForm('fundForm',{
 fundCode:'Fund code is required.',
 fundName:'Fund name is required.',
 expenseAccountId:'Expense posting account is required.'
@@ -830,7 +830,7 @@ if(!currentFund)return;
 AdminUI.clearError('allocationError');
 AdminUI.clearFieldErrors('allocationForm');
 
-if(!AdminUI.validateRequired('allocationForm',{
+if(!AdminUI.validateForm('allocationForm',{
 allocationAmount:'Allocation amount is required.',
 sourceType:'Source type is required.',
 allocationDate:'Allocation date is required.'
@@ -880,7 +880,7 @@ e.preventDefault();
 AdminUI.clearError('requestError');
 AdminUI.clearFieldErrors('requestForm');
 
-if(!AdminUI.validateRequired('requestForm',{
+if(!AdminUI.validateForm('requestForm',{
 requestMemberId:'Please select a member.',
 welfareFundId:'Please select a welfare fund.',
 assistanceType:'Assistance type is required.',
@@ -1039,7 +1039,7 @@ if(!currentRequest)return;
 
 AdminUI.clearFieldErrors('approveForm');
 
-if(!AdminUI.validateRequired('approveForm',{
+if(!AdminUI.validateForm('approveForm',{
 approvedAmount:'Approved amount is required.'
 }))return;
 
@@ -1124,7 +1124,7 @@ $('disburseForm').addEventListener('submit',e=>{
 e.preventDefault();
 if(!currentRequest)return;
 
-if(!AdminUI.validateRequired('disburseForm',{
+if(!AdminUI.validateForm('disburseForm',{
 paymentAccountId:'Please select a payment account.',
 disbursementDate:'Disbursement date is required.'
 }))return;
@@ -1238,15 +1238,6 @@ return;
 
 $('searchInput').addEventListener('input',AdminUI.debounce(()=>loadRequests(1)));
 $('statusFilter').addEventListener('change',()=>loadRequests(1));
-
-AdminUI.bindFieldValidation('fundForm');
-AdminUI.bindFieldValidation('allocationForm');
-AdminUI.bindFieldValidation('requestForm');
-AdminUI.bindFieldValidation('approveForm');
-AdminUI.bindFieldValidation('rejectForm');
-AdminUI.bindFieldValidation('disburseForm');
-AdminUI.bindFieldValidation('reverseForm');
-
 window.initDatePickers?.();
 
 await Promise.all([

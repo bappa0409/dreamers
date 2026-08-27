@@ -207,7 +207,7 @@ CREATE / EDIT MEETING MODAL
             </button>
         </div>
 
-        <form id="meetingForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="meetingForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="meetingError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -330,7 +330,7 @@ AGENDA MODAL
             </button>
         </div>
 
-        <form id="agendaForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="agendaForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="agendaId" type="hidden">
 
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
@@ -392,7 +392,7 @@ ATTENDEE MODAL
             </button>
         </div>
 
-        <form id="attendeeForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="attendeeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="attendeeId" type="hidden">
 
             <div class="space-y-4 p-5">
@@ -449,7 +449,7 @@ DECISION MODAL
             </button>
         </div>
 
-        <form id="decisionForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="decisionForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="decisionId" type="hidden">
 
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
@@ -557,7 +557,7 @@ MINUTES MODAL
             </button>
         </div>
 
-        <form id="minutesForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="minutesForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 p-5">
                 <div id="minutesError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -592,7 +592,7 @@ EXPENSE MODAL
             </button>
         </div>
 
-        <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -1220,7 +1220,7 @@ $('meetingForm').addEventListener('submit',async event=>{
     };
 
     if(
-        !AdminUI.validateRequired(
+        !AdminUI.validateForm(
             'meetingForm',
             required
         )

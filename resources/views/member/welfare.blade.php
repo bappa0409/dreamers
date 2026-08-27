@@ -215,7 +215,7 @@ Clear
 </button>
 </div>
 
-<form id="requestForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="requestForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
@@ -258,7 +258,7 @@ Clear
 <div class="relative">
 <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">{{ $currency }}</span>
 
-<input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00">
+<input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00" data-validation-min-message="Requested amount must be greater than zero.">
 </div>
 
 <p data-field-error="requestAmount" class="mt-1 hidden text-xs text-red-600"></p>
@@ -315,7 +315,7 @@ Submit Request
 </button>
 </div>
 
-<form id="documentForm" novalidate>
+<form id="documentForm" novalidate data-js-validation="1">
 <input id="documentRequestId" type="hidden">
 
 <div class="space-y-4 p-5">
@@ -324,7 +324,7 @@ Submit Request
 <div>
 <label class="form-label">Document Type <span class="text-red-500">*</span></label>
 
-<select id="documentType" class="app-input w-full">
+<select id="documentType" class="app-input w-full" data-validation-required-message="Please select a document type.">
 <option value="">Select Document Type</option>
 <option value="supporting_document">Supporting Document</option>
 <option value="medical_report">Medical Report</option>
@@ -342,7 +342,7 @@ Submit Request
 <div>
 <label class="form-label">File <span class="text-red-500">*</span></label>
 
-<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600">
+<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600" data-validation-required-message="Please select a file." data-validation-file-message="Only PDF, JPG, PNG and WEBP files are allowed.">
 
 <p class="mt-1 text-[10px] text-slate-400">PDF, JPG, JPEG, PNG or WEBP.</p>
 
@@ -914,7 +914,7 @@ event.preventDefault();
 AdminUI.clearError('requestError');
 AdminUI.clearFieldErrors('requestForm');
 
-if(!AdminUI.validateRequired('requestForm',{
+if(!AdminUI.validateForm('requestForm',{
 fundId:'Please select a welfare fund.',
 assistanceType:'Assistance type is required.',
 requestAmount:'Requested amount is required.',
@@ -926,17 +926,6 @@ return;
 const amount=Number(
 $('requestAmount').value
 );
-
-if(
-!Number.isFinite(amount)||
-amount<=0
-){
-AdminUI.showFieldError(
-'requestAmount',
-'Requested amount must be greater than zero.'
-);
-return;
-}
 
 const selectedFund=welfareData.funds.find(
 fund=>Number(fund.id)===Number($('fundId').value)
@@ -1044,37 +1033,6 @@ AdminUI.clearFieldErrors('documentForm');
 const id=$('documentRequestId').value;
 const type=$('documentType').value;
 const file=$('documentFile').files?.[0];
-
-if(!type){
-AdminUI.showFieldError(
-'documentType',
-'Please select a document type.'
-);
-return;
-}
-
-if(!file){
-AdminUI.showFieldError(
-'documentFile',
-'Please select a file.'
-);
-return;
-}
-
-const allowed=[
-'application/pdf',
-'image/jpeg',
-'image/png',
-'image/webp'
-];
-
-if(!allowed.includes(file.type)){
-AdminUI.showFieldError(
-'documentFile',
-'Only PDF, JPG, PNG and WEBP files are allowed.'
-);
-return;
-}
 
 const form=new FormData();
 
@@ -1345,11 +1303,10 @@ titleCase(document.document_type)
 </p>
 </div>
 
-${document.file_url?`
-<a href="${escapeAttribute(document.file_url)}" target="_blank" rel="noopener" class="inline-flex h-8 items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 text-[10px] font-semibold text-indigo-600 hover:bg-indigo-100">
+<a href="/api/member/welfare/documents/${Number(document.id)}" target="_blank" rel="noopener" class="inline-flex h-8 items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 text-[10px] font-semibold text-indigo-600 hover:bg-indigo-100">
 <i class="bi bi-box-arrow-up-right"></i>
 View
-</a>`:''}
+</a>
 
 </div>
 `).join('')}
@@ -1506,14 +1463,6 @@ AdminUI.debounce(
 $('statusFilter').addEventListener(
 'change',
 ()=>loadWelfare(1)
-);
-
-AdminUI.bindFieldValidation(
-'requestForm'
-);
-
-AdminUI.bindFieldValidation(
-'documentForm'
 );
 
 await loadWelfare();

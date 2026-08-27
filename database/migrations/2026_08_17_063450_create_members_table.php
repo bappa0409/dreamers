@@ -20,17 +20,13 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('member_code')->unique();
-
             $table->string('phone')->nullable();
             $table->string('alternate_phone')->nullable();
-
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
-
             $table->text('address')->nullable();
             $table->string('city')->nullable();
             $table->string('district')->nullable();
-
             $table->date('joining_date')->nullable();
 
             $table->enum('status', [
@@ -44,9 +40,7 @@ return new class extends Migration
             ])->default('pending');
 
             $table->string('profile_photo')->nullable();
-
             $table->text('notes')->nullable();
-
             $table->timestamps();
 
             $table->index(['status','member_code'],'members_status_code_idx');

@@ -16,9 +16,20 @@ Schedule::command('auth:clear-expired-setup-tokens')
     ->withoutOverlapping()
     ->onOneServer();
 
-Schedule::command('database:backup')
-    ->dailyAt('02:30')
-    ->when(fn() => (bool)setting('automatic_backup_enabled', true))
+$backupFrequency=strtolower(
+    trim((string)setting('backup_frequency','daily'))
+);
+
+$backupSchedule=Schedule::command('database:backup')
+    ->when(fn() => (bool)setting('automatic_backup_enabled', true));
+
+match($backupFrequency){
+    'weekly'=>$backupSchedule->weeklyOn(0,'02:30'),
+    'monthly'=>$backupSchedule->monthlyOn(1,'02:30'),
+    default=>$backupSchedule->dailyAt('02:30'),
+};
+
+$backupSchedule
     ->withoutOverlapping()
     ->onOneServer();
 

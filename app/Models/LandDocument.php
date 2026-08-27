@@ -6,7 +6,6 @@ use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
 
 class LandDocument extends Model
 {
@@ -54,12 +53,14 @@ class LandDocument extends Model
 
     public function getFileUrlAttribute(): ?string
     {
-        if(!$this->file_path){
+        if(
+            !$this->file_path||
+            !$this->land_id||
+            !$this->id
+        ){
             return null;
         }
 
-        return Storage::disk('public')->url(
-            $this->file_path
-        );
+        return "/api/lands/{$this->land_id}/documents/{$this->id}/download";
     }
 }

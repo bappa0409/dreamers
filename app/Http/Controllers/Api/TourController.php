@@ -15,6 +15,13 @@ class TourController extends Controller
 
     public function index(Request $request)
     {
+        $validated=$request->validate([
+            'search'=>'nullable|string|max:150',
+            'status'=>'nullable|in:draft,approved,upcoming,ongoing,completed,cancelled',
+            'year'=>'nullable|integer|min:2000|max:2100',
+            'per_page'=>'nullable|integer|min:5|max:50'
+        ]);
+
         $query=Tour::query()
             ->with([
                 'creator:id,name',
@@ -25,7 +32,7 @@ class TourController extends Controller
                 'expenses as actual_expense'=>fn($query)=>$query->where('status','posted')
             ],'amount');
 
-        if($search=trim((string)$request->search)){
+        if($search=trim((string)($validated['search']??''))){
             $query->where(function($q)use($search){
                 $q->where('tour_no','like',"%{$search}%")
                     ->orWhere('title','like',"%{$search}%")
@@ -33,12 +40,12 @@ class TourController extends Controller
             });
         }
 
-        if($request->filled('status')){
-            $query->where('status',$request->status);
+        if(!empty($validated['status'])){
+            $query->where('status',$validated['status']);
         }
 
-        if($request->filled('year')){
-            $query->whereYear('start_date',(int)$request->year);
+        if(!empty($validated['year'])){
+            $query->whereYear('start_date',(int)$validated['year']);
         }
 
         return response()->json([
@@ -46,7 +53,7 @@ class TourController extends Controller
             'data'=>$query
                 ->latest('start_date')
                 ->latest('id')
-                ->paginate(min((int)$request->input('per_page',15),50))
+                ->paginate($validated['per_page']??15)
         ]);
     }
 
@@ -174,12 +181,15 @@ class TourController extends Controller
                 'expense_accounts'=>Account::query()
                     ->where('type','expense')
                     ->where('is_active',true)
+                    ->whereDoesntHave('children')
                     ->select('id','code','name')
                     ->orderBy('code')
                     ->get(),
                 'payment_accounts'=>Account::query()
+                    ->where('type','asset')
                     ->whereIn('sub_type',['cash','bank'])
                     ->where('is_active',true)
+                    ->whereDoesntHave('children')
                     ->select('id','code','name','sub_type')
                     ->orderBy('code')
                     ->get()

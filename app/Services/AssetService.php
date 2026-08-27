@@ -12,7 +12,8 @@ class AssetService
 {
     public function __construct(
         protected AccountingService $accountingService,
-        protected NumberSequenceService $numberSequenceService
+        protected NumberSequenceService $numberSequenceService,
+        protected AssetDepreciationService $assetDepreciationService
     ){}
 
     public function create(
@@ -656,7 +657,9 @@ class AssetService
 
                 $this->accountingService->post([
                     'idempotency_key'=>"asset:cancel:{$asset->id}",
-                    'transaction_date'=>now()->toDateString(),
+                    'transaction_date'=>$this->reversalDate(
+                        $asset->financeTransaction->transaction_date
+                    ),
                     'type'=>'asset_purchase_reversal',
                     'source_module'=>'asset',
                     'source_id'=>$asset->id,
@@ -680,181 +683,16 @@ class AssetService
     }
 
     public function depreciate(
-    Asset $asset,
-    array $data,
-    int $userId
-): AssetDepreciation{
-    return DB::transaction(function()use(
-        $asset,
-        $data,
-        $userId
-    ){
-        $asset=Asset::query()
-            ->whereKey($asset->id)
-            ->lockForUpdate()
-            ->firstOrFail();
-
-        $this->ensureActiveAsset($asset);
-
-        if(
-            !$asset->useful_life_months||
-            $asset->useful_life_months<=0
-        ){
-            throw ValidationException::withMessages([
-                'asset'=>[
-                    'Useful life is required before depreciation can be recorded.'
-                ],
-            ]);
-        }
-
-        $date=$data['depreciation_date'];
-
-        if(
-            $date<
-            $asset->purchase_date->toDateString()
-        ){
-            throw ValidationException::withMessages([
-                'depreciation_date'=>[
-                    'Depreciation date cannot be earlier than purchase date.'
-                ],
-            ]);
-        }
-
-        if(
-            $asset->disposal_date&&
-            $date>$asset->disposal_date->toDateString()
-        ){
-            throw ValidationException::withMessages([
-                'depreciation_date'=>[
-                    'Depreciation cannot be recorded after disposal date.'
-                ],
-            ]);
-        }
-
-        $existing=AssetDepreciation::query()
-            ->where('asset_id',$asset->id)
-            ->whereYear('depreciation_date',date('Y',strtotime($date)))
-            ->whereMonth('depreciation_date',date('m',strtotime($date)))
-            ->exists();
-
-        if($existing){
-            throw ValidationException::withMessages([
-                'depreciation_date'=>[
-                    'Depreciation has already been recorded for this month.'
-                ],
-            ]);
-        }
-
-        $remaining=round(
-            max(
-                (float)$asset->purchase_cost-
-                (float)$asset->salvage_value-
-                (float)$asset->accumulated_depreciation,
-                0
-            ),
-            2
+        Asset $asset,
+        array $data,
+        int $userId
+    ): AssetDepreciation{
+        return $this->assetDepreciationService->post(
+            $asset,
+            $data,
+            $userId
         );
-
-        if($remaining<=0){
-            throw ValidationException::withMessages([
-                'asset'=>[
-                    'Asset is already fully depreciated.'
-                ],
-            ]);
-        }
-
-        $monthly=round(
-            (
-                (float)$asset->purchase_cost-
-                (float)$asset->salvage_value
-            )/$asset->useful_life_months,
-            2
-        );
-
-        $amount=isset($data['amount'])
-            ?round((float)$data['amount'],2)
-            :$monthly;
-
-        if($amount<=0){
-            throw ValidationException::withMessages([
-                'amount'=>[
-                    'Depreciation amount must be greater than zero.'
-                ],
-            ]);
-        }
-
-        $amount=min(
-            $amount,
-            $remaining
-        );
-
-        $expenseAccount=$this
-            ->accountingService
-            ->account('depreciation_expense');
-
-        $accumulatedAccount=$this
-            ->accountingService
-            ->account('accumulated_depreciation');
-
-        $depreciation=AssetDepreciation::create([
-            'asset_id'=>$asset->id,
-            'depreciation_date'=>$date,
-            'amount'=>$amount,
-            'description'=>$this->nullableString(
-                $data['description']??null
-            ),
-            'created_by'=>$userId,
-        ]);
-
-        $journal=$this->accountingService->post([
-            'idempotency_key'=>
-                "asset:depreciation:{$asset->id}:{$date}",
-            'transaction_date'=>$date,
-            'type'=>'asset_depreciation',
-            'source_module'=>'asset',
-            'source_id'=>$asset->id,
-            'reference_type'=>AssetDepreciation::class,
-            'reference_id'=>$depreciation->id,
-            'description'=>$depreciation->description
-                ??"Depreciation {$asset->asset_code}",
-            'user_id'=>$userId,
-            'entries'=>[
-                [
-                    'account_id'=>$expenseAccount->id,
-                    'debit'=>$amount,
-                    'credit'=>0,
-                    'description'=>
-                        "Depreciation expense {$asset->asset_code}",
-                ],
-                [
-                    'account_id'=>$accumulatedAccount->id,
-                    'debit'=>0,
-                    'credit'=>$amount,
-                    'description'=>
-                        "Accumulated depreciation {$asset->asset_code}",
-                ],
-            ],
-        ]);
-
-        $depreciation->update([
-            'finance_transaction_id'=>$journal->id,
-        ]);
-
-        $asset->update([
-            'accumulated_depreciation'=>round(
-                (float)$asset->accumulated_depreciation+
-                $amount,
-                2
-            ),
-        ]);
-
-        return $depreciation->fresh([
-            'asset',
-            'creator',
-            'financeTransaction.entries.account',
-        ]);
-    });
-}
+    }
 
     protected function assetAccount(
         int $accountId
@@ -884,6 +722,7 @@ class AssetService
     ): Account{
         $account=Account::query()
             ->whereKey($accountId)
+            ->where('type','asset')
             ->whereIn(
                 'sub_type',
                 ['cash','bank']
@@ -929,6 +768,20 @@ class AssetService
                 ],
             ]);
         }
+
+        $latestDepreciationDate=$asset->depreciations()
+            ->max('depreciation_date');
+
+        if(
+            $latestDepreciationDate&&
+            $date<(string)$latestDepreciationDate
+        ){
+            throw ValidationException::withMessages([
+                'disposal_date'=>[
+                    'Disposal date cannot be earlier than the latest posted depreciation date.'
+                ],
+            ]);
+        }
     }
 
     protected function changed(
@@ -955,6 +808,22 @@ class AssetService
 
         return (string)($current??'')!==
             (string)($new??'');
+    }
+
+    protected function reversalDate(
+        \DateTimeInterface|string|null $originalDate
+    ): string{
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :(string)$originalDate;
+
+        return $date>$today?$date:$today;
     }
 
     protected function nullableString(

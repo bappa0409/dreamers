@@ -151,7 +151,6 @@ class ExpenseService
                 'payee',
                 'reference',
                 'description',
-                'attachment',
             ] as $field){
                 if(array_key_exists($field,$data)){
                     $update[$field]=$data[$field];
@@ -168,16 +167,6 @@ class ExpenseService
                         $update[$field]
                     );
                 }
-            }
-
-            if(
-                array_key_exists('attachment',$update)&&
-                $expense->attachment&&
-                $expense->attachment!==$update['attachment']
-            ){
-                Storage::disk('public')->delete(
-                    $expense->attachment
-                );
             }
 
             $expense->update($update);
@@ -239,7 +228,9 @@ class ExpenseService
                 $this->accountingService->post([
                     'idempotency_key'=>
                         "expense:cancel:{$expense->id}",
-                    'transaction_date'=>now()->toDateString(),
+                    'transaction_date'=>$this->reversalDate(
+                        $expense->expense_date
+                    ),
                     'type'=>'expense_reversal',
                     'source_module'=>'expense',
                     'source_id'=>$expense->id,
@@ -315,6 +306,7 @@ class ExpenseService
     ): Account{
         $account=Account::query()
             ->whereKey($accountId)
+            ->where('type','asset')
             ->whereIn('sub_type',[
                 'cash',
                 'bank',
@@ -343,6 +335,21 @@ class ExpenseService
             'financeTransaction.entries.account',
             'creator',
         ]);
+    }
+
+    protected function reversalDate(\DateTimeInterface|string|null $originalDate): string
+    {
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :(string)$originalDate;
+
+        return $date>$today?$date:$today;
     }
 
     protected function changed(

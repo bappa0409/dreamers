@@ -44,7 +44,6 @@ $overview=[
 $association=[
     ['member.tours','member.tours*','bi-airplane-fill','Tours'],
     ['member.meetings','member.meetings*','bi-people-fill','Meetings'],
-    ['member.committee','member.committee*','bi-person-badge-fill','Committee'],
     ['member.polls','member.polls*','bi-bar-chart-fill','Polls'],
 ];
 
@@ -239,7 +238,7 @@ Completed Investments
 <div class="mt-0.5 truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
 </div>
 
-<form method="POST" action="{{ route('logout') }}">
+<form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
 @csrf
 <button type="submit" title="Sign Out" class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-red-50 hover:text-red-500">
 <i class="bi bi-box-arrow-right text-[15px]"></i>
@@ -330,7 +329,7 @@ My Subscription
 
 <div class="my-1 border-t border-slate-100"></div>
 
-<form method="POST" action="{{ route('logout') }}">
+<form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
 @csrf
 <button type="submit" class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs font-medium text-red-500 transition hover:bg-red-50">
 <i class="bi bi-box-arrow-right"></i>

@@ -34,12 +34,12 @@ class NomineeService
 
             if(in_array(
                 $member->status,
-                ['rejected'],
+                ['rejected','exited','deceased'],
                 true
             )){
                 throw ValidationException::withMessages([
                     'member_id'=>[
-                        'Rejected member cannot have nominees.'
+                        'This member cannot have new nominees.'
                     ]
                 ]);
             }
@@ -148,8 +148,13 @@ class NomineeService
             foreach($verificationSensitiveFields as $field){
                 if(
                     array_key_exists($field,$data)&&
-                    (string)$nominee->{$field}!==
-                    (string)$data[$field]
+                    $this->verificationValue(
+                        $field,
+                        $nominee->{$field}
+                    )!==$this->verificationValue(
+                        $field,
+                        $data[$field]
+                    )
                 ){
                     $requiresReverification=true;
                     break;
@@ -425,12 +430,37 @@ class NomineeService
 
             $memberId=$nominee->member_id;
 
+            $documents=NomineeDocument::query()
+                ->where('member_nominee_id',$nominee->id)
+                ->lockForUpdate()
+                ->get(['id','file_path']);
+
+            $paths=$documents
+                ->pluck('file_path')
+                ->filter()
+                ->values()
+                ->all();
+
+            foreach($documents as $document){
+                $document->delete();
+            }
+
             $nominee->update([
                 'is_active'=>false,
                 'updated_by'=>$userId
             ]);
 
             $nominee->delete();
+
+            DB::afterCommit(function()use($paths){
+                foreach($paths as $path){
+                    foreach(['local','public'] as $disk){
+                        if(Storage::disk($disk)->exists($path)){
+                            Storage::disk($disk)->delete($path);
+                        }
+                    }
+                }
+            });
 
             $this->forgetCaches($memberId);
         });
@@ -442,47 +472,53 @@ class NomineeService
         string $documentType,
         int $userId
     ): NomineeDocument{
-        $path=null;
+        $filename=
+            bin2hex(random_bytes(16)).
+            '.'.
+            strtolower($file->getClientOriginalExtension());
+
+        $path=$file->storeAs(
+            "nominees/{$nominee->member_id}/{$nominee->id}",
+            $filename,
+            'local'
+        );
 
         try{
-            $path=$file->store(
-                "nominees/{$nominee->member_id}/{$nominee->id}",
-                'public'
-            );
-
-            $document=NomineeDocument::create([
-                'member_nominee_id'=>$nominee->id,
-                'document_type'=>$documentType,
-                'file_path'=>$path,
-                'original_name'=>$file->getClientOriginalName(),
-                'mime_type'=>$file->getMimeType(),
-                'file_size'=>$file->getSize(),
-                'uploaded_by'=>$userId
-            ]);
-
-            if($nominee->verification_status==='verified'){
-                $nominee->update([
-                    'verification_status'=>'pending',
-                    'verified_by'=>null,
-                    'verified_at'=>null,
-                    'verification_note'=>null,
-                    'rejection_reason'=>null,
-                    'updated_by'=>$userId
-                ]);
-            }
-
-            $this->forgetCaches($nominee->member_id);
-
-            return $document->fresh('uploader:id,name');
-
-        }catch(\Throwable $e){
-            if(
-                $path&&
-                Storage::disk('public')->exists($path)
+            return DB::transaction(function()use(
+                $nominee,$file,$documentType,$userId,$path
             ){
-                Storage::disk('public')->delete($path);
-            }
+                $nominee=MemberNominee::query()
+                    ->whereKey($nominee->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
+                $document=NomineeDocument::create([
+                    'member_nominee_id'=>$nominee->id,
+                    'document_type'=>$documentType,
+                    'file_path'=>$path,
+                    'original_name'=>$file->getClientOriginalName(),
+                    'mime_type'=>$file->getMimeType(),
+                    'file_size'=>$file->getSize(),
+                    'uploaded_by'=>$userId
+                ]);
+
+                if($nominee->verification_status==='verified'){
+                    $nominee->update([
+                        'verification_status'=>'pending',
+                        'verified_by'=>null,
+                        'verified_at'=>null,
+                        'verification_note'=>null,
+                        'rejection_reason'=>null,
+                        'updated_by'=>$userId
+                    ]);
+                }
+
+                $this->forgetCaches($nominee->member_id);
+
+                return $document->fresh('uploader:id,name');
+            });
+        }catch(\Throwable $e){
+            Storage::disk('local')->delete($path);
             throw $e;
         }
     }
@@ -503,7 +539,21 @@ class NomineeService
 
             $memberId=$document->nominee->member_id;
 
+            $path=$document->file_path;
+
             $document->delete();
+
+            DB::afterCommit(function()use($path){
+                if(!$path){
+                    return;
+                }
+
+                foreach(['local','public'] as $disk){
+                    if(Storage::disk($disk)->exists($path)){
+                        Storage::disk($disk)->delete($path);
+                    }
+                }
+            });
 
             if(
                 $document->nominee->verification_status==='verified'
@@ -591,6 +641,48 @@ class NomineeService
                 ];
             }
         );
+    }
+
+    public function documentDisk(
+        NomineeDocument $document
+    ): ?string{
+        if(!$document->file_path){
+            return null;
+        }
+
+        foreach(['local','public'] as $disk){
+            if(Storage::disk($disk)->exists($document->file_path)){
+                return $disk;
+            }
+        }
+
+        return null;
+    }
+
+    protected function verificationValue(
+        string $field,
+        mixed $value
+    ): string{
+        if($value===null||$value===''){
+            return '';
+        }
+
+        if($field==='date_of_birth'){
+            return $value instanceof \DateTimeInterface
+                ?$value->format('Y-m-d')
+                :(string)$value;
+        }
+
+        if($field==='allocation_percentage'){
+            return number_format(
+                round((float)$value,2),
+                2,
+                '.',
+                ''
+            );
+        }
+
+        return trim((string)$value);
     }
 
     protected function validateAllocation(

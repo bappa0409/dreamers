@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
 
 class NomineeDocument extends Model
 {
@@ -21,16 +20,12 @@ class NomineeDocument extends Model
         'uploaded_by'
     ];
 
-    protected $appends=[
-        'file_url'
-    ];
-
     public function nominee(): BelongsTo
     {
         return $this->belongsTo(
             MemberNominee::class,
             'member_nominee_id'
-        );
+        )->withTrashed();
     }
 
     public function uploader(): BelongsTo
@@ -39,12 +34,5 @@ class NomineeDocument extends Model
             User::class,
             'uploaded_by'
         );
-    }
-
-    public function getFileUrlAttribute(): ?string
-    {
-        return $this->file_path
-            ?Storage::disk('public')->url($this->file_path)
-            :null;
     }
 }

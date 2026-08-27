@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChargePayment;
+use App\Services\ChargeService;
 use Illuminate\Http\Request;
 
 class ChargePaymentController extends Controller
 {
+    public function __construct(
+        protected ChargeService $chargeService
+    ){}
+
     public function index(Request $request)
     {
         $validated=$request->validate([
@@ -175,6 +180,28 @@ class ChargePaymentController extends Controller
                     2
                 ),
             ],
+        ]);
+    }
+
+
+    public function cancel(
+        Request $request,
+        ChargePayment $chargePayment
+    ){
+        $validated=$request->validate([
+            'reason'=>'required|string|max:2000',
+        ]);
+
+        $payment=$this->chargeService->cancelPayment(
+            $chargePayment,
+            $validated['reason'],
+            $request->user()->id
+        );
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Charge payment cancelled successfully.',
+            'data'=>$payment,
         ]);
     }
 

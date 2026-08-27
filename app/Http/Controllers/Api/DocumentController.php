@@ -117,17 +117,16 @@ class DocumentController extends Controller
         $file=$request->file('file');
         unset($validated['file']);
 
-        $document=$this->documentService->update(
-            $document,
-            $validated
-        );
-
-        if($file){
-            $document=$this->documentService->replaceFile(
+        $document=$file
+            ?$this->documentService->updateWithFile(
                 $document,
+                $validated,
                 $file
+            )
+            :$this->documentService->update(
+                $document,
+                $validated
             );
-        }
 
         return response()->json([
             'success'=>true,

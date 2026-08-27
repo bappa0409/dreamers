@@ -30,7 +30,6 @@ Route::middleware(['auth', 'member'])->prefix('member')->name('member.')->group(
     Route::get('/polls', [MemberController::class, 'polls'])->name('polls');
     Route::get('/tours', [MemberController::class, 'tours'])->name('tours');
     Route::get('/meetings', [MemberController::class, 'meetings'])->name('meetings');
-    Route::get('/committee', [MemberController::class, 'committee'])->name('committee');
     Route::get('/loans', [MemberController::class, 'loans'])->name('loans');
 
     // Notifications

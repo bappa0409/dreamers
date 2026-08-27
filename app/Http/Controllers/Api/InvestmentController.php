@@ -132,6 +132,7 @@ class InvestmentController extends Controller
     {
         $accounts=Account::query()
             ->active()
+            ->where('type','asset')
             ->whereIn(
                 'sub_type',
                 ['cash','bank']
@@ -352,7 +353,7 @@ class InvestmentController extends Controller
                 'nullable|string|max:3000',
 
             'status'=>
-                'required|in:pending,paid,cancelled',
+                'required|in:pending,paid',
         ]);
 
         $return=$this->investmentService

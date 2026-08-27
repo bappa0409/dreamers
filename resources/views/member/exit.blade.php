@@ -187,7 +187,7 @@ Clear
 </button>
 </div>
 
-<form id="exitForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="exitForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
 <div id="exitError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
@@ -631,7 +631,7 @@ event.preventDefault();
 AdminUI.clearError('exitError');
 AdminUI.clearFieldErrors('exitForm');
 
-if(!AdminUI.validateRequired('exitForm',{
+if(!AdminUI.validateForm('exitForm',{
 reason:'Reason is required.'
 })){
 return;
@@ -899,9 +899,6 @@ $('statusFilter').addEventListener(
 'change',
 ()=>loadExits(1)
 );
-
-AdminUI.bindFieldValidation('exitForm');
-
 window.initDatePickers?.();
 
 await loadExits();

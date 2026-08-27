@@ -145,7 +145,7 @@ Clear
 </button>
 </div>
 
-<form id="loanForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="loanForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
 <div id="loanError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -290,7 +290,7 @@ Clear
 </button>
 </div>
 
-<form id="approvalForm" novalidate>
+<form id="approvalForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
 <div id="approvalError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -343,7 +343,7 @@ Clear
 </button>
 </div>
 
-<form id="rejectLoanForm" novalidate>
+<form id="rejectLoanForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="rejectLoanError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -374,7 +374,7 @@ Clear
 </button>
 </div>
 
-<form id="disbursementForm" novalidate>
+<form id="disbursementForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
 <div id="disbursementError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -426,7 +426,7 @@ Clear
 </button>
 </div>
 
-<form id="repaymentForm" novalidate>
+<form id="repaymentForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
 <div id="repaymentError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -784,7 +784,7 @@ $('loanForm').addEventListener('submit',async event=>{
     AdminUI.clearError('loanError');
     AdminUI.clearFieldErrors('loanForm');
 
-    if(!AdminUI.validateRequired('loanForm',{
+    if(!AdminUI.validateForm('loanForm',{
         memberId:'Please select a member.',
         requestedAmount:'Requested amount is required.',
         requestDate:'Request date is required.',
@@ -1018,7 +1018,7 @@ $('approvalForm').addEventListener('submit',async event=>{
     AdminUI.clearError('approvalError');
     AdminUI.clearFieldErrors('approvalForm');
 
-    if(!AdminUI.validateRequired('approvalForm',{
+    if(!AdminUI.validateForm('approvalForm',{
         approvedAmount:'Approved amount is required.',
         interestRate:'Interest rate is required.',
         durationMonths:'Duration is required.'
@@ -1163,7 +1163,7 @@ $('disbursementForm').addEventListener('submit',event=>{
     AdminUI.clearError('disbursementError');
     AdminUI.clearFieldErrors('disbursementForm');
 
-    if(!AdminUI.validateRequired('disbursementForm',{
+    if(!AdminUI.validateForm('disbursementForm',{
         disbursementAccountId:'Please select a payment account.',
         disbursementDate:'Disbursement date is required.'
     }))return;
@@ -1226,7 +1226,7 @@ $('repaymentForm').addEventListener('submit',event=>{
     AdminUI.clearError('repaymentError');
     AdminUI.clearFieldErrors('repaymentForm');
 
-    if(!AdminUI.validateRequired('repaymentForm',{
+    if(!AdminUI.validateForm('repaymentForm',{
         receiveAccountId:'Please select a receive account.',
         repaymentAmount:'Repayment amount is required.',
         repaymentDate:'Repayment date is required.'
@@ -1305,14 +1305,7 @@ async function init(){
         'change',
         ()=>loadLoans(1)
     );
-
-    AdminUI.bindFieldValidation('loanForm');
-    AdminUI.bindFieldValidation('approvalForm');
-    AdminUI.bindFieldValidation('rejectLoanForm');
-    AdminUI.bindFieldValidation('disbursementForm');
-    AdminUI.bindFieldValidation('repaymentForm');
-
-    window.initDatePickers?.();
+window.initDatePickers?.();
 
     await Promise.all([
         loadOptions(),

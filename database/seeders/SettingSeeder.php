@@ -350,7 +350,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'smtp_host',
-                'value'=>null,
+                'value'=>'sandbox.smtp.mailtrap.io',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'mail',
@@ -359,7 +359,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'smtp_port',
-                'value'=>'587',
+                'value'=>'2525',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'mail',
@@ -368,7 +368,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'smtp_username',
-                'value'=>null,
+                'value'=>'445a7ed487c788',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'mail',
@@ -377,7 +377,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'smtp_password',
-                'value'=>null,
+                'value'=>'c736ad74e7107e',
                 'type'=>'password',
                 'options'=>null,
                 'group'=>'mail',
@@ -399,7 +399,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'mail_from_address',
-                'value'=>null,
+                'value'=>'bappasutradhar947@gmail.com',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'mail',
@@ -622,7 +622,7 @@ class SettingSeeder extends Seeder
             [
                 'key'=>'loan_default_interest_rate',
                 'value'=>'10',
-                'type'=>'number',
+                'type'=>'float',
                 'options'=>null,
                 'group'=>'loan',
                 'description'=>'Default loan interest percentage',
@@ -631,7 +631,7 @@ class SettingSeeder extends Seeder
             [
                 'key'=>'loan_default_duration_months',
                 'value'=>'12',
-                'type'=>'number',
+                'type'=>'integer',
                 'options'=>null,
                 'group'=>'loan',
                 'description'=>'Default loan duration in months',
@@ -640,7 +640,7 @@ class SettingSeeder extends Seeder
             [
                 'key'=>'loan_max_amount',
                 'value'=>'0',
-                'type'=>'number',
+                'type'=>'float',
                 'options'=>null,
                 'group'=>'loan',
                 'description'=>'Maximum loan amount. Zero means no configured global limit.',

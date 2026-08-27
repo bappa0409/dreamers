@@ -57,6 +57,10 @@ return new class extends Migration
             // Indexes
             $table->index('document_type');
             $table->index('status');
+            $table->index(
+                ['is_active','visibility'],
+                'documents_active_visibility_idx'
+            );
         });
     }
 

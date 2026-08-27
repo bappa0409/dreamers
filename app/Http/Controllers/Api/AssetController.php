@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Asset;
+use App\Services\AssetDepreciationService;
 use App\Services\AssetService;
 use Illuminate\Http\Request;
-use App\Services\AssetDepreciationService;
 
 class AssetController extends Controller
 {
     public function __construct(
         protected AssetService $assetService,
-    protected AssetDepreciationService $assetDepreciationService
+        protected AssetDepreciationService $assetDepreciationService
     ){}
 
     public function index(Request $request)
@@ -160,6 +160,7 @@ class AssetController extends Controller
 
                 'cash_bank_accounts'=>Account::query()
                     ->active()
+                    ->where('type','asset')
                     ->whereIn(
                         'sub_type',
                         ['cash','bank']
@@ -397,27 +398,26 @@ class AssetController extends Controller
     }
 
     public function depreciate(
-    Request $request,
-    Asset $asset
-){
-    $validated=$request->validate([
-        'depreciation_date'=>'required|date',
-        'amount'=>'nullable|numeric|min:0.01|max:999999999999.99',
-        'description'=>'nullable|string|max:1000',
-    ]);
+        Request $request,
+        Asset $asset
+    ){
+        $validated=$request->validate([
+            'depreciation_date'=>'required|date_format:Y-m-d',
+            'description'=>'nullable|string|max:1000',
+        ]);
 
-    $depreciation=$this->assetService->depreciate(
-        $asset,
-        $validated,
-        $request->user()->id
-    );
+        $depreciation=$this->assetDepreciationService->post(
+            $asset,
+            $validated,
+            $request->user()->id
+        );
 
-    return response()->json([
-        'success'=>true,
-        'message'=>'Asset depreciation posted successfully.',
-        'data'=>$depreciation,
-    ],201);
-}
+        return response()->json([
+            'success'=>true,
+            'message'=>'Asset depreciation posted successfully.',
+            'data'=>$depreciation,
+        ],201);
+    }
 
 public function depreciations(
     Asset $asset

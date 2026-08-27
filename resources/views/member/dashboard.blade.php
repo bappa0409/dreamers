@@ -112,7 +112,7 @@
 
             <div class="mt-4 border-t border-slate-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-slate-400">Current Due</span>
+                    <span class="text-slate-400">This Month's Amount</span>
 
                     <span class="font-semibold text-slate-600">
                         ৳{{ number_format($currentDue,2) }}
@@ -126,7 +126,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class="text-[11px] font-medium uppercase tracking-wide text-red-500">
-                        Outstanding
+                        Total Due
                     </p>
 
                     <p class="mt-2 text-xl font-bold text-red-600">
@@ -141,7 +141,7 @@
 
             <div class="mt-4 border-t border-red-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-red-400">Current Outstanding</span>
+                    <span class="text-red-400">Current Due</span>
 
                     <span class="font-semibold text-red-600">
                         ৳{{ number_format($currentOutstanding,2) }}

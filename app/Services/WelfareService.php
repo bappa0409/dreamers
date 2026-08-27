@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Account;
+use App\Models\Member;
 use App\Models\Transaction;
 use App\Models\WelfareDocument;
 use App\Models\WelfareFund;
@@ -143,6 +144,19 @@ class WelfareService
         int $userId
     ): WelfareRequest{
         return DB::transaction(function()use($data,$userId){
+            $member=Member::query()
+                ->whereKey($data['member_id'])
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($member->status!=='active'){
+                throw ValidationException::withMessages([
+                    'member_id'=>[
+                        'Welfare assistance can only be requested for an active member.'
+                    ]
+                ]);
+            }
+
             $fund=WelfareFund::query()
                 ->whereKey($data['welfare_fund_id'])
                 ->lockForUpdate()
@@ -477,6 +491,19 @@ class WelfareService
                 ]);
             }
 
+            $requestDate=$request->request_date?->toDateString();
+
+            if(
+                $requestDate&&
+                $data['disbursement_date']<$requestDate
+            ){
+                throw ValidationException::withMessages([
+                    'disbursement_date'=>[
+                        'Disbursement date cannot be before the welfare request date.'
+                    ]
+                ]);
+            }
+
             $fund=WelfareFund::query()
                 ->whereKey($request->welfare_fund_id)
                 ->lockForUpdate()
@@ -652,11 +679,20 @@ class WelfareService
                 ])
                 ->all();
 
+            $originalDate=$request->financeTransaction?->transaction_date?->toDateString()
+                ??$request->disbursement_date?->toDateString()
+                ??now()->toDateString();
+
+            $reversalDate=max(
+                now()->toDateString(),
+                $originalDate
+            );
+
             $reversal=$this->accounting->post([
                 'idempotency_key'=>
                     "welfare:reversal:{$request->id}",
 
-                'transaction_date'=>now()->toDateString(),
+                'transaction_date'=>$reversalDate,
                 'type'=>'welfare_assistance_reversal',
                 'source_module'=>'welfare',
                 'source_id'=>$request->id,
@@ -702,24 +738,46 @@ class WelfareService
             '.'.
             strtolower($file->getClientOriginalExtension());
 
-        $path=$file->storeAs(
-            "welfare/{$request->member_id}/{$request->id}",
-            $filename,
-            'local'
-        );
+        $path=null;
 
         try{
-            return WelfareDocument::create([
-                'welfare_request_id'=>$request->id,
-                'document_type'=>$type,
-                'file_path'=>$path,
-                'original_name'=>$file->getClientOriginalName(),
-                'mime_type'=>$file->getMimeType(),
-                'file_size'=>$file->getSize(),
-                'uploaded_by'=>$userId
-            ]);
+            return DB::transaction(function()use(
+                $request,$file,$type,$userId,$filename,&$path
+            ){
+                $request=$this->lockRequest($request);
+
+                if(in_array(
+                    $request->status,
+                    ['rejected','completed','cancelled','reversed'],
+                    true
+                )){
+                    throw ValidationException::withMessages([
+                        'request'=>[
+                            'Documents cannot be added to this welfare request.'
+                        ]
+                    ]);
+                }
+
+                $path=$file->storeAs(
+                    "welfare/{$request->member_id}/{$request->id}",
+                    $filename,
+                    'local'
+                );
+
+                return WelfareDocument::create([
+                    'welfare_request_id'=>$request->id,
+                    'document_type'=>$type,
+                    'file_path'=>$path,
+                    'original_name'=>$file->getClientOriginalName(),
+                    'mime_type'=>$file->getMimeType(),
+                    'file_size'=>$file->getSize(),
+                    'uploaded_by'=>$userId
+                ]);
+            });
         }catch(\Throwable $e){
-            Storage::disk('local')->delete($path);
+            if($path){
+                Storage::disk('local')->delete($path);
+            }
             throw $e;
         }
     }
@@ -880,6 +938,7 @@ class WelfareService
         $account=Account::query()
             ->whereKey($id)
             ->where('is_active',true)
+            ->where('type','asset')
             ->whereIn(
                 'sub_type',
                 ['cash','bank']

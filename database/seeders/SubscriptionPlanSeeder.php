@@ -22,7 +22,8 @@ class SubscriptionPlanSeeder extends Seeder
             [
                 'amount'=>1000,
                 'due_day'=>10,
-                'fine_type'=>'fixed',
+                'fine_type'=>'none',
+                'fine_value'=>0,
                 'grace_days'=>1,
                 'is_default'=>true,
                 'is_active'=>true,

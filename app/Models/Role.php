@@ -20,12 +20,10 @@ class Role extends Model
         'display_name',
         'description',
         'is_system',
-        'is_active',
     ];
 
     protected $casts = [
         'is_system' => 'boolean',
-        'is_active' => 'boolean',
     ];
 
 

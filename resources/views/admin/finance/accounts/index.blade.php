@@ -194,7 +194,7 @@
 
         <form
             id="accountForm"
-            class="flex min-h-0 flex-1 flex-col">
+            class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 
             <div class="space-y-4 overflow-y-auto p-5">
                 <div

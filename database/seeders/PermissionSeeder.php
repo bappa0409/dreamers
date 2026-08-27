@@ -42,11 +42,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'Investment.update', 'display_name' => 'Update Investment', 'module' => 'Investment'],
             ['name' => 'Investment.delete', 'display_name' => 'Delete Investment', 'module' => 'Investment'],
 
-            ['name' => 'Committee.view', 'display_name' => 'View Committees', 'module' => 'Committee'],
-            ['name' => 'Committee.create', 'display_name' => 'Create Committee', 'module' => 'Committee'],
-            ['name' => 'Committee.update', 'display_name' => 'Update Committee', 'module' => 'Committee'],
-            ['name' => 'Committee.manage', 'display_name' => 'Manage Committee & Election', 'module' => 'Committee'],
-
             ['name' => 'Loan.view', 'display_name' => 'View Loans', 'module' => 'Loan'],
             ['name' => 'Loan.create', 'display_name' => 'Create Loan Request', 'module' => 'Loan'],
             ['name' => 'Loan.update', 'display_name' => 'Update Loan', 'module' => 'Loan'],

@@ -27,7 +27,7 @@ class PasswordSetupService
     {
         $setupUrl = $this->generate($user);
 
-        Mail::to($user->email)->queue(
+        Mail::to($user->email)->send(
             new MemberPasswordSetupMail(
                 $user,
                 $setupUrl

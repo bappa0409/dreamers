@@ -124,6 +124,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/members/{member}', [MemberController::class, 'show'])->middleware('permission:Member.view');
     Route::put('/members/{member}', [MemberController::class, 'update'])->middleware('permission:Member.update');
     Route::patch('/members/{member}', [MemberController::class, 'update'])->middleware('permission:Member.update');
+    Route::delete('/members/{member}', [MemberController::class, 'destroy'])->middleware('permission:Member.delete');
     Route::post('/members/{member}/suspend', [MemberController::class, 'suspend'])->middleware('permission:Member.update');
     Route::post('/members/{member}/activate', [MemberController::class, 'activate'])->middleware('permission:Member.update');
     Route::post('/members/{member}/send-password-setup', [MemberController::class, 'sendPasswordSetup'])->middleware('permission:Member.update');
@@ -135,8 +136,8 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::get('/members/{member}/roles', [MemberController::class, 'roles'])->middleware('permission:Role.view');
-    Route::post('/members/{member}/roles', [MemberController::class, 'assignRole'])->middleware('permission:Role.update,Role.edit');
-    Route::delete('/members/{member}/roles', [MemberController::class, 'removeRole'])->middleware('permission:Role.update,Role.edit');
+    Route::post('/members/{member}/roles', [MemberController::class, 'assignRole'])->middleware('permission:Role.update');
+    Route::delete('/members/{member}/roles', [MemberController::class, 'removeRole'])->middleware('permission:Role.update');
 
     /*
     |--------------------------------------------------------------------------
@@ -193,6 +194,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{nominee}/reject', [NomineeController::class, 'reject'])->middleware('permission:Nominee.verify');
         Route::patch('/{nominee}/active', [NomineeController::class, 'toggle'])->middleware('permission:Nominee.update');
         Route::post('/{nominee}/documents', [NomineeController::class, 'uploadDocument'])->middleware('permission:Nominee.update');
+        Route::get('/documents/{document}', [NomineeController::class, 'document'])->middleware('permission:Nominee.view');
         Route::delete('/documents/{document}', [NomineeController::class, 'deleteDocument'])->middleware('permission:Nominee.update');
         Route::delete('/{nominee}', [NomineeController::class, 'destroy'])->middleware('permission:Nominee.delete');
     });
@@ -217,35 +219,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{memberExit}/settle', [MemberExitController::class, 'settle'])->middleware('permission:MemberExit.settle');
         Route::post('/{memberExit}/close', [MemberExitController::class, 'close'])->middleware('permission:MemberExit.settle');
     });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Committees
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/committees/current', [CommitteeController::class, 'current']);
-
-    Route::prefix('committees')->group(function () {
-        Route::get('/statistics', [CommitteeController::class, 'statistics'])->middleware('permission:Committee.view');
-        Route::get('/options', [CommitteeController::class, 'options'])->middleware('permission:Committee.view');
-        Route::get('/', [CommitteeController::class, 'index'])->middleware('permission:Committee.view');
-        Route::post('/', [CommitteeController::class, 'store'])->middleware('permission:Committee.create');
-        Route::post('/positions', [CommitteeController::class, 'storePosition'])->middleware('permission:Committee.manage');
-        Route::put('/positions/{position}', [CommitteeController::class, 'updatePosition'])->middleware('permission:Committee.manage');
-        Route::post('/terms/{term}/activate', [CommitteeController::class, 'activateTerm'])->middleware('permission:Committee.manage');
-        Route::post('/terms/{term}/complete', [CommitteeController::class, 'completeTerm'])->middleware('permission:Committee.manage');
-        Route::post('/terms/{term}/members', [CommitteeController::class, 'assignMember'])->middleware('permission:Committee.manage');
-        Route::put('/memberships/{membership}', [CommitteeController::class, 'endMembership'])->middleware('permission:Committee.manage');
-        Route::post('/terms/{term}/elections', [CommitteeController::class, 'storeElection'])->middleware('permission:Committee.manage');
-        Route::put('/elections/{election}/status', [CommitteeController::class, 'electionStatus'])->middleware('permission:Committee.manage');
-        Route::post('/elections/{election}/candidates', [CommitteeController::class, 'addCandidate'])->middleware('permission:Committee.manage');
-        Route::put('/candidates/{candidate}/result', [CommitteeController::class, 'result'])->middleware('permission:Committee.manage');
-        Route::post('/{committee}/terms', [CommitteeController::class, 'storeTerm'])->middleware('permission:Committee.manage');
-        Route::get('/{committee}', [CommitteeController::class, 'show'])->middleware('permission:Committee.view');
-        Route::put('/{committee}', [CommitteeController::class, 'update'])->middleware('permission:Committee.update');
-    });
-
+    
     /*
     |--------------------------------------------------------------------------
     | Loans
@@ -306,6 +280,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/{land}', [LandController::class, 'update'])->middleware('permission:Land.update');
         Route::post('/{land}/valuations', [LandController::class, 'addValuation'])->middleware('permission:Land.update');
         Route::post('/{land}/documents', [LandController::class, 'uploadDocument'])->middleware('permission:Land.update');
+        Route::get('/{land}/documents/{landDocument}/download', [LandController::class, 'downloadDocument'])->middleware('permission:Land.view');
         Route::delete('/{land}/documents/{landDocument}', [LandController::class, 'deleteDocument'])->middleware('permission:Land.update');
         Route::post('/{land}/sell', [LandController::class, 'sell'])->middleware('permission:Land.update');
         Route::delete('/{land}', [LandController::class, 'destroy'])->middleware('permission:Land.delete');
@@ -414,7 +389,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user-roles', [UserRoleController::class, 'index'])->middleware('permission:Role.view');
     Route::get('/user-roles/available', [UserRoleController::class, 'roles'])->middleware('permission:Role.view');
     Route::get('/user-roles/{user}', [UserRoleController::class, 'show'])->middleware('permission:Role.view');
-    Route::put('/user-roles/{user}', [UserRoleController::class, 'sync'])->middleware('permission:Role.update,Role.edit');
+    Route::put('/user-roles/{user}', [UserRoleController::class, 'sync'])->middleware('permission:Role.update');
 
     /*
     |--------------------------------------------------------------------------
@@ -452,7 +427,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{poll}', [PollController::class, 'update'])->middleware('permission:Poll.update');
         Route::patch('/{poll}', [PollController::class, 'update'])->middleware('permission:Poll.update');
         Route::patch('/{poll}/toggle', [PollController::class, 'toggle'])->middleware('permission:Poll.update');
-        Route::post('/{poll}/vote', [PollController::class, 'vote']);
+        Route::post('/{poll}/vote', [PollController::class, 'vote'])->middleware('member');
         Route::get('/{poll}/results', [PollController::class, 'results'])->middleware('permission:Poll.view');
         Route::delete('/{poll}', [PollController::class, 'destroy'])->middleware('permission:Poll.delete');
     });
@@ -533,6 +508,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/summary', [ChargePaymentController::class, 'summary'])->middleware('permission:Finance.view');
             Route::get('/', [ChargePaymentController::class, 'index'])->middleware('permission:Finance.view');
             Route::get('/{chargePayment}', [ChargePaymentController::class, 'show'])->middleware('permission:Finance.view');
+            Route::post('/{chargePayment}/cancel', [ChargePaymentController::class, 'cancel'])->middleware('permission:Finance.update');
         });
 
         // Assets
@@ -640,10 +616,10 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::prefix('mail-campaigns')->group(function () {
-        Route::get('/', [MailCampaignController::class, 'index'])->middleware('permission:Mail.view');
-        Route::get('/recipients', [MailCampaignController::class, 'recipients'])->middleware('permission:Mail.view');
+        Route::get('/', [MailCampaignController::class, 'index'])->middleware('permission:Mail.view,Mailing.view');
+        Route::get('/recipients', [MailCampaignController::class, 'recipients'])->middleware('permission:Mail.view,Mailing.view');
         Route::post('/', [MailCampaignController::class, 'store'])->middleware('permission:Mail.create');
-        Route::get('/{mailCampaign}', [MailCampaignController::class, 'show'])->middleware('permission:Mail.view');
+        Route::get('/{mailCampaign}', [MailCampaignController::class, 'show'])->middleware('permission:Mail.view,Mailing.view');
         Route::put('/{mailCampaign}', [MailCampaignController::class, 'update'])->middleware('permission:Mail.update');
         Route::post('/{mailCampaign}/recipients', [MailCampaignController::class, 'addRecipients'])->middleware('permission:Mail.update');
         Route::delete('/{mailCampaign}/recipients/{recipient}', [MailCampaignController::class, 'removeRecipient'])->middleware('permission:Mail.update');
@@ -687,7 +663,7 @@ Route::middleware('auth:sanctum')->group(function () {
             ->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices']);
         Route::get('/{module}/export/{format}', [ReportController::class, 'export'])
             ->whereIn('module', ['members', 'finance', 'investments', 'land', 'projects', 'polls', 'notices'])
-            ->whereIn('format', ['pdf']);
+            ->whereIn('format', ['pdf', 'xlsx']);
     });
 
     /*
@@ -716,8 +692,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('settings')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->middleware('permission:Setting.view');
-        Route::get('/public', [SettingController::class, 'publicSettings']);
         Route::post('/upload', [SettingController::class, 'uploadImage'])->middleware('permission:Setting.update');
+        Route::post('/bulk', [SettingController::class, 'bulkStore'])->middleware('permission:Setting.update');
         Route::get('/{key}', [SettingController::class, 'show'])->middleware('permission:Setting.view');
         Route::post('/', [SettingController::class, 'store'])->middleware('permission:Setting.update');
         Route::delete('/{key}', [SettingController::class, 'destroy'])->middleware('permission:Setting.update');
@@ -745,6 +721,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('approvals')->group(function () {
         Route::get('/', [ApprovalController::class, 'index'])->middleware('permission:Approval.view');
+        Route::get('/statistics', [ApprovalController::class, 'statistics'])->middleware('permission:Approval.view');
         Route::get('/{approvalRequest}', [ApprovalController::class, 'show'])->middleware('permission:Approval.view');
         Route::post('/{approvalRequest}/approve', [ApprovalController::class, 'approve'])->middleware('permission:Approval.approve');
         Route::post('/{approvalRequest}/reject', [ApprovalController::class, 'reject'])->middleware('permission:Approval.reject');
@@ -863,6 +840,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{nominee}/submit', [MemberNomineeController::class, 'submit']);
             Route::patch('/{nominee}/active', [MemberNomineeController::class, 'toggle']);
             Route::post('/{nominee}/documents', [MemberNomineeController::class, 'uploadDocument']);
+            Route::get('/documents/{document}', [MemberNomineeController::class, 'document']);
             Route::delete('/documents/{document}', [MemberNomineeController::class, 'deleteDocument']);
             Route::delete('/{nominee}', [MemberNomineeController::class, 'destroy']);
         });

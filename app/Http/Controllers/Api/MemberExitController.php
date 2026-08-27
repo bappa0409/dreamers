@@ -182,6 +182,7 @@ class MemberExitController extends Controller
 
                 'accounts'=>Account::query()
                     ->where('is_active',true)
+                    ->where('type','asset')
                     ->whereIn(
                         'sub_type',
                         ['cash','bank']
@@ -322,7 +323,7 @@ class MemberExitController extends Controller
     ){
         $validated=$request->validate([
             'payout_account_id'=>
-                'required|integer|exists:accounts,id',
+                'nullable|integer|exists:accounts,id',
 
             'settlement_date'=>
                 'required|date_format:Y-m-d',

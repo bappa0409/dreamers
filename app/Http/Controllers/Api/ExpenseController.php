@@ -66,6 +66,7 @@ class ExpenseController extends Controller
     ->get(['id','code','name']),
 
 'payment_accounts'=>Account::active()
+    ->where('type','asset')
     ->whereIn('sub_type',['cash','bank'])
     ->whereDoesntHave('children')
     ->orderBy('code')
@@ -123,7 +124,6 @@ class ExpenseController extends Controller
         'payee'=>'nullable|string|max:150',
         'reference'=>'nullable|string|max:150',
         'description'=>'nullable|string|max:2000',
-        'attachment'=>'nullable|string|max:500',
     ]);
 
     $expense=$this->expenseService->update(

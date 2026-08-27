@@ -8,6 +8,7 @@ use App\Models\MemberNominee;
 use App\Models\NomineeDocument;
 use App\Services\NomineeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NomineeController extends Controller
 {
@@ -153,7 +154,7 @@ class NomineeController extends Controller
                     ->with('user:id,name')
                     ->whereNotIn(
                         'status',
-                        ['rejected']
+                        ['rejected','exited','deceased']
                     )
                     ->when(
                         $search,
@@ -322,6 +323,19 @@ class NomineeController extends Controller
                     $request->user()->id
                 )
         ],201);
+    }
+
+    public function document(NomineeDocument $document)
+    {
+        $disk=$this->nomineeService->documentDisk($document);
+
+        abort_unless($disk,404);
+
+        return Storage::disk($disk)->download(
+            $document->file_path,
+            $document->original_name,
+            ['Content-Type'=>$document->mime_type?:'application/octet-stream']
+        );
     }
 
     public function deleteDocument(

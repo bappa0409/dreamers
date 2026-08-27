@@ -155,7 +155,7 @@
             </button>
         </div>
 
-        <form id="incomeForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="incomeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
                 <section class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="mb-4 flex items-center gap-3">

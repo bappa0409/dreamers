@@ -151,12 +151,13 @@ class PollController extends Controller
 
         $member=Member::query()
             ->where('user_id',$request->user()->id)
+            ->where('status','active')
             ->first();
 
         if(!$member){
             return response()->json([
-                'message'=>'Member profile not found.'
-            ],404);
+                'message'=>'Active member profile required.'
+            ],403);
         }
 
         $vote=$this->pollService->vote(

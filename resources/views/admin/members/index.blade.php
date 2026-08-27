@@ -167,7 +167,7 @@
             </button>
         </div>
 
-        <form id="memberForm" class="flex min-h-0 flex-1 flex-col" enctype="multipart/form-data">
+        <form id="memberForm" class="flex min-h-0 flex-1 flex-col" enctype="multipart/form-data" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
                 <section class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="mb-4 flex items-center gap-3">
@@ -213,8 +213,8 @@
                         </div>
 
                         <div>
-                            <label class="form-label">Mobile</label>
-                            <input id="mobile" type="text" class="app-input" maxlength="20">
+                            <label class="form-label">Mobile <span class="text-red-500">*</span></label>
+                            <input id="mobile" type="tel" inputmode="numeric" data-mobile="true" placeholder="01XXXXXXXXX" class="app-input" maxlength="11">
                         </div>
 
                         <div>
@@ -400,7 +400,7 @@
                         </button>
                     </div>
 
-                    <form id="shareForm" class="hidden p-4">
+                    <form id="shareForm" class="hidden p-4" novalidate data-js-validation="1">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
                                 <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
@@ -515,8 +515,7 @@ let selectedShareMember=null;
 let memberShares=[];
 
 const canEditMember=@json(
-    auth()->user()->hasPermission('Member.update')||
-    auth()->user()->hasPermission('Member.edit')
+    auth()->user()->hasPermission('Member.update')
 );
 
 const canDeleteMember=@json(
@@ -1152,10 +1151,18 @@ el.form.addEventListener(
                     :1
             );
         }catch(error){
-            AdminUI.showError(
-                'formError',
-                AdminUI.extractError(error)
-            );
+            const hasFieldErrors=
+                AdminUI.showValidationErrors(
+                    el.form,
+                    error
+                );
+
+            if(!hasFieldErrors){
+                AdminUI.showError(
+                    'formError',
+                    AdminUI.extractError(error)
+                );
+            }
         }finally{
             AdminUI.resetLoading(
                 el.saveButton
@@ -1769,12 +1776,33 @@ if(
 
                 await loadMemberShares();
             }catch(error){
-                AdminUI.showError(
-                    'shareFormError',
-                    AdminUI.extractError(
-                        error
-                    )
-                );
+                const hasFieldErrors=
+                    AdminUI.showValidationErrors(
+                        shareForm,
+                        error,
+                        {
+                            purchase_amount:
+                                'share_purchase_amount',
+
+                            acquired_date:
+                                'share_acquired_date',
+
+                            payment_method:
+                                'share_payment_method',
+
+                            notes:
+                                'share_notes'
+                        }
+                    );
+
+                if(!hasFieldErrors){
+                    AdminUI.showError(
+                        'shareFormError',
+                        AdminUI.extractError(
+                            error
+                        )
+                    );
+                }
             }finally{
                 AdminUI.resetLoading(
                     button

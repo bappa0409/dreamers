@@ -12,6 +12,7 @@ use App\Models\Notice;
 use App\Services\ApprovalService;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ApprovalController extends Controller
 {
@@ -141,6 +142,38 @@ class ApprovalController extends Controller
         ]);
     }
 
+    public function statistics()
+    {
+        $stats=Cache::remember(
+            'approvals:statistics',
+            now()->addMinutes(5),
+            function(){
+                $row=ApprovalRequest::query()
+                    ->selectRaw("
+                        COUNT(*) AS total,
+                        SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) AS pending,
+                        SUM(CASE WHEN status='approved' THEN 1 ELSE 0 END) AS approved,
+                        SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) AS rejected,
+                        SUM(CASE WHEN status='cancelled' THEN 1 ELSE 0 END) AS cancelled
+                    ")
+                    ->first();
+
+                return [
+                    'total'=>(int)($row->total??0),
+                    'pending'=>(int)($row->pending??0),
+                    'approved'=>(int)($row->approved??0),
+                    'rejected'=>(int)($row->rejected??0),
+                    'cancelled'=>(int)($row->cancelled??0),
+                ];
+            }
+        );
+
+        return response()->json([
+            'success'=>true,
+            'data'=>$stats,
+        ]);
+    }
+
     public function show(
         ApprovalRequest $approvalRequest
     ){
@@ -160,6 +193,16 @@ class ApprovalController extends Controller
                 ->approvable
                 ->loadMissing(
                     'user:id,name,email,mobile'
+                );
+        }
+
+        if(
+            $approvalRequest->approvable instanceof Investment
+        ){
+            $approvalRequest
+                ->approvable
+                ->loadMissing(
+                    'member.user:id,name,email'
                 );
         }
 

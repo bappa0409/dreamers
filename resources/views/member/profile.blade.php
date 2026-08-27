@@ -224,7 +224,7 @@
             </button>
         </div>
 
-        <form id="editProfileForm" enctype="multipart/form-data">
+        <form id="editProfileForm" enctype="multipart/form-data" novalidate data-js-validation="1">
             <div class="grid gap-4 p-5 sm:grid-cols-2">
                 <div class="sm:col-span-2">
                     <label class="mb-1.5 block text-xs font-semibold text-slate-600">Profile Photo</label>

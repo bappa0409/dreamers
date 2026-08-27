@@ -236,10 +236,17 @@ class WelfareController extends Controller
                     ->limit(30)
                     ->get(),
 
-                'funds'=>WelfareFund::where(
-                    'is_active',
-                    true
-                )->get([
+                'funds'=>WelfareFund::query()
+                    ->where('is_active',true)
+                    ->where(function($q){
+                        $q->whereNull('start_date')
+                            ->orWhereDate('start_date','<=',today());
+                    })
+                    ->where(function($q){
+                        $q->whereNull('end_date')
+                            ->orWhereDate('end_date','>=',today());
+                    })
+                    ->get([
                     'id',
                     'code',
                     'name'
@@ -248,6 +255,7 @@ class WelfareController extends Controller
                 'cash_bank_accounts'=>Account::query()
                     ->active()
                     ->posting()
+                    ->where('type','asset')
                     ->whereIn(
                         'sub_type',
                         ['cash','bank']

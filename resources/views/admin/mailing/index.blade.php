@@ -97,7 +97,7 @@
                     <option value="draft">Draft</option>
                     <option value="sending">Sending</option>
                     <option value="completed">Completed</option>
-                    <option value="completed_with_errors">With Errors</option>
+                    <option value="failed">Failed</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
 
@@ -236,7 +236,7 @@ CAMPAIGN MODAL
         <form
             id="campaignForm"
             class="flex min-h-0 flex-1 flex-col"
-        >
+         novalidate data-js-validation="1">
 
             <div class="space-y-4 overflow-y-auto p-5">
 

@@ -156,7 +156,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('createModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
 <div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -307,7 +307,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('assignModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="assignForm" novalidate>
+<form id="assignForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 <div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -345,7 +345,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="messageForm" novalidate>
+<form id="messageForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="messageError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -374,7 +374,7 @@ Clear
 <button type="button" onclick="AdminUI.closeModal('resolveModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<form id="resolveForm" novalidate>
+<form id="resolveForm" novalidate data-js-validation="1">
 <div class="p-5">
 <div id="resolveError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
@@ -615,7 +615,7 @@ event.preventDefault();
 AdminUI.clearError('createError');
 AdminUI.clearFieldErrors('createForm');
 
-if(!AdminUI.validateRequired('createForm',{
+if(!AdminUI.validateForm('createForm',{
 memberId:'Please select a member.',
 categoryId:'Please select a category.',
 ticketType:'Please select a request type.',
@@ -855,7 +855,7 @@ if(!currentTicket)return;
 AdminUI.clearError('assignError');
 AdminUI.clearFieldErrors('assignForm');
 
-if(!AdminUI.validateRequired('assignForm',{
+if(!AdminUI.validateForm('assignForm',{
 assignedTo:'Please select a user.'
 }))return;
 
@@ -934,7 +934,7 @@ if(!currentTicket||!messageMode)return;
 AdminUI.clearError('messageError');
 AdminUI.clearFieldErrors('messageForm');
 
-if(!AdminUI.validateRequired('messageForm',{
+if(!AdminUI.validateForm('messageForm',{
 messageText:'Message is required.'
 }))return;
 
@@ -995,7 +995,7 @@ if(!currentTicket)return;
 AdminUI.clearError('resolveError');
 AdminUI.clearFieldErrors('resolveForm');
 
-if(!AdminUI.validateRequired('resolveForm',{
+if(!AdminUI.validateForm('resolveForm',{
 resolution:'Resolution is required.'
 }))return;
 
@@ -1084,14 +1084,6 @@ AdminUI.debounce(()=>loadTickets(1))
 ['typeFilter','statusFilter','priorityFilter'].forEach(id=>{
 $(id).addEventListener('change',()=>loadTickets(1));
 });
-
-[
-'createForm',
-'assignForm',
-'messageForm',
-'resolveForm'
-].forEach(id=>AdminUI.bindFieldValidation(id));
-
 await Promise.all([
 loadOptions(),
 loadStatistics(),

@@ -107,6 +107,11 @@ class FeedbackSupportService
         ){
             $ticket=$this->lock($ticket);
 
+            $assignee=User::query()
+                ->whereKey($assignee->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
             if(!in_array(
                 $ticket->status,
                 ['submitted','under_review','assigned','in_progress'],
@@ -120,6 +125,32 @@ class FeedbackSupportService
             if(!$assignee->is_active){
                 throw ValidationException::withMessages([
                     'assigned_to'=>['Assigned user must be active.']
+                ]);
+            }
+
+            if(
+                !$assignee->hasPermission('FeedbackSupport.view')||
+                !$assignee->hasAnyPermission([
+                    'FeedbackSupport.review',
+                    'FeedbackSupport.resolve',
+                    'FeedbackSupport.manage',
+                ])
+            ){
+                throw ValidationException::withMessages([
+                    'assigned_to'=>[
+                        'Assigned user does not have Feedback & Support handling permission.'
+                    ]
+                ]);
+            }
+
+            if(
+                $ticket->is_confidential&&
+                !$assignee->hasPermission('FeedbackSupport.confidential')
+            ){
+                throw ValidationException::withMessages([
+                    'assigned_to'=>[
+                        'Confidential requests can only be assigned to a user with confidential access.'
+                    ]
                 ]);
             }
 
@@ -255,29 +286,33 @@ class FeedbackSupportService
         string $message,
         int $userId
     ){
-        if(in_array(
-            $ticket->status,
-            ['resolved','closed','cancelled','rejected'],
-            true
-        )){
-            throw ValidationException::withMessages([
-                'status'=>['Follow-up cannot be added at this stage.']
+        return DB::transaction(function()use($ticket,$message,$userId){
+            $ticket=$this->lock($ticket);
+
+            if(in_array(
+                $ticket->status,
+                ['resolved','closed','cancelled','rejected'],
+                true
+            )){
+                throw ValidationException::withMessages([
+                    'status'=>['Follow-up cannot be added at this stage.']
+                ]);
+            }
+
+            $message=trim($message);
+
+            if($message===''){
+                throw ValidationException::withMessages([
+                    'message'=>['Follow-up is required.']
+                ]);
+            }
+
+            return $ticket->updates()->create([
+                'type'=>'member_follow_up',
+                'message'=>$message,
+                'created_by'=>$userId
             ]);
-        }
-
-        $message=trim($message);
-
-        if($message===''){
-            throw ValidationException::withMessages([
-                'message'=>['Follow-up is required.']
-            ]);
-        }
-
-        return $ticket->updates()->create([
-            'type'=>'member_follow_up',
-            'message'=>$message,
-            'created_by'=>$userId
-        ]);
+        });
     }
 
     public function resolve(
@@ -432,62 +467,81 @@ class FeedbackSupportService
             '.'.
             strtolower($file->getClientOriginalExtension());
 
-        $path=$file->storeAs(
-            "feedback-support/{$ticket->member_id}/{$ticket->id}",
-            $filename,
-            'local'
-        );
+        $path=null;
 
         try{
-            return FeedbackSupportAttachment::create([
-                'feedback_support_id'=>$ticket->id,
-                'file_path'=>$path,
-                'original_name'=>$file->getClientOriginalName(),
-                'mime_type'=>$file->getMimeType(),
-                'file_size'=>$file->getSize(),
-                'uploaded_by'=>$userId
-            ]);
+            return DB::transaction(function()use(
+                $ticket,$file,$userId,$filename,&$path
+            ){
+                $ticket=$this->lock($ticket);
+
+                if(in_array(
+                    $ticket->status,
+                    ['resolved','closed','cancelled','rejected'],
+                    true
+                )){
+                    throw ValidationException::withMessages([
+                        'status'=>[
+                            'Attachments cannot be added to this request at this stage.'
+                        ]
+                    ]);
+                }
+
+                $path=$file->storeAs(
+                    "feedback-support/{$ticket->member_id}/{$ticket->id}",
+                    $filename,
+                    'local'
+                );
+
+                return FeedbackSupportAttachment::create([
+                    'feedback_support_id'=>$ticket->id,
+                    'file_path'=>$path,
+                    'original_name'=>$file->getClientOriginalName(),
+                    'mime_type'=>$file->getMimeType(),
+                    'file_size'=>$file->getSize(),
+                    'uploaded_by'=>$userId
+                ]);
+            });
         }catch(\Throwable $e){
-            Storage::disk('local')->delete($path);
+            if($path){
+                Storage::disk('local')->delete($path);
+            }
             throw $e;
         }
     }
 
-    public function statistics(): array
-    {
+    public function statistics(
+        bool $includeConfidential=false
+    ): array{
+        $cacheKey='feedback-support:statistics:'.
+            ($includeConfidential?'all':'non-confidential');
+
         return Cache::remember(
-            'feedback-support:statistics',
+            $cacheKey,
             now()->addMinutes(5),
-            fn()=>[
-                'total'=>FeedbackSupport::count(),
-
-                'open'=>FeedbackSupport::whereIn(
-                    'status',
-                    [
-                        'submitted',
-                        'under_review',
-                        'assigned',
-                        'in_progress'
-                    ]
-                )->count(),
-
-                'urgent'=>FeedbackSupport::where('priority','urgent')
-                    ->whereNotIn(
-                        'status',
-                        ['closed','cancelled','rejected']
+            function()use($includeConfidential){
+                $row=FeedbackSupport::query()
+                    ->when(
+                        !$includeConfidential,
+                        fn($q)=>$q->where('is_confidential',false)
                     )
-                    ->count(),
+                    ->selectRaw("
+                        COUNT(*) AS total,
+                        SUM(CASE WHEN status IN ('submitted','under_review','assigned','in_progress') THEN 1 ELSE 0 END) AS open_count,
+                        SUM(CASE WHEN priority='urgent' AND status NOT IN ('closed','cancelled','rejected') THEN 1 ELSE 0 END) AS urgent,
+                        SUM(CASE WHEN status='resolved' THEN 1 ELSE 0 END) AS resolved,
+                        SUM(CASE WHEN status='closed' THEN 1 ELSE 0 END) AS closed_count
+                    ")
+                    ->first();
 
-                'resolved'=>FeedbackSupport::where(
-                    'status',
-                    'resolved'
-                )->count(),
-
-                'closed'=>FeedbackSupport::where(
-                    'status',
-                    'closed'
-                )->count()
-            ]
+                return[
+                    'total'=>(int)($row->total??0),
+                    'open'=>(int)($row->open_count??0),
+                    'urgent'=>(int)($row->urgent??0),
+                    'resolved'=>(int)($row->resolved??0),
+                    'closed'=>(int)($row->closed_count??0),
+                ];
+            }
         );
     }
 
@@ -585,9 +639,9 @@ class FeedbackSupportService
     protected function forgetCache(): void
     {
         DB::afterCommit(function(){
-            Cache::forget(
-                'feedback-support:statistics'
-            );
+            Cache::forget('feedback-support:statistics');
+            Cache::forget('feedback-support:statistics:all');
+            Cache::forget('feedback-support:statistics:non-confidential');
         });
     }
 }

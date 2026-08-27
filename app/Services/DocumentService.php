@@ -20,20 +20,29 @@ class DocumentService
             'local'
         );
 
-        $document=Document::create([
-            'title'=>$data['title'],
-            'original_name'=>$file->getClientOriginalName(),
-            'path'=>$path,
-            'disk'=>'local',
-            'mime_type'=>$file->getMimeType(),
-            'extension'=>strtolower($file->getClientOriginalExtension()),
-            'size'=>$file->getSize(),
-            'category'=>$data['category']??null,
-            'description'=>$data['description']??null,
-            'visibility'=>$data['visibility']??'internal',
-            'is_active'=>$data['is_active']??true,
-            'uploaded_by'=>$userId
-        ]);
+        if(!$path){
+            throw new \RuntimeException('Document file could not be stored.');
+        }
+
+        try{
+            $document=Document::create([
+                'title'=>$data['title'],
+                'original_name'=>$file->getClientOriginalName(),
+                'path'=>$path,
+                'disk'=>'local',
+                'mime_type'=>$file->getMimeType(),
+                'extension'=>strtolower($file->getClientOriginalExtension()),
+                'size'=>$file->getSize(),
+                'category'=>$data['category']??null,
+                'description'=>$data['description']??null,
+                'visibility'=>$data['visibility']??'internal',
+                'is_active'=>$data['is_active']??true,
+                'uploaded_by'=>$userId
+            ]);
+        }catch(\Throwable $e){
+            $this->deleteStoredFile('local',$path);
+            throw $e;
+        }
 
         $this->forgetCaches();
 
@@ -48,47 +57,70 @@ class DocumentService
         return $document->fresh();
     }
 
-    public function replaceFile(Document $document,UploadedFile $file): Document
-    {
-        if(
-            $document->path &&
-            Storage::disk($document->disk)->exists($document->path)
-        ){
-            Storage::disk($document->disk)->delete($document->path);
-        }
-
+    public function updateWithFile(
+        Document $document,
+        array $data,
+        UploadedFile $file
+    ): Document{
         $filename=$this->generateFilename($file);
 
-        $path=$file->storeAs(
+        $newPath=$file->storeAs(
             'documents',
             $filename,
             'local'
         );
 
-        $document->update([
+        if(!$newPath){
+            throw new \RuntimeException('Replacement document file could not be stored.');
+        }
+
+        $oldDisk=$document->disk;
+        $oldPath=$document->path;
+
+        $fileData=[
             'original_name'=>$file->getClientOriginalName(),
-            'path'=>$path,
+            'path'=>$newPath,
             'disk'=>'local',
             'mime_type'=>$file->getMimeType(),
             'extension'=>strtolower($file->getClientOriginalExtension()),
             'size'=>$file->getSize()
-        ]);
+        ];
+
+        try{
+            $document->update([
+                ...$data,
+                ...$fileData
+            ]);
+        }catch(\Throwable $e){
+            $this->deleteStoredFile('local',$newPath);
+            throw $e;
+        }
+
+        if($oldPath&&($oldDisk!=='local'||$oldPath!==$newPath)){
+            $this->deleteStoredFile($oldDisk,$oldPath);
+        }
 
         $this->forgetCaches();
 
         return $document->fresh();
     }
 
+    public function replaceFile(Document $document,UploadedFile $file): Document
+    {
+        return $this->updateWithFile($document,[],$file);
+    }
+
     public function delete(Document $document): void
     {
-        if(
-            $document->path &&
-            Storage::disk($document->disk)->exists($document->path)
-        ){
-            Storage::disk($document->disk)->delete($document->path);
-        }
+        $disk=$document->disk;
+        $path=$document->path;
 
         $document->delete();
+
+        if($path){
+            $this->deleteStoredFile($disk,$path);
+        }
+
         $this->forgetCaches();
     }
 
@@ -122,6 +154,23 @@ class DocumentService
             .'_'
             .Str::lower(Str::random(12))
             .($extension?".{$extension}":'');
+    }
+
+    protected function deleteStoredFile(?string $disk,?string $path): void
+    {
+        if(!$disk||!$path){
+            return;
+        }
+
+        try{
+            $storage=Storage::disk($disk);
+
+            if($storage->exists($path)){
+                $storage->delete($path);
+            }
+        }catch(\Throwable $e){
+            report($e);
+        }
     }
 
     public function forgetCaches(): void

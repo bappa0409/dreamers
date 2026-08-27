@@ -434,8 +434,29 @@ class MemberSubscriptionAdminController extends Controller
     $existing=0;
     $failed=0;
 
+    $periodStart=Carbon::create(
+        $validated['year'],
+        $validated['month'],
+        1
+    )->startOfMonth();
+
+    $periodEnd=$periodStart->copy()->endOfMonth();
+
     MemberSubscription::query()
-        ->where('is_active',true)
+        ->whereDate(
+            'start_date',
+            '<=',
+            $periodEnd->toDateString()
+        )
+        ->where(function($query)use($periodStart){
+            $query
+                ->whereNull('end_date')
+                ->orWhereDate(
+                    'end_date',
+                    '>=',
+                    $periodStart->toDateString()
+                );
+        })
         ->select([
             'id',
             'member_id',

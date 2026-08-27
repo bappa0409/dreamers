@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class MemberMeetingController extends Controller
@@ -17,8 +18,7 @@ class MemberMeetingController extends Controller
             'per_page'=>'nullable|integer|min:5|max:50'
         ]);
 
-        $query=Meeting::query()
-            ->whereIn('status',['scheduled','ongoing','completed'])
+        $query=$this->visibleMeetings($request)
             ->withCount([
                 'attendees as attendee_count'=>fn($q)=>$q->where('status','present'),
                 'decisions'
@@ -53,8 +53,14 @@ class MemberMeetingController extends Controller
         ]);
     }
 
-    public function show(Meeting $meeting)
+    public function show(Request $request,Meeting $meeting)
     {
+        $allowed=$this->visibleMeetings($request)
+            ->whereKey($meeting->id)
+            ->exists();
+
+        abort_unless($allowed,404);
+
         $meeting->load([
             'creator:id,name,email',
             'completer:id,name,email',
@@ -160,23 +166,38 @@ class MemberMeetingController extends Controller
         ]);
     }
 
-    public function summary()
+    public function summary(Request $request)
     {
+        $base=$this->visibleMeetings($request);
+
         return response()->json([
             'success'=>true,
             'data'=>[
-                'total'=>Meeting::query()
-                    ->whereIn('status',['scheduled','ongoing','completed'])
-                    ->count(),
-
-                'scheduled'=>Meeting::query()
+                'total'=>(clone $base)->count(),
+                'scheduled'=>(clone $base)
                     ->where('status','scheduled')
                     ->count(),
-
-                'completed'=>Meeting::query()
+                'completed'=>(clone $base)
                     ->where('status','completed')
                     ->count()
             ]
         ]);
+    }
+
+    protected function visibleMeetings(Request $request): Builder
+    {
+        $memberId=$request->user()->member?->id;
+
+        abort_unless($memberId,403,'Active member profile required.');
+
+        return Meeting::query()
+            ->whereIn('status',['scheduled','ongoing','completed'])
+            ->where(function($query)use($memberId){
+                $query->where('type','!=','executive')
+                    ->orWhereHas(
+                        'attendees',
+                        fn($attendee)=>$attendee->where('member_id',$memberId)
+                    );
+            });
     }
 }

@@ -16,12 +16,22 @@
             </div>
         </div>
 
-        @if(auth()->user()->hasPermission('Approval.update'))
-            <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
-                <i class="bi bi-plus-lg text-[11px]"></i>
-                Add Workflow
-            </button>
-        @endif
+        <div class="flex flex-wrap items-center gap-2">
+            <a
+                href="{{ route('admin.approvals') }}"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+            >
+                <i class="bi bi-arrow-left text-[11px]"></i>
+                Back to Approval Requests
+            </a>
+
+            @if(auth()->user()->hasPermission('Approval.update'))
+                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                    <i class="bi bi-plus-lg text-[11px]"></i>
+                    Add Workflow
+                </button>
+            @endif
+        </div>
     </div>
 
     <div class="rounded-md border border-slate-200 bg-white p-3">
@@ -95,7 +105,7 @@
             </button>
         </div>
 
-        <form id="workflowForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="workflowForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-4 overflow-y-auto p-5">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>

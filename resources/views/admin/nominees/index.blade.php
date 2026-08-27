@@ -182,7 +182,7 @@
         </button>
     </div>
 
-    <form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+    <form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
         <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
             <div id="nomineeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -1020,7 +1020,7 @@ $('nomineeForm').addEventListener(
         }
 
         if(
-            !AdminUI.validateRequired(
+            !AdminUI.validateForm(
                 'nomineeForm',
                 required
             )
@@ -1546,12 +1546,7 @@ async function init(){
             'change',
             ()=>loadNominees(1)
         );
-
-    AdminUI.bindFieldValidation(
-        'nomineeForm'
-    );
-
-    window.initDatePickers?.();
+window.initDatePickers?.();
 
     await Promise.all([
         loadOptions(),

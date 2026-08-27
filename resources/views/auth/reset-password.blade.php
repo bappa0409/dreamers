@@ -58,7 +58,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('password.update') }}" class="mt-8 space-y-5">
+    <form method="POST" action="{{ route('password.update') }}" class="mt-8 space-y-5" novalidate data-js-validation="1">
         @csrf
 
         <input type="hidden" name="token" value="{{ $token }}">

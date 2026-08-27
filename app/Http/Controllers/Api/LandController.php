@@ -309,7 +309,7 @@ class LandController extends Controller
         Land $land
     ){
         $validated=$request->validate([
-            'document_type'=>'required|string|max:100',
+            'document_type'=>'required|in:deed,registration,mutation,khatian,tax_receipt,survey,valuation,agreement,map,other',
             'document_number'=>'nullable|string|max:150',
             'document_date'=>'nullable|date_format:Y-m-d',
             'description'=>'nullable|string|max:3000',
@@ -320,24 +320,29 @@ class LandController extends Controller
 
         $path=$file->store(
             "lands/{$land->id}",
-            'public'
+            'local'
         );
 
-        $document=$land->documents()->create([
-            'document_type'=>$validated['document_type'],
-            'document_number'=>
-                isset($validated['document_number'])
-                    ?trim($validated['document_number'])
-                    :null,
-            'file_path'=>$path,
-            'file_name'=>$file->getClientOriginalName(),
-            'document_date'=>$validated['document_date']??null,
-            'description'=>
-                isset($validated['description'])
-                    ?trim($validated['description'])
-                    :null,
-            'uploaded_by'=>$request->user()->id,
-        ]);
+        try{
+            $document=$land->documents()->create([
+                'document_type'=>$validated['document_type'],
+                'document_number'=>
+                    isset($validated['document_number'])
+                        ?trim($validated['document_number'])
+                        :null,
+                'file_path'=>$path,
+                'file_name'=>$file->getClientOriginalName(),
+                'document_date'=>$validated['document_date']??null,
+                'description'=>
+                    isset($validated['description'])
+                        ?trim($validated['description'])
+                        :null,
+                'uploaded_by'=>$request->user()->id,
+            ]);
+        }catch(\Throwable $exception){
+            Storage::disk('local')->delete($path);
+            throw $exception;
+        }
 
         return response()->json([
             'success'=>true,
@@ -357,18 +362,18 @@ class LandController extends Controller
             404
         );
 
-        if(
-            $landDocument->file_path&&
-            Storage::disk('public')->exists(
-                $landDocument->file_path
-            )
-        ){
-            Storage::disk('public')->delete(
-                $landDocument->file_path
-            );
-        }
+        $path=$landDocument->file_path;
+        $disk=$this->documentDisk($landDocument);
 
         $landDocument->delete();
+
+        if($path&&$disk){
+            try{
+                Storage::disk($disk)->delete($path);
+            }catch(\Throwable $exception){
+                report($exception);
+            }
+        }
 
         return response()->json([
             'success'=>true,
@@ -376,16 +381,92 @@ class LandController extends Controller
         ]);
     }
 
+    public function downloadDocument(
+        Land $land,
+        LandDocument $landDocument
+    ){
+        abort_unless(
+            (int)$landDocument->land_id===(int)$land->id,
+            404
+        );
+
+        $disk=$this->documentDisk($landDocument);
+
+        abort_unless(
+            $disk&&
+            $landDocument->file_path&&
+            Storage::disk($disk)->exists(
+                $landDocument->file_path
+            ),
+            404
+        );
+
+        return Storage::disk($disk)->download(
+            $landDocument->file_path,
+            $landDocument->file_name
+                ?:basename($landDocument->file_path)
+        );
+    }
+
     public function destroy(Land $land)
     {
+        $documents=$land->documents()
+            ->get(['id','land_id','file_path']);
+
+        $storedFiles=$documents
+            ->map(fn(LandDocument $document)=>[
+                'disk'=>$this->documentDisk($document),
+                'path'=>$document->file_path,
+            ])
+            ->filter(fn(array $file)=>
+                !empty($file['disk'])&&
+                !empty($file['path'])
+            )
+            ->values();
+
         $this->landService->delete(
             $land
         );
+
+        foreach($storedFiles as $file){
+            try{
+                Storage::disk($file['disk'])
+                    ->delete($file['path']);
+            }catch(\Throwable $exception){
+                report($exception);
+            }
+        }
 
         return response()->json([
             'success'=>true,
             'message'=>'Land deleted successfully.',
         ]);
+    }
+
+    protected function documentDisk(
+        LandDocument $document
+    ): ?string{
+        if(!$document->file_path){
+            return null;
+        }
+
+        if(
+            Storage::disk('local')->exists(
+                $document->file_path
+            )
+        ){
+            return 'local';
+        }
+
+        if(
+            Storage::disk('public')->exists(
+                $document->file_path
+            )
+        ){
+            return 'public';
+        }
+
+        return null;
     }
 
     protected function validateLand(

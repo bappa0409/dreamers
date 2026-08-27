@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\ActivityLogService;
 use App\Services\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,8 +13,7 @@ use Illuminate\View\View;
 class LoginController extends Controller
 {
     public function __construct(
-        protected AuthService $authService,
-        protected ActivityLogService $activityLogService
+        protected AuthService $authService
     ){}
 
     public function showLogin(): View|RedirectResponse
@@ -46,32 +44,19 @@ class LoginController extends Controller
                 ->withInput($request->only(['login','remember']));
         }
 
+        // Auth::login dispatches Laravel's Login event. AppServiceProvider
+        // records that event in the audit log, so do not write a duplicate
+        // activity row here.
         Auth::login($user,$request->boolean('remember'));
         $request->session()->regenerate();
-
-        $this->activityLogService->log(
-            action:'login',
-            module:'Authentication',
-            description:'User logged in successfully.',
-            subject:$user
-        );
 
         return $this->redirectAfterLogin($user,true);
     }
 
     public function logout(Request $request): RedirectResponse
     {
-        $user=Auth::user();
-
-        if($user){
-            $this->activityLogService->log(
-                action:'logout',
-                module:'Authentication',
-                description:'User logged out.',
-                subject:$user
-            );
-        }
-
+        // Auth::logout dispatches Laravel's Logout event. The centralized
+        // listener records it once in the audit log.
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -87,9 +72,12 @@ class LoginController extends Controller
         $isOnlyMember=$user->roles->isNotEmpty()
             &&$user->roles->every(fn($role)=>$role->name==='member');
 
-        $route=$isActiveMember&&$isOnlyMember
-            ?route('member.dashboard')
-            :route('dashboard');
+        if($isActiveMember&&$isOnlyMember){
+            // Do not honor an old intended admin URL for a member-only account.
+            return redirect()->route('member.dashboard');
+        }
+
+        $route=route('dashboard');
 
         return $intended
             ?redirect()->intended($route)

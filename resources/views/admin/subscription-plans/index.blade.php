@@ -127,7 +127,7 @@
             </button>
         </div>
 
-        <form id="planForm" novalidate>
+        <form id="planForm" novalidate data-js-validation="1">
             <div class="max-h-[70vh] space-y-4 overflow-y-auto p-5 sm:p-6">
                 <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
 
@@ -552,7 +552,7 @@ el.form.addEventListener('submit',async event=>{
     AdminUI.clearError('planError');
     AdminUI.clearFieldErrors('planForm');
 
-    if(!AdminUI.validateRequired(
+    if(!AdminUI.validateForm(
         'planForm',
         {
             planName:'Plan name is required.',
@@ -690,10 +690,7 @@ async function initSubscriptionPlansPage(){
         setTimeout(initSubscriptionPlansPage,50);
         return;
     }
-
-    AdminUI.bindFieldValidation('planForm');
-
-    el.search.addEventListener(
+el.search.addEventListener(
         'input',
         AdminUI.debounce(
             ()=>loadPlans()

@@ -180,51 +180,43 @@
         </div>
     </div>
 
-    {{-- Existing table kept unchanged --}}
+    {{-- Table: fixed layout, no horizontal scroll. Type/Source are shown in the details receipt instead. --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[1100px] text-sm">
-                <thead class="border-b border-slate-200 bg-slate-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Journal
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Date
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Type
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Source
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Description
-                        </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                            Debit
-                        </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                            Credit
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                            Status
-                        </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
+        <table class="w-full table-fixed text-sm">
+            <thead class="border-b border-slate-200 bg-slate-50">
+                <tr>
+                    <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Journal
+                    </th>
+                    <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Date
+                    </th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Description
+                    </th>
+                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        Debit
+                    </th>
+                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        Credit
+                    </th>
+                    <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Status
+                    </th>
+                    <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody id="journalTable">
-                    <tr>
-                        <td colspan="9" class="px-4 py-10 text-center text-slate-400">
-                            Loading journal entries...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <tbody id="journalTable">
+                <tr>
+                    <td colspan="7" class="px-4 py-10 text-center text-slate-400">
+                        Loading journal entries...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
@@ -260,7 +252,7 @@ MANUAL JOURNAL MODAL
             </button>
         </div>
 
-        <form id="journalForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="journalForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
                 <section class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="mb-4 flex items-center gap-3">
@@ -453,15 +445,23 @@ DETAILS MODAL
 
         <div
             id="detailsBody"
-            class="min-h-0 flex-1 overflow-y-auto p-5">
+            class="min-h-0 flex-1 overflow-y-auto bg-slate-100 p-5">
         </div>
 
-        <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
+        <div class="flex shrink-0 items-center justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
             <button
                 type="button"
                 onclick="closeDetailsModal()"
                 class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
+            </button>
+
+            <button
+                type="button"
+                onclick="printJournalReceipt()"
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                <i class="bi bi-printer"></i>
+                Print Receipt
             </button>
         </div>
     </div>
@@ -495,7 +495,7 @@ REVERSE MODAL
             </button>
         </div>
 
-        <form id="reverseForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="reverseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="reverseTransactionId" type="hidden">
 
             <div class="space-y-5 overflow-y-auto p-5">
@@ -611,6 +611,17 @@ REVERSE MODAL
 const currency=@json(setting('currency_symbol','৳'));
 const canUpdate=@json(auth()->user()->hasPermission('Finance.update'));
 
+const orgName=@json(setting('organization_name','Association'));
+const orgAddress=@json(setting('organization_address',''));
+const orgPhone=@json(setting('organization_phone',''));
+const orgEmail=@json(setting('organization_email',''));
+const orgLogoRaw=@json(setting('site_logo',null));
+const orgLogo=orgLogoRaw
+    ?(String(orgLogoRaw).startsWith('http')
+        ?orgLogoRaw
+        :`/storage/${String(orgLogoRaw).replace(/^storage\//,'')}`)
+    :null;
+
 let journals=[];
 let accounts=[];
 let currentPage=1;
@@ -618,6 +629,7 @@ let lineSequence=0;
 let selectedFrom='';
 let selectedTo='';
 let dateRangePicker=null;
+let currentJournal=null;
 
 const $=id=>document.getElementById(id);
 const esc=value=>AdminUI.escapeHtml(value??'');
@@ -783,7 +795,7 @@ async function loadJournals(page=1){
     $('journalTable').innerHTML=
         AdminUI.loadingState(
             'Loading journal entries...',
-            9
+            7
         );
 
     const query=AdminUI.query({
@@ -819,7 +831,7 @@ async function loadJournals(page=1){
         $('journalTable').innerHTML=
             AdminUI.emptyState(
                 AdminUI.extractError(error),
-                9
+                7
             );
     }
 }
@@ -829,7 +841,7 @@ function renderJournals(){
         $('journalTable').innerHTML=
             AdminUI.emptyState(
                 'No journal entries found.',
-                9
+                7
             );
 
         return;
@@ -850,7 +862,8 @@ function renderJournals(){
         if(
             canUpdate&&
             journal.status==='posted'&&
-            journal.type!=='journal_reversal'&&
+            journal.type==='manual_journal'&&
+            journal.source_module==='manual'&&
             !journal.reversed_at
         ){
             actions.push(`
@@ -866,12 +879,12 @@ function renderJournals(){
         return `
             <tr class="border-b border-slate-100 hover:bg-slate-50/60">
                 <td class="px-4 py-3">
-                    <div class="font-semibold text-slate-700">
+                    <div class="truncate font-semibold text-slate-700">
                         ${esc(journal.transaction_no)}
                     </div>
 
-                    <div class="mt-0.5 text-[10px] text-slate-400">
-                        #${journal.id}
+                    <div class="mt-0.5 truncate text-[10px] text-slate-400">
+                        #${journal.id} • ${esc(AdminUI.titleCase(journal.type))}
                     </div>
                 </td>
 
@@ -883,21 +896,12 @@ function renderJournals(){
                     }
                 </td>
 
-                <td class="px-4 py-3 text-slate-600">
-                    ${esc(AdminUI.titleCase(journal.type))}
-                </td>
-
-                <td class="px-4 py-3 text-slate-600">
-                    ${esc(
-                        AdminUI.titleCase(
-                            journal.source_module||'—'
-                        )
-                    )}
-                </td>
-
-                <td class="max-w-[280px] px-4 py-3">
+                <td class="px-4 py-3">
                     <p class="truncate text-slate-600">
                         ${esc(journal.description||'—')}
+                    </p>
+                    <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                        ${esc(AdminUI.titleCase(journal.source_module||'—'))}
                     </p>
                 </td>
 
@@ -914,7 +918,7 @@ function renderJournals(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="flex justify-end gap-1">
+                    <div class="flex flex-wrap justify-end gap-1">
                         ${actions.join('')}
                     </div>
                 </td>
@@ -960,6 +964,113 @@ window.closeDetailsModal=function(){
     AdminUI.closeModal(
         'detailsModal'
     );
+};
+
+window.printJournalReceipt=function(){
+    const journal=currentJournal;
+
+    if(!journal){
+        Toast.error('No journal loaded to print.');
+        return;
+    }
+
+    const win=window.open('','_blank','width=800,height=900');
+
+    if(!win){
+        Toast.error('Please allow popups to print the receipt.');
+        return;
+    }
+
+    const entriesRows=(journal.entries||[]).map(entry=>`
+        <tr>
+            <td>${AdminUI.escapeHtml(entry.account?.code||'')} - ${AdminUI.escapeHtml(entry.account?.name||'')}</td>
+            <td>${AdminUI.escapeHtml(entry.description||'—')}</td>
+            <td class="right">${Number(entry.debit)>0?money(entry.debit):'—'}</td>
+            <td class="right">${Number(entry.credit)>0?money(entry.credit):'—'}</td>
+        </tr>
+    `).join('');
+
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${AdminUI.escapeHtml(journal.transaction_no)}</title>
+            <style>
+                *{box-sizing:border-box}
+                body{font-family:Arial,"Noto Sans Bengali",sans-serif;color:#334155;padding:30px;max-width:700px;margin:0 auto}
+                .header{text-align:center;border-bottom:2px dashed #cbd5e1;padding-bottom:14px;margin-bottom:16px}
+                .logo{height:55px;max-width:150px;margin-bottom:6px}
+                h1{margin:0;font-size:18px;color:#0f172a;text-transform:uppercase;letter-spacing:0.5px}
+                .addr{margin-top:3px;font-size:11px;color:#64748b}
+                .doc-title{margin-top:10px;font-size:13px;font-weight:bold;letter-spacing:2px;color:#4338ca;text-transform:uppercase}
+                .meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;font-size:12px;margin-bottom:16px}
+                .meta .label{color:#94a3b8}
+                .meta .full{grid-column:1 / -1}
+                table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px}
+                th,td{border:1px solid #dbe1ea;padding:6px 8px;text-align:left;vertical-align:top}
+                th{background:#eef2ff;color:#3730a3}
+                td.right,th.right{text-align:right}
+                tfoot td{font-weight:bold;background:#f8fafc}
+                .sign{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:50px;text-align:center;font-size:11px;color:#64748b}
+                .sign div{border-top:1px solid #94a3b8;padding-top:6px}
+                @media print{body{padding:10px}}
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                ${orgLogo?`<img src="${orgLogo}" class="logo">`:''}
+                <h1>${AdminUI.escapeHtml(orgName)}</h1>
+                ${orgAddress?`<div class="addr">${AdminUI.escapeHtml(orgAddress)}</div>`:''}
+                ${(orgPhone||orgEmail)?`<div class="addr">${[orgPhone,orgEmail].filter(Boolean).map(v=>AdminUI.escapeHtml(v)).join(' • ')}</div>`:''}
+                <div class="doc-title">Journal Voucher</div>
+            </div>
+
+            <div class="meta">
+                <div><span class="label">Voucher No:</span> <strong>${AdminUI.escapeHtml(journal.transaction_no)}</strong></div>
+                <div><span class="label">Date:</span> <strong>${journal.transaction_date?AdminUI.formatDate(journal.transaction_date):'—'}</strong></div>
+                <div><span class="label">Type:</span> <strong>${AdminUI.escapeHtml(AdminUI.titleCase(journal.type))}</strong></div>
+                <div><span class="label">Status:</span> <strong>${AdminUI.escapeHtml(AdminUI.titleCase(journal.status))}</strong></div>
+                <div><span class="label">Source:</span> <strong>${AdminUI.escapeHtml(AdminUI.titleCase(journal.source_module||'—'))}</strong></div>
+                <div><span class="label">Posted At:</span> <strong>${journal.posted_at?AdminUI.formatDate(journal.posted_at):'—'}</strong></div>
+                <div class="full"><span class="label">Description:</span> ${AdminUI.escapeHtml(journal.description||'—')}</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Particulars</th>
+                        <th class="right">Debit</th>
+                        <th class="right">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${entriesRows}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="right">Total</td>
+                        <td class="right">${money(journal.total_debit)}</td>
+                        <td class="right">${money(journal.total_credit)}</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="sign">
+                <div>Prepared By: ${AdminUI.escapeHtml(journal.creator?.name||'System')}</div>
+                <div>Authorized By: ${AdminUI.escapeHtml(journal.poster?.name||'System')}</div>
+            </div>
+        </body>
+        </html>
+    `);
+
+    win.document.close();
+
+    setTimeout(()=>{
+        win.focus();
+        win.print();
+    },300);
 };
 
 window.closeReverseModal=function(){
@@ -1249,220 +1360,126 @@ window.viewJournal=async function(id){
         );
 
         const journal=response.data;
+        currentJournal=journal;
 
         $('detailsBody').innerHTML=`
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">
-                        Journal No
-                    </p>
+            <div class="mx-auto max-w-2xl rounded-md border border-slate-200 bg-white p-6 shadow-sm">
 
-                    <p class="mt-1 font-semibold text-slate-700">
-                        ${esc(journal.transaction_no)}
-                    </p>
-                </div>
-
-                <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">
-                        Date
-                    </p>
-
-                    <p class="mt-1 font-semibold text-slate-700">
-                        ${
-                            journal.transaction_date
-                                ?AdminUI.formatDate(
-                                    journal.transaction_date
-                                )
-                                :'—'
-                        }
+                <div class="flex flex-col items-center border-b border-dashed border-slate-300 pb-4 text-center">
+                    ${
+                        orgLogo
+                            ?`<img src="${orgLogo}" class="mb-2 h-12 w-auto object-contain">`
+                            :''
+                    }
+                    <h2 class="text-base font-bold uppercase tracking-wide text-slate-800">
+                        ${esc(orgName)}
+                    </h2>
+                    ${orgAddress?`<p class="mt-0.5 text-xs text-slate-500">${esc(orgAddress)}</p>`:''}
+                    ${
+                        (orgPhone||orgEmail)
+                            ?`<p class="mt-0.5 text-xs text-slate-500">${[orgPhone,orgEmail].filter(Boolean).map(esc).join(' • ')}</p>`
+                            :''
+                    }
+                    <p class="mt-3 text-sm font-bold uppercase tracking-widest text-indigo-600">
+                        Journal Voucher
                     </p>
                 </div>
 
-                <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">
-                        Type
-                    </p>
-
-                    <p class="mt-1 font-semibold text-slate-700">
-                        ${esc(
-                            AdminUI.titleCase(
-                                journal.type
-                            )
-                        )}
-                    </p>
-                </div>
-
-                <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">
-                        Status
-                    </p>
-
-                    <div class="mt-1">
-                        ${AdminUI.statusBadge(journal.status)}
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4 rounded-md border border-slate-200 p-4">
-                <div class="grid gap-3 text-sm md:grid-cols-2">
+                <div class="grid grid-cols-2 gap-y-2 py-4 text-sm">
                     <div>
-                        <span class="text-slate-400">
-                            Source:
-                        </span>
-
-                        ${esc(
-                            AdminUI.titleCase(
-                                journal.source_module||'—'
-                            )
-                        )}
+                        <span class="text-slate-400">Voucher No:</span>
+                        <span class="ml-1 font-semibold text-slate-700">${esc(journal.transaction_no)}</span>
                     </div>
-
+                    <div class="text-right">
+                        <span class="text-slate-400">Date:</span>
+                        <span class="ml-1 font-semibold text-slate-700">
+                            ${journal.transaction_date?AdminUI.formatDate(journal.transaction_date):'—'}
+                        </span>
+                    </div>
                     <div>
-                        <span class="text-slate-400">
-                            Created By:
-                        </span>
-
-                        ${esc(
-                            journal.creator?.name||
-                            'System'
-                        )}
+                        <span class="text-slate-400">Type:</span>
+                        <span class="ml-1 font-semibold text-slate-700">${esc(AdminUI.titleCase(journal.type))}</span>
                     </div>
-
+                    <div class="text-right">
+                        <span class="text-slate-400">Status:</span>
+                        <span class="ml-1">${AdminUI.statusBadge(journal.status)}</span>
+                    </div>
                     <div>
-                        <span class="text-slate-400">
-                            Posted By:
-                        </span>
-
-                        ${esc(
-                            journal.poster?.name||
-                            'System'
-                        )}
+                        <span class="text-slate-400">Source:</span>
+                        <span class="ml-1 font-semibold text-slate-700">${esc(AdminUI.titleCase(journal.source_module||'—'))}</span>
                     </div>
-
-                    <div>
-                        <span class="text-slate-400">
-                            Posted At:
+                    <div class="text-right">
+                        <span class="text-slate-400">Posted At:</span>
+                        <span class="ml-1 font-semibold text-slate-700">
+                            ${journal.posted_at?AdminUI.formatDate(journal.posted_at):'—'}
                         </span>
-
-                        ${
-                            journal.posted_at
-                                ?AdminUI.formatDate(
-                                    journal.posted_at
-                                )
-                                :'—'
-                        }
                     </div>
-
-                    <div class="md:col-span-2">
-                        <span class="text-slate-400">
-                            Description:
-                        </span>
-
-                        ${esc(
-                            journal.description||
-                            '—'
-                        )}
+                    <div class="col-span-2">
+                        <span class="text-slate-400">Description:</span>
+                        <span class="ml-1 text-slate-700">${esc(journal.description||'—')}</span>
                     </div>
-
                     ${
                         journal.cancel_reason
                             ?`
-                                <div class="md:col-span-2 rounded-md border border-red-200 bg-red-50 p-3 text-red-700">
-                                    <span class="font-semibold">
-                                        Cancellation Reason:
-                                    </span>
-
+                                <div class="col-span-2 rounded-md border border-red-200 bg-red-50 p-2 text-red-700">
+                                    <span class="font-semibold">Cancellation Reason:</span>
                                     ${esc(journal.cancel_reason)}
                                 </div>
                             `
                             :''
                     }
                 </div>
-            </div>
 
-            <div class="mt-4 overflow-hidden rounded-md border border-slate-200">
-                <table class="w-full min-w-[650px] text-sm">
-                    <thead class="bg-slate-50">
-                        <tr>
-                            <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
-                                Account
-                            </th>
-
-                            <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
-                                Description
-                            </th>
-
-                            <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">
-                                Debit
-                            </th>
-
-                            <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">
-                                Credit
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        ${(journal.entries||[]).map(entry=>`
-                            <tr class="border-t border-slate-100">
-                                <td class="px-3 py-2">
-                                    <span class="font-semibold text-slate-700">
-                                        ${esc(
-                                            entry.account?.code||
-                                            ''
-                                        )}
-                                    </span>
-                                    -
-                                    ${esc(
-                                        entry.account?.name||
-                                        ''
-                                    )}
-                                </td>
-
-                                <td class="px-3 py-2 text-slate-500">
-                                    ${esc(
-                                        entry.description||
-                                        '—'
-                                    )}
-                                </td>
-
-                                <td class="px-3 py-2 text-right font-medium text-slate-700">
-                                    ${
-                                        Number(entry.debit)>0
-                                            ?money(entry.debit)
-                                            :'—'
-                                    }
-                                </td>
-
-                                <td class="px-3 py-2 text-right font-medium text-slate-700">
-                                    ${
-                                        Number(entry.credit)>0
-                                            ?money(entry.credit)
-                                            :'—'
-                                    }
-                                </td>
+                <div class="overflow-hidden rounded-md border border-slate-200">
+                    <table class="w-full text-sm">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">Account</th>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">Particulars</th>
+                                <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">Debit</th>
+                                <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">Credit</th>
                             </tr>
-                        `).join('')}
-                    </tbody>
+                        </thead>
 
-                    <tfoot class="border-t border-slate-200 bg-slate-50">
-                        <tr>
-                            <td
-                                colspan="2"
-                                class="px-3 py-3 text-right text-xs font-bold text-slate-600">
-                                Total
-                            </td>
+                        <tbody>
+                            ${(journal.entries||[]).map(entry=>`
+                                <tr class="border-t border-slate-100">
+                                    <td class="px-3 py-2">
+                                        <span class="font-semibold text-slate-700">${esc(entry.account?.code||'')}</span>
+                                        -
+                                        ${esc(entry.account?.name||'')}
+                                    </td>
+                                    <td class="px-3 py-2 text-slate-500">${esc(entry.description||'—')}</td>
+                                    <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                        ${Number(entry.debit)>0?money(entry.debit):'—'}
+                                    </td>
+                                    <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                        ${Number(entry.credit)>0?money(entry.credit):'—'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
 
-                            <td class="px-3 py-3 text-right font-bold text-slate-800">
-                                ${money(journal.total_debit)}
-                            </td>
+                        <tfoot class="border-t border-slate-200 bg-slate-50">
+                            <tr>
+                                <td colspan="2" class="px-3 py-3 text-right text-xs font-bold text-slate-600">Total</td>
+                                <td class="px-3 py-3 text-right font-bold text-slate-800">${money(journal.total_debit)}</td>
+                                <td class="px-3 py-3 text-right font-bold text-slate-800">${money(journal.total_credit)}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
-                            <td class="px-3 py-3 text-right font-bold text-slate-800">
-                                ${money(journal.total_credit)}
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div class="mt-8 grid grid-cols-2 gap-6 text-center text-xs text-slate-500">
+                    <div>
+                        <div class="mx-auto mb-1 h-10 w-40 border-b border-slate-400"></div>
+                        Prepared By: ${esc(journal.creator?.name||'System')}
+                    </div>
+                    <div>
+                        <div class="mx-auto mb-1 h-10 w-40 border-b border-slate-400"></div>
+                        Authorized By: ${esc(journal.poster?.name||'System')}
+                    </div>
+                </div>
             </div>
         `;
 
@@ -1532,7 +1549,7 @@ $('reverseForm').addEventListener(
         const confirmed=await AdminUI.confirm({
             title:'Reverse Journal?',
             subtitle:'A separate opposite journal will be posted.',
-            message:'The original journal will remain in history and will be marked cancelled.',
+            message:'The original journal will remain posted in history and will be marked reversed by the opposite journal.',
             confirmText:'Reverse Journal',
             type:'danger'
         });

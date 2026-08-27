@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('mail_campaigns', function (Blueprint $table) {
             $table->id();
-
             $table->string('subject');
-
             $table->text('content');
-
             $table->enum('status', [
                 'draft',
                 'scheduled',
@@ -28,21 +25,18 @@ return new class extends Migration
             ])->default('draft');
 
             $table->dateTime('scheduled_at')->nullable();
-
             $table->dateTime('sent_at')->nullable();
-
             $table->unsignedInteger('total_recipients')->default(0);
-
             $table->unsignedInteger('sent_count')->default(0);
-
             $table->unsignedInteger('failed_count')->default(0);
-
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
             $table->timestamps();
+
+            $table->index('status','mail_campaigns_status_idx');
         });
     }
 

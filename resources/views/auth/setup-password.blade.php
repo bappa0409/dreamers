@@ -53,7 +53,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.setup.submit') }}" class="space-y-4">
+            <form method="POST" action="{{ route('password.setup.submit') }}" class="space-y-4" novalidate data-js-validation="1">
 
                 @csrf
 

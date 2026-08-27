@@ -7,13 +7,13 @@ use App\Services\SettingService;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,10 +24,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-
         RateLimiter::for('login',function(Request $request){
-            return Limit::perMinute(10)->by(
-                strtolower((string)$request->input('login')).'|'.$request->ip()
+            $attempts=5;
+
+            try{
+                $attempts=(int)app(SettingService::class)->get(
+                    'max_login_attempts',
+                    5
+                );
+            }catch(\Throwable){
+                // Keep authentication available with a safe default while
+                // settings/database initialization is in progress.
+            }
+
+            $attempts=max(1,min($attempts,50));
+
+            return Limit::perMinute($attempts)->by(
+                strtolower(trim((string)$request->input('login')))
+                .'|'.$request->ip()
             );
         });
 
@@ -38,14 +52,16 @@ class AppServiceProvider extends ServiceProvider
         | Database Settings
         |--------------------------------------------------------------------------
         |
-        | During migrations the settings table may not exist yet.
+        | The settings table may not exist while installing/migrating. The table
+        | check itself can also throw when the configured database has not been
+        | created yet, so keep the whole bootstrap lookup guarded.
         |
         */
-        if(!Schema::hasTable('settings')){
-            return;
-        }
-
         try{
+            if(!Schema::hasTable('settings')){
+                return;
+            }
+
             $settingService=app(SettingService::class);
 
             /*
@@ -70,84 +86,80 @@ class AppServiceProvider extends ServiceProvider
                 date_default_timezone_set($timezone);
             }
 
+            $sessionLifetime=(int)$settingService->get(
+                'session_lifetime_minutes',
+                config('session.lifetime',120)
+            );
+
+            Config::set(
+                'session.lifetime',
+                max(5,min($sessionLifetime,43200))
+            );
+
             /*
             |--------------------------------------------------------------------------
             | Mail
             |--------------------------------------------------------------------------
             */
-            $mailer=$settingService->get(
-                'mail_mailer',
-                config('mail.default')
-            );
+            $mailer=$settingService->get('mail_mailer');
 
-            Config::set('mail.default',$mailer);
+            if(is_string($mailer)&&trim($mailer)!==''){
+                Config::set('mail.default',trim($mailer));
+            }
 
-            Config::set(
-                'mail.from.address',
-                $settingService->get(
-                    'mail_from_address',
-                    config('mail.from.address')
-                )
-            );
+            $fromAddress=$settingService->get('mail_from_address');
+            if(is_string($fromAddress)&&trim($fromAddress)!==''){
+                Config::set('mail.from.address',trim($fromAddress));
+            }
 
-            Config::set(
-                'mail.from.name',
-                $settingService->get(
-                    'mail_from_name',
-                    $organizationName
-                )
-            );
+            $fromName=$settingService->get('mail_from_name');
+            if(is_string($fromName)&&trim($fromName)!==''){
+                Config::set('mail.from.name',trim($fromName));
+            }else{
+                Config::set('mail.from.name',$organizationName);
+            }
 
-            if($mailer==='smtp'){
-                Config::set(
-                    'mail.mailers.smtp.host',
-                    $settingService->get(
-                        'smtp_host',
-                        config('mail.mailers.smtp.host')
-                    )
+            if(config('mail.default')==='smtp'){
+                $smtpHost=$settingService->get('smtp_host');
+                $smtpPort=$settingService->get('smtp_port');
+                $smtpUsername=$settingService->get('smtp_username');
+                $smtpPassword=$settingService->get('smtp_password');
+                $smtpEncryption=strtolower(
+                    trim((string)$settingService->get('smtp_encryption',''))
                 );
 
-                Config::set(
-                    'mail.mailers.smtp.port',
-                    (int)$settingService->get(
-                        'smtp_port',
-                        config('mail.mailers.smtp.port',587)
-                    )
-                );
+                if(is_string($smtpHost)&&trim($smtpHost)!==''){
+                    Config::set('mail.mailers.smtp.host',trim($smtpHost));
+                }
 
-                Config::set(
-                    'mail.mailers.smtp.username',
-                    $settingService->get(
-                        'smtp_username',
-                        config('mail.mailers.smtp.username')
-                    )
-                );
+                if($smtpPort!==null&&$smtpPort!==''){
+                    Config::set('mail.mailers.smtp.port',(int)$smtpPort);
+                }
 
-                Config::set(
-                    'mail.mailers.smtp.password',
-                    $settingService->get(
-                        'smtp_password',
-                        config('mail.mailers.smtp.password')
-                    )
-                );
+                if(is_string($smtpUsername)&&trim($smtpUsername)!==''){
+                    Config::set('mail.mailers.smtp.username',trim($smtpUsername));
+                }
 
-                $encryption=$settingService->get(
-                    'smtp_encryption',
-                    config('mail.mailers.smtp.encryption')
-                );
+                if(is_string($smtpPassword)&&$smtpPassword!==''){
+                    Config::set('mail.mailers.smtp.password',$smtpPassword);
+                }
 
-                Config::set(
-                    'mail.mailers.smtp.encryption',
-                    $encryption==='none'
-                        ?null
-                        :$encryption
-                );
+                $scheme=match($smtpEncryption){
+                    'ssl','smtps'=>'smtps',
+                    'tls','starttls'=>'smtp',
+                    'none',''=>config('mail.mailers.smtp.scheme'),
+                    default=>config('mail.mailers.smtp.scheme'),
+                };
+
+                Config::set('mail.mailers.smtp.scheme',$scheme);
             }
 
         }catch(\Throwable $e){
             /*
-             * Never break the application because a setting is
-             * temporarily unavailable.
+             * Never break application bootstrap solely because optional database
+             * settings are temporarily unavailable. Normal DB operations will
+             * still surface their own errors when the application actually uses
+             * the unavailable connection.
              */
             report($e);
         }

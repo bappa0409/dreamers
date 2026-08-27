@@ -58,8 +58,18 @@ class PasswordSetupController extends Controller
 
         $request->session()->regenerate();
 
+        $user->loadMissing(['member','roles']);
+
+        $isActiveMember=$user->member?->status==='active';
+        $isOnlyMember=$user->roles->isNotEmpty()
+            &&$user->roles->every(fn($role)=>$role->name==='member');
+
+        $route=$isActiveMember&&$isOnlyMember
+            ?'member.dashboard'
+            :'dashboard';
+
         return redirect()
-            ->route('dashboard')
+            ->route($route)
             ->with(
                 'success',
                 'Password created successfully. Welcome to Dreamers Association.'

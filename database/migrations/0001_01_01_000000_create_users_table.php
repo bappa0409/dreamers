@@ -26,8 +26,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            // Full-text search index
             $table->fullText(['name', 'email', 'mobile']);
+            $table->index('is_active','users_is_active_idx');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -125,7 +125,7 @@ class MemberController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:150',
             'email' => 'required|email:rfc|max:255|unique:users,email',
-            'mobile' => 'nullable|string|max:20|unique:users,mobile',
+            'mobile' => 'required|string|max:20|unique:users,mobile',
             'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'language' => 'nullable|in:en,bn',
             'phone' => 'nullable|string|max:30',
@@ -138,41 +138,52 @@ class MemberController extends Controller
             'notes' => 'nullable|string|max:5000',
         ]);
 
-        $autoActivate = (bool)setting(
-            'auto_activate_member',
-            false
+        $autoActivate = filter_var(
+            setting('auto_activate_member', false),
+            FILTER_VALIDATE_BOOLEAN
         );
 
-        $member = $this->memberService
-            ->createMember($validated);
-
+        $member = null;
         $approval = null;
 
-        if (!$autoActivate) {
-            $approval =
-                $this->approvalService
-                ->createRequest(
-                    $member,
-                    'Member',
-                    'create',
-                    auth()->id(),
-                    'New member registration requires approval.'
-                );
-        } else {
-            DB::afterCommit(
-                function () use ($member) {
-                    try {
-                        $member->loadMissing('user');
+        try {
+            [$member, $approval] = DB::transaction(function () use ($validated, $autoActivate, &$member, &$approval) {
+                $member = $this->memberService->createMember($validated);
+                $approval = null;
 
-                        if ($member->user) {
-                            $this->passwordSetupService
-                                ->send($member->user);
-                        }
-                    } catch (\Throwable $e) {
-                        report($e);
-                    }
+                if (!$autoActivate) {
+                    $approval = $this->approvalService->createRequest(
+                        $member,
+                        'Member',
+                        'create',
+                        auth()->id(),
+                        'New member registration requires approval.'
+                    );
                 }
-            );
+
+                return [$member, $approval];
+            });
+        } catch (\Throwable $e) {
+            if (
+                $member?->profile_photo &&
+                Storage::disk('public')->exists($member->profile_photo)
+            ) {
+                Storage::disk('public')->delete($member->profile_photo);
+            }
+
+            throw $e;
+        }
+
+        if ($autoActivate) {
+            try {
+                $member->loadMissing('user');
+
+                if ($member->user) {
+                    $this->passwordSetupService->send($member->user);
+                }
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
         return response()->json([
@@ -294,7 +305,7 @@ class MemberController extends Controller
 
             $member->update([
                 'status' => 'active',
-                'joining_date' => app_date($member->joining_date) ?? now()->toDateString(),
+                'joining_date' => $member->joining_date ?? now()->toDateString(),
             ]);
 
             $member->user->update(['is_active' => true]);

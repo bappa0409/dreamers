@@ -171,7 +171,7 @@
             </button>
         </div>
 
-        <form id="roleForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="roleForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-4 overflow-y-auto p-5 sm:p-6">
                 {{-- Role Information --}}
                 <section class="rounded-md border border-slate-200 bg-white p-4">
@@ -320,8 +320,7 @@ let currentPage=1;
 const perPage=10;
 
 const canEditRole=@json(
-    auth()->user()->hasPermission('Role.update')||
-    auth()->user()->hasPermission('Role.edit')
+    auth()->user()->hasPermission('Role.update')
 );
 
 const canDeleteRole=@json(

@@ -58,6 +58,7 @@ class MemberShareController extends Controller
 
         $validated = $request->validate([
             'status' => 'nullable|in:pending,active,rejected,cancelled,transferred,retired',
+            'search' => 'nullable|string|max:150',
             'per_page' => 'nullable|integer|min:5|max:50',
         ]);
 
@@ -78,6 +79,7 @@ class MemberShareController extends Controller
                     ->memberSharesPaginated(
                         $member,
                         $validated['status'] ?? null,
+                        $validated['search'] ?? null,
                         (int) ($validated['per_page'] ?? 15)
                     ),
 

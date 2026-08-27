@@ -81,50 +81,69 @@ class NotificationService
     }
 
     public function sendSystem(array $data): void
-{
-    $query=$this->recipientQuery(
-        $data['audience_type'],
-        $data
-    );
+    {
+        $campaign=NotificationCampaign::create([
+            'title'=>$data['title'],
+            'message'=>$data['message'],
+            'type'=>$data['type']??'info',
+            'audience_type'=>$data['audience_type'],
+            'audience_data'=>$this->audienceData($data),
+            'action_url'=>$data['action_url']??null,
+            'status'=>'sending',
+            'sent_by'=>$data['sent_by']??auth()->id(),
+        ]);
 
-    $campaign=NotificationCampaign::create([
-        'title'=>$data['title'],
-        'message'=>$data['message'],
-        'type'=>$data['type']??'info',
-        'audience_type'=>$data['audience_type'],
-        'audience_data'=>$this->audienceData($data),
-        'action_url'=>$data['action_url']??null,
-        'status'=>'sending',
-        'sent_by'=>$data['sent_by']??auth()->id(),
-    ]);
-
-    $recipientCount=0;
-
-    $query->select('users.*')
-        ->distinct()
-        ->orderBy('users.id')
-        ->chunkById(200,function($users)use($campaign,&$recipientCount){
-            Notification::send(
-                $users,
-                new AssociationNotification($campaign)
+        try{
+            $query=$this->recipientQuery(
+                $data['audience_type'],
+                $data
             );
 
-            foreach($users as $user){
-                $this->forgetUserCache($user->id);
+            $recipientCount=0;
+
+            $query->select('users.*')
+                ->distinct()
+                ->orderBy('users.id')
+                ->chunkById(200,function($users)use($campaign,&$recipientCount){
+                    Notification::send(
+                        $users,
+                        new AssociationNotification($campaign)
+                    );
+
+                    foreach($users as $user){
+                        $this->forgetUserCache($user->id);
+                    }
+
+                    $recipientCount+=$users->count();
+                },'users.id','id');
+
+            if($recipientCount===0){
+                throw ValidationException::withMessages([
+                    'audience_type'=>[
+                        'No matching notification recipients were found.'
+                    ]
+                ]);
             }
 
-            $recipientCount+=$users->count();
-        },'users.id','id');
+            $campaign->update([
+                'status'=>'sent',
+                'recipients_count'=>$recipientCount,
+                'sent_at'=>now(),
+                'error_message'=>null,
+            ]);
 
-    $campaign->update([
-        'status'=>'sent',
-        'recipients_count'=>$recipientCount,
-        'sent_at'=>now(),
-        'error_message'=>null,
-    ]);
+            $this->forgetCampaignCaches();
+        }catch(\Throwable $e){
+            $campaign->update([
+                'status'=>'failed',
+                'error_message'=>mb_substr($e->getMessage(),0,2000),
+            ]);
 
-    $this->forgetCampaignCaches();
-}
+            $this->forgetCampaignCaches();
+
+            throw $e;
+        }
+    }
 
     protected function recipientQuery(string $audienceType,array $data): Builder
     {

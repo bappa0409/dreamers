@@ -19,12 +19,11 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             AccountSeeder::class,
+            FinanceAccountRepairSeeder::class,
             SettingSeeder::class,
             UserSeeder::class,
-            ChartOfAccountsSeeder::class,
             SubscriptionPlanSeeder::class,
             TestMemberSeeder::class,
-            CommitteePositionSeeder::class,
             FeedbackSupportCategorySeeder::class,
         ]);
     }

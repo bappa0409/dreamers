@@ -35,12 +35,6 @@ class SubscriptionService
                 'member.user'
             ]);
 
-            if (!$subscription->is_active) {
-                throw ValidationException::withMessages([
-                    'subscription' => ['The member subscription is inactive.']
-                ]);
-            }
-
             if (!$subscription->plan) {
                 throw ValidationException::withMessages([
                     'subscription' => ['Subscription plan not found.']
@@ -80,6 +74,14 @@ class SubscriptionService
             ) {
                 throw ValidationException::withMessages([
                     'month' => ['This period is after the subscription end date.']
+                ]);
+            }
+
+            if (!$subscription->is_active && !$subscription->end_date) {
+                throw ValidationException::withMessages([
+                    'subscription' => [
+                        'Inactive subscription has no end date. Set an end date before generating historical dues.'
+                    ]
                 ]);
             }
 
@@ -123,10 +125,13 @@ class SubscriptionService
                 2
             );
 
+            $configuredDueDay = (int) ($subscription->plan->due_day
+                ?? setting('subscription_due_day', 10));
+
             $dueDay = max(
                 1,
                 min(
-                    (int)setting('subscription_due_day', 10),
+                    $configuredDueDay,
                     $period->daysInMonth
                 )
             );

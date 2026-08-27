@@ -120,7 +120,7 @@
             <h2 class="font-bold text-slate-800">Assign Subscription</h2>
             <button type="button" onclick="closeModal('assignModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
-        <form id="assignForm">
+        <form id="assignForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div>
                     <label class="mb-1 block text-xs font-semibold text-slate-600">Member</label>
@@ -155,7 +155,7 @@
             <button type="button" onclick="closeModal('planModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
         <div class="grid gap-4 p-5 md:grid-cols-[280px_1fr]">
-            <form id="planForm" class="space-y-3">
+            <form id="planForm" class="space-y-3" novalidate data-js-validation="1">
                 <input id="planId" type="hidden">
                 <div>
                     <label class="mb-1 block text-xs font-semibold text-slate-600">Plan Name</label>
@@ -240,7 +240,7 @@
             <h2 class="font-bold text-slate-800">Reject Payment</h2>
             <button type="button" onclick="closeModal('rejectModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
-        <form id="rejectForm">
+        <form id="rejectForm" novalidate data-js-validation="1">
             <input id="rejectPaymentId" type="hidden">
             <div class="p-5">
                 <label class="mb-1 block text-xs font-semibold text-slate-600">Reason</label>

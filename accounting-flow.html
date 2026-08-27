@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreamer Association — Member → Subscription → Accounting Flow</title>
+<style>
+  :root{
+    --navy:#0f2540;
+    --blue:#145da0;
+    --blue-light:#4680b7;
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --border:#e2e8f0;
+    --text:#1e293b;
+    --muted:#64748b;
+    --green:#0f9d58;
+    --red:#d64545;
+    --amber:#b7791f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Noto Sans Bengali",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding:0 0 60px;
+  }
+  header{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff;
+    padding:40px 24px 32px;
+  }
+  header .wrap{max-width:980px;margin:0 auto;}
+  header h1{margin:0 0 6px;font-size:26px;}
+  header p{margin:0;color:#dbe8f5;font-size:14px;}
+  .container{max-width:980px;margin:0 auto;padding:0 24px;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px 24px;
+    margin-top:22px;
+    box-shadow:0 1px 3px rgba(15,23,42,0.04);
+  }
+  h2{
+    font-size:18px;
+    margin:0 0 4px;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .step-no{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  h3{font-size:14px;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.03em;}
+  p{margin:8px 0;font-size:14.5px;}
+  .desc{color:var(--muted);font-size:13.5px;margin-bottom:14px;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    margin:10px 0 4px;
+  }
+  th,td{
+    padding:9px 10px;
+    border:1px solid var(--border);
+    text-align:left;
+    vertical-align:top;
+  }
+  th{background:#f1f5f9;color:var(--navy);font-weight:600;}
+  code{
+    background:#eef2f7;
+    padding:1px 6px;
+    border-radius:5px;
+    font-size:12.8px;
+    color:#0f2540;
+    font-family:Consolas,Menlo,monospace;
+  }
+  .tag{
+    display:inline-block;
+    font-size:11.5px;
+    font-weight:700;
+    padding:2px 9px;
+    border-radius:20px;
+    margin-right:6px;
+  }
+  .tag.tbl{background:#e6f0fa;color:var(--blue);}
+  .tag.new{background:#e7f7ee;color:var(--green);}
+  .tag.upd{background:#fdf2e3;color:var(--amber);}
+  .tag.acc{background:#fdecec;color:var(--red);}
+  .journal{
+    border:1px dashed #c9d5e3;
+    border-radius:10px;
+    padding:14px 16px;
+    background:#fafcff;
+    margin:12px 0;
+  }
+  .journal .jt{font-weight:700;color:var(--navy);font-size:13.5px;margin-bottom:8px;}
+  .je-row{display:flex;justify-content:space-between;font-size:13.5px;padding:4px 0;border-bottom:1px dotted #dfe6ee;}
+  .je-row:last-child{border-bottom:none;}
+  .je-row .dr{color:var(--red);font-weight:600;}
+  .je-row .cr{color:var(--green);font-weight:600;}
+  .note{
+    background:#fff8e6;
+    border:1px solid #f1dca3;
+    border-radius:8px;
+    padding:10px 14px;
+    font-size:13.5px;
+    color:#7a5b12;
+    margin-top:12px;
+  }
+  .flow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    margin:14px 0;
+  }
+  .flow span{
+    background:#eef4fb;
+    border:1px solid #d7e5f3;
+    border-radius:8px;
+    padding:6px 12px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--navy);
+  }
+  .flow .arrow{color:var(--muted);font-weight:400;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr;}}
+  .acct-table td.dr{color:var(--red);}
+  .acct-table td.cr{color:var(--green);}
+  footer{
+    max-width:980px;margin:30px auto 0;padding:0 24px;
+    color:var(--muted);font-size:12.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Member Approval → Subscription Due → Accounting Flow</h1>
+    <p>Dreamer Association প্রজেক্ট — কোড অনুযায়ী স্টেপ বাই স্টেপ ব্যাখ্যা (কোন টেবিল, কোন অ্যাকাউন্ট, কোন জার্নাল)</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>ওভারভিউ</h2>
+    <p class="desc">এই প্রজেক্টে ডাবল-এন্ট্রি অ্যাকাউন্টিং ব্যবহার হয়েছে — প্রতিটা আর্থিক ইভেন্টের জন্য <code>transactions</code> টেবিলে একটা জার্নাল রো তৈরি হয়, আর তার সাথে <code>transaction_entries</code> টেবিলে কমপক্ষে দুইটা লাইন (Debit ও Credit) থাকে, যেগুলো <code>accounts</code> টেবিলের নির্দিষ্ট অ্যাকাউন্টের সাথে যুক্ত। এই পোস্টিং হয় <code>AccountingService::post()</code> মেথড দিয়ে।</p>
+    <div class="flow">
+      <span>Member Create</span><span class="arrow">→</span>
+      <span>Member Approve</span><span class="arrow">→</span>
+      <span>Subscription Assign</span><span class="arrow">→</span>
+      <span>Due Generate</span><span class="arrow">→</span>
+      <span>Payment Submit</span><span class="arrow">→</span>
+      <span>Payment Verify</span>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card">
+    <h2><span class="step-no">1</span> Member Create — <code>MemberService::createMember()</code></h2>
+    <p class="desc">এই ধাপে শুধু মেম্বারের বেসিক রেকর্ড তৈরি হয়। কোনো টাকার হিসাব এখনো তৈরি হয় না, অ্যাকাউন্টিং-এ কোনো ইফেক্ট নেই।</p>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th><th>নোট</th></tr>
+      <tr><td><span class="tag tbl">users</span></td><td><span class="tag new">নতুন রো</span></td><td>role = member, <code>is_active</code> = auto-activate সেটিং অনুযায়ী</td></tr>
+      <tr><td><span class="tag tbl">members</span></td><td><span class="tag new">নতুন রো</span></td><td><code>status = 'pending'</code> (auto-activate অফ থাকলে), <code>joining_date = null</code></td></tr>
+      <tr><td><span class="tag tbl">member_shares</span></td><td><span class="tag new">নতুন রো</span> (শুধু share ফিচার enabled থাকলে)</td><td><code>status = 'pending'</code>, <code>acquired_date = null</code></td></tr>
+    </table>
+    <div class="note">⚠️ এই ধাপে <code>transactions</code> / <code>transaction_entries</code> টেবিলে কিছুই লেখা হয় না — অ্যাকাউন্টিং সম্পূর্ণ silent।</div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card">
+    <h2><span class="step-no">2</span> Member Approve — <code>MemberService::approveMember()</code></h2>
+    <p class="desc">অ্যাপ্রুভ করার মুহূর্তেই একসাথে কয়েকটা জিনিস ঘটে: মেম্বার সক্রিয় হয়, ইনিশিয়াল শেয়ার সক্রিয় হয় (যদি প্রযোজ্য), ডিফল্ট সাবস্ক্রিপশন প্ল্যান অ্যাসাইন হয়, আর সবচেয়ে গুরুত্বপূর্ণ — চলতি মাসের due অটো-জেনারেট হয়ে যায়।</p>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th><th>নোট</th></tr>
+      <tr><td><span class="tag tbl">members</span></td><td><span class="tag upd">আপডেট</span></td><td><code>status → 'active'</code>, <code>joining_date</code> সেট হয়</td></tr>
+      <tr><td><span class="tag tbl">users</span></td><td><span class="tag upd">আপডেট</span></td><td><code>is_active → true</code></td></tr>
+      <tr><td><span class="tag tbl">member_shares</span></td><td><span class="tag upd">আপডেট</span></td><td>pending শেয়ার → <code>status = 'active'</code>, <code>acquired_date</code> সেট হয়। <b>কোনো অ্যাকাউন্টিং এন্ট্রি পোস্ট হয় না</b> — শুধু status বদলায়।</td></tr>
+      <tr><td><span class="tag tbl">member_subscriptions</span></td><td><span class="tag new">নতুন রো</span></td><td>ডিফল্ট প্ল্যান দিয়ে, <code>is_active = true</code>, <code>start_date = joining_date</code></td></tr>
+      <tr><td><span class="tag tbl">subscription_dues</span></td><td><span class="tag new">নতুন রো</span></td><td>চলতি মাস-বছরের due, <code>status = 'unpaid'</code>, <code>amount</code> = প্ল্যানের এমাউন্ট, <code>paid_amount = 0</code></td></tr>
+    </table>
+
+    <h3>এই ধাপেই অ্যাকাউন্টিং জার্নাল পোস্ট হয়ে যায়!</h3>
+    <p class="desc"><code>SubscriptionService::generateDue()</code> মেথড due তৈরি করার সাথে সাথেই <code>AccountingService::post()</code> কল করে জার্নাল বসিয়ে দেয় — যদিও মেম্বার তখনো কোনো টাকা জমা দেয়নি। এটা accrual-basis হিসাব: due তৈরি হলেই সেটাকে income হিসেবে ধরে নেওয়া হয়, আর ওই সমপরিমাণ receivable (বকেয়া পাওনা) হিসেবে asset বাড়ানো হয়।</p>
+    <div class="journal">
+      <div class="jt">Journal — Type: <code>subscription_due</code> · Source: <code>subscription_due</code></div>
+      <div class="je-row"><span>Debit — Accounts Receivable <span class="tag acc">1130 · receivable</span></span><span class="dr">+৳ amount</span></div>
+      <div class="je-row"><span>Credit — Subscription Income <span class="tag acc">4110 · subscription_income</span></span><span class="cr">+৳ amount</span></div>
+    </div>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th></tr>
+      <tr><td><span class="tag tbl">transactions</span></td><td><span class="tag new">নতুন রো</span> — <code>status = 'posted'</code>, <code>type = 'subscription_due'</code></td></tr>
+      <tr><td><span class="tag tbl">transaction_entries</span></td><td><span class="tag new">২টা নতুন রো</span> — Debit receivable + Credit subscription_income</td></tr>
+      <tr><td><span class="tag tbl">subscription_dues</span></td><td><span class="tag upd">আপডেট</span> — <code>finance_transaction_id</code> সেট হয়</td></tr>
+    </table>
+    <div class="note">📌 ফলাফল: Dashboard-এ <code>association_income</code> / <code>association_profit_loss</code> এই টাকা যোগ করেই দেখাবে — এমনকি মেম্বার এখনো এক টাকাও জমা দেয়নি তার আগেই।</div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card">
+    <h2><span class="step-no">3</span> Due জমা দেওয়া — <code>SubscriptionService::submitPayment()</code></h2>
+    <p class="desc">মেম্বার/অ্যাডমিন যখন due-এর বিপরীতে পেমেন্ট সাবমিট করবে, প্রথমে এটা শুধু একটা <b>pending</b> রেকর্ড হিসেবে জমা হয় — এখনো অ্যাকাউন্টিং-এ কিছু পোস্ট হয় না।</p>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th><th>নোট</th></tr>
+      <tr><td><span class="tag tbl">subscription_payments</span></td><td><span class="tag new">নতুন রো</span></td><td><code>status = 'pending'</code>, due-এর সাথে লিংকড</td></tr>
+    </table>
+    <div class="note">⚠️ শুধু সাবমিট করলে কোনো জার্নাল পোস্ট হয় না — অ্যাডমিন <b>ভেরিফাই</b> করলে তবেই আসল অ্যাকাউন্টিং এন্ট্রি পড়ে।</div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="card">
+    <h2><span class="step-no">4</span> Payment Verify — <code>SubscriptionService::verifyPayment()</code> (ধরে নেওয়া হচ্ছে)</h2>
+    <p class="desc">অ্যাডমিন পেমেন্টটা ভেরিফাই করলে due-এর <code>paid_amount</code> বাড়ে, status <code>partial</code>/<code>paid</code>-এ যায়, আর রিসিভেবল সেটেল করে cash/bank-এ শিফট করার জন্য নতুন জার্নাল পোস্ট হয়।</p>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th><th>নোট</th></tr>
+      <tr><td><span class="tag tbl">subscription_dues</span></td><td><span class="tag upd">আপডেট</span></td><td><code>paid_amount</code> বাড়ে; <code>status = 'paid'</code> (পুরো টাকা মিলে গেলে) নাহলে <code>'partial'</code></td></tr>
+      <tr><td><span class="tag tbl">subscription_payments</span></td><td><span class="tag upd">আপডেট</span></td><td><code>status = 'verified'</code>, <code>verified_by</code>, <code>verified_at</code>, <code>finance_transaction_id</code> সেট হয়</td></tr>
+    </table>
+    <div class="journal">
+      <div class="jt">Journal — Type: <code>subscription_payment</code> · Source: <code>subscription_payment</code></div>
+      <div class="je-row"><span>Debit — Cash / Bank <span class="tag acc">1110 cash / 1120 bank</span></span><span class="dr">+৳ paid</span></div>
+      <div class="je-row"><span>Credit — Accounts Receivable <span class="tag acc">1130 · receivable</span></span><span class="cr">-৳ paid</span></div>
+    </div>
+    <table>
+      <tr><th>টেবিল</th><th>ইফেক্ট</th></tr>
+      <tr><td><span class="tag tbl">transactions</span></td><td><span class="tag new">নতুন রো</span> — <code>type = 'subscription_payment'</code></td></tr>
+      <tr><td><span class="tag tbl">transaction_entries</span></td><td><span class="tag new">২টা নতুন রো</span> — Debit cash/bank + Credit receivable</td></tr>
+    </table>
+    <div class="note">📌 লক্ষ্য করুন: এখানে <b>Income আবার বাড়ে না</b> — কারণ income স্টেপ ২-তেই (due তৈরির সময়) একবার রেকগনাইজ হয়ে গেছে। এই স্টেপে শুধু receivable → cash-এ কনভার্ট হয়।</div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="card">
+    <h2>সারসংক্ষেপ — একনজরে টেবিল ম্যাপ</h2>
+    <table>
+      <tr><th>ধাপ</th><th>মূল টেবিল</th><th>অ্যাকাউন্টিং টেবিল টাচ হয়?</th></tr>
+      <tr><td>Member Create</td><td>users, members, member_shares</td><td>না</td></tr>
+      <tr><td>Member Approve</td><td>members, users, member_shares, member_subscriptions</td><td>না (শেয়ার/মেম্বার আপডেটের জন্য)</td></tr>
+      <tr><td>↳ Due Auto-generate (approve-এর ভেতরেই)</td><td>subscription_dues</td><td><b>হ্যাঁ</b> — transactions + transaction_entries (Dr. Receivable / Cr. Subscription Income)</td></tr>
+      <tr><td>Payment Submit</td><td>subscription_payments (pending)</td><td>না</td></tr>
+      <tr><td>Payment Verify</td><td>subscription_dues, subscription_payments</td><td><b>হ্যাঁ</b> — transactions + transaction_entries (Dr. Cash/Bank / Cr. Receivable)</td></tr>
+    </table>
+
+    <h3>ব্যবহৃত অ্যাকাউন্ট (Chart of Accounts থেকে)</h3>
+    <table class="acct-table">
+      <tr><th>Code</th><th>Account</th><th>Type</th><th>Sub-type</th><th>এই ফ্লো-তে ভূমিকা</th></tr>
+      <tr><td>1110</td><td>Cash</td><td>Asset</td><td><code>cash</code></td><td class="dr">Debit — নগদ পেমেন্ট রিসিভ হলে</td></tr>
+      <tr><td>1120</td><td>Bank</td><td>Asset</td><td><code>bank</code></td><td class="dr">Debit — ব্যাংক পেমেন্ট রিসিভ হলে</td></tr>
+      <tr><td>1130</td><td>Accounts Receivable</td><td>Asset</td><td><code>receivable</code></td><td>Due তৈরিতে Debit, Payment ভেরিফাই হলে Credit</td></tr>
+      <tr><td>4110</td><td>Subscription Income</td><td>Income</td><td><code>subscription_income</code></td><td class="cr">Credit — due তৈরি হওয়ার সময় একবারই</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>আপনার এই নির্দিষ্ট মেম্বারের ক্ষেত্রে এখন অবস্থা</h2>
+    <p>আপনি মেম্বার create + approve করেছেন, due এখনো জমা দেননি। তাহলে এখন সিস্টেমের অবস্থা:</p>
+    <div class="grid2">
+      <div class="journal">
+        <div class="jt">এখন পর্যন্ত হয়ে গেছে ✅</div>
+        <p style="margin:4px 0;font-size:13.5px;">member active, subscription assigned, চলতি মাসের due (৳1,000) তৈরি, receivable +1000, income +1000 (accrual)</p>
+      </div>
+      <div class="journal">
+        <div class="jt">এখনো বাকি ⏳</div>
+        <p style="margin:4px 0;font-size:13.5px;">payment submit → verify হলে receivable -1000, cash/bank +1000; due status <code>unpaid → paid</code></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Generated from Dreamer Association codebase (MemberService, SubscriptionService, AccountingService, AccountSeeder) — কোডের বর্তমান লজিকের ভিত্তিতে তৈরি।
+</footer>
+
+</body>
+</html>

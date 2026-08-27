@@ -39,10 +39,13 @@ return new class extends Migration
             ])->default('pending');
 
             $table->dateTime('sent_at')->nullable();
-
             $table->text('error_message')->nullable();
-
             $table->timestamps();
+
+            $table->index(
+                ['mail_campaign_id','status'],
+                'mail_recipients_campaign_status_idx'
+            );
         });
     }
 

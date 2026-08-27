@@ -534,13 +534,15 @@ function reportRow(module,item){
     }
 
     if(module==='investments'){
-        const paid=(item.returns??[])
-            .filter(row=>row.status==='paid')
-            .reduce(
-                (sum,row)=>
-                    sum+Number(row.amount??0),
-                0
-            );
+        const paid=item.paid_return_sum!==undefined
+            ?Number(item.paid_return_sum??0)
+            :(item.returns??[])
+                .filter(row=>row.status==='paid')
+                .reduce(
+                    (sum,row)=>
+                        sum+Number(row.amount??0),
+                    0
+                );
 
         return[
             item.investment_no,

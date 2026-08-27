@@ -155,7 +155,7 @@
         </button>
     </div>
 
-    <form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+    <form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
         <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
             <div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
@@ -174,7 +174,7 @@
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
                         <label class="form-label">Member <span class="text-red-500">*</span></label>
-                        <select id="memberId" class="app-input w-full">
+                        <select id="memberId" class="app-input w-full" data-validation-required-message="Please select a member.">
                             <option value="">Select Member</option>
                         </select>
                         <p data-field-error="memberId" class="mt-1 hidden text-xs text-red-600"></p>
@@ -182,7 +182,7 @@
 
                     <div>
                         <label class="form-label">Exit Type <span class="text-red-500">*</span></label>
-                        <select id="exitType" class="app-input w-full">
+                        <select id="exitType" class="app-input w-full" data-validation-required-message="Exit type is required.">
                             <option value="">Select Exit Type</option>
                             <option value="resignation">Resignation</option>
                             <option value="termination">Termination</option>
@@ -208,7 +208,7 @@
 
                 <div>
                     <label class="form-label">Reason <span class="text-red-500">*</span></label>
-                    <textarea id="reason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the reason for membership exit..."></textarea>
+                    <textarea id="reason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the reason for membership exit..." data-validation-required-message="Reason is required."></textarea>
                     <p data-field-error="reason" class="mt-1 hidden text-xs text-red-600"></p>
                 </div>
 
@@ -307,10 +307,10 @@
                 <p class="text-[11px] text-emerald-600">Complete share capital refund and membership closure preparation.</p>
             </div>
 
-            <form id="settlementForm" class="grid gap-4 md:grid-cols-2" novalidate>
+            <form id="settlementForm" class="grid gap-4 md:grid-cols-2" novalidate data-js-validation="1">
                 <div>
-                    <label class="form-label">Payout Account <span class="text-red-500">*</span></label>
-                    <select id="payoutAccountId" class="app-input w-full">
+                    <label class="form-label">Payout Account <span id="payoutRequiredMarker" class="hidden text-red-500">*</span></label>
+                    <select id="payoutAccountId" class="app-input w-full" data-validation-required-message="Please select a payout account.">
                         <option value="">Select Cash / Bank Account</option>
                     </select>
                     <p data-field-error="payoutAccountId" class="mt-1 hidden text-xs text-red-600"></p>
@@ -320,7 +320,7 @@
                     <label class="form-label">Settlement Date <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                        <input id="settlementDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
+                        <input id="settlementDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Settlement date is required.">
                     </div>
                     <p data-field-error="settlementDate" class="mt-1 hidden text-xs text-red-600"></p>
                 </div>
@@ -346,18 +346,20 @@
         </button>
     </div>
 
-    <div class="p-5">
-        <div id="rejectError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+    <form id="rejectForm" novalidate data-js-validation="1">
+        <div class="p-5">
+            <div id="rejectError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
-        <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
-        <textarea id="rejectionReason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Enter rejection reason..."></textarea>
-        <p data-field-error="rejectionReason" class="mt-1 hidden text-xs text-red-600"></p>
-    </div>
+            <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
+            <textarea id="rejectionReason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Enter rejection reason..." data-validation-required-message="Rejection reason is required."></textarea>
+            <p data-field-error="rejectionReason" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
 
-    <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-        <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-        <button id="rejectButton" type="button" onclick="submitRejection()" class="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Request</button>
-    </div>
+        <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+            <button id="rejectButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Request</button>
+        </div>
+    </form>
 </div>
 </div>
 
@@ -397,6 +399,25 @@ const settlementFieldMap={
     payout_account_id:'payoutAccountId',
     settlement_date:'settlementDate'
 };
+
+function syncSettlementValidation(item=currentExit){
+    const payout=$('payoutAccountId');
+    const marker=$('payoutRequiredMarker');
+    const required=Number(item?.share_refund||0)>0;
+
+    if(payout){
+        if(required){
+            payout.dataset.required='1';
+        }else{
+            delete payout.dataset.required;
+            AdminUI.clearFieldError(payout);
+        }
+    }
+
+    if(marker){
+        marker.classList.toggle('hidden',!required);
+    }
+}
 
 function setDate(id,value){
     const element=$(id);
@@ -629,12 +650,6 @@ $('createForm').addEventListener('submit',async event=>{
     AdminUI.clearError('createError');
     AdminUI.clearFieldErrors('createForm');
 
-    if(!AdminUI.validateRequired('createForm',{
-        memberId:'Please select a member.',
-        exitType:'Exit type is required.',
-        reason:'Reason is required.'
-    }))return;
-
     const payload={
         member_id:Number($('memberId').value),
         exit_type:$('exitType').value,
@@ -729,6 +744,7 @@ function renderManageModal(item){
     const settlementVisible=item.status==='approved';
     $('settlementSection').classList.toggle('hidden',!settlementVisible);
 
+    syncSettlementValidation(item);
     renderManageActions(item);
 }
 
@@ -795,7 +811,7 @@ function renderManageActions(item){
         ));
     }
 
-    if(permissions.review&&['under_review','liabilities_pending','ready_for_approval'].includes(item.status)){
+    if(permissions.review&&['under_review','liabilities_pending','ready_for_approval','approved'].includes(item.status)){
         actions.push(actionButton(
             'Refresh Assessment','bi-arrow-clockwise','slate',
             `refreshAssessment()`
@@ -910,9 +926,9 @@ window.approveExit=function(){
 };
 
 window.openRejectModal=function(){
-    $('rejectionReason').value='';
+    $('rejectForm').reset();
     AdminUI.clearError('rejectError');
-    AdminUI.clearFieldErrors('rejectModal');
+    AdminUI.clearFieldErrors('rejectForm');
     AdminUI.openModal('rejectModal');
 };
 
@@ -920,14 +936,9 @@ window.submitRejection=async function(){
     if(!currentExit)return;
 
     AdminUI.clearError('rejectError');
-    AdminUI.clearFieldErrors('rejectModal');
+    AdminUI.clearFieldErrors('rejectForm');
 
     const reason=$('rejectionReason').value.trim();
-
-    if(!reason){
-        AdminUI.showFieldError('rejectionReason','Rejection reason is required.');
-        return;
-    }
 
     const button=$('rejectButton');
     AdminUI.setLoading(button,'Rejecting...');
@@ -943,11 +954,20 @@ window.submitRejection=async function(){
 
         await refreshCurrent();
     }catch(error){
-        AdminUI.showError('rejectError',AdminUI.extractError(error));
+        if(!AdminUI.showValidationErrors('rejectForm',error,{
+            rejection_reason:'rejectionReason'
+        })){
+            AdminUI.showError('rejectError',AdminUI.extractError(error));
+        }
     }finally{
         AdminUI.resetLoading(button);
     }
 };
+
+$('rejectForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    submitRejection();
+});
 
 window.cancelExit=function(){
     if(!currentExit)return;
@@ -972,13 +992,14 @@ window.settleExit=async function(){
     AdminUI.clearError('manageError');
     AdminUI.clearFieldErrors('settlementForm');
 
-    if(!AdminUI.validateRequired('settlementForm',{
-        payoutAccountId:'Please select a payout account.',
-        settlementDate:'Settlement date is required.'
-    }))return;
+    syncSettlementValidation(currentExit);
+
+    if(!AdminUI.validateForm('settlementForm'))return;
+
+    const accountValue=$('payoutAccountId').value;
 
     const payload={
-        payout_account_id:Number($('payoutAccountId').value),
+        payout_account_id:accountValue?Number(accountValue):null,
         settlement_date:$('settlementDate').value
     };
 
@@ -1055,9 +1076,6 @@ async function init(){
 
     $('statusFilter').addEventListener('change',()=>loadExits(1));
     $('typeFilter').addEventListener('change',()=>loadExits(1));
-
-    AdminUI.bindFieldValidation('createForm');
-    AdminUI.bindFieldValidation('settlementForm');
 
     window.initDatePickers?.();
 

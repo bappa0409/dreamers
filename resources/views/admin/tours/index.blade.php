@@ -207,14 +207,14 @@ CREATE / EDIT TOUR
             </button>
         </div>
 
-        <form id="tourForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="tourForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="tourError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div class="md:col-span-2">
                         <label class="form-label">Tour Title <span class="text-red-500">*</span></label>
-                        <input id="tourTitle" type="text" maxlength="255" class="app-input w-full">
+                        <input id="tourTitle" type="text" maxlength="255" class="app-input w-full" data-validation-required-message="Tour title is required.">
                         <p data-field-error="tourTitle" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
@@ -222,7 +222,7 @@ CREATE / EDIT TOUR
                         <label class="form-label">Destination <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <i class="bi bi-geo-alt pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="tourDestination" type="text" maxlength="255" class="app-input w-full !pl-9">
+                            <input id="tourDestination" type="text" maxlength="255" class="app-input w-full !pl-9" data-validation-required-message="Destination is required.">
                         </div>
                         <p data-field-error="tourDestination" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
@@ -231,7 +231,7 @@ CREATE / EDIT TOUR
                         <label class="form-label">Start Date <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="tourStartDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
+                            <input id="tourStartDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Start date is required.">
                         </div>
                         <p data-field-error="tourStartDate" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
@@ -240,7 +240,7 @@ CREATE / EDIT TOUR
                         <label class="form-label">End Date <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="tourEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
+                            <input id="tourEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="End date is required." data-on-or-after="tourStartDate" data-validation-compare-message="End date cannot be earlier than start date.">
                         </div>
                         <p data-field-error="tourEndDate" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
@@ -325,7 +325,7 @@ PARTICIPANT MODAL
             </button>
         </div>
 
-        <form id="participantForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="participantForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="participantId" type="hidden">
 
             <div class="space-y-4 p-5">
@@ -334,9 +334,10 @@ PARTICIPANT MODAL
                 <div id="participantMemberWrap">
                     <label class="form-label">Member <span class="text-red-500">*</span></label>
 
-                    <select id="participantMemberId" class="app-input w-full">
+                    <select id="participantMemberId" class="app-input w-full" data-validation-required-message="Please select a member.">
                         <option value="">Select member</option>
                     </select>
+                    <p data-field-error="participantMemberId" class="mt-1 hidden text-xs text-red-600"></p>
                 </div>
 
                 <div>
@@ -388,41 +389,46 @@ EXPENSE MODAL
             </button>
         </div>
 
-        <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
                         <label class="form-label">Category <span class="text-red-500">*</span></label>
-                        <input id="expenseCategory" maxlength="100" class="app-input w-full" placeholder="Transport, Hotel, Food...">
+                        <input id="expenseCategory" maxlength="100" class="app-input w-full" placeholder="Transport, Hotel, Food..." data-validation-required-message="Expense category is required.">
+                        <p data-field-error="expenseCategory" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Amount <span class="text-red-500">*</span></label>
-                        <input id="expenseAmount" type="number" min="0.01" step="0.01" class="app-input w-full">
+                        <input id="expenseAmount" type="number" min="0.01" step="0.01" class="app-input w-full" data-validation-required-message="Expense amount is required." data-validation-min-message="Expense amount must be greater than zero.">
+                        <p data-field-error="expenseAmount" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Expense Account <span class="text-red-500">*</span></label>
-                        <select id="expenseAccountId" class="app-input w-full">
+                        <select id="expenseAccountId" class="app-input w-full" data-validation-required-message="Select an expense account.">
                             <option value="">Select expense account</option>
                         </select>
+                        <p data-field-error="expenseAccountId" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Payment Account <span class="text-red-500">*</span></label>
-                        <select id="paymentAccountId" class="app-input w-full">
+                        <select id="paymentAccountId" class="app-input w-full" data-validation-required-message="Select a payment account.">
                             <option value="">Select Cash/Bank</option>
                         </select>
+                        <p data-field-error="paymentAccountId" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
+                            <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Expense date is required.">
                         </div>
+                        <p data-field-error="expenseDate" class="mt-1 hidden text-xs text-red-600"></p>
                     </div>
 
                     <div>
@@ -594,8 +600,6 @@ function tourDuration(tour){
 function nextStatuses(status){
     return{
         draft:[
-            'approved',
-            'upcoming',
             'cancelled'
         ],
         approved:[
@@ -1185,39 +1189,12 @@ $('tourForm').addEventListener(
         AdminUI.clearFieldErrors(
             'tourForm'
         );
-
-        const required={
-            tourTitle:'Tour title is required.',
-            tourDestination:'Destination is required.',
-            tourStartDate:'Start date is required.',
-            tourEndDate:'End date is required.'
-        };
-
-        if(
-            !AdminUI.validateRequired(
-                'tourForm',
-                required
-            )
-        ){
-            return;
-        }
-
-        const start=
+const start=
             $('tourStartDate').value;
 
         const end=
             $('tourEndDate').value;
-
-        if(end<start){
-            AdminUI.showFieldError(
-                'tourEndDate',
-                'End date cannot be earlier than start date.'
-            );
-
-            return;
-        }
-
-        const data={
+const data={
             title:
                 $('tourTitle').value.trim(),
 
@@ -1301,7 +1278,16 @@ $('tourForm').addEventListener(
                             'tourStartDate',
 
                         end_date:
-                            'tourEndDate'
+                            'tourEndDate',
+
+                        budget_amount:
+                            'tourBudget',
+
+                        description:
+                            'tourDescription',
+
+                        notes:
+                            'tourNotes'
                     }
                 )
             ){
@@ -2228,6 +2214,10 @@ window.openParticipantModal=function(){
         'participantError'
     );
 
+    AdminUI.clearFieldErrors(
+        'participantForm'
+    );
+
     AdminUI.openModal(
         'participantModal'
     );
@@ -2278,6 +2268,10 @@ window.editParticipant=function(id){
         'participantError'
     );
 
+    AdminUI.clearFieldErrors(
+        'participantForm'
+    );
+
     AdminUI.openModal(
         'participantModal'
     );
@@ -2291,20 +2285,7 @@ $('participantForm').addEventListener(
         AdminUI.clearError(
             'participantError'
         );
-
-        if(
-            !editingParticipant&&
-            !$('participantMemberId').value
-        ){
-            AdminUI.showError(
-                'participantError',
-                'Please select a member.'
-            );
-
-            return;
-        }
-
-        const data={
+const data={
             status:
                 $('participantStatus').value,
 
@@ -2366,12 +2347,24 @@ $('participantForm').addEventListener(
                 )
             ]);
         }catch(error){
-            AdminUI.showError(
-                'participantError',
-                AdminUI.extractError(
-                    error
+            if(
+                !AdminUI.showValidationErrors(
+                    'participantForm',
+                    error,
+                    {
+                        member_id:'participantMemberId',
+                        status:'participantStatus',
+                        notes:'participantNotes'
+                    }
                 )
-            );
+            ){
+                AdminUI.showError(
+                    'participantError',
+                    AdminUI.extractError(
+                        error
+                    )
+                );
+            }
         }finally{
             AdminUI.resetLoading(
                 button
@@ -2413,6 +2406,10 @@ window.openExpenseModal=function(){
         'expenseError'
     );
 
+    AdminUI.clearFieldErrors(
+        'expenseForm'
+    );
+
     AdminUI.openModal(
         'expenseModal'
     );
@@ -2434,62 +2431,11 @@ $('expenseForm').addEventListener(
         AdminUI.clearError(
             'expenseError'
         );
-
-        const required=[
-            [
-                'expenseCategory',
-                'Expense category is required.'
-            ],
-            [
-                'expenseAccountId',
-                'Select an expense account.'
-            ],
-            [
-                'paymentAccountId',
-                'Select a payment account.'
-            ],
-            [
-                'expenseAmount',
-                'Expense amount is required.'
-            ],
-            [
-                'expenseDate',
-                'Expense date is required.'
-            ]
-        ];
-
-        for(
-            const [id,message]
-            of required
-        ){
-            if(!$(id).value){
-                AdminUI.showError(
-                    'expenseError',
-                    message
-                );
-
-                return;
-            }
-        }
-
-        const amount=
+const amount=
             Number(
                 $('expenseAmount').value
             );
-
-        if(
-            !Number.isFinite(amount)||
-            amount<=0
-        ){
-            AdminUI.showError(
-                'expenseError',
-                'Expense amount must be greater than zero.'
-            );
-
-            return;
-        }
-
-        const data={
+const data={
             category:
                 $('expenseCategory')
                     .value
@@ -2567,12 +2513,29 @@ $('expenseForm').addEventListener(
                 loadStatistics()
             ]);
         }catch(error){
-            AdminUI.showError(
-                'expenseError',
-                AdminUI.extractError(
-                    error
+            if(
+                !AdminUI.showValidationErrors(
+                    'expenseForm',
+                    error,
+                    {
+                        category:'expenseCategory',
+                        expense_account_id:'expenseAccountId',
+                        payment_account_id:'paymentAccountId',
+                        amount:'expenseAmount',
+                        expense_date:'expenseDate',
+                        payee:'expensePayee',
+                        reference_no:'expenseReference',
+                        description:'expenseDescription'
+                    }
                 )
-            );
+            ){
+                AdminUI.showError(
+                    'expenseError',
+                    AdminUI.extractError(
+                        error
+                    )
+                );
+            }
         }finally{
             AdminUI.resetLoading(
                 button

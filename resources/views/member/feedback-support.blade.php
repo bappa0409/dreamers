@@ -205,7 +205,7 @@ Clear
 </button>
 </div>
 
-<form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
 <div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
@@ -293,7 +293,7 @@ Confidential request
 </button>
 </div>
 
-<form id="followUpForm" novalidate>
+<form id="followUpForm" novalidate data-js-validation="1">
 <input id="followUpTicketId" type="hidden">
 
 <div class="p-5">
@@ -328,7 +328,7 @@ Confidential request
 </button>
 </div>
 
-<form id="attachmentForm" novalidate>
+<form id="attachmentForm" novalidate data-js-validation="1">
 <input id="attachmentTicketId" type="hidden">
 
 <div class="p-5">
@@ -336,7 +336,7 @@ Confidential request
 
 <label class="form-label">File <span class="text-red-500">*</span></label>
 
-<input id="attachmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600">
+<input id="attachmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600" data-validation-required-message="Please select an attachment." data-validation-file-message="PDF, JPG, PNG, WEBP, DOC or DOCX files are allowed.">
 
 <p class="mt-1 text-[10px] text-slate-400">PDF, image, DOC or DOCX.</p>
 <p data-field-error="attachmentFile" class="mt-1 hidden text-xs text-red-600"></p>
@@ -763,7 +763,7 @@ event.preventDefault();
 AdminUI.clearError('createError');
 AdminUI.clearFieldErrors('createForm');
 
-if(!AdminUI.validateRequired('createForm',{
+if(!AdminUI.validateForm('createForm',{
 categoryId:'Please select a category.',
 ticketType:'Please select a type.',
 ticketPriority:'Priority is required.',
@@ -845,7 +845,7 @@ const id=Number($('followUpTicketId').value);
 AdminUI.clearError('followUpError');
 AdminUI.clearFieldErrors('followUpForm');
 
-if(!AdminUI.validateRequired('followUpForm',{
+if(!AdminUI.validateForm('followUpForm',{
 followUpMessage:'Follow-up message is required.'
 })){
 return;
@@ -913,30 +913,6 @@ const file=$('attachmentFile').files?.[0];
 
 AdminUI.clearError('attachmentError');
 AdminUI.clearFieldErrors('attachmentForm');
-
-if(!file){
-AdminUI.showFieldError(
-'attachmentFile',
-'Please select an attachment.'
-);
-return;
-}
-
-const allowedExtensions=[
-'pdf','jpg','jpeg','png','webp','doc','docx'
-];
-
-const extension=String(
-file.name.split('.').pop()??''
-).toLowerCase();
-
-if(!allowedExtensions.includes(extension)){
-AdminUI.showFieldError(
-'attachmentFile',
-'PDF, JPG, PNG, WEBP, DOC or DOCX files are allowed.'
-);
-return;
-}
 
 const form=new FormData();
 form.append('file',file);
@@ -1127,11 +1103,10 @@ ${escapeHtml(file.original_name??file.file_name??'Attachment')}
 </p>
 </div>
 
-${file.file_url?`
-<a href="${escapeAttribute(file.file_url)}" target="_blank" rel="noopener" class="inline-flex h-8 items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 text-[10px] font-semibold text-indigo-600">
+<a href="/api/member/feedback-support/attachments/${Number(file.id)}" target="_blank" rel="noopener" class="inline-flex h-8 items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 text-[10px] font-semibold text-indigo-600">
 <i class="bi bi-box-arrow-up-right"></i>
 View
-</a>`:''}
+</a>
 
 </div>`).join('')}
 
@@ -1308,10 +1283,6 @@ $(id).addEventListener(
 ()=>loadTickets(1)
 );
 });
-
-AdminUI.bindFieldValidation('createForm');
-AdminUI.bindFieldValidation('followUpForm');
-AdminUI.bindFieldValidation('attachmentForm');
 
 await loadTickets();
 }

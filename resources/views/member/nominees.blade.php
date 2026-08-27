@@ -189,7 +189,7 @@ Clear
 </button>
 </div>
 
-<form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 
 <input id="nomineeId" type="hidden">
 
@@ -296,7 +296,7 @@ Clear
 <label class="form-label">Allocation Percentage <span class="text-red-500">*</span></label>
 
 <div class="relative">
-<input id="allocation" type="number" min="0.01" max="100" step="0.01" class="app-input w-full !pr-9" placeholder="0.00">
+<input id="allocation" type="number" min="0.01" max="100" step="0.01" class="app-input w-full !pr-9" placeholder="0.00" data-validation-min-message="Allocation must be between 0.01% and 100%." data-validation-max-message="Allocation must be between 0.01% and 100%.">
 
 <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">%</span>
 </div>
@@ -307,7 +307,7 @@ Clear
 <div>
 <label class="form-label">Priority <span class="text-red-500">*</span></label>
 
-<input id="priority" type="number" min="1" value="1" class="app-input w-full">
+<input id="priority" type="number" min="1" value="1" pattern="[1-9]\d*" class="app-input w-full" data-validation-min-message="Priority must be at least 1." data-validation-pattern-message="Priority must be a whole number of at least 1.">
 
 <p data-field-error="priority" class="mt-1 hidden text-xs text-red-600"></p>
 </div>
@@ -369,7 +369,7 @@ Save Nominee
 </button>
 </div>
 
-<form id="documentForm" novalidate>
+<form id="documentForm" novalidate data-js-validation="1">
 
 <input id="documentNomineeId" type="hidden">
 
@@ -380,7 +380,7 @@ Save Nominee
 <div>
 <label class="form-label">Document Type <span class="text-red-500">*</span></label>
 
-<select id="documentType" class="app-input w-full">
+<select id="documentType" class="app-input w-full" data-validation-required-message="Please select a document type.">
 <option value="">Select Document Type</option>
 <option value="nid">National ID</option>
 <option value="birth_certificate">Birth Certificate</option>
@@ -395,7 +395,7 @@ Save Nominee
 <div>
 <label class="form-label">Document <span class="text-red-500">*</span></label>
 
-<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600">
+<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600" data-validation-required-message="Please select a document." data-validation-file-message="Only PDF, JPG, PNG or WEBP files are allowed.">
 
 <p class="mt-1 text-[10px] text-slate-400">PDF, JPG, JPEG, PNG or WEBP.</p>
 
@@ -751,7 +751,7 @@ ${documents.map(document=>`
 <i class="bi bi-file-earmark"></i>
 </div>
 
-<a href="${escapeHtml(document.file_url)}" target="_blank" class="min-w-0 flex-1 truncate text-[11px] font-medium text-indigo-600 hover:underline">
+<a href="/api/member/nominees/documents/${Number(document.id)}" target="_blank" class="min-w-0 flex-1 truncate text-[11px] font-medium text-indigo-600 hover:underline">
 ${escapeHtml(document.original_name)}
 </a>
 
@@ -949,7 +949,7 @@ event.preventDefault();
 AdminUI.clearError('nomineeError');
 AdminUI.clearFieldErrors('nomineeForm');
 
-if(!AdminUI.validateRequired('nomineeForm',{
+if(!AdminUI.validateForm('nomineeForm',{
 name:'Nominee name is required.',
 relationship:'Relationship is required.',
 allocation:'Allocation percentage is required.',
@@ -960,29 +960,6 @@ return;
 
 const allocation=Number($('allocation').value);
 const priority=Number($('priority').value);
-
-if(
-!Number.isFinite(allocation)||
-allocation<=0||
-allocation>100
-){
-AdminUI.showFieldError(
-'allocation',
-'Allocation must be between 0.01% and 100%.'
-);
-return;
-}
-
-if(
-!Number.isInteger(priority)||
-priority<1
-){
-AdminUI.showFieldError(
-'priority',
-'Priority must be at least 1.'
-);
-return;
-}
 
 const identityType=$('identityType').value;
 const identityNumber=$('identityNumber').value.trim();
@@ -1177,37 +1154,6 @@ const id=$('documentNomineeId').value;
 const type=$('documentType').value;
 const file=$('documentFile').files?.[0];
 
-if(!type){
-AdminUI.showFieldError(
-'documentType',
-'Please select a document type.'
-);
-return;
-}
-
-if(!file){
-AdminUI.showFieldError(
-'documentFile',
-'Please select a document.'
-);
-return;
-}
-
-const allowed=[
-'application/pdf',
-'image/jpeg',
-'image/png',
-'image/webp'
-];
-
-if(!allowed.includes(file.type)){
-AdminUI.showFieldError(
-'documentFile',
-'Only PDF, JPG, PNG or WEBP files are allowed.'
-);
-return;
-}
-
 const form=new FormData();
 
 form.append(
@@ -1246,10 +1192,19 @@ response.message??
 await loadNominees();
 
 }catch(error){
+if(!AdminUI.showValidationErrors(
+'documentForm',
+error,
+{
+document_type:'documentType',
+file:'documentFile'
+}
+)){
 AdminUI.showError(
 'documentError',
 AdminUI.extractError(error)
 );
+}
 }finally{
 AdminUI.resetLoading(button);
 }
@@ -1390,14 +1345,6 @@ verificationFilter.addEventListener(
 currentNomineePage=1;
 applyNomineeFilters();
 }
-);
-
-AdminUI.bindFieldValidation(
-'nomineeForm'
-);
-
-AdminUI.bindFieldValidation(
-'documentForm'
 );
 
 window.initDatePickers?.();

@@ -5,13 +5,15 @@ namespace App\Services;
 use App\Models\Account;
 use App\Models\TellerClosing;
 use App\Models\TellerTransaction;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class TellerService
 {
     public function __construct(
-        protected AccountingService $accountingService
+        protected AccountingService $accountingService,
+        protected NumberSequenceService $numberSequenceService
     ){}
 
     public function receive(
@@ -22,6 +24,8 @@ class TellerService
             $data,
             $tellerId
         ){
+            $this->lockTeller($tellerId);
+
             $this->ensureDayOpen(
                 $tellerId,
                 $data['transaction_date']
@@ -103,6 +107,8 @@ class TellerService
         ){
             $date=$data['transaction_date']
                 ??now()->toDateString();
+
+            $this->lockTeller($tellerId);
 
             $this->ensureDayOpen(
                 $tellerId,
@@ -235,6 +241,8 @@ class TellerService
             $transaction,
             $userId
         ){
+            $this->lockTeller((int)$transaction->teller_id);
+
             $transaction=TellerTransaction::query()
                 ->whereKey($transaction->id)
                 ->lockForUpdate()
@@ -262,8 +270,9 @@ class TellerService
                     ->firstOrFail();
 
                 $this->accountingService->post([
-                    'transaction_date'=>now()
-                        ->toDateString(),
+                    'transaction_date'=>$this->reversalDate(
+                        $transaction->transaction_date
+                    ),
 
                     'type'=>$transaction->type==='receive'
                         ?'teller_receive_reversal'
@@ -311,6 +320,7 @@ class TellerService
             'cash_accounts'=>Account::query()
                 ->active()
                 ->posting()
+                ->where('type','asset')
                 ->where('sub_type','cash')
                 ->orderBy('code')
                 ->get([
@@ -352,7 +362,11 @@ class TellerService
                         'liability'
                     ]
                 )
-                ->where('sub_type','!=','cash')
+                ->where(function($query){
+                    $query
+                        ->whereNull('sub_type')
+                        ->orWhere('sub_type','!=','cash');
+                })
                 ->orderBy('code')
                 ->get([
                     'id',
@@ -389,20 +403,19 @@ class TellerService
 
     protected function generateNumber(): string
     {
-        $last=TellerTransaction::query()
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('transaction_no');
+        return $this->numberSequenceService->next(
+            key:'teller',
+            prefix:'TELLER-',
+            digits:6,
+            initialValue:function(){
+                $last=TellerTransaction::query()
+                    ->orderByDesc('id')
+                    ->value('transaction_no');
 
-        $next=$last
-            ?((int)substr($last,-6))+1
-            :1;
-
-        return 'TELLER-'.str_pad(
-            (string)$next,
-            6,
-            '0',
-            STR_PAD_LEFT
+                return $last
+                    ?(int)substr($last,-6)
+                    :0;
+            }
         );
     }
 
@@ -490,6 +503,29 @@ class TellerService
         }
 
         return $account;
+    }
+
+    protected function lockTeller(int $tellerId): void
+    {
+        User::query()
+            ->whereKey($tellerId)
+            ->lockForUpdate()
+            ->firstOrFail();
+    }
+
+    protected function reversalDate(\DateTimeInterface|string|null $originalDate): string
+    {
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :(string)$originalDate;
+
+        return $date>$today?$date:$today;
     }
 
     protected function ensureDayOpen(

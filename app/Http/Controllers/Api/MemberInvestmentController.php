@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
+use App\Models\InvestmentReturn;
 use Illuminate\Http\Request;
 
 class MemberInvestmentController extends Controller
@@ -16,28 +17,7 @@ class MemberInvestmentController extends Controller
             'per_page'=>'nullable|integer|min:5|max:100',
         ]);
 
-        $query=Investment::query()
-            ->select([
-                'id',
-                'investment_no',
-                'title',
-                'description',
-                'amount',
-                'expected_return',
-                'investment_date',
-                'maturity_date',
-                'status',
-            ])
-            ->withSum([
-                'returns as income_received'=>fn($q)=>
-                    $q->where('status','paid')
-                        ->where('return_type','income'),
-            ],'amount')
-            ->withSum([
-                'returns as principal_returned'=>fn($q)=>
-                    $q->where('status','paid')
-                        ->where('return_type','principal'),
-            ],'amount')
+        $base=Investment::query()
             ->whereIn(
                 'status',
                 ['active','completed']
@@ -75,7 +55,49 @@ class MemberInvestmentController extends Controller
                             );
                     });
                 }
+            );
+
+        $summaryRow=(clone $base)
+            ->selectRaw("
+                COUNT(*) total,
+                COALESCE(SUM(amount),0) investment_amount
+            ")
+            ->first();
+
+        $returnSummary=InvestmentReturn::query()
+            ->where('status','paid')
+            ->whereIn(
+                'investment_id',
+                (clone $base)->select('id')
             )
+            ->selectRaw("
+                COALESCE(SUM(CASE WHEN return_type='income' THEN amount ELSE 0 END),0) income,
+                COALESCE(SUM(CASE WHEN return_type='principal' THEN amount ELSE 0 END),0) principal
+            ")
+            ->first();
+
+        $query=(clone $base)
+            ->select([
+                'id',
+                'investment_no',
+                'title',
+                'description',
+                'amount',
+                'expected_return',
+                'investment_date',
+                'maturity_date',
+                'status',
+            ])
+            ->withSum([
+                'returns as income_received'=>fn($q)=>
+                    $q->where('status','paid')
+                        ->where('return_type','income'),
+            ],'amount')
+            ->withSum([
+                'returns as principal_returned'=>fn($q)=>
+                    $q->where('status','paid')
+                        ->where('return_type','principal'),
+            ],'amount')
             ->latest('investment_date')
             ->latest('id');
 
@@ -141,6 +163,21 @@ class MemberInvestmentController extends Controller
         return response()->json([
             'success'=>true,
             'data'=>$investments,
+            'summary'=>[
+                'total'=>(int)($summaryRow->total??0),
+                'investment_amount'=>round(
+                    (float)($summaryRow->investment_amount??0),
+                    2
+                ),
+                'income_received'=>round(
+                    (float)($returnSummary->income??0),
+                    2
+                ),
+                'principal_returned'=>round(
+                    (float)($returnSummary->principal??0),
+                    2
+                ),
+            ],
         ]);
     }
 

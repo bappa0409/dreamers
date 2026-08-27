@@ -54,11 +54,6 @@ class MemberController extends Controller
         return view('member.notices');
     }
 
-    public function committee(): View
-    {
-        return view('member.committee');
-    }
-
     public function subscriptionPayments()
     {
         return view('member.subscriptions.subscription-payments');

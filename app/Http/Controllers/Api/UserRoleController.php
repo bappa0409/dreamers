@@ -95,7 +95,21 @@ class UserRoleController extends Controller
             }
         }
 
+        $user->loadMissing('member');
+
         $memberRole=Role::where('name','member')->first();
+
+        if(
+            !$user->member&&
+            $memberRole&&
+            in_array((int)$memberRole->id,array_map('intval',$validated['role_ids']),true)
+        ){
+            throw ValidationException::withMessages([
+                'role_ids'=>[
+                    'The Member role can only be assigned to a user with a member profile.'
+                ]
+            ]);
+        }
 
         if($user->member && $memberRole){
             $validated['role_ids'][]=$memberRole->id;
@@ -107,8 +121,29 @@ class UserRoleController extends Controller
             ->values()
             ->all();
 
-        DB::transaction(function()use($user,$roleIds){
+        DB::transaction(function()use($user,$roleIds,$memberRole){
             $user->roles()->sync($roleIds);
+
+            /*
+             * Keep the legacy users.role_id column consistent while the
+             * application finishes migrating to the user_roles pivot table.
+             * Prefer the existing legacy role when it is still assigned;
+             * otherwise prefer a non-member role for staff/admin accounts.
+             */
+            $currentRoleId=(int)($user->role_id??0);
+
+            $legacyRoleId=in_array($currentRoleId,$roleIds,true)
+                ?$currentRoleId
+                :(
+                    collect($roleIds)->first(
+                        fn($id)=>!$memberRole||$id!==$memberRole->id
+                    )
+                    ??$roleIds[0]
+                );
+
+            $user->update([
+                'role_id'=>$legacyRoleId,
+            ]);
         });
 
         $this->forgetUserRoleCache($user);

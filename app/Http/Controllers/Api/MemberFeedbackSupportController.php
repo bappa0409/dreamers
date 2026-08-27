@@ -22,6 +22,81 @@ class MemberFeedbackSupportController extends Controller
 
         abort_unless($member,403);
 
+        $validated=$request->validate([
+            'search'=>'nullable|string|max:150',
+            'status'=>'nullable|in:submitted,under_review,assigned,in_progress,resolved,closed,rejected,cancelled',
+            'type'=>'nullable|in:feedback,support_request,complaint,suggestion,service_issue,other',
+            'priority'=>'nullable|in:low,normal,high,urgent',
+            'per_page'=>'nullable|integer|min:5|max:50',
+        ]);
+
+        $base=$member->feedbackSupports();
+
+        $summary=(clone $base)
+            ->selectRaw("
+                COUNT(*) AS total,
+                SUM(CASE WHEN status IN ('submitted','under_review','assigned','in_progress') THEN 1 ELSE 0 END) AS open_count,
+                SUM(CASE WHEN priority='urgent' AND status NOT IN ('closed','cancelled','rejected') THEN 1 ELSE 0 END) AS urgent,
+                SUM(CASE WHEN status='resolved' THEN 1 ELSE 0 END) AS resolved,
+                SUM(CASE WHEN status='closed' THEN 1 ELSE 0 END) AS closed_count
+            ")
+            ->first();
+
+        $tickets=$base
+            ->with([
+                'category:id,name',
+                'assignee:id,name',
+                'attachments:id,feedback_support_id,original_name,mime_type,file_size',
+
+                'updates'=>fn($q)=>
+                    $q->whereIn(
+                        'type',
+                        [
+                            'support_response',
+                            'member_follow_up'
+                        ]
+                    )
+                    ->with('user:id,name')
+                    ->oldest(),
+
+                'histories'=>fn($q)=>
+                    $q->select([
+                        'id',
+                        'feedback_support_id',
+                        'from_status',
+                        'to_status',
+                        'created_at'
+                    ])
+                    ->oldest()
+            ])
+            ->when(
+                $validated['status']??null,
+                fn($q,$status)=>$q->where('status',$status)
+            )
+            ->when(
+                $validated['type']??null,
+                fn($q,$type)=>$q->where('type',$type)
+            )
+            ->when(
+                $validated['priority']??null,
+                fn($q,$priority)=>$q->where('priority',$priority)
+            )
+            ->when(
+                $validated['search']??null,
+                function($q,$search){
+                    $search=trim($search);
+
+                    $q->where(function($q)use($search){
+                        $q->where('ticket_no','like',"%{$search}%")
+                            ->orWhere('subject','like',"%{$search}%")
+                            ->orWhere('description','like',"%{$search}%");
+                    });
+                }
+            )
+            ->latest('id')
+            ->paginate($validated['per_page']??10)
+            ->withQueryString();
+
         return response()->json([
             'success'=>true,
             'data'=>[
@@ -34,35 +109,16 @@ class MemberFeedbackSupportController extends Controller
                         'description'
                     ]),
 
-                'tickets'=>$member->feedbackSupports()
-                    ->with([
-                        'category:id,name',
-                        'assignee:id,name',
-                        'attachments:id,feedback_support_id,original_name,mime_type,file_size',
+                'tickets'=>$tickets,
 
-                        'updates'=>fn($q)=>
-                            $q->whereIn(
-                                'type',
-                                [
-                                    'support_response',
-                                    'member_follow_up'
-                                ]
-                            )
-                            ->with('user:id,name')
-                            ->oldest(),
-
-                        'histories'=>fn($q)=>
-                            $q->select([
-                                'id',
-                                'feedback_support_id',
-                                'from_status',
-                                'to_status',
-                                'created_at'
-                            ])
-                            ->oldest()
-                    ])
-                    ->latest('id')
-                    ->get()
+                'summary'=>[
+                    'total'=>(int)($summary->total??0),
+                    'open'=>(int)($summary->open_count??0),
+                    'urgent'=>(int)($summary->urgent??0),
+                    'resolved'=>(int)($summary->resolved??0),
+                    'closed'=>(int)($summary->closed_count??0),
+                    'resolved_closed'=>(int)($summary->resolved??0)+(int)($summary->closed_count??0),
+                ],
             ]
         ]);
     }

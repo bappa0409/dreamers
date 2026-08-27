@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreamer Association — সিস্টেম ব্যবহার ম্যানুয়াল</title>
+<style>
+  :root{
+    --navy:#0f2540;
+    --blue:#145da0;
+    --blue-light:#4680b7;
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --border:#e2e8f0;
+    --text:#1e293b;
+    --muted:#64748b;
+    --green:#0f9d58;
+    --red:#d64545;
+    --amber:#b7791f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Noto Sans Bengali",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+  }
+  header{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff;
+    padding:36px 24px 28px;
+  }
+  header .wrap{max-width:1080px;margin:0 auto;}
+  header h1{margin:0 0 6px;font-size:24px;}
+  header p{margin:0;color:#dbe8f5;font-size:13.5px;}
+
+  .layout{max-width:1080px;margin:0 auto;padding:24px;display:grid;grid-template-columns:270px 1fr;gap:24px;align-items:start;}
+  @media(max-width:860px){.layout{grid-template-columns:1fr;}}
+
+  nav.index{
+    position:sticky; top:16px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 16px;
+    font-size:13px;
+    max-height:calc(100vh - 32px);
+    overflow:auto;
+  }
+  nav.index h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 10px;}
+  nav.index ol{margin:0;padding-left:18px;}
+  nav.index li{margin:4px 0;}
+  nav.index a{color:var(--navy);text-decoration:none;font-weight:600;}
+  nav.index a:hover{color:var(--blue);text-decoration:underline;}
+  nav.index .sub{list-style:none;padding-left:14px;margin:2px 0 6px;}
+  nav.index .sub a{font-weight:400;color:var(--muted);font-size:12.5px;}
+
+  main{min-width:0;}
+  section.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px 24px;
+    margin-bottom:20px;
+    scroll-margin-top:16px;
+  }
+  section.card h2{
+    font-size:19px;margin:0 0 4px;color:var(--navy);
+    display:flex;align-items:center;gap:10px;
+  }
+  .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--blue);color:#fff;font-size:13px;font-weight:700;flex-shrink:0;
+  }
+  .path{
+    display:inline-block;
+    background:#eef4fb;border:1px solid #d7e5f3;color:var(--navy);
+    font-size:12.5px;font-weight:600;
+    padding:3px 10px;border-radius:20px;margin:6px 0 10px;
+  }
+  h3{font-size:14.5px;color:var(--blue);margin:16px 0 8px;}
+  p{margin:8px 0;font-size:14px;}
+  ol.steps{margin:8px 0;padding-left:20px;}
+  ol.steps li{margin:6px 0;font-size:14px;}
+  ul.plain{margin:8px 0;padding-left:20px;}
+  ul.plain li{margin:5px 0;font-size:14px;}
+  .role{
+    display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:6px;
+  }
+  .role.admin{background:#fdecec;color:var(--red);}
+  .role.member{background:#e7f7ee;color:var(--green);}
+  .note{
+    background:#fff8e6;border:1px solid #f1dca3;border-radius:8px;
+    padding:10px 14px;font-size:13.5px;color:#7a5b12;margin-top:10px;
+  }
+  .tip{
+    background:#eef8ff;border:1px solid #cfe6f9;border-radius:8px;
+    padding:10px 14px;font-size:13.5px;color:#0c4a76;margin-top:10px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0;}
+  th,td{padding:8px 10px;border:1px solid var(--border);text-align:left;vertical-align:top;}
+  th{background:#f1f5f9;color:var(--navy);font-weight:600;}
+  footer{max-width:1080px;margin:10px auto 40px;padding:0 24px;color:var(--muted);font-size:12.5px;}
+  .backtop{font-size:12px;color:var(--blue);text-decoration:none;float:right;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Dreamer Association — সিস্টেম ব্যবহার ম্যানুয়াল</h1>
+    <p>প্রতিটা মডিউল কোথায় পাবেন, কী কাজ করে, আর ধাপে ধাপে কীভাবে ব্যবহার করবেন — এই ডকুমেন্ট শুধু ব্যবহারকারীর দৃষ্টিকোণ থেকে লেখা (কোনো কোড নেই)।</p>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="index">
+    <h2>সূচিপত্র (Index)</h2>
+    <ol>
+      <li><a href="#login">লগইন ও দুইটা পোর্টাল</a></li>
+      <li><a href="#dashboard">এডমিন ড্যাশবোর্ড</a></li>
+      <li><a href="#members">মেম্বার ম্যানেজমেন্ট</a></li>
+      <li><a href="#nominees">নমিনি</a></li>
+      <li><a href="#member-exit">মেম্বার এক্সিট</a></li>
+      <li><a href="#shares">শেয়ার</a></li>
+      <li><a href="#subscription-plans">সাবস্ক্রিপশন প্ল্যান</a></li>
+      <li><a href="#subscriptions">সাবস্ক্রিপশন ও ডিউ</a></li>
+      <li><a href="#loans">লোন</a></li>
+      <li><a href="#investments">বিনিয়োগ (Investments)</a></li>
+      <li><a href="#land-projects">জমি ও প্রজেক্ট</a></li>
+      <li><a href="#welfare">কল্যাণ তহবিল (Welfare)</a></li>
+      <li><a href="#finance">ফাইন্যান্স মডিউল</a>
+        <ol class="sub">
+          <li><a href="#finance-overview">ফাইন্যান্স ওভারভিউ</a></li>
+          <li><a href="#chart-of-accounts">চার্ট অব অ্যাকাউন্টস</a></li>
+          <li><a href="#journals">জার্নাল / ম্যানুয়াল ভাউচার</a></li>
+          <li><a href="#ledger">লেজার</a></li>
+          <li><a href="#trial-balance">ট্রায়াল ব্যালেন্স</a></li>
+          <li><a href="#balance-sheet">ব্যালেন্স শীট</a></li>
+          <li><a href="#profit-loss">প্রফিট অ্যান্ড লস</a></li>
+          <li><a href="#incomes">ইনকাম</a></li>
+          <li><a href="#expenses">এক্সপেন্স</a></li>
+          <li><a href="#charges">মেম্বার চার্জ</a></li>
+          <li><a href="#assets">অ্যাসেট</a></li>
+        </ol>
+      </li>
+      <li><a href="#approvals">অ্যাপ্রুভাল ওয়ার্কফ্লো</a></li>
+      <li><a href="#reports">রিপোর্টস</a></li>
+      <li><a href="#engagement">নোটিশ, পোল, মেইলিং, মিটিং, ট্যুর, কমিটি</a></li>
+      <li><a href="#settings">সেটিংস ও সিস্টেম</a></li>
+      <li><a href="#member-portal">মেম্বার পোর্টাল (মেম্বারদের জন্য)</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section class="card" id="login">
+      <h2><span class="num">1</span> লগইন ও দুইটা পোর্টাল</h2>
+      <p>এই সিস্টেমে দুইটা আলাদা অংশ আছে:</p>
+      <table>
+        <tr><th>পোর্টাল</th><th>কারা ব্যবহার করে</th><th>URL প্রিফিক্স</th></tr>
+        <tr><td><span class="role admin">Admin Panel</span></td><td>এডমিন / স্টাফ / অ্যাকাউন্ট্যান্ট (পারমিশন অনুযায়ী)</td><td><span class="path">/admin/...</span></td></tr>
+        <tr><td><span class="role member">Member Portal</span></td><td>সাধারণ মেম্বাররা নিজের তথ্য দেখতে/পেমেন্ট দিতে</td><td><span class="path">/member/...</span></td></tr>
+      </table>
+      <p>একই লগইন ফর্ম দিয়ে লগইন করার পর ইউজারের role অনুযায়ী সে অটোমেটিক নিজের পোর্টালে যাবে (member role হলে Member Dashboard-এ, staff/admin role হলে Admin Dashboard-এ)।</p>
+    </section>
+
+    <section class="card" id="dashboard">
+      <h2><span class="num">2</span> এডমিন ড্যাশবোর্ড</h2>
+      <p>লগইনের পর প্রথমেই যেটা দেখবেন — এখানে পুরো অ্যাসোসিয়েশনের সারসংক্ষেপ (মোট মেম্বার, চলতি মাসের কালেকশন, বকেয়া, ক্যাশ/ব্যাংক ব্যালেন্স ইত্যাদি) এক নজরে দেখা যায়। এখান থেকে সরাসরি কোনো এন্ট্রি করা যায় না — এটা শুধু ওভারভিউ।</p>
+    </section>
+
+    <section class="card" id="members">
+      <h2><span class="num">3</span> মেম্বার ম্যানেজমেন্ট <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Members</div>
+      <h3>নতুন মেম্বার যুক্ত করা</h3>
+      <ol class="steps">
+        <li><b>Members → Create Member</b>-এ যান।</li>
+        <li>নাম, ইমেইল, মোবাইল, ঠিকানা ইত্যাদি বেসিক তথ্য দিন। প্রয়োজনে ছবি আপলোড করুন।</li>
+        <li>Save করলে মেম্বারটি প্রথমে <b>Pending</b> স্ট্যাটাসে তৈরি হয় (যদি "Auto Activate" সেটিং অফ থাকে)।</li>
+      </ol>
+      <h3>মেম্বার অ্যাপ্রুভ করা</h3>
+      <ol class="steps">
+        <li>Members লিস্টে Pending মেম্বারদের পাশে <b>Approve</b> বাটন থাকবে।</li>
+        <li>Approve করলেই মেম্বার সক্রিয় হয়ে যায়, তার ইনিশিয়াল শেয়ার (যদি শেয়ার ফিচার চালু থাকে) সক্রিয় হয়, ডিফল্ট সাবস্ক্রিপশন প্ল্যান বসে যায়, আর চলতি মাসের সাবস্ক্রিপশন ডিউ অটো তৈরি হয়ে যায়।</li>
+      </ol>
+      <h3>মেম্বার এডিট / স্ট্যাটাস পরিবর্তন / রিজেক্ট</h3>
+      <p>একই লিস্ট পেজ থেকে মেম্বার এডিট করা যায়, প্রয়োজনে Reject বা Suspend করা যায়। Rejected মেম্বারকে সরাসরি আর Approve করা যায় না।</p>
+      <div class="tip">💡 অ্যাকাউন্ট্যান্টের জন্য গুরুত্বপূর্ণ: মেম্বার Approve করার মুহূর্তেই একটা আয় (Subscription Income) হিসাবে রেকর্ড হয়ে যায়, যদিও কোনো টাকা তখনো জমা হয়নি। বিস্তারিত জন্য আগের অ্যাকাউন্টিং ডকুমেন্ট দেখুন।</div>
+    </section>
+
+    <section class="card" id="nominees">
+      <h2><span class="num">4</span> নমিনি <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Nominees</div>
+      <p>প্রতিটা মেম্বারের নমিনির তথ্য (নাম, সম্পর্ক, জাতীয় পরিচয়পত্র ইত্যাদি) এখানে রাখা হয়। মেম্বার প্রোফাইল থেকে বা এই পেজ থেকে নমিনি যোগ/এডিট করা যায়। এটার সাথে সরাসরি অ্যাকাউন্টিং সংযোগ নেই।</p>
+    </section>
+
+    <section class="card" id="member-exit">
+      <h2><span class="num">5</span> মেম্বার এক্সিট <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Member Exits</div>
+      <p>কোনো মেম্বার অ্যাসোসিয়েশন ছেড়ে দিলে তার এক্সিট প্রসেস এখানে ট্র্যাক হয়। ধাপগুলো:</p>
+      <ol class="steps">
+        <li><b>Request/Review</b> — এক্সিট আবেদন জমা পড়ে বা স্টাফ শুরু করে।</li>
+        <li><b>Assess</b> — মেম্বারের শেয়ার/বকেয়া/পাওনা হিসাব যাচাই করা হয়।</li>
+        <li><b>Approve / Reject</b> — এক্সিট অনুমোদন বা বাতিল করা হয়।</li>
+        <li><b>Settle</b> — চূড়ান্ত রিফান্ড/পরিশোধ হিসাব করা হয়।</li>
+        <li><b>Close</b> — এক্সিট প্রসেস সম্পূর্ণ বন্ধ করা হয়।</li>
+      </ol>
+      <div class="tip">💡 Settle ধাপে মেম্বারের শেয়ার মূল্য ফেরত/সমন্বয় সংক্রান্ত অ্যাকাউন্টিং এন্ট্রি পোস্ট হতে পারে — এই ধাপে অ্যাকাউন্ট্যান্টের যাচাই জরুরি।</div>
+    </section>
+
+    <section class="card" id="shares">
+      <h2><span class="num">6</span> শেয়ার (Member Shares) <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Finance → Share Purchases</div>
+      <p>শেয়ার ফিচার এনাবল থাকলে প্রতিটা মেম্বারের এক বা একাধিক শেয়ার থাকতে পারে।</p>
+      <ol class="steps">
+        <li>মেম্বার নতুন শেয়ার কেনার আবেদন করলে সেটা <b>Pending</b> অবস্থায় জমা হয় (মেম্বার পোর্টাল থেকেও করা যায়)।</li>
+        <li>এডমিন সেই আবেদন <b>Verify</b> (অনুমোদন) বা <b>Reject</b> করে।</li>
+        <li>Verify হলে শেয়ার <b>Active</b> হয়ে যায় এবং শেয়ার মূল্য মেম্বারের মোট জমার (total deposited) সাথে যোগ হয়।</li>
+      </ol>
+      <p>শেয়ারের সংখ্যা মাসিক সাবস্ক্রিপশন এমাউন্ট গণনাতেও প্রভাব ফেলে (multiplier হিসেবে কাজ করে)।</p>
+    </section>
+
+    <section class="card" id="subscription-plans">
+      <h2><span class="num">7</span> সাবস্ক্রিপশন প্ল্যান <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Finance → Subscription Plans</div>
+      <p>এখানে মাসিক চাঁদার প্ল্যান তৈরি/এডিট করা হয় — প্ল্যানের নাম, এমাউন্ট, এবং প্রতি মাসের কত তারিখে due generate হবে (due day) তা সেট করা হয়। একটা প্ল্যানকে <b>Default</b> হিসেবে চিহ্নিত করা যায় — নতুন মেম্বার অ্যাপ্রুভ হলে এই ডিফল্ট প্ল্যানটাই স্বয়ংক্রিয়ভাবে বসে।</p>
+    </section>
+
+    <section class="card" id="subscriptions">
+      <h2><span class="num">8</span> সাবস্ক্রিপশন ও ডিউ <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Finance → Subscriptions / Subscription Payments</div>
+      <h3>মাসিক ডিউ</h3>
+      <p>প্রতি মাসে প্রতিটা সক্রিয় সাবস্ক্রিপশনের জন্য একটা করে "ডিউ" তৈরি হয় (মেম্বার অ্যাপ্রুভালের সময় প্রথম মাসেরটা অটো তৈরি হয়; পরের মাসগুলোর জন্য সাধারণত শিডিউল/স্ক্রিপ্ট চালানো লাগে)। প্রতিটা ডিউ-এর স্ট্যাটাস হয়: <code>unpaid</code> → <code>partial</code> → <code>paid</code> (অথবা <code>overdue</code>, <code>waived</code>)।</p>
+      <h3>পেমেন্ট জমা ও ভেরিফাই</h3>
+      <ol class="steps">
+        <li>মেম্বার (নিজের পোর্টাল থেকে) বা এডমিন একটা ডিউ-এর বিপরীতে পেমেন্ট সাবমিট করে — শুরুতে এটা <b>Pending</b>।</li>
+        <li>এডমিন/অ্যাকাউন্ট্যান্ট <b>Finance → Subscription Payments</b> পেজে গিয়ে পেমেন্টটা <b>Verify</b> করে (টাকা আসলেই ব্যাংক/ক্যাশে জমা হয়েছে কিনা যাচাই করে)।</li>
+        <li>Verify করার পরই ডিউ-এর paid_amount বাড়ে এবং cash/receivable অ্যাকাউন্টে এন্ট্রি পোস্ট হয়।</li>
+        <li>ভুল পেমেন্ট হলে <b>Reject</b> করা যায়।</li>
+      </ol>
+      <div class="note">⚠️ শুধু সাবমিট করলে টাকা জমা হয়েছে বলে ধরা হয় না — Verify না করা পর্যন্ত এটা হিসাবে যুক্ত হবে না।</div>
+    </section>
+
+    <section class="card" id="loans">
+      <h2><span class="num">9</span> লোন <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Loans</div>
+      <ol class="steps">
+        <li>মেম্বার লোনের আবেদন করে (বা এডমিন সরাসরি এন্ট্রি করে) — স্ট্যাটাস <b>Pending</b>।</li>
+        <li>এডমিন <b>Approve</b> বা <b>Reject</b> করে।</li>
+        <li>Approve হলে <b>Disburse</b> (টাকা ছাড়) করা হয় — তখন Member Loan Receivable অ্যাকাউন্টে এন্ট্রি পড়ে।</li>
+        <li>মেম্বার কিস্তি শোধ করলে <b>Repay</b> এন্ট্রি করা হয়।</li>
+        <li>দীর্ঘদিন কিস্তি না দিলে লোনকে <b>Mark Defaulted</b> করা যায়।</li>
+        <li>প্রয়োজনে অনুমোদনের আগে <b>Cancel</b> করা যায়।</li>
+      </ol>
+    </section>
+
+    <section class="card" id="investments">
+      <h2><span class="num">10</span> বিনিয়োগ (Investments) <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Investments</div>
+      <p>অ্যাসোসিয়েশন যদি নিজের ফান্ড থেকে কোথাও বিনিয়োগ করে (যেমন কোনো প্রজেক্টে/ব্যবসায়), সেটার রেকর্ড এখানে রাখা হয়।</p>
+      <ol class="steps">
+        <li>নতুন Investment এন্ট্রি করুন — এমাউন্ট, তারিখ, বিবরণ দিয়ে।</li>
+        <li>বিনিয়োগ থেকে রিটার্ন/মুনাফা পেলে সেই Investment-এর ভেতরে <b>Add Return</b> দিয়ে এন্ট্রি করুন — এটা Investment Income অ্যাকাউন্টে যোগ হবে।</li>
+        <li>বিনিয়োগ বন্ধ/প্রত্যাহার করলে <b>Cancel</b> করা যায়।</li>
+      </ol>
+    </section>
+
+    <section class="card" id="land-projects">
+      <h2><span class="num">11</span> জমি ও প্রজেক্ট <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Land / Admin → Projects</div>
+      <h3>Land</h3>
+      <p>অ্যাসোসিয়েশনের নামে কেনা জমির রেকর্ড — মূল্য, দলিলপত্র (ডকুমেন্ট আপলোড), সময়ে সময়ে মূল্য পুনঃমূল্যায়ন (<b>Add Valuation</b>), এবং জমি বিক্রি হলে <b>Sell</b> অপশন দিয়ে বিক্রির এন্ট্রি (লাভ/ক্ষতিসহ) করা যায়।</p>
+      <h3>Projects</h3>
+      <p>অ্যাসোসিয়েশনের কোনো নির্দিষ্ট প্রকল্পে (যেমন কোনো নির্মাণ/উন্নয়ন কাজ) কোন কোন মেম্বার যুক্ত এবং তাদের অবদান — এখানে ট্র্যাক করা হয়।</p>
+    </section>
+
+    <section class="card" id="welfare">
+      <h2><span class="num">12</span> কল্যাণ তহবিল (Welfare) <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Welfare</div>
+      <ol class="steps">
+        <li>প্রথমে একটা <b>Welfare Fund</b> তৈরি/টাকা বরাদ্দ (<b>Allocate</b>) করতে হয়।</li>
+        <li>মেম্বার সাহায্যের জন্য আবেদন করে (বা এডমিন করে) — <b>Review → Approve/Reject</b>।</li>
+        <li>অনুমোদিত হলে <b>Disburse</b> করে টাকা ছাড় দেওয়া হয় — এটা Welfare Fund থেকে খরচ হিসেবে কমে।</li>
+        <li>ভুল ডিসবার্স হলে <b>Reverse</b> করা যায়।</li>
+      </ol>
+    </section>
+
+    <section class="card" id="finance">
+      <h2><span class="num">13</span> ফাইন্যান্স মডিউল <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Finance</div>
+      <p>এটাই অ্যাকাউন্ট্যান্টের প্রধান কাজের জায়গা। এখানে সাব-সেকশনগুলো নিচে আলাদা করে দেওয়া হলো।</p>
+
+      <h3 id="finance-overview">১৩.১ ফাইন্যান্স ওভারভিউ</h3>
+      <div class="path">Finance → Dashboard (Finance-এর হোম পেজ)</div>
+      <p>এক নজরে দেখা যায়: Cash Balance, Bank Balance, Receivable Balance, Investment Balance, Asset Book Value, চলতি মাসের আয়, মোট Subscription Collection, সাম্প্রতিক ট্রানজেকশনের তালিকা।</p>
+
+      <h3 id="chart-of-accounts">১৩.২ চার্ট অব অ্যাকাউন্টস</h3>
+      <div class="path">Finance → Accounts</div>
+      <p>এখানে সব অ্যাকাউন্টের তালিকা (Cash, Bank, Receivable, Payable, Income, Expense ইত্যাদি) দেখা যায় — নতুন অ্যাকাউন্ট যোগ করা, এডিট করা, বা একটা অ্যাকাউন্ট সাময়িকভাবে বন্ধ (toggle active/inactive) করা যায়। সিস্টেম-ডিফাইনড (<code>is_system</code>) অ্যাকাউন্টগুলো সাধারণত ডিলিট করা যায় না।</p>
+
+      <h3 id="journals">১৩.৩ জার্নাল / ম্যানুয়াল ভাউচার</h3>
+      <div class="path">Finance → Journals</div>
+      <p>সিস্টেম নিজে থেকে যেসব এন্ট্রি বানায় না (যেমন কোনো বিশেষ সমন্বয়/adjustment), সেগুলোর জন্য এখান থেকে <b>ম্যানুয়ালি জার্নাল ভাউচার</b> তৈরি করা যায় — Debit ও Credit অ্যাকাউন্ট বেছে, এমাউন্ট ও বিবরণ দিয়ে। ভুল এন্ট্রি হলে সেটা সরাসরি এডিট না করে <b>Reverse</b> (উল্টো এন্ট্রি) করা হয়, যাতে অডিট ট্রেইল ঠিক থাকে।</p>
+
+      <h3 id="ledger">১৩.৪ লেজার</h3>
+      <div class="path">Finance → Ledger</div>
+      <p>যেকোনো একটা নির্দিষ্ট অ্যাকাউন্ট বেছে নিলে সেই অ্যাকাউন্টের সব লেনদেনের (তারিখ, বিবরণ, Debit/Credit, চলমান ব্যালেন্স) বিস্তারিত ইতিহাস দেখা যায়।</p>
+
+      <h3 id="trial-balance">১৩.৫ ট্রায়াল ব্যালেন্স</h3>
+      <div class="path">Finance → Trial Balance</div>
+      <p>একটা নির্দিষ্ট তারিখ পর্যন্ত সবগুলো অ্যাকাউন্টের Debit ও Credit টোটাল পাশাপাশি দেখায় — দুই কলামের যোগফল মিলছে কিনা যাচাই করার জন্য এটা ব্যবহার হয়।</p>
+
+      <h3 id="balance-sheet">১৩.৬ ব্যালেন্স শীট</h3>
+      <div class="path">Finance → Balance Sheet</div>
+      <p>একটা নির্দিষ্ট তারিখে অ্যাসোসিয়েশনের সম্পদ (Assets), দায় (Liabilities) এবং ইক্যুইটি (Equity) এর সারসংক্ষেপ।</p>
+
+      <h3 id="profit-loss">১৩.৭ প্রফিট অ্যান্ড লস</h3>
+      <div class="path">Finance → Profit &amp; Loss</div>
+      <p>একটা সময়কালের (মাস/বছর) মোট আয়, মোট ব্যয়, এবং নিট লাভ/ক্ষতি — এখানে দেখা যায়।</p>
+
+      <h3 id="incomes">১৩.৮ ইনকাম</h3>
+      <div class="path">Finance → Incomes</div>
+      <p>সাবস্ক্রিপশন ছাড়া অন্য যেকোনো আয় (যেমন অনুদান, অন্যান্য উৎস) এখানে ম্যানুয়ালি এন্ট্রি করা যায় — Add করলেই এটা সংশ্লিষ্ট Income অ্যাকাউন্টে যোগ হয়। ভুল এন্ট্রি হলে <b>Cancel</b> করা যায়।</p>
+
+      <h3 id="expenses">১৩.৯ এক্সপেন্স</h3>
+      <div class="path">Finance → Expenses</div>
+      <p>অফিস খরচ, ইউটিলিটি বিল, প্রশাসনিক খরচ ইত্যাদি এখান থেকে এন্ট্রি করা হয় — কোন অ্যাকাউন্ট থেকে টাকা গেল (Cash/Bank) সেটাও বাছাই করতে হয়। এডিট/ডিলিট/Cancel অপশনও আছে।</p>
+
+      <h3 id="charges">১৩.১০ মেম্বার চার্জ</h3>
+      <div class="path">Finance → Charges</div>
+      <p>মাসিক সাবস্ক্রিপশন ছাড়া মেম্বারের উপর যদি অতিরিক্ত কোনো নির্দিষ্ট চার্জ বসাতে হয় (যেমন জরিমানা, বিশেষ ফি), সেটা এখান থেকে করা হয়।</p>
+      <ol class="steps">
+        <li>মেম্বার বেছে চার্জের কারণ ও এমাউন্ট দিয়ে <b>Add Charge</b> করুন।</li>
+        <li>মেম্বার সেই চার্জ পরিশোধ করলে <b>Pay</b> দিয়ে এন্ট্রি করুন।</li>
+        <li>প্রয়োজনে চার্জ পুরো মাফ করতে <b>Waive</b> ব্যবহার করুন, বা <b>Cancel</b> করে বাতিল করুন।</li>
+      </ol>
+
+      <h3 id="assets">১৩.১১ অ্যাসেট</h3>
+      <div class="path">Finance → Assets</div>
+      <p>ফার্নিচার, যন্ত্রপাতি, ইত্যাদি ফিক্সড অ্যাসেট এখানে যোগ করা হয়।</p>
+      <ol class="steps">
+        <li>নতুন অ্যাসেট যোগ করুন — নাম, ক্রয়মূল্য, ক্রয়ের তারিখ দিয়ে।</li>
+        <li>প্রতি বছর/মাসে <b>Depreciate</b> করে অবচয় (depreciation) এন্ট্রি করা যায় — এতে অ্যাসেটের বুক ভ্যালু কমে।</li>
+        <li>অ্যাসেট বিক্রি করলে <b>Sell</b>, একেবারে বাতিল/নষ্ট হলে <b>Dispose</b> ব্যবহার করুন।</li>
+      </ol>
+    </section>
+
+    <section class="card" id="approvals">
+      <h2><span class="num">14</span> অ্যাপ্রুভাল ওয়ার্কফ্লো <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Approvals</div>
+      <p>যেসব কাজে একাধিক ধাপে অনুমোদন লাগে (যেমন বড় খরচ, লোন), সেগুলোর pending অনুরোধ এখানে একসাথে দেখা যায় ও অনুমোদন/বাতিল করা যায়। <b>Approval Workflows</b> সাব-পেজে কোন ধরনের কাজে কতজনের/কোন পদের অনুমোদন লাগবে তা সেট করা যায় (এডমিন-লেভেল সেটআপ)।</p>
+    </section>
+
+    <section class="card" id="reports">
+      <h2><span class="num">15</span> রিপোর্টস <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Reports</div>
+      <p>অ্যাসোসিয়েশনের বিভিন্ন প্রি-বিল্ট রিপোর্ট (মেম্বার-ভিত্তিক, ফাইন্যান্স-ভিত্তিক) এখান থেকে জেনারেট/ডাউনলোড করা যায়।</p>
+    </section>
+
+    <section class="card" id="engagement">
+      <h2><span class="num">16</span> নোটিশ, পোল, মেইলিং, মিটিং, ট্যুর, কমিটি <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <p>এগুলো সরাসরি অ্যাকাউন্টিং-সম্পর্কিত না, কিন্তু অ্যাসোসিয়েশন পরিচালনার অংশ:</p>
+      <table>
+        <tr><th>মডিউল</th><th>কাজ</th></tr>
+        <tr><td>Notices</td><td>সব মেম্বারকে সাধারণ নোটিশ/ঘোষণা পাঠানো</td></tr>
+        <tr><td>Polls</td><td>মেম্বারদের মতামত/ভোট নেওয়া</td></tr>
+        <tr><td>Mailing</td><td>বাল্ক ইমেইল পাঠানো</td></tr>
+        <tr><td>Meetings</td><td>সভার তারিখ, আলোচ্যসূচি, উপস্থিতি ট্র্যাক করা (মিটিং খরচ থাকলে সেটাও এন্ট্রি করা যায়)</td></tr>
+        <tr><td>Tours</td><td>ভ্রমণ/স্টাডি ট্যুরের পরিকল্পনা ও খরচ ট্র্যাকিং</td></tr>
+        <tr><td>Committees</td><td>বিভিন্ন কমিটি ও তাদের সদস্য তালিকা</td></tr>
+      </table>
+    </section>
+
+    <section class="card" id="settings">
+      <h2><span class="num">17</span> সেটিংস ও সিস্টেম <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">Admin → Settings / Roles / Users / Backups / Activity Logs</div>
+      <ul class="plain">
+        <li><b>Settings</b> — অ্যাসোসিয়েশনের সাধারণ কনফিগারেশন (যেমন Share ফিচার চালু/বন্ধ, ডিফল্ট ভাষা, subscription due day ইত্যাদি)।</li>
+        <li><b>Roles &amp; User Roles</b> — কোন role-এর (Admin/Accountant/Staff ইত্যাদি) কী কী পারমিশন থাকবে সেট করা।</li>
+        <li><b>Users</b> — সিস্টেমে লগইন করতে পারা সব ইউজারের তালিকা (শুধু মেম্বার না, স্টাফও)।</li>
+        <li><b>Backups</b> — ডাটাবেজ ব্যাকআপ নেওয়া/ডাউনলোড করা।</li>
+        <li><b>Activity Logs</b> — কে কখন কী পরিবর্তন করেছে তার অডিট ট্রেইল।</li>
+      </ul>
+    </section>
+
+    <section class="card" id="member-portal">
+      <h2><span class="num">18</span> মেম্বার পোর্টাল (মেম্বারদের জন্য) <a class="backtop" href="#dashboard">↑ উপরে</a></h2>
+      <div class="path">/member/...</div>
+      <p>একজন মেম্বার নিজে লগইন করলে যা যা করতে/দেখতে পারে:</p>
+      <ul class="plain">
+        <li><b>Dashboard</b> — নিজের Total Deposited, Current Due, Total Due, Fine ইত্যাদি সারসংক্ষেপ।</li>
+        <li><b>Profile / Nominees</b> — নিজের প্রোফাইল ও নমিনি তথ্য দেখা/আপডেট করা।</li>
+        <li><b>Subscriptions / Subscription Payments</b> — মাসিক ডিউ দেখা এবং পেমেন্ট সাবমিট করা।</li>
+        <li><b>Shares</b> — নিজের শেয়ার দেখা, নতুন শেয়ার কেনার আবেদন করা।</li>
+        <li><b>Investments</b> — নিজের বিনিয়োগ (যদি থাকে) দেখা।</li>
+        <li><b>Loans</b> — লোনের আবেদন করা ও নিজের লোনের অবস্থা দেখা।</li>
+        <li><b>Welfare / Exit / Feedback-Support</b> — কল্যাণ সহায়তার আবেদন, অ্যাসোসিয়েশন ছাড়ার আবেদন, বা সাধারণ ফিডব্যাক/সাপোর্ট রিকোয়েস্ট পাঠানো।</li>
+        <li><b>Notices / Polls / Tours / Meetings / Committee / Notifications</b> — অ্যাসোসিয়েশনের সাধারণ কার্যক্রম দেখা ও অংশগ্রহণ করা।</li>
+      </ul>
+      <div class="tip">💡 মেম্বার নিজে পেমেন্ট সাবমিট করলেও, সেটা এডমিন/অ্যাকাউন্ট্যান্ট ভেরিফাই না করা পর্যন্ত হিসাবের মধ্যে (Verified/Deposited) ধরা হয় না।</div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Dreamer Association সিস্টেমের বর্তমান ফিচার সেট অনুযায়ী তৈরি এই ব্যবহারকারী ম্যানুয়াল। নতুন মডিউল যোগ হলে বা প্রসেস বদলালে এই ডকুমেন্টও আপডেট করা প্রয়োজন হবে।
+</footer>
+
+</body>
+</html>

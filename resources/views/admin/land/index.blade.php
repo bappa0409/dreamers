@@ -136,7 +136,7 @@ LAND CREATE / EDIT MODAL
             </button>
         </div>
 
-        <form id="landForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="landForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
 
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -495,7 +495,7 @@ VALUATION MODAL
             </button>
         </div>
 
-        <form id="valuationForm">
+        <form id="valuationForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <input id="valuationLandId" type="hidden">
 
@@ -572,7 +572,7 @@ DOCUMENT MODAL
             </button>
         </div>
 
-        <form id="documentForm">
+        <form id="documentForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <input id="documentLandId" type="hidden">
 
@@ -664,7 +664,7 @@ SELL MODAL
             </button>
         </div>
 
-        <form id="sellForm">
+        <form id="sellForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <input id="sellLandId" type="hidden">
 

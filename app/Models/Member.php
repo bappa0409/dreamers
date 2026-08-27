@@ -93,20 +93,6 @@ class Member extends Model
         return $this->hasMany(MemberShare::class);
     }
 
-    public function committeeMemberships(): HasMany
-    {
-        return $this->hasMany(CommitteeMember::class);
-    }
-
-    public function activeCommitteeMemberships(): HasMany
-    {
-        return $this->committeeMemberships()->where('status', 'active');
-    }
-
-    public function electionCandidates(): HasMany
-    {
-        return $this->hasMany(ElectionCandidate::class);
-    }
 
     public function loans(): HasMany
     {

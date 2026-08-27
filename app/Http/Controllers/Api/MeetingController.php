@@ -18,6 +18,14 @@ class MeetingController extends Controller
 
     public function index(Request $request)
     {
+        $validated=$request->validate([
+            'search'=>'nullable|string|max:150',
+            'status'=>'nullable|in:draft,scheduled,ongoing,completed,cancelled',
+            'type'=>'nullable|in:general,annual,executive,emergency,special',
+            'year'=>'nullable|integer|min:2000|max:2100',
+            'per_page'=>'nullable|integer|min:5|max:50'
+        ]);
+
         $query=Meeting::query()
             ->with([
                 'creator:id,name',
@@ -31,7 +39,7 @@ class MeetingController extends Controller
                 'expenses as actual_expense'=>fn($q)=>$q->where('status','posted')
             ],'amount');
 
-        if($search=trim((string)$request->search)){
+        if($search=trim((string)($validated['search']??''))){
             $query->where(function($q)use($search){
                 $q->where('meeting_no','like',"%{$search}%")
                     ->orWhere('title','like',"%{$search}%")
@@ -39,16 +47,16 @@ class MeetingController extends Controller
             });
         }
 
-        if($request->filled('status')){
-            $query->where('status',$request->status);
+        if(!empty($validated['status'])){
+            $query->where('status',$validated['status']);
         }
 
-        if($request->filled('type')){
-            $query->where('type',$request->type);
+        if(!empty($validated['type'])){
+            $query->where('type',$validated['type']);
         }
 
-        if($request->filled('year')){
-            $year=(int)$request->year;
+        if(!empty($validated['year'])){
+            $year=(int)$validated['year'];
 
             $query->whereBetween('meeting_date',[
                 "{$year}-01-01",
@@ -61,7 +69,7 @@ class MeetingController extends Controller
             'data'=>$query
                 ->latest('meeting_date')
                 ->latest('id')
-                ->paginate(min((int)$request->input('per_page',15),50))
+                ->paginate($validated['per_page']??15)
         ]);
     }
 
@@ -83,7 +91,7 @@ class MeetingController extends Controller
             'end_time'=>'nullable|date_format:H:i',
             'venue'=>'nullable|string|max:255',
             'description'=>'nullable|string|max:5000',
-            'budget_amount'=>'nullable|numeric|min:0',
+            'budget_amount'=>'nullable|numeric|min:0|max:9999999999999.99',
             'notes'=>'nullable|string|max:5000'
         ]);
 
@@ -107,7 +115,7 @@ class MeetingController extends Controller
             'end_time'=>'nullable|date_format:H:i',
             'venue'=>'nullable|string|max:255',
             'description'=>'nullable|string|max:5000',
-            'budget_amount'=>'nullable|numeric|min:0',
+            'budget_amount'=>'nullable|numeric|min:0|max:9999999999999.99',
             'notes'=>'nullable|string|max:5000'
         ]);
 
@@ -197,12 +205,15 @@ class MeetingController extends Controller
                 'expense_accounts'=>Account::query()
                     ->where('type','expense')
                     ->where('is_active',true)
+                    ->whereDoesntHave('children')
                     ->select('id','code','name')
                     ->orderBy('code')
                     ->get(),
                 'payment_accounts'=>Account::query()
+                    ->where('type','asset')
                     ->whereIn('sub_type',['cash','bank'])
                     ->where('is_active',true)
+                    ->whereDoesntHave('children')
                     ->select('id','code','name','sub_type')
                     ->orderBy('code')
                     ->get()

@@ -203,27 +203,31 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Request
                         </th>
 
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Module
                         </th>
 
-                        <th class="w-[20%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
-                            Requested By
+                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                            Subject
                         </th>
 
                         <th class="w-[16%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                            Requested By
+                        </th>
+
+                        <th class="w-[14%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Date
                         </th>
 
-                        <th class="w-[12%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[24%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[19%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -233,7 +237,7 @@
                 <tbody id="approvalsTable">
                     <tr>
                         <td
-                            colspan="6"
+                            colspan="7"
                             class="px-6 py-12 text-center text-slate-500"
                         >
                             Loading approvals...
@@ -517,7 +521,7 @@ async function loadApprovals(page=1){
     el.table.innerHTML=
         AdminUI.loadingState(
             'Loading approvals...',
-            6
+            7
         );
 
     const query=
@@ -570,7 +574,7 @@ async function loadApprovals(page=1){
         el.table.innerHTML=
             AdminUI.emptyState(
                 AdminUI.extractError(error),
-                6
+                7
             );
 
         AdminUI.renderPagination({
@@ -645,7 +649,7 @@ function renderApprovals(){
         el.table.innerHTML=
             AdminUI.emptyState(
                 'No approval requests found.',
-                6
+                7
             );
 
         return;
@@ -690,6 +694,20 @@ function renderApprovals(){
                                 approval.module??'General'
                             )}
                         </span>
+
+                    </td>
+
+
+                    <td class="min-w-0 overflow-hidden px-3 py-4">
+
+                        <p
+                            class="truncate text-xs font-semibold text-slate-700"
+                            title="${AdminUI.escapeHtml(approvableLabel(approval))}"
+                        >
+                            ${AdminUI.escapeHtml(
+                                approvableLabel(approval)
+                            )}
+                        </p>
 
                     </td>
 
@@ -765,7 +783,7 @@ function renderApprovals(){
                                     ?`
                                         <button
                                             type="button"
-                                            onclick="approveRequest(${approval.id})"
+                                            onclick="approveRequest(${approval.id},this)"
                                             title="Approve"
                                             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
                                         >
@@ -814,6 +832,30 @@ function renderApprovals(){
                 </tr>
             `;
         }).join('');
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Approvable Subject Label
+|--------------------------------------------------------------------------
+*/
+
+function approvableLabel(approval){
+    const approvable=
+        approval.approvable??null;
+
+    if(!approvable){
+        return '—';
+    }
+
+    return(
+        approvable.user?.name??
+        approvable.member?.user?.name??
+        approvable.name??
+        approvable.title??
+        '—'
+    );
 }
 
 
@@ -927,6 +969,11 @@ function buildApprovalDetail(approval){
                     'Action',
                     approval.action??
                     'Request'
+                )}
+
+                ${detailItem(
+                    'Subject',
+                    approvableLabel(approval)
                 )}
 
                 ${detailItem(
@@ -1100,25 +1147,54 @@ function closeDetailModal(){
 |--------------------------------------------------------------------------
 */
 
-function approveRequest(id){
-    AdminUI.request(
-        `/api/approvals/${id}/approve`,
-        {
-            method:'POST',
+async function approveRequest(id,button){
+    const confirmed=
+        await AdminUI.confirm({
+            title:'Approve Request?',
+            message:'Approve this request?',
+            confirmText:'Approve',
+            type:'success'
+        });
 
-            data:{},
+    if(!confirmed){
+        return;
+    }
 
-            confirmMessage:
-                'Approve this request?',
+    if(button){
+        AdminUI.setLoading(
+            button,
+            ''
+        );
+    }
 
-            successMessage:
-                'Approval request approved successfully.',
+    try{
+        await api(
+            `/api/approvals/${id}/approve`,
+            {
+                method:'POST',
 
-            onSuccess:async()=>{
-                await refreshApprovals();
+                body:JSON.stringify({})
             }
+        );
+
+        Toast.success(
+            'Approval request approved successfully.'
+        );
+
+        await refreshApprovals();
+
+    }catch(error){
+        Toast.error(
+            AdminUI.extractError(error)
+        );
+
+    }finally{
+        if(button){
+            AdminUI.resetLoading(
+                button
+            );
         }
-    );
+    }
 }
 
 

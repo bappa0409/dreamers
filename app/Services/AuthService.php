@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -67,7 +68,7 @@ class AuthService
         |--------------------------------------------------------------------------
         */
 
-       if (!$user || !Hash::check($password, $user->password)) {
+        if (!$user || !$this->passwordMatches($user, $password)) {
             throw ValidationException::withMessages([
                 'login' => [
                     'The email, mobile, member ID or password is incorrect.'
@@ -91,34 +92,6 @@ class AuthService
 
         /*
         |--------------------------------------------------------------------------
-        | Member profile required
-        |--------------------------------------------------------------------------
-        */
-
-        if (!$user->member) {
-            throw ValidationException::withMessages([
-                'login' => [
-                    'No member profile is linked with this account.'
-                ],
-            ]);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Membership must be active
-        |--------------------------------------------------------------------------
-        */
-
-        if ($user->member->status !== 'active') {
-            throw ValidationException::withMessages([
-                'login' => [
-                    'Your membership is not active.'
-                ],
-            ]);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
         | At least one role required
         |--------------------------------------------------------------------------
         */
@@ -131,7 +104,71 @@ class AuthService
             ]);
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Member-only accounts require an active member profile
+        |--------------------------------------------------------------------------
+        |
+        | Administrative/staff accounts may legitimately exist without a member
+        | profile. Requiring a member row for every user made those accounts
+        | impossible to use even though the rest of the application supports them.
+        |
+        */
+        $isOnlyMember=$user->roles->every(
+            fn($role)=>$role->name==='member'
+        );
+
+        if($isOnlyMember&&!$user->member){
+            throw ValidationException::withMessages([
+                'login'=>[
+                    'No member profile is linked with this account.'
+                ],
+            ]);
+        }
+
+        if($isOnlyMember&&$user->member->status!=='active'){
+            throw ValidationException::withMessages([
+                'login'=>[
+                    'Your membership is not active.'
+                ],
+            ]);
+        }
+
         return $user;
+    }
+
+
+    /**
+     * Verify the configured password hash while remaining compatible with
+     * legacy bcrypt hashes such as $2a$/$2b$. Laravel's bcrypt verifier is
+     * intentionally strict and can throw before returning false for those
+     * hashes. A successful legacy login is transparently rehashed using the
+     * application's current hasher so future logins use the normal path.
+     */
+    private function passwordMatches(User $user, string $plainPassword): bool
+    {
+        try {
+            return Hash::check($plainPassword, $user->password);
+        } catch (\RuntimeException $e) {
+            $hashInfo = password_get_info((string) $user->password);
+
+            if (($hashInfo['algoName'] ?? 'unknown') !== 'bcrypt') {
+                return false;
+            }
+
+            if (!password_verify($plainPassword, (string) $user->password)) {
+                return false;
+            }
+
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update([
+                    'password' => Hash::make($plainPassword),
+                    'updated_at' => now(),
+                ]);
+
+            return true;
+        }
     }
 
     /**

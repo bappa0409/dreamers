@@ -531,7 +531,7 @@
         panelsEl.innerHTML=`
             <form
                 id="settingsForm"
-                data-group="${AdminUI.escapeHtml(activeGroup)}">
+                data-group="${AdminUI.escapeHtml(activeGroup)}" novalidate data-js-validation="1">
 
                 <div class="space-y-5 p-5">
 
@@ -650,7 +650,7 @@
         return`
             <form
                 class="settings-section-form rounded-md border border-slate-200 bg-white p-4"
-                data-section="${AdminUI.escapeHtml(section)}">
+                data-section="${AdminUI.escapeHtml(section)}" novalidate data-js-validation="1">
 
                 <div class="mb-4 flex items-center gap-2">
 
@@ -1209,7 +1209,7 @@
                                         <input
                                             type="file"
                                             id="upload_${AdminUI.escapeHtml(setting.key)}"
-                                            accept="image/*"
+                                            accept=".png,.jpg,.jpeg,.webp,.ico"
                                             class="hidden">
 
                                     </label>
@@ -1221,7 +1221,7 @@
                             id="uploadStatus_${AdminUI.escapeHtml(setting.key)}"
                             class="mt-1.5 text-[10px] text-slate-400">
 
-                            PNG, JPG, WEBP or SVG. Max 2MB.
+                            PNG, JPG, WEBP or ICO. Max 2MB.
 
                         </p>
 

@@ -269,7 +269,9 @@ class InvestmentService
                 $this->accountingService->post([
                     'idempotency_key'=>
                         "investment:cancel:{$investment->id}",
-                    'transaction_date'=>now()->toDateString(),
+                    'transaction_date'=>$this->reversalDate(
+                        $original->transaction_date
+                    ),
                     'type'=>'investment_reversal',
                     'source_module'=>'investment',
                     'source_id'=>$investment->id,
@@ -289,6 +291,13 @@ class InvestmentService
                         ->all(),
                 ]);
             }
+
+            $investment->returns()
+                ->where('status','pending')
+                ->update([
+                    'status'=>'cancelled',
+                    'updated_at'=>now(),
+                ]);
 
             $investment->update([
                 'status'=>'cancelled',
@@ -994,6 +1003,7 @@ class InvestmentService
     ): Account{
         $account=Account::query()
             ->whereKey($accountId)
+            ->where('type','asset')
             ->whereIn(
                 'sub_type',
                 ['cash','bank']
@@ -1014,6 +1024,22 @@ class InvestmentService
         }
 
         return $account;
+    }
+
+    protected function reversalDate(
+        \DateTimeInterface|string|null $originalDate
+    ): string{
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :(string)$originalDate;
+
+        return $date>$today?$date:$today;
     }
 
     protected function syncInvestmentStatus(

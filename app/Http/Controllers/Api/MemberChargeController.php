@@ -195,6 +195,7 @@ class MemberChargeController extends Controller
                     ]),
 
                 'receive_accounts'=>Account::query()
+                    ->where('type','asset')
                     ->whereIn(
                         'sub_type',
                         ['cash','bank']

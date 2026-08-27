@@ -303,13 +303,13 @@ span.flatpickr-weekday {
 .is-invalid{
     border-color:#ef4444 !important;
     background-color:#fff !important;
-    box-shadow:0 0 0 1px rgba(239,68,68,.08);
+    box-shadow:none !important;
 }
 
 .is-invalid:focus{
     border-color:#ef4444 !important;
     outline:0 !important;
-    box-shadow:0 0 0 3px rgba(239,68,68,.12) !important;
+    box-shadow:none !important;
 }
 
 /* Select */
@@ -357,7 +357,7 @@ input[type="radio"].is-invalid:checked{
 .is-valid:focus{
     border-color:#10b981 !important;
     outline:0 !important;
-    box-shadow:0 0 0 3px rgba(16,185,129,.12) !important;
+    box-shadow:none !important;
 }
 
 .valid-feedback{

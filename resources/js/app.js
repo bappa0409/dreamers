@@ -62,14 +62,42 @@ function initDatePickers(){
 document.addEventListener('DOMContentLoaded',()=>{
     initDatePickers();
 
-    document.querySelectorAll('form').forEach(form=>{
-        if(
-            form.querySelector('[data-field-error]')&&
-            window.AdminUI
-        ){
-            AdminUI.bindFieldValidation(form);
-        }
+    if(!window.AdminUI)return;
+
+    document.querySelectorAll('form[data-js-validation="1"]').forEach(form=>{
+        AdminUI.bindFieldValidation(form);
     });
+
+    const clearInvalidField=event=>{
+        const field=event.target;
+
+        if(
+            field?.matches?.('input,select,textarea')&&
+            field.classList.contains('is-invalid')
+        ){
+            AdminUI.clearFieldError(field);
+        }
+    };
+
+    document.addEventListener('input',clearInvalidField,true);
+    document.addEventListener('change',clearInvalidField,true);
+
+    document.addEventListener('submit',event=>{
+        const form=event.target?.closest?.('form');
+
+        if(
+            !form||
+            form.dataset.jsValidation!=='1'||
+            form.dataset.skipValidation==='1'
+        ){
+            return;
+        }
+
+        if(!AdminUI.validateForm(form)){
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    },true);
 });
 
 window.initDatePickers=initDatePickers;

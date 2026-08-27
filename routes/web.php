@@ -22,7 +22,7 @@ Route::get('/', fn() => view('landing.index'))->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1')->name('login.submit');
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:login')->name('login.submit');
 
     Route::get('/setup-password', [PasswordSetupController::class, 'show'])->name('password.setup');
     Route::post('/setup-password', [PasswordSetupController::class, 'setup'])->middleware('throttle:5,1')->name('password.setup.submit');

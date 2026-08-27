@@ -51,9 +51,14 @@ class TellerClosingController extends Controller
         Request $request,
         string $date
     ) {
+        $validated=validator(
+            ['date'=>$date],
+            ['date'=>'required|date_format:Y-m-d']
+        )->validate();
+
         $closing = $this->closingService->reopen(
             $request->user()->id,
-            $date
+            $validated['date']
         );
 
         return response()->json([

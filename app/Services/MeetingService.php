@@ -23,6 +23,11 @@ class MeetingService
 
     public function create(array $data,?int $userId=null): Meeting
     {
+        $this->validateTimeRange(
+            $data['start_time']??null,
+            $data['end_time']??null
+        );
+
         return DB::transaction(function()use($data,$userId){
             $meeting=Meeting::create([
                 'meeting_no'=>$this->generateMeetingNo(),
@@ -186,6 +191,11 @@ class MeetingService
 
     public function update(Meeting $meeting,array $data): Meeting
     {
+        $this->validateTimeRange(
+            $data['start_time']??null,
+            $data['end_time']??null
+        );
+
         return DB::transaction(function()use($meeting,$data){
             $meeting=Meeting::query()
                 ->whereKey($meeting->id)
@@ -431,6 +441,8 @@ class MeetingService
                 'description'=>$data['description']??null,
                 'status'=>$data['status']??'pending'
             ]);
+
+            return $agenda;
         });
     }
 
@@ -936,7 +948,7 @@ class MeetingService
                     ->firstOrFail();
 
                 $this->accounting->post([
-                    'transaction_date'=>now()->toDateString(),
+                    'transaction_date'=>$this->reversalDate($expense->expense_date),
                     'type'=>'meeting_expense_reversal',
                     'source_module'=>'meeting',
                     'source_id'=>$expense->meeting_id,
@@ -1126,9 +1138,40 @@ class MeetingService
     {
         $data['sent_by']=$data['sent_by']??auth()->id();
 
-        DB::afterCommit(
-            fn()=>$this->notificationService->sendSystem($data)
-        );
+        DB::afterCommit(function()use($data){
+            try{
+                $this->notificationService->sendSystem($data);
+            }catch(\Throwable $e){
+                report($e);
+            }
+        });
+    }
+
+    protected function validateTimeRange(?string $startTime,?string $endTime): void
+    {
+        $start=$this->normalizeTime($startTime);
+        $end=$this->normalizeTime($endTime);
+
+        if($start&&$end&&$end<=$start){
+            throw ValidationException::withMessages([
+                'end_time'=>['End time must be after start time.']
+            ]);
+        }
+    }
+
+    protected function reversalDate(\DateTimeInterface|string|null $originalDate): string
+    {
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :substr((string)$originalDate,0,10);
+
+        return $date>$today?$date:$today;
     }
 
     protected function expenseAccount(int $id): Account
@@ -1137,6 +1180,7 @@ class MeetingService
             ->whereKey($id)
             ->where('type','expense')
             ->where('is_active',true)
+            ->whereDoesntHave('children')
             ->firstOr(function(){
                 throw ValidationException::withMessages([
                     'expense_account_id'=>[
@@ -1150,8 +1194,10 @@ class MeetingService
     {
         return Account::query()
             ->whereKey($id)
+            ->where('type','asset')
             ->whereIn('sub_type',['cash','bank'])
             ->where('is_active',true)
+            ->whereDoesntHave('children')
             ->firstOr(function(){
                 throw ValidationException::withMessages([
                     'payment_account_id'=>[

@@ -338,9 +338,12 @@ class MemberShareService
     public function memberSharesPaginated(
         Member $member,
         ?string $status = null,
+        ?string $search = null,
         int $perPage = 15
     ) {
         $perPage = min(max($perPage, 5), 50);
+
+        $search=$this->nullableString($search);
 
         return $member->shares()
             ->with([
@@ -351,6 +354,18 @@ class MemberShareService
             ->when(
                 $status,
                 fn ($query) => $query->where('status', $status)
+            )
+            ->when(
+                $search,
+                function($query)use($search){
+                    $query->where(function($q)use($search){
+                        $q->where('share_no','like',"%{$search}%")
+                            ->orWhere('payment_method','like',"%{$search}%")
+                            ->orWhere('transaction_reference','like',"%{$search}%")
+                            ->orWhere('verification_note','like',"%{$search}%")
+                            ->orWhere('notes','like',"%{$search}%");
+                    });
+                }
             )
             ->latest('id')
             ->paginate($perPage)

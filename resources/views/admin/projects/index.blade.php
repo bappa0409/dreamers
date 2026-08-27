@@ -123,7 +123,7 @@
             </button>
         </div>
 
-        <form id="projectForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="projectForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-4 overflow-y-auto p-5">
                 <div>
                     <label class="form-label">Project Name <span class="text-red-500">*</span></label>
@@ -227,7 +227,7 @@
             </button>
         </div>
 
-        <form id="memberForm">
+        <form id="memberForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <input id="memberProjectId" type="hidden">
 

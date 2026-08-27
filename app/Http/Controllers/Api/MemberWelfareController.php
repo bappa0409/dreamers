@@ -22,12 +22,68 @@ class MemberWelfareController extends Controller
 
         abort_unless($member,403);
 
+        $validated=$request->validate([
+            'search'=>'nullable|string|max:150',
+            'status'=>'nullable|in:submitted,under_review,approved,rejected,completed,cancelled,reversed',
+            'per_page'=>'nullable|integer|min:5|max:50',
+        ]);
+
+        $today=now()->toDateString();
+
+        $base=$member->welfareRequests();
+
+        $summary=(clone $base)
+            ->selectRaw("
+                COUNT(*) AS total,
+                SUM(CASE WHEN status IN ('submitted','under_review','approved') THEN 1 ELSE 0 END) AS pending,
+                SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completed,
+                COALESCE(SUM(CASE WHEN status IN ('approved','completed') THEN approved_amount ELSE 0 END),0) AS total_approved
+            ")
+            ->first();
+
+        $requests=$base
+            ->with([
+                'fund:id,code,name',
+                'documents:id,welfare_request_id,document_type,original_name',
+                'histories.user:id,name'
+            ])
+            ->when(
+                $validated['status']??null,
+                fn($q,$status)=>$q->where('status',$status)
+            )
+            ->when(
+                $validated['search']??null,
+                function($q,$search){
+                    $search=trim($search);
+
+                    $q->where(function($q)use($search){
+                        $q->where('request_no','like',"%{$search}%")
+                            ->orWhere('reason','like',"%{$search}%")
+                            ->orWhereHas(
+                                'fund',
+                                fn($fund)=>$fund->where('name','like',"%{$search}%")
+                            );
+                    });
+                }
+            )
+            ->latest('id')
+            ->paginate($validated['per_page']??10)
+            ->withQueryString();
+
         return response()->json([
             'success'=>true,
-
             'data'=>[
                 'funds'=>WelfareFund::query()
                     ->where('is_active',true)
+                    ->where(function($q)use($today){
+                        $q->whereNull('start_date')
+                            ->orWhereDate('start_date','<=',$today);
+                    })
+                    ->where(function($q)use($today){
+                        $q->whereNull('end_date')
+                            ->orWhereDate('end_date','>=',$today);
+                    })
+                    ->orderBy('name')
                     ->get([
                         'id',
                         'code',
@@ -35,15 +91,14 @@ class MemberWelfareController extends Controller
                         'description'
                     ]),
 
-                'requests'=>$member
-                    ->welfareRequests()
-                    ->with([
-                        'fund:id,code,name',
-                        'documents:id,welfare_request_id,document_type,original_name',
-                        'histories.user:id,name'
-                    ])
-                    ->latest('id')
-                    ->get()
+                'requests'=>$requests,
+
+                'summary'=>[
+                    'total'=>(int)($summary->total??0),
+                    'pending'=>(int)($summary->pending??0),
+                    'completed'=>(int)($summary->completed??0),
+                    'total_approved'=>round((float)($summary->total_approved??0),2),
+                ],
             ]
         ]);
     }
@@ -97,7 +152,7 @@ class MemberWelfareController extends Controller
         abort_if(
             in_array(
                 $welfareRequest->status,
-                ['completed','cancelled','reversed'],
+                ['rejected','completed','cancelled','reversed'],
                 true
             ),
             422

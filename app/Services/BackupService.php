@@ -217,15 +217,6 @@ class BackupService
             throw new RuntimeException('Unable to read SQL file.');
         }
 
-        $sample = fread($handle, 1024 * 1024);
-        fclose($handle);
-
-        if (trim((string)$sample) === '') {
-            throw new RuntimeException('SQL file does not contain readable SQL content.');
-        }
-
-        $lower = strtolower($sample);
-
         $blocked = [
             'drop database ',
             'create database ',
@@ -236,12 +227,42 @@ class BackupService
             'shutdown'
         ];
 
-        foreach ($blocked as $statement) {
-            if (str_contains($lower, $statement)) {
-                throw new RuntimeException(
-                    'The SQL file contains a restricted database-level statement.'
-                );
+        $hasReadableContent=false;
+        $carry='';
+
+        try {
+            while (!feof($handle)) {
+                $chunk=fread($handle,1024*1024);
+
+                if ($chunk===false) {
+                    throw new RuntimeException('Unable to read SQL file.');
+                }
+
+                if (!$hasReadableContent&&trim($chunk)!=='') {
+                    $hasReadableContent=true;
+                }
+
+                // Keep a short overlap so a restricted statement split across
+                // two chunks cannot bypass the safety scan.
+                $lower=strtolower($carry.$chunk);
+
+                foreach ($blocked as $statement) {
+                    if (str_contains($lower,$statement)) {
+                        throw new RuntimeException(
+                            'The SQL file contains a restricted database-level statement.'
+                        );
+                    }
+                }
+
+                $carry=substr($lower,-256);
             }
+        } finally {
+            fclose($handle);
+        }
+
+        if (!$hasReadableContent) {
+            throw new RuntimeException('SQL file does not contain readable SQL content.');
         }
     }
+
 }

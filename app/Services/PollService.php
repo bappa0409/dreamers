@@ -175,14 +175,41 @@ class PollService
             'polls:statistics',
             now()->addMinutes(5),
             function(){
-                $polls=Poll::query()->get();
+                $now=now();
+
+                $row=Poll::query()
+                    ->selectRaw(
+                        "COUNT(*) AS total,
+                        SUM(CASE
+                            WHEN is_active = 1
+                                AND start_at <= ?
+                                AND end_at >= ?
+                            THEN 1 ELSE 0
+                        END) AS active,
+                        SUM(CASE
+                            WHEN is_active = 1
+                                AND start_at > ?
+                            THEN 1 ELSE 0
+                        END) AS upcoming,
+                        SUM(CASE
+                            WHEN is_active = 1
+                                AND end_at < ?
+                            THEN 1 ELSE 0
+                        END) AS ended,
+                        SUM(CASE
+                            WHEN is_active = 0
+                            THEN 1 ELSE 0
+                        END) AS inactive",
+                        [$now,$now,$now,$now]
+                    )
+                    ->first();
 
                 return [
-                    'total'=>$polls->count(),
-                    'active'=>$polls->where('state','active')->count(),
-                    'upcoming'=>$polls->where('state','upcoming')->count(),
-                    'ended'=>$polls->where('state','ended')->count(),
-                    'inactive'=>$polls->where('state','inactive')->count(),
+                    'total'=>(int)($row->total??0),
+                    'active'=>(int)($row->active??0),
+                    'upcoming'=>(int)($row->upcoming??0),
+                    'ended'=>(int)($row->ended??0),
+                    'inactive'=>(int)($row->inactive??0),
                     'total_votes'=>PollVote::query()->count()
                 ];
             }

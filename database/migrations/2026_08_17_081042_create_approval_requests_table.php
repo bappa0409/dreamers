@@ -75,6 +75,10 @@ return new class extends Migration
             $table->index('action');
             $table->index('status');
             $table->index('requested_by');
+            $table->index(
+                ['status','module','action'],
+                'approval_requests_status_module_action_idx'
+            );
         });
     }
 

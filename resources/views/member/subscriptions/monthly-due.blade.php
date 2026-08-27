@@ -309,7 +309,7 @@
             </button>
         </div>
 
-        <form id="paymentForm">
+        <form id="paymentForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div class="rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 p-4 text-white">
                     <div class="flex items-center justify-between gap-3">

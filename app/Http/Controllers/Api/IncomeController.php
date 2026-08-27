@@ -68,6 +68,7 @@ class IncomeController extends Controller
     ->get(['id','code','name']),
 
 'receive_accounts'=>Account::active()
+    ->where('type','asset')
     ->whereIn('sub_type',['cash','bank'])
     ->whereDoesntHave('children')
     ->orderBy('code')
@@ -132,7 +133,6 @@ class IncomeController extends Controller
         'income_date'=>'sometimes|date',
         'reference'=>'nullable|string|max:150',
         'description'=>'nullable|string|max:2000',
-        'attachment'=>'nullable|string|max:500',
     ]);
 
     $income=$this->incomeService->update(

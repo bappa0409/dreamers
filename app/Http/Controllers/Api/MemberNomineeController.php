@@ -7,6 +7,7 @@ use App\Models\MemberNominee;
 use App\Models\NomineeDocument;
 use App\Services\NomineeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MemberNomineeController extends Controller
 {
@@ -167,6 +168,29 @@ class MemberNomineeController extends Controller
                     $request->user()->id
                 )
         ],201);
+    }
+
+    public function document(
+        Request $request,
+        NomineeDocument $document
+    ){
+        $document->loadMissing('nominee');
+
+        abort_unless(
+            $document->nominee?->member_id===
+            $request->user()->member?->id,
+            403
+        );
+
+        $disk=$this->nomineeService->documentDisk($document);
+
+        abort_unless($disk,404);
+
+        return Storage::disk($disk)->download(
+            $document->file_path,
+            $document->original_name,
+            ['Content-Type'=>$document->mime_type?:'application/octet-stream']
+        );
     }
 
     public function deleteDocument(

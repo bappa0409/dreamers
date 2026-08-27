@@ -46,6 +46,19 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamps();
+
+            $table->index(
+                ['is_published','publish_at'],
+                'notices_published_publish_at_idx'
+            );
+            $table->index(
+                ['is_published','expires_at'],
+                'notices_published_expires_at_idx'
+            );
+            $table->index(
+                ['type','priority'],
+                'notices_type_priority_idx'
+            );
         });
     }
 

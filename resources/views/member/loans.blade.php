@@ -229,7 +229,7 @@ Close
 </button>
 </div>
 
-<form id="requestLoanForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+<form id="requestLoanForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
@@ -720,7 +720,7 @@ event.preventDefault();
 AdminUI.clearError('loanRequestError');
 AdminUI.clearFieldErrors('requestLoanForm');
 
-if(!AdminUI.validateRequired('requestLoanForm',{
+if(!AdminUI.validateForm('requestLoanForm',{
 amount:'Requested amount is required.',
 purpose:'Loan purpose is required.'
 })){
@@ -1264,11 +1264,6 @@ $('loanStatusFilter').addEventListener(
 'change',
 ()=>loadLoans(1)
 );
-
-AdminUI.bindFieldValidation(
-'requestLoanForm'
-);
-
 await loadLoans();
 }
 

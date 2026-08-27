@@ -127,7 +127,7 @@
             </button>
         </div>
 
-        <form id="subscriptionForm" novalidate>
+        <form id="subscriptionForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div id="subscriptionError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
 
@@ -190,7 +190,7 @@
             </button>
         </div>
 
-        <form id="bulkForm" novalidate>
+        <form id="bulkForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div id="bulkError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
 
@@ -670,7 +670,7 @@ $('subscriptionForm').addEventListener(
         AdminUI.clearError('subscriptionError');
         AdminUI.clearFieldErrors('subscriptionForm');
 
-        if(!AdminUI.validateRequired(
+        if(!AdminUI.validateForm(
             'subscriptionForm',
             {
                 memberId:'Member is required.',
@@ -864,12 +864,7 @@ function init(){
     initPeriodOptions();
 
     window.initDatePickers?.();
-
-    AdminUI.bindFieldValidation(
-        'subscriptionForm'
-    );
-
-    $('filterSearch').addEventListener(
+$('filterSearch').addEventListener(
         'input',
         AdminUI.debounce(reload)
     );

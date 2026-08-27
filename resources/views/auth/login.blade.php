@@ -75,7 +75,7 @@
         </div>
     @endif
 
-    <form id="loginForm" method="POST" action="{{ route('login.submit') }}" class="mt-8 space-y-5">
+    <form id="loginForm" method="POST" action="{{ route('login.submit') }}" class="mt-8 space-y-5" novalidate data-js-validation="1">
         @csrf
 
         <div>

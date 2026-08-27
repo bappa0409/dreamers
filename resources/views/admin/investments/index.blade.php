@@ -195,7 +195,7 @@
             </button>
         </div>
 
-        <form id="investmentForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="investmentForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="investmentError"
                     class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -350,7 +350,7 @@
             </button>
         </div>
 
-        <form id="returnForm" class="flex min-h-0 flex-1 flex-col" novalidate>
+        <form id="returnForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="returnInvestmentId" type="hidden">
             <input id="returnId" type="hidden">
 
@@ -1231,7 +1231,7 @@ $('investmentForm').addEventListener(
         }
 
         if(
-            !AdminUI.validateRequired(
+            !AdminUI.validateForm(
                 'investmentForm',
                 required
             )
@@ -1538,7 +1538,7 @@ $('returnForm').addEventListener(
         }
 
         if(
-            !AdminUI.validateRequired(
+            !AdminUI.validateForm(
                 'returnForm',
                 required
             )
@@ -2146,16 +2146,7 @@ async function init(){
         'change',
         ()=>loadInvestments(1)
     );
-
-    AdminUI.bindFieldValidation(
-        'investmentForm'
-    );
-
-    AdminUI.bindFieldValidation(
-        'returnForm'
-    );
-
-    window.initDatePickers?.();
+window.initDatePickers?.();
 
     await loadOptions();
 

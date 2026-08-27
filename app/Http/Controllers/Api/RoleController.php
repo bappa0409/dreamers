@@ -159,6 +159,7 @@ class RoleController extends Controller
             $role->delete();
 
             Cache::forget('rbac:permissions:list');
+            Cache::forget('rbac:assignable_roles');
         });
 
         return response()->json([
@@ -196,6 +197,7 @@ class RoleController extends Controller
     protected function forgetRoleCaches(Role $role): void
     {
         Cache::forget('rbac:permissions:list');
+        Cache::forget('rbac:assignable_roles');
 
         $role->users()
             ->select('users.id')

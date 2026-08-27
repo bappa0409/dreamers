@@ -338,6 +338,19 @@ class LoanService
                 ]);
             }
 
+            $member=Member::query()
+                ->whereKey($loan->member_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($member->status!=='active'){
+                throw ValidationException::withMessages([
+                    'member'=>[
+                        'Only an active member can receive loan disbursement.'
+                    ]
+                ]);
+            }
+
             $paymentAccount=$this->cashBankAccount(
                 (int)$data['disbursement_account_id'],
                 'disbursement_account_id'
@@ -348,6 +361,17 @@ class LoanService
 
             $disbursementDate=$data['disbursement_date']
                 ??now()->toDateString();
+
+            if(
+                $loan->request_date&&
+                $disbursementDate<$loan->request_date->toDateString()
+            ){
+                throw ValidationException::withMessages([
+                    'disbursement_date'=>[
+                        'Disbursement date cannot be before the loan request date.'
+                    ]
+                ]);
+            }
 
             $maturityDate=Carbon::parse($disbursementDate)
                 ->addMonthsNoOverflow((int)$loan->duration_months)
@@ -626,15 +650,39 @@ class LoanService
                     'active'=>Loan::whereIn('status',['active','overdue','defaulted'])->count(),
                     'overdue'=>Loan::whereIn('status',['overdue','defaulted'])->count(),
                     'repaid'=>Loan::where('status','repaid')->count(),
-                    'outstanding_principal'=>round(
-                        (float)Loan::whereIn(
-                            'status',
-                            ['active','overdue','defaulted']
-                        )->sum('approved_amount'),
-                        2
-                    )
+                    'outstanding_principal'=>$this
+                        ->outstandingPrincipal()
                 ];
             }
+        );
+    }
+
+    protected function outstandingPrincipal(): float
+    {
+        $activeLoanIds=Loan::query()
+            ->whereIn(
+                'status',
+                ['active','overdue','defaulted']
+            )
+            ->select('id');
+
+        $approved=(float)Loan::query()
+            ->whereIn(
+                'status',
+                ['active','overdue','defaulted']
+            )
+            ->sum('approved_amount');
+
+        $principalRepaid=(float)LoanRepayment::query()
+            ->whereIn('loan_id',$activeLoanIds)
+            ->sum('principal_amount');
+
+        return max(
+            round(
+                $approved-$principalRepaid,
+                2
+            ),
+            0
         );
     }
 
@@ -699,6 +747,7 @@ class LoanService
     ): Account{
         $account=Account::query()
             ->whereKey($accountId)
+            ->where('type','asset')
             ->where('is_active',true)
             ->whereIn('sub_type',['cash','bank'])
             ->whereDoesntHave('children')

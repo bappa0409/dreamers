@@ -19,15 +19,56 @@ class MemberExitPortalController extends Controller
 
         abort_unless($member,403);
 
+        $validated=$request->validate([
+            'search'=>'nullable|string|max:150',
+            'status'=>'nullable|in:submitted,under_review,liabilities_pending,ready_for_approval,approved,settled,closed,rejected,cancelled',
+            'per_page'=>'nullable|integer|min:5|max:50',
+        ]);
+
+        $base=$member->exits();
+
+        $summary=(clone $base)
+            ->selectRaw("
+                COUNT(*) AS total,
+                SUM(CASE WHEN status IN ('submitted','under_review','liabilities_pending','ready_for_approval','approved') THEN 1 ELSE 0 END) AS pending,
+                COALESCE(SUM(total_liabilities),0) AS total_liabilities,
+                COALESCE(SUM(share_refund),0) AS share_refund
+            ")
+            ->first();
+
+        $exits=$base
+            ->with([
+                'items',
+                'nomineeAllocations.nominee',
+            ])
+            ->when(
+                $validated['status']??null,
+                fn($q,$status)=>$q->where('status',$status)
+            )
+            ->when(
+                $validated['search']??null,
+                function($q,$search){
+                    $search=trim($search);
+
+                    $q->where(function($q)use($search){
+                        $q->where('exit_no','like',"%{$search}%")
+                            ->orWhere('reason','like',"%{$search}%");
+                    });
+                }
+            )
+            ->latest('id')
+            ->paginate($validated['per_page']??10)
+            ->withQueryString();
+
         return response()->json([
             'success'=>true,
-            'data'=>$member->exits()
-                ->with([
-                    'items',
-                    'nomineeAllocations.nominee',
-                ])
-                ->latest('id')
-                ->get(),
+            'data'=>$exits,
+            'summary'=>[
+                'total'=>(int)($summary->total??0),
+                'pending'=>(int)($summary->pending??0),
+                'total_liabilities'=>round((float)($summary->total_liabilities??0),2),
+                'share_refund'=>round((float)($summary->share_refund??0),2),
+            ],
         ]);
     }
 

@@ -35,6 +35,8 @@ class ApprovalWorkflowController extends Controller
             'approvers.*'=>'required|integer|distinct|exists:users,id',
         ]);
 
+        $this->validateApprovers($validated['approvers']);
+
         $exists=ApprovalWorkflow::query()
             ->where(
                 'module',
@@ -96,6 +98,8 @@ class ApprovalWorkflowController extends Controller
             'approvers'=>'required|array|min:1|max:3',
             'approvers.*'=>'required|integer|distinct|exists:users,id',
         ]);
+
+        $this->validateApprovers($validated['approvers']);
 
         $exists=ApprovalWorkflow::query()
             ->where(
@@ -188,20 +192,59 @@ class ApprovalWorkflowController extends Controller
         ]);
     }
     public function approvers()
-{
-    $users=User::query()
-        ->where('is_active',true)
-        ->select([
-            'id',
-            'name',
-            'email',
-        ])
-        ->orderBy('name')
-        ->get();
+    {
+        $users=$this->eligibleApproversQuery()
+            ->select([
+                'users.id',
+                'users.name',
+                'users.email',
+            ])
+            ->orderBy('users.name')
+            ->get();
 
-    return response()->json([
-        'success'=>true,
-        'data'=>$users,
-    ]);
-}
+        return response()->json([
+            'success'=>true,
+            'data'=>$users,
+        ]);
+    }
+
+    protected function validateApprovers(array $userIds): void
+    {
+        $requested=collect($userIds)
+            ->map(fn($id)=>(int)$id)
+            ->unique()
+            ->values();
+
+        $eligible=$this->eligibleApproversQuery()
+            ->whereIn('users.id',$requested->all())
+            ->pluck('users.id')
+            ->map(fn($id)=>(int)$id)
+            ->unique();
+
+        if($eligible->count()!==$requested->count()){
+            throw ValidationException::withMessages([
+                'approvers'=>[
+                    'Every approver must be an active user with approval permission.'
+                ],
+            ]);
+        }
+    }
+
+    protected function eligibleApproversQuery()
+    {
+        return User::query()
+            ->where('users.is_active',true)
+            ->where(function($query){
+                $query
+                    ->whereHas('roles',function($roleQuery){
+                        $roleQuery->where('roles.name','system_analyst');
+                    })
+                    ->orWhereHas('roles.permissions',function($permissionQuery){
+                        $permissionQuery->where(
+                            'permissions.name',
+                            'Approval.approve'
+                        );
+                    });
+            });
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\ApprovalRequest;
 use App\Models\ApprovalStep;
 use App\Models\ApprovalWorkflow;
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -96,8 +97,7 @@ class ApprovalService
                         'approver_user_id'=>$step->approver_user_id,
                         'status'=>'pending',
                         'remarks'=>null,
-                        'approved_at'=>null,
-                        'rejected_at'=>null,
+                        'acted_at'=>null,
                     ])
                     ->values()
                     ->all()
@@ -176,8 +176,7 @@ class ApprovalService
             $currentStep->update([
                 'status'=>'approved',
                 'remarks'=>$remarks,
-                'approved_at'=>now(),
-                'rejected_at'=>null,
+                'acted_at'=>now(),
             ]);
 
             $isFinalStep=
@@ -283,7 +282,7 @@ class ApprovalService
             $currentStep->update([
                 'status'=>'rejected',
                 'remarks'=>$remarks,
-                'rejected_at'=>now(),
+                'acted_at'=>now(),
             ]);
 
             $approvalRequest->update([
@@ -384,7 +383,19 @@ class ApprovalService
             );
 
             if($member->user){
-                $this->passwordSetupService->send($member->user);
+                $userId=(int)$member->user->id;
+
+                DB::afterCommit(function()use($userId){
+                    try{
+                        $user=User::query()->find($userId);
+
+                        if($user&&$user->email){
+                            $this->passwordSetupService->send($user);
+                        }
+                    }catch(\Throwable $e){
+                        report($e);
+                    }
+                });
             }
 
             return;

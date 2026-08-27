@@ -62,12 +62,23 @@ class MemberExitService
                 ]);
             }
 
+            $requestDate=$data['request_date']??now()->toDateString();
+            $proposedExitDate=$data['proposed_exit_date']??null;
+
+            if($proposedExitDate&&$proposedExitDate<$requestDate){
+                throw ValidationException::withMessages([
+                    'proposed_exit_date'=>[
+                        'Proposed exit date cannot be before the request date.'
+                    ],
+                ]);
+            }
+
             $exit=MemberExit::create([
                 'exit_no'=>$this->generateNumber(),
                 'member_id'=>$member->id,
                 'exit_type'=>$data['exit_type'],
-                'request_date'=>$data['request_date']??now()->toDateString(),
-                'proposed_exit_date'=>$data['proposed_exit_date']??null,
+                'request_date'=>$requestDate,
+                'proposed_exit_date'=>$proposedExitDate,
                 'reason'=>trim($data['reason']),
                 'status'=>'submitted',
                 'member_initiated'=>$memberInitiated,
@@ -125,13 +136,53 @@ class MemberExitService
                 'under_review',
                 'liabilities_pending',
                 'ready_for_approval',
+                'approved',
             ],true)){
                 throw ValidationException::withMessages([
                     'exit'=>['Financial assessment is not allowed at this stage.'],
                 ]);
             }
 
-            return $this->assessLocked($exit,$userId);
+            $wasApproved=$exit->status==='approved';
+            $approvedBy=$exit->approved_by;
+            $approvedAt=$exit->approved_at;
+
+            $exit=$this->assessLocked($exit,$userId);
+
+            if($wasApproved){
+                if((int)$exit->blocking_items_count===0){
+                    if($exit->exit_type==='death'){
+                        if((float)$exit->share_refund>0){
+                            $this->buildDeathNomineeAllocations($exit);
+                        }else{
+                            DB::table('member_exit_nominee_allocations')
+                                ->where('member_exit_id',$exit->id)
+                                ->delete();
+                        }
+                    }
+
+                    $exit->update([
+                        'status'=>'approved',
+                        'approved_by'=>$approvedBy,
+                        'approved_at'=>$approvedAt,
+                    ]);
+                }else{
+                    if($exit->exit_type==='death'){
+                        DB::table('member_exit_nominee_allocations')
+                            ->where('member_exit_id',$exit->id)
+                            ->delete();
+                    }
+
+                    $exit->update([
+                        'approved_by'=>null,
+                        'approved_at'=>null,
+                    ]);
+                }
+
+                $exit=$this->freshExit($exit);
+            }
+
+            return $exit;
         });
     }
 
@@ -400,47 +451,6 @@ class MemberExitService
 
         /*
         |--------------------------------------------------------------------------
-        | Committee positions
-        |--------------------------------------------------------------------------
-        | For death cases positions are automatically closed during settlement.
-        |--------------------------------------------------------------------------
-        */
-
-        if($exit->exit_type!=='death'){
-            $committeeMemberships=CommitteeMember::query()
-                ->select([
-                    'committee_members.id',
-                    'positions.name as position_name',
-                ])
-                ->leftJoin(
-                    'positions',
-                    'positions.id',
-                    '=',
-                    'committee_members.position_id'
-                )
-                ->where('committee_members.member_id',$member->id)
-                ->where('committee_members.status','active')
-                ->get();
-
-            foreach($committeeMemberships as $membership){
-                $blockers++;
-
-                $items[]=$this->itemData(
-                    exitId:$exit->id,
-                    category:'committee_position',
-                    direction:'process',
-                    referenceType:CommitteeMember::class,
-                    referenceId:(int)$membership->id,
-                    description:'Active committee position: '.
-                        ($membership->position_name?:'Committee Member'),
-                    amount:0,
-                    blocking:true
-                );
-            }
-        }
-
-        /*
-        |--------------------------------------------------------------------------
         | Bulk insert assessment items
         |--------------------------------------------------------------------------
         | Previously each item used its own INSERT query.
@@ -651,6 +661,16 @@ class MemberExitService
                 ]);
             }
 
+            $requestDate=$exit->request_date?->toDateString();
+
+            if($requestDate&&$data['settlement_date']<$requestDate){
+                throw ValidationException::withMessages([
+                    'settlement_date'=>[
+                        'Settlement date cannot be before the exit request date.'
+                    ],
+                ]);
+            }
+
             /*
             |--------------------------------------------------------------------------
             | Re-check all current blockers
@@ -700,6 +720,17 @@ class MemberExitService
                 (float)$shares->sum('purchase_amount'),
                 2
             );
+
+            if($exit->exit_type==='death'){
+                if($refund>0){
+                    $exit->share_refund=$refund;
+                    $this->buildDeathNomineeAllocations($exit);
+                }else{
+                    DB::table('member_exit_nominee_allocations')
+                        ->where('member_exit_id',$exit->id)
+                        ->delete();
+                }
+            }
 
             $transaction=null;
             $account=null;
@@ -1105,11 +1136,17 @@ class MemberExitService
                     SELECT COUNT(*)
                     FROM loans l
                     WHERE l.member_id=?
-                    AND l.status IN (
-                        'approved',
-                        'active',
-                        'overdue',
-                        'defaulted'
+                    AND (
+                        l.status='approved'
+                        OR (
+                            l.status IN ('active','overdue','defaulted')
+                            AND l.total_payable>
+                                COALESCE((
+                                    SELECT SUM(lr.total_amount)
+                                    FROM loan_repayments lr
+                                    WHERE lr.loan_id=l.id
+                                ),0)
+                        )
                     )
                 ) AS loans,
 
@@ -1207,6 +1244,7 @@ class MemberExitService
                 'accounts.id',
                 'accounts.code',
                 'accounts.name',
+                'accounts.type',
                 'accounts.sub_type',
             ])
             ->leftJoin(
@@ -1217,6 +1255,7 @@ class MemberExitService
             )
             ->where('accounts.id',$accountId)
             ->where('accounts.is_active',true)
+            ->where('accounts.type','asset')
             ->whereIn(
                 'accounts.sub_type',
                 ['cash','bank']

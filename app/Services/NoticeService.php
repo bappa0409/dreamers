@@ -26,14 +26,22 @@ class NoticeService
 
     public function delete(Notice $notice): void
     {
-        if(
-            $notice->attachment &&
-            Storage::disk('public')->exists($notice->attachment)
-        ){
-            Storage::disk('public')->delete($notice->attachment);
-        }
+        $attachment=$notice->attachment;
 
         $notice->delete();
+
+        if($attachment){
+            try{
+                $disk=Storage::disk('public');
+
+                if($disk->exists($attachment)){
+                    $disk->delete($attachment);
+                }
+            }catch(\Throwable $e){
+                report($e);
+            }
+        }
+
         $this->forgetCaches();
     }
 

@@ -19,7 +19,7 @@ class MailCampaignController extends Controller
     {
         $validated=$request->validate([
             'search'=>'nullable|string|max:150',
-            'status'=>'nullable|in:draft,sending,completed,completed_with_errors,cancelled',
+            'status'=>'nullable|in:draft,scheduled,sending,completed,failed,cancelled',
             'per_page'=>'nullable|integer|min:5|max:100'
         ]);
 
@@ -32,7 +32,7 @@ class MailCampaignController extends Controller
 
             $query->where(function($q)use($search){
                 $q->where('subject','like',"%{$search}%")
-                    ->orWhere('body','like',"%{$search}%");
+                    ->orWhere('content','like',"%{$search}%");
             });
         }
 
@@ -81,7 +81,9 @@ class MailCampaignController extends Controller
             'data'=>$mailCampaign->load([
                 'creator:id,name,email',
                 'recipients'=>function($query){
-                    $query->latest('id');
+                    $query
+                        ->latest('id')
+                        ->limit(200);
                 }
             ])
         ]);
@@ -117,6 +119,7 @@ class MailCampaignController extends Controller
 
         $users=User::query()
             ->where('is_active',true)
+            ->whereNotNull('email')
             ->whereHas('member',function($q){
                 $q->where('status','active');
             })
@@ -148,9 +151,9 @@ class MailCampaignController extends Controller
     ){
         $validated=$request->validate([
             'audience_type'=>'required|in:all_active_members,selected_members,manual',
-            'user_ids'=>'nullable|required_if:audience_type,selected_members|array',
+            'user_ids'=>'nullable|required_if:audience_type,selected_members|array|max:1000',
             'user_ids.*'=>'integer|distinct|exists:users,id',
-            'manual_emails'=>'nullable|required_if:audience_type,manual|array|min:1',
+            'manual_emails'=>'nullable|required_if:audience_type,manual|array|min:1|max:1000',
             'manual_emails.*.name'=>'nullable|string|max:255',
             'manual_emails.*.email'=>'required|email|max:255'
         ]);

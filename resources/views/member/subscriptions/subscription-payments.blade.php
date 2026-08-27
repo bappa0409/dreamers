@@ -12,8 +12,8 @@
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-center gap-4">
-            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600 text-white shadow-sm">
-                <i class="bi bi-receipt-cutoff"></i>
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-sm">
+                <i class="bi bi-calendar2-check"></i>
             </div>
             <div>
                 <h1 class="text-lg font-bold tracking-tight text-slate-800">Subscription Payments</h1>

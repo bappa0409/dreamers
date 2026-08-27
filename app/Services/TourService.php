@@ -15,7 +15,8 @@ class TourService
 {
     public function __construct(
         protected AccountingService $accounting,
-        protected NotificationService $notificationService
+        protected NotificationService $notificationService,
+        protected NumberSequenceService $numberSequence
     ){}
 
     public function create(array $data,?int $userId=null): Tour
@@ -144,7 +145,7 @@ class TourService
                 ->firstOrFail();
 
             $transitions=[
-                'draft'=>['approved','upcoming','cancelled'],
+                'draft'=>['cancelled'],
                 'approved'=>['upcoming','ongoing','cancelled'],
                 'upcoming'=>['ongoing','cancelled'],
                 'ongoing'=>['completed','cancelled'],
@@ -460,7 +461,7 @@ class TourService
                     ->firstOrFail();
 
                 $this->accounting->post([
-                    'transaction_date'=>now()->toDateString(),
+                    'transaction_date'=>$this->reversalDate($expense->expense_date),
                     'type'=>'tour_expense_reversal',
                     'source_module'=>'tour',
                     'source_id'=>$expense->tour_id,
@@ -573,9 +574,28 @@ class TourService
     {
         $data['sent_by']=$data['sent_by']??auth()->id();
 
-        DB::afterCommit(
-            fn()=>$this->notificationService->sendSystem($data)
-        );
+        DB::afterCommit(function()use($data){
+            try{
+                $this->notificationService->sendSystem($data);
+            }catch(\Throwable $e){
+                report($e);
+            }
+        });
+    }
+
+    protected function reversalDate(\DateTimeInterface|string|null $originalDate): string
+    {
+        $today=now()->toDateString();
+
+        if(!$originalDate){
+            return $today;
+        }
+
+        $date=$originalDate instanceof \DateTimeInterface
+            ?$originalDate->format('Y-m-d')
+            :substr((string)$originalDate,0,10);
+
+        return $date>$today?$date:$today;
     }
 
     protected function expenseAccount(int $id): Account
@@ -584,6 +604,7 @@ class TourService
             ->whereKey($id)
             ->where('type','expense')
             ->where('is_active',true)
+            ->whereDoesntHave('children')
             ->firstOr(function(){
                 throw ValidationException::withMessages([
                     'expense_account_id'=>[
@@ -597,8 +618,10 @@ class TourService
     {
         return Account::query()
             ->whereKey($id)
+            ->where('type','asset')
             ->whereIn('sub_type',['cash','bank'])
             ->where('is_active',true)
+            ->whereDoesntHave('children')
             ->firstOr(function(){
                 throw ValidationException::withMessages([
                     'payment_account_id'=>[
@@ -610,66 +633,46 @@ class TourService
 
     protected function generateTourNo(): string
     {
-        $prefix='TOUR-'.now()->format('Y').'-';
+        $year=now()->format('Y');
+        $prefix="TOUR-{$year}-";
 
-        $last=Tour::query()
-            ->where('tour_no','like',$prefix.'%')
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('tour_no');
+        return $this->numberSequence->next(
+            "tour:{$year}",
+            $prefix,
+            4,
+            function()use($prefix){
+                $last=Tour::query()
+                    ->where('tour_no','like',$prefix.'%')
+                    ->orderByDesc('id')
+                    ->value('tour_no');
 
-        $number=$last
-            ?(int)substr($last,-4)+1
-            :1;
-
-        do{
-            $tourNo=$prefix.str_pad(
-                (string)$number,
-                4,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            $number++;
-        }while(
-            Tour::query()
-                ->where('tour_no',$tourNo)
-                ->exists()
+                return $last
+                    ?(int)substr($last,-4)
+                    :0;
+            }
         );
-
-        return $tourNo;
     }
 
     protected function generateExpenseNo(): string
     {
-        $prefix='TEXP-'.now()->format('Y').'-';
+        $year=now()->format('Y');
+        $prefix="TEXP-{$year}-";
 
-        $last=TourExpense::query()
-            ->where('expense_no','like',$prefix.'%')
-            ->lockForUpdate()
-            ->orderByDesc('id')
-            ->value('expense_no');
+        return $this->numberSequence->next(
+            "tour-expense:{$year}",
+            $prefix,
+            6,
+            function()use($prefix){
+                $last=TourExpense::query()
+                    ->where('expense_no','like',$prefix.'%')
+                    ->orderByDesc('id')
+                    ->value('expense_no');
 
-        $number=$last
-            ?(int)substr($last,-6)+1
-            :1;
-
-        do{
-            $expenseNo=$prefix.str_pad(
-                (string)$number,
-                6,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            $number++;
-        }while(
-            TourExpense::query()
-                ->where('expense_no',$expenseNo)
-                ->exists()
+                return $last
+                    ?(int)substr($last,-6)
+                    :0;
+            }
         );
-
-        return $expenseNo;
     }
 
     protected function fresh(Tour $tour): Tour

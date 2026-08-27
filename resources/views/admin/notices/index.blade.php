@@ -111,7 +111,7 @@
             </button>
         </div>
 
-        <form id="noticeForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="noticeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-4 overflow-y-auto p-5">
                 <div>
                     <label class="form-label">Title <span class="text-red-500">*</span></label>
@@ -156,7 +156,7 @@
                         <label class="form-label">Expires At</label>
                         <div class="relative">
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="expiresAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
+                            <input id="expiresAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off" data-after="publishAt" data-validation-compare-message="Expires At must be after Publish At.">
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                             <p class="mt-0.5 text-[10px] text-slate-400">Maximum 5 MB</p>
                         </div>
                     </label>
-                    <input id="attachment" type="file" class="hidden">
+                    <input id="attachment" type="file" class="hidden" data-max-size="5242880" data-validation-file-size-message="Attachment must not exceed 5 MB.">
                 </div>
 
                 <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3">
@@ -202,7 +202,7 @@
                         </select>
 
                         <div id="roleAudience" class="mt-3 hidden">
-                            <label class="form-label">Role</label>
+                            <label class="form-label">Role <span class="text-red-500">*</span></label>
                             <select id="roleId" class="app-input">
                                 <option value="">Select Role</option>
                             </select>
@@ -508,16 +508,6 @@ el.form.addEventListener('submit',async event=>{
     const title=el.title.value.trim();
     const content=el.content.value.trim();
 
-    if(!title){
-        AdminUI.showError('formError','Notice title is required.');
-        return;
-    }
-
-    if(!content){
-        AdminUI.showError('formError','Notice content is required.');
-        return;
-    }
-
     const formData=new FormData();
 
     formData.append('title',title);
@@ -530,8 +520,10 @@ el.form.addEventListener('submit',async event=>{
     if(el.expiresAt.value)formData.append('expires_at',el.expiresAt.value);
     if(el.attachment.files[0])formData.append('attachment',el.attachment.files[0]);
 
+    let notify=false;
+
     if(canNotify&&!editingNotice){
-        const notify=document.getElementById('notifyMembers').checked;
+        notify=document.getElementById('notifyMembers').checked;
 
         formData.append('notify_members',notify?'1':'0');
 
@@ -544,7 +536,8 @@ el.form.addEventListener('submit',async event=>{
                 const roleId=document.getElementById('roleId').value;
 
                 if(!roleId){
-                    AdminUI.showError('formError','Please select a notification role.');
+                    AdminUI.showFieldError('roleId','Please select a notification role.');
+                    document.getElementById('roleId').focus();
                     return;
                 }
 
@@ -553,7 +546,8 @@ el.form.addEventListener('submit',async event=>{
 
             if(audience==='users'){
                 if(!selectedUsers.size){
-                    AdminUI.showError('formError','Please select at least one user.');
+                    AdminUI.showFieldError('userSearch','Please select at least one user.');
+                    document.getElementById('userSearch').focus();
                     return;
                 }
 
@@ -568,15 +562,17 @@ el.form.addEventListener('submit',async event=>{
         const editing=Boolean(editingNotice);
         const pageAfterSave=editing?currentPage:1;
 
+        let response;
+
         if(editing){
             formData.append('_method','PUT');
 
-            await api(`/api/notices/${editingNotice.id}`,{
+            response=await api(`/api/notices/${editingNotice.id}`,{
                 method:'POST',
                 body:formData
             });
         }else{
-            await api('/api/notices',{
+            response=await api('/api/notices',{
                 method:'POST',
                 body:formData
             });
@@ -584,15 +580,36 @@ el.form.addEventListener('submit',async event=>{
 
         closeNoticeModal();
 
-        Toast.success(
-            editing
-                ?'Notice updated successfully.'
-                :'Notice created successfully.'
-        );
+        if(response?.notification_sent===false&&notify){
+            Toast.warning(
+                response.message||
+                'Notice saved, but member notification could not be sent.'
+            );
+        }else{
+            Toast.success(
+                response?.message||
+                (editing
+                    ?'Notice updated successfully.'
+                    :'Notice created successfully.')
+            );
+        }
 
         await loadNotices(pageAfterSave);
     }catch(error){
-        AdminUI.showError('formError',AdminUI.extractError(error));
+        if(!AdminUI.showValidationErrors(el.form,error,{
+            title:'title',
+            content:'content',
+            type:'type',
+            priority:'priority',
+            publish_at:'publishAt',
+            expires_at:'expiresAt',
+            attachment:'attachment',
+            audience_type:'audienceType',
+            role_id:'roleId',
+            user_ids:'userSearch'
+        })){
+            AdminUI.showError('formError',AdminUI.extractError(error));
+        }
     }finally{
         AdminUI.resetLoading(el.saveButton);
     }
@@ -734,6 +751,23 @@ async function initNoticePage(){
     if(canNotify){
         document.getElementById('notifyMembers').addEventListener('change',function(){
             document.getElementById('audienceSection').classList.toggle('hidden',!this.checked);
+
+            if(this.checked){
+                el.isPublished.checked=true;
+            }
+        });
+
+        el.isPublished.addEventListener('change',function(){
+            if(this.checked){
+                return;
+            }
+
+            const notify=document.getElementById('notifyMembers');
+
+            if(notify.checked){
+                notify.checked=false;
+                document.getElementById('audienceSection').classList.add('hidden');
+            }
         });
 
         document.getElementById('audienceType').addEventListener('change',function(){

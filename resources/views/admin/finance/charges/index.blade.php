@@ -128,7 +128,7 @@
             </button>
         </div>
 
-        <form id="chargeForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="chargeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
                 <section class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="mb-4 flex items-center gap-3">
@@ -259,7 +259,7 @@
             </button>
         </div>
 
-        <form id="paymentForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="paymentForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="paymentChargeId" type="hidden">
 
             <div class="space-y-5 overflow-y-auto p-5">
@@ -381,7 +381,7 @@
             </button>
         </div>
 
-        <form id="reasonForm" class="flex min-h-0 flex-1 flex-col">
+        <form id="reasonForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="reasonChargeId" type="hidden">
             <input id="reasonAction" type="hidden">
 
@@ -420,6 +420,8 @@
 @push('scripts')
 <script>
 let charges=[];
+let detailPayments=[];
+let detailsChargeId=null;
 let currentPage=1;
 let lastPage=1;
 let total=0;
@@ -859,6 +861,9 @@ window.viewCharge=async function(id){
         const payments=item.payments??[];
         const entries=item.finance_transaction?.entries??[];
 
+        detailsChargeId=Number(id);
+        detailPayments=payments;
+
         body.innerHTML=`
             <div class="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 md:grid-cols-4">
                 ${detail('Charge No',item.charge_no)}
@@ -891,7 +896,9 @@ window.viewCharge=async function(id){
                                 <th class="px-3 py-2 text-left">Date</th>
                                 <th class="px-3 py-2 text-left">Account</th>
                                 <th class="px-3 py-2 text-left">Reference</th>
+                                <th class="px-3 py-2 text-left">Status</th>
                                 <th class="px-3 py-2 text-right">Amount</th>
+                                <th class="px-3 py-2 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -909,13 +916,26 @@ window.viewCharge=async function(id){
                                     <td class="px-3 py-2">
                                         ${AdminUI.escapeHtml(payment.reference??'—')}
                                     </td>
+                                    <td class="px-3 py-2">
+                                        ${AdminUI.escapeHtml(titleCase(payment.status))}
+                                    </td>
                                     <td class="px-3 py-2 text-right font-semibold">
                                         ${money(payment.amount)}
+                                    </td>
+                                    <td class="px-3 py-2 text-right">
+                                        ${canUpdate&&payment.status==='posted'?`
+                                            <button
+                                                type="button"
+                                                onclick="openPaymentCancelModal(${payment.id})"
+                                                class="rounded border border-red-200 px-2 py-1 text-[11px] font-semibold text-red-600 hover:bg-red-50">
+                                                Cancel
+                                            </button>
+                                        `:'—'}
                                     </td>
                                 </tr>
                             `).join(''):`
                                 <tr>
-                                    <td colspan="5" class="px-3 py-6 text-center text-slate-400">
+                                    <td colspan="7" class="px-3 py-6 text-center text-slate-400">
                                         No payments found.
                                     </td>
                                 </tr>
@@ -938,6 +958,35 @@ window.viewCharge=async function(id){
             </div>
         `;
     }
+};
+
+window.openPaymentCancelModal=function(paymentId){
+    const payment=detailPayments.find(
+        item=>Number(item.id)===Number(paymentId)
+    );
+
+    if(!payment){
+        Toast.error('Payment not found.');
+        return;
+    }
+
+    document.getElementById('reasonChargeId').value=payment.id;
+    document.getElementById('reasonAction').value='cancel-payment';
+    document.getElementById('reasonText').value='';
+    document.getElementById('reasonTitle').textContent='Cancel Payment';
+    document.getElementById('reasonDescription').textContent=
+        `${payment.payment_no} • ${money(payment.amount)}`;
+
+    const icon=document.getElementById('reasonIcon');
+    icon.className='flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600';
+    icon.innerHTML='<i class="bi bi-x-circle"></i>';
+
+    const button=document.getElementById('reasonButton');
+    button.textContent='Cancel Payment';
+    button.className='cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60';
+
+    AdminUI.clearError('reasonError');
+    AdminUI.openModal('reasonModal');
 };
 
 window.openReasonModal=function(id,action){
@@ -1018,12 +1067,18 @@ document.getElementById('reasonForm').addEventListener('submit',async event=>{
         button,
         action==='waive'
             ?'Waiving...'
-            :'Cancelling...'
+            :(action==='cancel-payment'
+                ?'Cancelling Payment...'
+                :'Cancelling...')
     );
 
     try{
+        const endpoint=action==='cancel-payment'
+            ?`/api/finance/charge-payments/${id}/cancel`
+            :`/api/finance/charges/${id}/${action}`;
+
         const response=await api(
-            `/api/finance/charges/${id}/${action}`,
+            endpoint,
             {
                 method:'POST',
                 body:JSON.stringify({reason})
@@ -1037,11 +1092,17 @@ document.getElementById('reasonForm').addEventListener('submit',async event=>{
             (
                 action==='waive'
                     ?'Charge waived successfully.'
-                    :'Charge cancelled successfully.'
+                    :(action==='cancel-payment'
+                        ?'Charge payment cancelled successfully.'
+                        :'Charge cancelled successfully.')
             )
         );
 
         await loadCharges(currentPage);
+
+        if(action==='cancel-payment'&&detailsChargeId){
+            await viewCharge(detailsChargeId);
+        }
     }catch(error){
         AdminUI.showError(
             'reasonError',

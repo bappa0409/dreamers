@@ -126,7 +126,7 @@
             </button>
         </div>
 
-        <form id="userForm">
+        <form id="userForm" novalidate data-js-validation="1">
             <input type="hidden" id="userId">
 
             <div class="max-h-[70vh] space-y-4 overflow-y-auto p-5 sm:p-6">
@@ -209,7 +209,7 @@
             </button>
         </div>
 
-        <form id="passwordForm">
+        <form id="passwordForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div>
                     <label class="form-label">New Password</label>

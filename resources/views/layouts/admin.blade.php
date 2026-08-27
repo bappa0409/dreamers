@@ -87,7 +87,7 @@
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     @php
     $authUser=auth()->user();
-    $can=static fn(string $permission):bool=>$authUser?$authUser->hasPermission($permission):false;
+    $can=static fn(string $permission):bool=>$authUser?$authUser->hasAnyPermission(array_filter(explode(',', $permission))):false;
 
     $organizationName=setting('organization_name','Dreamers Association');
     $siteLogo=setting('site_logo');
@@ -121,14 +121,13 @@
     ];
 
     $governance=[
-    ['Committee.view','admin.committees','admin.committees*','bi-person-badge','Committee & Election'],
     ['Meeting.view','admin.meetings','admin.meetings*','bi-calendar2-event','Meetings'],
     ['Poll.view','admin.polls','admin.polls*','bi-ui-checks-grid','Polls'],
     ];
 
     $communication=[
     ['Notice.view','admin.notices','admin.notices*','bi-megaphone','Notices'],
-    ['Mailing.view','admin.mailing','admin.mailing*','bi-envelope','Mailing'],
+    ['Mail.view,Mailing.view','admin.mailing','admin.mailing*','bi-envelope','Mailing'],
     ['FeedbackSupport.view','admin.feedback-support','admin.feedback-support*','bi-headset','Feedback & Support'],
     ];
 
@@ -366,7 +365,7 @@
                         <div class="mt-0.5 truncate text-[10px] text-sky-200/60">{{ $roleNames }}</div>
                     </div>
 
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
                         @csrf
                         <button type="submit" title="Logout"
                             class="flex h-8 w-8 items-center justify-center rounded-full text-sky-100/60 transition hover:bg-white/10 hover:text-white">
@@ -470,7 +469,7 @@
                                 </a>
                                 @endif
 
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
                                     @csrf
                                     <button type="submit"
                                         class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-left text-xs font-medium text-red-500 transition hover:bg-red-50">
@@ -532,8 +531,7 @@
     text.textContent='Refreshing...';
 
     try{
-        const response=await api(
-            @json(route('admin.system.refresh-cache')),
+        const response=await api(@json(route('admin.system.refresh-cache')),
             {
                 method:'POST',
                 body:JSON.stringify({})

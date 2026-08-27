@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Loan;
+use App\Models\LoanRepayment;
 use App\Models\Member;
 use App\Services\LoanService;
 use Illuminate\Http\Request;
@@ -47,6 +48,10 @@ class LoanController extends Controller
                 'member:id,user_id,member_code',
                 'member.user:id,name,email'
             ])
+            ->withSum(
+                'repayments as total_repaid',
+                'total_amount'
+            )
             ->when(
                 $validated['status']??null,
                 fn($q,$status)=>$q->where('status',$status)
@@ -85,11 +90,41 @@ class LoanController extends Controller
             )
             ->latest('id');
 
+        $paginator=$query->paginate(
+            $validated['per_page']??15
+        )->withQueryString();
+
+        $paginator->getCollection()->transform(
+            function(Loan $loan){
+                $paid=round(
+                    (float)($loan->total_repaid??0),
+                    2
+                );
+
+                $loan->setAttribute(
+                    'outstanding_amount',
+                    in_array(
+                        $loan->status,
+                        ['active','overdue','defaulted'],
+                        true
+                    )
+                        ?max(
+                            round(
+                                (float)$loan->total_payable-$paid,
+                                2
+                            ),
+                            0
+                        )
+                        :0
+                );
+
+                return $loan;
+            }
+        );
+
         return response()->json([
             'success'=>true,
-            'data'=>$query->paginate(
-                $validated['per_page']??15
-            )->withQueryString()
+            'data'=>$paginator
         ]);
     }
 
@@ -126,6 +161,7 @@ class LoanController extends Controller
 
                 'cash_bank_accounts'=>Account::query()
                     ->active()
+                    ->where('type','asset')
                     ->whereIn('sub_type',['cash','bank'])
                     ->whereDoesntHave('children')
                     ->orderBy('code')
@@ -182,6 +218,24 @@ class LoanController extends Controller
             'repayments.receiver:id,name',
             'repayments.financeTransaction.entries.account'
         ]);
+
+        $loan->setAttribute(
+            'outstanding_amount',
+            in_array(
+                $loan->status,
+                ['active','overdue','defaulted'],
+                true
+            )
+                ?max(
+                    round(
+                        (float)$loan->total_payable-
+                        (float)$loan->repayments->sum('total_amount'),
+                        2
+                    ),
+                    0
+                )
+                :0
+        );
 
         return response()->json([
             'success'=>true,

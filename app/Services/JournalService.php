@@ -328,6 +328,17 @@ class JournalService
             }
 
             if(
+                $transaction->type!=='manual_journal'||
+                $transaction->source_module!=='manual'
+            ){
+                throw ValidationException::withMessages([
+                    'transaction'=>[
+                        'Only manual journal entries can be reversed here. Use the source module cancellation or reversal action for system-generated transactions.'
+                    ],
+                ]);
+            }
+
+            if(
                 in_array(
                     $transaction->type,
                     [

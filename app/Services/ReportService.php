@@ -450,7 +450,14 @@ class ReportService
     private function investmentsQuery(string $search,?string $status,?string $from,?string $to): Builder
     {
         $query=Investment::query()
-            ->with(['member.user','returns'])
+            ->with(['member.user'])
+            ->withSum(
+                [
+                    'returns as paid_return_sum'=>fn($query)=>
+                        $query->where('status','paid')
+                ],
+                'amount'
+            )
             ->latest('investment_date')
             ->latest('id');
 
@@ -643,9 +650,7 @@ class ReportService
         return[
             ...$meta,
             'rows'=>$rows->map(function($investment){
-                $paidReturn=(float)$investment->returns
-                    ->where('status','paid')
-                    ->sum('amount');
+                $paidReturn=(float)($investment->paid_return_sum??0);
 
                 return[
                     $investment->investment_no??'',
