@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dreamers Association — হিসাব ব্যবস্থাপনা (Accounts) সম্পূর্ণ গাইড</title>
+<title>Dreamers Association — হিসাব ব্যবস্থাপনা (Accounts) সম্পূর্ণ ও বিস্তারিত গাইড</title>
 <style>
 :root{
     --indigo:#4f46e5;
@@ -18,6 +18,7 @@
     --emerald:#059669;
     --amber:#d97706;
     --red:#dc2626;
+    --navy:#0f2540;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -34,7 +35,7 @@ a:hover{text-decoration:underline}
 /* ---------- Layout ---------- */
 .layout{display:flex;min-height:100vh}
 .sidebar{
-    width:280px;
+    width:290px;
     flex-shrink:0;
     background:var(--slate-900);
     color:#cbd5e1;
@@ -45,7 +46,6 @@ a:hover{text-decoration:underline}
     overflow-y:auto;
 }
 .sidebar h2{
-    color:#fff;
     font-size:13px;
     text-transform:uppercase;
     letter-spacing:1px;
@@ -76,7 +76,7 @@ a:hover{text-decoration:underline}
 .brand span{font-size:11px;color:#94a3b8}
 
 .content{flex:1;min-width:0;padding:36px 48px 100px}
-.content-inner{max-width:920px;margin:0 auto}
+.content-inner{max-width:960px;margin:0 auto}
 
 /* ---------- Cover ---------- */
 .cover{
@@ -89,15 +89,15 @@ a:hover{text-decoration:underline}
     padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;
     letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;
 }
-.cover h1{margin:0 0 10px;font-size:30px;line-height:1.3}
-.cover p{margin:0;color:#e0e7ff;font-size:14.5px;max-width:640px}
+.cover h1{margin:0 0 10px;font-size:29px;line-height:1.3}
+.cover p{margin:0;color:#e0e7ff;font-size:14.5px;max-width:680px}
 .cover .meta{
     margin-top:22px;display:flex;gap:24px;flex-wrap:wrap;font-size:12.5px;color:#e0e7ff;
 }
 .cover .meta b{color:#fff;display:block;font-size:13px}
 
 /* ---------- Sections ---------- */
-section{margin-bottom:44px;scroll-margin-top:20px}
+section{margin-bottom:48px;scroll-margin-top:20px}
 section h2{
     font-size:21px;color:var(--slate-900);
     padding-bottom:10px;border-bottom:2px solid var(--slate-200);
@@ -109,7 +109,7 @@ section h2 .num{
     background:linear-gradient(135deg,var(--indigo),var(--violet));
     color:#fff;font-size:14px;font-weight:700;flex-shrink:0;
 }
-h3{font-size:16px;color:var(--slate-900);margin:22px 0 8px}
+h3{font-size:16.5px;color:var(--slate-900);margin:26px 0 8px}
 h4{font-size:14px;color:var(--indigo);margin:16px 0 6px}
 p{margin:0 0 12px}
 ul,ol{margin:0 0 14px;padding-left:22px}
@@ -122,6 +122,7 @@ li{margin-bottom:5px}
 .callout.info{border-color:#bfdbfe;background:#eff6ff;color:#1e3a8a}
 .callout.warn{border-color:#fde68a;background:#fffbeb;color:#92400e}
 .callout.good{border-color:#a7f3d0;background:#ecfdf5;color:#065f46}
+.callout.example{border-color:#c7d2fe;background:#eef2ff;color:#312e81}
 .callout b{display:block;margin-bottom:3px}
 
 table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:#fff}
@@ -154,7 +155,7 @@ code,.code{
 
 .flow-steps{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
 .flow-steps .step{
-    flex:1;min-width:150px;background:#fff;border:1px solid var(--slate-200);
+    flex:1;min-width:160px;background:#fff;border:1px solid var(--slate-200);
     border-radius:10px;padding:12px 14px;font-size:13px;position:relative;
 }
 .flow-steps .step .n{
@@ -164,6 +165,25 @@ code,.code{
 
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+
+/* T-accounts */
+.t-wrap{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}
+.t-account{border:1px solid var(--slate-200);border-radius:8px;min-width:230px;flex:1;overflow:hidden}
+.t-account .t-head{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:8px 12px}
+.t-account .t-body{display:flex}
+.t-account .t-side{flex:1;padding:8px 10px;font-size:12.8px}
+.t-account .t-side.dr{border-right:1px solid var(--slate-200)}
+.t-account .t-side .lbl{font-weight:700;font-size:11px;text-transform:uppercase;color:var(--slate-500);margin-bottom:6px}
+.t-account .t-side .row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dotted #e5e9ef}
+.t-account .t-side .row:last-child{border-bottom:none}
+.t-account .t-foot{background:#f8fafc;padding:6px 12px;font-size:12.5px;font-weight:700;display:flex;justify-content:space-between;color:var(--navy)}
+
+/* timeline */
+.timeline{border-left:3px solid var(--violet);margin:16px 0 16px 10px;padding-left:20px}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:'';position:absolute;left:-27px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--indigo);border:2px solid #fff;box-shadow:0 0 0 2px #c7d2fe}
+.tl-date{font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.03em}
+.tl-title{font-size:14.5px;font-weight:700;color:var(--slate-900);margin:2px 0 4px}
 
 .toc-top{display:none}
 
@@ -181,15 +201,10 @@ footer{
 }
 
 @media(max-width:900px){
-    .sidebar{
-        position:fixed;left:-280px;transition:left .2s;z-index:50;box-shadow:10px 0 30px rgba(0,0,0,.3);
-    }
+    .sidebar{position:fixed;left:-290px;transition:left .2s;z-index:50;box-shadow:10px 0 30px rgba(0,0,0,.3)}
     .sidebar.open{left:0}
     .content{padding:24px 18px}
-    .toc-top{
-        display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--slate-200);
-        border-radius:10px;padding:10px 14px;margin-bottom:20px;font-size:13px;font-weight:600;cursor:pointer;
-    }
+    .toc-top{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--slate-200);border-radius:10px;padding:10px 14px;margin-bottom:20px;font-size:13px;font-weight:600;cursor:pointer}
 }
 </style>
 </head>
@@ -201,33 +216,39 @@ footer{
             <div class="logo-box">DA</div>
             <div>
                 <strong>Dreamers Association</strong>
-                <span>Admin Manual — Accounts</span>
+                <span>Admin Manual — Accounts (Detailed)</span>
             </div>
         </div>
 
         <h2>শুরুর কথা</h2>
         <a href="#overview">১. ভূমিকা ও মূলনীতি</a>
-        <a href="#coa">২. হিসাবের চার্ট (Chart of Accounts)</a>
-        <a href="#engine">৩. জার্নাল ইঞ্জিন কীভাবে কাজ করে</a>
+        <a href="#accrual">২. Accrual vs Cash Basis</a>
+        <a href="#coa">৩. হিসাবের চার্ট (Chart of Accounts)</a>
+        <a href="#engine">৪. জার্নাল ইঞ্জিন কীভাবে কাজ করে</a>
 
         <h2>টাকার প্রবাহ (মডিউল অনুযায়ী)</h2>
-        <a href="#subscription">৪. সদস্য চাঁদা (Subscription &amp; Dues)</a>
-        <a href="#charges">৫. সদস্য চার্জ (Member Charges)</a>
-        <a href="#loans">৬. ঋণ (Loans)</a>
-        <a href="#investments">৭. বিনিয়োগ (Investments)</a>
-        <a href="#shares">৮. শেয়ার (Member Shares)</a>
-        <a href="#assets">৯. সম্পদ ও অবচয় (Assets)</a>
-        <a href="#teller">১০. টেলার / নগদ ব্যবস্থাপনা</a>
-        <a href="#income-expense">১১. আয় ও ব্যয় (Income &amp; Expense)</a>
-        <a href="#manual-journal">১২. ম্যানুয়াল জার্নাল ও রিভার্সাল</a>
+        <a href="#subscription">৫. সদস্য চাঁদা (Subscription &amp; Dues)</a>
+        <a href="#charges">৬. সদস্য চার্জ (Member Charges)</a>
+        <a href="#loans">৭. ঋণ (Loans)</a>
+        <a href="#investments">৮. বিনিয়োগ (Investments)</a>
+        <a href="#shares">৯. শেয়ার (Member Shares)</a>
+        <a href="#assets">১০. সম্পদ ও অবচয় (Assets)</a>
+        <a href="#teller">১১. টেলার / নগদ ব্যবস্থাপনা</a>
+        <a href="#income-expense">১২. আয় ও ব্যয় (Income &amp; Expense)</a>
+        <a href="#manual-journal">১৩. ম্যানুয়াল জার্নাল ও রিভার্সাল</a>
+
+        <h2>প্রভাব ও রেফারেন্স</h2>
+        <a href="#statements">১৪. ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</a>
+        <a href="#dashboard-map">১৫. ড্যাশবোর্ডের সংখ্যা কোথা থেকে আসে</a>
+        <a href="#appendix">১৬. অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</a>
 
         <h2>রিপোর্ট ও রসিদ</h2>
-        <a href="#reports">১৩. রিপোর্টসমূহ</a>
-        <a href="#receipts">১৪. রসিদ / প্রিন্ট (Receipts)</a>
+        <a href="#reports">১৭. রিপোর্টসমূহ</a>
+        <a href="#receipts">১৮. রসিদ / প্রিন্ট (Receipts)</a>
 
         <h2>অন্যান্য</h2>
-        <a href="#permissions">১৫. পারমিশন ও রোল</a>
-        <a href="#faq">১৬. সাধারণ সমস্যা ও সমাধান</a>
+        <a href="#permissions">১৯. পারমিশন ও রোল</a>
+        <a href="#faq">২০. সাধারণ সমস্যা ও সমাধান</a>
     </aside>
 
     <main class="content">
@@ -238,15 +259,17 @@ footer{
             </div>
 
             <div class="cover">
-                <span class="tag">Admin Manual</span>
-                <h1>হিসাব ব্যবস্থাপনা (Accounts &amp; Finance) — সম্পূর্ণ গাইড</h1>
+                <span class="tag">Admin Manual — Detailed Edition</span>
+                <h1>হিসাব ব্যবস্থাপনা (Accounts &amp; Finance) — সম্পূর্ণ ও বিস্তারিত গাইড</h1>
                 <p>
                     এই ডকুমেন্টে Dreamers Association ম্যানেজমেন্ট সিস্টেমের সম্পূর্ণ হিসাব (Accounting) কাঠামো,
-                    প্রতিটি মডিউলে টাকা কীভাবে ডেবিট-ক্রেডিট আকারে জার্নালে পোস্ট হয়, এবং অ্যাডমিন হিসেবে
-                    আপনি প্রতিদিন যেসব কাজ করবেন তার ধাপে-ধাপে ব্যাখ্যা দেওয়া আছে।
+                    প্রতিটি মডিউলে টাকা কীভাবে ডেবিট-ক্রেডিট আকারে জার্নালে পোস্ট হয়, বাস্তব টাকার অঙ্কসহ
+                    ধাপে-ধাপে উদাহরণ, T-অ্যাকাউন্ট, টাইমলাইন এবং ফাইন্যান্সিয়াল স্টেটমেন্টে এর প্রভাব বিস্তারিতভাবে
+                    দেখানো হয়েছে — যাতে একজন নতুন অ্যাডমিন/হিসাবরক্ষকও পুরো ফ্লো নিজে নিজে বুঝে নিতে পারেন।
                 </p>
                 <div class="meta">
                     <div><b>সিস্টেম</b>Double-Entry Bookkeeping</div>
+                    <div><b>ভিত্তি</b>Accrual Basis</div>
                     <div><b>মুদ্রা</b>৳ (BDT) — সেটিংস থেকে পরিবর্তনযোগ্য</div>
                     <div><b>ধরন</b>Association / Cooperative Finance</div>
                 </div>
@@ -258,8 +281,8 @@ footer{
 
                 <p>
                     এই সিস্টেমের হিসাব বিভাগ <b>Double-Entry Accounting</b> নীতিতে চলে — অর্থাৎ প্রতিটি
-                    আর্থিক ঘটনার জন্য কমপক্ষে দুইটি হিসাব (Account) প্রভাবিত হয়: একটি <span class="jv dr" style="border:none;padding:0;margin:0;display:inline">ডেবিট (Debit)</span>
-                    এবং একটি <span class="jv cr" style="border:none;padding:0;margin:0;display:inline">ক্রেডিট (Credit)</span>। প্রতিটি লেনদেনে মোট ডেবিট = মোট ক্রেডিট
+                    আর্থিক ঘটনার জন্য কমপক্ষে দুইটি হিসাব (Account) প্রভাবিত হয়: একটি <span class="dr">ডেবিট (Debit)</span>
+                    এবং একটি <span class="cr">ক্রেডিট (Credit)</span>। প্রতিটি লেনদেনে মোট ডেবিট = মোট ক্রেডিট
                     না হলে সিস্টেম সেটি পোস্ট করতে দেয় না।
                 </p>
 
@@ -268,7 +291,8 @@ footer{
                     প্রতিটি টাকার লেনদেন (চাঁদা, ঋণ, খরচ, আয়, সম্পদ ক্রয় ইত্যাদি) সিস্টেমে একটি
                     <b>জার্নাল/ট্রানজেকশন (Transaction / Journal Voucher)</b> হিসেবে রেকর্ড হয়। প্রতিটি
                     ভাউচারের একটি ইউনিক নাম্বার (Transaction No), তারিখ, বিবরণ, এবং একাধিক এন্ট্রি লাইন
-                    (Debit/Credit) থাকে।
+                    (Debit/Credit) থাকে। কোনো মডিউল সরাসরি ব্যালেন্স পরিবর্তন করে না — সব সময় একটি জার্নালের
+                    মাধ্যমেই পরিবর্তন হয়, তাই যেকোনো সংখ্যার উৎস সবসময় ট্রেস করা যায়।
                 </div>
 
                 <h3>হিসাবের ৫টি মূল শ্রেণি (Account Types)</h3>
@@ -286,13 +310,32 @@ footer{
                 <div class="callout good">
                     <b>মনে রাখার সহজ নিয়ম</b>
                     Cash/Bank বাড়লে সবসময় <b>Debit</b>, কমলে <b>Credit</b>। Income হলে <b>Credit</b>, Expense হলে <b>Debit</b>।
+                    Receivable (কারো কাছে পাওনা) বাড়লে <b>Debit</b>, কমলে (আদায় হলে) <b>Credit</b>।
                 </div>
             </section>
 
-            <!-- 2. CHART OF ACCOUNTS -->
+            <!-- 2. ACCRUAL -->
+            <section id="accrual">
+                <h2><span class="num">২</span> Accrual vs Cash Basis — এই সিস্টেম কোন নিয়মে চলে</h2>
+                <p>এই সিস্টেম <b>Accrual (উপার্জন-ভিত্তিক)</b> পদ্ধতিতে হিসাব রাখে, <b>Cash (নগদ-ভিত্তিক)</b> পদ্ধতিতে নয়। এই দুটোর পার্থক্য বোঝা সবচেয়ে জরুরি — কারণ পুরো Subscription ও Charges ফ্লো এই নিয়মের উপর দাঁড়িয়ে আছে।</p>
+                <table>
+                    <thead><tr><th>পদ্ধতি</th><th>আয় (Income) কখন ধরা হয়</th></tr></thead>
+                    <tbody>
+                        <tr><td>Cash Basis</td><td>যেদিন হাতে টাকা আসে, সেদিন</td></tr>
+                        <tr><td><b>Accrual Basis (এই সিস্টেম)</b></td><td>যেদিন পাওনা তৈরি হয় (due generate হয়), <b>টাকা হাতে আসার আগেই</b></td></tr>
+                    </tbody>
+                </table>
+                <p>তাই কোনো Due তৈরি হওয়ার সাথে সাথেই "Subscription Income" বেড়ে যায় — যদিও ওই টাকা তখনো <b>Accounts Receivable</b> (বকেয়া পাওনা) হিসেবে বসে থাকে, Cash/Bank-এ জমা হয়নি। পরে সদস্য টাকা জমা দিলে সেই Receivable কমে গিয়ে Cash/Bank বাড়ে — কিন্তু Income আর দ্বিতীয়বার বাড়ে না, কারণ আয়টা ইতিমধ্যেই ধরা হয়ে গেছে।</p>
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ দিয়ে পার্থক্য</b>
+                    ধরুন জানুয়ারি মাসের চাঁদা ৳1,000 due হলো ১ জানুয়ারি, কিন্তু সদস্য টাকা জমা দিলেন ১৫ ফেব্রুয়ারি। Cash Basis হলে জানুয়ারির P&amp;L-এ কোনো আয় দেখাতো না, ফেব্রুয়ারিতে ৳1,000 আয় দেখাতো। কিন্তু এই সিস্টেমে (Accrual) জানুয়ারির P&amp;L-এই ৳1,000 আয় হিসেবে যোগ হয়ে যায় — কারণ পাওনা তৈরি হয়ে গেছে, টাকা পরে আসুক বা না আসুক।
+                </div>
+            </section>
+
+            <!-- 3. CHART OF ACCOUNTS -->
             <section id="coa">
-                <h2><span class="num">২</span> হিসাবের চার্ট (Chart of Accounts)</h2>
-                <p>সিস্টেমে পূর্বনির্ধারিত (System) হিসাবগুলো নিচে দেওয়া হলো। প্রয়োজনে <code>Finance → Chart of Accounts</code> থেকে নতুন সাব-অ্যাকাউন্ট যোগ করা যায়, তবে সিস্টেম-অ্যাকাউন্টগুলো মুছে ফেলা যায় না।</p>
+                <h2><span class="num">৩</span> হিসাবের চার্ট (Chart of Accounts)</h2>
+                <p>সিস্টেমে পূর্বনির্ধারিত (System) হিসাবগুলো নিচে দেওয়া হলো। প্রয়োজনে <code>Finance → Chart of Accounts</code> থেকে নতুন সাব-অ্যাকাউন্ট যোগ করা যায়, তবে সিস্টেম-অ্যাকাউন্টগুলো মুছে ফেলা যায় না। এই পুরো গাইডে সব উদাহরণে নিচের কোডগুলোই ব্যবহার করা হয়েছে।</p>
 
                 <div class="two-col">
                     <div>
@@ -306,6 +349,7 @@ footer{
                                 <tr><td class="code">1400</td><td>Investments</td></tr>
                                 <tr><td class="code">1500</td><td>Fixed Assets</td></tr>
                                 <tr><td class="code">1510–1550</td><td>Furniture, Equipment, Vehicles, Others</td></tr>
+                                <tr><td class="code">1590</td><td>Accumulated Depreciation (contra-asset)</td></tr>
                             </tbody>
                         </table>
 
@@ -346,16 +390,18 @@ footer{
                                 <tr><td class="code">5200</td><td>Maintenance Expense</td></tr>
                                 <tr><td class="code">5300</td><td>Utility Expense</td></tr>
                                 <tr><td class="code">5400</td><td>Welfare Assistance Expense</td></tr>
+                                <tr><td class="code">5800</td><td>Depreciation Expense</td></tr>
                                 <tr><td class="code">5900/5910</td><td>Other Expense / Loss on Asset Disposal</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div class="callout info">Asset ও Expense অ্যাকাউন্টের স্বাভাবিক ব্যালেন্স <b>Debit</b>-এ বাড়ে; Liability, Equity ও Income অ্যাকাউন্টের স্বাভাবিক ব্যালেন্স <b>Credit</b>-এ বাড়ে — এটাই ডাবল-এন্ট্রির মূল নিয়ম যা এই গাইডের প্রতিটা উদাহরণে অনুসরণ করা হয়েছে।</div>
             </section>
 
-            <!-- 3. ENGINE -->
+            <!-- 4. ENGINE -->
             <section id="engine">
-                <h2><span class="num">৩</span> জার্নাল ইঞ্জিন কীভাবে কাজ করে</h2>
+                <h2><span class="num">৪</span> জার্নাল ইঞ্জিন কীভাবে কাজ করে</h2>
                 <p>
                     সিস্টেমের প্রতিটি মডিউল (চাঁদা, ঋণ, খরচ, সম্পদ ইত্যাদি) নিজে থেকে সরাসরি হিসাবের খাতা
                     পরিবর্তন করে না — বরং একটি কেন্দ্রীয় <b>Accounting Engine</b>-কে অনুরোধ পাঠায়, যেটি
@@ -383,40 +429,161 @@ footer{
                     <b>গুরুত্বপূর্ণ</b>
                     ভুল জার্নাল হয়ে গেলে সরাসরি এডিট বা ডিলিট করা যায় না — এটি হিসাবরক্ষণের একটি
                     নিরাপত্তা নিয়ম, যাতে অডিট ট্রেইল ঠিক থাকে। ভুল সংশোধনের একমাত্র উপায় হলো
-                    <b>Reverse Journal</b> (দেখুন সেকশন ১২)।
+                    <b>Reverse Journal</b> (দেখুন সেকশন ১৩)।
                 </div>
             </section>
 
-            <!-- 4. SUBSCRIPTION -->
+            <!-- 5. SUBSCRIPTION (DETAILED) -->
             <section id="subscription">
-                <h2><span class="num">৪</span> সদস্য চাঁদা (Subscription &amp; Dues)</h2>
+                <h2><span class="num">৫</span> সদস্য চাঁদা (Subscription &amp; Dues) — বিস্তারিত ফ্লো</h2>
 
                 <div class="flow-steps">
-                    <div class="step"><div class="n">১</div>প্রতি মাসে সিস্টেম প্রতিটি সক্রিয় সদস্যের জন্য একটি <b>Due</b> তৈরি করে।</div>
-                    <div class="step"><div class="n">২</div>সদস্য নিজের পোর্টাল থেকে <b>Pay</b> বাটনে গিয়ে টাকা জমার তথ্য সাবমিট করেন (Cash/Bank/Mobile Banking/Online + Reference)।</div>
-                    <div class="step"><div class="n">৩</div>পেমেন্টটি <span class="badge pending">Pending</span> অবস্থায় থাকে — সদস্যকে একটি <b>Receipt/Acknowledgement</b> স্লিপ দেখানো হয় ও প্রিন্ট করা যায়।</div>
-                    <div class="step"><div class="n">৪</div>অ্যাডমিন <code>Finance → Subscription Payments</code> থেকে যাচাই করে <b>Verify</b> করলে তবেই জার্নাল পোস্ট হয়।</div>
+                    <div class="step"><div class="n">১</div>সদস্য Approve হওয়ার সময় / প্রতি মাসের শুরুতে সিস্টেম একটি <b>Due</b> তৈরি করে ও জার্নাল পোস্ট করে।</div>
+                    <div class="step"><div class="n">২</div>Due Day পার হয়ে গেলে "Late Fine" সেটিং চালু থাকলে আলাদা জার্নালে ফাইন যোগ হয়।</div>
+                    <div class="step"><div class="n">৩</div>সদস্য নিজের পোর্টাল থেকে <b>Pay</b>-তে গিয়ে টাকা জমার তথ্য সাবমিট করেন — এই ধাপে কোনো জার্নাল হয় না।</div>
+                    <div class="step"><div class="n">৪</div>অ্যাডমিন <code>Finance → Subscription Payments</code> থেকে <b>Verify</b> করলে তবেই Receivable → Cash জার্নাল পোস্ট হয়।</div>
                 </div>
 
-                <h3>ধাপ ১ — মাসিক Due তৈরি হওয়ার সময় জার্নাল</h3>
-                <div class="jv">
-                    <div class="jv-title">Journal — Subscription Due (মাসের শুরুতে)</div>
-                    <table>
-                        <tr><td class="dr">Dr. Accounts Receivable (1300)</td><td class="right">চাঁদার পরিমাণ</td></tr>
-                        <tr><td class="cr">Cr. Subscription Income (4100)</td><td class="right">চাঁদার পরিমাণ</td></tr>
-                    </table>
-                </div>
-                <p>অর্থাৎ, চাঁদা বকেয়া হওয়ার সাথে সাথেই আয় (Income) হিসেবে ধরে নেওয়া হয় এবং সদস্যের কাছে পাওনা (Receivable) বাড়ে। দেরি হলে ফাইন (Fine) প্রযোজ্য হলে একই নিয়মে Receivable Dr, Late Fine Income (4410) Cr করে আলাদা জার্নাল পোস্ট হয়।</p>
+                <h3>ব্যবহৃত অ্যাকাউন্ট</h3>
+                <table>
+                    <thead><tr><th>Code</th><th>Account</th><th>Type</th><th>বাড়লে (Normal) মানে কী</th></tr></thead>
+                    <tbody>
+                        <tr><td class="code">1100/1200</td><td>Cash / Bank</td><td>Asset</td><td>হাতে নগদ/ব্যাংক ব্যালেন্স বেড়েছে</td></tr>
+                        <tr><td class="code">1300</td><td>Accounts Receivable</td><td>Asset</td><td>সদস্যদের কাছে অ্যাসোসিয়েশনের পাওনা বেড়েছে</td></tr>
+                        <tr><td class="code">4100</td><td>Subscription Income</td><td>Income</td><td>মাসিক চাঁদা বাবদ আয় বেড়েছে</td></tr>
+                        <tr><td class="code">4410</td><td>Late Fine Income</td><td>Income</td><td>জরিমানা বাবদ আয় বেড়েছে</td></tr>
+                    </tbody>
+                </table>
 
-                <h3>ধাপ ২ — সদস্যের পেমেন্ট Verify করার পর জার্নাল</h3>
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — শুরু থেকে শেষ পর্যন্ত</b>
+                    একজন সদস্যের মাসিক চাঁদা ৳1,000। দিন ১২-তে দেরির জন্য ৳50 ফাইন বসলো। প্রথমে ৳600 জমা দিলেন, পরে বাকি ৳450 জমা দিলেন। নিচে প্রতিটা ধাপ আলাদা করে দেখানো হলো।
+                </div>
+
+                <h3>ধাপ ১ — Due তৈরি (Accrue)</h3>
                 <div class="jv">
-                    <div class="jv-title">Journal — Subscription Payment (ভেরিফাই হওয়ার পর)</div>
+                    <div class="jv-title">Journal — Type: subscription_due</div>
                     <table>
-                        <tr><td class="dr">Dr. Cash (1100) / Bank (1200)</td><td class="right">প্রাপ্ত টাকা</td></tr>
-                        <tr><td class="cr">Cr. Accounts Receivable (1300)</td><td class="right">প্রাপ্ত টাকা</td></tr>
+                        <tr><td class="dr">Dr. Accounts Receivable (1300)</td><td class="right">৳1,000</td></tr>
+                        <tr><td class="cr">Cr. Subscription Income (4100)</td><td class="right">৳1,000</td></tr>
                     </table>
                 </div>
-                <p>পেমেন্ট মেথড অনুযায়ী (Cash/Bank/Mobile Banking/Online) সঠিক Cash বা Bank অ্যাকাউন্টে টাকা জমা দেখানো হয়, এবং সদস্যের বকেয়া (Receivable) কমে যায়।</p>
+                <div class="t-wrap">
+                    <div class="t-account">
+                        <div class="t-head">Accounts Receivable (Asset)</div>
+                        <div class="t-body">
+                            <div class="t-side dr"><div class="lbl">Debit</div><div class="row"><span>Due generated</span><span>৳1,000</span></div></div>
+                            <div class="t-side cr"><div class="lbl">Credit</div></div>
+                        </div>
+                        <div class="t-foot"><span>Balance</span><span>৳1,000 Dr</span></div>
+                    </div>
+                    <div class="t-account">
+                        <div class="t-head">Subscription Income</div>
+                        <div class="t-body">
+                            <div class="t-side dr"><div class="lbl">Debit</div></div>
+                            <div class="t-side cr"><div class="lbl">Credit</div><div class="row"><span>Due generated</span><span>৳1,000</span></div></div>
+                        </div>
+                        <div class="t-foot"><span>Balance</span><span>৳1,000 Cr</span></div>
+                    </div>
+                </div>
+                <div class="callout info">এই মুহূর্তে due-এর <code>status = 'unpaid'</code>, <code>paid_amount = 0</code>। Cash/Bank-এ কোনো পরিবর্তন নেই — শুধু Receivable আর Income বেড়েছে।</div>
+
+                <h3>ধাপ ২ — Late Fine প্রয়োগ</h3>
+                <div class="jv">
+                    <div class="jv-title">Journal — Type: subscription_fine</div>
+                    <table>
+                        <tr><td class="dr">Dr. Accounts Receivable (1300)</td><td class="right">৳50</td></tr>
+                        <tr><td class="cr">Cr. Late Fine Income (4410)</td><td class="right">৳50</td></tr>
+                    </table>
+                </div>
+                <p>due-এর মোট এমাউন্ট এখন ৳1,000 + ৳50 = <b>৳1,050</b>, স্ট্যাটাস হয়ে যায় <code>overdue</code>। এই ফাইনটা একবারই বসে — একই due-এর জন্য দ্বিতীয়বার ফাইন বসবে না। সময়মতো জমা দিলে এই ধাপটা ঘটবেই না।</p>
+
+                <h3>ধাপ ৩ — Payment Submit (কোনো জার্নাল নেই)</h3>
+                <div class="callout warn">সদস্য/এডমিন পেমেন্ট সাবমিট করলে শুধু <code>subscription_payments</code> টেবিলে একটা <span class="badge pending">Pending</span> রো তৈরি হয়। এই ধাপে <b>কোনো Debit/Credit এন্ট্রি পোস্ট হয় না</b> — Receivable, Income, Cash কোনোটাই বদলায় না। এটা শুধু "সদস্য দাবি করছে সে টাকা দিয়েছে", যাচাই বাকি। সদস্যকে একটি প্রিন্টযোগ্য Receipt/Acknowledgement স্লিপ দেখানো হয়।</div>
+
+                <h3>ধাপ ৪ — Payment Verify (আংশিক, ৳600)</h3>
+                <div class="jv">
+                    <div class="jv-title">Journal — Type: subscription_payment</div>
+                    <table>
+                        <tr><td class="dr">Dr. Cash / Bank (1100/1200)</td><td class="right">৳600</td></tr>
+                        <tr><td class="cr">Cr. Accounts Receivable (1300)</td><td class="right">৳600</td></tr>
+                    </table>
+                </div>
+                <p><code>paid_amount = 600</code>, <code>amount = 1,050</code> → যেহেতু paid_amount &lt; amount, তাই <code>status = 'partial'</code>। Receivable কমে দাঁড়ালো ৳1,050 − ৳600 = <b>৳450</b>।</p>
+                <div class="t-wrap">
+                    <div class="t-account">
+                        <div class="t-head">Accounts Receivable</div>
+                        <div class="t-body">
+                            <div class="t-side dr"><div class="lbl">Debit</div>
+                                <div class="row"><span>Due</span><span>1,000</span></div>
+                                <div class="row"><span>Fine</span><span>50</span></div>
+                            </div>
+                            <div class="t-side cr"><div class="lbl">Credit</div>
+                                <div class="row"><span>Payment verified</span><span>600</span></div>
+                            </div>
+                        </div>
+                        <div class="t-foot"><span>Balance</span><span>৳450 Dr</span></div>
+                    </div>
+                    <div class="t-account">
+                        <div class="t-head">Cash / Bank</div>
+                        <div class="t-body">
+                            <div class="t-side dr"><div class="lbl">Debit</div><div class="row"><span>Payment verified</span><span>600</span></div></div>
+                            <div class="t-side cr"><div class="lbl">Credit</div></div>
+                        </div>
+                        <div class="t-foot"><span>Balance</span><span>৳600 Dr</span></div>
+                    </div>
+                </div>
+                <div class="callout info">📌 Subscription Income / Fine Income-এ এই ধাপে কোনো পরিবর্তন নেই — সেগুলো ইতিমধ্যে ধাপ ১ ও ২-তেই বসে গেছে। এখানে শুধু Receivable → Cash কনভার্ট হচ্ছে।</div>
+
+                <h3>ধাপ ৫ — Payment Verify (বাকি ৳450) → পুরোপুরি Paid</h3>
+                <div class="jv">
+                    <div class="jv-title">Journal — Type: subscription_payment</div>
+                    <table>
+                        <tr><td class="dr">Dr. Cash / Bank</td><td class="right">৳450</td></tr>
+                        <tr><td class="cr">Cr. Accounts Receivable</td><td class="right">৳450</td></tr>
+                    </table>
+                </div>
+                <p><code>paid_amount = 600 + 450 = 1,050 = amount</code> → <code>status = 'paid'</code>। Receivable এখন <b>৳0</b> — এই due সম্পূর্ণ সেটেল। এরপর Dashboard-এ Total Due দেখলে এই due আর outstanding হিসেবে গণনায় আসবে না।</p>
+
+                <h3>Payment Reject হলে কী হয়</h3>
+                <ul>
+                    <li><code>subscription_payments.status → 'rejected'</code>, সাথে reject করার কারণ সেভ হয়।</li>
+                    <li><b>কোনো জার্নাল রিভার্স করার দরকার নেই</b> — কারণ Verify করার আগ পর্যন্ত কোনো জার্নালই পোস্ট হয়নি (ধাপ ৩ দ্রষ্টব্য)।</li>
+                    <li>due-এর <code>paid_amount</code>/<code>status</code> অপরিবর্তিত থাকে — সদস্যকে আবার নতুন করে সঠিক পেমেন্ট সাবমিট করতে হবে।</li>
+                </ul>
+
+                <h3>সম্পূর্ণ টাইমলাইন — নাম্বার সহ</h3>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-date">দিন ১</div>
+                        <div class="tl-title">Member Approve → Due Generate</div>
+                        <p>Receivable +1,000 · Subscription Income +1,000 · Cash অপরিবর্তিত</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">দিন ১২ (due day পার)</div>
+                        <div class="tl-title">Late Fine প্রয়োগ (+৳50)</div>
+                        <p>Receivable +50 (মোট 1,050) · Fine Income +50</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">দিন ১৫</div>
+                        <div class="tl-title">৳600 পেমেন্ট সাবমিট + Verify</div>
+                        <p>Cash +600 · Receivable −600 (বাকি 450) · status: partial</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">দিন ২০</div>
+                        <div class="tl-title">বাকি ৳450 পেমেন্ট সাবমিট + Verify</div>
+                        <p>Cash +450 · Receivable −450 (বাকি 0) · status: paid ✅</p>
+                    </div>
+                </div>
+                <table>
+                    <thead><tr><th>তারিখ</th><th class="right">Receivable</th><th class="right">Cash/Bank</th><th class="right">Subscription Income (cumulative)</th><th class="right">Fine Income (cumulative)</th></tr></thead>
+                    <tbody>
+                        <tr><td>দিন ১ (due তৈরি)</td><td class="right">1,000</td><td class="right">0</td><td class="right">1,000</td><td class="right">0</td></tr>
+                        <tr><td>দিন ১২ (fine)</td><td class="right">1,050</td><td class="right">0</td><td class="right">1,000</td><td class="right">50</td></tr>
+                        <tr><td>দিন ১৫ (৳600 verify)</td><td class="right">450</td><td class="right">600</td><td class="right">1,000</td><td class="right">50</td></tr>
+                        <tr><td>দিন ২০ (৳450 verify)</td><td class="right">0</td><td class="right">1,050</td><td class="right">1,000</td><td class="right">50</td></tr>
+                    </tbody>
+                </table>
 
                 <div class="callout info">
                     <b>নতুন ফিচার — পেমেন্ট রসিদ</b>
@@ -426,12 +593,12 @@ footer{
                 </div>
             </section>
 
-            <!-- 5. CHARGES -->
+            <!-- 6. CHARGES -->
             <section id="charges">
-                <h2><span class="num">৫</span> সদস্য চার্জ (Member Charges)</h2>
-                <p>চাঁদা ছাড়া অন্য যেকোনো নির্দিষ্ট চার্জ (যেমন — ভর্তি ফি, ফরম ফি, জরিমানা) সদস্যের নামে ধার্য করা হলে একইভাবে Receivable বাড়ে, এবং পেমেন্ট নেওয়ার সময় Cash/Bank Dr, Receivable Cr হয়।</p>
+                <h2><span class="num">৬</span> সদস্য চার্জ (Member Charges)</h2>
+                <p>চাঁদা ছাড়া অন্য যেকোনো নির্দিষ্ট চার্জ (যেমন — ভর্তি ফি, ফরম ফি, জরিমানা) সদস্যের নামে ধার্য করা হলে একইভাবে Receivable বাড়ে, ঠিক subscription due-এর মতোই accrual নিয়মে আয় ধরা হয়।</p>
                 <div class="jv">
-                    <div class="jv-title">Journal — Member Charge ধার্য করার সময়</div>
+                    <div class="jv-title">Journal — Charge ধার্য করার সময়</div>
                     <table>
                         <tr><td class="dr">Dr. Accounts Receivable (1300)</td><td class="right">চার্জের পরিমাণ</td></tr>
                         <tr><td class="cr">Cr. প্রযোজ্য Income Account</td><td class="right">চার্জের পরিমাণ</td></tr>
@@ -444,12 +611,32 @@ footer{
                         <tr><td class="cr">Cr. Accounts Receivable (1300)</td><td class="right">প্রাপ্ত টাকা</td></tr>
                     </table>
                 </div>
-                <p>কোনো চার্জ মাফ (Waive) করা হলে বা পেমেন্ট বাতিল করা হলে সিস্টেম স্বয়ংক্রিয়ভাবে একটি বিপরীত (Reversal) জার্নাল পোস্ট করে।</p>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — ভর্তি ফি ৳500</b>
+                    নতুন সদস্যের ভর্তির সময় ৳500 Admission Fee ধার্য করা হলো:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Accounts Receivable</td><td class="right">৳500</td></tr>
+                            <tr><td class="cr">Cr. Other Income (4900 — Admission Fee)</td><td class="right">৳500</td></tr>
+                        </table>
+                    </div>
+                    সদস্য পুরো ৳500 নগদ পরিশোধ করলে:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Cash</td><td class="right">৳500</td></tr>
+                            <tr><td class="cr">Cr. Accounts Receivable</td><td class="right">৳500</td></tr>
+                        </table>
+                    </div>
+                    ফলাফল: Cash +500, Receivable ফিরে 0, Income +500 (ধার্য করার দিনই ধরা হয়েছিল)।
+                </div>
+
+                <p>কোনো চার্জ মাফ (Waive) করা হলে বা পেমেন্ট বাতিল করা হলে সিস্টেম স্বয়ংক্রিয়ভাবে একটি বিপরীত (Reversal) জার্নাল পোস্ট করে — Receivable ও Income উভয়ই কমে যায়, যেন চার্জটা কখনো ধার্যই হয়নি।</p>
             </section>
 
-            <!-- 6. LOANS -->
+            <!-- 7. LOANS -->
             <section id="loans">
-                <h2><span class="num">৬</span> ঋণ (Loans)</h2>
+                <h2><span class="num">৭</span> ঋণ (Loans) — বিস্তারিত ফ্লো</h2>
 
                 <h3>ঋণ প্রদান (Disbursement)</h3>
                 <div class="jv">
@@ -469,12 +656,41 @@ footer{
                         <tr><td class="cr">Cr. Loan Interest Income (4500)</td><td class="right">সুদ অংশ (Interest)</td></tr>
                     </table>
                 </div>
-                <p>প্রতিটি কিস্তিতে মূল ও সুদ আলাদা করে হিসাব হয়, ফলে Loan Receivable ধীরে ধীরে শূন্যে নেমে আসে এবং সুদ আয় হিসেবে যোগ হয়।</p>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — ৳50,000 ঋণ, ৳5,000×১০ কিস্তি (৫% ফ্ল্যাট সুদ)</b>
+                    একজন সদস্য ৳50,000 ঋণ নিলেন, মাসিক কিস্তি ৳5,500 (মূল ৳5,000 + সুদ ৳500), ১০ মাসে শোধ করবেন।
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">দিন ১ — ঋণ প্রদান</div>
+                        <table>
+                            <tr><td class="dr">Dr. Member Loan Receivable</td><td class="right">৳50,000</td></tr>
+                            <tr><td class="cr">Cr. Cash / Bank</td><td class="right">৳50,000</td></tr>
+                        </table>
+                    </div>
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">১ম মাস কিস্তি</div>
+                        <table>
+                            <tr><td class="dr">Dr. Cash / Bank</td><td class="right">৳5,500</td></tr>
+                            <tr><td class="cr">Cr. Member Loan Receivable</td><td class="right">৳5,000</td></tr>
+                            <tr><td class="cr">Cr. Loan Interest Income</td><td class="right">৳500</td></tr>
+                        </table>
+                    </div>
+                    <table style="margin-top:10px">
+                        <thead><tr><th>মাস</th><th class="right">কিস্তির পর Loan Receivable</th><th class="right">Cumulative Interest Income</th></tr></thead>
+                        <tbody>
+                            <tr><td>১</td><td class="right">45,000</td><td class="right">500</td></tr>
+                            <tr><td>২</td><td class="right">40,000</td><td class="right">1,000</td></tr>
+                            <tr><td>...</td><td class="right">...</td><td class="right">...</td></tr>
+                            <tr><td>১০ (শেষ কিস্তি)</td><td class="right">0</td><td class="right">5,000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>প্রতিটি কিস্তিতে মূল ও সুদ আলাদা করে হিসাব হয়, ফলে Loan Receivable ধীরে ধীরে শূন্যে নেমে আসে এবং সুদ Income হিসেবে প্রতি মাসে যোগ হয় — একসাথে পুরোটা নয়, তাই P&amp;L প্রতিটা মাসে সঠিক সুদ-আয় দেখায়।</p>
             </section>
 
-            <!-- 7. INVESTMENTS -->
+            <!-- 8. INVESTMENTS -->
             <section id="investments">
-                <h2><span class="num">৭</span> বিনিয়োগ (Investments)</h2>
+                <h2><span class="num">৮</span> বিনিয়োগ (Investments)</h2>
                 <div class="jv">
                     <div class="jv-title">Journal — বিনিয়োগ করার সময়</div>
                     <table>
@@ -490,12 +706,32 @@ footer{
                         <tr><td class="cr">Cr. Investment Income (4200) — যদি লাভাংশ হয়</td><td class="right">প্রাপ্ত পরিমাণ</td></tr>
                     </table>
                 </div>
-                <p>রিটার্নের ধরন (Principal বা Income) নির্বাচনের উপর নির্ভর করে সিস্টেম স্বয়ংক্রিয়ভাবে সঠিক অ্যাকাউন্টে ক্রেডিট করে।</p>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — ৳1,00,000 FDR, ১ বছর পর ৳8,000 লাভ + মূলধন ফেরত</b>
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">বিনিয়োগ করার সময়</div>
+                        <table>
+                            <tr><td class="dr">Dr. Investments</td><td class="right">৳1,00,000</td></tr>
+                            <tr><td class="cr">Cr. Bank</td><td class="right">৳1,00,000</td></tr>
+                        </table>
+                    </div>
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">১ বছর পর — মূলধন + মুনাফা একসাথে ফেরত</div>
+                        <table>
+                            <tr><td class="dr">Dr. Bank</td><td class="right">৳1,08,000</td></tr>
+                            <tr><td class="cr">Cr. Investments (মূলধন অংশ)</td><td class="right">৳1,00,000</td></tr>
+                            <tr><td class="cr">Cr. Investment Income (মুনাফা অংশ)</td><td class="right">৳8,000</td></tr>
+                        </table>
+                    </div>
+                    ফলাফল: Investments ফিরে 0, Bank নেট +8,000 বেড়েছে, Investment Income +8,000।
+                </div>
+                <p>রিটার্নের ধরন (Principal বা Income) নির্বাচনের উপর নির্ভর করে সিস্টেম স্বয়ংক্রিয়ভাবে সঠিক অ্যাকাউন্টে ক্রেডিট করে — তাই এন্ট্রি করার সময় সাবধানে নির্বাচন করা জরুরি, নাহলে মূলধন ভুলে আয় হিসেবে দেখানো হতে পারে।</p>
             </section>
 
-            <!-- 8. SHARES -->
+            <!-- 9. SHARES -->
             <section id="shares">
-                <h2><span class="num">৮</span> শেয়ার (Member Shares)</h2>
+                <h2><span class="num">৯</span> শেয়ার (Member Shares)</h2>
                 <div class="jv">
                     <div class="jv-title">Journal — শেয়ার ক্রয়</div>
                     <table>
@@ -503,12 +739,38 @@ footer{
                         <tr><td class="cr">Cr. Member Share Capital (3300)</td><td class="right">শেয়ারের মূল্য</td></tr>
                     </table>
                 </div>
-                <p>সদস্যরা প্রতিষ্ঠানের মূলধনে (Equity) অংশ নিলে তা Member Share Capital-এ যোগ হয়। সদস্য প্রতিষ্ঠান ত্যাগ (Exit) করলে শেয়ার ফেরতের সময় এর বিপরীত এন্ট্রি হয়।</p>
+                <div class="jv">
+                    <div class="jv-title">Journal — সদস্য Exit / শেয়ার ফেরত</div>
+                    <table>
+                        <tr><td class="dr">Dr. Member Share Capital (3300)</td><td class="right">ফেরতযোগ্য পরিমাণ</td></tr>
+                        <tr><td class="cr">Cr. Cash / Bank</td><td class="right">ফেরতযোগ্য পরিমাণ</td></tr>
+                    </table>
+                </div>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — ১০টি শেয়ার @৳500 = ৳5,000</b>
+                    একজন সদস্য ১০টি শেয়ার কিনলেন, প্রতিটি ৳500:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Cash</td><td class="right">৳5,000</td></tr>
+                            <tr><td class="cr">Cr. Member Share Capital</td><td class="right">৳5,000</td></tr>
+                        </table>
+                    </div>
+                    পরে সংগঠন ত্যাগ করার সময় পুরো ৳5,000 ফেরত পেলে:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Member Share Capital</td><td class="right">৳5,000</td></tr>
+                            <tr><td class="cr">Cr. Cash / Bank</td><td class="right">৳5,000</td></tr>
+                        </table>
+                    </div>
+                    ফলাফল: Equity (Share Capital) নিট পরিবর্তন 0, Cash নিট পরিবর্তন 0 — শেয়ার-হোল্ডিং এর জীবনচক্র সম্পূর্ণ হলো।
+                </div>
+                <p>সদস্যরা প্রতিষ্ঠানের মূলধনে (Equity) অংশ নিলে তা Member Share Capital-এ যোগ হয়। Dashboard-এর "Total Deposited" হিসাবে সক্রিয় (এখনো ফেরত না নেওয়া) শেয়ারের মূল্যও যোগ হয়।</p>
             </section>
 
-            <!-- 9. ASSETS -->
+            <!-- 10. ASSETS -->
             <section id="assets">
-                <h2><span class="num">৯</span> সম্পদ ও অবচয় (Assets &amp; Depreciation)</h2>
+                <h2><span class="num">১০</span> সম্পদ ও অবচয় (Assets &amp; Depreciation)</h2>
 
                 <h3>সম্পদ ক্রয় (Asset Purchase)</h3>
                 <div class="jv">
@@ -522,8 +784,28 @@ footer{
                 <div class="jv">
                     <table>
                         <tr><td class="dr">Dr. Depreciation Expense</td><td class="right">অবচয়ের পরিমাণ</td></tr>
-                        <tr><td class="cr">Cr. Fixed Asset (সংশ্লিষ্ট সম্পদ)</td><td class="right">অবচয়ের পরিমাণ</td></tr>
+                        <tr><td class="cr">Cr. Fixed Asset / Accumulated Depreciation</td><td class="right">অবচয়ের পরিমাণ</td></tr>
                     </table>
+                </div>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — ৳60,000-এর ল্যাপটপ, ৫ বছরে Straight-Line Depreciation</b>
+                    ল্যাপটপ কেনা হলো ৳60,000 দিয়ে, জীবনকাল ৫ বছর ধরা হলো (বার্ষিক অবচয় ৳12,000, মাসিক ৳1,000):
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">ক্রয়ের সময়</div>
+                        <table>
+                            <tr><td class="dr">Dr. Fixed Assets — Office Equipment</td><td class="right">৳60,000</td></tr>
+                            <tr><td class="cr">Cr. Bank</td><td class="right">৳60,000</td></tr>
+                        </table>
+                    </div>
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">প্রতি মাসে</div>
+                        <table>
+                            <tr><td class="dr">Dr. Depreciation Expense</td><td class="right">৳1,000</td></tr>
+                            <tr><td class="cr">Cr. Fixed Asset (বইমূল্য কমে)</td><td class="right">৳1,000</td></tr>
+                        </table>
+                    </div>
+                    ১২ মাস পর ল্যাপটপের বইমূল্য (Book Value) দাঁড়াবে ৳60,000 − ৳12,000 = <b>৳48,000</b>, এবং P&amp;L-এ বছরে ৳12,000 Depreciation Expense যোগ হবে।
                 </div>
 
                 <h3>সম্পদ বিক্রয়/অপসারণ (Disposal / Sale)</h3>
@@ -534,11 +816,22 @@ footer{
                         <tr><td>+ পার্থক্য অনুযায়ী <span class="dr">Loss on Disposal (5910)</span> অথবা <span class="cr">Gain on Disposal (4910)</span></td><td class="right">—</td></tr>
                     </table>
                 </div>
+                <div class="callout example">
+                    উপরের ল্যাপটপ যদি ৩ বছর পর (বইমূল্য ৳60,000 − ৳36,000 = ৳24,000) ৳20,000-এ বিক্রি হয়:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Cash</td><td class="right">৳20,000</td></tr>
+                            <tr><td class="dr">Dr. Loss on Disposal (5910)</td><td class="right">৳4,000</td></tr>
+                            <tr><td class="cr">Cr. Fixed Asset</td><td class="right">৳24,000</td></tr>
+                        </table>
+                    </div>
+                    কারণ বিক্রয়মূল্য (২০,০০০) বইমূল্যের (২৪,০০০) চেয়ে কম, তাই ৪,০০০ টাকা Loss হিসেবে ধরা হলো।
+                </div>
             </section>
 
-            <!-- 10. TELLER -->
+            <!-- 11. TELLER -->
             <section id="teller">
-                <h2><span class="num">১০</span> টেলার / নগদ ব্যবস্থাপনা (Teller)</h2>
+                <h2><span class="num">১১</span> টেলার / নগদ ব্যবস্থাপনা (Teller)</h2>
                 <p>যেকোনো ধরনের সরাসরি নগদ গ্রহণ (Receive) বা প্রদান (Payment) — যা অন্য কোনো নির্দিষ্ট মডিউলের (চাঁদা/চার্জ) অংশ নয় — টেলার মডিউল দিয়ে রেকর্ড করা হয়। প্রতিদিনের কাজ শুরুর আগে টেলার "Open" করতে হয় এবং দিনশেষে "Closing" করে ক্যাশ মিলিয়ে নিতে হয়।</p>
                 <div class="jv">
                     <div class="jv-title">Journal — Teller Receive</div>
@@ -554,12 +847,27 @@ footer{
                         <tr><td class="cr">Cr. Cash</td><td class="right">প্রদত্ত টাকা</td></tr>
                     </table>
                 </div>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — একদিনের টেলার</b>
+                    সকালে টেলার Open করা হলো ওপেনিং ব্যালেন্স ৳5,000 দিয়ে। দিনের মধ্যে ৳2,000 নগদ অনুদান জমা হলো এবং ৳800 চা-নাস্তার খরচ দেওয়া হলো। দিনশেষে গণনা করে দেখা গেল হাতে আছে ৳6,200।
+                    <table style="margin-top:10px">
+                        <thead><tr><th>ইভেন্ট</th><th class="right">প্রভাব</th></tr></thead>
+                        <tbody>
+                            <tr><td>ওপেনিং ব্যালেন্স</td><td class="right">৳5,000</td></tr>
+                            <tr><td>নগদ অনুদান গ্রহণ (Teller Receive)</td><td class="right">+৳2,000</td></tr>
+                            <tr><td>নাস্তার খরচ (Teller Payment)</td><td class="right">−৳800</td></tr>
+                            <tr><td><b>প্রত্যাশিত ক্লোজিং ব্যালেন্স</b></td><td class="right"><b>৳6,200</b></td></tr>
+                        </tbody>
+                    </table>
+                    গণনায় প্রাপ্ত টাকা এই ৳6,200-এর সাথে মিললেই টেলার নির্ভুলভাবে ক্লোজ করা যাবে; না মিললে গরমিলের কারণ খুঁজে বের করতে হবে।
+                </div>
                 <div class="callout warn"><b>মনে রাখবেন</b>টেলার ক্লোজিং না করা পর্যন্ত পরের দিনের জন্য নতুন টেলার সাধারণত খোলা যায় না — এটি ক্যাশ গরমিল ঠেকাতে সাহায্য করে।</div>
             </section>
 
-            <!-- 11. INCOME/EXPENSE -->
+            <!-- 12. INCOME/EXPENSE -->
             <section id="income-expense">
-                <h2><span class="num">১১</span> আয় ও ব্যয় (Direct Income &amp; Expense)</h2>
+                <h2><span class="num">১২</span> আয় ও ব্যয় (Direct Income &amp; Expense)</h2>
                 <p>চাঁদা/চার্জ ছাড়া অন্য যেকোনো সরাসরি আয় (যেমন — অনুদান) বা ব্যয় (যেমন — অফিস ভাড়া, বিদ্যুৎ বিল) <code>Finance → Income</code> ও <code>Finance → Expenses</code> মেনু থেকে সরাসরি এন্ট্রি করা যায়।</p>
                 <div class="jv">
                     <div class="jv-title">Journal — Income Entry</div>
@@ -575,12 +883,32 @@ footer{
                         <tr><td class="cr">Cr. Cash / Bank</td><td class="right">খরচের পরিমাণ</td></tr>
                     </table>
                 </div>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ</b>
+                    একজন দাতা ব্যাংকের মাধ্যমে ৳10,000 অনুদান দিলেন, একই সপ্তাহে অফিস ভাড়া বাবদ ৳15,000 নগদে পরিশোধ করা হলো:
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">অনুদান গ্রহণ</div>
+                        <table>
+                            <tr><td class="dr">Dr. Bank</td><td class="right">৳10,000</td></tr>
+                            <tr><td class="cr">Cr. Donation Income (4300)</td><td class="right">৳10,000</td></tr>
+                        </table>
+                    </div>
+                    <div class="jv" style="margin-top:10px">
+                        <div class="jv-title">অফিস ভাড়া পরিশোধ</div>
+                        <table>
+                            <tr><td class="dr">Dr. Office Expense (5100)</td><td class="right">৳15,000</td></tr>
+                            <tr><td class="cr">Cr. Cash</td><td class="right">৳15,000</td></tr>
+                        </table>
+                    </div>
+                    এই মাসে নিট প্রভাব: আয় +10,000, ব্যয় +15,000 → P&amp;L-এ নিট ৳5,000 ঘাটতি (deficit) দেখাবে।
+                </div>
                 <p>ভুল এন্ট্রি করা হলে "Reverse"/"Cancel" অপশন দিয়ে বিপরীত জার্নাল পোস্ট করা যায় (মূল এন্ট্রি ইতিহাসে থেকে যায়)।</p>
             </section>
 
-            <!-- 12. MANUAL JOURNAL -->
+            <!-- 13. MANUAL JOURNAL -->
             <section id="manual-journal">
-                <h2><span class="num">১২</span> ম্যানুয়াল জার্নাল ও রিভার্সাল</h2>
+                <h2><span class="num">১৩</span> ম্যানুয়াল জার্নাল ও রিভার্সাল</h2>
                 <p><code>Finance → Journal Entries → Manual Journal</code> থেকে যেকোনো কাস্টম হিসাব এন্ট্রি করা যায় — এটি ব্যবহার হয় এমন পরিস্থিতিতে যা অন্য কোনো মডিউলের অংশ নয় (যেমন — বছর শেষের সমন্বয় এন্ট্রি, ভুল সংশোধনের বিশেষ এন্ট্রি)।</p>
 
                 <h3>নিয়ম</h3>
@@ -589,6 +917,19 @@ footer{
                     <li>কমপক্ষে ২টি লাইন থাকতে হবে এবং মোট Debit অবশ্যই মোট Credit-এর সমান হতে হবে, নাহলে "Not Balanced" দেখাবে এবং পোস্ট করা যাবে না।</li>
                     <li>একবার Post হয়ে গেলে জার্নাল আর এডিট/ডিলিট করা যায় না।</li>
                 </ul>
+
+                <div class="callout example">
+                    <b>বাস্তব উদাহরণ — বছরের শুরুতে ওপেনিং ব্যালেন্স বসানো</b>
+                    নতুন হিসাব বছর শুরুর সময় ব্যাংকে ৳2,00,000 এবং হাতে নগদ ৳15,000 ছিল বলে সিস্টেমে ওপেনিং ব্যালেন্স বসাতে হবে — একটি ম্যানুয়াল জার্নাল দিয়ে:
+                    <div class="jv" style="margin-top:10px">
+                        <table>
+                            <tr><td class="dr">Dr. Bank</td><td class="right">৳2,00,000</td></tr>
+                            <tr><td class="dr">Dr. Cash</td><td class="right">৳15,000</td></tr>
+                            <tr><td class="cr">Cr. Accumulated Fund (3200)</td><td class="right">৳2,15,000</td></tr>
+                        </table>
+                    </div>
+                    মোট Debit (2,15,000) = মোট Credit (2,15,000), তাই এটি Balanced এবং পোস্ট করা যাবে।
+                </div>
 
                 <h3>রিভার্সাল (Reverse Journal)</h3>
                 <p>কোনো Posted Manual Journal ভুল হলে "Reverse" অপশন ব্যবহার করুন — এটি মূল জার্নালের বিপরীত (Debit ↔ Credit অদলবদল করা) একটি নতুন জার্নাল পোস্ট করবে এবং মূল জার্নালটিকে "Reversed" হিসেবে চিহ্নিত করবে। মূল জার্নাল কখনো মুছে যায় না — অডিট ট্রেইলের জন্য এটি জরুরি।</p>
@@ -601,9 +942,78 @@ footer{
                 </div>
             </section>
 
-            <!-- 13. REPORTS -->
+            <!-- 14. STATEMENTS -->
+            <section id="statements">
+                <h2><span class="num">১৪</span> ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</h2>
+                <div class="two-col">
+                    <div>
+                        <h3>Trial Balance</h3>
+                        <p>প্রতিটা জার্নালের Debit = Credit থাকে বলে ট্রায়াল ব্যালেন্স সবসময় মিলে যায়। প্রতিটা এন্ট্রি অন্তত ২ লাইনের (এক Debit, এক Credit) — কোনোটাতেই ভারসাম্য নষ্ট হয় না।</p>
+                    </div>
+                    <div>
+                        <h3>Profit &amp; Loss</h3>
+                        <p>Subscription Income, Fine Income, Loan Interest Income ইত্যাদি সবকিছু <b>due/ইভেন্ট তৈরি হওয়ার দিনেই</b> P&amp;L-এ যোগ হয়ে যায় — সেই মাসের প্রফিটে প্রভাব ফেলে, পেমেন্ট আসুক বা না আসুক।</p>
+                    </div>
+                    <div>
+                        <h3>Balance Sheet</h3>
+                        <p>যতদিন due unpaid/partial থাকে, ওই টাকা Balance Sheet-এ <b>Accounts Receivable</b> (Asset) হিসেবে দেখাবে। Payment verify হলে সেটা Receivable থেকে সরে <b>Cash/Bank</b> (Asset)-এ চলে যায় — মোট Asset-এর পরিমাণ বদলায় না, শুধু ভেতরের গঠন বদলায়।</p>
+                    </div>
+                    <div>
+                        <h3>Cash Flow (বাস্তবে)</h3>
+                        <p>প্রকৃত টাকার নড়াচড়া হয় শুধুই Payment Verify, Loan Disbursement/Repayment, বা সরাসরি Cash/Bank জড়িত এন্ট্রির সময় — শুধু Due তৈরি বা Fine বসানোর সময় Cash Flow-তে কিছুই দেখাবে না।</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 15. DASHBOARD MAP -->
+            <section id="dashboard-map">
+                <h2><span class="num">১৫</span> ড্যাশবোর্ডের সংখ্যাগুলো কোথা থেকে আসে</h2>
+                <p>উপরের Subscription উদাহরণের দিন ১২ (Late Fine বসার পর, এখনো কোনো পেমেন্ট verify হয়নি) সময়ের অবস্থা ধরে নিচের ড্যাশবোর্ড লেবেলগুলো ব্যাখ্যা করা হলো:</p>
+                <table>
+                    <thead><tr><th>ড্যাশবোর্ড লেবেল</th><th>মানে</th><th class="right">দিন ১২-তে মান</th></tr></thead>
+                    <tbody>
+                        <tr><td>This Month's Amount</td><td>চলতি মাসের due-এর নির্ধারিত মোট এমাউন্ট (paid হোক বা না হোক)</td><td class="right">৳1,050</td></tr>
+                        <tr><td>Total Due (Outstanding)</td><td>সব মাসের unpaid/partial/overdue due-এর বাকি অংশের যোগফল</td><td class="right">৳1,050</td></tr>
+                        <tr><td>Total Due বক্সের ভেতরের "Current Due"</td><td>শুধু চলতি মাসের বাকি অংশ (outstanding)</td><td class="right">৳1,050</td></tr>
+                        <tr><td>Total Fine</td><td>unpaid/partial/overdue due-গুলোর মধ্যে জমে থাকা মোট ফাইন</td><td class="right">৳50</td></tr>
+                        <tr><td>Total Deposited</td><td>ভেরিফাইড পেমেন্টের সমষ্টি + সক্রিয় শেয়ারের মূল্য</td><td class="right">৳0 (এখনো কোনো পেমেন্ট verify হয়নি)</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 16. APPENDIX -->
+            <section id="appendix">
+                <h2><span class="num">১৬</span> অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</h2>
+                <p class="desc">দ্রুত রেফারেন্সের জন্য সব মডিউলের ডেবিট/ক্রেডিট এক টেবিলে:</p>
+                <table>
+                    <thead><tr><th>মডিউল / ইভেন্ট</th><th>Debit</th><th>Credit</th></tr></thead>
+                    <tbody>
+                        <tr><td>সাবস্ক্রিপশন Due তৈরি</td><td>Accounts Receivable</td><td>Subscription Income</td></tr>
+                        <tr><td>সাবস্ক্রিপশন Late Fine</td><td>Accounts Receivable</td><td>Fine Income</td></tr>
+                        <tr><td>সাবস্ক্রিপশন Payment Verify</td><td>Cash/Bank</td><td>Accounts Receivable</td></tr>
+                        <tr><td>মেম্বার চার্জ তৈরি</td><td>Accounts Receivable</td><td>Charge/Applicable Income</td></tr>
+                        <tr><td>মেম্বার চার্জ পরিশোধ</td><td>Cash/Bank</td><td>Accounts Receivable</td></tr>
+                        <tr><td>লোন ডিসবার্স</td><td>Member Loan Receivable</td><td>Cash/Bank</td></tr>
+                        <tr><td>লোন রিপেমেন্ট</td><td>Cash/Bank</td><td>Member Loan Receivable (+Interest Income)</td></tr>
+                        <tr><td>বিনিয়োগ (Investment) তৈরি</td><td>Investments</td><td>Cash/Bank</td></tr>
+                        <tr><td>বিনিয়োগ রিটার্ন প্রাপ্তি</td><td>Cash/Bank</td><td>Investment Income (বা Investments, principal হলে)</td></tr>
+                        <tr><td>শেয়ার ক্রয়</td><td>Cash/Bank</td><td>Member Share Capital</td></tr>
+                        <tr><td>মেম্বার এক্সিট সেটেলমেন্ট</td><td>Member Share Capital</td><td>Cash/Bank</td></tr>
+                        <tr><td>সম্পদ ক্রয়</td><td>Fixed Assets</td><td>Cash/Bank</td></tr>
+                        <tr><td>অ্যাসেট Depreciation</td><td>Depreciation Expense</td><td>Fixed Asset / Accumulated Depreciation</td></tr>
+                        <tr><td>সম্পদ বিক্রয়/অপসারণ</td><td>Cash/Bank (+Loss, হলে)</td><td>Fixed Asset (+Gain, হলে)</td></tr>
+                        <tr><td>টেলার — Receive</td><td>Cash</td><td>নির্বাচিত Counter Account</td></tr>
+                        <tr><td>টেলার — Payment</td><td>নির্বাচিত Counter Account</td><td>Cash</td></tr>
+                        <tr><td>সরাসরি Income Entry</td><td>Cash/Bank</td><td>নির্দিষ্ট Income অ্যাকাউন্ট</td></tr>
+                        <tr><td>সরাসরি Expense Entry</td><td>নির্দিষ্ট Expense অ্যাকাউন্ট</td><td>Cash/Bank</td></tr>
+                    </tbody>
+                </table>
+                <div class="callout info">📌 এই টেবিলটা শুধু দিক-নির্দেশনার জন্য — প্রতিটার সঠিক ধাপ, শর্ত ও বাস্তব উদাহরণ উপরের নিজস্ব সেকশনে বিস্তারিত দেওয়া আছে।</div>
+            </section>
+
+            <!-- 17. REPORTS -->
             <section id="reports">
-                <h2><span class="num">১৩</span> রিপোর্টসমূহ</h2>
+                <h2><span class="num">১৭</span> রিপোর্টসমূহ</h2>
                 <table>
                     <thead><tr><th>রিপোর্ট</th><th>কী দেখায়</th></tr></thead>
                     <tbody>
@@ -617,9 +1027,9 @@ footer{
                 <p>প্রায় প্রতিটি রিপোর্ট থেকে PDF/Excel এক্সপোর্ট এবং প্রিন্ট করার সুবিধা আছে।</p>
             </section>
 
-            <!-- 14. RECEIPTS -->
+            <!-- 18. RECEIPTS -->
             <section id="receipts">
-                <h2><span class="num">১৪</span> রসিদ / প্রিন্ট (Receipts)</h2>
+                <h2><span class="num">১৮</span> রসিদ / প্রিন্ট (Receipts)</h2>
 
                 <h3>ক) সদস্যের পেমেন্ট রসিদ (Member Payment Receipt)</h3>
                 <div class="flow-steps">
@@ -638,9 +1048,9 @@ footer{
                 </div>
             </section>
 
-            <!-- 15. PERMISSIONS -->
+            <!-- 19. PERMISSIONS -->
             <section id="permissions">
-                <h2><span class="num">১৫</span> পারমিশন ও রোল</h2>
+                <h2><span class="num">১৯</span> পারমিশন ও রোল</h2>
                 <table>
                     <thead><tr><th>পারমিশন</th><th>কী করতে পারবে</th></tr></thead>
                     <tbody>
@@ -652,28 +1062,31 @@ footer{
                 <p>রোল ও পারমিশন <code>Settings → Roles</code> থেকে নিয়ন্ত্রণ করা যায়। সাধারণ ট্রেজারার/হিসাবরক্ষক ব্যবহারকারীদের অন্তত <span class="code">Finance.view</span> ও <span class="code">Finance.create</span> দেওয়া উচিত।</p>
             </section>
 
-            <!-- 16. FAQ -->
+            <!-- 20. FAQ -->
             <section id="faq">
-                <h2><span class="num">১৬</span> সাধারণ সমস্যা ও সমাধান</h2>
+                <h2><span class="num">২০</span> সাধারণ সমস্যা ও সমাধান</h2>
 
                 <h4>জার্নাল পোস্ট হচ্ছে না, "Not Balanced" দেখাচ্ছে</h4>
-                <p>প্রতিটি লাইনের Debit ও Credit যোগফল আলাদাভাবে মিলিয়ে দেখুন — টোটাল Debit অবশ্যই টোটাল Credit-এর সমান হতে হবে।</p>
+                <p>প্রতিটি লাইনের Debit ও Credit যোগফল আলাদাভাবে মিলিয়ে দেখুন — টোটাল Debit অবশ্যই টোটাল Credit-এর সমান হতে হবে। উদাহরণস্বরূপ, ৩ লাইনের একটি ম্যানুয়াল জার্নালে যদি Debit-এ ২,১৫,০০০ এবং Credit-এ ২,১০,০০০ থাকে, তাহলে ৫,০০০ টাকার পার্থক্য খুঁজে বের করে ঠিক করতে হবে।</p>
 
                 <h4>ভুল এন্ট্রি হয়ে গেছে, এখন কী করবো?</h4>
-                <p>এন্ট্রি এডিট/ডিলিট করা যায় না। <b>Reverse Journal</b> ব্যবহার করে এর বিপরীত এন্ট্রি পোস্ট করুন — এটি হিসাবরক্ষণের নিরাপদ পদ্ধতি।</p>
+                <p>এন্ট্রি এডিট/ডিলিট করা যায় না। <b>Reverse Journal</b> ব্যবহার করে এর বিপরীত এন্ট্রি পোস্ট করুন — এটি হিসাবরক্ষণের নিরাপদ পদ্ধতি। যেমন, ভুলে ৳15,000-এর বদলে ৳51,000 অফিস খরচ এন্ট্রি হয়ে গেলে, প্রথমে পুরো এন্ট্রিটা Reverse করুন, তারপর সঠিক পরিমাণে নতুন এন্ট্রি করুন।</p>
 
                 <h4>সদস্যের পেমেন্ট জার্নালে দেখা যাচ্ছে না</h4>
-                <p>পেমেন্ট প্রথমে "Pending" অবস্থায় থাকে। <code>Finance → Subscription Payments</code>-এ গিয়ে অ্যাডমিন কর্তৃক Verify করার পরই এটি জার্নালে Posted হিসেবে দেখাবে।</p>
+                <p>পেমেন্ট প্রথমে "Pending" অবস্থায় থাকে। <code>Finance → Subscription Payments</code>-এ গিয়ে অ্যাডমিন কর্তৃক Verify করার পরই এটি জার্নালে Posted হিসেবে দেখাবে (দেখুন সেকশন ৫, ধাপ ৩-৪)।</p>
 
-                <h4>টেবিলে হরাইজন্টাল স্ক্রল আসছে কেন আগে হতো?</h4>
+                <h4>টেবিলে হরাইজন্টাল স্ক্রল আসছে কেন, আগে হতো?</h4>
                 <p>জার্নাল লিস্টের টেবিল থেকে Type ও Source কলাম সরিয়ে Description-এর নিচে ছোট আকারে দেখানো হচ্ছে, এবং টেবিলটি এখন ফিক্সড-লেআউটে সেট করা — ফলে এখন থেকে টেবিলে অতিরিক্ত স্ক্রলবার আসবে না। সম্পূর্ণ তথ্য দেখতে View/রসিদে ক্লিক করুন।</p>
 
                 <h4>রিপোর্টে Total মিলছে না</h4>
                 <p>Trial Balance রিপোর্টে গিয়ে দেখুন কোনো অ্যাকাউন্টে অস্বাভাবিক ব্যালেন্স আছে কিনা। সাধারণত কোনো Reversal সঠিকভাবে না হলে বা কোনো এন্ট্রি ভুল অ্যাকাউন্টে পোস্ট হলে এমন হতে পারে — এক্ষেত্রে সংশ্লিষ্ট জার্নাল ভাউচার প্রিন্ট করে যাচাই করুন।</p>
+
+                <h4>Due তৈরি হওয়ার সাথে সাথেই কেন Income বেড়ে যায়, টাকা তো এখনো আসেনি?</h4>
+                <p>এই সিস্টেম Accrual Basis-এ চলে (দেখুন সেকশন ২) — অর্থাৎ পাওনা তৈরি হওয়ার দিনই আয় ধরা হয়, টাকা হাতে আসার দিন নয়। এটা হিসাবশাস্ত্রের স্বীকৃত ও প্রচলিত নিয়ম, ভুল নয়।</p>
             </section>
 
             <footer>
-                Dreamers Association — Internal Admin Manual · সর্বশেষ হালনাগাদ অনুযায়ী প্রস্তুতকৃত · অভ্যন্তরীণ ব্যবহারের জন্য
+                Dreamers Association — Internal Admin Manual (Combined &amp; Detailed Edition) · SubscriptionService, AccountingService এবং সংশ্লিষ্ট মডিউল সার্ভিসসমূহের ভিত্তিতে প্রস্তুতকৃত · অভ্যন্তরীণ ব্যবহারের জন্য
             </footer>
 
         </div>
