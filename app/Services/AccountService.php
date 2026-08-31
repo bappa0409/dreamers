@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class AccountService
 {
-    private const TYPES=[
+    private const TYPES = [
         'asset',
         'liability',
         'equity',
@@ -19,11 +19,11 @@ class AccountService
 
     public function __construct(
         private FinanceDashboardService $financeDashboardService
-    ){}
+    ) {}
 
-    public function paginate(array $filters=[]): LengthAwarePaginator
+    public function paginate(array $filters = []): LengthAwarePaginator
     {
-        $paginator=Account::query()
+        $paginator = Account::query()
             ->with([
                 'parent:id,code,name,type',
             ])
@@ -40,37 +40,37 @@ class AccountService
                 'credit'
             )
             ->when(
-                $filters['search']??null,
-                function($query,$search){
-                    $search=trim($search);
+                $filters['search'] ?? null,
+                function ($query, $search) {
+                    $search = trim($search);
 
-                    $query->where(function($q)use($search){
+                    $query->where(function ($q) use ($search) {
                         $q->where(
                             'code',
                             'like',
                             "%{$search}%"
                         )
-                        ->orWhere(
-                            'name',
-                            'like',
-                            "%{$search}%"
-                        )
-                        ->orWhere(
-                            'sub_type',
-                            'like',
-                            "%{$search}%"
-                        )
-                        ->orWhere(
-                            'description',
-                            'like',
-                            "%{$search}%"
-                        );
+                            ->orWhere(
+                                'name',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'sub_type',
+                                'like',
+                                "%{$search}%"
+                            )
+                            ->orWhere(
+                                'description',
+                                'like',
+                                "%{$search}%"
+                            );
                     });
                 }
             )
             ->when(
-                $filters['type']??null,
-                fn($query,$type)=>$query->where(
+                $filters['type'] ?? null,
+                fn($query, $type) => $query->where(
                     'type',
                     $type
                 )
@@ -79,9 +79,9 @@ class AccountService
                 array_key_exists(
                     'is_active',
                     $filters
-                )&&
-                $filters['is_active']!=='',
-                fn($query)=>$query->where(
+                ) &&
+                    $filters['is_active'] !== '',
+                fn($query) => $query->where(
                     'is_active',
                     filter_var(
                         $filters['is_active'],
@@ -90,8 +90,8 @@ class AccountService
                 )
             )
             ->when(
-                $filters['parent_id']??null,
-                fn($query,$parentId)=>$query->where(
+                $filters['parent_id'] ?? null,
+                fn($query, $parentId) => $query->where(
                     'parent_id',
                     $parentId
                 )
@@ -100,7 +100,7 @@ class AccountService
             ->paginate(
                 min(
                     max(
-                        (int)($filters['per_page']??25),
+                        (int)($filters['per_page'] ?? 25),
                         5
                     ),
                     100
@@ -108,12 +108,12 @@ class AccountService
             );
 
         $paginator->getCollection()->transform(
-            function(Account $account){
+            function (Account $account) {
                 $account->setAttribute(
                     'balance',
                     $account->calculateBalance(
-                        (float)($account->total_debit??0),
-                        (float)($account->total_credit??0)
+                        (float)($account->total_debit ?? 0),
+                        (float)($account->total_credit ?? 0)
                     )
                 );
 
@@ -126,7 +126,7 @@ class AccountService
 
     public function summary(): array
     {
-        $rows=Account::query()
+        $rows = Account::query()
             ->selectRaw("
                 COUNT(*) total,
                 SUM(CASE WHEN is_active=1 THEN 1 ELSE 0 END) active,
@@ -135,30 +135,30 @@ class AccountService
             ")
             ->first();
 
-        $posting=Account::query()
+        $posting = Account::query()
             ->whereDoesntHave('children')
             ->count();
 
-        return[
-            'total'=>(int)($rows->total??0),
-            'active'=>(int)($rows->active??0),
-            'inactive'=>(int)($rows->inactive??0),
-            'system_accounts'=>(int)($rows->system_accounts??0),
-            'posting_accounts'=>$posting,
+        return [
+            'total' => (int)($rows->total ?? 0),
+            'active' => (int)($rows->active ?? 0),
+            'inactive' => (int)($rows->inactive ?? 0),
+            'system_accounts' => (int)($rows->system_accounts ?? 0),
+            'posting_accounts' => $posting,
         ];
     }
 
-    public function options(?Account $exclude=null): array
+    public function options(?Account $exclude = null): array
     {
-        $query=Account::query()
+        $query = Account::query()
             ->orderBy('code');
 
-        if($exclude){
-            $excludedIds=$this->descendantIds(
+        if ($exclude) {
+            $excludedIds = $this->descendantIds(
                 $exclude
             );
 
-            $excludedIds[]=$exclude->id;
+            $excludedIds[] = $exclude->id;
 
             $query->whereNotIn(
                 'id',
@@ -168,9 +168,9 @@ class AccountService
             );
         }
 
-        return[
-            'types'=>self::TYPES,
-            'parents'=>$query->get([
+        return [
+            'types' => self::TYPES,
+            'parents' => $query->get([
                 'id',
                 'parent_id',
                 'code',
@@ -184,67 +184,68 @@ class AccountService
 
     public function create(array $data): Account
     {
-        return DB::transaction(function()use($data){
-            $openingBalance=round(
-                (float)($data['opening_balance']??0),
+        return DB::transaction(function () use ($data) {
+            $openingBalance = round(
+                (float)($data['opening_balance'] ?? 0),
                 2
             );
 
-            if(abs($openingBalance)>=0.01){
+            if (abs($openingBalance) >= 0.01) {
                 throw ValidationException::withMessages([
-                    'opening_balance'=>[
+                    'opening_balance' => [
                         'Opening balance must be posted through an opening balance journal, not directly on the account.'
                     ],
                 ]);
             }
 
             $this->validateParent(
-                $data['parent_id']??null,
+                $data['parent_id'] ?? null,
                 $data['type']
             );
 
-            if(!empty($data['parent_id'])){
-                $parent=Account::query()
+            if (!empty($data['parent_id'])) {
+                $parent = Account::query()
                     ->whereKey(
                         $data['parent_id']
                     )
                     ->lockForUpdate()
                     ->firstOrFail();
 
-                if(
+                if (
                     $parent
-                        ->postedEntries()
-                        ->exists()
-                ){
+                    ->postedEntries()
+                    ->exists()
+                ) {
                     throw ValidationException::withMessages([
-                        'parent_id'=>[
+                        'parent_id' => [
                             'An account with posted journal entries cannot be converted into a parent account.'
                         ],
                     ]);
                 }
             }
 
-            $account=Account::create([
-                'parent_id'=>$data['parent_id']??null,
-                'code'=>trim($data['code']),
-                'name'=>trim($data['name']),
-                'type'=>$data['type'],
-                'sub_type'=>$this->nullableString(
-                    $data['sub_type']??null
+            $account = Account::create([
+                'parent_id' => $data['parent_id'] ?? null,
+                'code' => trim($data['code']),
+                'name' => trim($data['name']),
+                'type' => $data['type'],
+                'sub_type' => $this->nullableString(
+                    $data['sub_type'] ?? null
                 ),
-                'opening_balance'=>0,
-                'is_system'=>false,
-                'is_active'=>(bool)($data['is_active']??true),
-                'description'=>$this->nullableString(
-                    $data['description']??null
+                'opening_balance' => 0,
+                'is_system' => false,
+                'is_active' => false,
+                'approval_status' => 'pending',
+                'description' => $this->nullableString(
+                    $data['description'] ?? null
                 ),
             ]);
 
             DB::afterCommit(
-                fn()=>
-                    $this
-                        ->financeDashboardService
-                        ->forgetCache()
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
             );
 
             return $this->fresh(
@@ -256,98 +257,100 @@ class AccountService
     public function update(
         Account $account,
         array $data
-    ): Account{
-        return DB::transaction(function()use(
+    ): Account {
+        return DB::transaction(function () use (
             $account,
             $data
-        ){
-            $account=Account::query()
+        ) {
+            $account = Account::query()
                 ->whereKey(
                     $account->id
                 )
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if($account->is_system){
-                foreach([
-                    'code',
-                    'type',
-                    'sub_type',
-                    'parent_id',
-                    'opening_balance',
-                ] as $field){
-                    if(
+            if ($account->is_system) {
+                foreach (
+                    [
+                        'code',
+                        'type',
+                        'sub_type',
+                        'parent_id',
+                        'opening_balance',
+                    ] as $field
+                ) {
+                    if (
                         array_key_exists(
                             $field,
                             $data
-                        )&&
+                        ) &&
                         $this->changed(
                             $account->{$field},
                             $data[$field]
                         )
-                    ){
+                    ) {
                         throw ValidationException::withMessages([
-                            $field=>[
+                            $field => [
                                 'Core structure of a system account cannot be changed.'
                             ],
                         ]);
                     }
                 }
 
-                if(
+                if (
                     array_key_exists(
                         'is_active',
                         $data
-                    )&&
+                    ) &&
                     !$data['is_active']
-                ){
+                ) {
                     throw ValidationException::withMessages([
-                        'is_active'=>[
+                        'is_active' => [
                             'System accounts cannot be deactivated.'
                         ],
                     ]);
                 }
             }
 
-            if(
+            if (
                 array_key_exists(
                     'opening_balance',
                     $data
-                )&&
+                ) &&
                 $this->changed(
                     $account->opening_balance,
                     $data['opening_balance']
                 )
-            ){
+            ) {
                 throw ValidationException::withMessages([
-                    'opening_balance'=>[
+                    'opening_balance' => [
                         'Opening balance cannot be changed directly. Use an opening balance journal instead.'
                     ],
                 ]);
             }
 
-            $newType=
-                $data['type']??
+            $newType =
+                $data['type'] ??
                 $account->type;
 
-            $newParent=
+            $newParent =
                 array_key_exists(
                     'parent_id',
                     $data
                 )
-                    ?$data['parent_id']
-                    :$account->parent_id;
+                ? $data['parent_id']
+                : $account->parent_id;
 
-            if(
+            if (
                 array_key_exists(
                     'parent_id',
                     $data
-                )||
+                ) ||
                 array_key_exists(
                     'type',
                     $data
                 )
-            ){
+            ) {
                 $this->validateParent(
                     $newParent,
                     $newType,
@@ -355,145 +358,149 @@ class AccountService
                 );
             }
 
-            if(
+            if (
                 array_key_exists(
                     'type',
                     $data
-                )&&
-                $data['type']!==$account->type
-            ){
-                if(
+                ) &&
+                $data['type'] !== $account->type
+            ) {
+                if (
                     $account
-                        ->postedEntries()
-                        ->exists()||
+                    ->postedEntries()
+                    ->exists() ||
                     $account
-                        ->children()
-                        ->exists()
-                ){
+                    ->children()
+                    ->exists()
+                ) {
                     throw ValidationException::withMessages([
-                        'type'=>[
+                        'type' => [
                             'Account type cannot be changed after the account has posted entries or child accounts.'
                         ],
                     ]);
                 }
             }
 
-            if(
+            if (
                 array_key_exists(
                     'parent_id',
                     $data
-                )&&
+                ) &&
                 $this->changed(
                     $account->parent_id,
                     $data['parent_id']
-                )&&
+                ) &&
                 $account
-                    ->postedEntries()
-                    ->exists()
-            ){
+                ->postedEntries()
+                ->exists()
+            ) {
                 throw ValidationException::withMessages([
-                    'parent_id'=>[
+                    'parent_id' => [
                         'Posted account cannot be moved to another parent.'
                     ],
                 ]);
             }
 
-            if(
+            if (
                 array_key_exists(
                     'parent_id',
                     $data
-                )&&
+                ) &&
                 $data['parent_id']
-            ){
-                $parent=Account::query()
+            ) {
+                $parent = Account::query()
                     ->whereKey(
                         $data['parent_id']
                     )
                     ->lockForUpdate()
                     ->first();
 
-                if(
-                    $parent&&
+                if (
+                    $parent &&
                     $parent
-                        ->postedEntries()
-                        ->exists()
-                ){
+                    ->postedEntries()
+                    ->exists()
+                ) {
                     throw ValidationException::withMessages([
-                        'parent_id'=>[
+                        'parent_id' => [
                             'An account with posted journal entries cannot become a parent account.'
                         ],
                     ]);
                 }
             }
 
-            $update=[];
+            $update = [];
 
-            foreach([
-                'parent_id',
-                'code',
-                'name',
-                'type',
-                'sub_type',
-                'is_active',
-                'description',
-            ] as $field){
-                if(
+            foreach (
+                [
+                    'parent_id',
+                    'code',
+                    'name',
+                    'type',
+                    'sub_type',
+                    'is_active',
+                    'description',
+                ] as $field
+            ) {
+                if (
                     array_key_exists(
                         $field,
                         $data
                     )
-                ){
-                    $update[$field]=
+                ) {
+                    $update[$field] =
                         $data[$field];
                 }
             }
 
-            if(
+            if (
                 array_key_exists(
                     'code',
                     $update
                 )
-            ){
-                $update['code']=trim(
+            ) {
+                $update['code'] = trim(
                     (string)$update['code']
                 );
             }
 
-            if(
+            if (
                 array_key_exists(
                     'name',
                     $update
                 )
-            ){
-                $update['name']=trim(
+            ) {
+                $update['name'] = trim(
                     (string)$update['name']
                 );
             }
 
-            foreach([
-                'sub_type',
-                'description',
-            ] as $field){
-                if(
+            foreach (
+                [
+                    'sub_type',
+                    'description',
+                ] as $field
+            ) {
+                if (
                     array_key_exists(
                         $field,
                         $update
                     )
-                ){
-                    $update[$field]=
+                ) {
+                    $update[$field] =
                         $this->nullableString(
                             $update[$field]
                         );
                 }
             }
 
-            if(
+            if (
                 array_key_exists(
                     'is_active',
                     $update
                 )
-            ){
-                $update['is_active']=
+            ) {
+                $update['is_active'] =
                     (bool)$update['is_active'];
             }
 
@@ -502,10 +509,10 @@ class AccountService
             );
 
             DB::afterCommit(
-                fn()=>
-                    $this
-                        ->financeDashboardService
-                        ->forgetCache()
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
             );
 
             return $this->fresh(
@@ -516,54 +523,60 @@ class AccountService
 
     public function toggle(
         Account $account
-    ): Account{
-        return DB::transaction(function()use(
+    ): Account {
+        return DB::transaction(function () use (
             $account
-        ){
-            $account=Account::query()
-                ->whereKey(
-                    $account->id
-                )
+        ) {
+            $account = Account::query()
+                ->whereKey($account->id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if($account->is_system){
+            if ($account->approval_status === 'pending') {
                 throw ValidationException::withMessages([
-                    'account'=>[
+                    'account' => [
+                        'Account is pending approval and cannot be toggled yet.'
+                    ],
+                ]);
+            }
+
+            if ($account->is_system) {
+                throw ValidationException::withMessages([
+                    'account' => [
                         'System accounts cannot be deactivated.'
                     ],
                 ]);
             }
 
-            if(
-                $account->is_active&&
+            if (
+                $account->is_active &&
                 $account
-                    ->children()
-                    ->where(
-                        'is_active',
-                        true
-                    )
-                    ->exists()
-            ){
+                ->children()
+                ->where(
+                    'is_active',
+                    true
+                )
+                ->exists()
+            ) {
                 throw ValidationException::withMessages([
-                    'account'=>[
+                    'account' => [
                         'Deactivate active child accounts first.'
                     ],
                 ]);
             }
 
-            if(
-                !$account->is_active&&
+            if (
+                !$account->is_active &&
                 $account->parent_id
-            ){
-                $parent=$account->parent;
+            ) {
+                $parent = $account->parent;
 
-                if(
-                    !$parent||
+                if (
+                    !$parent ||
                     !$parent->is_active
-                ){
+                ) {
                     throw ValidationException::withMessages([
-                        'account'=>[
+                        'account' => [
                             'Parent account must be active before this account can be activated.'
                         ],
                     ]);
@@ -571,15 +584,15 @@ class AccountService
             }
 
             $account->update([
-                'is_active'=>
-                    !$account->is_active,
+                'is_active' =>
+                !$account->is_active,
             ]);
 
             DB::afterCommit(
-                fn()=>
-                    $this
-                        ->financeDashboardService
-                        ->forgetCache()
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
             );
 
             return $this->fresh(
@@ -590,32 +603,32 @@ class AccountService
 
     public function delete(
         Account $account
-    ): void{
-        DB::transaction(function()use(
+    ): void {
+        DB::transaction(function () use (
             $account
-        ){
-            $account=Account::query()
+        ) {
+            $account = Account::query()
                 ->whereKey(
                     $account->id
                 )
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if($account->is_system){
+            if ($account->is_system) {
                 throw ValidationException::withMessages([
-                    'account'=>[
+                    'account' => [
                         'System accounts cannot be deleted.'
                     ],
                 ]);
             }
 
-            if(
+            if (
                 $account
-                    ->children()
-                    ->exists()
-            ){
+                ->children()
+                ->exists()
+            ) {
                 throw ValidationException::withMessages([
-                    'account'=>[
+                    'account' => [
                         'Account with child accounts cannot be deleted.'
                     ],
                 ]);
@@ -626,13 +639,13 @@ class AccountService
              * Any journal history should block hard-delete,
              * including non-posted history.
              */
-            if(
+            if (
                 $account
-                    ->entries()
-                    ->exists()
-            ){
+                ->entries()
+                ->exists()
+            ) {
                 throw ValidationException::withMessages([
-                    'account'=>[
+                    'account' => [
                         'Account with journal history cannot be deleted. Deactivate it instead.'
                     ],
                 ]);
@@ -641,10 +654,10 @@ class AccountService
             $account->delete();
 
             DB::afterCommit(
-                fn()=>
-                    $this
-                        ->financeDashboardService
-                        ->forgetCache()
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
             );
         });
     }
@@ -652,56 +665,56 @@ class AccountService
     private function validateParent(
         ?int $parentId,
         string $type,
-        ?Account $account=null
-    ): void{
-        if(!$parentId){
+        ?Account $account = null
+    ): void {
+        if (!$parentId) {
             return;
         }
 
-        $parent=Account::query()
+        $parent = Account::query()
             ->whereKey(
                 $parentId
             )
             ->first();
 
-        if(!$parent){
+        if (!$parent) {
             throw ValidationException::withMessages([
-                'parent_id'=>[
+                'parent_id' => [
                     'Selected parent account does not exist.'
                 ],
             ]);
         }
 
-        if(!$parent->is_active){
+        if (!$parent->is_active) {
             throw ValidationException::withMessages([
-                'parent_id'=>[
+                'parent_id' => [
                     'Parent account must be active.'
                 ],
             ]);
         }
 
-        if($parent->type!==$type){
+        if ($parent->type !== $type) {
             throw ValidationException::withMessages([
-                'parent_id'=>[
+                'parent_id' => [
                     'Parent and child account must have the same account type.'
                 ],
             ]);
         }
 
-        if(
-            $account&&
-            (int)$parent->id===
+        if (
+            $account &&
+            (int)$parent->id ===
             (int)$account->id
-        ){
+        ) {
             throw ValidationException::withMessages([
-                'parent_id'=>[
+                'parent_id' => [
                     'Account cannot be its own parent.'
                 ],
             ]);
         }
 
-        if(
-            $account&&
+        if (
+            $account &&
             in_array(
                 (int)$parent->id,
                 $this->descendantIds(
@@ -709,9 +722,9 @@ class AccountService
                 ),
                 true
             )
-        ){
+        ) {
             throw ValidationException::withMessages([
-                'parent_id'=>[
+                'parent_id' => [
                     'A child account cannot be selected as parent.'
                 ],
             ]);
@@ -720,35 +733,35 @@ class AccountService
 
     private function descendantIds(
         Account $account
-    ): array{
-        $ids=[];
-        $pending=[
+    ): array {
+        $ids = [];
+        $pending = [
             (int)$account->id
         ];
 
-        while($pending){
-            $children=Account::query()
+        while ($pending) {
+            $children = Account::query()
                 ->whereIn(
                     'parent_id',
                     $pending
                 )
                 ->pluck('id')
                 ->map(
-                    fn($id)=>
-                        (int)$id
+                    fn($id) =>
+                    (int)$id
                 )
                 ->all();
 
-            if(!$children){
+            if (!$children) {
                 break;
             }
 
-            $ids=array_merge(
+            $ids = array_merge(
                 $ids,
                 $children
             );
 
-            $pending=$children;
+            $pending = $children;
         }
 
         return array_values(
@@ -760,7 +773,7 @@ class AccountService
 
     private function fresh(
         Account $account
-    ): Account{
+    ): Account {
         return $account
             ->fresh([
                 'parent:id,code,name,type',
@@ -774,37 +787,133 @@ class AccountService
     private function changed(
         mixed $current,
         mixed $new
-    ): bool{
-        if(
-            is_numeric($current)&&
+    ): bool {
+        if (
+            is_numeric($current) &&
             is_numeric($new)
-        ){
+        ) {
             return round(
                 (float)$current,
                 2
-            )!==round(
+            ) !== round(
                 (float)$new,
                 2
             );
         }
 
-        return (string)($current??'')!==
-            (string)($new??'');
+        return (string)($current ?? '') !==
+            (string)($new ?? '');
     }
 
     private function nullableString(
         mixed $value
-    ): ?string{
-        if($value===null){
+    ): ?string {
+        if ($value === null) {
             return null;
         }
 
-        $value=trim(
+        $value = trim(
             (string)$value
         );
 
-        return $value===''
-            ?null
-            :$value;
+        return $value === ''
+            ? null
+            : $value;
+    }
+
+    public function finalizeApproval(
+        Account $account,
+        array $decisionData,
+        int $approvedBy
+    ): Account {
+        return DB::transaction(function () use (
+            $account
+        ) {
+            $account = Account::query()
+                ->whereKey($account->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($account->approval_status !== 'pending') {
+                throw ValidationException::withMessages([
+                    'account' => [
+                        'Only accounts pending approval can be approved.'
+                    ],
+                ]);
+            }
+
+            $account->update([
+                'approval_status' => 'approved',
+                'is_active' => true,
+            ]);
+
+            DB::afterCommit(
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
+            );
+
+            return $this->fresh($account);
+        });
+    }
+
+    public function finalizeRejection(
+        Account $account,
+        string $reason,
+        ?int $rejectedBy
+    ): Account {
+        return DB::transaction(function () use (
+            $account
+        ) {
+            $account = Account::query()
+                ->whereKey($account->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($account->approval_status !== 'pending') {
+                throw ValidationException::withMessages([
+                    'account' => [
+                        'Only accounts pending approval can be rejected.'
+                    ],
+                ]);
+            }
+
+            $account->update([
+                'approval_status' => 'rejected',
+                'is_active' => false,
+            ]);
+
+            DB::afterCommit(
+                fn() =>
+                $this
+                    ->financeDashboardService
+                    ->forgetCache()
+            );
+
+            return $this->fresh($account);
+        });
+    }
+
+    public function finalizeCancellation(
+        Account $account
+    ): Account {
+        return DB::transaction(function () use (
+            $account
+        ) {
+            $account = Account::query()
+                ->whereKey($account->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($account->approval_status === 'pending') {
+                $account->update([
+                    'approval_status' => 'cancelled',
+                    'is_active' => false,
+                ]);
+            }
+
+            return $this->fresh($account);
+        });
     }
 }

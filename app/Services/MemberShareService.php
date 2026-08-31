@@ -129,16 +129,25 @@ class MemberShareService
         });
     }
 
-    public function verify(
+    /**
+     * Finalize a member-share purchase approval (posts the accounting entry
+     * and activates the share). Called by
+     * ApprovalService::executeApprovedAction() once the module=MemberShare,
+     * action=request workflow has been fully signed off. $decisionData may
+     * carry an optional 'note' from the final approver.
+     */
+    public function finalizeApproval(
         MemberShare $share,
-        int $verifiedBy,
-        ?string $note=null
+        array $decisionData,
+        int $userId
     ): MemberShare{
         $this->ensureShareEnabled();
 
+        $note=$decisionData['note']??null;
+
         return DB::transaction(function()use(
             $share,
-            $verifiedBy,
+            $userId,
             $note
         ){
             $share=MemberShare::query()
@@ -227,7 +236,7 @@ class MemberShareService
                     "Share purchase {$share->share_no} - {$memberName}",
 
                 'user_id'=>
-                    $verifiedBy,
+                    $userId,
 
                 'entries'=>[
                     [
@@ -250,7 +259,7 @@ class MemberShareService
             $share->update([
                 'status'=>'active',
                 'acquired_date'=>now()->toDateString(),
-                'verified_by'=>$verifiedBy,
+                'verified_by'=>$userId,
                 'verified_at'=>now(),
                 'verification_note'=>
                     $this->nullableString($note),
@@ -267,15 +276,19 @@ class MemberShareService
         });
     }
 
-    public function reject(
+    /**
+     * Finalize a member-share purchase rejection. Called by
+     * ApprovalService::executeRejectedAction().
+     */
+    public function finalizeRejection(
         MemberShare $share,
-        int $rejectedBy,
-        ?string $note=null
+        string $reason,
+        int $userId
     ): MemberShare{
         return DB::transaction(function()use(
             $share,
-            $rejectedBy,
-            $note
+            $userId,
+            $reason
         ){
             $share=MemberShare::query()
                 ->whereKey($share->id)
@@ -298,7 +311,7 @@ class MemberShareService
                 ]);
             }
 
-            $note=$this->nullableString($note);
+            $note=$this->nullableString($reason);
 
             if(!$note){
                 throw ValidationException::withMessages([
@@ -310,7 +323,7 @@ class MemberShareService
 
             $share->update([
                 'status'=>'rejected',
-                'verified_by'=>$rejectedBy,
+                'verified_by'=>$userId,
                 'verified_at'=>now(),
                 'verification_note'=>$note,
             ]);

@@ -34,6 +34,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->text('request_note')->nullable();
+            $table->json('decision_data')->nullable();
 
             // Approval
             $table->foreignId('approved_by')
@@ -50,7 +51,6 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamp('rejected_at')->nullable();
-
             $table->text('rejection_reason')->nullable();
 
             // Cancellation
@@ -60,9 +60,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamp('cancelled_at')->nullable();
-
             $table->text('cancellation_reason')->nullable();
-
             $table->timestamps();
 
             // Indexes

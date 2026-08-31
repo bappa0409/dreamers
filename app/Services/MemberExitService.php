@@ -507,8 +507,16 @@ class MemberExitService
         return $this->freshExit($exit);
     }
 
-    public function approve(
+    /**
+     * Finalize a member-exit approval. Called by
+     * ApprovalService::executeApprovedAction() once the module=MemberExit,
+     * action=request workflow has been fully signed off. $decisionData is
+     * accepted for consistency with the other modules but this module
+     * doesn't currently need any approver-supplied fields.
+     */
+    public function finalizeApproval(
         MemberExit $exit,
+        array $decisionData,
         int $userId
     ): MemberExit{
         return DB::transaction(function()use($exit,$userId){
@@ -562,7 +570,11 @@ class MemberExitService
         });
     }
 
-    public function reject(
+    /**
+     * Finalize a member-exit rejection. Called by
+     * ApprovalService::executeRejectedAction().
+     */
+    public function finalizeRejection(
         MemberExit $exit,
         string $reason,
         int $userId
@@ -1297,7 +1309,7 @@ class MemberExitService
     |--------------------------------------------------------------------------
     */
 
-    protected function freshExit(
+    public function freshExit(
         MemberExit $exit
     ): MemberExit{
         return MemberExit::query()

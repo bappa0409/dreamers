@@ -7,13 +7,15 @@ use App\Models\Account;
 use App\Models\Loan;
 use App\Models\LoanRepayment;
 use App\Models\Member;
+use App\Services\ApprovalService;
 use App\Services\LoanService;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {
     public function __construct(
-        protected LoanService $loanService
+        protected LoanService $loanService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -195,13 +197,24 @@ class LoanController extends Controller
             'notes'=>'nullable|string|max:5000'
         ]);
 
+        $loan=$this->loanService->createRequest(
+            $validated,
+            $request->user()->id
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $loan,
+            'Loan',
+            'request',
+            $request->user()->id,
+            'New loan request requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Loan request created successfully.',
-            'data'=>$this->loanService->createRequest(
-                $validated,
-                $request->user()->id
-            )
+            'data'=>$loan,
+            'approval'=>$approval
         ],201);
     }
 
@@ -267,17 +280,31 @@ class LoanController extends Controller
         $validated=$request->validate([
             'approved_amount'=>'required|numeric|min:0.01|max:9999999999999.99',
             'interest_rate'=>'required|numeric|min:0|max:100',
-            'duration_months'=>'required|integer|min:1|max:120'
+            'duration_months'=>'required|integer|min:1|max:120',
+            'remarks'=>'nullable|string|max:2000'
         ]);
+
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $loan,
+            'Loan',
+            'request'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
+            $request->user()->id,
+            $validated['remarks']??null,
+            [
+                'approved_amount'=>$validated['approved_amount'],
+                'interest_rate'=>$validated['interest_rate'],
+                'duration_months'=>$validated['duration_months']
+            ]
+        );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Loan approved successfully.',
-            'data'=>$this->loanService->approve(
-                $loan,
-                $validated,
-                $request->user()->id
-            )
+            'message'=>'Loan approval step completed successfully.',
+            'data'=>$this->loanService->freshLoan($loan)
         ]);
     }
 
@@ -287,14 +314,22 @@ class LoanController extends Controller
             'rejection_reason'=>'required|string|max:5000'
         ]);
 
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $loan,
+            'Loan',
+            'request'
+        );
+
+        $this->approvalService->reject(
+            $approvalRequest,
+            $request->user()->id,
+            $validated['rejection_reason']
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Loan rejected successfully.',
-            'data'=>$this->loanService->reject(
-                $loan,
-                $validated['rejection_reason'],
-                $request->user()->id
-            )
+            'data'=>$this->loanService->freshLoan($loan)
         ]);
     }
 

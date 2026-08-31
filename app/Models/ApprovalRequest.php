@@ -20,6 +20,7 @@ class ApprovalRequest extends Model
         'completed_at',
         'requested_by',
         'request_note',
+        'decision_data',
         'approved_by',
         'approved_at',
         'rejected_by',
@@ -40,6 +41,7 @@ class ApprovalRequest extends Model
         return[
             'current_step'=>'integer',
             'total_steps'=>'integer',
+            'decision_data'=>'array',
             'completed_at'=>'datetime',
             'approved_at'=>'datetime',
             'rejected_at'=>'datetime',
@@ -102,6 +104,21 @@ class ApprovalRequest extends Model
                 .' ('.($subject->land_code??'#'.$subject->id).')',
 
             'Notice'=>$subject->title??'Notice #'.$subject->id,
+
+            'Loan'=>($subject->member?->user?->name??'Member')
+                .' ('.($subject->loan_no??'#'.$subject->id).')',
+
+            'WelfareRequest'=>($subject->member?->user?->name??'Member')
+                .' ('.($subject->request_no??'#'.$subject->id).')',
+
+            'MemberExit'=>($subject->member?->user?->name??'Member')
+                .' ('.($subject->exit_no??'#'.$subject->id).')',
+
+            'MemberShare'=>($subject->member?->user?->name??'Member')
+                .' ('.($subject->share_no??'#'.$subject->id).')',
+
+            'Tour'=>($subject->title??'Tour')
+                .' ('.($subject->tour_no??'#'.$subject->id).')',
 
             default=>class_basename($this->approvable_type).' #'.$subject->id,
         };

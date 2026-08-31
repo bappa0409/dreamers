@@ -6,11 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\ApprovalWorkflow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
 class ApprovalWorkflowController extends Controller
 {
+    /**
+     * Only module/action pairs that ApprovalService::executeApprovedAction()/
+     * executeRejectedAction() actually check. Keeps the Workflow Builder from
+     * accepting a free-text module/action that would silently do nothing —
+     * add a new pair here only once the corresponding finalizeApproval()/
+     * finalizeRejection() branch has been wired into ApprovalService.
+     */
+    public const WIRED_MODULE_ACTIONS = [
+        'Member' => ['create'],
+        'Loan' => ['approve'],
+        'Welfare' => ['approve'],
+        'MemberExit' => ['approve'],
+        'MemberShare' => ['verify'],
+        'Tour' => ['approve'],
+        'Account' => ['create', 'update', 'delete'],
+    ];
+
     public function index()
     {
         return response()->json([
@@ -22,18 +40,29 @@ class ApprovalWorkflowController extends Controller
                 ->orderBy('module')
                 ->orderBy('action')
                 ->get(),
+            'wired_module_actions'=>self::WIRED_MODULE_ACTIONS,
         ]);
     }
 
     public function store(Request $request)
     {
         $validated=$request->validate([
-            'module'=>'required|string|max:100',
+            'module'=>[
+                'required',
+                'string',
+                'max:100',
+                Rule::in(array_keys(self::WIRED_MODULE_ACTIONS)),
+            ],
             'action'=>'required|string|max:50',
             'is_active'=>'nullable|boolean',
             'approvers'=>'required|array|min:1|max:3',
             'approvers.*'=>'required|integer|distinct|exists:users,id',
         ]);
+
+        $this->validateModuleAction(
+            $validated['module'],
+            $validated['action']
+        );
 
         $this->validateApprovers($validated['approvers']);
 
@@ -92,12 +121,22 @@ class ApprovalWorkflowController extends Controller
         ApprovalWorkflow $approvalWorkflow
     ){
         $validated=$request->validate([
-            'module'=>'required|string|max:100',
+            'module'=>[
+                'required',
+                'string',
+                'max:100',
+                Rule::in(array_keys(self::WIRED_MODULE_ACTIONS)),
+            ],
             'action'=>'required|string|max:50',
             'is_active'=>'required|boolean',
             'approvers'=>'required|array|min:1|max:3',
             'approvers.*'=>'required|integer|distinct|exists:users,id',
         ]);
+
+        $this->validateModuleAction(
+            $validated['module'],
+            $validated['action']
+        );
 
         $this->validateApprovers($validated['approvers']);
 
@@ -206,6 +245,22 @@ class ApprovalWorkflowController extends Controller
             'success'=>true,
             'data'=>$users,
         ]);
+    }
+
+    protected function validateModuleAction(string $module,string $action): void
+    {
+        $allowedActions=self::WIRED_MODULE_ACTIONS[$module]??[];
+
+        if(!in_array($action,$allowedActions,true)){
+            throw ValidationException::withMessages([
+                'action'=>[
+                    "'{$action}' is not a valid action for module '{$module}'. Allowed: ".
+                    (empty($allowedActions)
+                        ?'none'
+                        :implode(', ',$allowedActions)).'.'
+                ],
+            ]);
+        }
     }
 
     protected function validateApprovers(array $userIds): void

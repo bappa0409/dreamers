@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ApprovalRequest;
+use App\Models\Loan;
 use App\Models\Member;
+use App\Models\MemberExit;
+use App\Models\MemberShare;
 use App\Models\Project;
 use App\Models\Investment;
 use App\Models\Land;
 use App\Models\Notice;
+use App\Models\Tour;
+use App\Models\WelfareRequest;
 use App\Services\ApprovalService;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
@@ -48,6 +53,19 @@ class ApprovalController extends Controller
                         ],
                         Land::class=>[],
                         Notice::class=>[],
+                        Loan::class=>[
+                            'member.user:id,name,email'
+                        ],
+                        WelfareRequest::class=>[
+                            'member.user:id,name,email'
+                        ],
+                        MemberExit::class=>[
+                            'member.user:id,name,email'
+                        ],
+                        MemberShare::class=>[
+                            'member.user:id,name,email'
+                        ],
+                        Tour::class=>[],
                     ]);
                 },
             ])
@@ -198,6 +216,19 @@ class ApprovalController extends Controller
 
         if(
             $approvalRequest->approvable instanceof Investment
+        ){
+            $approvalRequest
+                ->approvable
+                ->loadMissing(
+                    'member.user:id,name,email'
+                );
+        }
+
+        if(
+            $approvalRequest->approvable instanceof Loan||
+            $approvalRequest->approvable instanceof WelfareRequest||
+            $approvalRequest->approvable instanceof MemberExit||
+            $approvalRequest->approvable instanceof MemberShare
         ){
             $approvalRequest
                 ->approvable

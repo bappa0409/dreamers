@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Member;
 use App\Models\MemberExit;
+use App\Services\ApprovalService;
 use App\Services\MemberExitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Cache;
 class MemberExitController extends Controller
 {
     public function __construct(
-        protected MemberExitService $service
+        protected MemberExitService $service,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -215,14 +217,25 @@ class MemberExitController extends Controller
             $validated['member_id']
         );
 
+        $exit=$this->service->initiate(
+            $member,
+            $validated,
+            $request->user()->id
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $exit,
+            'MemberExit',
+            'request',
+            $request->user()->id,
+            'Member exit process requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Member exit process started.',
-            'data'=>$this->service->initiate(
-                $member,
-                $validated,
-                $request->user()->id
-            ),
+            'data'=>$exit,
+            'approval'=>$approval,
         ],201);
     }
 
@@ -273,13 +286,26 @@ class MemberExitController extends Controller
         Request $request,
         MemberExit $memberExit
     ){
+        $validated=$request->validate([
+            'remarks'=>'nullable|string|max:2000',
+        ]);
+
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $memberExit,
+            'MemberExit',
+            'request'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
+            $request->user()->id,
+            $validated['remarks']??null
+        );
+
         return response()->json([
             'success'=>true,
-            'message'=>'Exit request approved.',
-            'data'=>$this->service->approve(
-                $memberExit,
-                $request->user()->id
-            ),
+            'message'=>'Exit approval step completed successfully.',
+            'data'=>$this->service->freshExit($memberExit),
         ]);
     }
 
@@ -292,14 +318,22 @@ class MemberExitController extends Controller
                 'required|string|max:5000',
         ]);
 
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $memberExit,
+            'MemberExit',
+            'request'
+        );
+
+        $this->approvalService->reject(
+            $approvalRequest,
+            $request->user()->id,
+            $validated['rejection_reason']
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Exit request rejected.',
-            'data'=>$this->service->reject(
-                $memberExit,
-                $validated['rejection_reason'],
-                $request->user()->id
-            ),
+            'data'=>$this->service->freshExit($memberExit),
         ]);
     }
 

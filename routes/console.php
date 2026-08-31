@@ -80,3 +80,5 @@ Schedule::call(function () {
     ->monthly()
     ->withoutOverlapping()
     ->onOneServer();
+
+Schedule::command('queue:prune-failed')->weekly();

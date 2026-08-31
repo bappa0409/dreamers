@@ -184,7 +184,7 @@
     ->map(fn($role)=>str($role)->replace('_',' ')->title())
     ->join(', ');
 
-    $unreadNotificationCount=$authUser
+    $unreadNotificationCount=$can('Notification.view')
     ?app(\App\Services\NotificationService::class)->unreadCount($authUser)
     :0;
     @endphp
@@ -417,7 +417,8 @@
 
                     <div class="relative flex shrink-0 items-center gap-2 sm:gap-3">
 
-                        <button type="button" onclick="toggleNotificationMenu(event)"
+                        @if($can('Notification.view'))
+                        <a href="{{ route('admin.notifications') }}"
                             class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
                             title="Notifications">
                             <i class="bi bi-bell text-[16px]"></i>
@@ -425,45 +426,8 @@
                                 class="{{ $unreadNotificationCount>0?'':'hidden' }} absolute right-0.5 top-0.5 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold leading-4 text-white">
                                 {{ $unreadNotificationCount>99?'99+':$unreadNotificationCount }}
                             </span>
-                        </button>
-
-                        <div id="notificationDropdown"
-                            class="absolute right-12 top-[48px] z-50 hidden w-[340px] max-w-[85vw] overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
-
-                            <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-                                <div>
-                                    <h3 class="text-xs font-semibold text-slate-700">Notifications</h3>
-                                    <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-400">
-                                        {{ $unreadNotificationCount>0?$unreadNotificationCount.' unread notification'.($unreadNotificationCount===1?'':'s'):'No unread notifications' }}
-                                    </p>
-                                </div>
-
-                                <button id="notificationMarkAllButton" type="button"
-                                    onclick="event.stopPropagation();markAllNotificationsRead()"
-                                    {{ $unreadNotificationCount<=0?'disabled':'' }}
-                                    class="text-[10px] font-semibold text-sky-600 transition hover:text-sky-700 disabled:cursor-not-allowed disabled:opacity-40">
-                                    Mark all read
-                                </button>
-                            </div>
-
-                            <div id="notificationList" class="max-h-[360px] overflow-y-auto">
-                                <div class="p-8 text-center">
-                                    <div class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
-                                    <p class="mt-2 text-[10px] text-slate-400">Loading notifications...</p>
-                                </div>
-                            </div>
-
-                            @if(Route::has('admin.notifications')&&$can('Notification.view'))
-                            <div class="border-t border-slate-100 bg-slate-50/60 p-2">
-                                <a href="{{ route('admin.notifications') }}"
-                                    class="flex h-9 w-full items-center justify-center gap-2 rounded-md text-[11px] font-semibold text-sky-600 transition hover:bg-sky-50 hover:text-sky-700">
-                                    View All Notifications
-                                    <i class="bi bi-arrow-right text-[10px]"></i>
-                                </a>
-                            </div>
-                            @endif
-
-                        </div>
+                        </a>
+                        @endif
 
                         <div class="hidden h-7 w-px bg-slate-200 sm:block"></div>
 
@@ -617,36 +581,20 @@ function toggleFinanceMenu(){
 
 function toggleUserMenu(event){
     event?.stopPropagation();
-    closeHeaderDropdowns('userDropdown');
     document.getElementById('userDropdown')?.classList.toggle('hidden');
 }
 
-function closeHeaderDropdowns(except=null){
-    ['userDropdown','notificationDropdown'].forEach(id=>{
-        if(id!==except)document.getElementById(id)?.classList.add('hidden');
-    });
-}
-
 document.addEventListener('click',event=>{
-    const userDropdown=document.getElementById('userDropdown');
-    const notifDropdown=document.getElementById('notificationDropdown');
-
-    if(userDropdown&&!userDropdown.contains(event.target)){
-        const userButton=event.target.closest('button[onclick^="toggleUserMenu"]');
-        if(!userButton)userDropdown.classList.add('hidden');
-    }
-
-    if(notifDropdown&&!notifDropdown.contains(event.target)){
-        const notifButton=event.target.closest('button[onclick^="toggleNotificationMenu"]');
-        if(!notifButton)notifDropdown.classList.add('hidden');
-    }
+    const dropdown=document.getElementById('userDropdown');
+    if(!dropdown)return;
+    const button=event.target.closest('button[onclick^="toggleUserMenu"]');
+    if(!button&&!dropdown.contains(event.target))dropdown.classList.add('hidden');
 });
 
 document.addEventListener('keydown',event=>{
     if(event.key!=='Escape')return;
     closeSidebar();
     document.getElementById('userDropdown')?.classList.add('hidden');
-    document.getElementById('notificationDropdown')?.classList.add('hidden');
 });
 
 window.addEventListener('resize',()=>{
@@ -661,260 +609,34 @@ document.querySelectorAll('#sidebar a').forEach(link=>{
     });
 });
 
-const notificationState={
-    unread:@json($unreadNotificationCount),
-    loaded:false,
-    loading:null
-};
-
-function toggleNotificationMenu(event){
-    event.stopPropagation();
-    closeHeaderDropdowns('notificationDropdown');
-
-    const menu=document.getElementById('notificationDropdown');
-    if(!menu)return;
-
-    menu.classList.toggle('hidden');
-
-    if(!menu.classList.contains('hidden')){
-        loadNotifications();
-    }
-}
-
-function updateNotificationBadges(count){
-    count=Math.max(0,Number(count??0));
-    notificationState.unread=count;
-
-    const display=count>99?'99+':String(count);
-    const badge=document.getElementById('notificationBadge');
-    const unreadText=document.getElementById('notificationUnreadText');
-    const markAllButton=document.getElementById('notificationMarkAllButton');
-
-    if(badge){
-        badge.textContent=display;
-        badge.classList.toggle('hidden',count===0);
-    }
-
-    if(unreadText){
-        unreadText.textContent=count
-            ?`${count} unread notification${count===1?'':'s'}`
-            :'No unread notifications';
-    }
-
-    if(markAllButton){
-        markAllButton.disabled=count===0;
-    }
-}
-
-function getNotificationUrl(notification){
-    const raw=
-        notification?.url??
-        notification?.action_url??
-        notification?.data?.url??
-        notification?.data?.action_url??
-        null;
-
-    if(!raw)return null;
-
-    const value=String(raw).trim();
-
-    if(value.startsWith('/')&&!value.startsWith('//')){
-        return value;
-    }
-
-    try{
-        const url=new URL(value,window.location.origin);
-
-        return url.origin===window.location.origin
-            ?url.pathname+url.search+url.hash
-            :null;
-    }catch{
-        return null;
-    }
-}
-
-function renderNotificationItems(notifications){
-    const list=document.getElementById('notificationList');
-    if(!list)return;
-
-    if(!notifications.length){
-        list.innerHTML=`
-            <div class="p-8 text-center">
-                <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-400">
-                    <i class="bi bi-bell"></i>
-                </div>
-                <p class="mt-3 text-xs font-semibold text-slate-600">No notifications</p>
-                <p class="mt-1 text-[10px] text-slate-400">You're all caught up.</p>
-            </div>`;
-        return;
-    }
-
-    list.innerHTML=notifications.map(notification=>{
-        const unread=!notification.read_at;
-        const title=
-            notification.title??
-            notification.data?.title??
-            'Notification';
-        const message=
-            notification.message??
-            notification.data?.message??
-            '';
-
-        return `
-        <button type="button"
-            onclick="openNotification('${notification.id}',${unread?'true':'false'})"
-            class="relative flex w-full gap-3 border-b border-slate-100 px-4 py-3 text-left transition last:border-0 ${unread?'bg-sky-50/40 hover:bg-sky-50/70':'hover:bg-slate-50'}">
-
-            ${unread?`<span class="absolute inset-y-0 left-0 w-[2px] bg-sky-500"></span>`:''}
-
-            <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-bell"></i>
-            </div>
-
-            <div class="min-w-0 flex-1">
-                <div class="flex items-start justify-between gap-2">
-                    <div class="truncate text-xs font-semibold ${unread?'text-slate-800':'text-slate-700'}">
-                        ${AdminUI.escapeHtml(title)}
-                    </div>
-                    ${unread?`<span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-sky-500"></span>`:''}
-                </div>
-
-                <div class="mt-1 line-clamp-2 text-[10px] leading-4 text-slate-400">
-                    ${AdminUI.escapeHtml(message)}
-                </div>
-
-                <div class="mt-1.5 text-[9px] text-slate-400">
-                    <i class="bi bi-clock me-1"></i>
-                    ${AdminUI.formatDate(notification.created_at,true)}
-                </div>
-            </div>
-        </button>`;
-    }).join('');
-}
-
-async function loadNotifications(force=false){
-    const list=document.getElementById('notificationList');
-    if(!list)return;
-
-    if(notificationState.loaded&&!force)return;
-
-    if(notificationState.loading){
-        return notificationState.loading;
-    }
-
-    list.innerHTML=`
-        <div class="p-8 text-center">
-            <div class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
-            <p class="mt-2 text-[10px] text-slate-400">Loading notifications...</p>
-        </div>`;
-
-    notificationState.loading=(async()=>{
-        try{
-            const response=await api('/api/notifications?per_page=8');
-
-            const payload=
-                response.data?.data??
-                response.data??
-                [];
-
-            renderNotificationItems(Array.isArray(payload)?payload:[]);
-
-            notificationState.loaded=true;
-
-        }catch(error){
-            console.error('Notification list error:',error);
-
-            list.innerHTML=`
-                <div class="p-7 text-center">
-                    <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-red-500">
-                        <i class="bi bi-exclamation-circle"></i>
-                    </div>
-                    <p class="mt-2 text-[11px] font-semibold text-red-600">Failed to load notifications</p>
-                    <button type="button" onclick="loadNotifications(true)"
-                        class="mt-3 text-[10px] font-semibold text-sky-600">Try Again</button>
-                </div>`;
-        }finally{
-            notificationState.loading=null;
-        }
-    })();
-
-    return notificationState.loading;
-}
-
-async function openNotification(id,wasUnread){
-    try{
-        const response=await api(
-            `/api/notifications/${id}/read`,
-            {method:'PATCH'}
-        );
-
-        if(wasUnread){
-            updateNotificationBadges(notificationState.unread-1);
-        }
-
-        notificationState.loaded=false;
-
-        const url=getNotificationUrl(response.data??null);
-
-        if(url){
-            window.location.href=url;
-        }else{
-            await loadNotifications(true);
-        }
-
-    }catch(error){
-        console.error('Open notification error:',error);
-
-        window.Toast?.error(
-            AdminUI.extractError(error)
-        );
-    }
-}
-
-async function markAllNotificationsRead(){
-    const button=document.getElementById('notificationMarkAllButton');
-    if(!button||button.disabled)return;
-
-    const original=button.innerHTML;
-    button.disabled=true;
-    button.innerHTML='<i class="bi bi-arrow-repeat animate-spin me-1"></i>Updating...';
-
-    try{
-        await api('/api/notifications/read-all',{method:'PATCH'});
-
-        updateNotificationBadges(0);
-        notificationState.loaded=false;
-
-        await loadNotifications(true);
-
-        window.Toast?.success('All notifications marked as read.');
-
-    }catch(error){
-        console.error('Mark all read error:',error);
-
-        window.Toast?.error(
-            AdminUI.extractError(error)
-        );
-
-    }finally{
-        button.disabled=notificationState.unread===0;
-        button.innerHTML=original;
-    }
-}
-
+@if($can('Notification.view'))
 async function loadNotificationCount(){
+    const badge=document.getElementById('notificationBadge');
+    if(!badge)return;
+
+    const apiFn=window.api??(typeof api==='function'?api:null);
+    if(typeof apiFn!=='function')return;
+
     try{
-        const response=await api('/api/notifications/unread-count');
+        const response=await apiFn('/api/notifications/unread-count');
         const count=response?.data?.count??response?.count??0;
 
-        updateNotificationBadges(count);
+        if(count>0){
+            badge.textContent=count>99?'99+':count;
+            badge.classList.remove('hidden');
+        }else{
+            badge.classList.add('hidden');
+        }
     }catch(error){
         console.error('Notification count error:',error);
     }
 }
+@endif
 
 document.addEventListener('DOMContentLoaded',()=>{
+    @if($can('Notification.view'))
     loadNotificationCount();
+    @endif
 });
     </script>
 

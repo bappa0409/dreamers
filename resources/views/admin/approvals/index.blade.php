@@ -177,6 +177,20 @@
                 </select>
 
 
+                <label
+                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 lg:border-l-0"
+                    title="যাদের turn এখনো আসেনি, সেই approval request গুলো লুকিয়ে রাখবে — শুধু যার approve করার পালা এখন, তার কাছেই দেখাবে।"
+                >
+                    <input
+                        id="myPendingToggle"
+                        type="checkbox"
+                        checked
+                        class="h-3.5 w-3.5 cursor-pointer rounded border-slate-300 text-indigo-600 focus:ring-indigo-400"
+                    >
+                    My Turn Only
+                </label>
+
+
                 <button
                     type="button"
                     onclick="clearFilters()"
@@ -501,12 +515,60 @@ const canCancel=@json(
     auth()->user()->hasPermission('Approval.update')
 );
 
+const currentUserId=@json(
+    auth()->user()->id
+);
+
+let myPendingOnly=true;
+
 const el={
     table:document.getElementById('approvalsTable'),
     search:document.getElementById('searchInput'),
     statusFilter:document.getElementById('statusFilter'),
+    myPendingToggle:document.getElementById('myPendingToggle'),
     pagination:document.getElementById('paginationContainer')
 };
+
+
+/*
+|--------------------------------------------------------------------------
+| Turn Helpers
+|--------------------------------------------------------------------------
+|
+| An approval moves through its steps one at a time (current_step).
+| A step's approver should only see/act on the request once every
+| earlier step has been approved and it becomes the current step.
+*/
+
+function currentStepOf(approval){
+    if(!Array.isArray(approval.steps)){
+        return null;
+    }
+
+    return approval.steps.find(
+        step=>
+            Number(step.step_no)===
+            Number(approval.current_step)
+    )??null;
+}
+
+function isMyTurn(approval){
+    if(approval.status!=='pending'){
+        return false;
+    }
+
+    const step=currentStepOf(approval);
+
+    if(!step){
+        return false;
+    }
+
+    return(
+        step.status==='pending'&&
+        Number(step.approver_user_id)===
+        Number(currentUserId)
+    );
+}
 
 
 /*
@@ -528,6 +590,7 @@ async function loadApprovals(page=1){
         AdminUI.query({
             search:el.search.value.trim(),
             status:el.statusFilter.value,
+            my_pending:myPendingOnly?'1':'',
             page
         });
 
@@ -761,6 +824,8 @@ function renderApprovals(){
                         ${statusBadge(
                             approval.status
                         )}
+
+                        ${stepHint(approval)}
                     </td>
 
 
@@ -779,7 +844,7 @@ function renderApprovals(){
 
 
                             ${
-                                canApprove&&pending
+                                canApprove&&pending&&isMyTurn(approval)
                                     ?`
                                         <button
                                             type="button"
@@ -795,7 +860,7 @@ function renderApprovals(){
 
 
                             ${
-                                canReject&&pending
+                                canReject&&pending&&isMyTurn(approval)
                                     ?`
                                         <button
                                             type="button"
@@ -895,6 +960,46 @@ function statusBadge(status){
                 )}
             </span>
         </span>
+    `;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Step Hint (which approver's turn it currently is)
+|--------------------------------------------------------------------------
+*/
+
+function stepHint(approval){
+    if(approval.status!=='pending'){
+        return '';
+    }
+
+    const step=currentStepOf(approval);
+
+    if(!step){
+        return '';
+    }
+
+    const label=
+        isMyTurn(approval)
+            ?'Your turn'
+            :(
+                step.approver?.name??
+                'Awaiting approver'
+            );
+
+    return `
+        <p
+            class="mt-1 truncate text-[10px] ${
+                isMyTurn(approval)
+                    ?'font-semibold text-emerald-600'
+                    :'text-slate-400'
+            }"
+            title="Step ${step.step_no} of ${approval.total_steps??'?'}"
+        >
+            Step ${step.step_no}/${approval.total_steps??'?'} · ${AdminUI.escapeHtml(label)}
+        </p>
     `;
 }
 
@@ -1039,6 +1144,79 @@ function buildApprovalDetail(approval){
                     :''
             }
 
+
+            ${stepsBlock(approval)}
+
+        </div>
+    `;
+}
+
+
+function stepsBlock(approval){
+    if(!Array.isArray(approval.steps)||!approval.steps.length){
+        return '';
+    }
+
+    const badges={
+        approved:'bg-emerald-50 text-emerald-700',
+        rejected:'bg-red-50 text-red-700',
+        pending:'bg-amber-50 text-amber-700'
+    };
+
+    const rows=approval.steps
+        .slice()
+        .sort((a,b)=>a.step_no-b.step_no)
+        .map(step=>{
+            const isCurrent=
+                approval.status==='pending'&&
+                Number(step.step_no)===
+                Number(approval.current_step);
+
+            return `
+                <div class="flex items-center justify-between gap-3 rounded-md border ${
+                    isCurrent
+                        ?'border-indigo-200 bg-indigo-50/60'
+                        :'border-slate-200 bg-white'
+                } px-3 py-2">
+
+                    <div class="min-w-0">
+                        <p class="truncate text-xs font-semibold text-slate-700">
+                            Step ${step.step_no}: ${AdminUI.escapeHtml(
+                                step.approver?.name??'Unassigned'
+                            )}
+                        </p>
+
+                        ${
+                            step.acted_at
+                                ?`
+                                    <p class="mt-0.5 text-[10px] text-slate-400">
+                                        ${AdminUI.formatDate(step.acted_at,true)}
+                                    </p>
+                                `
+                                :''
+                        }
+                    </div>
+
+                    <span class="shrink-0 rounded-md px-2 py-1 text-[10px] font-semibold capitalize ${
+                        badges[step.status]??'bg-slate-100 text-slate-600'
+                    }">
+                        ${AdminUI.escapeHtml(step.status)}
+                    </span>
+
+                </div>
+            `;
+        })
+        .join('');
+
+    return `
+        <div>
+            <p class="mb-2 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                Approval Steps
+            </p>
+
+            <div class="space-y-2">
+                ${rows}
+            </div>
         </div>
     `;
 }
@@ -1491,6 +1669,9 @@ function clearFilters(){
     el.search.value='';
     el.statusFilter.value='';
 
+    myPendingOnly=true;
+    el.myPendingToggle.checked=true;
+
     loadApprovals(1);
 }
 
@@ -1525,7 +1706,27 @@ async function initApprovalPage(){
 
     el.statusFilter.addEventListener(
         'change',
-        ()=>loadApprovals(1)
+        ()=>{
+            const value=el.statusFilter.value;
+
+            if(value&&value!=='pending'&&myPendingOnly){
+                myPendingOnly=false;
+                el.myPendingToggle.checked=false;
+            }
+
+            loadApprovals(1);
+        }
+    );
+
+
+    el.myPendingToggle.addEventListener(
+        'change',
+        ()=>{
+            myPendingOnly=
+                el.myPendingToggle.checked;
+
+            loadApprovals(1);
+        }
     );
 
 

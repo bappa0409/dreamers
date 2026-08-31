@@ -23,6 +23,7 @@ class Account extends Model
         'opening_balance',
         'is_system',
         'is_active',
+        'approval_status',
         'description',
     ];
 

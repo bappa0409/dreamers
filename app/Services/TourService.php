@@ -97,7 +97,13 @@ class TourService
         });
     }
 
-    public function approve(Tour $tour,int $userId): Tour
+    /**
+     * Finalize a tour approval. Called by ApprovalService::executeApprovedAction()
+     * once the module=Tour, action=approve workflow has been fully signed off.
+     * $decisionData is accepted for consistency with the other modules but this
+     * module doesn't currently need any approver-supplied fields.
+     */
+    public function finalizeApproval(Tour $tour,array $decisionData,int $userId): Tour
     {
         return DB::transaction(function()use($tour,$userId){
             $tour=Tour::query()
@@ -128,6 +134,43 @@ class TourService
                 'audience_type'=>'all_active_members',
                 'action_url'=>$this->memberTourUrl($tour),
                 'sent_by'=>$userId
+            ]);
+
+            $this->forgetCache();
+
+            return $this->fresh($tour);
+        });
+    }
+
+    /**
+     * Finalize a tour rejection. Called by ApprovalService::executeRejectedAction().
+     * The Tour table has no rejection_reason column, so the reason is appended
+     * to notes (matching how LoanService::cancel() already records its actor note).
+     */
+    public function finalizeRejection(
+        Tour $tour,
+        string $reason,
+        int $userId
+    ): Tour{
+        return DB::transaction(function()use($tour,$reason,$userId){
+            $tour=Tour::query()
+                ->whereKey($tour->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($tour->status!=='draft'){
+                throw ValidationException::withMessages([
+                    'tour'=>['Only draft tours can be rejected.']
+                ]);
+            }
+
+            $tour->update([
+                'status'=>'cancelled',
+                'notes'=>trim(
+                    ($tour->notes?($tour->notes."\n"):'').
+                    'Rejected by user #'.$userId.' on '.now().
+                    ($reason?(': '.$reason):'')
+                )
             ]);
 
             $this->forgetCache();
@@ -675,7 +718,7 @@ class TourService
         );
     }
 
-    protected function fresh(Tour $tour): Tour
+    public function fresh(Tour $tour): Tour
     {
         return $tour->fresh([
             'creator:id,name,email',

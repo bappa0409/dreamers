@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\MemberShare;
+use App\Services\ApprovalService;
 use App\Services\MemberShareService;
 use Illuminate\Http\Request;
 
 class MemberShareController extends Controller
 {
     public function __construct(
-        protected MemberShareService $memberShareService
+        protected MemberShareService $memberShareService,
+        protected ApprovalService $approvalService
     ) {}
 
     public function index(Member $member)
@@ -39,10 +41,19 @@ class MemberShareController extends Controller
             $request->user()->id
         );
 
+        $approval = $this->approvalService->createRequest(
+            $share,
+            'MemberShare',
+            'request',
+            $request->user()->id,
+            'New share purchase requires approval.'
+        );
+
         return response()->json([
             'success' => true,
             'message' => 'Share purchase submitted for verification.',
             'data' => $share,
+            'approval' => $approval,
         ], 201);
     }
 
@@ -119,10 +130,19 @@ class MemberShareController extends Controller
             $request->user()->id
         );
 
+        $approval = $this->approvalService->createRequest(
+            $share,
+            'MemberShare',
+            'request',
+            $request->user()->id,
+            'New share purchase requires approval.'
+        );
+
         return response()->json([
             'success' => true,
             'message' => 'Share purchase submitted for verification.',
             'data' => $share,
+            'approval' => $approval,
         ], 201);
     }
 
@@ -134,16 +154,28 @@ class MemberShareController extends Controller
             'note' => 'nullable|string|max:3000',
         ]);
 
-        $share = $this->memberShareService->verify(
+        $approvalRequest = $this->approvalService->findPendingRequestFor(
             $memberShare,
+            'MemberShare',
+            'request'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
             $request->user()->id,
-            $validated['note'] ?? null
+            $validated['note'] ?? null,
+            $validated['note'] ? ['note' => $validated['note']] : []
         );
 
         return response()->json([
             'success' => true,
-            'message' => 'Share purchase verified successfully.',
-            'data' => $share,
+            'message' => 'Share verification step completed successfully.',
+            'data' => $memberShare->fresh([
+                'member.user',
+                'creator',
+                'verifier',
+                'financeTransaction.entries.account',
+            ]),
         ]);
     }
 
@@ -155,8 +187,14 @@ class MemberShareController extends Controller
             'note' => 'required|string|max:3000',
         ]);
 
-        $share = $this->memberShareService->reject(
+        $approvalRequest = $this->approvalService->findPendingRequestFor(
             $memberShare,
+            'MemberShare',
+            'request'
+        );
+
+        $this->approvalService->reject(
+            $approvalRequest,
             $request->user()->id,
             $validated['note']
         );
@@ -164,7 +202,11 @@ class MemberShareController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Share purchase rejected.',
-            'data' => $share,
+            'data' => $memberShare->fresh([
+                'member.user',
+                'creator',
+                'verifier',
+            ]),
         ]);
     }
 

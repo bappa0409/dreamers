@@ -253,14 +253,20 @@ class WelfareService
         });
     }
 
-    public function approve(
+    /**
+     * Finalize a welfare-request approval. Called by
+     * ApprovalService::executeApprovedAction() once the module=Welfare,
+     * action=request workflow has been fully signed off. $decisionData
+     * carries the approved_amount submitted by the final approver.
+     */
+    public function finalizeApproval(
         WelfareRequest $request,
-        float $approvedAmount,
+        array $decisionData,
         int $userId
     ): WelfareRequest{
         return DB::transaction(function()use(
             $request,
-            $approvedAmount,
+            $decisionData,
             $userId
         ){
             $request=$this->lockRequest($request);
@@ -289,7 +295,7 @@ class WelfareService
             }
 
             $approvedAmount=round(
-                $approvedAmount,
+                (float)($decisionData['approved_amount']??0),
                 2
             );
 
@@ -353,7 +359,11 @@ class WelfareService
         });
     }
 
-    public function reject(
+    /**
+     * Finalize a welfare-request rejection. Called by
+     * ApprovalService::executeRejectedAction().
+     */
+    public function finalizeRejection(
         WelfareRequest $request,
         string $reason,
         int $userId
@@ -1019,7 +1029,7 @@ class WelfareService
         });
     }
 
-    protected function freshRequest(
+    public function freshRequest(
         WelfareRequest $request
     ): WelfareRequest{
         return $request->fresh([

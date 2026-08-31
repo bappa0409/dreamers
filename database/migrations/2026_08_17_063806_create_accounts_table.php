@@ -21,12 +21,15 @@ return new class extends Migration
             $table->decimal('opening_balance', 15, 2)->default(0);
             $table->boolean('is_system')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->enum('approval_status', ['pending', 'approved', 'rejected', 'cancelled'])
+                ->default('approved');
             $table->text('description')->nullable();
             $table->timestamps();
             
             $table->index(['type', 'is_active']);
             $table->index(['parent_id', 'is_active']);
             $table->index(['is_system', 'is_active']);
+            $table->index(['approval_status']);
         });
     }
 

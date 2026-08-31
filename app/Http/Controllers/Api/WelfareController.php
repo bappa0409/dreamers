@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\WelfareDocument;
 use App\Models\WelfareFund;
 use App\Models\WelfareRequest;
+use App\Services\ApprovalService;
 use App\Services\WelfareService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,8 @@ use Illuminate\Validation\Rule;
 class WelfareController extends Controller
 {
     public function __construct(
-        protected WelfareService $service
+        protected WelfareService $service,
+        protected ApprovalService $approvalService
     ){}
 
     public function statistics()
@@ -299,13 +301,24 @@ class WelfareController extends Controller
             'request_date'=>'nullable|date_format:Y-m-d'
         ]);
 
+        $welfareRequest=$this->service->createRequest(
+            $data,
+            $request->user()->id
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $welfareRequest,
+            'Welfare',
+            'request',
+            $request->user()->id,
+            'New welfare assistance request requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Welfare request created.',
-            'data'=>$this->service->createRequest(
-                $data,
-                $request->user()->id
-            )
+            'data'=>$welfareRequest,
+            'approval'=>$approval
         ],201);
     }
 
@@ -350,17 +363,29 @@ class WelfareController extends Controller
     ){
         $data=$request->validate([
             'approved_amount'=>
-                'required|numeric|min:0.01'
+                'required|numeric|min:0.01',
+            'remarks'=>'nullable|string|max:2000'
         ]);
+
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $welfareRequest,
+            'Welfare',
+            'request'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
+            $request->user()->id,
+            $data['remarks']??null,
+            [
+                'approved_amount'=>$data['approved_amount']
+            ]
+        );
 
         return response()->json([
             'success'=>true,
-            'message'=>'Welfare request approved.',
-            'data'=>$this->service->approve(
-                $welfareRequest,
-                (float)$data['approved_amount'],
-                $request->user()->id
-            )
+            'message'=>'Welfare approval step completed successfully.',
+            'data'=>$this->service->freshRequest($welfareRequest)
         ]);
     }
 
@@ -373,14 +398,22 @@ class WelfareController extends Controller
                 'required|string|max:5000'
         ]);
 
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $welfareRequest,
+            'Welfare',
+            'request'
+        );
+
+        $this->approvalService->reject(
+            $approvalRequest,
+            $request->user()->id,
+            $data['rejection_reason']
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Welfare request rejected.',
-            'data'=>$this->service->reject(
-                $welfareRequest,
-                $data['rejection_reason'],
-                $request->user()->id
-            )
+            'data'=>$this->service->freshRequest($welfareRequest)
         ]);
     }
 

@@ -112,11 +112,6 @@
                         <label class="form-label">Module *</label>
                         <select id="module" class="app-input cursor-pointer">
                             <option value="">Select Module</option>
-                            <option value="Member">Member</option>
-                            <option value="Investment">Investment</option>
-                            <option value="Land">Land</option>
-                            <option value="Project">Project</option>
-                            <option value="Notice">Notice</option>
                         </select>
                     </div>
 
@@ -124,9 +119,6 @@
                         <label class="form-label">Action *</label>
                         <select id="action" class="app-input cursor-pointer">
                             <option value="">Select Action</option>
-                            <option value="create">Create</option>
-                            <option value="update">Update</option>
-                            <option value="delete">Delete</option>
                         </select>
                     </div>
                 </div>
@@ -192,6 +184,7 @@
 let workflows=[];
 let users=[];
 let editingWorkflow=null;
+let wiredModuleActions={};
 
 const canUpdate=@json(auth()->user()->hasPermission('Approval.update'));
 
@@ -215,11 +208,47 @@ async function loadWorkflows(){
     try{
         const response=await api('/api/approval-workflows');
         workflows=Array.isArray(response.data)?response.data:[];
+        wiredModuleActions=response.wired_module_actions??{};
+        renderModuleOptions();
         renderWorkflows();
     }catch(error){
         el.table.innerHTML=AdminUI.emptyState(AdminUI.extractError(error),5);
     }
 }
+
+function renderModuleOptions(){
+    const current=el.module.value;
+
+    el.module.innerHTML='<option value="">Select Module</option>';
+
+    Object.keys(wiredModuleActions).forEach(module=>{
+        const option=document.createElement('option');
+        option.value=module;
+        option.textContent=module;
+        el.module.appendChild(option);
+    });
+
+    el.module.value=current;
+    renderActionOptions(el.module.value);
+}
+
+function renderActionOptions(module){
+    const current=el.action.value;
+    const actions=wiredModuleActions[module]??[];
+
+    el.action.innerHTML='<option value="">Select Action</option>';
+
+    actions.forEach(action=>{
+        const option=document.createElement('option');
+        option.value=action;
+        option.textContent=AdminUI.titleCase(action);
+        el.action.appendChild(option);
+    });
+
+    el.action.value=actions.includes(current)?current:'';
+}
+
+el.module.addEventListener('change',()=>renderActionOptions(el.module.value));
 
 async function loadUsers(){
     try{
@@ -339,6 +368,7 @@ window.openWorkflowModal=function(workflow=null){
 
     AdminUI.resetForm(el.form);
     AdminUI.clearError('workflowError');
+    renderActionOptions(''); // নতুন — stale action list খালি করে দেয়
 
     document.getElementById('workflowModalTitle').innerText=
         workflow?'Edit Workflow':'Add Workflow';
@@ -350,6 +380,7 @@ window.openWorkflowModal=function(workflow=null){
 
     if(workflow){
         el.module.value=workflow.module??'';
+        renderActionOptions(workflow.module??''); // নতুন
         el.action.value=workflow.action??'';
         el.isActive.checked=Boolean(workflow.is_active);
 

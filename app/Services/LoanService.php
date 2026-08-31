@@ -107,9 +107,16 @@ class LoanService
         });
     }
 
-    public function approve(Loan $loan,array $data,int $userId): Loan
+    /**
+     * Finalize a loan approval. Called by ApprovalService::executeApprovedAction()
+     * once the generic multi-step approval workflow configured for module=Loan,
+     * action=request has been fully signed off. $decisionData carries the
+     * approved_amount/interest_rate/duration_months submitted by the final
+     * approver (see ApprovalService::approve()'s $decisionData argument).
+     */
+    public function finalizeApproval(Loan $loan,array $decisionData,int $userId): Loan
     {
-        return DB::transaction(function()use($loan,$data,$userId){
+        return DB::transaction(function()use($loan,$decisionData,$userId){
             $loan=Loan::query()
                 ->whereKey($loan->id)
                 ->lockForUpdate()
@@ -135,7 +142,7 @@ class LoanService
             $this->ensureNoOutstandingLoan($member,$loan->id);
 
             $approvedAmount=round(
-                (float)($data['approved_amount']??$loan->requested_amount),
+                (float)($decisionData['approved_amount']??$loan->requested_amount),
                 2
             );
 
@@ -156,7 +163,7 @@ class LoanService
             $this->validateMaximumAmount($approvedAmount);
 
             $interestRate=round(
-                (float)($data['interest_rate']
+                (float)($decisionData['interest_rate']
                     ??setting('loan_default_interest_rate',10)),
                 4
             );
@@ -167,7 +174,7 @@ class LoanService
                 ]);
             }
 
-            $duration=(int)($data['duration_months']
+            $duration=(int)($decisionData['duration_months']
                 ??setting('loan_default_duration_months',12));
 
             if($duration<1||$duration>120){
@@ -224,7 +231,11 @@ class LoanService
         });
     }
 
-    public function reject(
+    /**
+     * Finalize a loan rejection. Called by ApprovalService::executeRejectedAction()
+     * once any step in the module=Loan, action=request workflow rejects the request.
+     */
+    public function finalizeRejection(
         Loan $loan,
         string $reason,
         int $userId
@@ -794,7 +805,7 @@ class LoanService
         });
     }
 
-    protected function freshLoan(Loan $loan): Loan
+    public function freshLoan(Loan $loan): Loan
     {
         return $loan->fresh([
             'member.user:id,name,email',

@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Member;
 use App\Models\Tour;
+use App\Services\ApprovalService;
 use App\Services\TourService;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
-    public function __construct(protected TourService $tourService){}
+    public function __construct(
+        protected TourService $tourService,
+        protected ApprovalService $approvalService
+    ){}
 
     public function index(Request $request)
     {
@@ -101,10 +105,21 @@ class TourController extends Controller
             'notes'=>'nullable|string|max:5000'
         ]);
 
+        $tour=$this->tourService->create($data,$request->user()->id);
+
+        $approval=$this->approvalService->createRequest(
+            $tour,
+            'Tour',
+            'approve',
+            $request->user()->id,
+            'New tour requires approval before it is announced.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Tour created successfully.',
-            'data'=>$this->tourService->create($data,$request->user()->id)
+            'data'=>$tour,
+            'approval'=>$approval
         ],201);
     }
 
@@ -129,10 +144,26 @@ class TourController extends Controller
 
     public function approve(Request $request,Tour $tour)
     {
+        $validated=$request->validate([
+            'remarks'=>'nullable|string|max:2000'
+        ]);
+
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $tour,
+            'Tour',
+            'approve'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
+            $request->user()->id,
+            $validated['remarks']??null
+        );
+
         return response()->json([
             'success'=>true,
-            'message'=>'Tour approved successfully.',
-            'data'=>$this->tourService->approve($tour,$request->user()->id)
+            'message'=>'Tour approval step completed successfully.',
+            'data'=>$this->tourService->fresh($tour)
         ]);
     }
 
