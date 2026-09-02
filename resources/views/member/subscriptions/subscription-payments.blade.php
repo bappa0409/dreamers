@@ -16,20 +16,20 @@
                 <i class="bi bi-calendar2-check"></i>
             </div>
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">Subscription Payments</h1>
-                <p class="mt-0.5 text-xs text-slate-500">View submitted, verified and rejected subscription payments.</p>
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">Subscription Payments</h1>
+                <p class="mt-0.5 text-sm text-slate-500">View submitted, verified and rejected subscription payments.</p>
             </div>
         </div>
 
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('member.subscriptions') }}"
-               class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+               class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
                 <i class="bi bi-calendar2-check"></i>
                 Monthly Dues
             </a>
 
             <button id="paymentRefreshButton" type="button" onclick="loadPayments(currentPage)"
-                    class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">
+                    class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">
                 <i class="bi bi-arrow-clockwise"></i>
                 Refresh
             </button>
@@ -105,7 +105,7 @@
             <div class="lg:col-span-5">
                 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="paymentSearch" type="text"
                            placeholder="Payment no. or transaction reference..."
                            class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
@@ -144,7 +144,7 @@
 
             <div class="lg:col-span-1">
                 <button type="button" onclick="clearPaymentFilters()"
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Clear
                 </button>
             </div>
@@ -158,7 +158,7 @@
                 <i class="bi bi-receipt-cutoff"></i>
             </div>
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">Payment History</h2>
+                <h2 class="text-base font-semibold text-slate-800">Payment History</h2>
                 <p class="text-[11px] text-slate-400">Subscription payment submissions and verification status</p>
             </div>
         </div>
@@ -180,7 +180,7 @@
 
                 <tbody id="paymentHistory" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-14 text-center text-xs text-slate-400">
+                        <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
                             Loading payment history...
                         </td>
                     </tr>
@@ -203,7 +203,7 @@
                 </div>
                 <div>
                     <h3 class="text-base font-bold text-slate-800">Payment Details</h3>
-                    <p class="text-xs text-slate-400">Subscription payment information</p>
+                    <p class="text-sm text-slate-400">Subscription payment information</p>
                 </div>
             </div>
 
@@ -217,7 +217,7 @@
 
         <div class="flex justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
             <button type="button" onclick="closePaymentDetails()"
-                    class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                    class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -282,7 +282,7 @@ async function loadPayments(page=1){
         <tr>
             <td colspan="8" class="px-4 py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-emerald-600"></div>
-                <p class="mt-3 text-xs text-slate-400">Loading payment history...</p>
+                <p class="mt-3 text-sm text-slate-400">Loading payment history...</p>
             </td>
         </tr>`;
 
@@ -317,7 +317,7 @@ async function loadPayments(page=1){
                     <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-red-500">
                         <i class="bi bi-exclamation-circle"></i>
                     </div>
-                    <p class="mt-3 text-xs font-semibold text-red-600">
+                    <p class="mt-3 text-sm font-semibold text-red-600">
                         Failed to load payment history
                     </p>
                     <p class="mt-1 text-[10px] text-red-400">
@@ -350,7 +350,7 @@ function renderPayments(){
                     <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                         <i class="bi bi-receipt"></i>
                     </div>
-                    <p class="mt-3 text-xs font-semibold text-slate-600">No payments found</p>
+                    <p class="mt-3 text-sm font-semibold text-slate-600">No payments found</p>
                     <p class="mt-1 text-[10px] text-slate-400">No payment matches the current filters.</p>
                 </td>
             </tr>`;
@@ -360,16 +360,16 @@ function renderPayments(){
     tbody.innerHTML=payments.map(payment=>`
         <tr class="transition hover:bg-slate-50">
             <td class="whitespace-nowrap px-4 py-3">
-                <span class="font-mono text-xs font-semibold text-indigo-600">
+                <span class="font-mono text-sm font-semibold text-indigo-600">
                     ${escapeHtml(payment.payment_no??'-')}
                 </span>
             </td>
 
-            <td class="whitespace-nowrap px-4 py-3 text-xs text-slate-600">
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
                 ${payment.due?`${monthName(payment.due.month)} ${payment.due.year}`:'-'}
             </td>
 
-            <td class="whitespace-nowrap px-4 py-3 text-right text-xs font-bold text-slate-700">
+            <td class="whitespace-nowrap px-4 py-3 text-right text-sm font-bold text-slate-700">
                 ${money(payment.amount)}
             </td>
 
@@ -378,13 +378,13 @@ function renderPayments(){
             </td>
 
             <td class="max-w-[180px] px-4 py-3">
-                <p class="truncate text-xs text-slate-500"
+                <p class="truncate text-sm text-slate-500"
                    title="${escapeAttribute(payment.transaction_reference??'')}">
                     ${escapeHtml(payment.transaction_reference??'-')}
                 </p>
             </td>
 
-            <td class="whitespace-nowrap px-4 py-3 text-xs text-slate-500">
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-500">
                 ${formatDateTime(payment.paid_at)}
             </td>
 
@@ -502,7 +502,7 @@ window.viewPayment=function(id){
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Verification Note
                             </p>
-                            <p class="mt-2 whitespace-pre-line text-xs leading-5 ${
+                            <p class="mt-2 whitespace-pre-line text-sm leading-5 ${
                                 payment.status==='rejected'
                                     ?'text-red-700'
                                     :'text-slate-600'
@@ -539,7 +539,7 @@ function detailRow(label,value){
     return`
         <div class="flex flex-col gap-1 border-b border-slate-100 px-4 py-3 last:border-0 sm:flex-row sm:items-center sm:justify-between">
             <span class="text-[11px] text-slate-500">${escapeHtml(label)}</span>
-            <span class="text-xs font-semibold text-slate-700">${escapeHtml(value??'-')}</span>
+            <span class="text-sm font-semibold text-slate-700">${escapeHtml(value??'-')}</span>
         </div>`;
 }
 
@@ -567,7 +567,7 @@ function paymentMethodBadge(method){
     };
 
     return`
-        <span class="inline-flex items-center gap-1.5 text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
             <i class="bi ${icons[method]??'bi-credit-card'} text-slate-400"></i>
             ${escapeHtml(titleCase(method))}
         </span>`;

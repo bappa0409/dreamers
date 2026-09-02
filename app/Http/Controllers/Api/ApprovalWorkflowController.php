@@ -21,12 +21,33 @@ class ApprovalWorkflowController extends Controller
      */
     public const WIRED_MODULE_ACTIONS = [
         'Member' => ['create'],
-        'Loan' => ['approve'],
-        'Welfare' => ['approve'],
-        'MemberExit' => ['approve'],
-        'MemberShare' => ['verify'],
+        // NOTE: LoanController/WelfareController always create/look up
+        // their ApprovalRequest with action='request' — must match, or
+        // the finalize logic in ApprovalService never runs.
+        'Loan' => ['request'],
+        'Welfare' => ['request'],
+        // NOTE: MemberExitController::store()/approve()/reject() all use
+        // action='request' when creating/looking up the ApprovalRequest —
+        // this must match, or the finalize logic below never runs even
+        // after a full approval.
+        'MemberExit' => ['request'],
+        // NOTE: purchase flow (MemberShareController::store()/purchase())
+        // creates the ApprovalRequest with action 'request' — see
+        // ApprovalService::createRequest()/findPendingRequestFor() and
+        // executeApprovedAction()/executeRejectedAction(), which all match
+        // on 'request'. This used to say 'verify', so any workflow built
+        // through this dropdown could never match the request actually
+        // created, causing every purchase to silently auto-approve
+        // instead of going through the configured approvers.
+        'MemberShare' => ['request'],
         'Tour' => ['approve'],
         'Account' => ['create', 'update', 'delete'],
+        'Income' => ['create'],
+        'Expense' => ['create'],
+        'SubscriptionPayment' => ['verify'],
+        'Charge' => ['create'],
+        'Asset' => ['create'],
+        'JournalEntry' => ['create'],
     ];
 
     public function index()

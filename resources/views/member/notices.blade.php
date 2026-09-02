@@ -15,11 +15,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     Association Notices
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     View announcements, events and important association updates.
                 </p>
             </div>
@@ -28,7 +28,7 @@
         <button
             type="button"
             onclick="loadNotices(1)"
-            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -41,7 +41,7 @@
         </div>
 
         <div>
-            <p class="text-xs font-semibold text-indigo-800">
+            <p class="text-sm font-semibold text-indigo-800">
                 Association Communication
             </p>
 
@@ -138,7 +138,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -216,7 +216,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Clear
                 </button>
             </div>
@@ -233,7 +233,7 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Published Notices
                 </h2>
 
@@ -250,7 +250,7 @@
             <div class="col-span-full py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-xs text-slate-400">
+                <p class="mt-3 text-sm text-slate-400">
                     Loading notices...
                 </p>
             </div>
@@ -308,7 +308,7 @@
             <button
                 type="button"
                 onclick="closeNoticeModal()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
@@ -356,7 +356,7 @@ async function loadNotices(page=1){
 
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-xs text-slate-400">
+            <p class="mt-3 text-sm text-slate-400">
                 Loading notices...
             </p>
 
@@ -447,11 +447,11 @@ async function loadNotices(page=1){
                     <i class="bi bi-exclamation-circle text-lg"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-red-600">
+                <p class="mt-3 text-base font-semibold text-red-600">
                     Failed to load notices
                 </p>
 
-                <p class="mt-1 text-xs text-red-400">
+                <p class="mt-1 text-sm text-red-400">
                     ${escapeValue(
                         extractError(
                             error
@@ -462,7 +462,7 @@ async function loadNotices(page=1){
                 <button
                     type="button"
                     onclick="loadNotices(${currentPage})"
-                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
 
                     <i class="bi bi-arrow-clockwise"></i>
 
@@ -528,11 +528,11 @@ function renderNotices(){
                     <i class="bi bi-megaphone text-xl"></i>
                 </div>
 
-                <p class="mt-4 text-sm font-semibold text-slate-700">
+                <p class="mt-4 text-base font-semibold text-slate-700">
                     No notices found
                 </p>
 
-                <p class="mt-1 text-xs text-slate-400">
+                <p class="mt-1 text-sm text-slate-400">
                     No published notices match your current filters.
                 </p>
 
@@ -593,7 +593,7 @@ function renderNotices(){
                                             ${priorityBadge(priority)}
                                         </div>
 
-                                        <h3 class="text-sm font-bold leading-6 text-slate-800">
+                                        <h3 class="text-base font-bold leading-6 text-slate-800">
                                             ${escapeValue(
                                                 item.title??
                                                 'Untitled Notice'
@@ -606,7 +606,7 @@ function renderNotices(){
 
                             </div>
 
-                            <p class="line-clamp-3 whitespace-pre-line text-xs leading-6 text-slate-500">
+                            <p class="line-clamp-3 whitespace-pre-line text-sm leading-6 text-slate-500">
                                 ${escapeValue(body)}
                             </p>
 
@@ -848,7 +848,7 @@ window.openNoticeModal=function(id){
 
                 <div class="border-b border-slate-200 px-5 py-4">
 
-                    <h3 class="text-sm font-semibold text-slate-800">
+                    <h3 class="text-base font-semibold text-slate-800">
                         Notice Content
                     </h3>
 
@@ -860,7 +860,7 @@ window.openNoticeModal=function(id){
 
                 <div class="p-5">
 
-                    <div class="whitespace-pre-line break-words text-sm leading-7 text-slate-600">
+                    <div class="whitespace-pre-line break-words text-base leading-7 text-slate-600">
                         ${escapeValue(
                             stripHtml(
                                 item.content??
@@ -888,7 +888,7 @@ window.openNoticeModal=function(id){
 
                                     <div class="min-w-0">
 
-                                        <p class="text-xs font-semibold text-slate-700">
+                                        <p class="text-sm font-semibold text-slate-700">
                                             Attachment
                                         </p>
 

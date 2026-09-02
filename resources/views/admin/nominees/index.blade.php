@@ -14,13 +14,13 @@
         </div>
         <div>
             <h1 class="text-base font-bold text-slate-800">Nominee Management</h1>
-            <p class="text-sm text-slate-500">Manage nominee information, allocations, identity and verification.</p>
+            <p class="text-xs text-slate-500">Manage nominee information, allocations, identity and verification.</p>
         </div>
     </div>
 
     @if(auth()->user()->hasPermission('Nominee.create'))
     <button type="button" onclick="openNomineeModal()"
-        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
         <i class="bi bi-person-plus"></i>
         Add Nominee
     </button>
@@ -74,7 +74,7 @@
                 <p id="{{ $stat['id'] }}" class="mt-2 text-xl font-bold {{ $stat['text'] }}">0</p>
             </div>
             <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $stat['iconbox'] }}">
-                <i class="bi {{ $stat['icon'] }} text-sm"></i>
+                <i class="bi {{ $stat['icon'] }} text-base"></i>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
     <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div class="flex items-center gap-2">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-sm"></i>
+                <i class="bi bi-search text-base"></i>
             </div>
             <div>
                 <p class="text-sm font-semibold text-slate-700">Search Nominees</p>
@@ -96,13 +96,13 @@
 
         <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[280px_160px_140px_auto] lg:gap-0">
             <div class="relative sm:col-span-2 lg:col-span-1">
-                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                 <input id="searchInput" type="text" placeholder="Search nominee..."
                     class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
             </div>
 
             <select id="verificationFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Verification</option>
                 <option value="unverified">Unverified</option>
                 <option value="pending">Pending</option>
@@ -111,14 +111,14 @@
             </select>
 
             <select id="activeFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Status</option>
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
             </select>
 
             <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                 <i class="bi bi-x-lg text-[10px]"></i>
                 Clear
             </button>
@@ -132,20 +132,20 @@
         <table class="w-full min-w-[1000px] text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Nominee</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Relationship</th>
-                    <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Allocation</th>
-                    <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Priority</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Verification</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                    <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Nominee</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Relationship</th>
+                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Allocation</th>
+                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Priority</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Verification</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                 </tr>
             </thead>
 
             <tbody id="nomineeTableBody" class="divide-y divide-slate-100">
                 <tr>
-                    <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">Loading nominees...</td>
+                    <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading nominees...</td>
                 </tr>
             </tbody>
         </table>
@@ -154,7 +154,7 @@
 
 {{-- Mobile Cards --}}
 <div id="nomineeMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
         Loading nominees...
     </div>
 </div>
@@ -172,8 +172,8 @@
                 <i class="bi bi-person-heart"></i>
             </div>
             <div>
-                <h3 id="nomineeModalTitle" class="text-lg font-bold text-slate-800">Add Nominee</h3>
-                <p id="nomineeModalSubtitle" class="text-xs text-slate-500">Add nominee information for a member.</p>
+                <h3 id="nomineeModalTitle" class="text-base font-semibold text-slate-800">Add Nominee</h3>
+                <p id="nomineeModalSubtitle" class="text-sm text-slate-500">Add nominee information for a member.</p>
             </div>
         </div>
 
@@ -185,7 +185,7 @@
     <form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
         <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
-            <div id="nomineeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+            <div id="nomineeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
             {{-- Member --}}
             <div id="memberSection" class="rounded-md border border-slate-200 bg-white p-4">
@@ -194,7 +194,7 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Member</h4>
+                        <h4 class="text-base font-semibold text-slate-800">Member</h4>
                         <p class="text-[11px] text-slate-400">Select the member for this nominee.</p>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                 <select id="memberId" class="app-input w-full">
                     <option value="">Select Member</option>
                 </select>
-                <p data-field-error="memberId" class="mt-1 hidden text-xs text-red-600"></p>
+                <p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
             </div>
 
             {{-- Personal --}}
@@ -213,7 +213,7 @@
                         <i class="bi bi-person-vcard"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Personal Information</h4>
+                        <h4 class="text-base font-semibold text-slate-800">Personal Information</h4>
                         <p class="text-[11px] text-slate-400">Basic nominee information.</p>
                     </div>
                 </div>
@@ -222,37 +222,37 @@
                     <div>
                         <label class="form-label">Nominee Name <span class="text-red-500">*</span></label>
                         <input id="nomineeName" type="text" maxlength="150" class="app-input w-full" placeholder="Full name">
-                        <p data-field-error="nomineeName" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="nomineeName" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Relationship <span class="text-red-500">*</span></label>
                         <input id="relationship" type="text" maxlength="80" class="app-input w-full" placeholder="Spouse, Son, Daughter...">
-                        <p data-field-error="relationship" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="relationship" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Phone</label>
                         <input id="phone" type="text" maxlength="30" class="app-input w-full" placeholder="Phone number">
-                        <p data-field-error="phone" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="phone" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Date of Birth</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="dateOfBirth" type="text"
                                 class="app-input js-date-picker w-full !pl-9"
                                 placeholder="Select date"
                                 autocomplete="off">
                         </div>
-                        <p data-field-error="dateOfBirth" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="dateOfBirth" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="form-label">Address</label>
                         <textarea id="address" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Address"></textarea>
-                        <p data-field-error="address" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="address" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                         <i class="bi bi-card-heading"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Identity Information</h4>
+                        <h4 class="text-base font-semibold text-slate-800">Identity Information</h4>
                         <p class="text-[11px] text-slate-400">Identity details used for verification.</p>
                     </div>
                 </div>
@@ -279,13 +279,13 @@
                             <option value="passport">Passport</option>
                             <option value="other">Other</option>
                         </select>
-                        <p data-field-error="identityType" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="identityType" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Identity Number</label>
                         <input id="identityNumber" type="text" maxlength="100" class="app-input w-full" placeholder="Identity number">
-                        <p data-field-error="identityNumber" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="identityNumber" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
             </div>
@@ -297,7 +297,7 @@
                         <i class="bi bi-pie-chart"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Allocation & Priority</h4>
+                        <h4 class="text-base font-semibold text-slate-800">Allocation & Priority</h4>
                         <p class="text-[11px] text-slate-400">Combined active nominee allocation cannot exceed 100%.</p>
                     </div>
                 </div>
@@ -307,15 +307,15 @@
                         <label class="form-label">Allocation Percentage <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <input id="allocationPercentage" type="number" min="0.01" max="100" step="0.01" class="app-input w-full !pr-9" placeholder="0.00">
-                            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">%</span>
+                            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">%</span>
                         </div>
-                        <p data-field-error="allocationPercentage" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="allocationPercentage" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Priority <span class="text-red-500">*</span></label>
                         <input id="priority" type="number" min="1" max="999" value="1" class="app-input w-full">
-                        <p data-field-error="priority" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="priority" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
 
@@ -331,19 +331,19 @@
             <div>
                 <label class="form-label">Notes</label>
                 <textarea id="notes" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Optional notes..."></textarea>
-                <p data-field-error="notes" class="mt-1 hidden text-xs text-red-600"></p>
+                <p data-field-error="notes" class="mt-1 hidden text-sm text-red-600"></p>
             </div>
 
         </div>
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
             <button type="button" onclick="AdminUI.closeModal('nomineeModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Cancel
             </button>
 
             <button id="saveNomineeButton" type="submit"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                 Save Nominee
             </button>
         </div>
@@ -361,8 +361,8 @@
                 <i class="bi bi-patch-check"></i>
             </div>
             <div>
-                <h3 class="text-lg font-bold text-slate-800">Nominee Verification</h3>
-                <p id="verificationSubtitle" class="text-xs text-slate-500"></p>
+                <h3 class="text-base font-semibold text-slate-800">Nominee Verification</h3>
+                <p id="verificationSubtitle" class="text-sm text-slate-500"></p>
             </div>
         </div>
 
@@ -374,27 +374,27 @@
     <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
         <input id="verificationNomineeId" type="hidden">
 
-        <div id="verificationError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+        <div id="verificationError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
         <div id="verificationDetails" class="grid grid-cols-2 gap-3"></div>
 
         <div>
             <label class="form-label">Verification Note</label>
             <textarea id="verificationNote" rows="4" maxlength="3000" class="app-input w-full resize-none" placeholder="Optional note for verification or required reason for rejection..."></textarea>
-            <p data-field-error="verificationNote" class="mt-1 hidden text-xs text-red-600"></p>
+            <p data-field-error="verificationNote" class="mt-1 hidden text-sm text-red-600"></p>
         </div>
     </div>
 
     @if(auth()->user()->hasPermission('Nominee.verify'))
     <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
         <button type="button" onclick="rejectNominee()"
-            class="cursor-pointer rounded-md border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100">
+            class="cursor-pointer rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100">
             <i class="bi bi-x-circle mr-1"></i>
             Reject
         </button>
 
         <button id="verifyNomineeButton" type="button" onclick="verifyNominee()"
-            class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+            class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
             <i class="bi bi-check2-circle mr-1"></i>
             Verify
         </button>
@@ -551,7 +551,7 @@ async function loadNominees(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading nominees...
@@ -617,7 +617,7 @@ async function loadNominees(page=1){
 
         if(grid){
             grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                     ${esc(message)}
                 </div>
             `;
@@ -692,8 +692,8 @@ function renderNominees(){
                     <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                         <i class="bi bi-person-heart"></i>
                     </div>
-                    <p class="mt-3 text-sm font-semibold text-slate-600">No nominees found</p>
-                    <p class="mt-1 text-xs text-slate-400">Try changing the search or filters.</p>
+                    <p class="mt-3 text-base font-semibold text-slate-600">No nominees found</p>
+                    <p class="mt-1 text-sm text-slate-400">Try changing the search or filters.</p>
                 </div>
             `;
         }
@@ -727,7 +727,7 @@ function renderNominees(){
                                 ${esc(nominee.name)}
                             </div>
 
-                            <div class="mt-0.5 max-w-[180px] truncate text-xs text-slate-400">
+                            <div class="mt-0.5 max-w-[180px] truncate text-sm text-slate-400">
                                 ${esc(nominee.phone||'No phone')}
                             </div>
                         </div>
@@ -739,13 +739,13 @@ function renderNominees(){
                 </td>
 
                 <td class="px-4 py-3 text-center">
-                    <span class="inline-flex rounded-md bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700">
+                    <span class="inline-flex rounded-md bg-indigo-50 px-2 py-1 text-sm font-bold text-indigo-700">
                         ${Number(nominee.allocation_percentage||0).toFixed(2)}%
                     </span>
                 </td>
 
                 <td class="px-4 py-3 text-center">
-                    <span class="inline-flex min-w-7 items-center justify-center rounded-md bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600">
+                    <span class="inline-flex min-w-7 items-center justify-center rounded-md bg-slate-100 px-2 py-1 text-sm font-semibold text-slate-600">
                         ${nominee.priority??1}
                     </span>
                 </td>
@@ -784,7 +784,7 @@ function renderNominees(){
                             </div>
 
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-bold text-slate-700">
+                                <p class="truncate text-base font-bold text-slate-700">
                                     ${esc(nominee.name)}
                                 </p>
 
@@ -808,7 +808,7 @@ function renderNominees(){
                                 Allocation
                             </p>
 
-                            <p class="mt-1 text-sm font-bold text-indigo-700">
+                            <p class="mt-1 text-base font-bold text-indigo-700">
                                 ${Number(
                                     nominee.allocation_percentage||0
                                 ).toFixed(2)}%
@@ -820,13 +820,13 @@ function renderNominees(){
                                 Priority
                             </p>
 
-                            <p class="mt-1 text-sm font-bold text-slate-700">
+                            <p class="mt-1 text-base font-bold text-slate-700">
                                 ${nominee.priority??1}
                             </p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-xs">
+                    <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-sm">
 
                         <div>
                             <p class="text-[10px] text-slate-400">Member</p>
@@ -1284,7 +1284,7 @@ function detailBox(label,value){
                 ${esc(label)}
             </p>
 
-            <p class="mt-1 break-words text-xs font-semibold capitalize text-slate-700">
+            <p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">
                 ${esc(value)}
             </p>
         </div>

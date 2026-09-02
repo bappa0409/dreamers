@@ -13,12 +13,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Notice Management</h1>
-                <p class="text-sm text-slate-500">Create, schedule, publish and notify members.</p>
+                <p class="text-xs text-slate-500">Create, schedule, publish and notify members.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Notice.create'))
-            <button type="button" onclick="openNoticeModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openNoticeModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Notice
             </button>
@@ -30,7 +30,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Notices</p>
@@ -40,11 +40,11 @@
 
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search notices..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="typeFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="typeFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Types</option>
                     <option value="notice">Notice</option>
                     <option value="announcement">Announcement</option>
@@ -52,7 +52,7 @@
                     <option value="urgent">Urgent</option>
                 </select>
 
-                <select id="priorityFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="priorityFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Priority</option>
                     <option value="low">Low</option>
                     <option value="normal">Normal</option>
@@ -60,7 +60,7 @@
                     <option value="urgent">Urgent</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -74,12 +74,12 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[32%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Notice</th>
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Priority</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Publish</th>
-                        <th class="w-[21%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Creator</th>
-                        <th class="w-[12%] px-3 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[32%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Notice</th>
+                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Priority</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Publish</th>
+                        <th class="w-[21%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Creator</th>
+                        <th class="w-[12%] px-3 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="noticeTable">
@@ -102,7 +102,7 @@
                     <i class="bi bi-megaphone"></i>
                 </div>
                 <div>
-                    <h2 id="modalTitle" class="text-lg font-bold text-slate-800">Add Notice</h2>
+                    <h2 id="modalTitle" class="text-base font-semibold text-slate-800">Add Notice</h2>
                     <p class="text-xs text-slate-500">Create and publish association notice.</p>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                     <div>
                         <label class="form-label">Publish At</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="publishAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                     <div>
                         <label class="form-label">Expires At</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="expiresAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off" data-after="publishAt" data-validation-compare-message="Expires At must be after Publish At.">
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                             <i class="bi bi-paperclip"></i>
                         </div>
                         <div class="min-w-0">
-                            <p id="attachmentName" class="truncate text-xs font-semibold text-slate-600">Choose attachment</p>
+                            <p id="attachmentName" class="truncate text-sm font-semibold text-slate-600">Choose attachment</p>
                             <p class="mt-0.5 text-[10px] text-slate-400">Maximum 5 MB</p>
                         </div>
                     </label>
@@ -178,7 +178,7 @@
                 <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3">
                     <input id="isPublished" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                     <div>
-                        <p class="text-xs font-semibold text-slate-700">Publish Notice</p>
+                        <p class="text-sm font-semibold text-slate-700">Publish Notice</p>
                         <p class="mt-0.5 text-[11px] text-slate-400">Visibility follows the publish and expiry time.</p>
                     </div>
                 </label>
@@ -187,7 +187,7 @@
                     <label class="flex cursor-pointer items-center gap-3 rounded-md border border-indigo-100 bg-indigo-50/40 p-3">
                         <input id="notifyMembers" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                         <div>
-                            <p class="text-xs font-semibold text-indigo-700">Notify Members</p>
+                            <p class="text-sm font-semibold text-indigo-700">Notify Members</p>
                             <p class="mt-0.5 text-[11px] text-indigo-500">Send notification when this notice is published now.</p>
                         </div>
                     </label>
@@ -212,23 +212,23 @@
                             <label class="form-label">Users</label>
 
                             <div class="relative">
-                                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                                 <input id="userSearch" type="text" placeholder="Search users..." class="app-input !pl-9">
                             </div>
 
                             <div id="userResults" class="mt-2 max-h-44 overflow-y-auto rounded-md border border-slate-200 bg-white p-2">
-                                <p class="p-3 text-center text-xs text-slate-400">Search users.</p>
+                                <p class="p-3 text-center text-sm text-slate-400">Search users.</p>
                             </div>
                         </div>
                     </div>
                 @endif
 
-                <div id="formError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="formError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeNoticeModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
-                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">Save Notice</button>
+                <button type="button" onclick="closeNoticeModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Notice</button>
             </div>
         </form>
     </div>
@@ -343,7 +343,7 @@ function renderNotices(){
     el.table.innerHTML=notices.map(item=>`
         <tr class="border-b border-slate-100 transition last:border-0 hover:bg-slate-50">
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-xs font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
+                <p class="truncate text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
                     ${AdminUI.escapeHtml(item.title??'Untitled')}
                 </p>
                 <p class="mt-1 truncate text-[11px] text-slate-400" title="${AdminUI.escapeHtml(stripHtml(item.content))}">
@@ -370,7 +370,7 @@ function renderNotices(){
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-xs font-medium text-slate-600" title="${AdminUI.escapeHtml(item.creator?.name??'System')}">
+                <p class="truncate text-sm font-medium text-slate-600" title="${AdminUI.escapeHtml(item.creator?.name??'System')}">
                     ${AdminUI.escapeHtml(item.creator?.name??'System')}
                 </p>
                 ${item.publish_at?`
@@ -384,17 +384,17 @@ function renderNotices(){
                 <div class="flex justify-end gap-1">
                     ${canUpdate?`
                         <button type="button" onclick="editNotice(${item.id})" title="Edit" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
-                            <i class="bi bi-pencil-square text-xs"></i>
+                            <i class="bi bi-pencil-square text-sm"></i>
                         </button>
 
                         <button type="button" onclick="togglePublish(${item.id})" title="${item.is_published?'Unpublish':'Publish'}" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-amber-50 text-amber-700 transition hover:bg-amber-100">
-                            <i class="bi ${item.is_published?'bi-eye-slash':'bi-eye'} text-xs"></i>
+                            <i class="bi ${item.is_published?'bi-eye-slash':'bi-eye'} text-sm"></i>
                         </button>
                     `:''}
 
                     ${canDelete?`
                         <button type="button" onclick="deleteNotice(${item.id})" title="Delete" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100">
-                            <i class="bi bi-trash text-xs"></i>
+                            <i class="bi bi-trash text-sm"></i>
                         </button>
                     `:''}
                 </div>
@@ -476,7 +476,7 @@ window.openNoticeModal=function(notice=null){
         document.getElementById('roleAudience').classList.add('hidden');
         document.getElementById('userAudience').classList.add('hidden');
         document.getElementById('userSearch').value='';
-        document.getElementById('userResults').innerHTML='<p class="p-3 text-center text-xs text-slate-400">Search users.</p>';
+        document.getElementById('userResults').innerHTML='<p class="p-3 text-center text-sm text-slate-400">Search users.</p>';
 
         if(!notice)loadRecipients();
     }
@@ -662,7 +662,7 @@ async function loadRecipients(search=''){
     const results=document.getElementById('userResults');
 
     if(results){
-        results.innerHTML='<p class="p-3 text-center text-xs text-slate-400">Loading users...</p>';
+        results.innerHTML='<p class="p-3 text-center text-sm text-slate-400">Loading users...</p>';
     }
 
     try{
@@ -674,7 +674,7 @@ async function loadRecipients(search=''){
     }catch(error){
         if(results){
             results.innerHTML=`
-                <p class="p-3 text-center text-xs text-red-600">
+                <p class="p-3 text-center text-sm text-red-600">
                     ${AdminUI.escapeHtml(AdminUI.extractError(error))}
                 </p>
             `;
@@ -701,7 +701,7 @@ function renderUsers(users){
     if(!container)return;
 
     if(!users.length){
-        container.innerHTML='<p class="p-3 text-center text-xs text-slate-400">No users found.</p>';
+        container.innerHTML='<p class="p-3 text-center text-sm text-slate-400">No users found.</p>';
         return;
     }
 
@@ -709,7 +709,7 @@ function renderUsers(users){
         <label class="flex cursor-pointer items-center gap-2 rounded-md p-2 transition hover:bg-slate-50">
             <input type="checkbox" value="${user.id}" ${selectedUsers.has(Number(user.id))?'checked':''} onchange="toggleUser(${user.id},this.checked)" class="h-4 w-4 shrink-0 rounded border-slate-300 text-indigo-600">
             <div class="min-w-0">
-                <p class="truncate text-xs font-semibold text-slate-700">${AdminUI.escapeHtml(user.name??'User')}</p>
+                <p class="truncate text-sm font-semibold text-slate-700">${AdminUI.escapeHtml(user.name??'User')}</p>
                 <p class="truncate text-[10px] text-slate-400">${AdminUI.escapeHtml(user.email??'')}</p>
             </div>
         </label>

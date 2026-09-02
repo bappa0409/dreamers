@@ -13,13 +13,13 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Meeting Management</h1>
-                <p class="text-sm text-slate-500">Manage meetings, agendas, attendees, decisions, minutes and expenses.</p>
+                <p class="text-xs text-slate-500">Manage meetings, agendas, attendees, decisions, minutes and expenses.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Meeting.create'))
         <button type="button" onclick="openMeetingModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Meeting
         </button>
@@ -87,7 +87,7 @@
                     </p>
                 </div>
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $stat['iconbox'] }}">
-                    <i class="bi {{ $stat['icon'] }} text-sm"></i>
+                    <i class="bi {{ $stat['icon'] }} text-base"></i>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Meetings</p>
@@ -109,13 +109,13 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:w-auto xl:grid-cols-[280px_145px_145px_100px_auto] xl:gap-0">
                 <div class="relative sm:col-span-2 xl:col-span-1">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search meeting..."
                         class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 xl:rounded-r-none">
                 </div>
 
                 <select id="typeFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Types</option>
                     <option value="general">General</option>
                     <option value="annual">Annual</option>
@@ -125,7 +125,7 @@
                 </select>
 
                 <select id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="draft">Draft</option>
                     <option value="scheduled">Scheduled</option>
@@ -135,11 +135,11 @@
                 </select>
 
                 <select id="yearFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                 </select>
 
                 <button type="button" onclick="clearFilters()"
-                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -150,24 +150,24 @@
     {{-- Desktop Table --}}
     <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[1100px] text-sm">
+            <table class="w-full min-w-[1100px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Attendees</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Decisions</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Expense</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Venue</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Attendees</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Decisions</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Expense</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="meetingTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="9" class="px-4 py-10 text-center text-sm text-slate-400">
+                        <td colspan="9" class="px-4 py-10 text-center text-base text-slate-400">
                             Loading meetings...
                         </td>
                     </tr>
@@ -178,7 +178,7 @@
 
     {{-- Mobile Cards --}}
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             Loading meetings...
         </div>
     </div>
@@ -197,7 +197,7 @@ CREATE / EDIT MEETING MODAL
                     <i class="bi bi-people"></i>
                 </div>
                 <div>
-                    <h3 id="meetingModalTitle" class="text-lg font-bold text-slate-800">Add Meeting</h3>
+                    <h3 id="meetingModalTitle" class="text-base font-semibold text-slate-800">Add Meeting</h3>
                     <p class="text-xs text-slate-500">Create and organize an association meeting.</p>
                 </div>
             </div>
@@ -209,13 +209,13 @@ CREATE / EDIT MEETING MODAL
 
         <form id="meetingForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-                <div id="meetingError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="meetingError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div class="md:col-span-2">
                         <label class="form-label">Meeting Title <span class="text-red-500">*</span></label>
                         <input id="meetingTitle" type="text" maxlength="255" class="app-input w-full">
-                        <p data-field-error="meetingTitle" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="meetingTitle" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -227,28 +227,28 @@ CREATE / EDIT MEETING MODAL
                             <option value="emergency">Emergency</option>
                             <option value="special">Special</option>
                         </select>
-                        <p data-field-error="meetingType" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="meetingType" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Meeting Date <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="meetingDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
-                        <p data-field-error="meetingDate" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="meetingDate" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Start Time</label>
                         <input id="meetingStartTime" type="time" class="app-input w-full">
-                        <p data-field-error="meetingStartTime" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="meetingStartTime" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">End Time</label>
                         <input id="meetingEndTime" type="time" class="app-input w-full">
-                        <p data-field-error="meetingEndTime" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="meetingEndTime" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div class="md:col-span-2">
@@ -275,12 +275,12 @@ CREATE / EDIT MEETING MODAL
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('meetingModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button id="saveMeetingButton" type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Meeting
                 </button>
             </div>
@@ -299,8 +299,8 @@ DETAILS MODAL
                     <i class="bi bi-card-list"></i>
                 </div>
                 <div>
-                    <h3 id="detailsTitle" class="text-lg font-bold text-slate-800">Meeting Details</h3>
-                    <p id="detailsSubtitle" class="text-xs text-slate-500">Meeting management and activity.</p>
+                    <h3 id="detailsTitle" class="text-base font-semibold text-slate-800">Meeting Details</h3>
+                    <p id="detailsSubtitle" class="text-sm text-slate-500">Meeting management and activity.</p>
                 </div>
             </div>
 
@@ -322,7 +322,7 @@ AGENDA MODAL
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 id="agendaModalTitle" class="text-lg font-bold text-slate-800">Add Agenda</h3>
+                <h3 id="agendaModalTitle" class="text-base font-semibold text-slate-800">Add Agenda</h3>
                 <p class="text-xs text-slate-500">Add or update a meeting agenda item.</p>
             </div>
             <button type="button" onclick="AdminUI.closeModal('agendaModal')" class="app-modal-close">
@@ -334,12 +334,12 @@ AGENDA MODAL
             <input id="agendaId" type="hidden">
 
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-                <div id="agendaError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="agendaError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div>
                     <label class="form-label">Title <span class="text-red-500">*</span></label>
                     <input id="agendaTitle" type="text" maxlength="255" class="app-input w-full">
-                    <p data-field-error="agendaTitle" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="agendaTitle" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2">
@@ -366,10 +366,10 @@ AGENDA MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('agendaModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                <button type="button" onclick="AdminUI.closeModal('agendaModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
-                <button id="saveAgendaButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">
+                <button id="saveAgendaButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
                     Save Agenda
                 </button>
             </div>
@@ -384,7 +384,7 @@ ATTENDEE MODAL
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 id="attendeeModalTitle" class="text-lg font-bold text-slate-800">Add Attendee</h3>
+                <h3 id="attendeeModalTitle" class="text-base font-semibold text-slate-800">Add Attendee</h3>
                 <p class="text-xs text-slate-500">Invite a member or update attendance.</p>
             </div>
             <button type="button" onclick="AdminUI.closeModal('attendeeModal')" class="app-modal-close">
@@ -396,14 +396,14 @@ ATTENDEE MODAL
             <input id="attendeeId" type="hidden">
 
             <div class="space-y-4 p-5">
-                <div id="attendeeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="attendeeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div id="attendeeMemberWrap">
                     <label class="form-label">Member <span class="text-red-500">*</span></label>
                     <select id="attendeeMemberId" class="app-input w-full">
                         <option value="">Select member</option>
                     </select>
-                    <p data-field-error="attendeeMemberId" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="attendeeMemberId" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
 
                 <div>
@@ -423,10 +423,10 @@ ATTENDEE MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('attendeeModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                <button type="button" onclick="AdminUI.closeModal('attendeeModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
-                <button id="saveAttendeeButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">
+                <button id="saveAttendeeButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
                     Save Attendee
                 </button>
             </div>
@@ -441,7 +441,7 @@ DECISION MODAL
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 id="decisionModalTitle" class="text-lg font-bold text-slate-800">Add Decision</h3>
+                <h3 id="decisionModalTitle" class="text-base font-semibold text-slate-800">Add Decision</h3>
                 <p class="text-xs text-slate-500">Record resolution, voting and responsibility.</p>
             </div>
             <button type="button" onclick="AdminUI.closeModal('decisionModal')" class="app-modal-close">
@@ -453,7 +453,7 @@ DECISION MODAL
             <input id="decisionId" type="hidden">
 
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-                <div id="decisionError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="decisionError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div class="md:col-span-2">
@@ -493,7 +493,7 @@ DECISION MODAL
                     <div>
                         <label class="form-label">Due Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="decisionDueDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -531,10 +531,10 @@ DECISION MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('decisionModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                <button type="button" onclick="AdminUI.closeModal('decisionModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
-                <button id="saveDecisionButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">
+                <button id="saveDecisionButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
                     Save Decision
                 </button>
             </div>
@@ -549,7 +549,7 @@ MINUTES MODAL
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 class="text-lg font-bold text-slate-800">Meeting Minutes</h3>
+                <h3 class="text-base font-semibold text-slate-800">Meeting Minutes</h3>
                 <p class="text-xs text-slate-500">Record the official minutes of the meeting.</p>
             </div>
             <button type="button" onclick="AdminUI.closeModal('minutesModal')" class="app-modal-close">
@@ -559,17 +559,17 @@ MINUTES MODAL
 
         <form id="minutesForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 p-5">
-                <div id="minutesError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="minutesError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <label class="form-label">Minutes</label>
                 <textarea id="meetingMinutes" rows="14" maxlength="20000" class="app-input w-full resize-y"></textarea>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('minutesModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                <button type="button" onclick="AdminUI.closeModal('minutesModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
-                <button id="saveMinutesButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">
+                <button id="saveMinutesButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
                     Save Minutes
                 </button>
             </div>
@@ -584,7 +584,7 @@ EXPENSE MODAL
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 class="text-lg font-bold text-slate-800">Add Meeting Expense</h3>
+                <h3 class="text-base font-semibold text-slate-800">Add Meeting Expense</h3>
                 <p class="text-xs text-slate-500">Expense will automatically post to accounting.</p>
             </div>
             <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="app-modal-close">
@@ -594,7 +594,7 @@ EXPENSE MODAL
 
         <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-                <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
@@ -624,7 +624,7 @@ EXPENSE MODAL
                     <div>
                         <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -651,10 +651,10 @@ EXPENSE MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
-                <button id="saveExpenseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">
+                <button id="saveExpenseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
                     Post Expense
                 </button>
             </div>
@@ -865,7 +865,7 @@ async function loadMeetings(page=1){
     tbody.innerHTML=AdminUI.loadingState('Loading meetings...',9);
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -912,7 +912,7 @@ async function loadMeetings(page=1){
             AdminUI.emptyState(message,9);
 
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${esc(message)}
             </div>
         `;
@@ -990,10 +990,10 @@ function renderMeetings(){
                 <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                     <i class="bi bi-inbox"></i>
                 </div>
-                <p class="mt-3 text-sm font-semibold text-slate-600">
+                <p class="mt-3 text-base font-semibold text-slate-600">
                     No meetings found
                 </p>
-                <p class="mt-1 text-xs text-slate-400">
+                <p class="mt-1 text-sm text-slate-400">
                     Try changing your filters.
                 </p>
             </div>
@@ -1014,7 +1014,7 @@ function renderMeetings(){
                             <div class="font-semibold text-slate-700">
                                 ${esc(meeting.meeting_no)}
                             </div>
-                            <div class="mt-0.5 max-w-[220px] truncate text-xs text-slate-400">
+                            <div class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400">
                                 ${esc(meeting.title)}
                             </div>
                         </div>
@@ -1026,7 +1026,7 @@ function renderMeetings(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="text-sm text-slate-600">
+                    <div class="text-base text-slate-600">
                         ${date(meeting.meeting_date)}
                     </div>
                     <div class="mt-0.5 text-[10px] text-slate-400">
@@ -1035,7 +1035,7 @@ function renderMeetings(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="max-w-[170px] truncate text-sm text-slate-500">
+                    <div class="max-w-[170px] truncate text-base text-slate-500">
                         ${esc(meeting.venue||'—')}
                     </div>
                 </td>
@@ -1076,7 +1076,7 @@ function renderMeetings(){
                                 <i class="bi bi-people"></i>
                             </div>
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-bold text-slate-700">
+                                <p class="truncate text-base font-bold text-slate-700">
                                     ${esc(meeting.title)}
                                 </p>
                                 <p class="mt-0.5 text-[11px] font-medium text-indigo-600">
@@ -1097,7 +1097,7 @@ function renderMeetings(){
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                                 Attendees
                             </p>
-                            <p class="mt-1 text-sm font-bold text-slate-700">
+                            <p class="mt-1 text-base font-bold text-slate-700">
                                 ${meeting.attendees_count||0}
                             </p>
                         </div>
@@ -1106,13 +1106,13 @@ function renderMeetings(){
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-sky-600">
                                 Expense
                             </p>
-                            <p class="mt-1 truncate text-sm font-bold text-sky-700">
+                            <p class="mt-1 truncate text-base font-bold text-sky-700">
                                 ${money(meeting.actual_expense)}
                             </p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-x-3 gap-y-3 border-t border-slate-100 pt-3 text-xs">
+                    <div class="grid grid-cols-2 gap-x-3 gap-y-3 border-t border-slate-100 pt-3 text-sm">
                         <div>
                             <p class="text-[10px] text-slate-400">Type</p>
                             <p class="mt-0.5 font-medium text-slate-600">
@@ -1474,7 +1474,7 @@ window.viewMeeting=async function(id){
     AdminUI.openModal('detailsModal');
 
     $('detailsContent').innerHTML=`
-        <div class="py-16 text-center text-sm text-slate-400">
+        <div class="py-16 text-center text-base text-slate-400">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
             <p class="mt-2">Loading meeting details...</p>
         </div>
@@ -1490,7 +1490,7 @@ window.viewMeeting=async function(id){
         renderDetails();
     }catch(error){
         $('detailsContent').innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${esc(AdminUI.extractError(error))}
             </div>
         `;
@@ -1528,11 +1528,11 @@ function renderDetails(){
             <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex flex-wrap items-center gap-2">
                     ${AdminUI.statusBadge(meeting.status)}
-                    <span class="text-xs text-slate-500">
+                    <span class="text-sm text-slate-500">
                         ${date(meeting.meeting_date)}
                     </span>
-                    <span class="text-xs text-slate-300">•</span>
-                    <span class="text-xs text-slate-500">
+                    <span class="text-sm text-slate-300">•</span>
+                    <span class="text-sm text-slate-500">
                         ${esc(meetingTime(meeting))}
                     </span>
                 </div>
@@ -1550,11 +1550,11 @@ function renderDetails(){
 
             <div class="grid gap-4 lg:grid-cols-2">
                 <div class="rounded-md border border-slate-200 bg-white p-4">
-                    <p class="mb-3 text-xs font-bold uppercase tracking-wide text-slate-500">
+                    <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
                         Meeting Information
                     </p>
 
-                    <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
                         ${info('Type',formatType(meeting.type))}
                         ${info('Date',date(meeting.meeting_date))}
                         ${info('Start',formatTime(meeting.start_time))}
@@ -1570,7 +1570,7 @@ function renderDetails(){
                                 <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                                     Description
                                 </p>
-                                <p class="mt-1 whitespace-pre-wrap text-xs leading-5 text-slate-600">
+                                <p class="mt-1 whitespace-pre-wrap text-sm leading-5 text-slate-600">
                                     ${esc(meeting.description)}
                                 </p>
                             </div>
@@ -1580,7 +1580,7 @@ function renderDetails(){
                 </div>
 
                 <div class="rounded-md border border-slate-200 bg-white p-4">
-                    <p class="mb-3 text-xs font-bold uppercase tracking-wide text-slate-500">
+                    <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
                         Attendance Summary
                     </p>
 
@@ -1640,12 +1640,12 @@ function renderDetails(){
                 ${
                     meeting.minutes
                         ?`
-                        <div class="whitespace-pre-wrap text-sm leading-6 text-slate-600">
+                        <div class="whitespace-pre-wrap text-base leading-6 text-slate-600">
                             ${esc(meeting.minutes)}
                         </div>
                         `
                         :`
-                        <div class="py-6 text-center text-sm text-slate-400">
+                        <div class="py-6 text-center text-base text-slate-400">
                             No meeting minutes recorded.
                         </div>
                         `
@@ -1680,7 +1680,7 @@ function detailStat(label,value,tone){
             <p class="text-[10px] opacity-70">
                 ${esc(label)}
             </p>
-            <p class="mt-1 truncate text-sm font-bold">
+            <p class="mt-1 truncate text-base font-bold">
                 ${esc(value)}
             </p>
         </div>
@@ -1721,7 +1721,7 @@ function sectionHeader(title,icon,action=''){
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi ${icon}"></i>
                 </div>
-                <h4 class="text-sm font-bold text-slate-700">
+                <h4 class="text-base font-bold text-slate-700">
                     ${esc(title)}
                 </h4>
             </div>
@@ -1744,7 +1744,7 @@ function agendaHtml(items){
                     <div class="p-4">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex min-w-0 gap-3">
-                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-100 text-xs font-bold text-slate-500">
+                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-100 text-sm font-bold text-slate-500">
                                     ${item.sort_order}
                                 </div>
                                 <div class="min-w-0">
@@ -1756,7 +1756,7 @@ function agendaHtml(items){
                                     </div>
                                     ${
                                         item.description
-                                            ?`<p class="mt-1 text-xs leading-5 text-slate-500">${esc(item.description)}</p>`
+                                            ?`<p class="mt-1 text-sm leading-5 text-slate-500">${esc(item.description)}</p>`
                                             :''
                                     }
                                 </div>
@@ -1804,7 +1804,7 @@ function attendeesHtml(items){
                             </div>
 
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-slate-700">
+                                <p class="truncate text-base font-semibold text-slate-700">
                                     ${esc(item.member?.user?.name||'Member')}
                                 </p>
                                 <p class="text-[10px] text-slate-400">
@@ -1818,7 +1818,7 @@ function attendeesHtml(items){
 
                     ${
                         item.notes
-                            ?`<p class="mt-3 text-xs text-slate-500">${esc(item.notes)}</p>`
+                            ?`<p class="mt-3 text-sm text-slate-500">${esc(item.notes)}</p>`
                             :''
                     }
 
@@ -1867,11 +1867,11 @@ function decisionsHtml(items){
                                 </span>
                             </div>
 
-                            <h5 class="mt-2 text-sm font-bold text-slate-700">
+                            <h5 class="mt-2 text-base font-bold text-slate-700">
                                 ${esc(item.title)}
                             </h5>
 
-                            <p class="mt-1 whitespace-pre-wrap text-xs leading-5 text-slate-500">
+                            <p class="mt-1 whitespace-pre-wrap text-sm leading-5 text-slate-500">
                                 ${esc(item.decision)}
                             </p>
                         </div>
@@ -1917,7 +1917,7 @@ function expensesHtml(items){
     return`
         <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[850px] text-xs">
+                <table class="w-full min-w-[850px] text-sm">
                     <thead class="bg-slate-50">
                         <tr class="border-b border-slate-200">
                             <th class="px-3 py-2 text-left text-slate-500">Expense</th>
@@ -1984,7 +1984,7 @@ function infoMini(label,value){
 
 function emptyBlock(message){
     return`
-        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-sm text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-400">
             ${esc(message)}
         </div>
     `;

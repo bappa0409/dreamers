@@ -264,6 +264,12 @@ class JournalService
         ];
     }
 
+    /**
+     * Create a manual journal entry as a 'draft' transaction: nothing is
+     * posted to the ledger yet. The controller is responsible for raising
+     * a JournalEntry.create approval request right after this — see
+     * finalizeApproval() for what happens once it's approved.
+     */
     public function createManual(
         array $data,
         int $userId
@@ -286,18 +292,73 @@ class JournalService
             'entries'=>$entries,
         ];
 
-        if(
-            !empty(
-                $data['idempotency_key']
-            )
-        ){
-            $payload['idempotency_key']=trim(
-                (string)$data['idempotency_key']
-            );
+        return $this->accountingService->createDraft(
+            $payload
+        );
+    }
+
+    /**
+     * Called by ApprovalService once the JournalEntry.create request is
+     * approved. Posts the draft transaction to the ledger.
+     */
+    public function finalizeApproval(
+        Transaction $transaction,
+        array $decisionData,
+        int $approvedBy
+    ): Transaction{
+        return $this->accountingService->postDraftTransaction(
+            $transaction,
+            $approvedBy
+        );
+    }
+
+    /**
+     * Called by ApprovalService when the JournalEntry.create request is
+     * rejected. The draft never gets posted to the ledger.
+     */
+    public function finalizeRejection(
+        Transaction $transaction,
+        string $reason,
+        ?int $rejectedBy
+    ): Transaction{
+        $transaction=Transaction::query()
+            ->whereKey($transaction->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($transaction->status==='draft'){
+            $transaction->update([
+                'status'=>'cancelled',
+                'cancel_reason'=>$reason,
+            ]);
         }
 
-        return $this->accountingService->post(
-            $payload
+        return $transaction->fresh(
+            'entries.account'
+        );
+    }
+
+    /**
+     * Called by ApprovalService when the JournalEntry.create request is
+     * cancelled/withdrawn before a decision is made.
+     */
+    public function finalizeCancellation(
+        Transaction $transaction
+    ): Transaction{
+        $transaction=Transaction::query()
+            ->whereKey($transaction->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($transaction->status==='draft'){
+            $transaction->update([
+                'status'=>'cancelled',
+                'cancel_reason'=>'Approval request cancelled.',
+            ]);
+        }
+
+        return $transaction->fresh(
+            'entries.account'
         );
     }
 

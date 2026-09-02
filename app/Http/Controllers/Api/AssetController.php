@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Asset;
+use App\Services\ApprovalService;
 use App\Services\AssetDepreciationService;
 use App\Services\AssetService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AssetController extends Controller
 {
     public function __construct(
         protected AssetService $assetService,
-        protected AssetDepreciationService $assetDepreciationService
+        protected AssetDepreciationService $assetDepreciationService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -233,15 +236,27 @@ class AssetController extends Controller
             ],422);
         }
 
-        $asset=$this->assetService
-            ->create(
-                $validated,
-                $request->user()->id
+        $asset=DB::transaction(function()use($validated,$request){
+            $asset=$this->assetService
+                ->create(
+                    $validated,
+                    $request->user()->id
+                );
+
+            $this->approvalService->createRequest(
+                $asset,
+                'Asset',
+                'create',
+                $request->user()->id,
+                'New asset requires approval before posting.'
             );
+
+            return $asset;
+        });
 
         return response()->json([
             'success'=>true,
-            'message'=>'Asset created and posted successfully.',
+            'message'=>'Asset recorded and sent for approval.',
             'data'=>$asset,
         ],201);
     }

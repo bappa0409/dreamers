@@ -13,12 +13,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Poll Management</h1>
-                <p class="text-sm text-slate-500">Create polls, manage voting periods and review results.</p>
+                <p class="text-xs text-slate-500">Create polls, manage voting periods and review results.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Poll.create'))
-            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Create Poll
             </button>
@@ -33,12 +33,12 @@
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs text-emerald-600">Active</p>
+            <p class="text-sm text-emerald-600">Active</p>
             <p id="activePolls" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs text-indigo-600">Upcoming</p>
+            <p class="text-sm text-indigo-600">Upcoming</p>
             <p id="upcomingPolls" class="mt-2 text-xl font-bold text-indigo-700">0</p>
         </div>
 
@@ -48,7 +48,7 @@
         </div>
 
         <div class="col-span-2 rounded-md border border-amber-200 bg-amber-50/40 p-4 xl:col-span-1">
-            <p class="text-xs text-amber-600">Total Votes</p>
+            <p class="text-sm text-amber-600">Total Votes</p>
             <p id="totalVotes" class="mt-2 text-xl font-bold text-amber-700">0</p>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Polls</p>
@@ -68,11 +68,11 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search polls..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="stateFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400">
+                <select id="stateFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All State</option>
                     <option value="active">Active</option>
                     <option value="upcoming">Upcoming</option>
@@ -80,7 +80,7 @@
                     <option value="inactive">Inactive</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -91,7 +91,7 @@
     {{-- Poll Grid --}}
     <div id="pollGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
                 Loading polls...
             </div>
         </div>
@@ -109,7 +109,7 @@
                     <i class="bi bi-ui-checks"></i>
                 </div>
                 <div>
-                    <h2 id="pollModalTitle" class="text-lg font-bold text-slate-800">Create Poll</h2>
+                    <h2 id="pollModalTitle" class="text-base font-semibold text-slate-800">Create Poll</h2>
                     <p class="text-xs text-slate-500">Create voting options and configure voting period.</p>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     <div>
                         <label class="form-label">Start <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="startAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                     <div>
                         <label class="form-label">End <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="endAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                 <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
                     <input id="isActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                     <div>
-                        <p class="text-xs font-semibold text-slate-700">Poll Active</p>
+                        <p class="text-sm font-semibold text-slate-700">Poll Active</p>
                         <p class="mt-0.5 text-[11px] text-slate-400">Voting still follows the configured start and end time.</p>
                     </div>
                 </label>
@@ -161,7 +161,7 @@
                     <div class="mb-2 flex items-center justify-between">
                         <label class="form-label mb-0">Poll Options <span class="text-red-500">*</span></label>
 
-                        <button type="button" onclick="addOption()" class="cursor-pointer text-xs font-semibold text-indigo-600 transition hover:text-indigo-700">
+                        <button type="button" onclick="addOption()" class="cursor-pointer text-sm font-semibold text-indigo-600 transition hover:text-indigo-700">
                             <i class="bi bi-plus-lg mr-1"></i>
                             Add Option
                         </button>
@@ -170,15 +170,15 @@
                     <div id="optionContainer" class="space-y-2"></div>
                 </div>
 
-                <div id="pollError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="pollError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
-                <button id="savePollButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                <button id="savePollButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                     Save Poll
                 </button>
             </div>
@@ -195,8 +195,8 @@
                     <i class="bi bi-bar-chart"></i>
                 </div>
                 <div>
-                    <h2 id="resultTitle" class="text-lg font-bold text-slate-800">Poll Results</h2>
-                    <p id="resultTotal" class="text-xs text-slate-500"></p>
+                    <h2 id="resultTitle" class="text-base font-semibold text-slate-800">Poll Results</h2>
+                    <p id="resultTotal" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -258,7 +258,7 @@ function pollEmptyState(){
 function pollErrorState(error){
     el.grid.innerHTML=`
         <div class="col-span-full">
-            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         </div>
@@ -347,7 +347,7 @@ function renderPolls(){
             <div class="p-4">
                 <div class="flex items-start justify-between gap-3">
                     <div class="min-w-0 flex-1">
-                        <h3 class="truncate text-sm font-bold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
+                        <h3 class="truncate text-base font-bold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
                             ${AdminUI.escapeHtml(item.title??'Untitled Poll')}
                         </h3>
 
@@ -362,14 +362,14 @@ function renderPolls(){
                 </div>
 
                 ${item.description?`
-                    <p class="mt-3 line-clamp-2 break-words text-xs leading-5 text-slate-500">
+                    <p class="mt-3 line-clamp-2 break-words text-sm leading-5 text-slate-500">
                         ${AdminUI.escapeHtml(item.description)}
                     </p>
                 `:''}
 
                 <div class="mt-4 space-y-1.5">
                     ${(item.options??[]).slice(0,4).map(option=>`
-                        <div class="truncate rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-600" title="${AdminUI.escapeHtml(option.option_text??'')}">
+                        <div class="truncate rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-600" title="${AdminUI.escapeHtml(option.option_text??'')}">
                             ${AdminUI.escapeHtml(option.option_text??'')}
                         </div>
                     `).join('')}
@@ -394,22 +394,22 @@ function renderPolls(){
 
             <div class="mt-auto flex justify-end gap-1 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
                 <button type="button" onclick="showResults(${item.id})" title="Results" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-sky-50 text-sky-700 transition hover:bg-sky-100">
-                    <i class="bi bi-bar-chart text-xs"></i>
+                    <i class="bi bi-bar-chart text-sm"></i>
                 </button>
 
                 ${canUpdate?`
                     <button type="button" onclick="togglePoll(${item.id})" title="${item.is_active?'Deactivate':'Activate'}" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-amber-50 text-amber-700 transition hover:bg-amber-100">
-                        <i class="bi ${item.is_active?'bi-pause-circle':'bi-play-circle'} text-xs"></i>
+                        <i class="bi ${item.is_active?'bi-pause-circle':'bi-play-circle'} text-sm"></i>
                     </button>
 
                     <button type="button" onclick="editPoll(${item.id})" title="Edit" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
-                        <i class="bi bi-pencil-square text-xs"></i>
+                        <i class="bi bi-pencil-square text-sm"></i>
                     </button>
                 `:''}
 
                 ${canDelete?`
                     <button type="button" onclick="deletePoll(${item.id})" title="Delete" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100">
-                        <i class="bi bi-trash text-xs"></i>
+                        <i class="bi bi-trash text-sm"></i>
                     </button>
                 `:''}
             </div>
@@ -426,7 +426,7 @@ window.addOption=function(value=''){
         <input type="text" maxlength="255" value="${AdminUI.escapeHtml(value)}" class="poll-option app-input min-w-0 flex-1" placeholder="Option">
 
         <button type="button" title="Remove Option" class="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100">
-            <i class="bi bi-trash text-xs"></i>
+            <i class="bi bi-trash text-sm"></i>
         </button>
     `;
 
@@ -684,11 +684,11 @@ window.showResults=async function(id){
                     return `
                         <div class="rounded-md border border-slate-200 p-3">
                             <div class="mb-2 flex items-center justify-between gap-3">
-                                <span class="min-w-0 truncate text-xs font-semibold text-slate-700" title="${AdminUI.escapeHtml(result.option_text??'')}">
+                                <span class="min-w-0 truncate text-sm font-semibold text-slate-700" title="${AdminUI.escapeHtml(result.option_text??'')}">
                                     ${AdminUI.escapeHtml(result.option_text??'')}
                                 </span>
 
-                                <span class="shrink-0 text-xs font-bold text-indigo-600">
+                                <span class="shrink-0 text-sm font-bold text-indigo-600">
                                     ${votes} • ${percentage.toFixed(2)}%
                                 </span>
                             </div>

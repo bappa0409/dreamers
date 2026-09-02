@@ -21,7 +21,7 @@
                     Audit Logs
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     A record of who did what, when — across the system.
                 </p>
             </div>
@@ -30,7 +30,7 @@
         <button
             type="button"
             onclick="refreshLogs()"
-            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
         >
             <i class="bi bi-arrow-clockwise text-[12px]"></i>
             Refresh
@@ -51,7 +51,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -111,7 +111,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="dateRangeFilter"
@@ -145,35 +145,35 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
         <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-left text-sm">
+            <table class="w-full table-fixed text-left text-base">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[13%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Date & Time
                         </th>
 
-                        <th class="w-[15%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[15%] px-3 py-3 text-sm font-semibold text-slate-600">
                             User
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Action
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Module
                         </th>
 
-                        <th class="w-[29%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[29%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Description
                         </th>
 
-                        <th class="w-[14%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-3 py-3 text-sm font-semibold text-slate-600">
                             IP Address
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
                             Details
                         </th>
                     </tr>
@@ -184,7 +184,7 @@
                     <tr>
                         <td
                             colspan="7"
-                            class="px-5 py-10 text-center text-sm text-slate-400"
+                            class="px-5 py-10 text-center text-base text-slate-400"
                         >
                             Loading audit logs...
                         </td>
@@ -222,13 +222,13 @@ DETAIL MODAL
                 </div>
 
                 <div class="min-w-0">
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Log Details
                     </h2>
 
                     <p
                         id="logDetailSubtitle"
-                        class="mt-1 truncate text-xs text-slate-500"
+                        class="mt-1 truncate text-sm text-slate-500"
                     ></p>
                 </div>
             </div>
@@ -254,7 +254,7 @@ DETAIL MODAL
 
                     <p
                         id="detailUser"
-                        class="mt-1 text-xs font-semibold text-slate-700"
+                        class="mt-1 text-sm font-semibold text-slate-700"
                     >
                         —
                     </p>
@@ -267,7 +267,7 @@ DETAIL MODAL
 
                     <p
                         id="detailDate"
-                        class="mt-1 text-xs font-semibold text-slate-700"
+                        class="mt-1 text-sm font-semibold text-slate-700"
                     >
                         —
                     </p>
@@ -280,7 +280,7 @@ DETAIL MODAL
 
                     <p
                         id="detailIp"
-                        class="mt-1 text-xs font-semibold text-slate-700"
+                        class="mt-1 text-sm font-semibold text-slate-700"
                     >
                         —
                     </p>
@@ -293,7 +293,7 @@ DETAIL MODAL
 
                     <p
                         id="detailSubject"
-                        class="mt-1 break-words text-xs font-semibold text-slate-700"
+                        class="mt-1 break-words text-sm font-semibold text-slate-700"
                     >
                         —
                     </p>
@@ -309,7 +309,7 @@ DETAIL MODAL
 
                 <p
                     id="detailDescription"
-                    class="mt-2 whitespace-pre-wrap break-words text-xs leading-5 text-slate-600"
+                    class="mt-2 whitespace-pre-wrap break-words text-sm leading-5 text-slate-600"
                 >
                     —
                 </p>
@@ -335,15 +335,15 @@ DETAIL MODAL
                 class="mt-4 hidden"
             >
                 <div class="mb-2 flex items-center gap-2">
-                    <i class="bi bi-arrow-left-right text-xs text-indigo-500"></i>
+                    <i class="bi bi-arrow-left-right text-sm text-indigo-500"></i>
 
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         Changes
                     </p>
                 </div>
 
                 <div class="overflow-hidden rounded-md border border-slate-200">
-                    <table class="w-full table-fixed text-left text-xs">
+                    <table class="w-full table-fixed text-left text-sm">
 
                         <thead class="bg-slate-50">
                             <tr>
@@ -633,7 +633,7 @@ function renderTable(logs){
 
                 <td class="overflow-hidden px-3 py-3">
                     <p
-                        class="truncate whitespace-nowrap text-xs text-slate-500"
+                        class="truncate whitespace-nowrap text-sm text-slate-500"
                         title="${AdminUI.escapeHtml(AdminUI.formatDate(log.created_at,true))}"
                     >
                         ${AdminUI.formatDate(
@@ -648,7 +648,7 @@ function renderTable(logs){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(log.user?.name||'System')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -698,7 +698,7 @@ function renderTable(logs){
 
                 <td class="min-w-0 overflow-hidden px-3 py-3">
                     <p
-                        class="truncate text-xs text-slate-600"
+                        class="truncate text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(log.description||'')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -730,7 +730,7 @@ function renderTable(logs){
                             title="View details"
                             class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                         >
-                            <i class="bi bi-eye text-xs"></i>
+                            <i class="bi bi-eye text-sm"></i>
                         </button>
                     </div>
                 </td>

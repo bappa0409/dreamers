@@ -13,6 +13,12 @@ use App\Models\Investment;
 use App\Models\Land;
 use App\Models\Notice;
 use App\Models\Tour;
+use App\Models\Income;
+use App\Models\Expense;
+use App\Models\SubscriptionPayment;
+use App\Models\MemberCharge;
+use App\Models\Asset;
+use App\Models\Transaction;
 use App\Models\WelfareRequest;
 use App\Services\ApprovalService;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -66,6 +72,34 @@ class ApprovalController extends Controller
                             'member.user:id,name,email'
                         ],
                         Tour::class=>[],
+                        Income::class=>[
+                            'incomeAccount:id,code,name',
+                            'receiveAccount:id,code,name',
+                            'creator:id,name',
+                        ],
+                        Expense::class=>[
+                            'expenseAccount:id,code,name',
+                            'paymentAccount:id,code,name',
+                            'creator:id,name',
+                        ],
+                        SubscriptionPayment::class=>[
+                            'member.user:id,name,email',
+                            'due:id,year,month',
+                        ],
+                        MemberCharge::class=>[
+                            'member.user:id,name,email',
+                            'incomeAccount:id,code,name',
+                            'creator:id,name',
+                        ],
+                        Asset::class=>[
+                            'assetAccount:id,code,name',
+                            'paymentAccount:id,code,name',
+                            'creator:id,name',
+                        ],
+                        Transaction::class=>[
+                            'entries.account:id,code,name',
+                            'creator:id,name',
+                        ],
                     ]);
                 },
             ])

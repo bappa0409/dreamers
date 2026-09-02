@@ -19,7 +19,7 @@
                     Welcome, {{ $user->name }}
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Dreamers Association overview and recent activities.
                 </p>
             </div>
@@ -27,12 +27,12 @@
 
         <div class="flex flex-wrap items-center gap-2">
             @if($member)
-                <span class="rounded-md bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-600">
+                <span class="rounded-md bg-slate-100 px-2.5 py-1.5 text-sm font-semibold text-slate-600">
                     {{ $member->member_code }}
                 </span>
             @endif
 
-            <span class="rounded-md bg-indigo-50 px-2.5 py-1.5 text-xs font-semibold text-indigo-700">
+            <span class="rounded-md bg-indigo-50 px-2.5 py-1.5 text-sm font-semibold text-indigo-700">
                 @if($user->isSystemAnalyst())
                     System Analyst
                 @else
@@ -47,11 +47,11 @@
         <section>
             <div class="mb-3 flex items-center justify-between">
                 <div>
-                    <h2 class="text-sm font-bold text-slate-800">Members</h2>
-                    <p class="mt-0.5 text-xs text-slate-400">Membership overview</p>
+                    <h2 class="text-base font-bold text-slate-800">Members</h2>
+                    <p class="mt-0.5 text-sm text-slate-400">Membership overview</p>
                 </div>
 
-                <a href="{{ route('admin.members') }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <a href="{{ route('admin.members') }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                     View Members
                 </a>
             </div>
@@ -65,21 +65,21 @@
                 </div>
 
                 <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-                    <p class="text-xs text-emerald-700">Active</p>
+                    <p class="text-sm text-emerald-700">Active</p>
                     <p class="mt-2 text-2xl font-bold text-emerald-600">
                         {{ $dashboard['members']['active'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
-                    <p class="text-xs text-amber-700">Pending</p>
+                    <p class="text-sm text-amber-700">Pending</p>
                     <p class="mt-2 text-2xl font-bold text-amber-600">
                         {{ $dashboard['members']['pending'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-                    <p class="text-xs text-red-700">Suspended</p>
+                    <p class="text-sm text-red-700">Suspended</p>
                     <p class="mt-2 text-2xl font-bold text-red-600">
                         {{ $dashboard['members']['suspended'] }}
                     </p>
@@ -102,8 +102,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-5 ">
                 <div class="mb-4 flex items-center justify-between">
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800">Investments</h3>
-                        <p class="mt-0.5 text-xs text-slate-400">Investment summary</p>
+                        <h3 class="text-base font-bold text-slate-800">Investments</h3>
+                        <p class="mt-0.5 text-sm text-slate-400">Investment summary</p>
                     </div>
 
                     <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
@@ -141,8 +141,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-5 ">
                 <div class="mb-4 flex items-center justify-between">
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800">Projects</h3>
-                        <p class="mt-0.5 text-xs text-slate-400">Project overview</p>
+                        <h3 class="text-base font-bold text-slate-800">Projects</h3>
+                        <p class="mt-0.5 text-sm text-slate-400">Project overview</p>
                     </div>
 
                     <div class="flex h-9 w-9 items-center justify-center rounded-md bg-violet-50 text-violet-600">
@@ -182,11 +182,11 @@
         <section class="rounded-md border border-slate-200 bg-white p-5 ">
             <div class="mb-4 flex items-center justify-between">
                 <div>
-                    <h3 class="text-sm font-bold text-slate-800">Approval Workflow</h3>
-                    <p class="mt-0.5 text-xs text-slate-400">Approval request status</p>
+                    <h3 class="text-base font-bold text-slate-800">Approval Workflow</h3>
+                    <p class="mt-0.5 text-sm text-slate-400">Approval request status</p>
                 </div>
 
-                <a href="{{ route('admin.approvals') }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <a href="{{ route('admin.approvals') }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                     View Approvals
                 </a>
             </div>
@@ -229,18 +229,18 @@
         @if(count($dashboard['recent_members']))
             <div class="overflow-hidden rounded-md border border-slate-200 bg-white ">
                 <div class="border-b border-slate-200 px-5 py-4">
-                    <h3 class="text-sm font-bold text-slate-800">Recent Members</h3>
+                    <h3 class="text-base font-bold text-slate-800">Recent Members</h3>
                 </div>
 
                 <div class="divide-y divide-slate-100">
                     @foreach($dashboard['recent_members'] as $recentMember)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-slate-700">
+                                <p class="truncate text-base font-semibold text-slate-700">
                                     {{ data_get($recentMember,'user.name','Member') }}
                                 </p>
 
-                                <p class="mt-0.5 text-xs text-slate-400">
+                                <p class="mt-0.5 text-sm text-slate-400">
                                     {{ $recentMember['member_code'] }}
                                 </p>
                             </div>
@@ -262,18 +262,18 @@
         @if(count($dashboard['recent_approvals']))
             <div class="overflow-hidden rounded-md border border-slate-200 bg-white ">
                 <div class="border-b border-slate-200 px-5 py-4">
-                    <h3 class="text-sm font-bold text-slate-800">Recent Approvals</h3>
+                    <h3 class="text-base font-bold text-slate-800">Recent Approvals</h3>
                 </div>
 
                 <div class="divide-y divide-slate-100">
                     @foreach($dashboard['recent_approvals'] as $approval)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-slate-700">
+                                <p class="truncate text-base font-semibold text-slate-700">
                                     {{ $approval['module'] }} — {{ $approval['action'] }}
                                 </p>
 
-                                <p class="mt-0.5 text-xs text-slate-400">
+                                <p class="mt-0.5 text-sm text-slate-400">
                                     {{ data_get($approval,'requester.name','System') }}
                                 </p>
                             </div>
@@ -314,7 +314,7 @@
                         Member Dashboard
                     </h2>
 
-                    <p class="text-sm text-slate-500">
+                    <p class="text-xs text-slate-500">
                         Welcome to Dreamers Association. Use the available menu items to access your personal information and association services.
                     </p>
                 </div>

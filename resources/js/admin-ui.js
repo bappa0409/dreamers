@@ -1166,6 +1166,9 @@ window.AdminUI={
             pending:
                 'bg-amber-50 text-amber-700',
 
+            pending_approval:
+                'bg-amber-50 text-amber-700',
+
             partial:
                 'bg-amber-50 text-amber-700',
 

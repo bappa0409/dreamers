@@ -23,7 +23,7 @@
                     Mailing
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Create and send email campaigns to association members.
                 </p>
             </div>
@@ -36,7 +36,7 @@
             <button
                 type="button"
                 onclick="openCampaignModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg"></i>
                 New Campaign
@@ -77,7 +77,7 @@
 
                 <div class="relative w-full lg:w-80">
 
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -91,7 +91,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400"
+                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400"
                 >
                     <option value="">All Status</option>
                     <option value="draft">Draft</option>
@@ -105,7 +105,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -131,27 +131,27 @@
 
                     <tr>
 
-                        <th class="w-[34%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[34%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Campaign
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Recipients
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Sent
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Failed
                         </th>
 
-                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[15%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[20%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[20%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
                             Actions
                         </th>
 
@@ -209,7 +209,7 @@ CAMPAIGN MODAL
                 <div>
                     <h2
                         id="campaignModalTitle"
-                        class="text-lg font-bold text-slate-800"
+                        class="text-base font-semibold text-slate-800"
                     >
                         New Campaign
                     </h2>
@@ -275,7 +275,7 @@ CAMPAIGN MODAL
 
                 <div
                     id="campaignError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
                 ></div>
 
             </div>
@@ -286,7 +286,7 @@ CAMPAIGN MODAL
                 <button
                     type="button"
                     onclick="closeCampaignModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -294,7 +294,7 @@ CAMPAIGN MODAL
                 <button
                     id="saveCampaignButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
                 >
                     Save Campaign
                 </button>
@@ -328,13 +328,13 @@ RECIPIENT MODAL
 
                 <div class="min-w-0">
 
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Add Recipients
                     </h2>
 
                     <p
                         id="recipientCampaignInfo"
-                        class="mt-1 truncate text-xs text-slate-500"
+                        class="mt-1 truncate text-sm text-slate-500"
                     ></p>
 
                 </div>
@@ -395,7 +395,7 @@ RECIPIENT MODAL
 
                 <div class="relative">
 
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="memberSearch"
@@ -411,7 +411,7 @@ RECIPIENT MODAL
                     id="memberResults"
                     class="mt-2 max-h-64 overflow-y-auto rounded-md border border-slate-200 p-2"
                 >
-                    <p class="p-5 text-center text-xs text-slate-400">
+                    <p class="p-5 text-center text-sm text-slate-400">
                         Search active members.
                     </p>
                 </div>
@@ -461,7 +461,7 @@ RECIPIENT MODAL
 
             <div
                 id="recipientError"
-                class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
             ></div>
 
         </div>
@@ -472,7 +472,7 @@ RECIPIENT MODAL
             <button
                 type="button"
                 onclick="closeRecipientModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -481,7 +481,7 @@ RECIPIENT MODAL
                 id="saveRecipientsButton"
                 type="button"
                 onclick="saveRecipients()"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 Add Recipients
             </button>
@@ -522,7 +522,7 @@ DETAILS MODAL
 
                     <p
                         id="detailsSubtitle"
-                        class="mt-1 truncate text-xs text-slate-500"
+                        class="mt-1 truncate text-sm text-slate-500"
                     ></p>
 
                 </div>
@@ -720,7 +720,7 @@ function renderCampaigns(){
                 <td class="min-w-0 overflow-hidden px-3 py-4">
 
                     <p
-                        class="truncate text-xs font-semibold text-slate-800"
+                        class="truncate text-sm font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(item.subject??'')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -746,7 +746,7 @@ function renderCampaigns(){
                 {{-- Recipients --}}
                 <td class="overflow-hidden px-3 py-4">
 
-                    <p class="truncate text-xs font-semibold text-slate-700">
+                    <p class="truncate text-sm font-semibold text-slate-700">
                         ${item.recipients_count??0}
                     </p>
 
@@ -756,7 +756,7 @@ function renderCampaigns(){
                 {{-- Sent --}}
                 <td class="overflow-hidden px-3 py-4">
 
-                    <p class="truncate text-xs font-semibold text-emerald-700">
+                    <p class="truncate text-sm font-semibold text-emerald-700">
                         ${item.sent_count??0}
                     </p>
 
@@ -766,7 +766,7 @@ function renderCampaigns(){
                 {{-- Failed --}}
                 <td class="overflow-hidden px-3 py-4">
 
-                    <p class="truncate text-xs font-semibold ${
+                    <p class="truncate text-sm font-semibold ${
                         Number(item.failed_count??0)>0
                             ?'text-red-600'
                             :'text-slate-400'
@@ -798,7 +798,7 @@ function renderCampaigns(){
                             title="View Campaign"
                             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-sky-50 text-sky-700 transition hover:bg-sky-100"
                         >
-                            <i class="bi bi-eye text-xs"></i>
+                            <i class="bi bi-eye text-sm"></i>
                         </button>
 
 
@@ -812,7 +812,7 @@ function renderCampaigns(){
                                         title="Manage Recipients"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
                                     >
-                                        <i class="bi bi-people text-xs"></i>
+                                        <i class="bi bi-people text-sm"></i>
                                     </button>
 
 
@@ -822,7 +822,7 @@ function renderCampaigns(){
                                         title="Edit Campaign"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                     >
-                                        <i class="bi bi-pencil-square text-xs"></i>
+                                        <i class="bi bi-pencil-square text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -839,7 +839,7 @@ function renderCampaigns(){
                                         title="Send Campaign"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-amber-50 text-amber-700 transition hover:bg-amber-100"
                                     >
-                                        <i class="bi bi-send text-xs"></i>
+                                        <i class="bi bi-send text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -856,7 +856,7 @@ function renderCampaigns(){
                                         title="Delete Campaign"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                     >
-                                        <i class="bi bi-trash text-xs"></i>
+                                        <i class="bi bi-trash text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -1196,7 +1196,7 @@ function updateAudienceSections(){
 
 async function loadMembers(search=''){
     el.memberResults.innerHTML=`
-        <div class="p-5 text-center text-xs text-slate-400">
+        <div class="p-5 text-center text-sm text-slate-400">
             Loading members...
         </div>
     `;
@@ -1219,7 +1219,7 @@ async function loadMembers(search=''){
 
         if(!users.length){
             el.memberResults.innerHTML=`
-                <div class="p-5 text-center text-xs text-slate-400">
+                <div class="p-5 text-center text-sm text-slate-400">
                     No members found.
                 </div>
             `;
@@ -1245,7 +1245,7 @@ async function loadMembers(search=''){
                     <div class="min-w-0 flex-1">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(user.name??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1273,7 +1273,7 @@ async function loadMembers(search=''){
 
     }catch(error){
         el.memberResults.innerHTML=`
-            <div class="p-5 text-center text-xs text-red-600">
+            <div class="p-5 text-center text-sm text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -1517,7 +1517,7 @@ async function(id){
                 </div>
 
 
-                <div class="mt-3 whitespace-pre-wrap break-words text-xs leading-6 text-slate-600">
+                <div class="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600">
                     ${AdminUI.escapeHtml(
                         item.body??
                         ''
@@ -1531,7 +1531,7 @@ async function(id){
 
                 <div class="mb-2 flex items-center justify-between">
 
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         Recipients
                     </p>
 
@@ -1554,7 +1554,7 @@ async function(id){
                                         <div class="min-w-0 flex-1">
 
                                             <p
-                                                class="truncate text-xs font-semibold text-slate-700"
+                                                class="truncate text-sm font-semibold text-slate-700"
                                                 title="${AdminUI.escapeHtml(recipient.name??recipient.email??'')}"
                                             >
                                                 ${AdminUI.escapeHtml(
@@ -1588,7 +1588,7 @@ async function(id){
 
                                 `).join('')
                             :`
-                                <div class="p-6 text-center text-xs text-slate-400">
+                                <div class="p-6 text-center text-sm text-slate-400">
                                     No recipients added.
                                 </div>
                             `

@@ -229,19 +229,27 @@ class AccountingController extends Controller
         Request $request,
         Account $account
     ) {
-        $account = $this->accountService->update(
+        $this->assertNoPendingApproval($account);
+
+        $data = $this->validateAccount(
+            $request,
             $account,
-            $this->validateAccount(
-                $request,
-                $account,
-                true
-            )
+            true
+        );
+
+        $approvalRequest = $this->approvalService->createRequest(
+            $account,
+            'Account',
+            'update',
+            auth()->id(),
+            'Account update requires approval.',
+            $data
         );
 
         return response()->json([
             'success' => true,
-            'message' => 'Account updated successfully.',
-            'data' => $account,
+            'message' => 'Update request submitted and sent for approval.',
+            'data' => $approvalRequest,
         ]);
     }
 

@@ -18,18 +18,18 @@ $currency=setting('currency_symbol','৳');
 </div>
 
 <div>
-<h1 class="text-lg font-bold tracking-tight text-slate-800">Exit Membership</h1>
-<p class="mt-0.5 text-xs text-slate-500">Submit and track a permanent membership resignation request.</p>
+<h1 class="text-base font-semibold tracking-tight text-slate-800">Exit Membership</h1>
+<p class="mt-0.5 text-sm text-slate-500">Submit and track a permanent membership resignation request.</p>
 </div>
 </div>
 
 <div class="flex flex-wrap gap-2">
-<button id="refreshButton" type="button" onclick="loadExits(currentPage)" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
+<button id="refreshButton" type="button" onclick="loadExits(currentPage)" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
 <i id="refreshIcon" class="bi bi-arrow-clockwise"></i>
 Refresh
 </button>
 
-<button type="button" onclick="openExitModal()" class="inline-flex h-9 items-center gap-2 rounded-md bg-red-600 px-4 text-xs font-semibold text-white transition hover:bg-red-700">
+<button type="button" onclick="openExitModal()" class="inline-flex h-9 items-center gap-2 rounded-md bg-red-600 px-4 text-sm font-semibold text-white transition hover:bg-red-700">
 <i class="bi bi-box-arrow-right"></i>
 Request Resignation
 </button>
@@ -43,9 +43,9 @@ Request Resignation
 </div>
 
 <div>
-<p class="text-xs font-semibold text-amber-800">Permanent Membership Exit</p>
+<p class="text-sm font-semibold text-amber-800">Permanent Membership Cancel</p>
 <p class="mt-0.5 text-[11px] leading-5 text-amber-700">
-Membership exit becomes permanent after final settlement and closure. Outstanding subscriptions, charges, loans or other liabilities must be resolved before approval.
+Membership cancel becomes permanent after final settlement and closure. Outstanding subscriptions, charges, loans or other liabilities must be resolved before approval.
 </p>
 </div>
 </div>
@@ -110,7 +110,7 @@ Membership exit becomes permanent after final settlement and closure. Outstandin
 <div class="lg:col-span-7">
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="exitSearch" type="text" placeholder="Search exit no or reason..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
@@ -132,7 +132,7 @@ Membership exit becomes permanent after final settlement and closure. Outstandin
 </div>
 
 <div class="lg:col-span-2">
-<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 hover:bg-slate-50">
 Clear
 </button>
 </div>
@@ -149,7 +149,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-sm font-semibold text-slate-800">Exit Requests</h2>
+<h2 class="text-base font-semibold text-slate-800">Exit Requests</h2>
 <p class="text-[11px] text-slate-400">Your resignation, assessment and settlement history</p>
 </div>
 </div>
@@ -157,7 +157,7 @@ Clear
 <div id="exitList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-red-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>
 </div>
 
@@ -178,7 +178,7 @@ Clear
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Resignation Request</h2>
-<p class="text-[11px] text-slate-400">Submit a permanent membership exit request.</p>
+<p class="text-[11px] text-slate-400">Submit a permanent membership cancel request.</p>
 </div>
 </div>
 
@@ -190,7 +190,7 @@ Clear
 <form id="exitForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="exitError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="exitError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <div class="rounded-lg border border-red-200 bg-red-50/50 p-4">
 <div class="flex gap-3">
@@ -204,29 +204,29 @@ Submitting this request starts the exit process only. Your membership remains ac
 <div>
 <label class="form-label">Reason <span class="text-red-500">*</span></label>
 <textarea id="reason" rows="5" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the reason for leaving the association..."></textarea>
-<p data-field-error="reason" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="reason" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Preferred Exit Date</label>
 
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
 <input id="exitDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select preferred date" autocomplete="off">
 </div>
 
-<p data-field-error="exitDate" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="exitDate" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeExitModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">
+<button type="button" onclick="closeExitModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">
 Cancel
 </button>
 
-<button id="submitExitButton" type="submit" class="h-9 rounded-md bg-red-600 px-4 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60">
+<button id="submitExitButton" type="submit" class="h-9 rounded-md bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60">
 Submit Request
 </button>
 </div>
@@ -245,7 +245,7 @@ Submit Request
 <i class="bi bi-box-arrow-right"></i>
 </div>
 <div>
-<h2 class="text-base font-bold text-slate-800">Membership Exit</h2>
+<h2 class="text-base font-bold text-slate-800">Membership Cancel</h2>
 <p id="detailsExitNo" class="font-mono text-[10px] text-slate-400"></p>
 </div>
 </div>
@@ -258,7 +258,7 @@ Submit Request
 <div id="detailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
 <div class="flex justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">
+<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">
 Close
 </button>
 </div>
@@ -334,7 +334,7 @@ icon.classList.add('animate-spin');
 $('exitList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-red-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>`;
 
 try{
@@ -375,10 +375,10 @@ $('exitList').innerHTML=`
 <i class="bi bi-exclamation-circle"></i>
 </div>
 
-<p class="mt-3 text-sm font-semibold text-red-600">Failed to load exit requests</p>
-<p class="mt-1 text-xs text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
+<p class="mt-3 text-base font-semibold text-red-600">Failed to load exit requests</p>
+<p class="mt-1 text-sm text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
 
-<button type="button" onclick="loadExits(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 hover:bg-red-50">
+<button type="button" onclick="loadExits(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 hover:bg-red-50">
 <i class="bi bi-arrow-clockwise"></i>
 Try Again
 </button>
@@ -423,8 +423,8 @@ $('exitList').innerHTML=`
 <i class="bi bi-box-arrow-right text-xl"></i>
 </div>
 
-<p class="mt-4 text-sm font-semibold text-slate-700">No Exit Request</p>
-<p class="mt-1 text-xs text-slate-400">No membership resignation request matches the current filters.</p>
+<p class="mt-4 text-base font-semibold text-slate-700">No Exit Request</p>
+<p class="mt-1 text-sm text-slate-400">No membership resignation request matches the current filters.</p>
 </div>`;
 return;
 }
@@ -446,7 +446,7 @@ return`
 
 <div>
 <div class="flex flex-wrap items-center gap-2">
-<p class="font-mono text-xs font-semibold text-red-600">
+<p class="font-mono text-sm font-semibold text-red-600">
 ${escapeHtml(item.exit_no)}
 </p>
 ${statusBadge(item.status)}
@@ -549,7 +549,7 @@ emerald:'text-emerald-700'
 return`
 <div class="rounded-md bg-slate-50 p-3">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<p class="mt-1 truncate text-xs font-bold ${map[tone]??'text-slate-700'}">${escapeHtml(value)}</p>
+<p class="mt-1 truncate text-sm font-bold ${map[tone]??'text-slate-700'}">${escapeHtml(value)}</p>
 </div>`;
 }
 
@@ -557,7 +557,7 @@ function miniBox(label,value){
 return`
 <div class="rounded-md border border-slate-200 bg-slate-50/50 p-3">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<p class="mt-1 text-xs font-bold text-slate-700">${escapeHtml(value)}</p>
+<p class="mt-1 text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
 
@@ -653,7 +653,7 @@ closeExitModal();
 
 Toast.success(
 response.message??
-'Membership exit request submitted successfully.'
+'Membership cancel request submitted successfully.'
 );
 
 await loadExits(1);
@@ -688,11 +688,11 @@ method:'POST',
 data:{},
 confirmation:{
 title:'Cancel Resignation Request?',
-message:`Cancel membership exit request ${item.exit_no}?`,
+message:`Cancel membership cancel request ${item.exit_no}?`,
 confirmText:'Cancel Request',
 type:'danger'
 },
-successMessage:'Membership exit request cancelled successfully.',
+successMessage:'Membership cancel request cancelled successfully.',
 onSuccess:async()=>{
 await loadExits(currentPage);
 }
@@ -724,7 +724,7 @@ ${summaryBox('Status',titleCase(item.status))}
 
 <div class="overflow-hidden rounded-lg border border-slate-200">
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">Exit Information</h3>
+<h3 class="text-base font-semibold text-slate-800">Exit Information</h3>
 </div>
 
 <div class="grid sm:grid-cols-2">
@@ -743,7 +743,7 @@ ${detailItem('Final Exit Date',dateText(item.final_exit_date??item.closed_at))}
 
 <div class="rounded-lg border border-slate-200 p-4">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Reason</p>
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(item.reason??'—')}
 </p>
 </div>
@@ -752,12 +752,12 @@ ${renderBlockers(item.items??[])}
 
 ${item.rejection_reason?`
 <div class="rounded-lg border border-red-200 bg-red-50 p-4">
-<p class="text-xs font-semibold text-red-700">
+<p class="text-sm font-semibold text-red-700">
 <i class="bi bi-x-circle mr-1"></i>
 Rejection Reason
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-red-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-red-600">
 ${escapeHtml(item.rejection_reason)}
 </p>
 </div>`:''}
@@ -774,7 +774,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">Assessment Items</h3>
+<h3 class="text-base font-semibold text-slate-800">Assessment Items</h3>
 <p class="text-[11px] text-slate-400">Financial and operational exit assessment</p>
 </div>
 
@@ -788,7 +788,7 @@ ${items.map(item=>`
 </div>
 
 <div>
-<p class="text-xs font-semibold text-slate-700">${escapeHtml(item.description)}</p>
+<p class="text-sm font-semibold text-slate-700">${escapeHtml(item.description)}</p>
 <p class="mt-0.5 text-[10px] capitalize text-slate-400">
 ${escapeHtml(String(item.category??'').replaceAll('_',' '))}
 </p>
@@ -796,7 +796,7 @@ ${escapeHtml(String(item.category??'').replaceAll('_',' '))}
 </div>
 
 ${Number(item.amount??0)>0?`
-<span class="shrink-0 text-xs font-bold ${item.is_blocking?'text-red-600':'text-slate-600'}">
+<span class="shrink-0 text-sm font-bold ${item.is_blocking?'text-red-600':'text-slate-600'}">
 ${money(item.amount)}
 </span>`:''}
 
@@ -815,7 +815,7 @@ function summaryBox(label,value){
 return`
 <div class="rounded-lg border border-slate-200 bg-white p-3">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<p class="mt-2 truncate text-xs font-bold text-slate-700">${escapeHtml(value)}</p>
+<p class="mt-2 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
 
@@ -823,7 +823,7 @@ function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<div class="mt-1 text-xs font-semibold text-slate-700">
+<div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>
 </div>`;

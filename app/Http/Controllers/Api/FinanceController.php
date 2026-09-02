@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Services\ApprovalService;
 use App\Services\JournalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FinanceController extends Controller
 {
     public function __construct(
-        private JournalService $journalService
+        private JournalService $journalService,
+        private ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -98,15 +101,27 @@ class FinanceController extends Controller
                 'nullable|string|max:500',
         ]);
 
-        $transaction=$this->journalService
-            ->createManual(
-                $validated,
-                $request->user()->id
+        $transaction=DB::transaction(function()use($validated,$request){
+            $transaction=$this->journalService
+                ->createManual(
+                    $validated,
+                    $request->user()->id
+                );
+
+            $this->approvalService->createRequest(
+                $transaction,
+                'JournalEntry',
+                'create',
+                $request->user()->id,
+                'New manual journal entry requires approval before posting.'
             );
+
+            return $transaction;
+        });
 
         return response()->json([
             'success'=>true,
-            'message'=>'Journal entry posted successfully.',
+            'message'=>'Journal entry recorded and sent for approval.',
             'data'=>$transaction,
         ],201);
     }

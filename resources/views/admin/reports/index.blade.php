@@ -14,11 +14,11 @@
 
             <div class="min-w-0">
                 <h1 class="text-base font-bold text-slate-800">Reports & Analytics</h1>
-                <p class="text-sm text-slate-500">Generate, filter, review and export association reports.</p>
+                <p class="text-xs text-slate-500">Generate, filter, review and export association reports.</p>
             </div>
         </div>
 
-        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -29,7 +29,7 @@
         <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-file-earmark-bar-graph text-sm"></i>
+                    <i class="bi bi-file-earmark-bar-graph text-base"></i>
                 </div>
 
                 <div>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="flex w-full flex-col gap-2 sm:flex-row xl:w-auto xl:gap-0">
-                <select id="moduleFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-600 outline-none focus:border-indigo-400 xl:w-40 xl:rounded-r-none">
+                <select id="moduleFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400 xl:w-40 xl:rounded-r-none">
                     <option value="members">Members</option>
                     <option value="finance">Finance</option>
                     <option value="investments">Investments</option>
@@ -50,22 +50,22 @@
                 </select>
 
                 <div class="relative min-w-0 sm:flex-1 xl:w-56">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
-                    <input id="searchInput" type="text" placeholder="Search report..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    <input id="searchInput" type="text" placeholder="Search report..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-600 outline-none focus:border-indigo-400 xl:w-36 xl:rounded-none xl:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400 xl:w-36 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                 </select>
 
                 <div class="relative min-w-0 xl:w-56">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
-                    <input id="reportDateRange" type="text" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0" placeholder="All time" autocomplete="off">
+                    <input id="reportDateRange" type="text" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0" placeholder="All time" autocomplete="off">
                 </div>
 
-                <button type="button" onclick="clearReportFilters()" class="h-9 cursor-pointer whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                <button type="button" onclick="clearReportFilters()" class="h-9 cursor-pointer whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     <i class="bi bi-x-lg mr-1"></i>
                     Clear
                 </button>
@@ -75,7 +75,7 @@
 
     {{-- Summary --}}
     <div id="summaryContainer">
-        <div class="rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             Loading summary...
         </div>
     </div>
@@ -84,7 +84,7 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-3 border-b border-slate-200 px-4 py-3 md:flex-row md:items-center md:justify-between">
             <div class="min-w-0">
-                <h2 id="reportTitle" class="truncate text-sm font-bold text-slate-800">Member Report</h2>
+                <h2 id="reportTitle" class="truncate text-base font-bold text-slate-800">Member Report</h2>
                 <p id="reportSubtitle" class="mt-0.5 truncate text-[11px] text-slate-400">0 records</p>
             </div>
 
@@ -348,7 +348,7 @@ async function loadSummary(){
         `;
     }catch(error){
         el.summary.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-5 text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-5 text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -362,7 +362,7 @@ function summaryCard(label,value,icon){
         <div class="min-w-0 rounded-md border border-slate-200 bg-white p-3">
             <div class="flex items-center gap-2">
                 <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi ${icon} text-xs"></i>
+                    <i class="bi ${icon} text-sm"></i>
                 </div>
 
                 <p class="truncate text-[10px] font-medium text-slate-400">

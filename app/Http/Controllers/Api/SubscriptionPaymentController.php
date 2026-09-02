@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
+use App\Services\ApprovalService;
 use App\Services\SubscriptionService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ use Illuminate\Validation\Rule;
 class SubscriptionPaymentController extends Controller
 {
     public function __construct(
-        protected SubscriptionService $subscriptionService
+        protected SubscriptionService $subscriptionService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -232,19 +234,32 @@ class SubscriptionPaymentController extends Controller
             'note'=>'nullable|string|max:2000',
         ]);
 
-        $payment=$this->subscriptionService
-            ->verifyPayment(
-                $subscriptionPayment,
-                $request->user()->id,
-                isset($validated['note'])
-                    ?trim($validated['note'])
-                    :null
-            );
+        $note=isset($validated['note'])
+            ?trim($validated['note'])
+            :null;
+
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $subscriptionPayment,
+            'SubscriptionPayment',
+            'verify'
+        );
+
+        $this->approvalService->approve(
+            $approvalRequest,
+            $request->user()->id,
+            $note,
+            $note?['note'=>$note]:[]
+        );
 
         return response()->json([
             'success'=>true,
             'message'=>'Subscription payment verified successfully.',
-            'data'=>$payment,
+            'data'=>$subscriptionPayment->fresh([
+                'member.user',
+                'due.subscription.plan',
+                'verifier',
+                'financeTransaction.entries.account',
+            ]),
         ]);
     }
 
@@ -256,17 +271,26 @@ class SubscriptionPaymentController extends Controller
             'reason'=>'required|string|max:2000',
         ]);
 
-        $payment=$this->subscriptionService
-            ->rejectPayment(
-                $subscriptionPayment,
-                $request->user()->id,
-                trim($validated['reason'])
-            );
+        $approvalRequest=$this->approvalService->findPendingRequestFor(
+            $subscriptionPayment,
+            'SubscriptionPayment',
+            'verify'
+        );
+
+        $this->approvalService->reject(
+            $approvalRequest,
+            $request->user()->id,
+            trim($validated['reason'])
+        );
 
         return response()->json([
             'success'=>true,
             'message'=>'Subscription payment rejected successfully.',
-            'data'=>$payment,
+            'data'=>$subscriptionPayment->fresh([
+                'member.user',
+                'due.subscription.plan',
+                'verifier',
+            ]),
         ]);
     }
 

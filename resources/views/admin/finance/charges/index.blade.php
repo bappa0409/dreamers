@@ -12,11 +12,11 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Member Charges</h1>
-                <p class="text-sm text-slate-500">Create, collect and manage member charges and receivables.</p>
+                <p class="text-xs text-slate-500">Create, collect and manage member charges and receivables.</p>
             </div>
         </div>
         @if(auth()->user()->hasPermission('Finance.create'))
-        <button type="button" onclick="openChargeModal()" class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+        <button type="button" onclick="openChargeModal()" class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Charge
         </button>
@@ -47,7 +47,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Charges</p>
@@ -57,17 +57,19 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_240px_130px_auto] lg:gap-0">
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search..." class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
                 </div>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                    <input id="dateRangeFilter" type="text" class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0" placeholder="Select date range" autocomplete="off">
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <input id="dateRangeFilter" type="text" class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0" placeholder="Select date range" autocomplete="off">
                 </div>
 
-                <select id="statusFilter" class="h-9 border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 lg:border-l-0">
+                <select id="statusFilter" class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
+                    <option value="pending_approval">Pending Approval</option>
+                    <option value="rejected">Rejected</option>
                     <option value="unpaid">Unpaid</option>
                     <option value="partial">Partial</option>
                     <option value="paid">Paid</option>
@@ -75,7 +77,7 @@
                     <option value="cancelled">Cancelled</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -87,16 +89,16 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Charge</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Charge Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Due Date</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Paid</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Outstanding</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Charge</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Charge Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Due Date</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Paid</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Outstanding</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="chargeTable">
@@ -119,8 +121,8 @@
                     <i class="bi bi-receipt"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Add Member Charge</h2>
-                    <p class="text-sm text-slate-500">Create receivable and post accounting entry automatically.</p>
+                    <h2 class="text-base font-semibold text-slate-800">Add Member Charge</h2>
+                    <p class="text-xs text-slate-500">Create receivable and post accounting entry automatically.</p>
                 </div>
             </div>
             <button type="button" onclick="closeChargeModal()" class="app-modal-close">
@@ -136,7 +138,7 @@
                             <i class="bi bi-file-earmark-text"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Charge Information</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Charge Information</h3>
                             <p class="text-[11px] text-slate-400">Enter member charge details.</p>
                         </div>
                     </div>
@@ -177,7 +179,7 @@
                         <div>
                             <label class="form-label">Charge Date <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                                 <input id="chargeDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" required>
                             </div>
                         </div>
@@ -185,7 +187,7 @@
                         <div>
                             <label class="form-label">Due Date</label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                                 <input id="dueDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                             </div>
                         </div>
@@ -208,7 +210,7 @@
                             <i class="bi bi-journal-check"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Automatic Journal</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Automatic Journal</h3>
                             <p class="text-[11px] text-slate-400">Receivable journal will be posted automatically.</p>
                         </div>
                     </div>
@@ -216,24 +218,24 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="rounded-md border border-emerald-200 bg-emerald-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Debit</p>
-                            <p class="mt-1 text-sm font-semibold text-slate-700">Accounts Receivable</p>
+                            <p class="mt-1 text-base font-semibold text-slate-700">Accounts Receivable</p>
                         </div>
 
                         <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-indigo-600">Credit</p>
-                            <p id="journalCredit" class="mt-1 text-sm font-semibold text-slate-700">Income Account</p>
+                            <p id="journalCredit" class="mt-1 text-base font-semibold text-slate-700">Income Account</p>
                         </div>
                     </div>
                 </section>
 
-                <div id="chargeError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="chargeError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeChargeModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closeChargeModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Cancel
                 </button>
-                <button id="saveChargeButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveChargeButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     Create Charge
                 </button>
             </div>
@@ -250,7 +252,7 @@
                     <i class="bi bi-cash-coin"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Receive Payment</h2>
+                    <h2 class="text-base font-semibold text-slate-800">Receive Payment</h2>
                     <p id="paymentDescription" class="text-sm text-slate-500"></p>
                 </div>
             </div>
@@ -273,7 +275,7 @@
                         <div>
                             <label class="form-label">Payment Date <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                                 <input id="paymentDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" required>
                             </div>
                         </div>
@@ -311,23 +313,23 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="rounded-md border border-emerald-200 bg-emerald-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Debit</p>
-                            <p class="mt-1 text-sm font-semibold text-slate-700">Cash / Bank</p>
+                            <p class="mt-1 text-base font-semibold text-slate-700">Cash / Bank</p>
                         </div>
                         <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-indigo-600">Credit</p>
-                            <p class="mt-1 text-sm font-semibold text-slate-700">Accounts Receivable</p>
+                            <p class="mt-1 text-base font-semibold text-slate-700">Accounts Receivable</p>
                         </div>
                     </div>
                 </section>
 
-                <div id="paymentError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="paymentError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closePaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closePaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Cancel
                 </button>
-                <button id="paymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                <button id="paymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     Post Payment
                 </button>
             </div>
@@ -344,8 +346,8 @@
                     <i class="bi bi-receipt-cutoff"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Charge Details</h2>
-                    <p class="text-sm text-slate-500">View charge, accounting and payment information.</p>
+                    <h2 class="text-base font-semibold text-slate-800">Charge Details</h2>
+                    <p class="text-xs text-slate-500">View charge, accounting and payment information.</p>
                 </div>
             </div>
             <button type="button" onclick="closeDetailsModal()" class="app-modal-close">
@@ -356,7 +358,7 @@
         <div id="detailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="closeDetailsModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+            <button type="button" onclick="closeDetailsModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -372,7 +374,7 @@
                     <i class="bi bi-exclamation-circle"></i>
                 </div>
                 <div>
-                    <h2 id="reasonTitle" class="text-lg font-bold text-slate-800">Update Charge</h2>
+                    <h2 id="reasonTitle" class="text-base font-semibold text-slate-800">Update Charge</h2>
                     <p id="reasonDescription" class="text-sm text-slate-500"></p>
                 </div>
             </div>
@@ -391,14 +393,14 @@
                     <textarea id="reasonText" rows="4" maxlength="1000" class="app-input resize-none" required></textarea>
                 </div>
 
-                <div id="reasonError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="reasonError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeReasonModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closeReasonModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Back
                 </button>
-                <button id="reasonButton" type="submit" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white disabled:opacity-60">
+                <button id="reasonButton" type="submit" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
                     Continue
                 </button>
             </div>
@@ -570,7 +572,7 @@ function renderCharges(){
         return`
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                 <td class="px-4 py-3">
-                    <p class="font-mono text-xs font-semibold text-indigo-600">
+                    <p class="font-mono text-sm font-semibold text-indigo-600">
                         ${AdminUI.escapeHtml(item.charge_no)}
                     </p>
                     <p class="mt-0.5 text-[10px] text-slate-400">
@@ -579,7 +581,7 @@ function renderCharges(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         ${AdminUI.escapeHtml(item.member?.user?.name??'—')}
                     </p>
                     <p class="text-[10px] text-slate-400">
@@ -587,27 +589,27 @@ function renderCharges(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3 text-sm text-slate-600">
                     ${AdminUI.escapeHtml(titleCase(item.charge_type))}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3 text-sm text-slate-600">
                     ${AdminUI.formatDate(item.charge_date)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3 text-sm text-slate-600">
                     ${item.due_date?AdminUI.formatDate(item.due_date):'—'}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-slate-800">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-slate-800">
                     ${money(item.amount)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs text-slate-600">
+                <td class="px-4 py-3 text-right text-sm text-slate-600">
                     ${money(item.paid_amount)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold ${outstanding>0?'text-red-600':'text-slate-600'}">
+                <td class="px-4 py-3 text-right text-sm font-semibold ${outstanding>0?'text-red-600':'text-slate-600'}">
                     ${money(outstanding)}
                 </td>
 
@@ -618,21 +620,21 @@ function renderCharges(){
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-1">
                         <button type="button" onclick="viewCharge(${item.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100" title="View">
-                            <i class="bi bi-eye text-xs"></i>
+                            <i class="bi bi-eye text-sm"></i>
                         </button>
 
                         ${canCreate&&['unpaid','partial'].includes(item.status)?`
                             <button type="button" onclick="openPaymentModal(${item.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100" title="Receive Payment">
-                                <i class="bi bi-cash-coin text-xs"></i>
+                                <i class="bi bi-cash-coin text-sm"></i>
                             </button>
                         `:''}
 
                         ${canUpdate&&item.status==='unpaid'?`
                             <button type="button" onclick="openReasonModal(${item.id},'waive')" class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600 hover:bg-amber-100" title="Waive">
-                                <i class="bi bi-percent text-xs"></i>
+                                <i class="bi bi-percent text-sm"></i>
                             </button>
                             <button type="button" onclick="openReasonModal(${item.id},'cancel')" class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100" title="Cancel">
-                                <i class="bi bi-x-circle text-xs"></i>
+                                <i class="bi bi-x-circle text-sm"></i>
                             </button>
                         `:''}
                     </div>
@@ -865,7 +867,7 @@ window.viewCharge=async function(id){
         detailPayments=payments;
 
         body.innerHTML=`
-            <div class="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 md:grid-cols-4">
+            <div class="grid grid-cols-1 gap-4 text-base sm:grid-cols-2 md:grid-cols-4">
                 ${detail('Charge No',item.charge_no)}
                 ${detail('Member',item.member?.user?.name??'—')}
                 ${detail('Member Code',item.member?.member_code??'—')}
@@ -881,15 +883,15 @@ window.viewCharge=async function(id){
             </div>
 
             <div class="mt-5">
-                <p class="mb-2 text-xs font-semibold text-slate-700">Charge Journal</p>
+                <p class="mb-2 text-sm font-semibold text-slate-700">Charge Journal</p>
                 ${journalTable(entries)}
             </div>
 
             <div class="mt-5">
-                <p class="mb-2 text-xs font-semibold text-slate-700">Payment History</p>
+                <p class="mb-2 text-sm font-semibold text-slate-700">Payment History</p>
 
                 <div class="overflow-x-auto rounded-md border border-slate-200">
-                    <table class="w-full min-w-[620px] text-xs">
+                    <table class="w-full min-w-[620px] text-sm">
                         <thead class="bg-slate-50">
                             <tr>
                                 <th class="px-3 py-2 text-left">Payment No</th>
@@ -946,14 +948,14 @@ window.viewCharge=async function(id){
             </div>
 
             ${item.description?`
-                <div class="mt-4 rounded-md bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+                <div class="mt-4 rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600">
                     ${AdminUI.escapeHtml(item.description)}
                 </div>
             `:''}
         `;
     }catch(error){
         body.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         `;
@@ -983,7 +985,7 @@ window.openPaymentCancelModal=function(paymentId){
 
     const button=document.getElementById('reasonButton');
     button.textContent='Cancel Payment';
-    button.className='cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60';
+    button.className='cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60';
 
     AdminUI.clearError('reasonError');
     AdminUI.openModal('reasonModal');
@@ -1026,8 +1028,8 @@ window.openReasonModal=function(id,action){
         waive?'Waive Charge':'Cancel Charge';
 
     button.className=waive
-        ?'cursor-pointer rounded-md bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700 disabled:opacity-60'
-        :'cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60';
+        ?'cursor-pointer rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 disabled:opacity-60'
+        :'cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60';
 
     AdminUI.clearError('reasonError');
     AdminUI.openModal('reasonModal');
@@ -1116,7 +1118,7 @@ document.getElementById('reasonForm').addEventListener('submit',async event=>{
 function journalTable(entries){
     return`
         <div class="overflow-x-auto rounded-md border border-slate-200">
-            <table class="w-full min-w-[500px] text-xs">
+            <table class="w-full min-w-[500px] text-sm">
                 <thead class="bg-slate-50">
                     <tr>
                         <th class="px-3 py-2 text-left">Account</th>
@@ -1167,6 +1169,8 @@ function detail(label,value){
 
 function chargeBadge(status){
     const map={
+        pending_approval:'bg-amber-50 text-amber-700',
+        rejected:'bg-red-50 text-red-700',
         unpaid:'bg-red-50 text-red-700',
         partial:'bg-amber-50 text-amber-700',
         paid:'bg-emerald-50 text-emerald-700',

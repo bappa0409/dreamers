@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Roles & Permissions</h1>
-                <p class="text-sm text-slate-500">Manage system roles, custom roles and access permissions.</p>
+                <p class="text-xs text-slate-500">Manage system roles, custom roles and access permissions.</p>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openRoleModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add Role
@@ -48,7 +48,7 @@
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-indigo-600">System Roles</p>
+                    <p class="text-sm text-indigo-600">System Roles</p>
                     <p id="systemRoles" class="mt-2 text-xl font-bold text-indigo-700">0</p>
                 </div>
 
@@ -61,7 +61,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-emerald-600">Custom Roles</p>
+                    <p class="text-sm text-emerald-600">Custom Roles</p>
                     <p id="customRoles" class="mt-2 text-xl font-bold text-emerald-700">0</p>
                 </div>
 
@@ -74,7 +74,7 @@
         <div class="col-span-2 rounded-md border border-amber-200 bg-amber-50/40 p-4 xl:col-span-1">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-amber-600">Permissions</p>
+                    <p class="text-sm text-amber-600">Permissions</p>
                     <p id="totalPermissions" class="mt-2 text-xl font-bold text-amber-700">0</p>
                 </div>
 
@@ -90,7 +90,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -101,7 +101,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="roleSearchInput"
@@ -114,7 +114,7 @@
                 <button
                     type="button"
                     onclick="clearRoleSearch()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -129,11 +129,11 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[34%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Role</th>
-                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Users</th>
-                        <th class="w-[24%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Permissions</th>
-                        <th class="w-[16%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[34%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Role</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Users</th>
+                        <th class="w-[24%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Permissions</th>
+                        <th class="w-[16%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="min-w-0">
-                    <h2 id="roleModalTitle" class="text-lg font-bold text-slate-800">Add Role</h2>
+                    <h2 id="roleModalTitle" class="text-base font-semibold text-slate-800">Add Role</h2>
                     <p class="text-xs text-slate-500">Configure role information and access permissions.</p>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Role Information</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Role Information</h3>
                             <p class="text-[11px] text-slate-400">Basic identity of this role.</p>
                         </div>
                     </div>
@@ -191,7 +191,7 @@
                             <label class="form-label">Role Name *</label>
 
                             <div class="relative">
-                                <i class="bi bi-code-slash pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-code-slash pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400"></i>
 
                                 <input
                                     id="roleName"
@@ -209,7 +209,7 @@
                             <label class="form-label">Display Name *</label>
 
                             <div class="relative">
-                                <i class="bi bi-type pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-type pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400"></i>
 
                                 <input
                                     id="roleDisplayName"
@@ -244,7 +244,7 @@
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold text-slate-800">Access Permissions</h3>
+                                <h3 class="text-base font-semibold text-slate-800">Access Permissions</h3>
                                 <p class="text-[11px] text-slate-400">Select exactly what this role can access.</p>
                             </div>
                         </div>
@@ -253,7 +253,7 @@
                             <button
                                 type="button"
                                 onclick="selectAllPermissions()"
-                                class="cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100"
+                                class="cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
                             >
                                 <i class="bi bi-check2-all mr-1"></i>
                                 Select All
@@ -262,7 +262,7 @@
                             <button
                                 type="button"
                                 onclick="clearAllPermissions()"
-                                class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                                class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                             >
                                 <i class="bi bi-x-circle mr-1"></i>
                                 Clear
@@ -271,20 +271,20 @@
                     </div>
 
                     <div id="permissionContainer" class="space-y-3 p-4">
-                        <div class="py-8 text-center text-sm text-slate-400">
+                        <div class="py-8 text-center text-base text-slate-400">
                             Loading permissions...
                         </div>
                     </div>
                 </section>
 
-                <div id="roleFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="roleFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
                 <button
                     type="button"
                     onclick="closeRoleModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -292,7 +292,7 @@
                 <button
                     id="saveRoleButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save Role
                 </button>
@@ -360,7 +360,7 @@ async function loadRoles(){
 
 async function loadPermissions(){
     el.permissionContainer.innerHTML=`
-        <div class="py-8 text-center text-sm text-slate-400">
+        <div class="py-8 text-center text-base text-slate-400">
             <span class="inline-flex items-center gap-2">
                 <i class="bi bi-arrow-repeat animate-spin"></i>
                 Loading permissions...
@@ -378,7 +378,7 @@ async function loadPermissions(){
         updateRoleStats();
     }catch(error){
         el.permissionContainer.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-5 text-center text-xs text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-5 text-center text-sm text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         `;
@@ -470,7 +470,7 @@ function renderRoles(){
                 <td class="min-w-0 px-4 py-3">
                     <div class="min-w-0">
                         <p
-                            class="truncate text-xs font-semibold text-slate-800"
+                            class="truncate text-sm font-semibold text-slate-800"
                             title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
                         >
                             ${AdminUI.escapeHtml(role.display_name||role.name||'—')}
@@ -515,7 +515,7 @@ function renderRoles(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <p class="text-xs font-semibold text-slate-700">${userCount}</p>
+                    <p class="text-sm font-semibold text-slate-700">${userCount}</p>
                     <p class="mt-0.5 text-[10px] text-slate-400">
                         ${Number(userCount)===1?'user':'users'}
                     </p>
@@ -548,7 +548,7 @@ function renderRoles(){
                                         title="Edit Role"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                     >
-                                        <i class="bi bi-pencil-square text-xs"></i>
+                                        <i class="bi bi-pencil-square text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -563,7 +563,7 @@ function renderRoles(){
                                         title="Delete Role"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                     >
-                                        <i class="bi bi-trash text-xs"></i>
+                                        <i class="bi bi-trash text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -576,7 +576,7 @@ function renderRoles(){
                                         title="Protected System Role"
                                         class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-400"
                                     >
-                                        <i class="bi bi-lock text-xs"></i>
+                                        <i class="bi bi-lock text-sm"></i>
                                     </span>
                                 `
                                 :''
@@ -632,7 +632,7 @@ function renderPermissionGroups(){
 
     if(!groups.length){
         el.permissionContainer.innerHTML=`
-            <div class="rounded-md border border-dashed border-slate-300 p-6 text-center text-xs text-slate-400">
+            <div class="rounded-md border border-dashed border-slate-300 p-6 text-center text-sm text-slate-400">
                 No permissions found.
             </div>
         `;
@@ -650,7 +650,7 @@ function renderPermissionGroups(){
                         </div>
 
                         <div class="min-w-0">
-                            <h4 class="truncate text-xs font-semibold text-slate-800">
+                            <h4 class="truncate text-sm font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(module)}
                             </h4>
 
@@ -681,7 +681,7 @@ function renderPermissionGroups(){
 
                             <span class="min-w-0">
                                 <span
-                                    class="block truncate text-xs font-semibold text-slate-700 group-hover:text-indigo-700"
+                                    class="block truncate text-sm font-semibold text-slate-700 group-hover:text-indigo-700"
                                     title="${AdminUI.escapeHtml(permission.display_name||permission.name||'')}"
                                 >
                                     ${AdminUI.escapeHtml(permission.display_name||permission.name||'')}

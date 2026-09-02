@@ -38,11 +38,11 @@
         <div class="p-6">
 
             <div class="mb-6">
-                <h2 class="text-lg font-bold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Create Your Password
                 </h2>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Welcome {{ $user->name }}. Set a secure password for your account.
                 </p>
             </div>

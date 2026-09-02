@@ -15,7 +15,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">User Role Assignment</h1>
-                <p class="text-sm text-slate-500">Assign one or more roles to association users.</p>
+                <p class="text-xs text-slate-500">Assign one or more roles to association users.</p>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
 
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -39,7 +39,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -52,7 +52,7 @@
                 <button
                     type="button"
                     onclick="clearSearch()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -68,23 +68,23 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[27%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[27%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             User
                         </th>
 
-                        <th class="w-[17%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[17%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Member
                         </th>
 
-                        <th class="w-[31%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[31%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Roles
                         </th>
 
-                        <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -92,7 +92,7 @@
 
                 <tbody id="usersTable">
                     <tr>
-                        <td colspan="5" class="px-5 py-10 text-center text-sm text-slate-400">
+                        <td colspan="5" class="px-5 py-10 text-center text-base text-slate-400">
                             Loading users...
                         </td>
                     </tr>
@@ -121,7 +121,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Assign Roles
                     </h2>
 
@@ -145,14 +145,14 @@
                 id="roleList"
                 class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4"
             >
-                <div class="col-span-full py-8 text-center text-sm text-slate-400">
+                <div class="col-span-full py-8 text-center text-base text-slate-400">
                     Loading roles...
                 </div>
             </div>
 
             <div
                 id="roleError"
-                class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
             ></div>
 
         </div>
@@ -163,7 +163,7 @@
             <button
                 type="button"
                 onclick="closeRoleModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -172,7 +172,7 @@
                 id="saveRolesButton"
                 type="button"
                 onclick="saveUserRoles()"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 Save Roles
             </button>
@@ -296,7 +296,7 @@ function renderUsers(){
                 <td class="min-w-0 px-4 py-3">
 
                     <p
-                        class="truncate text-xs font-semibold text-slate-800"
+                        class="truncate text-sm font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(user.name??'')}"
                     >
                         ${AdminUI.escapeHtml(user.name??'N/A')}
@@ -409,7 +409,7 @@ function renderUsers(){
                         title="Manage Roles"
                         class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                     >
-                        <i class="bi bi-person-gear text-xs"></i>
+                        <i class="bi bi-person-gear text-sm"></i>
                     </button>
 
                 </td>
@@ -468,7 +468,7 @@ window.openRoleModal=async function(userId){
         }`;
 
     el.roleList.innerHTML=`
-        <div class="col-span-full py-8 text-center text-sm text-slate-400">
+        <div class="col-span-full py-8 text-center text-base text-slate-400">
             <i class="bi bi-arrow-repeat mr-1 animate-spin"></i>
             Loading roles...
         </div>
@@ -519,7 +519,7 @@ function renderRoleList(){
     if(!availableRoles.length){
 
         el.roleList.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-slate-50 px-4 py-8 text-center text-base text-slate-400">
                 No roles available.
             </div>
         `;
@@ -561,7 +561,7 @@ function renderRoleList(){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-800"
+                            class="truncate text-sm font-semibold text-slate-800"
                             title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
                         >
                             ${AdminUI.escapeHtml(role.display_name||role.name||'')}

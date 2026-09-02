@@ -12,10 +12,10 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Trial Balance</h1>
-                <p class="text-sm text-slate-500">Account balances derived from posted journal entries.</p>
+                <p class="text-xs text-slate-500">Account balances derived from posted journal entries.</p>
             </div>
         </div>
-        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-xs font-semibold"></div>
+        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
     </div>
 
     {{-- Filters --}}
@@ -26,7 +26,7 @@
                     Search
                 </label>
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input
                         id="searchInput"
                         type="text"
@@ -56,7 +56,7 @@
                     As Of Date
                 </label>
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input
                         id="asOfFilter"
                         type="text"
@@ -75,7 +75,7 @@
                         id="showZeroFilter"
                         type="checkbox"
                         class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                    <span class="text-sm text-slate-600">Show Zero</span>
+                    <span class="text-base text-slate-600">Show Zero</span>
                 </label>
             </div>
 
@@ -124,7 +124,7 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-sm font-bold text-slate-700">Trial Balance</h2>
+                <h2 class="text-base font-bold text-slate-700">Trial Balance</h2>
                 <p id="reportPeriod" class="text-[11px] text-slate-400"></p>
             </div>
             <p class="text-[11px] text-slate-400">
@@ -133,15 +133,15 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[850px] text-sm">
+            <table class="w-full min-w-[850px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Account</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Sub Type</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Debit</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Credit</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Code</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Account</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Sub Type</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Debit</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Credit</th>
                     </tr>
                 </thead>
 
@@ -155,13 +155,13 @@
 
                 <tfoot class="border-t border-slate-200 bg-slate-50">
                     <tr>
-                        <td colspan="4" class="px-4 py-3 text-right text-xs font-bold text-slate-700">
+                        <td colspan="4" class="px-4 py-3 text-right text-sm font-bold text-slate-700">
                             Total
                         </td>
-                        <td id="footerDebit" class="px-4 py-3 text-right text-sm font-bold text-slate-800">
+                        <td id="footerDebit" class="px-4 py-3 text-right text-base font-bold text-slate-800">
                             {{ setting('currency_symbol','৳') }}0.00
                         </td>
-                        <td id="footerCredit" class="px-4 py-3 text-right text-sm font-bold text-slate-800">
+                        <td id="footerCredit" class="px-4 py-3 text-right text-base font-bold text-slate-800">
                             {{ setting('currency_symbol','৳') }}0.00
                         </td>
                     </tr>
@@ -393,7 +393,7 @@ function renderAccounts(accounts){
     el.table.innerHTML=accounts.map(account=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
             <td class="px-4 py-3">
-                <span class="font-mono text-xs font-semibold text-indigo-600">
+                <span class="font-mono text-sm font-semibold text-indigo-600">
                     ${esc(account.code)}
                 </span>
             </td>
@@ -414,7 +414,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3 text-sm text-slate-600">
                 ${esc(
                     AdminUI.titleCase(
                         account.type
@@ -422,7 +422,7 @@ function renderAccounts(accounts){
                 )}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-500">
+            <td class="px-4 py-3 text-sm text-slate-500">
                 ${
                     account.sub_type
                         ?esc(
@@ -434,7 +434,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+            <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                 ${
                     Number(account.debit_balance)>0
                         ?money(account.debit_balance)
@@ -442,7 +442,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+            <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                 ${
                     Number(account.credit_balance)>0
                         ?money(account.credit_balance)

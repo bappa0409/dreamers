@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
+use App\Services\ApprovalService;
 use App\Services\MemberDashboardService;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MemberSubscriptionController extends Controller
 {
     public function __construct(
         protected MemberDashboardService $memberDashboardService,
-        protected SubscriptionService $subscriptionService
+        protected SubscriptionService $subscriptionService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -238,18 +241,30 @@ class MemberSubscriptionController extends Controller
             'Subscription due not found.'
         );
 
-        $payment=$this->subscriptionService->submitPayment(
-            $member,
-            $subscriptionDue,
-            [
-                ...$validated,
-                'transaction_reference'=>isset(
-                    $validated['transaction_reference']
-                )
-                    ?trim($validated['transaction_reference'])
-                    :null,
-            ]
-        );
+        $payment=DB::transaction(function()use($member,$subscriptionDue,$validated,$request){
+            $payment=$this->subscriptionService->submitPayment(
+                $member,
+                $subscriptionDue,
+                [
+                    ...$validated,
+                    'transaction_reference'=>isset(
+                        $validated['transaction_reference']
+                    )
+                        ?trim($validated['transaction_reference'])
+                        :null,
+                ]
+            );
+
+            $this->approvalService->createRequest(
+                $payment,
+                'SubscriptionPayment',
+                'verify',
+                $request->user()->id,
+                'New subscription payment requires verification.'
+            );
+
+            return $payment;
+        });
 
         return response()->json([
             'success'=>true,

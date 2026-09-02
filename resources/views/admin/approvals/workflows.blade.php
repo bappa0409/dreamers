@@ -12,21 +12,21 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Approval Workflows</h1>
-                <p class="text-sm text-slate-500">Configure sequential approval steps for system modules.</p>
+                <p class="text-xs text-slate-500">Configure sequential approval steps for system modules.</p>
             </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.approvals') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-arrow-left text-[11px]"></i>
                 Back to Approval Requests
             </a>
 
             @if(auth()->user()->hasPermission('Approval.update'))
-                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                     <i class="bi bi-plus-lg text-[11px]"></i>
                     Add Workflow
                 </button>
@@ -38,7 +38,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Workflows</p>
@@ -48,17 +48,17 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search workflows..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -70,17 +70,17 @@
         <table class="w-full table-fixed text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="w-[18%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Module</th>
-                    <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Action</th>
-                    <th class="w-[40%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Approval Steps</th>
-                    <th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                    <th class="w-[16%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                    <th class="w-[18%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Module</th>
+                    <th class="w-[14%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Action</th>
+                    <th class="w-[40%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Approval Steps</th>
+                    <th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                    <th class="w-[16%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                 </tr>
             </thead>
 
             <tbody id="workflowTable">
                 <tr>
-                    <td colspan="5" class="px-5 py-10 text-center text-sm text-slate-400">Loading workflows...</td>
+                    <td colspan="5" class="px-5 py-10 text-center text-base text-slate-400">Loading workflows...</td>
                 </tr>
             </tbody>
         </table>
@@ -95,7 +95,7 @@
                     <i class="bi bi-diagram-3"></i>
                 </div>
                 <div>
-                    <h2 id="workflowModalTitle" class="text-lg font-bold text-slate-800">Add Workflow</h2>
+                    <h2 id="workflowModalTitle" class="text-base font-semibold text-slate-800">Add Workflow</h2>
                     <p class="text-xs text-slate-500">Select module, action and up to 3 approvers.</p>
                 </div>
             </div>
@@ -125,27 +125,27 @@
 
                 <section class="rounded-md border border-slate-200 p-4">
                     <div class="mb-4">
-                        <h3 class="text-sm font-semibold text-slate-800">Approval Steps</h3>
+                        <h3 class="text-base font-semibold text-slate-800">Approval Steps</h3>
                         <p class="mt-1 text-[11px] text-slate-400">Step 1 is required. Step 2 and Step 3 are optional.</p>
                     </div>
 
                     <div class="space-y-3">
                         <div class="grid grid-cols-[70px_1fr] items-center gap-3">
-                            <div class="text-xs font-semibold text-slate-600">Step 1</div>
+                            <div class="text-sm font-semibold text-slate-600">Step 1</div>
                             <select id="approver1" class="approver-select app-input cursor-pointer">
                                 <option value="">Select Approver</option>
                             </select>
                         </div>
 
                         <div class="grid grid-cols-[70px_1fr] items-center gap-3">
-                            <div class="text-xs font-semibold text-slate-600">Step 2</div>
+                            <div class="text-sm font-semibold text-slate-600">Step 2</div>
                             <select id="approver2" class="approver-select app-input cursor-pointer">
                                 <option value="">Optional</option>
                             </select>
                         </div>
 
                         <div class="grid grid-cols-[70px_1fr] items-center gap-3">
-                            <div class="text-xs font-semibold text-slate-600">Step 3</div>
+                            <div class="text-sm font-semibold text-slate-600">Step 3</div>
                             <select id="approver3" class="approver-select app-input cursor-pointer">
                                 <option value="">Optional</option>
                             </select>
@@ -155,20 +155,20 @@
 
                 <label class="flex cursor-pointer items-center justify-between rounded-md border border-slate-200 p-3">
                     <div>
-                        <p class="text-xs font-semibold text-slate-700">Active Workflow</p>
+                        <p class="text-sm font-semibold text-slate-700">Active Workflow</p>
                         <p class="mt-1 text-[10px] text-slate-400">New requests will use this workflow.</p>
                     </div>
 
                     <input id="isActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                 </label>
 
-                <div id="workflowError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="workflowError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeWorkflowModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeWorkflowModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
 
-                <button id="saveWorkflowButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Save Workflow</button>
+                <button id="saveWorkflowButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Save Workflow</button>
             </div>
         </form>
     </div>
@@ -289,7 +289,7 @@ function renderWorkflows(){
     el.table.innerHTML=rows.map(workflow=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
             <td class="px-4 py-3">
-                <p class="truncate text-xs font-semibold text-slate-800">
+                <p class="truncate text-sm font-semibold text-slate-800">
                     ${AdminUI.escapeHtml(workflow.module)}
                 </p>
             </td>
@@ -325,15 +325,15 @@ function renderWorkflows(){
                         canUpdate
                             ?`
                                 <button type="button" onclick="editWorkflow(${workflow.id})" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100" title="Edit">
-                                    <i class="bi bi-pencil-square text-xs"></i>
+                                    <i class="bi bi-pencil-square text-sm"></i>
                                 </button>
 
                                 <button type="button" onclick="toggleWorkflow(${workflow.id})" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md ${workflow.is_active?'bg-amber-50 text-amber-700 hover:bg-amber-100':'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}" title="${workflow.is_active?'Deactivate':'Activate'}">
-                                    <i class="bi ${workflow.is_active?'bi-pause-circle':'bi-play-circle'} text-xs"></i>
+                                    <i class="bi ${workflow.is_active?'bi-pause-circle':'bi-play-circle'} text-sm"></i>
                                 </button>
 
                                 <button type="button" onclick="deleteWorkflow(${workflow.id})" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100" title="Delete">
-                                    <i class="bi bi-trash text-xs"></i>
+                                    <i class="bi bi-trash text-sm"></i>
                                 </button>
                             `
                             :''

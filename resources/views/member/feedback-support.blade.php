@@ -14,18 +14,18 @@
 </div>
 
 <div>
-<h1 class="text-lg font-bold tracking-tight text-slate-800">Feedback & Support</h1>
-<p class="mt-0.5 text-xs text-slate-500">Send feedback, request support, submit complaints or suggestions and track progress.</p>
+<h1 class="text-base font-semibold tracking-tight text-slate-800">Feedback & Support</h1>
+<p class="mt-0.5 text-sm text-slate-500">Send feedback, request support, submit complaints or suggestions and track progress.</p>
 </div>
 </div>
 
 <div class="flex flex-wrap gap-2">
-<button id="refreshButton" type="button" onclick="loadTickets(currentPage)" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
+<button id="refreshButton" type="button" onclick="loadTickets(currentPage)" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
 <i id="refreshIcon" class="bi bi-arrow-clockwise"></i>
 Refresh
 </button>
 
-<button type="button" onclick="openCreateModal()" class="inline-flex h-9 items-center gap-2 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openCreateModal()" class="inline-flex h-9 items-center gap-2 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-circle"></i>
 New Feedback / Support
 </button>
@@ -39,7 +39,7 @@ New Feedback / Support
 </div>
 
 <div>
-<p class="text-xs font-semibold text-indigo-800">Feedback & Support Centre</p>
+<p class="text-sm font-semibold text-indigo-800">Feedback & Support Centre</p>
 <p class="mt-0.5 text-[11px] leading-5 text-indigo-700">
 Use this area for feedback, complaints, suggestions, service issues or assistance requests. You can add follow-ups and supporting attachments while a request remains open.
 </p>
@@ -106,7 +106,7 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 <div class="xl:col-span-5">
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="ticketSearch" type="text" placeholder="Ticket no, subject, category..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
@@ -151,7 +151,7 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 </div>
 
 <div class="xl:col-span-1">
-<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 hover:bg-slate-50">
 Clear
 </button>
 </div>
@@ -168,7 +168,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-sm font-semibold text-slate-800">Support Requests</h2>
+<h2 class="text-base font-semibold text-slate-800">Support Requests</h2>
 <p class="text-[11px] text-slate-400">Your feedback, complaint and support request history</p>
 </div>
 </div>
@@ -176,7 +176,7 @@ Clear
 <div id="ticketList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>
 </div>
 
@@ -208,7 +208,7 @@ Clear
 <form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <div class="grid gap-4 sm:grid-cols-2">
 
@@ -217,7 +217,7 @@ Clear
 <select id="categoryId" class="app-input w-full">
 <option value="">Select Category</option>
 </select>
-<p data-field-error="categoryId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="categoryId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -231,7 +231,7 @@ Clear
 <option value="service_issue">Service Issue</option>
 <option value="other">Other</option>
 </select>
-<p data-field-error="ticketType" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="ticketType" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -242,11 +242,11 @@ Clear
 <option value="high">High</option>
 <option value="urgent">Urgent</option>
 </select>
-<p data-field-error="ticketPriority" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="ticketPriority" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex items-end">
-<label class="flex h-10 w-full items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 text-xs font-medium text-slate-600">
+<label class="flex h-10 w-full items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 text-sm font-medium text-slate-600">
 <input id="isConfidential" type="checkbox">
 <i class="bi bi-lock text-slate-400"></i>
 Confidential request
@@ -258,20 +258,20 @@ Confidential request
 <div>
 <label class="form-label">Subject <span class="text-red-500">*</span></label>
 <input id="subject" type="text" maxlength="200" class="app-input w-full" placeholder="Briefly describe the issue">
-<p data-field-error="subject" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="subject" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Description <span class="text-red-500">*</span></label>
 <textarea id="description" rows="6" maxlength="20000" class="app-input w-full resize-none" placeholder="Explain your feedback, complaint or support request..."></textarea>
-<p data-field-error="description" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="description" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeCreateModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">Cancel</button>
-<button id="createButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60">Submit Request</button>
+<button type="button" onclick="closeCreateModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">Cancel</button>
+<button id="createButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white disabled:opacity-60">Submit Request</button>
 </div>
 </form>
 
@@ -297,16 +297,16 @@ Confidential request
 <input id="followUpTicketId" type="hidden">
 
 <div class="p-5">
-<div id="followUpError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="followUpError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <label class="form-label">Follow-up Message <span class="text-red-500">*</span></label>
 <textarea id="followUpMessage" rows="5" maxlength="10000" class="app-input w-full resize-none" placeholder="Add more information or ask for an update..."></textarea>
-<p data-field-error="followUpMessage" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="followUpMessage" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeFollowUpModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">Cancel</button>
-<button id="followUpButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60">Add Follow-up</button>
+<button type="button" onclick="closeFollowUpModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">Cancel</button>
+<button id="followUpButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white disabled:opacity-60">Add Follow-up</button>
 </div>
 </form>
 
@@ -332,19 +332,19 @@ Confidential request
 <input id="attachmentTicketId" type="hidden">
 
 <div class="p-5">
-<div id="attachmentError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="attachmentError" class="mb-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <label class="form-label">File <span class="text-red-500">*</span></label>
 
-<input id="attachmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600" data-validation-required-message="Please select an attachment." data-validation-file-message="PDF, JPG, PNG, WEBP, DOC or DOCX files are allowed.">
+<input id="attachmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-sm text-slate-600" data-validation-required-message="Please select an attachment." data-validation-file-message="PDF, JPG, PNG, WEBP, DOC or DOCX files are allowed.">
 
 <p class="mt-1 text-[10px] text-slate-400">PDF, image, DOC or DOCX.</p>
-<p data-field-error="attachmentFile" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="attachmentFile" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeAttachmentModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">Cancel</button>
-<button id="attachmentButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60">Upload Attachment</button>
+<button type="button" onclick="closeAttachmentModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">Cancel</button>
+<button id="attachmentButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white disabled:opacity-60">Upload Attachment</button>
 </div>
 </form>
 
@@ -374,7 +374,7 @@ Confidential request
 <div id="detailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
 <div class="flex justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">Close</button>
+<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">Close</button>
 </div>
 
 </div>
@@ -462,7 +462,7 @@ icon.classList.add('animate-spin');
 $('ticketList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>`;
 
 try{
@@ -516,8 +516,8 @@ $('ticketList').innerHTML=`
 <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-500">
 <i class="bi bi-exclamation-circle"></i>
 </div>
-<p class="mt-3 text-sm font-semibold text-red-600">Failed to load requests</p>
-<p class="mt-1 text-xs text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
+<p class="mt-3 text-base font-semibold text-red-600">Failed to load requests</p>
+<p class="mt-1 text-sm text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
 </div>`;
 
 $('paginationContainer').innerHTML='';
@@ -575,8 +575,8 @@ $('ticketList').innerHTML=`
 <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
 <i class="bi bi-headset text-xl"></i>
 </div>
-<p class="mt-4 text-sm font-semibold text-slate-700">No Feedback & Support Requests</p>
-<p class="mt-1 text-xs text-slate-400">No requests match the current filters.</p>
+<p class="mt-4 text-base font-semibold text-slate-700">No Feedback & Support Requests</p>
+<p class="mt-1 text-sm text-slate-400">No requests match the current filters.</p>
 </div>`;
 return;
 }
@@ -594,7 +594,7 @@ $('ticketList').innerHTML=tickets.map(ticket=>`
 
 <div class="min-w-0">
 <div class="flex flex-wrap items-center gap-2">
-<p class="font-mono text-xs font-semibold text-indigo-600">
+<p class="font-mono text-sm font-semibold text-indigo-600">
 ${escapeHtml(ticket.ticket_no)}
 </p>
 
@@ -620,7 +620,7 @@ ${statusBadge(ticket.status)}
 
 <div class="flex items-start justify-between gap-3">
 <div class="min-w-0">
-<h3 class="text-sm font-bold text-slate-800">
+<h3 class="text-base font-bold text-slate-800">
 ${escapeHtml(ticket.subject)}
 </h3>
 
@@ -996,7 +996,7 @@ ${summaryBox('Created',dateText(ticket.created_at))}
 
 <div class="overflow-hidden rounded-lg border border-slate-200">
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">Request Information</h3>
+<h3 class="text-base font-semibold text-slate-800">Request Information</h3>
 </div>
 
 <div class="grid sm:grid-cols-2">
@@ -1013,18 +1013,18 @@ ${detailItem('Resolved',dateTimeText(ticket.resolved_at))}
 
 <div class="rounded-lg border border-slate-200 p-4">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Description</p>
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(ticket.description)}
 </p>
 </div>
 
 ${ticket.resolution?`
 <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-<p class="text-xs font-semibold text-emerald-700">
+<p class="text-sm font-semibold text-emerald-700">
 <i class="bi bi-check2-circle mr-1"></i>
 Resolution
 </p>
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-emerald-800">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-emerald-800">
 ${escapeHtml(ticket.resolution)}
 </p>
 </div>`:''}
@@ -1045,7 +1045,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">Conversation & Updates</h3>
+<h3 class="text-base font-semibold text-slate-800">Conversation & Updates</h3>
 <p class="text-[11px] text-slate-400">${updates.length} update${updates.length===1?'':'s'}</p>
 </div>
 
@@ -1066,7 +1066,7 @@ ${dateTimeText(update.created_at)}
 </span>
 </div>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(update.message)}
 </p>
 
@@ -1084,7 +1084,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">Attachments</h3>
+<h3 class="text-base font-semibold text-slate-800">Attachments</h3>
 <p class="text-[11px] text-slate-400">${attachments.length} uploaded file${attachments.length===1?'':'s'}</p>
 </div>
 
@@ -1098,7 +1098,7 @@ ${attachments.map(file=>`
 </div>
 
 <div class="min-w-0 flex-1">
-<p class="truncate text-xs font-semibold text-slate-700">
+<p class="truncate text-sm font-semibold text-slate-700">
 ${escapeHtml(file.original_name??file.file_name??'Attachment')}
 </p>
 </div>
@@ -1135,7 +1135,7 @@ function miniBox(label,value){
 return`
 <div class="rounded-md bg-slate-50 p-3">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<p class="mt-1 truncate text-xs font-bold text-slate-700">${escapeHtml(value)}</p>
+<p class="mt-1 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
 
@@ -1143,7 +1143,7 @@ function summaryBox(label,value){
 return`
 <div class="rounded-lg border border-slate-200 bg-white p-3">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<p class="mt-2 truncate text-xs font-bold text-slate-700">${escapeHtml(value)}</p>
+<p class="mt-2 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
 
@@ -1151,7 +1151,7 @@ function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
 <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
-<div class="mt-1 text-xs font-semibold text-slate-700">
+<div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>
 </div>`;

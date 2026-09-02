@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Journal Entries</h1>
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Review automatic journals and post balanced manual entries.
                 </p>
             </div>
@@ -22,7 +22,7 @@
         <button
             type="button"
             onclick="openJournalModal()"
-            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Manual Journal
         </button>
@@ -45,7 +45,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-emerald-700">Posted</p>
+                    <p class="text-sm text-emerald-700">Posted</p>
                     <p id="summaryPosted" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -57,7 +57,7 @@
         <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-indigo-700">Manual</p>
+                    <p class="text-sm text-indigo-700">Manual</p>
                     <p id="summaryManual" class="mt-2 text-2xl font-bold text-indigo-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
@@ -69,7 +69,7 @@
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-red-700">Cancelled / Reversed</p>
+                    <p class="text-sm text-red-700">Cancelled / Reversed</p>
                     <p id="summaryCancelled" class="mt-2 text-2xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
@@ -102,7 +102,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -157,7 +157,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="dateRangeFilter"
@@ -185,25 +185,25 @@
         <table class="w-full table-fixed text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                    <th class="w-[16%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                         Journal
                     </th>
-                    <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                    <th class="w-[11%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                         Date
                     </th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                         Description
                     </th>
-                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                    <th class="w-[13%] px-4 py-3 text-right text-sm font-semibold text-slate-600">
                         Debit
                     </th>
-                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                    <th class="w-[13%] px-4 py-3 text-right text-sm font-semibold text-slate-600">
                         Credit
                     </th>
-                    <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                    <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">
                         Status
                     </th>
-                    <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                    <th class="w-[14%] px-4 py-3 text-right text-sm font-semibold text-slate-600">
                         Actions
                     </th>
                 </tr>
@@ -234,11 +234,11 @@ MANUAL JOURNAL MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Manual Journal Entry
                     </h2>
 
-                    <p class="text-sm text-slate-500">
+                    <p class="text-xs text-slate-500">
                         Create and post a balanced accounting journal.
                     </p>
                 </div>
@@ -261,7 +261,7 @@ MANUAL JOURNAL MODAL
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">
+                            <h3 class="text-base font-semibold text-slate-800">
                                 Journal Information
                             </h3>
 
@@ -279,7 +279,7 @@ MANUAL JOURNAL MODAL
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                                 <input
                                     id="journalDate"
@@ -316,7 +316,7 @@ MANUAL JOURNAL MODAL
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold text-slate-800">
+                                <h3 class="text-base font-semibold text-slate-800">
                                     Journal Lines
                                 </h3>
 
@@ -329,29 +329,29 @@ MANUAL JOURNAL MODAL
                         <button
                             type="button"
                             onclick="addJournalLine()"
-                            class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100">
+                            class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100">
                             <i class="bi bi-plus-lg"></i>
                             Add Line
                         </button>
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full min-w-[850px] text-sm">
+                        <table class="w-full min-w-[850px] text-base">
                             <thead class="border-b border-slate-200 bg-white">
                                 <tr>
-                                    <th class="w-[35%] px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                                    <th class="w-[35%] px-3 py-2 text-left text-sm font-semibold text-slate-500">
                                         Account
                                     </th>
 
-                                    <th class="w-[18%] px-3 py-2 text-right text-xs font-semibold text-slate-500">
+                                    <th class="w-[18%] px-3 py-2 text-right text-sm font-semibold text-slate-500">
                                         Debit
                                     </th>
 
-                                    <th class="w-[18%] px-3 py-2 text-right text-xs font-semibold text-slate-500">
+                                    <th class="w-[18%] px-3 py-2 text-right text-sm font-semibold text-slate-500">
                                         Credit
                                     </th>
 
-                                    <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                                    <th class="px-3 py-2 text-left text-sm font-semibold text-slate-500">
                                         Description
                                     </th>
 
@@ -363,15 +363,15 @@ MANUAL JOURNAL MODAL
 
                             <tfoot class="border-t border-slate-200 bg-slate-50">
                                 <tr>
-                                    <td class="px-3 py-3 text-right text-xs font-bold text-slate-600">
+                                    <td class="px-3 py-3 text-right text-sm font-bold text-slate-600">
                                         Total
                                     </td>
 
-                                    <td id="totalDebit" class="px-3 py-3 text-right text-sm font-bold text-slate-800">
+                                    <td id="totalDebit" class="px-3 py-3 text-right text-base font-bold text-slate-800">
                                         0.00
                                     </td>
 
-                                    <td id="totalCredit" class="px-3 py-3 text-right text-sm font-bold text-slate-800">
+                                    <td id="totalCredit" class="px-3 py-3 text-right text-base font-bold text-slate-800">
                                         0.00
                                     </td>
 
@@ -390,7 +390,7 @@ MANUAL JOURNAL MODAL
 
                 <div
                     id="journalError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700">
                 </div>
             </div>
 
@@ -398,14 +398,14 @@ MANUAL JOURNAL MODAL
                 <button
                     type="button"
                     onclick="closeJournalModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="postJournalButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Post Journal
                 </button>
             </div>
@@ -425,11 +425,11 @@ DETAILS MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Journal Details
                     </h2>
 
-                    <p class="text-sm text-slate-500">
+                    <p class="text-xs text-slate-500">
                         Posted journal entries are read-only.
                     </p>
                 </div>
@@ -452,14 +452,14 @@ DETAILS MODAL
             <button
                 type="button"
                 onclick="closeDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
             <button
                 type="button"
                 onclick="printJournalReceipt()"
-                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-printer"></i>
                 Print Receipt
             </button>
@@ -479,7 +479,7 @@ REVERSE MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Reverse Journal
                     </h2>
 
@@ -506,7 +506,7 @@ REVERSE MODAL
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">
+                            <h3 class="text-base font-semibold text-slate-800">
                                 Reversal Information
                             </h3>
 
@@ -524,7 +524,7 @@ REVERSE MODAL
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                                 <input
                                     id="reverseDate"
@@ -559,11 +559,11 @@ REVERSE MODAL
                         <i class="bi bi-exclamation-triangle text-amber-600"></i>
 
                         <div>
-                            <p class="text-sm font-semibold text-amber-800">
+                            <p class="text-base font-semibold text-amber-800">
                                 Accounting Reversal
                             </p>
 
-                            <p class="mt-1 text-xs leading-5 text-amber-700">
+                            <p class="mt-1 text-sm leading-5 text-amber-700">
                                 The original journal remains in history. A new opposite journal is posted and the original transaction is marked cancelled.
                             </p>
                         </div>
@@ -572,7 +572,7 @@ REVERSE MODAL
 
                 <div
                     id="reverseError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700">
                 </div>
             </div>
 
@@ -580,14 +580,14 @@ REVERSE MODAL
                 <button
                     type="button"
                     onclick="closeReverseModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="reverseButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
                     Reverse Journal
                 </button>
             </div>
@@ -853,7 +853,7 @@ function renderJournals(){
                 <button
                     type="button"
                     onclick="viewJournal(${journal.id})"
-                    class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
+                    class="rounded border border-slate-300 px-2 py-1 text-sm text-slate-600 hover:bg-slate-50">
                     View
                 </button>
             `
@@ -870,7 +870,7 @@ function renderJournals(){
                 <button
                     type="button"
                     onclick="openReverseModal(${journal.id})"
-                    class="rounded border border-red-300 px-2 py-1 text-xs text-red-700 hover:bg-red-50">
+                    class="rounded border border-red-300 px-2 py-1 text-sm text-red-700 hover:bg-red-50">
                     Reverse
                 </button>
             `);
@@ -1332,7 +1332,7 @@ $('journalForm').addEventListener(
 
             Toast.success(
                 response.message||
-                'Journal posted successfully.'
+                'Journal entry recorded and sent for approval.'
             );
 
             await Promise.all([
@@ -1374,18 +1374,18 @@ window.viewJournal=async function(id){
                     <h2 class="text-base font-bold uppercase tracking-wide text-slate-800">
                         ${esc(orgName)}
                     </h2>
-                    ${orgAddress?`<p class="mt-0.5 text-xs text-slate-500">${esc(orgAddress)}</p>`:''}
+                    ${orgAddress?`<p class="mt-0.5 text-sm text-slate-500">${esc(orgAddress)}</p>`:''}
                     ${
                         (orgPhone||orgEmail)
-                            ?`<p class="mt-0.5 text-xs text-slate-500">${[orgPhone,orgEmail].filter(Boolean).map(esc).join(' • ')}</p>`
+                            ?`<p class="mt-0.5 text-sm text-slate-500">${[orgPhone,orgEmail].filter(Boolean).map(esc).join(' • ')}</p>`
                             :''
                     }
-                    <p class="mt-3 text-sm font-bold uppercase tracking-widest text-indigo-600">
+                    <p class="mt-3 text-base font-bold uppercase tracking-widest text-indigo-600">
                         Journal Voucher
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-y-2 py-4 text-sm">
+                <div class="grid grid-cols-2 gap-y-2 py-4 text-base">
                     <div>
                         <span class="text-slate-400">Voucher No:</span>
                         <span class="ml-1 font-semibold text-slate-700">${esc(journal.transaction_no)}</span>
@@ -1431,13 +1431,13 @@ window.viewJournal=async function(id){
                 </div>
 
                 <div class="overflow-hidden rounded-md border border-slate-200">
-                    <table class="w-full text-sm">
+                    <table class="w-full text-base">
                         <thead class="bg-slate-50">
                             <tr>
-                                <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">Account</th>
-                                <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">Particulars</th>
-                                <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">Debit</th>
-                                <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">Credit</th>
+                                <th class="px-3 py-2 text-left text-sm font-semibold text-slate-500">Account</th>
+                                <th class="px-3 py-2 text-left text-sm font-semibold text-slate-500">Particulars</th>
+                                <th class="px-3 py-2 text-right text-sm font-semibold text-slate-500">Debit</th>
+                                <th class="px-3 py-2 text-right text-sm font-semibold text-slate-500">Credit</th>
                             </tr>
                         </thead>
 
@@ -1462,7 +1462,7 @@ window.viewJournal=async function(id){
 
                         <tfoot class="border-t border-slate-200 bg-slate-50">
                             <tr>
-                                <td colspan="2" class="px-3 py-3 text-right text-xs font-bold text-slate-600">Total</td>
+                                <td colspan="2" class="px-3 py-3 text-right text-sm font-bold text-slate-600">Total</td>
                                 <td class="px-3 py-3 text-right font-bold text-slate-800">${money(journal.total_debit)}</td>
                                 <td class="px-3 py-3 text-right font-bold text-slate-800">${money(journal.total_credit)}</td>
                             </tr>
@@ -1470,7 +1470,7 @@ window.viewJournal=async function(id){
                     </table>
                 </div>
 
-                <div class="mt-8 grid grid-cols-2 gap-6 text-center text-xs text-slate-500">
+                <div class="mt-8 grid grid-cols-2 gap-6 text-center text-sm text-slate-500">
                     <div>
                         <div class="mx-auto mb-1 h-10 w-40 border-b border-slate-400"></div>
                         Prepared By: ${esc(journal.creator?.name||'System')}

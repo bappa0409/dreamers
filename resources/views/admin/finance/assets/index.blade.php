@@ -15,7 +15,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Assets</h1>
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Manage association assets, depreciation, sale and disposal.
                 </p>
             </div>
@@ -25,7 +25,7 @@
         <button
             type="button"
             onclick="openAssetModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Asset
         </button>
@@ -61,7 +61,7 @@
 
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -78,7 +78,7 @@
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_240px_150px_170px_auto] lg:gap-0">
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -88,20 +88,22 @@
                 </div>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
+                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
+                    <option value="pending_approval">Pending Approval</option>
+                    <option value="rejected">Rejected</option>
                     <option value="active">Active</option>
                     <option value="sold">Sold</option>
                     <option value="disposed">Disposed</option>
@@ -110,14 +112,14 @@
 
                 <select
                     id="categoryFilter"
-                    class="h-9 border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Categories</option>
                 </select>
 
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -130,14 +132,14 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Asset</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Category</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Cost</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Depreciation</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Book Value</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Purchase Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Asset</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Category</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Cost</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Depreciation</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Book Value</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Purchase Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -166,11 +168,11 @@
                 </div>
 
                 <div>
-                    <h2 id="assetModalTitle" class="text-lg font-bold text-slate-800">
+                    <h2 id="assetModalTitle" class="text-base font-semibold text-slate-800">
                         Add Asset
                     </h2>
 
-                    <p class="text-sm text-slate-500">
+                    <p class="text-xs text-slate-500">
                         Record association-owned fixed asset.
                     </p>
                 </div>
@@ -194,7 +196,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">
+                            <h3 class="text-base font-semibold text-slate-800">
                                 Asset Information
                             </h3>
 
@@ -285,7 +287,7 @@
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                                 <input
                                     id="purchaseDate"
@@ -348,7 +350,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">
+                            <h3 class="text-base font-semibold text-slate-800">
                                 Depreciation Settings
                             </h3>
 
@@ -403,21 +405,21 @@
                         class="app-input resize-none"></textarea>
                 </div>
 
-                <div id="assetError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="assetError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="closeAssetModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="assetSaveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Asset
                 </button>
             </div>
@@ -436,7 +438,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Asset Details
                     </h2>
 
@@ -460,7 +462,7 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('assetDetailsModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -478,7 +480,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Sell Asset
                     </h2>
 
@@ -534,7 +536,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                         <input
                             id="saleDate"
@@ -558,21 +560,21 @@
                         class="app-input resize-none"></textarea>
                 </div>
 
-                <div id="sellError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="sellError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('sellModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
 
                 <button
                     id="sellButton"
                     type="submit"
-                    class="rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-700">
+                    class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
                     Sell Asset
                 </button>
             </div>
@@ -591,7 +593,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Dispose Asset
                     </h2>
 
@@ -617,7 +619,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                         <input
                             id="disposeDate"
@@ -647,21 +649,21 @@
                     <p data-field-error="disposeNote" class="invalid-feedback hidden"></p>
                 </div>
 
-                <div id="disposeError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="disposeError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('disposeModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
 
                 <button
                     id="disposeButton"
                     type="submit"
-                    class="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700">
+                    class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
                     Dispose Asset
                 </button>
             </div>
@@ -680,7 +682,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Post Depreciation
                     </h2>
 
@@ -705,7 +707,7 @@
                             Monthly
                         </p>
 
-                        <p id="depreciationMonthly" class="mt-1 text-sm font-bold text-slate-700">
+                        <p id="depreciationMonthly" class="mt-1 text-base font-bold text-slate-700">
                             ৳0.00
                         </p>
                     </div>
@@ -715,7 +717,7 @@
                             Remaining
                         </p>
 
-                        <p id="depreciationRemaining" class="mt-1 text-sm font-bold text-slate-700">
+                        <p id="depreciationRemaining" class="mt-1 text-base font-bold text-slate-700">
                             ৳0.00
                         </p>
                     </div>
@@ -728,7 +730,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                         <input
                             id="depreciationDate"
@@ -752,21 +754,21 @@
                         class="app-input resize-none"></textarea>
                 </div>
 
-                <div id="depreciationError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+                <div id="depreciationError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('depreciationModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                     Cancel
                 </button>
 
                 <button
                     id="depreciationButton"
                     type="submit"
-                    class="rounded-md bg-violet-600 px-4 py-2 text-xs font-semibold text-white hover:bg-violet-700">
+                    class="rounded-md bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700">
                     Post Depreciation
                 </button>
             </div>
@@ -785,7 +787,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Depreciation History
                     </h2>
 
@@ -807,7 +809,7 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('depreciationHistoryModal')"
-                class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700">
+                class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
                 Close
             </button>
         </div>
@@ -1135,11 +1137,11 @@ function renderAssetTable(){
                         <button
                             type="button"
                             onclick="viewAsset(${item.id})"
-                            class="font-mono text-xs font-semibold text-indigo-600 hover:underline">
+                            class="font-mono text-sm font-semibold text-indigo-600 hover:underline">
                             ${AdminUI.escapeHtml(item.asset_code)}
                         </button>
 
-                        <p class="mt-1 text-xs font-medium text-slate-700">
+                        <p class="mt-1 text-sm font-medium text-slate-700">
                             ${AdminUI.escapeHtml(item.name)}
                         </p>
 
@@ -1154,23 +1156,23 @@ function renderAssetTable(){
                         }
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3 text-sm text-slate-600">
                         ${AdminUI.escapeHtml(item.category??'—')}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs font-bold text-slate-800">
+                    <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
                         ${money(item.purchase_cost)}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs text-slate-600">
+                    <td class="px-4 py-3 text-right text-sm text-slate-600">
                         ${money(item.accumulated_depreciation)}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs font-bold text-slate-800">
+                    <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
                         ${money(bookValue)}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3 text-sm text-slate-600">
                         ${AdminUI.formatDate(item.purchase_date)}
                     </td>
 
@@ -1186,7 +1188,7 @@ function renderAssetTable(){
                                 onclick="viewAsset(${item.id})"
                                 class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
                                 title="View">
-                                <i class="bi bi-eye text-xs"></i>
+                                <i class="bi bi-eye text-sm"></i>
                             </button>
 
                             ${
@@ -1198,7 +1200,7 @@ function renderAssetTable(){
                                             onclick="editAsset(${item.id})"
                                             class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
                                             title="Edit">
-                                            <i class="bi bi-pencil text-xs"></i>
+                                            <i class="bi bi-pencil text-sm"></i>
                                         </button>
 
                                         <button
@@ -1206,7 +1208,7 @@ function renderAssetTable(){
                                             onclick="openDepreciationModal(${item.id})"
                                             class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600 hover:bg-violet-100"
                                             title="Depreciate">
-                                            <i class="bi bi-graph-down-arrow text-xs"></i>
+                                            <i class="bi bi-graph-down-arrow text-sm"></i>
                                         </button>
 
                                         <button
@@ -1214,7 +1216,7 @@ function renderAssetTable(){
                                             onclick="openSellModal(${item.id})"
                                             class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
                                             title="Sell">
-                                            <i class="bi bi-cash-coin text-xs"></i>
+                                            <i class="bi bi-cash-coin text-sm"></i>
                                         </button>
 
                                         <button
@@ -1222,7 +1224,7 @@ function renderAssetTable(){
                                             onclick="openDisposeModal(${item.id})"
                                             class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100"
                                             title="Dispose">
-                                            <i class="bi bi-trash3 text-xs"></i>
+                                            <i class="bi bi-trash3 text-sm"></i>
                                         </button>
                                     `
                                     :''
@@ -1233,7 +1235,7 @@ function renderAssetTable(){
                                 onclick="viewDepreciationHistory(${item.id})"
                                 class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
                                 title="Depreciation History">
-                                <i class="bi bi-clock-history text-xs"></i>
+                                <i class="bi bi-clock-history text-sm"></i>
                             </button>
                         </div>
                     </td>
@@ -1817,7 +1819,7 @@ window.viewAsset=async function(id){
                                 Description
                             </p>
 
-                            <p class="text-xs leading-5 text-slate-600">
+                            <p class="text-sm leading-5 text-slate-600">
                                 ${AdminUI.escapeHtml(
                                     item.description
                                 )}
@@ -1830,7 +1832,7 @@ window.viewAsset=async function(id){
 
     }catch(error){
         body.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -2390,7 +2392,7 @@ async function(id){
 
             <div class="mt-5 overflow-x-auto rounded-md border border-slate-200">
 
-                <table class="w-full min-w-[750px] text-xs">
+                <table class="w-full min-w-[750px] text-sm">
                     <thead class="bg-slate-50">
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold text-slate-500">
@@ -2478,7 +2480,7 @@ async function(id){
 
     }catch(error){
         body.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -2494,7 +2496,7 @@ function detail(label,value){
                 ${AdminUI.escapeHtml(label)}
             </p>
 
-            <p class="mt-1 break-words text-sm font-medium text-slate-700">
+            <p class="mt-1 break-words text-base font-medium text-slate-700">
                 ${AdminUI.escapeHtml(
                     value??'—'
                 )}

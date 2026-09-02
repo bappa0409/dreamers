@@ -20,11 +20,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     Association Investments
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     View active and completed association investments, principal recovery and received returns.
                 </p>
             </div>
@@ -33,7 +33,7 @@
         <button
             type="button"
             onclick="loadInvestments(1)"
-            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -46,7 +46,7 @@
         </div>
 
         <div>
-            <p class="text-xs font-semibold text-sky-800">
+            <p class="text-sm font-semibold text-sky-800">
                 Read-only Investment Portfolio
             </p>
 
@@ -141,7 +141,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -184,7 +184,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Clear
                 </button>
             </div>
@@ -200,7 +200,7 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Investment Portfolio
                 </h2>
 
@@ -261,7 +261,7 @@
                         <td colspan="10" class="px-4 py-14 text-center">
                             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                            <p class="mt-3 text-xs text-slate-400">
+                            <p class="mt-3 text-sm text-slate-400">
                                 Loading investments...
                             </p>
                         </td>
@@ -315,7 +315,7 @@
             <button
                 type="button"
                 onclick="closeInvestmentModal()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -346,7 +346,7 @@ async function loadInvestments(page=1){
             <td colspan="10" class="px-4 py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-xs text-slate-400">
+                <p class="mt-3 text-sm text-slate-400">
                     Loading investments...
                 </p>
             </td>
@@ -411,18 +411,18 @@ async function loadInvestments(page=1){
                         <i class="bi bi-exclamation-circle text-lg"></i>
                     </div>
 
-                    <p class="mt-3 text-sm font-semibold text-red-600">
+                    <p class="mt-3 text-base font-semibold text-red-600">
                         Failed to load investments
                     </p>
 
-                    <p class="mt-1 text-xs text-red-400">
+                    <p class="mt-1 text-sm text-red-400">
                         ${escapeValue(extractError(error))}
                     </p>
 
                     <button
                         type="button"
                         onclick="loadInvestments(${currentPage})"
-                        class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                        class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
                         <i class="bi bi-arrow-clockwise"></i>
                         Try Again
                     </button>
@@ -450,11 +450,11 @@ function renderInvestments(investments){
                         <i class="bi bi-graph-up-arrow text-xl"></i>
                     </div>
 
-                    <p class="mt-4 text-sm font-semibold text-slate-700">
+                    <p class="mt-4 text-base font-semibold text-slate-700">
                         No investments found
                     </p>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1 text-sm text-slate-400">
                         No active or completed investments match the current filters.
                     </p>
                 </td>
@@ -470,7 +470,7 @@ function renderInvestments(investments){
 
                 <td class="px-4 py-3">
                     <div class="max-w-[250px]">
-                        <p class="truncate text-xs font-semibold text-slate-700">
+                        <p class="truncate text-sm font-semibold text-slate-700">
                             ${escapeValue(item.title??'-')}
                         </p>
 
@@ -480,31 +480,31 @@ function renderInvestments(investments){
                     </div>
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                     ${money(item.amount)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs text-slate-600">
+                <td class="px-4 py-3 text-right text-sm text-slate-600">
                     ${money(item.expected_return)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-emerald-600">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-emerald-600">
                     ${money(item.income_received)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-violet-600">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-violet-600">
                     ${money(item.principal_returned)}
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                     ${money(item.remaining_principal)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3 text-sm text-slate-500">
                     ${formatDate(item.investment_date)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3 text-sm text-slate-500">
                     ${formatDate(item.maturity_date)}
                 </td>
 
@@ -654,7 +654,7 @@ window.openInvestment=async function(id){
         <div class="py-14 text-center">
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-xs text-slate-400">
+            <p class="mt-3 text-sm text-slate-400">
                 Loading investment details...
             </p>
         </div>
@@ -691,11 +691,11 @@ window.openInvestment=async function(id){
                     <i class="bi bi-exclamation-circle"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-red-600">
+                <p class="mt-3 text-base font-semibold text-red-600">
                     Failed to load investment
                 </p>
 
-                <p class="mt-1 text-xs text-red-400">
+                <p class="mt-1 text-sm text-red-400">
                     ${escapeValue(extractError(error))}
                 </p>
             </div>
@@ -753,7 +753,7 @@ function renderInvestmentDetails(item){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white lg:col-span-2">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             Investment Information
                         </h3>
 
@@ -811,7 +811,7 @@ function renderInvestmentDetails(item){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             Description
                         </h3>
 
@@ -821,7 +821,7 @@ function renderInvestmentDetails(item){
                     </div>
 
                     <div class="p-5">
-                        <p class="whitespace-pre-line break-words text-xs leading-6 text-slate-600">
+                        <p class="whitespace-pre-line break-words text-sm leading-6 text-slate-600">
                             ${
                                 item.description
                                     ?escapeValue(item.description)
@@ -841,7 +841,7 @@ function renderInvestmentDetails(item){
                     </div>
 
                     <div>
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             Returns Received
                         </h3>
 
@@ -888,19 +888,19 @@ function renderInvestmentDetails(item){
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+                                            <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                                                 ${money(
                                                     returnItem.amount
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-xs text-slate-500">
+                                            <td class="px-4 py-3 text-sm text-slate-500">
                                                 ${formatDate(
                                                     returnItem.return_date
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-xs text-slate-500">
+                                            <td class="px-4 py-3 text-sm text-slate-500">
                                                 ${
                                                     escapeValue(
                                                         returnItem.description??
@@ -919,7 +919,7 @@ function renderInvestmentDetails(item){
                                                     <i class="bi bi-arrow-repeat"></i>
                                                 </div>
 
-                                                <p class="mt-3 text-xs font-semibold text-slate-600">
+                                                <p class="mt-3 text-sm font-semibold text-slate-600">
                                                     No returns received yet
                                                 </p>
 
@@ -958,7 +958,7 @@ function summaryCard(
                         ${escapeValue(label)}
                     </p>
 
-                    <p class="mt-2 text-sm font-bold text-slate-700">
+                    <p class="mt-2 text-base font-bold text-slate-700">
                         ${value}
                     </p>
                 </div>
@@ -984,7 +984,7 @@ function informationItem(
                 ${escapeValue(label)}
             </p>
 
-            <div class="mt-1.5 text-xs font-semibold text-slate-700">
+            <div class="mt-1.5 text-sm font-semibold text-slate-700">
                 ${
                     raw
                         ?value

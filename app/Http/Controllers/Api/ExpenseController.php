@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Expense;
+use App\Services\ApprovalService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
     public function __construct(
-        protected ExpenseService $expenseService
+        protected ExpenseService $expenseService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -87,14 +90,26 @@ class ExpenseController extends Controller
             'description'=>'nullable|string|max:2000',
         ]);
 
-        $expense=$this->expenseService->create(
-            $validated,
-            $request->user()->id
-        );
+        $expense=DB::transaction(function()use($validated,$request){
+            $expense=$this->expenseService->create(
+                $validated,
+                $request->user()->id
+            );
+
+            $this->approvalService->createRequest(
+                $expense,
+                'Expense',
+                'create',
+                $request->user()->id,
+                'New expense requires approval before posting.'
+            );
+
+            return $expense;
+        });
 
         return response()->json([
             'success'=>true,
-            'message'=>'Expense recorded and posted successfully.',
+            'message'=>'Expense recorded and sent for approval.',
             'data'=>$expense,
         ],201);
     }

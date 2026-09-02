@@ -15,11 +15,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     Member Polls
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     Participate in association polls and review your voting history.
                 </p>
             </div>
@@ -28,7 +28,7 @@
         <button
             type="button"
             onclick="loadPolls()"
-            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+            class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -41,7 +41,7 @@
         </div>
 
         <div>
-            <p class="text-xs font-semibold text-sky-800">
+            <p class="text-sm font-semibold text-sky-800">
                 Member Voting
             </p>
 
@@ -138,7 +138,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="pollSearch"
@@ -178,7 +178,7 @@
                     <button
                         type="button"
                         onclick="clearPollFilters()"
-                        class="h-9 flex-1 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                        class="h-9 flex-1 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                         Clear
                     </button>
 
@@ -208,7 +208,7 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Active Polls
                 </h2>
 
@@ -226,7 +226,7 @@
             <div class="col-span-full py-12 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-xs text-slate-400">
+                <p class="mt-3 text-sm text-slate-400">
                     Loading polls...
                 </p>
             </div>
@@ -278,12 +278,12 @@
 
                 <h3
                     id="votePollTitle"
-                    class="text-sm font-bold text-slate-800">
+                    class="text-base font-bold text-slate-800">
                 </h3>
 
                 <p
                     id="votePollDescription"
-                    class="mt-1 whitespace-pre-line text-xs leading-5 text-slate-500">
+                    class="mt-1 whitespace-pre-line text-sm leading-5 text-slate-500">
                 </p>
 
             </div>
@@ -299,7 +299,7 @@
 
             <div
                 id="voteError"
-                class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600">
+                class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
             </div>
 
         </div>
@@ -309,7 +309,7 @@
             <button
                 type="button"
                 onclick="closeVoteModal()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Cancel
             </button>
 
@@ -317,7 +317,7 @@
                 id="submitVoteButton"
                 type="button"
                 onclick="submitVote()"
-                class="inline-flex h-9 items-center gap-1.5 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
+                class="inline-flex h-9 items-center gap-1.5 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
 
                 <i class="bi bi-check2-circle"></i>
 
@@ -375,7 +375,7 @@
             <button
                 type="button"
                 onclick="closeHistoryModal()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
@@ -416,7 +416,7 @@ async function loadPolls(){
 
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-xs text-slate-400">
+            <p class="mt-3 text-sm text-slate-400">
                 Loading polls...
             </p>
 
@@ -460,11 +460,11 @@ async function loadPolls(){
                     <i class="bi bi-exclamation-circle text-lg"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-red-600">
+                <p class="mt-3 text-base font-semibold text-red-600">
                     Failed to load polls
                 </p>
 
-                <p class="mt-1 text-xs text-red-400">
+                <p class="mt-1 text-sm text-red-400">
                     ${escapeValue(
                         AdminUI.extractError(
                             error
@@ -475,7 +475,7 @@ async function loadPolls(){
                 <button
                     type="button"
                     onclick="loadPolls()"
-                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
 
                     <i class="bi bi-arrow-clockwise"></i>
 
@@ -604,11 +604,11 @@ function renderPolls(){
                     <i class="bi bi-ui-checks-grid text-xl"></i>
                 </div>
 
-                <p class="mt-4 text-sm font-semibold text-slate-700">
+                <p class="mt-4 text-base font-semibold text-slate-700">
                     No polls found
                 </p>
 
-                <p class="mt-1 text-xs text-slate-400">
+                <p class="mt-1 text-sm text-slate-400">
                     No active polls match the current filters.
                 </p>
 
@@ -671,7 +671,7 @@ function renderPollCard(poll){
 
                         <div class="min-w-0">
 
-                            <h3 class="text-sm font-bold leading-5 text-slate-800">
+                            <h3 class="text-base font-bold leading-5 text-slate-800">
                                 ${escapeValue(
                                     poll.title??
                                     'Untitled Poll'
@@ -722,7 +722,7 @@ function renderPollCard(poll){
                 ${
                     poll.description
                         ?`
-                            <p class="mb-4 whitespace-pre-line text-xs leading-5 text-slate-500">
+                            <p class="mb-4 whitespace-pre-line text-sm leading-5 text-slate-500">
                                 ${escapeValue(
                                     poll.description
                                 )}
@@ -766,7 +766,7 @@ function renderPollCard(poll){
 
                                         </span>
 
-                                        <span class="min-w-0 flex-1 text-xs font-medium ${
+                                        <span class="min-w-0 flex-1 text-sm font-medium ${
                                             selected
                                                 ?'text-indigo-700'
                                                 :'text-slate-600'
@@ -803,7 +803,7 @@ function renderPollCard(poll){
                             <div class="mt-4 flex items-center gap-2 rounded-md border border-emerald-100 bg-emerald-50 px-3 py-2.5">
 
                                 <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                                    <i class="bi bi-check-lg text-xs"></i>
+                                    <i class="bi bi-check-lg text-sm"></i>
                                 </div>
 
                                 <div>
@@ -822,7 +822,7 @@ function renderPollCard(poll){
                             <div class="mt-4 flex items-center gap-2 rounded-md border border-sky-100 bg-sky-50 px-3 py-2.5">
 
                                 <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                                    <i class="bi bi-info-circle text-xs"></i>
+                                    <i class="bi bi-info-circle text-sm"></i>
                                 </div>
 
                                 <div>
@@ -966,7 +966,7 @@ window.openVoteModal=function(pollId){
                         ${index+1}
                     </span>
 
-                    <span class="min-w-0 flex-1 text-xs font-medium text-slate-700">
+                    <span class="min-w-0 flex-1 text-sm font-medium text-slate-700">
                         ${escapeValue(
                             option.option_text??
                             'Option'
@@ -1096,11 +1096,11 @@ window.openHistoryModal=function(){
                     <i class="bi bi-clock-history text-xl"></i>
                 </div>
 
-                <p class="mt-4 text-sm font-semibold text-slate-700">
+                <p class="mt-4 text-base font-semibold text-slate-700">
                     No voting history
                 </p>
 
-                <p class="mt-1 text-xs text-slate-400">
+                <p class="mt-1 text-sm text-slate-400">
                     You have not voted in any polls yet.
                 </p>
 
@@ -1124,7 +1124,7 @@ window.openHistoryModal=function(){
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold text-slate-800">
+                    <h3 class="text-base font-semibold text-slate-800">
                         Submitted Votes
                     </h3>
 
@@ -1166,7 +1166,7 @@ window.openHistoryModal=function(){
 
                                         <td class="px-4 py-3">
 
-                                            <p class="text-xs font-semibold text-slate-700">
+                                            <p class="text-sm font-semibold text-slate-700">
                                                 ${escapeValue(
                                                     item.poll_title??
                                                     '—'
@@ -1190,7 +1190,7 @@ window.openHistoryModal=function(){
 
                                         </td>
 
-                                        <td class="px-4 py-3 text-xs text-slate-500">
+                                        <td class="px-4 py-3 text-sm text-slate-500">
                                             ${dateTime(
                                                 item.created_at
                                             )}

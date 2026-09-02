@@ -14,12 +14,12 @@
 </div>
 <div>
 <h1 class="text-base font-bold text-slate-800">Feedback & Support</h1>
-<p class="text-sm text-slate-500">Manage member feedback, support requests, complaints, suggestions and service issues.</p>
+<p class="text-xs text-slate-500">Manage member feedback, support requests, complaints, suggestions and service issues.</p>
 </div>
 </div>
 
 @if(auth()->user()->hasPermission('FeedbackSupport.create'))
-<button type="button" onclick="openCreateModal()" class="inline-flex w-fit items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openCreateModal()" class="inline-flex w-fit items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-lg"></i>
 New Feedback / Support
 </button>
@@ -46,7 +46,7 @@ $stats=[
 <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
 </div>
 <div class="flex h-8 w-8 items-center justify-center rounded-md {{ $iconBox }}">
-<i class="bi {{ $icon }} text-sm"></i>
+<i class="bi {{ $icon }} text-base"></i>
 </div>
 </div>
 </div>
@@ -58,7 +58,7 @@ $stats=[
 <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
 <div class="flex items-center gap-2">
 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-search text-sm"></i>
+<i class="bi bi-search text-base"></i>
 </div>
 <div>
 <p class="text-sm font-semibold text-slate-700">Search Feedback & Support</p>
@@ -68,11 +68,11 @@ $stats=[
 
 <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:w-auto xl:grid-cols-[270px_155px_155px_145px_auto] xl:gap-0">
 <div class="relative sm:col-span-2 xl:col-span-1">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="searchInput" type="text" placeholder="Search tickets..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 xl:rounded-r-none">
 </div>
 
-<select id="typeFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
+<select id="typeFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
 <option value="">All Types</option>
 <option value="feedback">Feedback</option>
 <option value="support_request">Support Request</option>
@@ -82,7 +82,7 @@ $stats=[
 <option value="other">Other</option>
 </select>
 
-<select id="statusFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
+<select id="statusFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
 <option value="">All Status</option>
 <option value="submitted">Submitted</option>
 <option value="under_review">Under Review</option>
@@ -94,7 +94,7 @@ $stats=[
 <option value="cancelled">Cancelled</option>
 </select>
 
-<select id="priorityFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
+<select id="priorityFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
 <option value="">All Priority</option>
 <option value="urgent">Urgent</option>
 <option value="high">High</option>
@@ -102,7 +102,7 @@ $stats=[
 <option value="low">Low</option>
 </select>
 
-<button type="button" onclick="clearFilters()" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+<button type="button" onclick="clearFilters()" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
 <i class="bi bi-x-lg text-[10px]"></i>
 Clear
 </button>
@@ -113,23 +113,23 @@ Clear
 {{-- Table + Pagination --}}
 <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 <div class="overflow-x-auto">
-<table class="w-full min-w-[1080px] table-fixed text-sm">
+<table class="w-full min-w-[1080px] table-fixed text-base">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Ticket</th>
-<th class="w-[16%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-<th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Category</th>
-<th class="w-[20%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Subject</th>
-<th class="w-[9%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Priority</th>
-<th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-<th class="w-[8%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+<th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Ticket</th>
+<th class="w-[16%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+<th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+<th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Category</th>
+<th class="w-[20%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Subject</th>
+<th class="w-[9%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Priority</th>
+<th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+<th class="w-[8%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 
 <tbody id="ticketTable">
 <tr>
-<td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">Loading Feedback & Support...</td>
+<td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading Feedback & Support...</td>
 </tr>
 </tbody>
 </table>
@@ -149,7 +149,7 @@ Clear
 <i class="bi bi-headset"></i>
 </div>
 <div>
-<h3 class="text-lg font-bold text-slate-800">New Feedback & Support</h3>
+<h3 class="text-base font-semibold text-slate-800">New Feedback & Support</h3>
 <p class="text-xs text-slate-500">Create a request on behalf of a member.</p>
 </div>
 </div>
@@ -159,7 +159,7 @@ Clear
 <form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
-<div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div class="rounded-md border border-slate-200 p-4">
 <div class="grid gap-4 md:grid-cols-2">
@@ -169,7 +169,7 @@ Clear
 <select id="memberId" class="app-input w-full">
 <option value="">Select Member</option>
 </select>
-<p data-field-error="memberId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -177,7 +177,7 @@ Clear
 <select id="categoryId" class="app-input w-full">
 <option value="">Select Category</option>
 </select>
-<p data-field-error="categoryId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="categoryId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -191,7 +191,7 @@ Clear
 <option value="service_issue">Service Issue</option>
 <option value="other">Other</option>
 </select>
-<p data-field-error="ticketType" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="ticketType" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -202,7 +202,7 @@ Clear
 <option value="high">High</option>
 <option value="urgent">Urgent</option>
 </select>
-<p data-field-error="ticketPriority" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="ticketPriority" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </div>
@@ -212,16 +212,16 @@ Clear
 <div>
 <label class="form-label">Subject <span class="text-red-500">*</span></label>
 <input id="subject" type="text" maxlength="200" class="app-input w-full" placeholder="Brief subject">
-<p data-field-error="subject" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="subject" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="mt-4">
 <label class="form-label">Description <span class="text-red-500">*</span></label>
 <textarea id="description" rows="5" maxlength="20000" class="app-input w-full resize-none" placeholder="Describe the feedback or support request..."></textarea>
-<p data-field-error="description" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="description" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
-<label class="mt-4 flex items-center gap-2 text-xs font-medium text-slate-600">
+<label class="mt-4 flex items-center gap-2 text-sm font-medium text-slate-600">
 <input id="isConfidential" type="checkbox">
 <span>Mark as confidential</span>
 </label>
@@ -230,8 +230,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
+<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
 </div>
 </form>
 </div>
@@ -247,8 +247,8 @@ Clear
 <i class="bi bi-headset"></i>
 </div>
 <div>
-<h3 id="manageTitle" class="text-lg font-bold text-slate-800">Feedback & Support</h3>
-<p id="manageSubtitle" class="text-xs text-slate-500"></p>
+<h3 id="manageTitle" class="text-base font-semibold text-slate-800">Feedback & Support</h3>
+<p id="manageSubtitle" class="text-sm text-slate-500"></p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -256,24 +256,24 @@ Clear
 
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="manageError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="manageError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div id="summaryCards" class="grid grid-cols-2 gap-3 md:grid-cols-4"></div>
 
 <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
 
 <section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-sm font-semibold text-slate-800">Request Information</h4>
+<h4 class="text-base font-semibold text-slate-800">Request Information</h4>
 <div id="ticketDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
 </section>
 
 <section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-sm font-semibold text-slate-800">Description</h4>
-<div id="ticketDescription" class="mt-3 whitespace-pre-line rounded-md bg-slate-50 p-3 text-xs leading-5 text-slate-600"></div>
+<h4 class="text-base font-semibold text-slate-800">Description</h4>
+<div id="ticketDescription" class="mt-3 whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
 
 <div id="resolutionWrap" class="mt-3 hidden rounded-md border border-emerald-200 bg-emerald-50 p-3">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Resolution</p>
-<p id="resolutionText" class="mt-1 whitespace-pre-line text-xs text-emerald-800"></p>
+<p id="resolutionText" class="mt-1 whitespace-pre-line text-sm text-emerald-800"></p>
 </div>
 </section>
 </div>
@@ -281,7 +281,7 @@ Clear
 <section class="rounded-md border border-slate-200 p-4">
 <div class="mb-3 flex items-center justify-between">
 <div>
-<h4 class="text-sm font-semibold text-slate-800">Conversation & Updates</h4>
+<h4 class="text-base font-semibold text-slate-800">Conversation & Updates</h4>
 <p class="text-[11px] text-slate-400">Support responses, member follow-ups and internal notes.</p>
 </div>
 </div>
@@ -309,14 +309,14 @@ Clear
 
 <form id="assignForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
-<div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div>
 <label class="form-label">Assign To <span class="text-red-500">*</span></label>
 <select id="assignedTo" class="app-input w-full">
 <option value="">Select User</option>
 </select>
-<p data-field-error="assignedTo" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="assignedTo" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -326,8 +326,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('assignModal')" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold">Cancel</button>
-<button id="assignButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">Assign</button>
+<button type="button" onclick="AdminUI.closeModal('assignModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+<button id="assignButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Assign</button>
 </div>
 </form>
 </div>
@@ -340,23 +340,23 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
-<p id="messageModalSubtitle" class="text-xs text-slate-500"></p>
+<p id="messageModalSubtitle" class="text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
 
 <form id="messageForm" novalidate data-js-validation="1">
 <div class="p-5">
-<div id="messageError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="messageError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <label class="form-label">Message <span class="text-red-500">*</span></label>
 <textarea id="messageText" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
-<p data-field-error="messageText" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="messageText" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('messageModal')" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold">Cancel</button>
-<button id="messageButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">Save</button>
+<button type="button" onclick="AdminUI.closeModal('messageModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+<button id="messageButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Save</button>
 </div>
 </form>
 </div>
@@ -376,16 +376,16 @@ Clear
 
 <form id="resolveForm" novalidate data-js-validation="1">
 <div class="p-5">
-<div id="resolveError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="resolveError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <label class="form-label">Resolution <span class="text-red-500">*</span></label>
 <textarea id="resolution" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
-<p data-field-error="resolution" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="resolution" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('resolveModal')" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold">Cancel</button>
-<button id="resolveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white">Resolve Request</button>
+<button type="button" onclick="AdminUI.closeModal('resolveModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+<button id="resolveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">Resolve Request</button>
 </div>
 </form>
 </div>
@@ -556,27 +556,27 @@ $('ticketTable').innerHTML=tickets.map(ticket=>`
 
 <td class="px-4 py-3">
 <div class="flex items-center gap-1.5">
-<span class="font-mono text-xs font-semibold text-indigo-600">${esc(ticket.ticket_no)}</span>
+<span class="font-mono text-sm font-semibold text-indigo-600">${esc(ticket.ticket_no)}</span>
 ${ticket.is_confidential?'<i class="bi bi-lock-fill text-[10px] text-red-500" title="Confidential"></i>':''}
 </div>
 <div class="mt-0.5 text-[10px] text-slate-400">${date(ticket.created_at)}</div>
 </td>
 
 <td class="px-4 py-3">
-<div class="truncate text-xs font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
+<div class="truncate text-sm font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
 <div class="mt-0.5 truncate text-[10px] font-medium text-indigo-500">${esc(ticket.member?.member_code??'')}</div>
 </td>
 
 <td class="px-4 py-3">
-<span class="text-xs font-medium text-slate-600">${esc(typeLabel(ticket.type))}</span>
+<span class="text-sm font-medium text-slate-600">${esc(typeLabel(ticket.type))}</span>
 </td>
 
 <td class="px-4 py-3">
-<span class="text-xs text-slate-600">${esc(ticket.category?.name??'—')}</span>
+<span class="text-sm text-slate-600">${esc(ticket.category?.name??'—')}</span>
 </td>
 
 <td class="px-4 py-3">
-<div class="max-w-[240px] truncate text-xs font-semibold text-slate-700">${esc(ticket.subject)}</div>
+<div class="max-w-[240px] truncate text-sm font-semibold text-slate-700">${esc(ticket.subject)}</div>
 ${ticket.assignee?`<div class="mt-0.5 truncate text-[10px] text-slate-400">Assigned: ${esc(ticket.assignee.name)}</div>`:''}
 </td>
 
@@ -590,7 +590,7 @@ ${statusBadge(ticket.status)}
 
 <td class="px-4 py-3 text-right">
 <button type="button" onclick="openManage(${ticket.id})" class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100" title="Manage">
-<i class="bi bi-eye text-xs"></i>
+<i class="bi bi-eye text-sm"></i>
 </button>
 </td>
 
@@ -696,7 +696,7 @@ $('summaryCards').innerHTML=[
 ].map(([label,value,bg,text])=>`
 <div class="rounded-md ${bg} p-3">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${esc(label)}</p>
-<p class="mt-1 truncate text-xs font-bold capitalize ${text}">${esc(value)}</p>
+<p class="mt-1 truncate text-sm font-bold capitalize ${text}">${esc(value)}</p>
 </div>
 `).join('');
 
@@ -714,7 +714,7 @@ $('ticketDetails').innerHTML=[
 ].map(([label,value])=>`
 <div class="rounded-md border border-slate-200 bg-slate-50/60 p-3">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${esc(label)}</p>
-<p class="mt-1 break-words text-xs font-semibold capitalize text-slate-700">${esc(value)}</p>
+<p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">${esc(value)}</p>
 </div>
 `).join('');
 
@@ -730,7 +730,7 @@ renderActions(ticket);
 function renderUpdates(updates){
 if(!updates.length){
 $('updateList').innerHTML=`
-<div class="rounded-md bg-slate-50 p-5 text-center text-xs text-slate-400">
+<div class="rounded-md bg-slate-50 p-5 text-center text-sm text-slate-400">
 No updates yet.
 </div>`;
 return;
@@ -757,7 +757,7 @@ ${update.user?.name?`
 <span class="text-[9px] text-slate-400">${date(update.created_at)}</span>
 </div>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">${esc(update.message)}</p>
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">${esc(update.message)}</p>
 </div>`;
 }).join('');
 }
@@ -797,7 +797,7 @@ actions.push(actionButton('Close Request','bi-check2-square','emerald','closeReq
 
 $('manageActions').innerHTML=actions.length
 ?actions.join('')
-:'<span class="text-xs text-slate-400">No further action available.</span>';
+:'<span class="text-sm text-slate-400">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,handler){
@@ -809,7 +809,7 @@ slate:'border-slate-300 bg-white text-slate-600 hover:bg-slate-50'
 };
 
 return`
-<button type="button" onclick="${handler}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold transition ${styles[color]}">
+<button type="button" onclick="${handler}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold transition ${styles[color]}">
 <i class="bi ${icon}"></i>
 ${label}
 </button>`;

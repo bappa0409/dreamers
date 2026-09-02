@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Member;
 use App\Models\MemberCharge;
+use App\Services\ApprovalService;
 use App\Services\ChargeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MemberChargeController extends Controller
 {
     public function __construct(
-        protected ChargeService $chargeService
+        protected ChargeService $chargeService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -249,14 +252,26 @@ class MemberChargeController extends Controller
                 'nullable|string|max:3000',
         ]);
 
-        $charge=$this->chargeService->create(
-            $validated,
-            $request->user()->id
-        );
+        $charge=DB::transaction(function()use($validated,$request){
+            $charge=$this->chargeService->create(
+                $validated,
+                $request->user()->id
+            );
+
+            $this->approvalService->createRequest(
+                $charge,
+                'Charge',
+                'create',
+                $request->user()->id,
+                'New member charge requires approval before posting.'
+            );
+
+            return $charge;
+        });
 
         return response()->json([
             'success'=>true,
-            'message'=>'Member charge created and journal posted successfully.',
+            'message'=>'Member charge recorded and sent for approval.',
             'data'=>$charge,
         ],201);
     }

@@ -5,11 +5,17 @@ namespace App\Services;
 use App\Models\ApprovalRequest;
 use App\Models\ApprovalStep;
 use App\Models\ApprovalWorkflow;
+use App\Models\Asset;
+use App\Models\Expense;
+use App\Models\Income;
 use App\Models\Loan;
 use App\Models\Member;
+use App\Models\MemberCharge;
 use App\Models\MemberExit;
 use App\Models\MemberShare;
+use App\Models\SubscriptionPayment;
 use App\Models\Tour;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\WelfareRequest;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +36,13 @@ class ApprovalService
         protected MemberShareService $memberShareService,
         protected TourService $tourService,
         protected AccountService $accountService,
-        protected NotificationService $notificationService
+        protected IncomeService $incomeService,
+        protected ExpenseService $expenseService,
+        protected SubscriptionService $subscriptionService,
+        protected NotificationService $notificationService,
+        protected ChargeService $chargeService,
+        protected AssetService $assetService,
+        protected JournalService $journalService
     ) {}
 
     /**
@@ -92,17 +104,70 @@ class ApprovalService
                 return $existing->load(['steps.approver', 'approvable']);
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | Backward-compat action alias
+            |--------------------------------------------------------------------------
+            |
+            | MemberShareController::store()/purchase() always create the
+            | ApprovalRequest with action='request'. The Approval Workflow
+            | Builder's dropdown for MemberShare used to only offer
+            | 'verify' as the action (see ApprovalWorkflowController), so
+            | any workflow an admin built through the UI before that was
+            | fixed got saved as action='verify' — which never matches
+            | 'request' here, so the lookup below found nothing and the
+            | purchase auto-approved instead of waiting on the configured
+            | approvers. Accepting the legacy 'verify' value here too means
+            | an already-saved workflow keeps working immediately, with no
+            | need to re-open and re-save it in the Workflow Builder.
+            |
+            | Same drift happened for MemberExit: MemberExitController
+            | always creates/looks up the request with action='request',
+            | but the Workflow Builder used to only offer 'approve' for
+            | that module, so any workflow saved before that was fixed
+            | has action='approve' on it.
+            */
+            $legacyActionAliases = [
+                'MemberShare' => 'verify',
+                'MemberExit' => 'approve',
+                'Loan' => 'approve',
+                'Welfare' => 'approve',
+            ];
+
+            $workflowActionMatches = $action === 'request' && isset($legacyActionAliases[$module])
+                ? ['request', $legacyActionAliases[$module]]
+                : [$action];
+
             $workflow = ApprovalWorkflow::query()
                 ->where('module', $module)
-                ->where('action', $action)
+                ->whereIn('action', $workflowActionMatches)
                 ->where('is_active', true)
                 ->with(['steps' => fn($query) => $query->orderBy('step_no')])
                 ->first();
 
+            /*
+            |--------------------------------------------------------------------------
+            | Approval skipped (module/action unmarked)
+            |--------------------------------------------------------------------------
+            |
+            | No active workflow configured for this module/action — either it was
+            | never set up, or an admin deactivated/unmarked it from the Approval
+            | Workflow Builder (resources/views/admin/approvals). In that case we
+            | don't block the action: it's auto-approved immediately, running the
+            | exact same posting logic a normal final approval would run. Any
+            | module/action the admin keeps marked/active still goes through the
+            | full approval flow below, unaffected.
+            |
+            */
             if (!$workflow || $workflow->steps->isEmpty()) {
-                throw ValidationException::withMessages([
-                    'approval' => ["No active approval workflow is configured for {$module} {$action}."]
-                ]);
+                return $this->autoApprove(
+                    $approvable,
+                    $module,
+                    $action,
+                    $requestedBy,
+                    $requestNote,
+                    $decisionData
+                );
             }
 
             $totalSteps = $workflow->steps->count();
@@ -146,6 +211,50 @@ class ApprovalService
 
             return $approval->load(['steps.approver', 'approvable']);
         });
+    }
+
+    /**
+     * Used when a module/action has no active approval workflow — i.e. an
+     * admin deactivated ("unmarked") it in the Approval Workflow Builder,
+     * or never configured one. Records the request as already approved
+     * (self-approved by whoever triggered it) and immediately runs the
+     * exact same posting logic the normal flow runs on final approval
+     * (executeApprovedAction) — so ledger postings, statuses and audit
+     * trail end up identical to a normal approval, just without anyone
+     * having to wait or act on it.
+     */
+    protected function autoApprove(
+        Model $approvable,
+        string $module,
+        string $action,
+        ?int $requestedBy,
+        ?string $requestNote,
+        array $decisionData = []
+    ): ApprovalRequest {
+        $approval = ApprovalRequest::create([
+            'approvable_type' => $approvable->getMorphClass(),
+            'approvable_id' => $approvable->getKey(),
+            'module' => $module,
+            'action' => $action,
+            'status' => 'approved',
+            'requested_by' => $requestedBy,
+            'request_note' => $requestNote,
+            'decision_data' => $decisionData ?: null,
+            'current_step' => 1,
+            'total_steps' => 0,
+            'approved_by' => $requestedBy,
+            'approved_at' => now(),
+            'completed_at' => now(),
+        ]);
+
+        $this->executeApprovedAction(
+            $approval,
+            (int) ($requestedBy ?? 0)
+        );
+
+        $this->forgetApprovalCaches();
+
+        return $approval->load(['steps.approver', 'approvable']);
     }
 
     public function approve(
@@ -463,11 +572,15 @@ class ApprovalService
         |--------------------------------------------------------------------------
         | Loan Approval
         |--------------------------------------------------------------------------
+        |
+        | NOTE: LoanController always creates/looks up this request with
+        | action='request' (see store()/verify()/reject()) — must match
+        | here too, not 'approve'.
         */
         if (
             $approvable instanceof Loan &&
             $approvalRequest->module === 'Loan' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->loanService->finalizeApproval(
                 $approvable,
@@ -482,11 +595,14 @@ class ApprovalService
         |--------------------------------------------------------------------------
         | Welfare Approval
         |--------------------------------------------------------------------------
+        |
+        | NOTE: WelfareController always creates/looks up this request
+        | with action='request' — must match here too, not 'approve'.
         */
         if (
             $approvable instanceof WelfareRequest &&
             $approvalRequest->module === 'Welfare' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->welfareService->finalizeApproval(
                 $approvable,
@@ -501,11 +617,17 @@ class ApprovalService
         |--------------------------------------------------------------------------
         | Member Exit Approval
         |--------------------------------------------------------------------------
+        |
+        | NOTE: MemberExitController always creates/looks up this request
+        | with action='request' (see store()/verify()/reject()), so this
+        | must check 'request' too, not 'approve' — otherwise the request
+        | reaches status=approved but finalizeApproval() (ledger postings,
+        | member/share status updates) never actually runs.
         */
         if (
             $approvable instanceof MemberExit &&
             $approvalRequest->module === 'MemberExit' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->memberExitService->finalizeApproval(
                 $approvable,
@@ -520,11 +642,18 @@ class ApprovalService
         |--------------------------------------------------------------------------
         | Member Share Verification
         |--------------------------------------------------------------------------
+        |
+        | NOTE: action must match what MemberShareController::store()/purchase()
+        | passes into ApprovalService::createRequest() — which is 'request', NOT
+        | 'verify'. Previously this checked action === 'verify', so it never
+        | matched, finalizeApproval() never ran, and the share stayed 'pending'
+        | forever even after the ApprovalRequest itself was approved/auto-approved.
+        |
         */
         if (
             $approvable instanceof MemberShare &&
             $approvalRequest->module === 'MemberShare' &&
-            $approvalRequest->action === 'verify'
+            $approvalRequest->action === 'request'
         ) {
             $this->memberShareService->finalizeApproval(
                 $approvable,
@@ -610,6 +739,120 @@ class ApprovalService
 
         /*
         |--------------------------------------------------------------------------
+        | Income Creation Approval
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof Income &&
+            $approvalRequest->module === 'Income' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->incomeService->finalizeApproval(
+                $approvable,
+                $approvalRequest->decision_data ?? [],
+                $approvedBy
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Expense Creation Approval
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof Expense &&
+            $approvalRequest->module === 'Expense' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->expenseService->finalizeApproval(
+                $approvable,
+                $approvalRequest->decision_data ?? [],
+                $approvedBy
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Subscription Payment Verification
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof SubscriptionPayment &&
+            $approvalRequest->module === 'SubscriptionPayment' &&
+            $approvalRequest->action === 'verify'
+        ) {
+            $this->subscriptionService->verifyPayment(
+                $approvable,
+                $approvedBy,
+                $approvalRequest->decision_data['note'] ?? null
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Member Charge Creation Approval
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof MemberCharge &&
+            $approvalRequest->module === 'Charge' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->chargeService->finalizeApproval(
+                $approvable,
+                $approvalRequest->decision_data ?? [],
+                $approvedBy
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Asset Creation Approval
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof Asset &&
+            $approvalRequest->module === 'Asset' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->assetService->finalizeApproval(
+                $approvable,
+                $approvalRequest->decision_data ?? [],
+                $approvedBy
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Journal Entry (Manual) Creation Approval
+        |--------------------------------------------------------------------------
+        */
+        if (
+            $approvable instanceof Transaction &&
+            $approvalRequest->module === 'JournalEntry' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->journalService->finalizeApproval(
+                $approvable,
+                $approvalRequest->decision_data ?? [],
+                $approvedBy
+            );
+
+            return;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | Future Approval Actions
         |--------------------------------------------------------------------------
         |
@@ -617,7 +860,6 @@ class ApprovalService
         | Investment
         | Land
         | Notice
-        | Expense
         |
         | তাদের business action পরে এখানে যোগ করা যাবে।
         |
@@ -663,10 +905,12 @@ class ApprovalService
             return;
         }
 
+        // NOTE: same fix as executeApprovedAction() above — must match
+        // action='request', not 'approve'.
         if (
             $approvable instanceof Loan &&
             $approvalRequest->module === 'Loan' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->loanService->finalizeRejection(
                 $approvable,
@@ -677,10 +921,12 @@ class ApprovalService
             return;
         }
 
+        // NOTE: same fix as executeApprovedAction() above — must match
+        // action='request', not 'approve'.
         if (
             $approvable instanceof WelfareRequest &&
             $approvalRequest->module === 'Welfare' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->welfareService->finalizeRejection(
                 $approvable,
@@ -691,10 +937,13 @@ class ApprovalService
             return;
         }
 
+        // NOTE: same fix as executeApprovedAction() above — action must be
+        // 'request' to match how the ApprovalRequest was created, not
+        // 'approve'.
         if (
             $approvable instanceof MemberExit &&
             $approvalRequest->module === 'MemberExit' &&
-            $approvalRequest->action === 'approve'
+            $approvalRequest->action === 'request'
         ) {
             $this->memberExitService->finalizeRejection(
                 $approvable,
@@ -705,10 +954,19 @@ class ApprovalService
             return;
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Member Share Rejection
+        |--------------------------------------------------------------------------
+        |
+        | NOTE: same fix as executeApprovedAction() above — action must be
+        | 'request' to match how the ApprovalRequest was created, not 'verify'.
+        |
+        */
         if (
             $approvable instanceof MemberShare &&
             $approvalRequest->module === 'MemberShare' &&
-            $approvalRequest->action === 'verify'
+            $approvalRequest->action === 'request'
         ) {
             $this->memberShareService->finalizeRejection(
                 $approvable,
@@ -736,6 +994,90 @@ class ApprovalService
             $approvalRequest->action === 'create'
         ) {
             $this->accountService->finalizeRejection(
+                $approvable,
+                $approvalRequest->rejection_reason ?? '',
+                $approvalRequest->rejected_by
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof Income &&
+            $approvalRequest->module === 'Income' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->incomeService->finalizeRejection(
+                $approvable,
+                $approvalRequest->rejection_reason ?? '',
+                $approvalRequest->rejected_by
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof Expense &&
+            $approvalRequest->module === 'Expense' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->expenseService->finalizeRejection(
+                $approvable,
+                $approvalRequest->rejection_reason ?? '',
+                $approvalRequest->rejected_by
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof SubscriptionPayment &&
+            $approvalRequest->module === 'SubscriptionPayment' &&
+            $approvalRequest->action === 'verify'
+        ) {
+            $this->subscriptionService->rejectPayment(
+                $approvable,
+                (int) $approvalRequest->rejected_by,
+                $approvalRequest->rejection_reason ?? 'Rejected.'
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof MemberCharge &&
+            $approvalRequest->module === 'Charge' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->chargeService->finalizeRejection(
+                $approvable,
+                $approvalRequest->rejection_reason ?? '',
+                $approvalRequest->rejected_by
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof Asset &&
+            $approvalRequest->module === 'Asset' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->assetService->finalizeRejection(
+                $approvable,
+                $approvalRequest->rejection_reason ?? '',
+                $approvalRequest->rejected_by
+            );
+
+            return;
+        }
+
+        if (
+            $approvable instanceof Transaction &&
+            $approvalRequest->module === 'JournalEntry' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->journalService->finalizeRejection(
                 $approvable,
                 $approvalRequest->rejection_reason ?? '',
                 $approvalRequest->rejected_by
@@ -790,6 +1132,60 @@ class ApprovalService
             $approvalRequest->action === 'create'
         ) {
             $this->accountService->finalizeCancellation($approvable);
+        }
+
+        if (
+            $approvable instanceof Income &&
+            $approvalRequest->module === 'Income' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->incomeService->finalizeCancellation($approvable);
+        }
+
+        if (
+            $approvable instanceof Expense &&
+            $approvalRequest->module === 'Expense' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->expenseService->finalizeCancellation($approvable);
+        }
+
+        if (
+            $approvable instanceof SubscriptionPayment &&
+            $approvalRequest->module === 'SubscriptionPayment' &&
+            $approvalRequest->action === 'verify' &&
+            $approvable->status === 'pending'
+        ) {
+            $this->subscriptionService->rejectPayment(
+                $approvable,
+                (int) ($approvalRequest->cancelled_by ?? 0),
+                $approvalRequest->cancellation_reason
+                    ?? 'Verification request cancelled.'
+            );
+        }
+
+        if (
+            $approvable instanceof MemberCharge &&
+            $approvalRequest->module === 'Charge' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->chargeService->finalizeCancellation($approvable);
+        }
+
+        if (
+            $approvable instanceof Asset &&
+            $approvalRequest->module === 'Asset' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->assetService->finalizeCancellation($approvable);
+        }
+
+        if (
+            $approvable instanceof Transaction &&
+            $approvalRequest->module === 'JournalEntry' &&
+            $approvalRequest->action === 'create'
+        ) {
+            $this->journalService->finalizeCancellation($approvable);
         }
     }
 

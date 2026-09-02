@@ -20,13 +20,13 @@
                     System Settings
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Manage organization, system, membership and finance configuration.
                 </p>
             </div>
         </div>
 
-        <div id="loadingBadge" class="hidden items-center gap-2 text-xs font-semibold text-slate-400">
+        <div id="loadingBadge" class="hidden items-center gap-2 text-sm font-semibold text-slate-400">
             <i class="bi bi-arrow-repeat animate-spin"></i>
             Loading settings...
         </div>
@@ -227,7 +227,7 @@
 
             if(!groups.length){
                 skeletonEl.innerHTML=`
-                    <div class="p-10 text-center text-sm text-slate-400">
+                    <div class="p-10 text-center text-base text-slate-400">
                         No settings found.
                     </div>
                 `;
@@ -258,7 +258,7 @@
 
         }catch(error){
             skeletonEl.innerHTML=`
-                <div class="rounded-md border border-red-200 bg-red-50 p-5 text-sm text-red-600">
+                <div class="rounded-md border border-red-200 bg-red-50 p-5 text-base text-red-600">
                     ${
                         AdminUI.escapeHtml(
                             AdminUI.extractError(
@@ -289,7 +289,7 @@
                     <button
                         type="button"
                         data-group="${AdminUI.escapeHtml(group)}"
-                        class="settings-tab-btn inline-flex cursor-pointer items-center gap-2 rounded-md px-3.5 py-2 text-xs font-semibold transition ${
+                        class="settings-tab-btn inline-flex cursor-pointer items-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition ${
                             active
                                 ?'bg-white text-indigo-700 shadow-sm ring-1 ring-slate-200'
                                 :'text-slate-500 hover:bg-white hover:text-slate-700'
@@ -379,7 +379,7 @@
 
                 <div
                     id="settingsAlert"
-                    class="hidden rounded-md border px-4 py-3 text-sm">
+                    class="hidden rounded-md border px-4 py-3 text-base">
                 </div>
 
                 ${
@@ -537,7 +537,7 @@
 
                     <div
                         id="settingsAlert"
-                        class="hidden rounded-md border px-4 py-3 text-sm">
+                        class="hidden rounded-md border px-4 py-3 text-base">
                     </div>
 
                     ${
@@ -617,11 +617,11 @@
                 <div class="mb-4 flex items-center gap-2">
 
                     <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <i class="bi ${icon} text-sm"></i>
+                        <i class="bi ${icon} text-base"></i>
                     </div>
 
                     <div>
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
@@ -655,11 +655,11 @@
                 <div class="mb-4 flex items-center gap-2">
 
                     <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <i class="bi ${icon} text-sm"></i>
+                        <i class="bi ${icon} text-base"></i>
                     </div>
 
                     <div>
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
@@ -679,7 +679,7 @@
 
                                 <button
                                     type="submit"
-                                    class="settings-section-save inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                                    class="settings-section-save inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
 
                                     <i class="bi bi-check2-circle"></i>
 
@@ -703,7 +703,7 @@
                 <button
                     type="submit"
                     id="settingsSaveBtn"
-                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
 
                     <i class="bi bi-check2-circle"></i>
 
@@ -814,7 +814,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -824,7 +824,7 @@
 
                 <div class="relative">
 
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         type="text"
@@ -866,7 +866,7 @@
 
             <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                <label class="truncate text-xs font-semibold text-slate-700">
+                <label class="truncate text-sm font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -921,7 +921,7 @@
         return`
             <div>
 
-                <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                     ${
                         AdminUI.escapeHtml(
                             labels[setting.key]||
@@ -1024,7 +1024,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -1057,7 +1057,7 @@
         return`
             <div>
 
-                <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -1080,7 +1080,7 @@
                         type="button"
                         class="settings-password-toggle absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 transition hover:text-slate-600">
 
-                        <i class="bi bi-eye text-xs"></i>
+                        <i class="bi bi-eye text-sm"></i>
 
                     </button>
 
@@ -1105,7 +1105,7 @@
 
                 <div class="min-w-0">
 
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </p>
 
@@ -1162,7 +1162,7 @@
 
                 <div class="mb-3 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate text-sm font-semibold text-slate-700">
                         ${AdminUI.escapeHtml(title)}
                     </label>
 
@@ -1196,7 +1196,7 @@
                         ${
                             canUpdate
                                 ?`
-                                    <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                                    <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 
                                         <i class="bi bi-upload text-[11px]"></i>
 
@@ -1729,8 +1729,8 @@
 
         alertBox.className=
             type==='success'
-                ?'rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'
-                :'rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600';
+                ?'rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-700'
+                :'rounded-md border border-red-200 bg-red-50 px-4 py-3 text-base text-red-600';
 
         alertBox.textContent=
             message;

@@ -18,18 +18,18 @@ $currency=setting('currency_symbol','৳');
 </div>
 
 <div>
-<h1 class="text-lg font-bold tracking-tight text-slate-800">Welfare Support</h1>
-<p class="mt-0.5 text-xs text-slate-500">Request and track emergency or welfare assistance from the association.</p>
+<h1 class="text-base font-semibold tracking-tight text-slate-800">Welfare Support</h1>
+<p class="mt-0.5 text-sm text-slate-500">Request and track emergency or welfare assistance from the association.</p>
 </div>
 </div>
 
 <div class="flex flex-wrap items-center gap-2">
-<button id="refreshButton" type="button" onclick="loadWelfare(currentPage)" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
+<button id="refreshButton" type="button" onclick="loadWelfare(currentPage)" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-60">
 <i id="refreshIcon" class="bi bi-arrow-clockwise"></i>
 Refresh
 </button>
 
-<button type="button" onclick="openRequestModal()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openRequestModal()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-circle"></i>
 Request Assistance
 </button>
@@ -43,7 +43,7 @@ Request Assistance
 </div>
 
 <div>
-<p class="text-xs font-semibold text-indigo-800">Welfare Assistance</p>
+<p class="text-sm font-semibold text-indigo-800">Welfare Assistance</p>
 <p class="mt-0.5 text-[11px] leading-5 text-indigo-700">
 Welfare support is available for eligible emergency, medical, accident, disaster and financial-hardship situations. Requested amounts remain subject to review, available fund balance and final approval.
 </p>
@@ -116,7 +116,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 </div>
 
 <div>
-<h2 class="text-sm font-semibold text-slate-800">Available Welfare Funds</h2>
+<h2 class="text-base font-semibold text-slate-800">Available Welfare Funds</h2>
 <p class="text-[11px] text-slate-400">Funds currently available for member assistance</p>
 </div>
 </div>
@@ -125,7 +125,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 </div>
 
 <div id="fundGrid" class="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3">
-<div class="col-span-full py-8 text-center text-xs text-slate-400">Loading funds...</div>
+<div class="col-span-full py-8 text-center text-sm text-slate-400">Loading funds...</div>
 </div>
 </div>
 
@@ -137,7 +137,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
 <input id="requestSearch" type="text" placeholder="Search request no, fund, type or reason..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
@@ -159,7 +159,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 </div>
 
 <div class="lg:col-span-2">
-<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+<button type="button" onclick="clearFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 Clear
 </button>
 </div>
@@ -176,7 +176,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-sm font-semibold text-slate-800">Assistance Requests</h2>
+<h2 class="text-base font-semibold text-slate-800">Assistance Requests</h2>
 <p class="text-[11px] text-slate-400">Your welfare support request and approval history</p>
 </div>
 </div>
@@ -184,7 +184,7 @@ Clear
 <div id="requestList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>
 </div>
 
@@ -219,11 +219,11 @@ Clear
 
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="requestError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="requestError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <section class="rounded-lg border border-slate-200 p-4">
 <div class="mb-4">
-<h3 class="text-sm font-semibold text-slate-800">Assistance Information</h3>
+<h3 class="text-base font-semibold text-slate-800">Assistance Information</h3>
 <p class="text-[11px] text-slate-400">Select the welfare fund and type of assistance.</p>
 </div>
 
@@ -234,7 +234,7 @@ Clear
 <select id="fundId" class="app-input w-full">
 <option value="">Select Welfare Fund</option>
 </select>
-<p data-field-error="fundId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="fundId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -249,19 +249,19 @@ Clear
 <option value="financial_hardship">Financial Hardship</option>
 <option value="other">Other</option>
 </select>
-<p data-field-error="assistanceType" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="assistanceType" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="sm:col-span-2">
 <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
 
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">{{ $currency }}</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ $currency }}</span>
 
 <input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00" data-validation-min-message="Requested amount must be greater than zero.">
 </div>
 
-<p data-field-error="requestAmount" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="requestAmount" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </div>
@@ -272,7 +272,7 @@ Clear
 
 <textarea id="requestReason" rows="5" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe why assistance is required..."></textarea>
 
-<p data-field-error="requestReason" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="requestReason" class="mt-1 hidden text-sm text-red-600"></p>
 </section>
 
 <div id="selectedFundInfo"></div>
@@ -280,11 +280,11 @@ Clear
 </div>
 
 <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeRequestModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+<button type="button" onclick="closeRequestModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 hover:bg-slate-50">
 Cancel
 </button>
 
-<button id="submitRequestButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+<button id="submitRequestButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
 Submit Request
 </button>
 </div>
@@ -319,7 +319,7 @@ Submit Request
 <input id="documentRequestId" type="hidden">
 
 <div class="space-y-4 p-5">
-<div id="documentError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="documentError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <div>
 <label class="form-label">Document Type <span class="text-red-500">*</span></label>
@@ -336,26 +336,26 @@ Submit Request
 <option value="other">Other</option>
 </select>
 
-<p data-field-error="documentType" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="documentType" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">File <span class="text-red-500">*</span></label>
 
-<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-xs text-slate-600" data-validation-required-message="Please select a file." data-validation-file-message="Only PDF, JPG, PNG and WEBP files are allowed.">
+<input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-sm text-slate-600" data-validation-required-message="Please select a file." data-validation-file-message="Only PDF, JPG, PNG and WEBP files are allowed.">
 
 <p class="mt-1 text-[10px] text-slate-400">PDF, JPG, JPEG, PNG or WEBP.</p>
 
-<p data-field-error="documentFile" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="documentFile" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeDocumentModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">
+<button type="button" onclick="closeDocumentModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">
 Cancel
 </button>
 
-<button id="uploadButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60">
+<button id="uploadButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white disabled:opacity-60">
 Upload
 </button>
 </div>
@@ -389,7 +389,7 @@ Upload
 <div id="detailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
 <div class="flex justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600">
+<button type="button" onclick="closeDetailsModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600">
 Close
 </button>
 </div>
@@ -473,7 +473,7 @@ if(icon)icon.classList.add('animate-spin');
 $('requestList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
 </div>`;
 
 try{
@@ -524,10 +524,10 @@ $('requestList').innerHTML=`
 <i class="bi bi-exclamation-circle"></i>
 </div>
 
-<p class="mt-3 text-sm font-semibold text-red-600">Failed to load welfare requests</p>
-<p class="mt-1 text-xs text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
+<p class="mt-3 text-base font-semibold text-red-600">Failed to load welfare requests</p>
+<p class="mt-1 text-sm text-red-400">${escapeHtml(AdminUI.extractError(error))}</p>
 
-<button type="button" onclick="loadWelfare(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 hover:bg-red-50">
+<button type="button" onclick="loadWelfare(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 hover:bg-red-50">
 <i class="bi bi-arrow-clockwise"></i>
 Try Again
 </button>
@@ -557,7 +557,7 @@ ${escapeHtml(fund.name)}
 
 if(!funds.length){
 $('fundGrid').innerHTML=`
-<div class="col-span-full py-8 text-center text-xs text-slate-400">
+<div class="col-span-full py-8 text-center text-sm text-slate-400">
 No active welfare funds available.
 </div>`;
 return;
@@ -568,7 +568,7 @@ $('fundGrid').innerHTML=funds.map(fund=>`
 
 <div class="flex items-start justify-between gap-3">
 <div class="min-w-0">
-<p class="truncate text-xs font-bold text-slate-700">
+<p class="truncate text-sm font-bold text-slate-700">
 ${escapeHtml(fund.name)}
 </p>
 
@@ -630,11 +630,11 @@ $('requestList').innerHTML=`
 <i class="bi bi-heart-pulse text-xl"></i>
 </div>
 
-<p class="mt-4 text-sm font-semibold text-slate-700">
+<p class="mt-4 text-base font-semibold text-slate-700">
 No Welfare Requests
 </p>
 
-<p class="mt-1 text-xs text-slate-400">
+<p class="mt-1 text-sm text-slate-400">
 You have no welfare assistance requests matching the current filters.
 </p>
 
@@ -659,7 +659,7 @@ $('requestList').innerHTML=requests.map(request=>`
 
 <div class="flex flex-wrap items-center gap-2">
 
-<p class="font-mono text-xs font-semibold text-indigo-600">
+<p class="font-mono text-sm font-semibold text-indigo-600">
 ${escapeHtml(request.request_no)}
 </p>
 
@@ -708,7 +708,7 @@ request.approved_amount
 Assistance Type
 </p>
 
-<p class="mt-1 text-xs font-semibold text-slate-700">
+<p class="mt-1 text-sm font-semibold text-slate-700">
 ${escapeHtml(
 assistanceLabel(request.assistance_type)
 )}
@@ -794,7 +794,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<p class="mt-1 truncate text-xs font-bold ${colors[tone]??colors.slate}">
+<p class="mt-1 truncate text-sm font-bold ${colors[tone]??colors.slate}">
 ${escapeHtml(value)}
 </p>
 </div>`;
@@ -891,7 +891,7 @@ $('selectedFundInfo').innerHTML=`
 <div class="flex items-start justify-between gap-3">
 
 <div>
-<p class="text-xs font-semibold text-indigo-800">
+<p class="text-sm font-semibold text-indigo-800">
 ${escapeHtml(fund.name)}
 </p>
 
@@ -900,7 +900,7 @@ Available welfare balance
 </p>
 </div>
 
-<p class="text-sm font-bold text-indigo-700">
+<p class="text-base font-bold text-indigo-700">
 ${money(fund.available_amount??0)}
 </p>
 
@@ -1174,7 +1174,7 @@ statusTone(request.status)
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">
+<h3 class="text-base font-semibold text-slate-800">
 Request Information
 </h3>
 </div>
@@ -1237,19 +1237,19 @@ dateText(request.completed_at)
 Reason
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(request.reason??'—')}
 </p>
 </div>
 
 ${request.rejection_reason?`
 <div class="rounded-lg border border-red-200 bg-red-50 p-4">
-<p class="text-xs font-semibold text-red-700">
+<p class="text-sm font-semibold text-red-700">
 <i class="bi bi-x-circle mr-1"></i>
 Rejection Reason
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-red-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-red-600">
 ${escapeHtml(request.rejection_reason)}
 </p>
 </div>`:''}
@@ -1270,7 +1270,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">
+<h3 class="text-base font-semibold text-slate-800">
 Supporting Documents
 </h3>
 <p class="text-[11px] text-slate-400">
@@ -1288,7 +1288,7 @@ ${documents.map(document=>`
 </div>
 
 <div class="min-w-0 flex-1">
-<p class="truncate text-xs font-semibold text-slate-700">
+<p class="truncate text-sm font-semibold text-slate-700">
 ${escapeHtml(
 document.original_name??
 document.file_name??
@@ -1335,7 +1335,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<p class="mt-2 truncate text-xs font-bold text-slate-700">
+<p class="mt-2 truncate text-sm font-bold text-slate-700">
 ${escapeHtml(value)}
 </p>
 </div>`;
@@ -1348,7 +1348,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<div class="mt-1 text-xs font-semibold text-slate-700">
+<div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>
 </div>`;

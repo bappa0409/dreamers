@@ -22,7 +22,7 @@
                     Database Backups
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Create, download and manage database backup snapshots.
                 </p>
             </div>
@@ -44,7 +44,7 @@
                     <button
                         type="button"
                         onclick="document.getElementById('importFileInput').click()"
-                        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                     >
                         <i class="bi bi-upload text-[12px]"></i>
                         Import Database
@@ -57,7 +57,7 @@
                 <button
                     type="button"
                     onclick="openConfirmBackupModal()"
-                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
                 >
                     <i class="bi bi-play-circle text-[12px]"></i>
                     Run Backup Now
@@ -74,35 +74,35 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
         <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-left text-sm">
+            <table class="w-full table-fixed text-left text-base">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[28%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[28%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Filename
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="w-[13%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Size
                         </th>
 
-                        <th class="w-[14%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Created By
                         </th>
 
-                        <th class="w-[17%] px-3 py-3 text-xs font-semibold text-slate-600">
+                        <th class="w-[17%] px-3 py-3 text-sm font-semibold text-slate-600">
                             Created At
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -113,7 +113,7 @@
                     <tr>
                         <td
                             colspan="7"
-                            class="px-5 py-10 text-center text-sm text-slate-400"
+                            class="px-5 py-10 text-center text-base text-slate-400"
                         >
                             Loading backups...
                         </td>
@@ -152,7 +152,7 @@ CONFIRM BACKUP MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Run Database Backup?
                     </h2>
 
@@ -175,7 +175,7 @@ CONFIRM BACKUP MODAL
         </div>
 
 
-        <div class="px-5 py-5 text-sm leading-6 text-slate-600">
+        <div class="px-5 py-5 text-base leading-6 text-slate-600">
             This will create a full snapshot of the current database.
             Depending on the database size, this may take a few moments.
         </div>
@@ -186,7 +186,7 @@ CONFIRM BACKUP MODAL
             <button
                 type="button"
                 onclick="closeConfirmBackupModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -195,7 +195,7 @@ CONFIRM BACKUP MODAL
                 id="confirmBackupButton"
                 type="button"
                 onclick="confirmRunBackup()"
-                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-play-circle text-[12px]"></i>
                 Yes, Run Backup
@@ -225,7 +225,7 @@ CONFIRM IMPORT MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Import Database?
                     </h2>
 
@@ -248,7 +248,7 @@ CONFIRM IMPORT MODAL
         </div>
 
 
-        <div class="px-5 py-5 text-sm leading-6 text-slate-600">
+        <div class="px-5 py-5 text-base leading-6 text-slate-600">
 
             Importing
 
@@ -259,7 +259,7 @@ CONFIRM IMPORT MODAL
 
             will overwrite all existing data in the current database.
 
-            <div class="mt-3 rounded-md border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
+            <div class="mt-3 rounded-md border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-700">
                 This action cannot be undone.
             </div>
 
@@ -271,7 +271,7 @@ CONFIRM IMPORT MODAL
             <button
                 type="button"
                 onclick="closeConfirmImportModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -280,7 +280,7 @@ CONFIRM IMPORT MODAL
                 id="confirmImportButton"
                 type="button"
                 onclick="confirmRunImport()"
-                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-red-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-red-700"
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-red-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
             >
                 <i class="bi bi-upload text-[12px]"></i>
                 Yes, Import Database
@@ -318,12 +318,12 @@ PROGRESS MODAL
 
                 <p
                     id="progressModalMessage"
-                    class="mt-1.5 text-sm leading-5 text-slate-500"
+                    class="mt-1.5 text-base leading-5 text-slate-500"
                 ></p>
             </div>
 
 
-            <div class="flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">
+            <div class="flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
                 <i class="bi bi-exclamation-triangle"></i>
                 Please do not reload or close this page.
             </div>
@@ -505,7 +505,7 @@ function renderTable(backups){
                         <i class="bi bi-file-earmark-zip shrink-0 text-slate-400"></i>
 
                         <span
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(backup.filename??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -544,7 +544,7 @@ function renderTable(backups){
                 <td class="overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate text-xs text-slate-600"
+                        class="truncate text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(AdminUI.formatBytes(backup.size))}"
                     >
                         ${AdminUI.formatBytes(
@@ -558,7 +558,7 @@ function renderTable(backups){
                 <td class="min-w-0 overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate text-xs text-slate-600"
+                        class="truncate text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(backup.creator?.name??'—')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -598,7 +598,7 @@ function renderTable(backups){
                                         title="Download Backup"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                     >
-                                        <i class="bi bi-download text-xs"></i>
+                                        <i class="bi bi-download text-sm"></i>
                                     </a>
                                 `
                                 :''
@@ -614,7 +614,7 @@ function renderTable(backups){
                                         title="Delete Backup"
                                         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                     >
-                                        <i class="bi bi-trash3 text-xs"></i>
+                                        <i class="bi bi-trash3 text-sm"></i>
                                     </button>
                                 `
                                 :''

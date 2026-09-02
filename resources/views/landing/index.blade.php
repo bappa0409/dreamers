@@ -1,1244 +1,1137 @@
 @extends('layouts.public')
 
-@section('title',setting('organization_name','Dreamers Association'))
-@section('description','Dreamers Association — together we save, invest, build and grow.')
+@section('title', setting('organization_name', 'Dreamers Association'))
+@section('description', 'Dreamers Association — একটি স্বচ্ছ, ঐক্যবদ্ধ ও দীর্ঘমেয়াদি আর্থিক উন্নয়নের উদ্যোগ।')
 
 @section('content')
 @php
-$organizationName=setting('organization_name','Dreamers Association');
-$organizationEmail=setting('organization_email','info@dreamersassociation.com');
-$organizationPhone=setting('organization_phone','+880 1XXX-XXXXXX');
-$organizationAddress=setting('organization_address','Bangladesh');
+$organizationName = setting('organization_name', 'Dreamers Association');
+$organizationEmail = setting('organization_email', 'info@dreamersassociation.com');
+$organizationPhone = setting('organization_phone', '+880 1XXX-XXXXXX');
+$organizationAddress = setting('organization_address', 'Dhaka, Bangladesh');
 @endphp
 
-<style>
-html{scroll-behavior:smooth}
-body{
-    background:#ede7d3;
-    background-image:radial-gradient(circle at 1px 1px,rgba(26,43,34,.055) 1px,transparent 0);
-    background-size:22px 22px;
-}
-.landing-page{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#1a2b22}
-.landing-display{font-family:"Trebuchet MS",Inter,ui-sans-serif,sans-serif;letter-spacing:-.025em}
-.landing-mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
-.ledger-rules{
-    background-image:repeating-linear-gradient(to bottom,transparent 0 38px,rgba(21,83,70,.11) 38px 39px);
-}
-.stitch-v{
-    background-image:repeating-linear-gradient(to bottom,transparent 0 8px,rgba(185,141,46,.65) 8px 9px);
-}
-.stitch-h{
-    background-image:repeating-linear-gradient(to right,transparent 0 8px,rgba(185,141,46,.55) 8px 9px);
-}
-.book-binding{
-    background-image:
-        repeating-linear-gradient(to bottom,transparent 0 24px,rgba(11,59,52,.85) 24px 25px),
-        linear-gradient(to right,#0b3b34,#0b3b34);
-}
-.entry-tab{writing-mode:vertical-rl;text-orientation:mixed}
-.paper-shadow{box-shadow:0 1px 0 rgba(26,43,34,.05),0 18px 32px -24px rgba(11,59,52,.45)}
-.notice-marquee{animation:noticeMarquee 30s linear infinite}
-@keyframes noticeMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
-.reveal.visible{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){
-    .reveal{opacity:1;transform:none;transition:none}
-    .notice-marquee{animation:none}
-    html{scroll-behavior:auto}
-}
-</style>
+{{-- =========================================================
+NAVBAR
+========================================================== --}}
+<header id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 border-b bg-white/70 backdrop-blur-xl transition-all duration-300">
+    <div class="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
-<div class="landing-page min-h-screen overflow-x-hidden bg-[#ede7d3]">
+        <a href="{{route('home')}}" class="flex items-center gap-2.5">
+            <div
+                class="flex h-9 w-9 items-center justify-center rounded-md bg-teal-700 text-white shadow-lg shadow-teal-700/20">
+                <i data-lucide="sparkles" class="h-4.5 w-4.5"></i>
+            </div>
+            <div class="leading-tight">
+                <div class="text-[17px] font-bold text-slate-900">Dreamers</div>
+                <div class="-mt-0.5 text-[10px] font-medium tracking-[0.15em] text-teal-700 uppercase">Association</div>
+            </div>
+        </a>
 
-    {{-- Book binding --}}
-    <div class="book-binding fixed bottom-0 left-0 top-0 z-40 hidden w-[9px] lg:block"></div>
+        <nav class="hidden items-center gap-7 md:flex">
+            <a href="{{route('home')}}" class="text-sm font-medium text-slate-700 transition hover:text-teal-700">হোম</a>
+            <a href="#about" class="text-sm font-medium text-slate-700 transition hover:text-teal-700">আমাদের
+                সম্পর্কে</a>
+            <a href="#activities"
+                class="text-sm font-medium text-slate-700 transition hover:text-teal-700">কার্যক্রম</a>
+            <a href="#transparency"
+                class="text-sm font-medium text-slate-700 transition hover:text-teal-700">স্বচ্ছতা</a>
+            <a href="#faq" class="text-sm font-medium text-slate-700 transition hover:text-teal-700">প্রশ্নোত্তর</a>
+        </nav>
 
-    {{-- =========================================================
-        HEADER
-    ========================================================== --}}
-    <header id="top" class="sticky top-0 z-50 border-b border-[#b98d2e]/40 bg-[#0b3b34]/95 text-[#ede7d3] shadow-sm backdrop-blur lg:pl-[9px]">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
+        <a href="#contact"
+            class="hidden items-center gap-2 rounded-md bg-teal-700 px-4 py-2 font-semibold text-sm text-white shadow-lg shadow-teal-700/20 transition hover:bg-teal-800 md:flex">
+            যোগাযোগ করুন
+            <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+        </a>
 
-                <a href="#home" class="flex min-w-0 items-center gap-3">
-                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-[#b98d2e] text-sm font-bold text-[#d9b45c]">
-                        D
-                    </div>
+        <button id="menuBtn" type="button"
+            class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-700 md:hidden">
+            <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+    </div>
 
-                    <div class="min-w-0">
-                        <p class="landing-display truncate text-sm font-semibold tracking-wide text-[#ede7d3] sm:text-base">
-                            Dreamers
-                            <span class="text-[#d9b45c]">Association</span>
-                        </p>
-                        <p class="landing-mono text-[8px] uppercase tracking-[.18em] text-[#ede7d3]/45">
-                            Together We Grow
-                        </p>
-                    </div>
-                </a>
+    <div id="mobileMenu" class="hidden border-t border-slate-100 bg-white px-5 pb-5 pt-3 md:hidden">
+        <div class="flex flex-col">
+            <a href="#home" class="border-b border-slate-100 py-3 text-sm font-medium text-slate-700">হোম</a>
+            <a href="#about" class="border-b border-slate-100 py-3 text-sm font-medium text-slate-700">আমাদের
+                সম্পর্কে</a>
+            <a href="#activities"
+                class="border-b border-slate-100 py-3 text-sm font-medium text-slate-700">কার্যক্রম</a>
+            <a href="#transparency"
+                class="border-b border-slate-100 py-3 text-sm font-medium text-slate-700">স্বচ্ছতা</a>
+            <a href="#faq" class="border-b border-slate-100 py-3 text-sm font-medium text-slate-700">প্রশ্নোত্তর</a>
+            <a href="#contact"
+                class="mt-3 flex items-center justify-center gap-2 rounded-md bg-teal-700 py-3 text-sm font-semibold text-white">
+                যোগাযোগ করুন
+                <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+            </a>
+        </div>
+    </div>
+</header>
 
-                <nav class="hidden items-center gap-6 lg:flex">
-                    <a href="#about" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">About</a>
-                    <a href="#purpose" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Purpose</a>
-                    <a href="#membership" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Membership</a>
-                    <a href="#finance" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Finance</a>
-                    <a href="#projects" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Projects</a>
-                    <a href="#transparency" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Transparency</a>
-                    <a href="#contact" class="text-xs font-medium text-[#ede7d3]/75 transition hover:text-[#d9b45c]">Contact</a>
-                </nav>
+{{-- =========================================================
+HERO
+========================================================== --}}
+<section id="home" class="hero-grid relative overflow-hidden bg-white pt-28 pb-20 sm:pt-32 sm:pb-24">
+    <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-teal-100/50 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-amber-100/50 blur-3xl"></div>
 
-                <div class="flex items-center gap-2">
-                    <a href="/login" class="hidden h-9 items-center justify-center rounded-full bg-[#b98d2e] px-4 text-xs font-semibold text-[#0b3b34] transition hover:bg-[#d9b45c] sm:inline-flex">
-                        Member Login
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+            <div class="reveal">
+                <div
+                    class="mb-5 inline-flex items-center gap-2 rounded-full border border-teal-100 bg-teal-50 px-3 py-1.5 text-[13px] font-medium text-teal-700">
+                    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-teal-600"></span>
+                    একটি ঐক্যবদ্ধ ও স্বচ্ছ উদ্যোগ
+                </div>
+
+                <h1
+                    class="max-w-xl text-[2rem] font-bold leading-[1.2] tracking-tight text-slate-900 sm:text-[2.6rem] lg:text-[3rem]">
+                    একসাথে স্বপ্ন দেখি,<br>
+                    <span class="text-brand-700">একসাথে এগিয়ে যাই।</span>
+                </h1>
+
+                <p class="mt-5 max-w-xl text-[14px] leading-7 text-slate-600 sm:text-[15px]">
+                    {{ $organizationName }} একটি ঐক্যবদ্ধ সংগঠন, যেখানে সদস্যদের
+                    সম্মিলিত সঞ্চয়, বিনিয়োগ ও পরিকল্পনার মাধ্যমে দীর্ঘমেয়াদি
+                    আর্থিক উন্নয়নের সুযোগ তৈরি করা হয়।
+                </p>
+
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+                    <a href="#about"
+                        class="inline-flex items-center justify-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-[13px] font-semibold text-white shadow-xl shadow-teal-700/20 transition hover:-translate-y-0.5 hover:bg-teal-800">
+                        আমাদের সম্পর্কে জানুন
+                        <i data-lucide="arrow-right" class="h-4 w-4"></i>
                     </a>
-
-                    <button id="menuButton" type="button" class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#ede7d3]/20 text-[#ede7d3] lg:hidden">
-                        <i id="menuIcon" class="bi bi-list text-lg"></i>
-                    </button>
+                    <a href="#activities"
+                        class="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-5 py-3 text-[13px] font-semibold text-slate-700 transition hover:border-teal-200 hover:text-teal-700">
+                        আমাদের কার্যক্রম
+                        <i data-lucide="move-up-right" class="h-4 w-4"></i>
+                    </a>
                 </div>
-            </div>
-        </div>
 
-        <div id="mobileMenu" class="hidden border-t border-[#b98d2e]/20 bg-[#0b3b34] lg:hidden">
-            <nav class="mx-auto grid max-w-7xl gap-1 px-4 py-3">
-                <a href="#about" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">About</a>
-                <a href="#purpose" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Purpose</a>
-                <a href="#membership" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Membership</a>
-                <a href="#finance" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Finance</a>
-                <a href="#projects" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Projects</a>
-                <a href="#transparency" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Transparency</a>
-                <a href="#contact" class="mobile-link rounded-md px-3 py-2.5 text-xs font-medium text-[#ede7d3]/75 hover:bg-white/5">Contact</a>
-
-                <a href="/login" class="mt-2 flex h-10 items-center justify-center rounded-full bg-[#b98d2e] text-xs font-semibold text-[#0b3b34] sm:hidden">
-                    Member Login
-                </a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="lg:pl-[9px]">
-
-        {{-- =========================================================
-            HERO / PASSBOOK COVER
-        ========================================================== --}}
-        <section id="home" class="relative overflow-hidden bg-[#0b3b34] text-[#ede7d3]">
-
-            <div class="absolute inset-0 opacity-[.07]" style="background-image:radial-gradient(circle at 2px 2px,#efdFAe 1.3px,transparent 0);background-size:27px 27px;"></div>
-
-            <div class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-                <div class="grid items-center gap-12 lg:grid-cols-5">
-
-                    <div class="lg:col-span-3">
-                        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#b98d2e]/40 px-3 py-1.5">
-                            <span class="h-1.5 w-1.5 rounded-full bg-[#d9b45c]"></span>
-                            <span class="landing-mono text-[9px] uppercase tracking-[.17em] text-[#d9b45c]">
-                                Member Owned Association
-                            </span>
-                        </div>
-
-                        <p class="mb-2 text-sm font-medium text-[#d9b45c]">
-                            স্বপ্ন থেকে সঞ্চয়, সঞ্চয় থেকে সম্পদ
-                        </p>
-
-                        <h1 class="landing-display max-w-2xl text-3xl font-semibold leading-[1.15] text-[#ede7d3] sm:text-4xl lg:text-[42px]">
-                            A shared ledger for a
-                            <span class="italic text-[#d9b45c]">
-                                shared future.
-                            </span>
-                        </h1>
-
-                        <p class="mt-5 max-w-xl text-[13px] leading-7 text-[#ede7d3]/70 sm:text-sm">
-                            Dreamers Association brings members together through regular contribution, responsible investment, transparent accounting and long-term community development.
-                        </p>
-
-                        <div class="mt-7 flex flex-wrap gap-3">
-                            <a href="#about" class="inline-flex h-10 items-center gap-2 rounded-full bg-[#b98d2e] px-5 text-xs font-semibold text-[#0b3b34] transition hover:bg-[#d9b45c]">
-                                Read Our Story
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-
-                            <a href="/login" class="inline-flex h-10 items-center gap-2 rounded-full border border-[#ede7d3]/30 px-5 text-xs font-medium text-[#ede7d3] transition hover:border-[#d9b45c] hover:text-[#d9b45c]">
-                                <i class="bi bi-person"></i>
-                                Member Portal
-                            </a>
-                        </div>
+                <div class="mt-7 flex items-center gap-3">
+                    <div class="flex -space-x-2">
+                        <div
+                            class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-teal-100 text-[10px] font-bold text-teal-700">
+                            DA</div>
+                        <div
+                            class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-amber-100 text-[10px] font-bold text-amber-700">
+                            25+</div>
+                        <div
+                            class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-slate-100 text-[10px] font-bold text-slate-600">
+                            ✓</div>
                     </div>
-
-                    {{-- Seal --}}
-                    <div class="flex justify-center lg:col-span-2 lg:justify-end">
-                        <div class="relative flex h-52 w-52 items-center justify-center rounded-full border-[3px] border-[#b98d2e] p-5 text-center sm:h-56 sm:w-56">
-                            <div class="absolute inset-3 rounded-full border border-dashed border-[#d9b45c]/55"></div>
-
-                            <div class="relative">
-                                <p class="text-xs text-[#d9b45c]">
-                                    ড্রিমার্স এসোসিয়েশন
-                                </p>
-
-                                <div class="mx-auto my-3 h-px w-14 bg-[#b98d2e]/60"></div>
-
-                                <p class="landing-display text-xl font-semibold leading-6 text-[#d9b45c]">
-                                    Dreamers<br>Association
-                                </p>
-
-                                <p class="landing-mono mt-3 text-[8px] uppercase tracking-[.18em] text-[#ede7d3]/50">
-                                    Member Owned · Together
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            {{-- Stats ledger --}}
-            <div class="border-t border-[#b98d2e]/30">
-                <div class="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 md:grid-cols-4 lg:px-8">
-
-                    <div class="border-b border-r border-[#b98d2e]/20 py-5 pr-4 md:border-b-0">
-                        <p class="landing-mono text-xl font-semibold text-[#d9b45c] sm:text-2xl">500+</p>
-                        <p class="mt-1 text-[9px] uppercase tracking-[.13em] text-[#ede7d3]/45">Members</p>
-                    </div>
-
-                    <div class="border-b border-[#b98d2e]/20 px-4 py-5 md:border-b-0 md:border-r">
-                        <p class="landing-mono text-xl font-semibold text-[#d9b45c] sm:text-2xl">20+</p>
-                        <p class="mt-1 text-[9px] uppercase tracking-[.13em] text-[#ede7d3]/45">Projects</p>
-                    </div>
-
-                    <div class="border-r border-[#b98d2e]/20 px-4 py-5">
-                        <p class="landing-mono text-xl font-semibold text-[#d9b45c] sm:text-2xl">10+</p>
-                        <p class="mt-1 text-[9px] uppercase tracking-[.13em] text-[#ede7d3]/45">Investments</p>
-                    </div>
-
-                    <div class="py-5 pl-4">
-                        <p class="landing-mono text-xl font-semibold text-[#d9b45c] sm:text-2xl">100%</p>
-                        <p class="mt-1 text-[9px] uppercase tracking-[.13em] text-[#ede7d3]/45">Together</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            01 ABOUT
-        ========================================================== --}}
-        <section id="about">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 01 — ABOUT
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <div class="reveal">
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                Who we are
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold text-[#1a2b22] sm:text-[28px]">
-                                About Dreamers Association
-                            </h2>
-                        </div>
-
-                        <div class="mt-7 grid gap-6 md:grid-cols-2">
-                            <p class="reveal text-[13px] leading-7 text-[#1a2b22]/70">
-                                Dreamers Association is built around disciplined participation and a shared goal: members contribute together, plan together and create assets and opportunities that are difficult to build individually.
-                            </p>
-
-                            <p class="reveal text-[13px] leading-7 text-[#1a2b22]/70">
-                                Every important financial activity is recorded, participation is organized, and members remain connected through a transparent digital system covering subscriptions, shares, projects, notices and association decisions.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            02 PURPOSE
-        ========================================================== --}}
-        <section id="purpose" class="border-y border-[#155346]/10 bg-[#e1d9be]/55">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 02 — PURPOSE
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <div class="grid gap-4 md:grid-cols-3">
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b3b34] text-[#d9b45c]">
-                                    <i class="bi bi-bullseye text-sm"></i>
-                                </div>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">Mission</h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Build a disciplined culture of cooperation, contribution and responsible investment.
-                                </p>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b3b34] text-[#d9b45c]">
-                                    <i class="bi bi-eye text-sm"></i>
-                                </div>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">Vision</h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Build a sustainable member-owned asset base that creates long-term shared value.
-                                </p>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b3b34] text-[#d9b45c]">
-                                    <i class="bi bi-flag text-sm"></i>
-                                </div>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">Objectives</h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Grow consistently, invest carefully, maintain transparent accounts and involve members in important decisions.
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            03 MEMBERSHIP
-        ========================================================== --}}
-        <section id="membership" class="bg-[#0b3b34] text-[#ede7d3]">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#d9b45c]/55">
-                            ENTRY 03 — MEMBERSHIP
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <div class="reveal">
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#d9b45c]">
-                                Member journey
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                Membership is simple and structured
-                            </h2>
-
-                            <p class="mt-2 max-w-xl text-xs leading-6 text-[#ede7d3]/60">
-                                From joining the association to participating in its long-term growth.
-                            </p>
-                        </div>
-
-                        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
-                            <div class="reveal border-t border-[#b98d2e]/35 pt-4">
-                                <p class="landing-mono text-[10px] text-[#d9b45c]">01</p>
-                                <h3 class="landing-display mt-2 text-sm font-semibold">Join</h3>
-                                <p class="mt-2 text-xs leading-6 text-[#ede7d3]/60">
-                                    Member information is registered and reviewed.
-                                </p>
-                            </div>
-
-                            <div class="reveal border-t border-[#b98d2e]/35 pt-4">
-                                <p class="landing-mono text-[10px] text-[#d9b45c]">02</p>
-                                <h3 class="landing-display mt-2 text-sm font-semibold">Approval</h3>
-                                <p class="mt-2 text-xs leading-6 text-[#ede7d3]/60">
-                                    Membership becomes active after the required approval flow.
-                                </p>
-                            </div>
-
-                            <div class="reveal border-t border-[#b98d2e]/35 pt-4">
-                                <p class="landing-mono text-[10px] text-[#d9b45c]">03</p>
-                                <h3 class="landing-display mt-2 text-sm font-semibold">Contribute</h3>
-                                <p class="mt-2 text-xs leading-6 text-[#ede7d3]/60">
-                                    Members participate through monthly subscriptions and applicable shares.
-                                </p>
-                            </div>
-
-                            <div class="reveal border-t border-[#b98d2e]/35 pt-4">
-                                <p class="landing-mono text-[10px] text-[#d9b45c]">04</p>
-                                <h3 class="landing-display mt-2 text-sm font-semibold">Participate</h3>
-                                <p class="mt-2 text-xs leading-6 text-[#ede7d3]/60">
-                                    Follow notices, polls, projects and association activities.
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="mt-8">
-                            <a href="/login" class="inline-flex h-10 items-center gap-2 rounded-full bg-[#b98d2e] px-5 text-xs font-semibold text-[#0b3b34] hover:bg-[#d9b45c]">
-                                Member Portal
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            04 FINANCE / CONTRIBUTIONS
-        ========================================================== --}}
-        <section id="finance">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 04 — FINANCE
-                        </span>
-                    </aside>
-
-                    <div class="grid gap-8 lg:col-span-11 lg:grid-cols-5">
-
-                        <div class="lg:col-span-2">
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                Monthly participation
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                Small contributions. Shared progress.
-                            </h2>
-
-                            <p class="mt-4 text-[13px] leading-7 text-[#1a2b22]/68">
-                                Members contribute according to the association's configured subscription structure. Payments, dues, fines and verified collections remain recorded against each member account.
-                            </p>
-
-                            <div class="mt-5 flex gap-3">
-                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#155346]/10 text-[#155346]">
-                                    <i class="bi bi-check2"></i>
-                                </div>
-
-                                <p class="text-xs leading-6 text-[#1a2b22]/65">
-                                    Members can track payment history from their personal portal.
-                                </p>
-                            </div>
-
-                            <div class="mt-3 flex gap-3">
-                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#155346]/10 text-[#155346]">
-                                    <i class="bi bi-check2"></i>
-                                </div>
-
-                                <p class="text-xs leading-6 text-[#1a2b22]/65">
-                                    Verified transactions automatically synchronize with association accounts.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="reveal paper-shadow overflow-hidden rounded-xl border border-[#155346]/15 bg-[#ede7d3] lg:col-span-3">
-
-                            <div class="flex items-center justify-between bg-[#0b3b34] px-5 py-3 text-[#ede7d3]">
-                                <p class="landing-display text-sm font-semibold">
-                                    Member Financial Ledger
-                                </p>
-
-                                <span class="landing-mono text-[9px] text-[#d9b45c]">
-                                    DIGITAL RECORD
-                                </span>
-                            </div>
-
-                            <div class="ledger-rules p-5">
-                                <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/45">
-                                            Subscription
-                                        </p>
-                                        <p class="mt-2 text-sm font-semibold">Monthly</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/45">
-                                            Payment
-                                        </p>
-                                        <p class="mt-2 text-sm font-semibold text-[#155346]">Verified</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/45">
-                                            Fine
-                                        </p>
-                                        <p class="mt-2 text-sm font-semibold text-[#9c3b2e]">Rule Based</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/45">
-                                            Records
-                                        </p>
-                                        <p class="mt-2 text-sm font-semibold">Transparent</p>
-                                    </div>
-
-                                </div>
-
-                                <div class="mt-6 border-t border-[#155346]/15 pt-4">
-                                    <p class="text-xs leading-6 text-[#1a2b22]/60">
-                                        Every verified member payment contributes to the association's accounting ledger while maintaining a complete payment history.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            05 INVESTMENT
-        ========================================================== --}}
-        <section class="border-y border-[#155346]/10 bg-[#e1d9be]/55">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 05 — INVESTMENT
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <div>
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                Shared resources
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                Where collective funds can create value
-                            </h2>
-                        </div>
-
-                        <div class="mt-7 grid gap-4 md:grid-cols-3">
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase tracking-wider text-[#155346]">
-                                    Assets
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">
-                                    Land & Property
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Long-term property and land opportunities managed as association assets.
-                                </p>
-
-                                <div class="mt-5 h-1.5 overflow-hidden rounded-full bg-[#155346]/10">
-                                    <div class="h-full w-[72%] rounded-full bg-[#155346]"></div>
-                                </div>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#b98d2e]/15 px-2 py-1 text-[8px] uppercase tracking-wider text-[#8b681f]">
-                                    Investment
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">
-                                    Business Opportunities
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Carefully evaluated investments focused on sustainable association returns.
-                                </p>
-
-                                <div class="mt-5 h-1.5 overflow-hidden rounded-full bg-[#155346]/10">
-                                    <div class="h-full w-[51%] rounded-full bg-[#b98d2e]"></div>
-                                </div>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase tracking-wider text-[#155346]">
-                                    Reserve
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-base font-semibold">
-                                    Financial Reserve
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Maintaining appropriate liquidity helps protect association operations.
-                                </p>
-
-                                <div class="mt-5 h-1.5 overflow-hidden rounded-full bg-[#155346]/10">
-                                    <div class="h-full w-[32%] rounded-full bg-[#155346]"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            06 LAND & ASSETS
-        ========================================================== --}}
-        <section>
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 06 — ASSETS
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <div>
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                Association assets
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                Assets built for the long term
-                            </h2>
-                        </div>
-
-                        <div class="reveal paper-shadow mt-7 overflow-hidden rounded-xl border border-[#155346]/15 bg-[#ede7d3]">
-                            <div class="grid md:grid-cols-5">
-
-                                <div class="bg-[#0b3b34] p-6 text-[#ede7d3] md:col-span-2">
-                                    <span class="landing-mono inline-flex rounded-full bg-[#b98d2e] px-2 py-1 text-[8px] uppercase tracking-wider text-[#0b3b34]">
-                                        Association Asset
-                                    </span>
-
-                                    <h3 class="landing-display mt-4 text-lg font-semibold">
-                                        Land & Property Portfolio
-                                    </h3>
-
-                                    <p class="mt-2 text-xs leading-6 text-[#ede7d3]/60">
-                                        Association-owned land and property information can be maintained with documents, investment history and sale records.
-                                    </p>
-
-                                    <p class="landing-mono mt-7 text-[8px] uppercase tracking-wider text-[#ede7d3]/35">
-                                        Documents · Investment · Ownership
-                                    </p>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-5 p-6 md:col-span-3">
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Tracking
-                                        </p>
-                                        <p class="mt-1 text-sm font-semibold">Digital</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Documents
-                                        </p>
-                                        <p class="mt-1 text-sm font-semibold">Centralized</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Investment
-                                        </p>
-                                        <p class="mt-1 text-sm font-semibold text-[#155346]">Recorded</p>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Status
-                                        </p>
-                                        <p class="mt-1 text-sm font-semibold">Managed</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            07 PROJECTS
-        ========================================================== --}}
-        <section id="projects" class="border-y border-[#155346]/10 bg-[#e1d9be]/55">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 07 — PROJECTS
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-
-                        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                            <div>
-                                <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                    Building forward
-                                </p>
-
-                                <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                    Association Projects
-                                </h2>
-                            </div>
-
-                            <div class="flex w-fit rounded-full border border-[#155346]/15 bg-[#ede7d3] p-1">
-                                <button type="button" data-project-tab="current" class="project-tab rounded-full bg-[#0b3b34] px-4 py-2 text-[10px] font-semibold text-[#ede7d3]">
-                                    Current
-                                </button>
-
-                                <button type="button" data-project-tab="future" class="project-tab rounded-full px-4 py-2 text-[10px] font-semibold text-[#1a2b22]/60">
-                                    Future
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="projectCurrent" class="mt-7 grid gap-4 md:grid-cols-3">
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase text-[#155346]">
-                                    Active
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    Community Development
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Projects designed to create long-term shared value for association members.
-                                </p>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase text-[#155346]">
-                                    Active
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    Digital Association
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Bringing membership, finance, approvals and communication into one platform.
-                                </p>
-                            </div>
-
-                            <div class="reveal paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase text-[#155346]">
-                                    Active
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    Investment Planning
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Evaluating opportunities through structured financial and approval processes.
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div id="projectFuture" class="mt-7 hidden grid gap-4 md:grid-cols-3">
-
-                            <div class="paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#b98d2e]/15 px-2 py-1 text-[8px] uppercase text-[#8b681f]">
-                                    Planning
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    New Community Assets
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Future association assets can be evaluated through member participation.
-                                </p>
-                            </div>
-
-                            <div class="paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#b98d2e]/15 px-2 py-1 text-[8px] uppercase text-[#8b681f]">
-                                    Proposed
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    Expanded Investments
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    New investment opportunities based on sustainable association growth.
-                                </p>
-                            </div>
-
-                            <div class="paper-shadow rounded-xl border border-[#155346]/10 bg-[#ede7d3] p-5">
-                                <span class="landing-mono rounded-full bg-[#b98d2e]/15 px-2 py-1 text-[8px] uppercase text-[#8b681f]">
-                                    Future
-                                </span>
-
-                                <h3 class="landing-display mt-4 text-sm font-semibold">
-                                    Member Services
-                                </h3>
-
-                                <p class="mt-2 text-xs leading-6 text-[#1a2b22]/65">
-                                    Additional services can be introduced as association operations expand.
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            08 TRANSPARENCY
-        ========================================================== --}}
-        <section id="transparency">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 08 — TRANSPARENCY
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                            Open records
-                        </p>
-
-                        <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                            Transparency is part of the system
-                        </h2>
-
-                        <p class="mt-2 max-w-xl text-xs leading-6 text-[#1a2b22]/60">
-                            Financial activity is structured through accounts, journal entries and ledger-based reporting.
-                        </p>
-
-                        <div class="reveal paper-shadow mt-7 overflow-hidden rounded-xl border border-[#155346]/15 bg-[#ede7d3]">
-
-                            <div class="flex items-center justify-between bg-[#0b3b34] px-5 py-3 text-[#ede7d3]">
-                                <span class="landing-display text-sm font-semibold">
-                                    Financial Reporting
-                                </span>
-
-                                <span class="landing-mono text-[8px] text-[#d9b45c]">
-                                    ACCOUNTING SYSTEM
-                                </span>
-                            </div>
-
-                            <div class="grid sm:grid-cols-3 sm:divide-x sm:divide-[#155346]/10">
-                                <div class="border-b border-[#155346]/10 p-5 sm:border-b-0">
-                                    <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                        Income
-                                    </p>
-
-                                    <p class="mt-2 text-base font-semibold text-[#155346]">
-                                        Recorded
-                                    </p>
-
-                                    <p class="mt-1 text-[10px] text-[#1a2b22]/45">
-                                        Subscription & operational income
-                                    </p>
-                                </div>
-
-                                <div class="border-b border-[#155346]/10 p-5 sm:border-b-0">
-                                    <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                        Expense
-                                    </p>
-
-                                    <p class="mt-2 text-base font-semibold text-[#9c3b2e]">
-                                        Tracked
-                                    </p>
-
-                                    <p class="mt-1 text-[10px] text-[#1a2b22]/45">
-                                        Approved operational spending
-                                    </p>
-                                </div>
-
-                                <div class="p-5">
-                                    <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                        Reports
-                                    </p>
-
-                                    <p class="mt-2 text-base font-semibold">
-                                        Available
-                                    </p>
-
-                                    <p class="mt-1 text-[10px] text-[#1a2b22]/45">
-                                        Ledger, trial balance & balance sheet
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <a href="/login" class="mt-5 inline-flex items-center gap-2 border-b border-[#155346]/30 pb-1 text-xs font-medium text-[#155346] hover:border-[#0b3b34] hover:text-[#0b3b34]">
-                            View member financial information
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            09 NOTICE BOARD
-        ========================================================== --}}
-        <section class="border-y border-[#155346]/10 bg-[#e1d9be]/45">
-            <div class="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 09 — NOTICE
-                        </span>
-                    </aside>
-
-                    <div class="lg:col-span-11">
-                        <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                            Notice board
-                        </p>
-
-                        <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                            Association Updates
-                        </h2>
-
-                        <p class="mt-2 max-w-xl text-xs leading-6 text-[#1a2b22]/60">
-                            Members receive detailed notices and announcements through the member portal.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="mt-7 overflow-hidden border-y border-[#155346]/10 bg-[#ede7d3]/70 py-6">
-                <div class="notice-marquee flex w-max gap-4 px-4">
-
-                    @for($copy=0;$copy<2;$copy++)
-                        <div class="paper-shadow w-64 shrink-0 rounded-xl border border-[#155346]/12 bg-[#ede7d3] p-4">
-                            <span class="landing-mono rounded-full bg-[#b98d2e]/15 px-2 py-1 text-[8px] uppercase text-[#8b681f]">
-                                Notice
-                            </span>
-
-                            <h3 class="landing-display mt-3 text-sm font-semibold">
-                                Monthly Association Updates
-                            </h3>
-
-                            <p class="mt-2 text-[11px] leading-5 text-[#1a2b22]/60">
-                                Members can view all current notices from their personal portal.
-                            </p>
-                        </div>
-
-                        <div class="paper-shadow w-64 shrink-0 rounded-xl border border-[#155346]/12 bg-[#ede7d3] p-4">
-                            <span class="landing-mono rounded-full bg-[#155346]/10 px-2 py-1 text-[8px] uppercase text-[#155346]">
-                                Finance
-                            </span>
-
-                            <h3 class="landing-display mt-3 text-sm font-semibold">
-                                Subscription Information
-                            </h3>
-
-                            <p class="mt-2 text-[11px] leading-5 text-[#1a2b22]/60">
-                                Monthly payment status and dues remain available through the portal.
-                            </p>
-                        </div>
-
-                        <div class="paper-shadow w-64 shrink-0 rounded-xl border border-[#155346]/12 bg-[#ede7d3] p-4">
-                            <span class="landing-mono rounded-full bg-[#9c3b2e]/10 px-2 py-1 text-[8px] uppercase text-[#9c3b2e]">
-                                Governance
-                            </span>
-
-                            <h3 class="landing-display mt-3 text-sm font-semibold">
-                                Member Decisions
-                            </h3>
-
-                            <p class="mt-2 text-[11px] leading-5 text-[#1a2b22]/60">
-                                Polls and association decisions are published for eligible members.
-                            </p>
-                        </div>
-                    @endfor
-
-                </div>
-            </div>
-
-            <div class="mx-auto max-w-7xl px-4 py-6 text-right sm:px-6 lg:px-8">
-                <a href="/login" class="text-xs font-medium text-[#155346] hover:text-[#0b3b34]">
-                    Open Member Portal →
-                </a>
-            </div>
-        </section>
-
-        {{-- =========================================================
-            CONTACT
-        ========================================================== --}}
-        <section id="contact">
-            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div class="grid gap-7 lg:grid-cols-12">
-
-                    <aside class="hidden justify-center lg:col-span-1 lg:flex">
-                        <span class="entry-tab landing-mono text-[10px] tracking-[.16em] text-[#155346]/55">
-                            ENTRY 10 — CONTACT
-                        </span>
-                    </aside>
-
-                    <div class="grid gap-8 lg:col-span-11 lg:grid-cols-2">
-
-                        <div>
-                            <p class="landing-mono text-[9px] uppercase tracking-[.22em] text-[#155346]">
-                                Contact
-                            </p>
-
-                            <h2 class="landing-display mt-2 text-2xl font-semibold sm:text-[28px]">
-                                Get in touch with us
-                            </h2>
-
-                            <p class="mt-3 max-w-md text-xs leading-6 text-[#1a2b22]/60">
-                                For association information, membership or general enquiries, contact Dreamers Association.
-                            </p>
-
-                            <div class="mt-7 inline-flex items-center gap-3 rounded-xl border border-dashed border-[#155346]/25 bg-[#ede7d3] px-4 py-3">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#0b3b34] text-[#d9b45c]">
-                                    <i class="bi bi-person-check text-sm"></i>
-                                </div>
-
-                                <div>
-                                    <p class="text-xs font-semibold">Existing Member?</p>
-                                    <a href="/login" class="text-[10px] font-medium text-[#155346]">
-                                        Login to member portal →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="paper-shadow rounded-xl border border-[#155346]/15 bg-[#ede7d3]">
-                            <div class="divide-y divide-[#155346]/10">
-
-                                <a href="mailto:{{ $organizationEmail }}" class="flex items-center gap-4 p-4 transition hover:bg-[#e1d9be]/50">
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#155346]/10 text-[#155346]">
-                                        <i class="bi bi-envelope"></i>
-                                    </div>
-
-                                    <div class="min-w-0">
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Email
-                                        </p>
-
-                                        <p class="mt-1 truncate text-xs font-semibold">
-                                            {{ $organizationEmail }}
-                                        </p>
-                                    </div>
-                                </a>
-
-                                <a href="tel:{{ preg_replace('/\s+/','',$organizationPhone) }}" class="flex items-center gap-4 p-4 transition hover:bg-[#e1d9be]/50">
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#155346]/10 text-[#155346]">
-                                        <i class="bi bi-telephone"></i>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Phone
-                                        </p>
-
-                                        <p class="mt-1 text-xs font-semibold">
-                                            {{ $organizationPhone }}
-                                        </p>
-                                    </div>
-                                </a>
-
-                                <div class="flex items-start gap-4 p-4">
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#155346]/10 text-[#155346]">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </div>
-
-                                    <div>
-                                        <p class="landing-mono text-[8px] uppercase tracking-wider text-[#1a2b22]/40">
-                                            Address
-                                        </p>
-
-                                        <p class="mt-1 text-xs font-semibold leading-5">
-                                            {{ $organizationAddress }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    {{-- =========================================================
-        FOOTER
-    ========================================================== --}}
-    <footer class="border-t border-[#b98d2e]/30 bg-[#0b3b34] text-[#ede7d3] lg:pl-[9px]">
-        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-
-            <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-
-                <div class="flex items-center gap-3">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full border border-[#b98d2e] text-xs font-bold text-[#d9b45c]">
-                        D
-                    </div>
-
                     <div>
-                        <p class="landing-display text-sm font-semibold">
-                            {{ $organizationName }}
-                        </p>
+                        <p class="text-[13px] font-semibold text-slate-700">ঐক্য • আস্থা • স্বচ্ছতা</p>
+                        <p class="text-[10px] text-slate-500">আমাদের মূল মূল্যবোধ</p>
+                    </div>
+                </div>
+            </div>
 
-                        <p class="landing-mono text-[8px] uppercase tracking-[.16em] text-[#ede7d3]/35">
-                            Together We Grow
+            <div class="relative reveal">
+                <div class="relative mx-auto max-w-[520px]">
+
+                    <div
+                        class="relative overflow-hidden rounded-md border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-[11px] text-slate-500">Association Overview</p>
+                                <h3 class="mt-1 text-[17px] font-bold text-slate-900">আমাদের অগ্রগতি</h3>
+                            </div>
+                            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                                <i data-lucide="bar-chart-3" class="h-4 w-4"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 h-40 rounded-md bg-slate-100 p-4">
+                            <div class="flex h-full items-end gap-2">
+                                <div class="h-[35%] flex-1 rounded-t-md bg-teal-100"></div>
+                                <div class="h-[48%] flex-1 rounded-t-md bg-teal-200"></div>
+                                <div class="h-[42%] flex-1 rounded-t-md bg-teal-200"></div>
+                                <div class="h-[65%] flex-1 rounded-t-md bg-teal-300"></div>
+                                <div class="h-[58%] flex-1 rounded-t-md bg-teal-300"></div>
+                                <div class="h-[76%] flex-1 rounded-t-md bg-teal-400"></div>
+                                <div class="h-[88%] flex-1 rounded-t-md bg-teal-500"></div>
+                                <div class="h-full flex-1 rounded-t-md bg-teal-600"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 grid grid-cols-3 gap-3">
+                            <div class="rounded-md bg-slate-100 p-3">
+                                <p class="text-[10px] text-slate-500">সদস্য</p>
+                                <p class="mt-1 text-[18px] font-bold text-slate-900">25+</p>
+                            </div>
+                            <div class="rounded-md bg-slate-100 p-3">
+                                <p class="text-[10px] text-slate-500">পরিকল্পনা</p>
+                                <p class="mt-1 text-[18px] font-bold text-slate-900">10+</p>
+                            </div>
+                            <div class="rounded-md bg-slate-100 p-3">
+                                <p class="text-[10px] text-slate-500">লক্ষ্য</p>
+                                <p class="mt-1 text-[18px] font-bold text-teal-700">দীর্ঘমেয়াদি</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute -bottom-5 -left-4 hidden w-48 animate-float rounded-md border border-slate-200 bg-white p-4 shadow-xl sm:block">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                                <i data-lucide="shield-check" class="h-4 w-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-500">আমাদের অঙ্গীকার</p>
+                                <p class="text-[13px] font-bold text-slate-800">স্বচ্ছতা ও জবাবদিহিতা</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute -right-4 -top-5 hidden w-44 animate-float rounded-md border border-slate-200 bg-white p-4 shadow-xl sm:block"
+                        style="animation-delay: 1.2s;">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                                <i data-lucide="users" class="h-4 w-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-500">কমিউনিটি</p>
+                                <p class="text-[13px] font-bold text-slate-800">একসাথে আমরা বেড়ে উঠি</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+STATS
+========================================================== --}}
+<section class="border-y border-slate-100 bg-white">
+    <div class="mx-auto grid max-w-7xl grid-cols-2 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div class="reveal border-r border-slate-100 px-4 text-center">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="25">0</p>
+            <p class="mt-1 text-sm text-slate-500">সক্রিয় সদস্য</p>
+        </div>
+        <div class="reveal px-4 text-center lg:border-r lg:border-slate-100">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="10">0</p>
+            <p class="mt-1 text-sm text-slate-500">চলমান পরিকল্পনা</p>
+        </div>
+        <div class="reveal border-r border-slate-100 px-4 text-center">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="100">0</p>
+            <p class="mt-1 text-sm text-slate-500">স্বচ্ছতার অঙ্গীকার</p>
+        </div>
+        <div class="reveal px-4 text-center">
+            <p class="text-3xl font-bold text-teal-700">Long</p>
+            <p class="mt-1 text-sm text-slate-500">দীর্ঘমেয়াদি লক্ষ্য</p>
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+ABOUT
+========================================================== --}}
+<section id="about" class="bg-slate-100 py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+
+            <div class="reveal">
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">About Us</span>
+
+                <h2 class="mt-3 text-[2rem] font-bold leading-tight text-slate-900 sm:text-[2.55rem]">
+                    আমাদের স্বপ্ন,
+                    <span class="text-teal-700">আমাদের সম্মিলিত শক্তি।</span>
+                </h2>
+
+                <p class="mt-5 text-[14px] leading-7 text-slate-600">
+                    {{ $organizationName }} এমন একটি সংগঠন যেখানে সদস্যদের
+                    সম্মিলিত প্রচেষ্টা, নিয়মিত সঞ্চয় এবং পরিকল্পিত বিনিয়োগের
+                    মাধ্যমে ভবিষ্যতের জন্য একটি শক্তিশালী ভিত্তি তৈরি করার
+                    চেষ্টা করা হয়।
+                </p>
+
+                <p class="mt-4 text-[14px] leading-7 text-slate-600">
+                    আমাদের লক্ষ্য শুধু অর্থ সঞ্চয় করা নয়; বরং সেই অর্থকে
+                    সঠিক পরিকল্পনার মাধ্যমে উৎপাদনশীল কাজে ব্যবহার করা এবং
+                    সদস্যদের জন্য দীর্ঘমেয়াদি সম্ভাবনা তৈরি করা।
+                </p>
+
+                <div class="mt-7 grid grid-cols-2 gap-3">
+                    <div class="rounded-md border border-slate-200 bg-white p-4">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="target" class="h-4 w-4"></i>
+                        </div>
+                        <h3 class="mt-3 text-[14px] font-bold text-slate-900">আমাদের লক্ষ্য</h3>
+                        <p class="mt-1 text-[13px] leading-5 text-slate-500">
+                            পরিকল্পিত সঞ্চয় ও বিনিয়োগের মাধ্যমে দীর্ঘমেয়াদি
+                            আর্থিক সম্ভাবনা তৈরি করা।
+                        </p>
+                    </div>
+
+                    <div class="rounded-md border border-slate-200 bg-white p-4">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                            <i data-lucide="eye" class="h-4 w-4"></i>
+                        </div>
+                        <h3 class="mt-3 text-[14px] font-bold text-slate-900">আমাদের দৃষ্টিভঙ্গি</h3>
+                        <p class="mt-1 text-[13px] leading-5 text-slate-500">
+                            আস্থা, শৃঙ্খলা ও স্বচ্ছতার ভিত্তিতে একটি শক্তিশালী
+                            কমিউনিটি গড়ে তোলা।
                         </p>
                     </div>
                 </div>
-
-                <nav class="flex flex-wrap gap-x-5 gap-y-2">
-                    <a href="#about" class="text-[10px] text-[#ede7d3]/50 hover:text-[#d9b45c]">About</a>
-                    <a href="#membership" class="text-[10px] text-[#ede7d3]/50 hover:text-[#d9b45c]">Membership</a>
-                    <a href="#projects" class="text-[10px] text-[#ede7d3]/50 hover:text-[#d9b45c]">Projects</a>
-                    <a href="#contact" class="text-[10px] text-[#ede7d3]/50 hover:text-[#d9b45c]">Contact</a>
-                    <a href="/login" class="text-[10px] text-[#ede7d3]/50 hover:text-[#d9b45c]">Login</a>
-                </nav>
-
             </div>
 
-            <div class="mt-6 flex flex-col gap-2 border-t border-[#ede7d3]/10 pt-5 sm:flex-row sm:justify-between">
-                <p class="text-[9px] text-[#ede7d3]/30">
-                    © {{ date('Y') }} {{ $organizationName }}. All rights reserved.
-                </p>
+            <div class="reveal">
+                <div class="relative overflow-hidden rounded-md bg-slate-900 p-7 text-white shadow-card sm:p-9">
+                    <div class="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-teal-500/20 blur-3xl"></div>
 
-                <p class="landing-mono text-[8px] uppercase tracking-wider text-[#d9b45c]/50">
-                    Member Owned · Transparent · Together
+                    <div class="relative">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-md bg-teal-500/20 text-teal-300">
+                            <i data-lucide="quote" class="h-5 w-5"></i>
+                        </div>
+
+                        <h3 class="mt-6 text-[22px] font-bold">আমাদের মূল দর্শন</h3>
+
+                        <p class="mt-4 text-[14px] leading-7 text-slate-300">
+                            "একজনের শক্তি সীমিত হতে পারে, কিন্তু একটি
+                            ঐক্যবদ্ধ দলের সম্ভাবনা অনেক বড়।"
+                        </p>
+
+                        <div class="my-7 h-px bg-white/10"></div>
+
+                        <div class="space-y-5">
+                            <div class="flex gap-4">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10">
+                                    <i data-lucide="handshake" class="h-4 w-4 text-teal-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold">পারস্পরিক সহযোগিতা</h4>
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                        সদস্যদের মধ্যে সহযোগিতা ও আস্থার পরিবেশ তৈরি করা।
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10">
+                                    <i data-lucide="shield-check" class="h-4 w-4 text-teal-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold">স্বচ্ছতা</h4>
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                        আর্থিক কার্যক্রমে স্বচ্ছতা ও জবাবদিহিতা নিশ্চিত করা।
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10">
+                                    <i data-lucide="trending-up" class="h-4 w-4 text-teal-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold">দীর্ঘমেয়াদি উন্নয়ন</h4>
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                        তাৎক্ষণিক লাভের পাশাপাশি ভবিষ্যতের জন্য স্থায়ী
+                                        সম্পদ তৈরির চেষ্টা।
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+HOW IT WORKS
+========================================================== --}}
+<section class="bg-white py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="mx-auto max-w-2xl text-center reveal">
+            <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">How It Works</span>
+            <h2 class="mt-3 text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">আমাদের কার্যক্রম কীভাবে চলে?</h2>
+            <p class="text-[14px] leading-7 text-slate-500">
+                পরিকল্পনা থেকে বাস্তবায়ন—প্রতিটি ধাপ একটি নির্দিষ্ট প্রক্রিয়ার
+                মাধ্যমে পরিচালিত হয়।
+            </p>
+        </div>
+
+        <div class="mt-12 grid gap-5 md:grid-cols-4">
+
+            <div class="reveal rounded-md border border-slate-200 bg-white p-5 shadow-soft">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-bold text-slate-100">01</span>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                        <i data-lucide="wallet" class="h-4.5 w-4.5"></i>
+                    </div>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-slate-900">নিয়মিত সঞ্চয়</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    সদস্যরা নির্ধারিত নিয়ম অনুযায়ী নিয়মিত অর্থ প্রদান করেন।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-slate-200 bg-white p-5 shadow-soft">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-bold text-slate-100">02</span>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                        <i data-lucide="clipboard-list" class="h-4.5 w-4.5"></i>
+                    </div>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-slate-900">পরিকল্পনা ও মূল্যায়ন</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    সম্ভাব্য উদ্যোগ ও বিনিয়োগের সুযোগ যাচাই করে সিদ্ধান্ত নেওয়া হয়।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-slate-200 bg-white p-5 shadow-soft">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-bold text-slate-100">03</span>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                        <i data-lucide="briefcase-business" class="h-4.5 w-4.5"></i>
+                    </div>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-slate-900">বাস্তবায়ন</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    অনুমোদিত পরিকল্পনা অনুযায়ী ব্যবসা, বিনিয়োগ বা সম্পদ ক্রয়ের
+                    উদ্যোগ নেওয়া হয়।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-slate-200 bg-white p-5 shadow-soft">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-bold text-slate-100">04</span>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                        <i data-lucide="file-check-2" class="h-4.5 w-4.5"></i>
+                    </div>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-slate-900">হিসাব ও প্রতিবেদন</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    সকল আর্থিক কার্যক্রম নথিভুক্ত ও পর্যালোচনার মাধ্যমে পরিচালিত হয়।
                 </p>
             </div>
 
         </div>
-    </footer>
+    </div>
+</section>
 
-</div>
+{{-- =========================================================
+ACTIVITIES
+========================================================== --}}
+<section id="activities" class="bg-slate-100 py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-col gap-2 reveal">
+            <div>
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Our Activities</span>
+                <h2 class="text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">আমাদের প্রধান কার্যক্রম</h2>
+                <p class="max-w-2xl text-[13px] leading-6 text-slate-500">
+                    সংগঠনের লক্ষ্য ও সদস্যদের দীর্ঘমেয়াদি কল্যাণকে সামনে রেখে
+                    বিভিন্ন সম্ভাবনাময় উদ্যোগ নিয়ে কাজ করা হয়।
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+
+            <div
+                class="reveal group rounded-md border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-card">
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-md bg-teal-50 text-teal-700 transition group-hover:bg-teal-700 group-hover:text-white">
+                    <i data-lucide="trending-up" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[17px] font-bold text-slate-900">বিনিয়োগ</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    সম্ভাবনাময় ও যাচাইযোগ্য ক্ষেত্রে সম্মিলিতভাবে বিনিয়োগের
+                    সুযোগ তৈরি করা।
+                </p>
+                <div class="mt-5 flex items-center gap-1 text-[13px] font-semibold text-teal-700">
+                    Planned Investment
+                    <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                </div>
+            </div>
+
+            <div
+                class="reveal group rounded-md border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-card">
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600 transition group-hover:bg-amber-500 group-hover:text-white">
+                    <i data-lucide="landmark" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[17px] font-bold text-slate-900">জমি ও সম্পদ</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    দীর্ঘমেয়াদি সম্পদ তৈরির উদ্দেশ্যে উপযুক্ত জমি বা সম্পদ ক্রয়ের
+                    পরিকল্পনা করা।
+                </p>
+                <div class="mt-5 flex items-center gap-1 text-[13px] font-semibold text-amber-600">
+                    Long-term Assets
+                    <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                </div>
+            </div>
+
+            <div
+                class="reveal group rounded-md border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-card">
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-md bg-sky-50 text-sky-600 transition group-hover:bg-sky-600 group-hover:text-white">
+                    <i data-lucide="store" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[17px] font-bold text-slate-900">ব্যবসায়িক উদ্যোগ</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">
+                    সম্ভাবনাময় পণ্য বা ব্যবসায়িক কার্যক্রমের মাধ্যমে সংগঠনের
+                    তহবিলকে উৎপাদনশীল কাজে ব্যবহার করা।
+                </p>
+                <div class="mt-5 flex items-center gap-1 text-[13px] font-semibold text-sky-600">
+                    Business Opportunities
+                    <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+TRANSPARENCY
+========================================================== --}}
+<section id="transparency" class="bg-white py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+
+            <div class="reveal">
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Transparency</span>
+
+                <h2 class="mt-3 text-[2rem] font-bold leading-tight text-slate-900 sm:text-[2.5rem]">
+                    হিসাব থাকবে পরিষ্কার,
+                    <span class="text-teal-700">সিদ্ধান্ত হবে স্বচ্ছ।</span>
+                </h2>
+
+                <p class="mt-5 text-[14px] leading-7 text-slate-600">
+                    একটি সংগঠনের জন্য আর্থিক স্বচ্ছতা ও সঠিক হিসাবরক্ষণ
+                    অত্যন্ত গুরুত্বপূর্ণ। তাই প্রতিটি লেনদেন, আয়-ব্যয় এবং
+                    বিনিয়োগের তথ্য যথাযথভাবে সংরক্ষণ ও পর্যালোচনা করার
+                    ব্যবস্থা রাখা হয়।
+                </p>
+
+                <div class="mt-7 space-y-4">
+                    <div class="flex gap-3">
+                        <div
+                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="check" class="h-4 w-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-[13px] font-bold text-slate-900">আয় ও ব্যয়ের হিসাব</h4>
+                            <p class="mt-0.5 text-[13px] leading-5 text-slate-500">
+                                প্রতিটি আর্থিক লেনদেন নথিভুক্ত করার ব্যবস্থা।
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <div
+                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="check" class="h-4 w-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-[13px] font-bold text-slate-900">নিয়মিত পর্যালোচনা</h4>
+                            <p class="mt-0.5 text-[13px] leading-5 text-slate-500">
+                                সংগঠনের আর্থিক কার্যক্রম নিয়মিত যাচাই ও পর্যালোচনা করা।
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <div
+                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="check" class="h-4 w-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-[13px] font-bold text-slate-900">জবাবদিহিতা</h4>
+                            <p class="mt-0.5 text-[13px] leading-5 text-slate-500">
+                                সিদ্ধান্ত ও অর্থ ব্যবহারের ক্ষেত্রে দায়বদ্ধতা নিশ্চিত করা।
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal">
+                <div class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-card">
+
+                    <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+                        <div class="flex items-center gap-2">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-teal-700 text-white">
+                                <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-900">Financial Overview</p>
+                                <p class="text-[9px] text-slate-400">{{ $organizationName }}</p>
+                            </div>
+                        </div>
+                        <div class="rounded-md bg-emerald-50 px-2 py-1 text-[9px] font-semibold text-emerald-600">
+                            Updated</div>
+                    </div>
+
+                    <div class="p-5">
+                        <p class="text-[10px] text-slate-400">মোট সংগৃহীত তহবিল</p>
+
+                        <div class="mt-1 flex items-end justify-between">
+                            <p class="text-2xl font-bold text-slate-900">৳ 12,50,000</p>
+                            <span class="text-[10px] font-semibold text-emerald-600">+12.5%</span>
+                        </div>
+
+                        <div class="mt-5 flex h-24 items-end gap-1.5">
+                            <div class="h-[35%] flex-1 rounded-t bg-teal-100"></div>
+                            <div class="h-[45%] flex-1 rounded-t bg-teal-200"></div>
+                            <div class="h-[40%] flex-1 rounded-t bg-teal-200"></div>
+                            <div class="h-[58%] flex-1 rounded-t bg-teal-300"></div>
+                            <div class="h-[52%] flex-1 rounded-t bg-teal-300"></div>
+                            <div class="h-[70%] flex-1 rounded-t bg-teal-400"></div>
+                            <div class="h-[80%] flex-1 rounded-t bg-teal-500"></div>
+                            <div class="h-[92%] flex-1 rounded-t bg-teal-600"></div>
+                        </div>
+
+                        <div class="mt-6">
+                            <div class="mb-3 flex items-center justify-between">
+                                <p class="text-[13px] font-bold text-slate-800">সাম্প্রতিক কার্যক্রম</p>
+                                <span class="text-[9px] text-slate-400">View all</span>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="dashboard-line flex items-center justify-between rounded-md px-3 py-2.5">
+                                    <div class="flex items-center gap-2.5">
+                                        <div
+                                            class="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                                            <i data-lucide="arrow-down-left" class="h-3.5 w-3.5"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-semibold text-slate-700">মাসিক সঞ্চয়</p>
+                                            <p class="text-[8px] text-slate-400">Member Contribution</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] font-bold text-emerald-600">+৳ 50,000</p>
+                                </div>
+
+                                <div class="dashboard-line flex items-center justify-between rounded-md px-3 py-2.5">
+                                    <div class="flex items-center gap-2.5">
+                                        <div
+                                            class="flex h-7 w-7 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                                            <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-semibold text-slate-700">বিনিয়োগ</p>
+                                            <p class="text-[8px] text-slate-400">Investment</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] font-bold text-slate-700">-৳ 30,000</p>
+                                </div>
+
+                                <div class="dashboard-line flex items-center justify-between rounded-md px-3 py-2.5">
+                                    <div class="flex items-center gap-2.5">
+                                        <div
+                                            class="flex h-7 w-7 items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                                            <i data-lucide="file-text" class="h-3.5 w-3.5"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-semibold text-slate-700">হিসাব আপডেট</p>
+                                            <p class="text-[8px] text-slate-400">Record Updated</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-[9px] font-semibold text-sky-600">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+VALUES
+========================================================== --}}
+<section class="bg-slate-900 py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="mx-auto max-w-2xl text-center reveal">
+            <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-400">Our Values</span>
+            <h2 class="text-[2rem] font-bold text-white sm:text-[2.5rem]">যে মূল্যবোধ আমাদের এগিয়ে নিয়ে যায়</h2>
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+            <div class="reveal rounded-md border border-white/10 bg-white/5 p-5">
+                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-500/10 text-teal-300">
+                    <i data-lucide="shield-check" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-white">স্বচ্ছতা</h3>
+                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                    প্রতিটি কার্যক্রমে পরিষ্কার হিসাব ও তথ্যের গুরুত্ব।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-white/10 bg-white/5 p-5">
+                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-500/10 text-teal-300">
+                    <i data-lucide="users" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-white">ঐক্য</h3>
+                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                    সম্মিলিত সিদ্ধান্ত ও পারস্পরিক সহযোগিতার মাধ্যমে এগিয়ে চলা।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-white/10 bg-white/5 p-5">
+                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-500/10 text-teal-300">
+                    <i data-lucide="scale" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-white">দায়বদ্ধতা</h3>
+                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                    সিদ্ধান্ত ও সম্পদের ব্যবহারে দায়িত্বশীল থাকা।
+                </p>
+            </div>
+
+            <div class="reveal rounded-md border border-white/10 bg-white/5 p-5">
+                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-500/10 text-teal-300">
+                    <i data-lucide="rocket" class="h-5 w-5"></i>
+                </div>
+                <h3 class="mt-5 text-[15px] font-bold text-white">উন্নয়ন</h3>
+                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                    বর্তমানের পাশাপাশি ভবিষ্যতের জন্য পরিকল্পনা করা।
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+FAQ
+========================================================== --}}
+<section id="faq" class="bg-slate-50/70 py-20 sm:py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+        <div class="mx-auto max-w-2xl text-center reveal">
+            <span
+                class="inline-flex items-center rounded-full border border-teal-100 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-teal-700 shadow-sm">
+                Frequently Asked Questions
+            </span>
+            <h2 class="mt-4 text-[1.8rem] font-bold tracking-tight text-slate-900 sm:text-[2.35rem]">সাধারণ কিছু প্রশ্ন
+            </h2>
+            <p class="mx-auto max-w-xl text-[13px] leading-6 text-slate-500 sm:text-[14px]">
+                {{ $organizationName }} সম্পর্কে প্রাথমিক কিছু প্রশ্নের সহজ ও
+                সংক্ষিপ্ত উত্তর।
+            </p>
+        </div>
+
+        <div class="mx-auto mt-10 grid max-w-5xl gap-4 lg:grid-cols-2 lg:items-start">
+
+            {{-- LEFT COLUMN --}}
+            <div class="space-y-4">
+
+                @php
+                $faqLeft = [
+                ['q' => $organizationName.' কী?', 'a' => $organizationName.' একটি সম্মিলিত উদ্যোগ, যেখানে সদস্যদের
+                সঞ্চয় ও পরিকল্পিত কার্যক্রমের মাধ্যমে দীর্ঘমেয়াদি আর্থিক সম্ভাবনা তৈরির চেষ্টা করা হয়।'],
+                ['q' => 'সংগঠনের অর্থ কীভাবে ব্যবহার করা হয়?', 'a' => 'সংগঠনের নীতিমালা ও সম্মিলিত সিদ্ধান্ত অনুযায়ী
+                বিনিয়োগ, ব্যবসায়িক কার্যক্রম এবং দীর্ঘমেয়াদি সম্পদ তৈরির মতো উদ্যোগে অর্থ ব্যবহার করার পরিকল্পনা করা
+                হয়।'],
+                ['q' => 'আর্থিক হিসাব কীভাবে সংরক্ষণ করা হয়?', 'a' => 'সকল আয়, ব্যয়, সদস্যদের অবদান এবং অন্যান্য
+                আর্থিক কার্যক্রম যথাযথভাবে নথিভুক্ত ও পর্যালোচনা করার ব্যবস্থা রাখা হয়।'],
+                ['q' => 'সদস্যরা কীভাবে সংগঠনের কার্যক্রমে অংশগ্রহণ করেন?', 'a' => 'সদস্যরা নিয়মিত সঞ্চয়, সভায়
+                অংশগ্রহণ, মতামত প্রদান এবং সংগঠনের বিভিন্ন পরিকল্পনা ও সিদ্ধান্ত গ্রহণের প্রক্রিয়ায় সক্রিয়ভাবে অংশ
+                নিতে পারেন।'],
+                ];
+                @endphp
+
+                @foreach ($faqLeft as $faq)
+                <details
+                    class="faq-item group reveal overflow-hidden rounded-md border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:border-teal-200 hover:shadow-md">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between gap-5 px-5 py-4 sm:px-6 sm:py-5 [&::-webkit-details-marker]:hidden">
+                        <span class="text-[13px] font-semibold leading-6 text-slate-800 sm:text-[14px]">{{ $faq['q']
+                            }}</span>
+                        <span
+                            class="faq-plus flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-all duration-300 group-hover:border-teal-200 group-hover:bg-teal-50 group-hover:text-teal-600">
+                            <svg class="h-4 w-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="px-5 pb-5 sm:px-6">
+                        <div class="mb-4 h-px bg-slate-100"></div>
+                        <p class="text-[12px] leading-6 text-slate-500 sm:text-[13px]">{{ $faq['a'] }}</p>
+                    </div>
+                </details>
+                @endforeach
+
+            </div>
+
+            {{-- RIGHT COLUMN --}}
+            <div class="space-y-4">
+
+                @php
+                $faqRight = [
+                ['q' => 'সংগঠনের বিনিয়োগের সিদ্ধান্ত কীভাবে নেওয়া হয়?', 'a' => 'সম্ভাব্য ঝুঁকি, লাভের সম্ভাবনা,
+                সংগঠনের নীতিমালা এবং সদস্যদের সম্মিলিত মতামত বিবেচনা করে বিনিয়োগের সিদ্ধান্ত নেওয়া হয়।'],
+                ['q' => 'সদস্যদের অর্থের নিরাপত্তা কীভাবে নিশ্চিত করা হয়?', 'a' => 'সকল আর্থিক লেনদেনের হিসাব সংরক্ষণ,
+                অনুমোদনভিত্তিক কার্যক্রম এবং নিয়মিত হিসাব পর্যালোচনার মাধ্যমে অর্থ ব্যবস্থাপনায় স্বচ্ছতা ও জবাবদিহিতা
+                বজায় রাখার চেষ্টা করা হয়।'],
+                ['q' => 'সদস্যদের জন্য কি নিয়মিত আপডেট দেওয়া হয়?', 'a' => 'সংগঠনের গুরুত্বপূর্ণ কার্যক্রম, আর্থিক
+                বিষয়, সিদ্ধান্ত এবং ভবিষ্যৎ পরিকল্পনা সম্পর্কে সদস্যদের নিয়মিতভাবে অবহিত করার ব্যবস্থা রাখা হয়।'],
+                ['q' => 'ভবিষ্যতে কী ধরনের উদ্যোগ নেওয়া হতে পারে?', 'a' => 'সংগঠনের তহবিল ও সদস্যদের সম্মিলিত
+                সিদ্ধান্তের ওপর ভিত্তি করে বিনিয়োগ, ব্যবসা, জমি বা অন্যান্য উৎপাদনশীল সম্পদ তৈরির উদ্যোগ নেওয়া যেতে
+                পারে।'],
+                ];
+                @endphp
+
+                @foreach ($faqRight as $faq)
+                <details
+                    class="faq-item group reveal overflow-hidden rounded-md border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:border-teal-200 hover:shadow-md">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between gap-5 px-5 py-4 sm:px-6 sm:py-5 [&::-webkit-details-marker]:hidden">
+                        <span class="text-[13px] font-semibold leading-6 text-slate-800 sm:text-[14px]">{{ $faq['q']
+                            }}</span>
+                        <span
+                            class="faq-plus flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-all duration-300 group-hover:border-teal-200 group-hover:bg-teal-50 group-hover:text-teal-600">
+                            <svg class="h-4 w-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="px-5 pb-5 sm:px-6">
+                        <div class="mb-4 h-px bg-slate-100"></div>
+                        <p class="text-[12px] leading-6 text-slate-500 sm:text-[13px]">{{ $faq['a'] }}</p>
+                    </div>
+                </details>
+                @endforeach
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+CTA
+========================================================== --}}
+<section class="bg-slate-100 py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div
+            class="relative overflow-hidden rounded-md bg-teal-700 px-6 py-12 text-center text-white shadow-card sm:px-12">
+            <div class="absolute -left-20 -top-20 h-52 w-52 rounded-full bg-white/10 blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-black/10 blur-3xl"></div>
+
+            <div class="relative">
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-white/10">
+                    <i data-lucide="sparkles" class="h-5 w-5"></i>
+                </div>
+
+                <h2 class="mt-5 text-[2rem] font-bold sm:text-[2.45rem]">আমাদের স্বপ্নের অংশ হোন</h2>
+
+                <p class="mx-auto mt-3 max-w-xl text-[13px] leading-6 text-teal-50">
+                    একটি শক্তিশালী কমিউনিটি গড়ে তুলতে ঐক্য, আস্থা ও
+                    দীর্ঘমেয়াদি পরিকল্পনার বিকল্প নেই।
+                </p>
+
+                <a href="#contact"
+                    class="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-[13px] font-bold text-teal-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
+                    যোগাযোগ করুন
+                    <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+CONTACT
+========================================================== --}}
+<section id="contact" class="bg-white py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-10 lg:grid-cols-2">
+
+            <div class="reveal">
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Contact</span>
+                <h2 class="mt-3 text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">যোগাযোগ করুন</h2>
+                <p class="max-w-lg text-[14px] leading-7 text-slate-500">
+                    {{ $organizationName }} সম্পর্কে জানতে বা কোনো প্রশ্ন
+                    থাকলে আমাদের সাথে যোগাযোগ করুন।
+                </p>
+
+                <div class="mt-8 space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="mail" class="h-4.5 w-4.5"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-400">Email</p>
+                            <p class="text-[13px] font-semibold text-slate-800">{{ $organizationEmail }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="phone" class="h-4.5 w-4.5"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-400">Phone</p>
+                            <p class="text-[13px] font-semibold text-slate-800">{{ $organizationPhone }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+                            <i data-lucide="map-pin" class="h-4.5 w-4.5"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-400">Location</p>
+                            <p class="text-[13px] font-semibold text-slate-800">{{ $organizationAddress }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal">
+                <form id="contactForm" class="rounded-md border border-slate-200 bg-white p-5 shadow-soft sm:p-6">
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">আপনার নাম</label>
+                            <input type="text" name="name" required placeholder="আপনার নাম লিখুন"
+                                class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                        </div>
+
+                        <div>
+                            <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">ই-মেইল</label>
+                            <input type="email" name="email" required placeholder="আপনার ই-মেইল"
+                                class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">বিষয়</label>
+                        <input type="text" name="subject" required placeholder="কী বিষয়ে যোগাযোগ করতে চান?"
+                            class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">বার্তা</label>
+                        <textarea name="message" rows="5" required placeholder="আপনার বার্তা লিখুন..."
+                            class="w-full resize-none rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10"></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-teal-700 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:bg-teal-800">
+                        বার্তা পাঠান
+                        <i data-lucide="send" class="h-4 w-4"></i>
+                    </button>
+
+                    <p id="formMessage" class="mt-3 hidden text-center text-[13px] font-medium text-emerald-600">
+                        আপনার বার্তা সফলভাবে পাঠানো হয়েছে।
+                    </p>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- =========================================================
+FOOTER
+========================================================== --}}
+<footer class="bg-brand-900 text-white">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+        <div class="py-12 grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+            <div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-brand-600 flex items-center justify-center">
+                        <i data-lucide="users-round" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-[17px]">Dreamers</div>
+                        <div class="text-[10px] text-brand-200">Association</div>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-sm leading-6 text-brand-200 max-w-xs">
+                    সম্মিলিত সঞ্চয়, পরিকল্পিত বিনিয়োগ এবং দায়িত্বশীল
+                    ব্যবস্থাপনার মাধ্যমে একটি শক্তিশালী ভবিষ্যৎ গড়ে তোলাই
+                    আমাদের লক্ষ্য।
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-[13px] font-semibold">দ্রুত লিংক</h4>
+                <div class="mt-4 space-y-2.5">
+                    <a href="#home" class="block text-sm text-brand-200 hover:text-white transition">হোম</a>
+                    <a href="#about" class="block text-sm text-brand-200 hover:text-white transition">আমাদের
+                        সম্পর্কে</a>
+                    <a href="#activities" class="block text-sm text-brand-200 hover:text-white transition">কার্যক্রম</a>
+                    <a href="#transparency"
+                        class="block text-sm text-brand-200 hover:text-white transition">স্বচ্ছতা</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-[13px] font-semibold">কার্যক্রম</h4>
+                <div class="mt-4 space-y-2.5">
+                    <p class="text-sm text-brand-200">জমি ও সম্পদ</p>
+                    <p class="text-sm text-brand-200">ব্যবসায়িক বিনিয়োগ</p>
+                    <p class="text-sm text-brand-200">পণ্য ক্রয়-বিক্রয়</p>
+                    <p class="text-sm text-brand-200">সদস্য কল্যাণ</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-[13px] font-semibold">যোগাযোগ</h4>
+                <div class="mt-4 space-y-3">
+                    <div class="flex gap-2 text-sm text-brand-200">
+                        <i data-lucide="mail" class="w-4 h-4 shrink-0"></i>
+                        {{ $organizationEmail }}
+                    </div>
+                    <div class="flex gap-2 text-sm text-brand-200">
+                        <i data-lucide="phone" class="w-4 h-4 shrink-0"></i>
+                        {{ $organizationPhone }}
+                    </div>
+                    <div class="flex gap-2 text-sm text-brand-200">
+                        <i data-lucide="map-pin" class="w-4 h-4 shrink-0"></i>
+                        {{ $organizationAddress }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-brand-800 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-[11px] text-brand-300">
+                © {{ date('Y') }} {{ $organizationName }}. All rights reserved.
+            </p>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-brand-300 hover:text-white transition">
+                    <i data-lucide="facebook" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="text-brand-300 hover:text-white transition">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="text-brand-300 hover:text-white transition">
+                    <i data-lucide="youtube" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</footer>
 @endsection
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
-    const menuButton=document.getElementById('menuButton');
-    const mobileMenu=document.getElementById('mobileMenu');
-    const menuIcon=document.getElementById('menuIcon');
+    /* Navbar Scroll Effect */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            navbar.classList.add('nav-scrolled');
+        } else {
+            navbar.classList.remove('nav-scrolled');
+        }
+    });
 
-    menuButton?.addEventListener('click',()=>{
+    /* Mobile Menu */
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
+        const icon = menuBtn.querySelector('i');
 
-        menuIcon.className=mobileMenu.classList.contains('hidden')
-            ?'bi bi-list text-lg'
-            :'bi bi-x-lg';
+        if (mobileMenu.classList.contains('hidden')) {
+            icon.setAttribute('data-lucide', 'menu');
+        } else {
+            icon.setAttribute('data-lucide', 'x');
+        }
+
+        lucide.createIcons();
     });
 
-    document.querySelectorAll('.mobile-link').forEach(link=>{
-        link.addEventListener('click',()=>{
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
-            menuIcon.className='bi bi-list text-lg';
+            const icon = menuBtn.querySelector('i');
+            icon.setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
         });
     });
 
-    document.querySelectorAll('a[href^="#"]').forEach(link=>{
-        link.addEventListener('click',event=>{
-            const selector=link.getAttribute('href');
-
-            if(!selector||selector==='#'){
-                return;
-            }
-
-            const target=document.querySelector(selector);
-
-            if(!target){
-                return;
-            }
-
-            event.preventDefault();
-
-            const top=
-                target.getBoundingClientRect().top+
-                window.scrollY-
-                72;
-
-            window.scrollTo({
-                top,
-                behavior:'smooth'
-            });
-        });
-    });
-
-    const observer=new IntersectionObserver(entries=>{
-        entries.forEach(entry=>{
-            if(entry.isIntersecting){
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
+    /* Scroll Reveal */
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                revealObserver.unobserve(entry.target);
             }
         });
-    },{
-        threshold:.08
-    });
+    }, { threshold: 0.12 });
 
-    document.querySelectorAll('.reveal').forEach(element=>{
-        observer.observe(element);
-    });
+    revealElements.forEach(element => revealObserver.observe(element));
 
-    const projectTabs=document.querySelectorAll('.project-tab');
-    const current=document.getElementById('projectCurrent');
-    const future=document.getElementById('projectFuture');
+    /* Counter Animation */
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
 
-    projectTabs.forEach(button=>{
-        button.addEventListener('click',()=>{
-            const tab=button.dataset.projectTab;
+            const counter = entry.target;
+            const target = Number(counter.dataset.target);
+            let current = 0;
+            const duration = 1300;
+            const startTime = performance.now();
 
-            projectTabs.forEach(item=>{
-                item.classList.remove(
-                    'bg-[#0b3b34]',
-                    'text-[#ede7d3]'
-                );
+            function updateCounter(currentTime) {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                current = Math.floor(target * eased);
+                counter.textContent = current + '+';
 
-                item.classList.add(
-                    'text-[#1a2b22]/60'
-                );
-            });
-
-            button.classList.add(
-                'bg-[#0b3b34]',
-                'text-[#ede7d3]'
-            );
-
-            button.classList.remove(
-                'text-[#1a2b22]/60'
-            );
-
-            if(tab==='future'){
-                current.classList.add('hidden');
-                future.classList.remove('hidden');
-            }else{
-                future.classList.add('hidden');
-                current.classList.remove('hidden');
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + '+';
+                }
             }
+
+            requestAnimationFrame(updateCounter);
+            observer.unobserve(counter);
         });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => counterObserver.observe(counter));
+
+    /* Contact Form Demo */
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        formMessage.classList.remove('hidden');
+        contactForm.reset();
+
+        setTimeout(() => {
+            formMessage.classList.add('hidden');
+        }, 4000);
     });
-});
 </script>
 @endpush

@@ -13,7 +13,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Chart of Accounts</h1>
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Manage the accounting structure used by all finance modules.
                 </p>
             </div>
@@ -23,7 +23,7 @@
         <button
             type="button"
             onclick="openAccountModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Account
         </button>
@@ -68,7 +68,7 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-3 xl:w-auto xl:grid-cols-[280px_150px_150px_auto] xl:gap-0">
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -79,7 +79,7 @@
 
                 <select
                     id="typeFilter"
-                    class="h-9 rounded-md border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Types</option>
                     <option value="asset">Asset</option>
                     <option value="liability">Liability</option>
@@ -90,7 +90,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 rounded-md border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
@@ -99,7 +99,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     Clear
                 </button>
             </div>
@@ -108,42 +108,42 @@
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="w-full overflow-x-auto">
-            <table class="w-full min-w-[980px] text-sm">
+            <table class="w-full min-w-[980px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Code
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Account
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Sub Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Parent
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Opening
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Balance
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -175,7 +175,7 @@
             <div>
                 <h2
                     id="accountModalTitle"
-                    class="text-lg font-bold text-slate-800">
+                    class="text-base font-semibold text-slate-800">
                     Add Account
                 </h2>
 
@@ -199,7 +199,7 @@
             <div class="space-y-4 overflow-y-auto p-5">
                 <div
                     id="formError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -321,7 +321,7 @@
                     </div>
                 </div>
 
-                <div class="rounded-md border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-500">
+                <div class="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm leading-5 text-slate-500">
                     Parent and child accounts must have the same account type.
                     Only leaf accounts can receive journal postings.
                 </div>
@@ -331,14 +331,14 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('accountModal')"
-                    class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                    class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="saveAccountButton"
                     type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                     Save Account
                 </button>
             </div>
@@ -353,7 +353,7 @@
     <div class="app-modal-panel w-full max-w-3xl overflow-hidden rounded-md bg-white">
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h2 class="text-lg font-bold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Account Details
                 </h2>
 
@@ -566,7 +566,7 @@ function renderAccounts(){
                     <button
                         type="button"
                         onclick="viewAccount(${account.id})"
-                        class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
+                        class="rounded border border-slate-300 px-2 py-1 text-sm text-slate-600 hover:bg-slate-50">
                         View
                     </button>
                 `
@@ -577,7 +577,7 @@ function renderAccounts(){
                     <button
                         type="button"
                         onclick="editAccount(${account.id})"
-                        class="rounded border border-indigo-300 px-2 py-1 text-xs text-indigo-700 hover:bg-indigo-50">
+                        class="rounded border border-indigo-300 px-2 py-1 text-sm text-indigo-700 hover:bg-indigo-50">
                         Edit
                     </button>
                 `);
@@ -587,7 +587,7 @@ function renderAccounts(){
                         <button
                             type="button"
                             onclick="toggleAccount(${account.id})"
-                            class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
+                            class="rounded border border-slate-300 px-2 py-1 text-sm text-slate-600 hover:bg-slate-50">
                             ${account.is_active?'Deactivate':'Activate'}
                         </button>
                     `);
@@ -604,7 +604,7 @@ function renderAccounts(){
                     <button
                         type="button"
                         onclick="deleteAccount(${account.id})"
-                        class="rounded border border-red-300 px-2 py-1 text-xs text-red-700 hover:bg-red-50">
+                        class="rounded border border-red-300 px-2 py-1 text-sm text-red-700 hover:bg-red-50">
                         Delete
                     </button>
                 `);
@@ -965,7 +965,7 @@ window.viewAccount=async function(id){
             </div>
 
             <div class="mt-4 rounded-md border border-slate-200 p-4">
-                <div class="grid gap-3 text-sm md:grid-cols-2">
+                <div class="grid gap-3 text-base md:grid-cols-2">
                     <div>
                         <span class="text-slate-400">Name:</span>
                         ${esc(account.name)}
@@ -1014,7 +1014,7 @@ window.viewAccount=async function(id){
             </div>
 
             <div class="mt-4">
-                <h3 class="mb-2 text-sm font-bold text-slate-700">
+                <h3 class="mb-2 text-base font-bold text-slate-700">
                     Child Accounts
                 </h3>
 
@@ -1022,16 +1022,16 @@ window.viewAccount=async function(id){
                     children.length
                         ?`
                             <div class="overflow-hidden rounded-md border border-slate-200">
-                                <table class="w-full text-sm">
+                                <table class="w-full text-base">
                                     <thead class="bg-slate-50">
                                         <tr>
-                                            <th class="px-3 py-2 text-left text-xs">
+                                            <th class="px-3 py-2 text-left text-sm">
                                                 Code
                                             </th>
-                                            <th class="px-3 py-2 text-left text-xs">
+                                            <th class="px-3 py-2 text-left text-sm">
                                                 Name
                                             </th>
-                                            <th class="px-3 py-2 text-left text-xs">
+                                            <th class="px-3 py-2 text-left text-sm">
                                                 Status
                                             </th>
                                         </tr>
@@ -1062,7 +1062,7 @@ window.viewAccount=async function(id){
                             </div>
                         `
                         :`
-                            <div class="rounded-md border border-slate-200 p-5 text-center text-sm text-slate-400">
+                            <div class="rounded-md border border-slate-200 p-5 text-center text-base text-slate-400">
                                 No child accounts.
                             </div>
                         `

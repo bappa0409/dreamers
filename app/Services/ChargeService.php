@@ -70,9 +70,56 @@ class ChargeService
                 'description'=>$this->nullableString(
                     $data['description']??null
                 ),
-                'status'=>'unpaid',
+                'status'=>'pending_approval',
                 'created_by'=>$userId,
             ]);
+
+            // No ledger entry yet: nothing is posted until the
+            // Charge.create approval request is approved — see
+            // finalizeApproval().
+            return $this->freshCharge($charge);
+        });
+    }
+
+    /**
+     * Called by ApprovalService once the Charge.create request is
+     * approved. Posts the actual double-entry ledger transaction and
+     * moves the charge into its normal 'unpaid' lifecycle.
+     */
+    public function finalizeApproval(
+        MemberCharge $charge,
+        array $decisionData,
+        int $approvedBy
+    ): MemberCharge{
+        return DB::transaction(function()use(
+            $charge,
+            $approvedBy
+        ){
+            $charge=MemberCharge::query()
+                ->whereKey($charge->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($charge->status!=='pending_approval'){
+                throw ValidationException::withMessages([
+                    'charge'=>[
+                        'This charge is not awaiting approval.'
+                    ],
+                ]);
+            }
+
+            $incomeAccount=$this->incomeAccount(
+                (int)$charge->income_account_id
+            );
+
+            $receivable=$this
+                ->accountingService
+                ->account('receivable');
+
+            $amount=round(
+                (float)$charge->amount,
+                2
+            );
 
             $journal=$this->accountingService->post([
                 'idempotency_key'=>"charge:post:{$charge->id}",
@@ -86,7 +133,7 @@ class ChargeService
                 'reference_id'=>$charge->id,
                 'description'=>$charge->description
                     ??"Member charge {$charge->charge_no}",
-                'user_id'=>$userId,
+                'user_id'=>$approvedBy,
                 'entries'=>[
                     [
                         'account_id'=>$receivable->id,
@@ -105,10 +152,54 @@ class ChargeService
 
             $charge->update([
                 'finance_transaction_id'=>$journal->id,
+                'status'=>'unpaid',
             ]);
 
             return $this->freshCharge($charge);
         });
+    }
+
+    /**
+     * Called by ApprovalService when the Charge.create request is
+     * rejected. The charge never gets a ledger entry.
+     */
+    public function finalizeRejection(
+        MemberCharge $charge,
+        string $reason,
+        ?int $rejectedBy
+    ): MemberCharge{
+        $charge=MemberCharge::query()
+            ->whereKey($charge->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($charge->status==='pending_approval'){
+            $charge->update([
+                'status'=>'rejected',
+            ]);
+        }
+
+        return $this->freshCharge($charge);
+    }
+
+    /**
+     * Called by ApprovalService when the Charge.create request is
+     * cancelled/withdrawn before a decision is made.
+     */
+    public function finalizeCancellation(MemberCharge $charge): MemberCharge
+    {
+        $charge=MemberCharge::query()
+            ->whereKey($charge->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($charge->status==='pending_approval'){
+            $charge->update([
+                'status'=>'cancelled',
+            ]);
+        }
+
+        return $this->freshCharge($charge);
     }
 
     public function pay(
@@ -130,6 +221,8 @@ class ChargeService
                 in_array(
                     $charge->status,
                     [
+                        'pending_approval',
+                        'rejected',
                         'paid',
                         'waived',
                         'cancelled',
@@ -411,6 +504,7 @@ class ChargeService
                 in_array(
                     $charge->status,
                     [
+                        'rejected',
                         'paid',
                         'waived',
                         'cancelled',
@@ -580,6 +674,23 @@ class ChargeService
                 ]);
             }
 
+            if(
+                in_array(
+                    $charge->status,
+                    [
+                        'pending_approval',
+                        'rejected',
+                    ],
+                    true
+                )
+            ){
+                throw ValidationException::withMessages([
+                    'charge'=>[
+                        'A charge awaiting or rejected by approval cannot be cancelled here. Cancel the approval request instead.'
+                    ],
+                ]);
+            }
+
             if($charge->status==='waived'){
                 throw ValidationException::withMessages([
                     'charge'=>[
@@ -674,6 +785,8 @@ class ChargeService
                 in_array(
                     $charge->status,
                     [
+                        'pending_approval',
+                        'rejected',
                         'paid',
                         'waived',
                         'cancelled',

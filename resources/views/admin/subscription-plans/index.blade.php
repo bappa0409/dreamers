@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Subscription Plans</h1>
-                <p class="text-sm text-slate-500">Manage the monthly amount, due day and late fine rules members are billed under.</p>
+                <p class="text-xs text-slate-500">Manage the monthly amount, due day and late fine rules members are billed under.</p>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openPlanModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add Plan
@@ -35,7 +35,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -46,7 +46,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -58,7 +58,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400"
+                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400"
                 >
                     <option value="">All Status</option>
                     <option value="active">Active</option>
@@ -68,7 +68,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -83,19 +83,19 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[24%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Plan</th>
-                        <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Due Day</th>
-                        <th class="w-[18%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Late Fine</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Default</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="w-[15%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[24%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Plan</th>
+                        <th class="w-[13%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Due Day</th>
+                        <th class="w-[18%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Late Fine</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Default</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[15%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="planTableBody">
                     <tr>
-                        <td colspan="7" class="px-5 py-10 text-center text-sm text-slate-400">
+                        <td colspan="7" class="px-5 py-10 text-center text-base text-slate-400">
                             Loading plans...
                         </td>
                     </tr>
@@ -117,8 +117,8 @@
                 </div>
 
                 <div>
-                    <h2 id="planModalTitle" class="text-lg font-bold text-slate-800">Add Subscription Plan</h2>
-                    <p class="text-sm text-slate-500">Configure the monthly amount and due date rules.</p>
+                    <h2 id="planModalTitle" class="text-base font-semibold text-slate-800">Add Subscription Plan</h2>
+                    <p class="text-xs text-slate-500">Configure the monthly amount and due date rules.</p>
                 </div>
             </div>
 
@@ -129,14 +129,14 @@
 
         <form id="planForm" novalidate data-js-validation="1">
             <div class="max-h-[70vh] space-y-4 overflow-y-auto p-5 sm:p-6">
-                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
                 <div>
                     <label class="form-label">Plan Name <span class="text-red-500">*</span></label>
 
                     <input id="planName" type="text" maxlength="100" class="app-input">
 
-                    <p data-field-error="planName" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="planName" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -145,7 +145,7 @@
 
                         <input id="planAmount" type="number" min="0.01" step="0.01" class="app-input">
 
-                        <p data-field-error="planAmount" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="planAmount" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -155,12 +155,12 @@
 
                         <p class="mt-1 text-[10px] text-slate-400">Day of month the payment is due (1&ndash;31).</p>
 
-                        <p data-field-error="planDueDay" class="mt-1 hidden text-xs text-red-600"></p>
+                        <p data-field-error="planDueDay" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
 
                 <div class="rounded-md border border-slate-200 bg-slate-50/60 p-4">
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Late Fine Rules</p>
+                    <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Late Fine Rules</p>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
@@ -178,7 +178,7 @@
 
                             <input id="planFineValue" type="number" min="0" step="0.01" class="app-input">
 
-                            <p data-field-error="planFineValue" class="mt-1 hidden text-xs text-red-600"></p>
+                            <p data-field-error="planFineValue" class="mt-1 hidden text-sm text-red-600"></p>
                         </div>
 
                         <div>
@@ -188,7 +188,7 @@
 
                             <p class="mt-1 text-[10px] text-slate-400">Days after due date before a fine applies.</p>
 
-                            <p data-field-error="planGraceDays" class="mt-1 hidden text-xs text-red-600"></p>
+                            <p data-field-error="planGraceDays" class="mt-1 hidden text-sm text-red-600"></p>
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                         <input id="planDefault" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
 
                         <div>
-                            <p class="text-xs font-semibold text-slate-700">Default Plan</p>
+                            <p class="text-sm font-semibold text-slate-700">Default Plan</p>
                             <p class="text-[10px] text-slate-400">Used for automatic subscription assignment.</p>
                         </div>
                     </label>
@@ -207,7 +207,7 @@
                         <input id="planActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
 
                         <div>
-                            <p class="text-xs font-semibold text-slate-700">Active</p>
+                            <p class="text-sm font-semibold text-slate-700">Active</p>
                             <p class="text-[10px] text-slate-400">Available for new subscriptions.</p>
                         </div>
                     </label>
@@ -218,7 +218,7 @@
 
                     <textarea id="planDescription" rows="3" maxlength="1000" class="app-input resize-none"></textarea>
 
-                    <p data-field-error="planDescription" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="planDescription" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
             </div>
 
@@ -226,7 +226,7 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('planModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -234,7 +234,7 @@
                 <button
                     id="savePlanButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save Plan
                 </button>
@@ -280,7 +280,7 @@ const money=value=>`${currency}${Number(value||0).toLocaleString('en-BD',{
 
 function fineLabel(plan){
     if(!plan.fine_type||plan.fine_type==='none'){
-        return`<span class="text-xs text-slate-400">No fine</span>`;
+        return`<span class="text-sm text-slate-400">No fine</span>`;
     }
 
     const value=plan.fine_type==='percentage'
@@ -288,7 +288,7 @@ function fineLabel(plan){
         :money(plan.fine_value);
 
     return`
-        <span class="text-xs font-semibold text-slate-700">${value}</span>
+        <span class="text-sm font-semibold text-slate-700">${value}</span>
         <span class="block text-[10px] text-slate-400">
             after ${Number(plan.grace_days||0)} grace day${Number(plan.grace_days||0)===1?'':'s'}
         </span>
@@ -331,7 +331,7 @@ async function loadPlans(){
         );
 
         el.mobileGrid.innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-6 text-center text-xs text-red-600">
+            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-6 text-center text-sm text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         `;
@@ -346,7 +346,7 @@ function renderPlans(){
         );
 
         el.mobileGrid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
                 No subscription plans found.
             </div>
         `;
@@ -357,7 +357,7 @@ function renderPlans(){
     el.tableBody.innerHTML=plans.map(plan=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
             <td class="min-w-0 px-4 py-3">
-                <p class="truncate text-xs font-semibold text-slate-800" title="${AdminUI.escapeHtml(plan.name??'')}">
+                <p class="truncate text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(plan.name??'')}">
                     ${AdminUI.escapeHtml(plan.name??'N/A')}
                 </p>
 
@@ -366,11 +366,11 @@ function renderPlans(){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">
+            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">
                 ${money(plan.amount)}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3 text-sm text-slate-600">
                 Day ${plan.due_day}
             </td>
 
@@ -382,7 +382,7 @@ function renderPlans(){
                 ${
                     plan.is_default
                         ?`<span class="rounded-md bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">Default</span>`
-                        :`<span class="text-xs text-slate-400">&mdash;</span>`
+                        :`<span class="text-sm text-slate-400">&mdash;</span>`
                 }
             </td>
 
@@ -401,7 +401,7 @@ function renderPlans(){
                                     title="Edit Plan"
                                     class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                 >
-                                    <i class="bi bi-pencil-square text-xs"></i>
+                                    <i class="bi bi-pencil-square text-sm"></i>
                                 </button>
                             `
                             :''
@@ -416,7 +416,7 @@ function renderPlans(){
                                     title="Delete Plan"
                                     class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                 >
-                                    <i class="bi bi-trash text-xs"></i>
+                                    <i class="bi bi-trash text-sm"></i>
                                 </button>
                             `
                             :''
@@ -430,7 +430,7 @@ function renderPlans(){
         <article class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
-                    <p class="truncate text-sm font-bold text-slate-700" title="${AdminUI.escapeHtml(plan.name??'')}">
+                    <p class="truncate text-base font-bold text-slate-700" title="${AdminUI.escapeHtml(plan.name??'')}">
                         ${AdminUI.escapeHtml(plan.name??'N/A')}
                     </p>
 
@@ -442,7 +442,7 @@ function renderPlans(){
                 ${AdminUI.statusBadge(plan.is_active?'active':'inactive')}
             </div>
 
-            <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+            <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-500">
                 <span>Due: Day ${plan.due_day}</span>
 
                 ${
@@ -452,11 +452,11 @@ function renderPlans(){
                 }
             </div>
 
-            <div class="mt-2 text-xs text-slate-500">
+            <div class="mt-2 text-sm text-slate-500">
                 ${fineLabel(plan)}
             </div>
 
-            <p class="mt-3 line-clamp-2 text-xs text-slate-400">
+            <p class="mt-3 line-clamp-2 text-sm text-slate-400">
                 ${AdminUI.escapeHtml(plan.description||'No description')}
             </p>
 
@@ -469,7 +469,7 @@ function renderPlans(){
                                 onclick="editPlan(${plan.id})"
                                 class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600"
                             >
-                                <i class="bi bi-pencil-square text-xs"></i>
+                                <i class="bi bi-pencil-square text-sm"></i>
                             </button>
                         `
                         :''
@@ -483,7 +483,7 @@ function renderPlans(){
                                 onclick="deletePlan(${plan.id})"
                                 class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600"
                             >
-                                <i class="bi bi-trash text-xs"></i>
+                                <i class="bi bi-trash text-sm"></i>
                             </button>
                         `
                         :''

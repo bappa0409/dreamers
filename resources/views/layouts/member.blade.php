@@ -29,10 +29,10 @@ $initial=$userName?strtoupper(mb_substr($userName,0,1)):'M';
 $profilePhoto=$member?->profile_photo_url;
 $notificationUnreadCount=$authUser?->unreadNotifications()->count()??0;
 
-$linkClass='group flex items-center gap-2.5 rounded-md px-2.5 py-1 text-xs font-semibold transition';
+$linkClass='group flex items-center gap-2.5 rounded-md px-2.5 py-1 text-sm font-semibold transition';
 $linkInactive='text-slate-600 hover:bg-slate-50 hover:text-slate-800';
 $linkActive='bg-sky-50 text-sky-700';
-$iconClass='w-4 text-center text-sm';
+$iconClass='w-4 text-center text-base';
 $sectionClass='mb-1 mt-3 px-2.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-400';
 
 $overview=[
@@ -69,11 +69,11 @@ $investmentOpen=request()->routeIs('member.investments*');
 <div class="flex h-[64px] shrink-0 items-center border-b border-slate-200 px-4">
 <a href="{{ route('member.dashboard') }}" class="flex min-w-0 items-center gap-3">
 <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-[#4680b7] to-[#145da0] text-white shadow-sm">
-<i class="bi bi-people-fill text-sm"></i>
+<i class="bi bi-people-fill text-base"></i>
 </div>
 
 <div class="min-w-0">
-<div class="truncate text-sm font-bold text-slate-800">{{ $organizationName }}</div>
+<div class="truncate text-base font-bold text-slate-800">{{ $organizationName }}</div>
 <div class="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">Member Portal</div>
 </div>
 </a>
@@ -217,7 +217,7 @@ Completed Investments
 @php($active=request()->routeIs('member.exit*'))
 <a href="{{ route('member.exit') }}" class="{{ $linkClass }} {{ $active?$linkActive:$linkInactive }}">
 <i class="bi bi-box-arrow-right {{ $iconClass }}"></i>
-<span>Membership Exit</span>
+<span>Membership Cancel</span>
 </a>
 </div>
 
@@ -261,12 +261,12 @@ Completed Investments
 <i class="bi bi-list text-lg"></i>
 </button>
 
-<a href="{{ route('home') }}" target="_blank" class="hidden h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 sm:inline-flex">
+<a href="{{ route('home') }}" target="_blank" class="hidden h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 sm:inline-flex">
 <i class="bi bi-globe2"></i>
 View Website
 </a>
 
-<button type="button" onclick="window.location.reload()" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
+<button type="button" onclick="window.location.reload()" class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
 <i class="bi bi-arrow-clockwise"></i>
 <span class="hidden sm:inline">Refresh</span>
 </button>
@@ -275,18 +275,19 @@ View Website
 
 <div class="relative flex shrink-0 items-center gap-1 sm:gap-2">
 
-<button type="button" onclick="toggleNotificationMenu(event)" class="group relative flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700" title="Notifications">
+<button type="button" onclick="toggleNotificationMenu(event)" class="group relative flex h-9 w-9 items-center justify-center bg-white" title="Notifications">
 <i class="bi bi-bell text-[15px]"></i>
 
-<span id="notificationBadge" class="{{ $notificationUnreadCount>0?'':'hidden' }} absolute -right-1 -top-1 min-w-[17px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold leading-[17px] text-white">
-{{ $notificationUnreadCount>99?'99+':$notificationUnreadCount }}
+
+<span id="notificationBadge"
+    class="{{ $notificationUnreadCount > 0 ? '' : 'hidden' }}
+    absolute -right-0 -top-0
+    min-w-[17px] rounded-full bg-red-500 px-1 text-center
+    text-[9px] font-bold leading-[17px] text-white">
+    {{ $notificationUnreadCount > 99 ? '99+' : $notificationUnreadCount }}
 </span>
 </button>
 
-<button type="button" onclick="toggleInboxMenu(event)" class="group relative flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700" title="Inbox">
-<i class="bi bi-envelope text-[15px]"></i>
-<span id="inboxBadge" class="absolute -right-1 -top-1 hidden min-w-[17px] rounded-full bg-indigo-500 px-1 text-center text-[9px] font-bold leading-[17px] text-white">0</span>
-</button>
 
 <div class="mx-1 hidden h-7 w-px bg-slate-200 sm:block"></div>
 
@@ -301,7 +302,7 @@ View Website
 </div>
 
 <div class="hidden max-w-[140px] text-left sm:block">
-<div class="truncate text-xs font-semibold text-slate-700">{{ $userName }}</div>
+<div class="truncate text-sm font-semibold text-slate-700">{{ $userName }}</div>
 <div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
 </div>
 
@@ -311,18 +312,18 @@ View Website
 <div id="userDropdown" class="absolute right-0 top-[48px] z-50 hidden w-60 overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
 <div class="border-b border-slate-100 px-4 py-3">
 <div class="text-[10px] uppercase tracking-wide text-slate-400">Signed in as</div>
-<div class="mt-1 truncate text-sm font-semibold text-slate-700">{{ $userName }}</div>
+<div class="mt-1 truncate text-base font-semibold text-slate-700">{{ $userName }}</div>
 <div class="mt-0.5 truncate text-[11px] text-slate-400">{{ $authUser?->email }}</div>
 <div class="mt-1 font-mono text-[10px] font-semibold text-sky-600">{{ $memberCode }}</div>
 </div>
 
 <div class="p-1.5">
-<a href="{{ route('member.profile') }}" class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50">
+<a href="{{ route('member.profile') }}" class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50">
 <i class="bi bi-person"></i>
 My Profile
 </a>
 
-<a href="{{ route('member.subscriptions') }}" class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50">
+<a href="{{ route('member.subscriptions') }}" class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50">
 <i class="bi bi-credit-card"></i>
 My Subscription
 </a>
@@ -331,7 +332,7 @@ My Subscription
 
 <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
 @csrf
-<button type="submit" class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs font-medium text-red-500 transition hover:bg-red-50">
+<button type="submit" class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-medium text-red-500 transition hover:bg-red-50">
 <i class="bi bi-box-arrow-right"></i>
 Sign Out
 </button>
@@ -343,7 +344,7 @@ Sign Out
 
 <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
 <div>
-<h3 class="text-xs font-semibold text-slate-700">Notifications</h3>
+<h3 class="text-sm font-semibold text-slate-700">Notifications</h3>
 
 <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-400">
 {{ $notificationUnreadCount>0?$notificationUnreadCount.' unread notification'.($notificationUnreadCount===1?'':'s'):'No unread notifications' }}
@@ -373,7 +374,7 @@ View All Notifications
 
 <div id="inboxDropdown" class="absolute right-2 top-[48px] z-50 hidden w-[330px] overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
 <div class="border-b border-slate-100 px-4 py-3">
-<h3 class="text-xs font-semibold text-slate-700">Inbox</h3>
+<h3 class="text-sm font-semibold text-slate-700">Inbox</h3>
 <p class="text-[10px] text-slate-400">Messages and communication</p>
 </div>
 
@@ -383,7 +384,7 @@ View All Notifications
 <i class="bi bi-envelope"></i>
 </div>
 
-<p class="mt-3 text-xs font-semibold text-slate-600">No messages</p>
+<p class="mt-3 text-sm font-semibold text-slate-600">No messages</p>
 <p class="mt-1 text-[10px] text-slate-400">Your inbox is currently empty.</p>
 </div>
 </div>
@@ -653,7 +654,7 @@ function renderNotificationItems(notifications){
                     <i class="bi bi-bell"></i>
                 </div>
 
-                <p class="mt-3 text-xs font-semibold text-slate-600">
+                <p class="mt-3 text-sm font-semibold text-slate-600">
                     No notifications
                 </p>
 
@@ -685,7 +686,7 @@ function renderNotificationItems(notifications){
             <div class="min-w-0 flex-1">
 
                 <div class="flex items-start justify-between gap-2">
-                    <div class="truncate text-xs font-semibold ${unread?'text-slate-800':'text-slate-700'}">
+                    <div class="truncate text-sm font-semibold ${unread?'text-slate-800':'text-slate-700'}">
                         ${escapeLayoutHtml(
                             notification.title??
                             notification.data?.title??

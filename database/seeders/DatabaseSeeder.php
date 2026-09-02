@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             UserSeeder::class,
             SubscriptionPlanSeeder::class,
-            TestMemberSeeder::class,
             FeedbackSupportCategorySeeder::class,
         ]);
     }

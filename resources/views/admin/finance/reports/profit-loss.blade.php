@@ -12,10 +12,10 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Profit & Loss</h1>
-                <p class="text-sm text-slate-500">Income, expenses and net operating result from posted journals.</p>
+                <p class="text-xs text-slate-500">Income, expenses and net operating result from posted journals.</p>
             </div>
         </div>
-        <div id="resultBadge" class="hidden rounded-md border px-3 py-2 text-xs font-semibold"></div>
+        <div id="resultBadge" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
     </div>
 
     {{-- Filters --}}
@@ -26,7 +26,7 @@
                     Date Range
                 </label>
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input
                         id="dateRangeFilter"
                         type="text"
@@ -40,7 +40,7 @@
                 <button
                     type="button"
                     onclick="setCurrentMonth()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar-month me-1"></i>
                     Current Month
                 </button>
@@ -50,7 +50,7 @@
                 <button
                     type="button"
                     onclick="setCurrentYear()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar3 me-1"></i>
                     Current Year
                 </button>
@@ -73,7 +73,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs text-emerald-600">Total Income</p>
+                    <p class="text-sm text-emerald-600">Total Income</p>
                     <p id="totalIncome" class="mt-2 truncate text-xl font-bold text-emerald-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
@@ -87,7 +87,7 @@
         <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs text-red-600">Total Expense</p>
+                    <p class="text-sm text-red-600">Total Expense</p>
                     <p id="totalExpense" class="mt-2 truncate text-xl font-bold text-red-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
@@ -101,7 +101,7 @@
         <div id="netCard" class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
-                    <p id="netLabel" class="text-xs text-indigo-600">Net Surplus</p>
+                    <p id="netLabel" class="text-sm text-indigo-600">Net Surplus</p>
                     <p id="netResult" class="mt-2 truncate text-xl font-bold text-indigo-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
@@ -118,18 +118,18 @@
         <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
             <div class="flex items-center justify-between border-b border-emerald-200 bg-emerald-50/40 px-5 py-3">
                 <div>
-                    <h2 class="text-sm font-bold text-emerald-700">Income</h2>
+                    <h2 class="text-base font-bold text-emerald-700">Income</h2>
                     <p class="mt-0.5 text-[10px] text-emerald-600/70">Credit-normal accounts</p>
                 </div>
                 <i class="bi bi-arrow-down-circle text-emerald-600"></i>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[500px] text-sm">
+                <table class="w-full min-w-[500px] text-base">
                     <thead class="border-b border-slate-200 bg-slate-50">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-xs font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500">Amount</th>
+                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="incomeTable">
@@ -139,7 +139,7 @@
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">Total Income</td>
+                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Income</td>
                             <td id="incomeFooter" class="px-4 py-3 text-right font-bold text-emerald-700">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -152,18 +152,18 @@
         <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
             <div class="flex items-center justify-between border-b border-red-200 bg-red-50/40 px-5 py-3">
                 <div>
-                    <h2 class="text-sm font-bold text-red-700">Expenses</h2>
+                    <h2 class="text-base font-bold text-red-700">Expenses</h2>
                     <p class="mt-0.5 text-[10px] text-red-600/70">Debit-normal accounts</p>
                 </div>
                 <i class="bi bi-arrow-up-circle text-red-600"></i>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[500px] text-sm">
+                <table class="w-full min-w-[500px] text-base">
                     <thead class="border-b border-slate-200 bg-slate-50">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-xs font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500">Amount</th>
+                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="expenseTable">
@@ -173,7 +173,7 @@
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">Total Expense</td>
+                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Expense</td>
                             <td id="expenseFooter" class="px-4 py-3 text-right font-bold text-red-700">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -188,7 +188,7 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-sm font-bold text-slate-700">Operating Result</h2>
+                <h2 class="text-base font-bold text-slate-700">Operating Result</h2>
                 <p id="periodLabel" class="mt-0.5 text-[11px] text-slate-400"></p>
             </div>
             <span class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
@@ -212,7 +212,7 @@
             </div>
 
             <div id="resultBox" class="flex items-center justify-between gap-3 rounded-md border border-indigo-100 bg-indigo-50/40 p-4">
-                <span id="resultLabel" class="text-sm font-bold text-slate-700">Net Surplus</span>
+                <span id="resultLabel" class="text-base font-bold text-slate-700">Net Surplus</span>
                 <span id="resultNet" class="text-xl font-bold text-indigo-700">
                     {{ setting('currency_symbol','৳') }}0.00
                 </span>
@@ -550,7 +550,7 @@ function renderNetState(surplus,net,label){
             'rounded-md border border-emerald-200 bg-emerald-50/30 p-4';
 
         el.netLabel.className=
-            'text-xs text-emerald-600';
+            'text-sm text-emerald-600';
 
         el.net.className=
             'mt-2 truncate text-xl font-bold text-emerald-700';
@@ -580,7 +580,7 @@ function renderNetState(surplus,net,label){
             'rounded-md border border-red-200 bg-red-50/30 p-4';
 
         el.netLabel.className=
-            'text-xs text-red-600';
+            'text-sm text-red-600';
 
         el.net.className=
             'mt-2 truncate text-xl font-bold text-red-700';
@@ -617,7 +617,7 @@ function renderAccounts(target,accounts,type){
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
             <td class="px-4 py-3">
                 <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-semibold text-indigo-600">
+                    <span class="font-mono text-sm font-semibold text-indigo-600">
                         ${esc(account.code)}
                     </span>
 

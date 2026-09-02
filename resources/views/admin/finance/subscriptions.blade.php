@@ -12,32 +12,32 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Monthly Subscriptions</h1>
-                <p class="text-sm text-slate-500">Manage member subscriptions, monthly dues and payments.</p>
+                <p class="text-xs text-slate-500">Manage member subscriptions, monthly dues and payments.</p>
             </div>
         </div>
         <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="openPlanModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+            <button type="button" onclick="openPlanModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                 <i class="bi bi-gear"></i>
                 Plans
             </button>
-            <button type="button" onclick="openAssignModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+            <button type="button" onclick="openAssignModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                 <i class="bi bi-person-plus"></i>
                 Assign Subscription
             </button>
-            <button type="button" onclick="confirmBulkGenerate()" class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+            <button type="button" onclick="confirmBulkGenerate()" class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                 <i class="bi bi-calendar-plus"></i>
                 Generate Dues
             </button>
         </div>
     </div>
 
-    <div id="pageAlert" class="hidden rounded-md border px-4 py-3 text-sm"></div>
+    <div id="pageAlert" class="hidden rounded-md border px-4 py-3 text-base"></div>
 
     <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-medium text-slate-500">Total Due</p>
+                    <p class="text-sm font-medium text-slate-500">Total Due</p>
                     <p id="summaryDue" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-receipt text-xl text-slate-300"></i>
@@ -46,7 +46,7 @@
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-medium text-slate-500">Collected</p>
+                    <p class="text-sm font-medium text-slate-500">Collected</p>
                     <p id="summaryPaid" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-check-circle text-xl text-slate-300"></i>
@@ -55,7 +55,7 @@
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-medium text-slate-500">Outstanding</p>
+                    <p class="text-sm font-medium text-slate-500">Outstanding</p>
                     <p id="summaryOutstanding" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-hourglass-split text-xl text-slate-300"></i>
@@ -66,21 +66,21 @@
     <div class="rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-2 border-b border-slate-200 p-4 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex flex-wrap gap-2">
-                <input id="searchInput" type="text" placeholder="Search member..." class="w-56 rounded-md border border-slate-300 px-3 py-2 text-xs outline-none focus:border-indigo-400">
-                <select id="monthFilter" class="rounded-md border border-slate-300 px-3 py-2 text-xs outline-none"></select>
-                <select id="yearFilter" class="rounded-md border border-slate-300 px-3 py-2 text-xs outline-none"></select>
-                <select id="statusFilter" class="rounded-md border border-slate-300 px-3 py-2 text-xs outline-none">
+                <input id="searchInput" type="text" placeholder="Search member..." class="w-56 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-400">
+                <select id="monthFilter" class="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none"></select>
+                <select id="yearFilter" class="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none"></select>
+                <select id="statusFilter" class="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none">
                     <option value="">All Subscriptions</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </select>
             </div>
             <div class="flex gap-2">
-                <button type="button" onclick="loadPage(1)" class="rounded-md border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                <button type="button" onclick="loadPage(1)" class="rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                     <i class="bi bi-search"></i>
                     Filter
                 </button>
-                <button type="button" onclick="loadPayments()" class="rounded-md border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                <button type="button" onclick="loadPayments()" class="rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                     <i class="bi bi-credit-card"></i>
                     Pending Payments
                 </button>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="w-full overflow-x-auto">
-            <table class="w-full min-w-[900px] text-left text-sm">
+            <table class="w-full min-w-[900px] text-left text-base">
                 <thead class="bg-slate-50 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
                         <th class="px-4 py-3">Member</th>
@@ -109,7 +109,7 @@
             </table>
         </div>
 
-        <div id="pagination" class="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-xs text-slate-500"></div>
+        <div id="pagination" class="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-sm text-slate-500"></div>
     </div>
 </div>
 
@@ -123,22 +123,22 @@
         <form id="assignForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Member</label>
-                    <select id="assignMember" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required></select>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Member</label>
+                    <select id="assignMember" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required></select>
                 </div>
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Subscription Plan</label>
-                    <select id="assignPlan" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required></select>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Subscription Plan</label>
+                    <select id="assignPlan" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required></select>
                 </div>
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Start Date</label>
-                    <input id="assignStartDate" type="date" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Start Date</label>
+                    <input id="assignStartDate" type="date" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required>
                 </div>
-                <div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
+                <div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
             </div>
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeModal('assignModal')" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
-                <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">Assign</button>
+                <button type="button" onclick="closeModal('assignModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button>
+                <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Assign</button>
             </div>
         </form>
     </div>
@@ -158,43 +158,43 @@
             <form id="planForm" class="space-y-3" novalidate data-js-validation="1">
                 <input id="planId" type="hidden">
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Plan Name</label>
-                    <input id="planName" type="text" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Plan Name</label>
+                    <input id="planName" type="text" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required>
                 </div>
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Monthly Amount</label>
-                    <input id="planAmount" type="number" min="0.01" step="0.01" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Monthly Amount</label>
+                    <input id="planAmount" type="number" min="0.01" step="0.01" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required>
                 </div>
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Due Day</label>
-                    <input id="planDueDay" type="number" min="1" max="31" value="10" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Due Day</label>
+                    <input id="planDueDay" type="number" min="1" max="31" value="10" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required>
                 </div>
-                <label class="flex items-center gap-2 text-xs text-slate-600">
+                <label class="flex items-center gap-2 text-sm text-slate-600">
                     <input id="planDefault" type="checkbox">
                     Default plan
                 </label>
-                <label class="flex items-center gap-2 text-xs text-slate-600">
+                <label class="flex items-center gap-2 text-sm text-slate-600">
                     <input id="planActive" type="checkbox" checked>
                     Active
                 </label>
                 <div>
-                    <label class="mb-1 block text-xs font-semibold text-slate-600">Description</label>
-                    <textarea id="planDescription" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"></textarea>
+                    <label class="mb-1 block text-sm font-semibold text-slate-600">Description</label>
+                    <textarea id="planDescription" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base"></textarea>
                 </div>
-                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
+                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
                 <div class="flex gap-2">
-                    <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">Save Plan</button>
-                    <button type="button" onclick="resetPlanForm()" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600">Clear</button>
+                    <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Save Plan</button>
+                    <button type="button" onclick="resetPlanForm()" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600">Clear</button>
                 </div>
             </form>
             <div class="overflow-hidden rounded-md border border-slate-200">
-                <table class="w-full text-sm">
+                <table class="w-full text-base">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-3 py-2 text-left text-xs">Plan</th>
-                            <th class="px-3 py-2 text-right text-xs">Amount</th>
-                            <th class="px-3 py-2 text-center text-xs">Due</th>
-                            <th class="px-3 py-2 text-right text-xs"></th>
+                            <th class="px-3 py-2 text-left text-sm">Plan</th>
+                            <th class="px-3 py-2 text-right text-sm">Amount</th>
+                            <th class="px-3 py-2 text-center text-sm">Due</th>
+                            <th class="px-3 py-2 text-right text-sm"></th>
                         </tr>
                     </thead>
                     <tbody id="planBody"></tbody>
@@ -215,16 +215,16 @@
             <button type="button" onclick="closeModal('paymentListModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
         <div class="max-h-[65vh] overflow-auto">
-            <table class="w-full min-w-[800px] text-sm">
+            <table class="w-full min-w-[800px] text-base">
                 <thead class="sticky top-0 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs">Payment</th>
-                        <th class="px-4 py-3 text-left text-xs">Member</th>
-                        <th class="px-4 py-3 text-left text-xs">Period</th>
-                        <th class="px-4 py-3 text-right text-xs">Amount</th>
-                        <th class="px-4 py-3 text-left text-xs">Method</th>
-                        <th class="px-4 py-3 text-left text-xs">Reference</th>
-                        <th class="px-4 py-3 text-right text-xs">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm">Payment</th>
+                        <th class="px-4 py-3 text-left text-sm">Member</th>
+                        <th class="px-4 py-3 text-left text-sm">Period</th>
+                        <th class="px-4 py-3 text-right text-sm">Amount</th>
+                        <th class="px-4 py-3 text-left text-sm">Method</th>
+                        <th class="px-4 py-3 text-left text-sm">Reference</th>
+                        <th class="px-4 py-3 text-right text-sm">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentBody"></tbody>
@@ -243,13 +243,13 @@
         <form id="rejectForm" novalidate data-js-validation="1">
             <input id="rejectPaymentId" type="hidden">
             <div class="p-5">
-                <label class="mb-1 block text-xs font-semibold text-slate-600">Reason</label>
-                <textarea id="rejectReason" rows="4" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" required></textarea>
-                <div id="rejectError" class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
+                <label class="mb-1 block text-sm font-semibold text-slate-600">Reason</label>
+                <textarea id="rejectReason" rows="4" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base" required></textarea>
+                <div id="rejectError" class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
             </div>
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeModal('rejectModal')" class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
-                <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white">Reject Payment</button>
+                <button type="button" onclick="closeModal('rejectModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button>
+                <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white">Reject Payment</button>
             </div>
         </form>
     </div>
@@ -351,7 +351,7 @@ function renderSubscriptions(items){
     if(!items.length){
         body.innerHTML=`
             <tr>
-                <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">
+                <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">
                     No subscriptions found.
                 </td>
             </tr>
@@ -371,7 +371,7 @@ function renderSubscriptions(items){
             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
                 <td class="px-4 py-3">
                     <div class="font-semibold text-slate-700">${escapeHtml(user.name??'—')}</div>
-                    <div class="text-xs text-slate-400">${escapeHtml(member.member_code??'—')}</div>
+                    <div class="text-sm text-slate-400">${escapeHtml(member.member_code??'—')}</div>
                 </td>
                 <td class="px-4 py-3 text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
                 <td class="px-4 py-3 text-right font-medium text-slate-700">${money(item.plan?.amount)}</td>
@@ -379,7 +379,7 @@ function renderSubscriptions(items){
                 <td class="px-4 py-3 text-right">${due?money(due.amount):'—'}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.paid_amount):'—'}</td>
                 <td class="px-4 py-3">
-                    ${due?dueBadge(due.status):'<span class="text-xs text-slate-400">Not Generated</span>'}
+                    ${due?dueBadge(due.status):'<span class="text-sm text-slate-400">Not Generated</span>'}
                 </td>
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-1">
@@ -496,7 +496,7 @@ function renderPlans(){
     const body=document.getElementById('planBody');
 
     if(!plans.length){
-        body.innerHTML=`<tr><td colspan="4" class="px-3 py-8 text-center text-xs text-slate-400">No plans found.</td></tr>`;
+        body.innerHTML=`<tr><td colspan="4" class="px-3 py-8 text-center text-sm text-slate-400">No plans found.</td></tr>`;
         return;
     }
 
@@ -694,7 +694,7 @@ function renderPayments(){
             <td class="px-4 py-3 font-medium text-slate-700">${escapeHtml(item.payment_no)}</td>
             <td class="px-4 py-3">
                 <div>${escapeHtml(item.member?.user?.name??'—')}</div>
-                <div class="text-xs text-slate-400">${escapeHtml(item.member?.member_code??'')}</div>
+                <div class="text-sm text-slate-400">${escapeHtml(item.member?.member_code??'')}</div>
             </td>
             <td class="px-4 py-3">${monthName(item.due?.month)} ${item.due?.year??''}</td>
             <td class="px-4 py-3 text-right font-semibold">${money(item.amount)}</td>
@@ -702,8 +702,8 @@ function renderPayments(){
             <td class="px-4 py-3 text-slate-500">${escapeHtml(item.transaction_reference??'—')}</td>
             <td class="px-4 py-3">
                 <div class="flex justify-end gap-1">
-                    <button type="button" onclick="confirmVerifyPayment(${item.id},'${escapeJs(item.payment_no)}')" class="rounded-md bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100">Verify</button>
-                    <button type="button" onclick="openRejectPayment(${item.id})" class="rounded-md bg-red-50 px-2.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-100">Reject</button>
+                    <button type="button" onclick="confirmVerifyPayment(${item.id},'${escapeJs(item.payment_no)}')" class="rounded-md bg-emerald-50 px-2.5 py-1.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Verify</button>
+                    <button type="button" onclick="openRejectPayment(${item.id})" class="rounded-md bg-red-50 px-2.5 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-100">Reject</button>
                 </div>
             </td>
         </tr>
@@ -790,8 +790,8 @@ function confirmAction(options){
 function showAlert(type,message){
     const box=document.getElementById('pageAlert');
     box.className=type==='success'
-        ?'rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'
-        :'rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600';
+        ?'rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-700'
+        :'rounded-md border border-red-200 bg-red-50 px-4 py-3 text-base text-red-600';
     box.textContent=message;
     box.classList.remove('hidden');
 }

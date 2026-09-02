@@ -31,13 +31,15 @@ return new class extends Migration
             $table->string('reference',150)->nullable();
             $table->text('description')->nullable();
 
-            $table->enum('status',[
+            $table->enum('status', [
+                'pending_approval',
+                'rejected',
                 'unpaid',
                 'partial',
                 'paid',
                 'waived',
                 'cancelled',
-            ])->default('unpaid');
+            ])->default('pending_approval');
 
             $table->foreignId('finance_transaction_id')
                 ->nullable()

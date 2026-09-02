@@ -13,12 +13,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Project Management</h1>
-                <p class="text-sm text-slate-500">Manage projects, budgets, progress and member participation.</p>
+                <p class="text-xs text-slate-500">Manage projects, budgets, progress and member participation.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Project.create'))
-            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Project
             </button>
@@ -33,17 +33,17 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs text-indigo-600">Budget</p>
+            <p class="text-sm text-indigo-600">Budget</p>
             <p id="totalBudget" class="mt-2 truncate text-lg font-bold text-indigo-700">{{ setting('currency_symbol','৳') }}0</p>
         </div>
 
         <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-xs text-amber-600">Actual Cost</p>
+            <p class="text-sm text-amber-600">Actual Cost</p>
             <p id="actualCost" class="mt-2 truncate text-lg font-bold text-amber-700">{{ setting('currency_symbol','৳') }}0</p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs text-emerald-600">Completed</p>
+            <p class="text-sm text-emerald-600">Completed</p>
             <p id="completedCount" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
 
@@ -58,7 +58,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Projects</p>
@@ -68,11 +68,11 @@
 
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-72">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search projects..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="planned">Planned</option>
                     <option value="active">Active</option>
@@ -82,11 +82,11 @@
                 </select>
 
                 <div class="relative min-w-0 lg:w-[200px]">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
-                    <input id="dateRangeFilter" type="text" placeholder="Start date range" autocomplete="off" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs font-medium text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <input id="dateRangeFilter" type="text" placeholder="Start date range" autocomplete="off" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm font-medium text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 </div>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -97,7 +97,7 @@
     {{-- Grid --}}
     <div id="projectGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">Loading projects...</div>
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">Loading projects...</div>
         </div>
     </div>
 
@@ -113,7 +113,7 @@
                     <i class="bi bi-kanban"></i>
                 </div>
                 <div>
-                    <h2 id="projectModalTitle" class="text-lg font-bold text-slate-800">Add Project</h2>
+                    <h2 id="projectModalTitle" class="text-base font-semibold text-slate-800">Add Project</h2>
                     <p class="text-xs text-slate-500">Project details, financials and progress.</p>
                 </div>
             </div>
@@ -154,7 +154,7 @@
                     <div>
                         <label class="form-label">Start Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="startDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                     <div>
                         <label class="form-label">Expected End Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="expectedEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                     <div>
                         <label class="form-label">Actual End Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="actualEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -197,12 +197,12 @@
                     <textarea id="notes" rows="3" class="app-input resize-none"></textarea>
                 </div>
 
-                <div id="projectError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="projectError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
-                <button id="saveProjectButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">Save Project</button>
+                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button id="saveProjectButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Project</button>
             </div>
         </form>
     </div>
@@ -217,8 +217,8 @@
                     <i class="bi bi-person-plus"></i>
                 </div>
                 <div class="min-w-0">
-                    <h2 class="text-lg font-bold text-slate-800">Assign Member</h2>
-                    <p id="memberProjectInfo" class="mt-1 truncate text-xs text-slate-500"></p>
+                    <h2 class="text-base font-semibold text-slate-800">Assign Member</h2>
+                    <p id="memberProjectInfo" class="mt-1 truncate text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -252,7 +252,7 @@
                     <div>
                         <label class="form-label">Joined Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="joinedDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -266,12 +266,12 @@
                     </div>
                 </div>
 
-                <div id="memberError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="memberError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
-                <button id="saveMemberButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">Assign Member</button>
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button id="saveMemberButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Assign Member</button>
             </div>
         </form>
     </div>
@@ -374,7 +374,7 @@ function projectEmptyState(){
 function projectErrorState(error){
     el.grid.innerHTML=`
         <div class="col-span-full">
-            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </div>
         </div>
@@ -454,11 +454,11 @@ function renderProjects(){
                 <div class="p-4">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0 flex-1">
-                            <p class="truncate text-xs font-bold text-indigo-600" title="${AdminUI.escapeHtml(item.project_code??'')}">
+                            <p class="truncate text-sm font-bold text-indigo-600" title="${AdminUI.escapeHtml(item.project_code??'')}">
                                 ${AdminUI.escapeHtml(item.project_code??'—')}
                             </p>
 
-                            <h3 class="mt-1 truncate text-sm font-bold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
+                            <h3 class="mt-1 truncate text-base font-bold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
                                 ${AdminUI.escapeHtml(item.name??'Untitled Project')}
                             </h3>
 
@@ -474,7 +474,7 @@ function renderProjects(){
                     </div>
 
                     ${item.description?`
-                        <p class="mt-3 line-clamp-2 break-words text-xs leading-5 text-slate-500">
+                        <p class="mt-3 line-clamp-2 break-words text-sm leading-5 text-slate-500">
                             ${AdminUI.escapeHtml(item.description)}
                         </p>
                     `:''}
@@ -493,14 +493,14 @@ function renderProjects(){
                     <div class="mt-4 grid grid-cols-2 gap-2">
                         <div class="min-w-0 rounded-md bg-slate-50 p-3">
                             <p class="text-[10px] text-slate-400">Budget</p>
-                            <p class="mt-1 truncate text-xs font-bold text-slate-700" title="${AdminUI.escapeHtml(money(item.budget))}">
+                            <p class="mt-1 truncate text-sm font-bold text-slate-700" title="${AdminUI.escapeHtml(money(item.budget))}">
                                 ${money(item.budget)}
                             </p>
                         </div>
 
                         <div class="min-w-0 rounded-md bg-amber-50 p-3">
                             <p class="text-[10px] text-amber-500">Actual Cost</p>
-                            <p class="mt-1 truncate text-xs font-bold text-amber-700" title="${AdminUI.escapeHtml(money(item.actual_cost))}">
+                            <p class="mt-1 truncate text-sm font-bold text-amber-700" title="${AdminUI.escapeHtml(money(item.actual_cost))}">
                                 ${money(item.actual_cost)}
                             </p>
                         </div>
@@ -526,19 +526,19 @@ function renderProjects(){
                 <div class="mt-auto flex justify-end gap-1 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
                     ${canUpdate&&item.status!=='cancelled'?`
                         <button type="button" onclick="openMemberModal(${item.id})" title="Assign Member" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100">
-                            <i class="bi bi-person-plus text-xs"></i>
+                            <i class="bi bi-person-plus text-sm"></i>
                         </button>
                     `:''}
 
                     ${canUpdate?`
                         <button type="button" onclick="editProject(${item.id})" title="Edit Project" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
-                            <i class="bi bi-pencil-square text-xs"></i>
+                            <i class="bi bi-pencil-square text-sm"></i>
                         </button>
                     `:''}
 
                     ${canDelete?`
                         <button type="button" onclick="deleteProject(${item.id})" title="Delete Project" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100">
-                            <i class="bi bi-trash text-xs"></i>
+                            <i class="bi bi-trash text-sm"></i>
                         </button>
                     `:''}
                 </div>

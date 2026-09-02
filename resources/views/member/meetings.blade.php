@@ -15,7 +15,7 @@
             <div>
                 <h1 class="text-base font-bold text-slate-800">Association Meetings</h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     View meeting schedules, agendas, attendance and decisions.
                 </p>
             </div>
@@ -29,17 +29,17 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs text-indigo-600">Scheduled</p>
+            <p class="text-sm text-indigo-600">Scheduled</p>
             <p id="scheduledMeetings" class="mt-2 text-xl font-bold text-indigo-700">0</p>
         </div>
 
         <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-xs text-amber-600">Ongoing</p>
+            <p class="text-sm text-amber-600">Ongoing</p>
             <p id="ongoingMeetings" class="mt-2 text-xl font-bold text-amber-700">0</p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs text-emerald-600">My Invitations</p>
+            <p class="text-sm text-emerald-600">My Invitations</p>
             <p id="myInvitations" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
     </div>
@@ -48,7 +48,7 @@
         <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -61,7 +61,7 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:w-auto xl:grid-cols-[280px_140px_140px_auto] xl:gap-0">
                 <div class="relative sm:col-span-2 xl:col-span-1">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -71,7 +71,7 @@
                 </div>
 
                 <select id="typeFilter"
-                    class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
                     <option value="">All Types</option>
                     <option value="general">General</option>
                     <option value="annual">Annual</option>
@@ -81,7 +81,7 @@
                 </select>
 
                 <select id="statusFilter"
-                    class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="scheduled">Scheduled</option>
                     <option value="ongoing">Ongoing</option>
@@ -91,7 +91,7 @@
 
                 <button type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -101,22 +101,22 @@
 
     <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[950px] text-sm">
+            <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">My Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Venue</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">My Status</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
                 <tbody id="meetingTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-center text-sm text-slate-400">
+                        <td colspan="7" class="px-4 py-10 text-center text-base text-slate-400">
                             Loading meetings...
                         </td>
                     </tr>
@@ -126,7 +126,7 @@
     </div>
 
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             Loading meetings...
         </div>
     </div>
@@ -150,7 +150,7 @@
                         Meeting Details
                     </h3>
 
-                    <p id="detailsSubtitle" class="text-xs text-slate-500"></p>
+                    <p id="detailsSubtitle" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -163,7 +163,7 @@
 
         <div class="min-h-0 flex-1 overflow-y-auto">
             <div id="detailsLoading" class="p-5">
-                <div class="py-16 text-center text-sm text-slate-400">
+                <div class="py-16 text-center text-base text-slate-400">
                     Loading meeting details...
                 </div>
             </div>
@@ -173,17 +173,17 @@
                 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-indigo-500">Date</p>
-                        <p id="detailDate" class="mt-1 text-sm font-bold text-indigo-700"></p>
+                        <p id="detailDate" class="mt-1 text-base font-bold text-indigo-700"></p>
                     </div>
 
                     <div class="rounded-md border border-sky-200 bg-sky-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-sky-500">Time</p>
-                        <p id="detailTime" class="mt-1 text-sm font-bold text-sky-700"></p>
+                        <p id="detailTime" class="mt-1 text-base font-bold text-sky-700"></p>
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-slate-400">Type</p>
-                        <p id="detailType" class="mt-1 text-sm font-bold text-slate-700"></p>
+                        <p id="detailType" class="mt-1 text-base font-bold text-slate-700"></p>
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
@@ -195,13 +195,13 @@
                 <div class="grid gap-4 lg:grid-cols-2">
                     <div class="rounded-md border border-slate-200 bg-white">
                         <div class="border-b border-slate-100 px-4 py-3">
-                            <h4 class="text-sm font-bold text-slate-700">
+                            <h4 class="text-base font-bold text-slate-700">
                                 Meeting Information
                             </h4>
                         </div>
 
                         <div id="meetingInformation"
-                            class="grid grid-cols-2 gap-4 p-4 text-xs"></div>
+                            class="grid grid-cols-2 gap-4 p-4 text-sm"></div>
 
                         <div id="descriptionBlock"
                             class="hidden border-t border-slate-100 p-4">
@@ -210,13 +210,13 @@
                             </p>
 
                             <p id="meetingDescription"
-                                class="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600"></p>
+                                class="mt-2 whitespace-pre-wrap text-base leading-6 text-slate-600"></p>
                         </div>
                     </div>
 
                     <div class="rounded-md border border-indigo-200 bg-indigo-50/20">
                         <div class="border-b border-indigo-100 px-4 py-3">
-                            <h4 class="text-sm font-bold text-indigo-700">
+                            <h4 class="text-base font-bold text-indigo-700">
                                 My Attendance
                             </h4>
                         </div>
@@ -231,7 +231,7 @@
                             <i class="bi bi-list-check"></i>
                         </div>
 
-                        <h4 class="text-sm font-bold text-slate-700">
+                        <h4 class="text-base font-bold text-slate-700">
                             Meeting Agenda
                         </h4>
                     </div>
@@ -245,7 +245,7 @@
                             <i class="bi bi-check2-square"></i>
                         </div>
 
-                        <h4 class="text-sm font-bold text-slate-700">
+                        <h4 class="text-base font-bold text-slate-700">
                             Decisions
                         </h4>
                     </div>
@@ -259,7 +259,7 @@
                             <i class="bi bi-journal-text"></i>
                         </div>
 
-                        <h4 class="text-sm font-bold text-slate-700">
+                        <h4 class="text-base font-bold text-slate-700">
                             Meeting Minutes
                         </h4>
                     </div>
@@ -348,7 +348,7 @@ function loadingState(){
         );
 
     $('meetingMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -434,7 +434,7 @@ async function loadMeetings(page=1){
             );
 
         $('meetingMobileGrid').innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${esc(message)}
             </div>
         `;
@@ -458,7 +458,7 @@ function renderMeetings(){
                     <i class="bi bi-calendar-x"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-slate-600">
+                <p class="mt-3 text-base font-semibold text-slate-600">
                     No meetings found
                 </p>
             </div>
@@ -480,19 +480,19 @@ function renderMeetings(){
                             ${esc(meeting.meeting_no)}
                         </p>
 
-                        <p class="mt-0.5 max-w-[220px] truncate text-xs text-slate-400">
+                        <p class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400">
                             ${esc(meeting.title)}
                         </p>
                     </div>
                 </div>
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-500">
+            <td class="px-4 py-3 text-base text-slate-500">
                 ${esc(formatLabel(meeting.type))}
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-sm text-slate-600">
+                <p class="text-base text-slate-600">
                     ${meeting.meeting_date
                         ?AdminUI.formatDate(meeting.meeting_date)
                         :'—'}
@@ -503,7 +503,7 @@ function renderMeetings(){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-500">
+            <td class="px-4 py-3 text-base text-slate-500">
                 ${esc(meeting.venue||'—')}
             </td>
 
@@ -541,7 +541,7 @@ function renderMeetings(){
                         </div>
 
                         <div class="min-w-0">
-                            <p class="truncate text-sm font-bold text-slate-700">
+                            <p class="truncate text-base font-bold text-slate-700">
                                 ${esc(meeting.title)}
                             </p>
 
@@ -562,7 +562,7 @@ function renderMeetings(){
                             Date
                         </p>
 
-                        <p class="mt-1 text-xs font-bold text-indigo-700">
+                        <p class="mt-1 text-sm font-bold text-indigo-700">
                             ${meeting.meeting_date
                                 ?AdminUI.formatDate(meeting.meeting_date)
                                 :'—'}
@@ -574,7 +574,7 @@ function renderMeetings(){
                             Time
                         </p>
 
-                        <p class="mt-1 truncate text-xs font-bold text-sky-700">
+                        <p class="mt-1 truncate text-sm font-bold text-sky-700">
                             ${esc(meetingTime(meeting))}
                         </p>
                     </div>
@@ -585,7 +585,7 @@ function renderMeetings(){
                         Venue
                     </p>
 
-                    <p class="mt-1 truncate text-xs font-semibold text-slate-600">
+                    <p class="mt-1 truncate text-sm font-semibold text-slate-600">
                         ${esc(meeting.venue||'—')}
                     </p>
                 </div>
@@ -593,7 +593,7 @@ function renderMeetings(){
                 <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
                     <div>
                         <p class="text-[10px] text-slate-400">Type</p>
-                        <p class="mt-1 text-xs font-semibold text-slate-600">
+                        <p class="mt-1 text-sm font-semibold text-slate-600">
                             ${esc(formatLabel(meeting.type))}
                         </p>
                     </div>
@@ -634,7 +634,7 @@ window.viewMeeting=async function(id){
     }
 
     $('detailsLoading').innerHTML=`
-        <div class="py-16 text-center text-sm text-slate-400">
+        <div class="py-16 text-center text-base text-slate-400">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
             <p class="mt-2">Loading meeting details...</p>
         </div>
@@ -664,7 +664,7 @@ window.viewMeeting=async function(id){
         $('detailsContent').classList.remove('hidden');
     }catch(error){
         $('detailsLoading').innerHTML=`
-            <div class="py-12 text-center text-sm text-red-600">
+            <div class="py-12 text-center text-base text-red-600">
                 ${esc(
                     AdminUI.extractError(error)
                 )}
@@ -772,7 +772,7 @@ function renderAttendance(attendance){
                     <i class="bi bi-person-dash"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-slate-600">
+                <p class="mt-3 text-base font-semibold text-slate-600">
                     No attendance record
                 </p>
             </div>
@@ -803,7 +803,7 @@ function renderAttendance(attendance){
                             Notes
                         </p>
 
-                        <p class="mt-1 text-xs leading-5 text-slate-600">
+                        <p class="mt-1 text-sm leading-5 text-slate-600">
                             ${esc(attendance.notes)}
                         </p>
                     </div>
@@ -832,13 +832,13 @@ function renderAgendas(items){
                 ${items.map(item=>`
                     <div class="p-4">
                         <div class="flex items-start gap-3">
-                            <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-xs font-bold text-indigo-600">
+                            <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-sm font-bold text-indigo-600">
                                 ${item.sort_order??1}
                             </div>
 
                             <div class="min-w-0 flex-1">
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <h5 class="text-sm font-semibold text-slate-700">
+                                    <h5 class="text-base font-semibold text-slate-700">
                                         ${esc(item.title)}
                                     </h5>
 
@@ -852,7 +852,7 @@ function renderAgendas(items){
                                 ${
                                     item.description
                                         ?`
-                                        <p class="mt-2 whitespace-pre-wrap text-xs leading-5 text-slate-500">
+                                        <p class="mt-2 whitespace-pre-wrap text-sm leading-5 text-slate-500">
                                             ${esc(item.description)}
                                         </p>
                                         `
@@ -912,11 +912,11 @@ function renderDecisions(items){
                         }
                     </div>
 
-                    <h5 class="mt-2 text-sm font-bold text-slate-700">
+                    <h5 class="mt-2 text-base font-bold text-slate-700">
                         ${esc(item.title)}
                     </h5>
 
-                    <p class="mt-1 whitespace-pre-wrap text-xs leading-5 text-slate-500">
+                    <p class="mt-1 whitespace-pre-wrap text-sm leading-5 text-slate-500">
                         ${esc(item.decision)}
                     </p>
 
@@ -970,7 +970,7 @@ function renderDecisions(items){
 function renderMinutes(minutes){
     if(!minutes){
         $('minutesContent').innerHTML=`
-            <div class="py-5 text-center text-sm text-slate-400">
+            <div class="py-5 text-center text-base text-slate-400">
                 Meeting minutes have not been published yet.
             </div>
         `;
@@ -979,7 +979,7 @@ function renderMinutes(minutes){
     }
 
     $('minutesContent').innerHTML=`
-        <div class="whitespace-pre-wrap text-sm leading-6 text-slate-600">
+        <div class="whitespace-pre-wrap text-base leading-6 text-slate-600">
             ${esc(minutes)}
         </div>
     `;
@@ -1001,7 +1001,7 @@ function infoItem(label,value){
 
 function emptyBlock(message){
     return`
-        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-sm text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-400">
             ${esc(message)}
         </div>
     `;

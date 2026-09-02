@@ -274,7 +274,7 @@
                                 Dreamers Association
                             </h1>
 
-                            <p class="text-emerald-100 text-xs mt-1">
+                            <p class="text-emerald-100 text-sm mt-1">
                                 Together We Dream. Together We Grow.
                             </p>
                         </div>
@@ -282,7 +282,7 @@
                 </div>
 
                 <div class="max-w-xl">
-                    <p class="text-emerald-200 uppercase tracking-[0.3em] text-xs font-semibold mb-5">
+                    <p class="text-emerald-200 uppercase tracking-[0.3em] text-sm font-semibold mb-5">
                         @yield('brand-eyebrow', 'DREAMERS ASSOCIATION')
                     </p>
 
@@ -300,7 +300,7 @@
                     </div>
                 </div>
 
-                <div class="text-xs text-emerald-100/60">© {{ date('Y') }} Dreamers Association
+                <div class="text-sm text-emerald-100/60">© {{ date('Y') }} Dreamers Association
                     <span class="mx-2">•</span> Secure Member Portal
                 </div>
             </div>
@@ -323,7 +323,7 @@
                         Dreamers Association
                     </h1>
 
-                    <p class="text-sm text-slate-500">
+                    <p class="text-xs text-slate-500">
                         Together We Dream. Together We Grow.
                     </p>
                 </div>

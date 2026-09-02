@@ -18,18 +18,18 @@ $currency=setting('currency_symbol','৳');
 </div>
 
 <div>
-<h1 class="text-lg font-bold tracking-tight text-slate-800">Loans</h1>
-<p class="mt-0.5 text-xs text-slate-500">Request and track association loans, approvals, repayment status and maturity.</p>
+<h1 class="text-base font-semibold tracking-tight text-slate-800">Loans</h1>
+<p class="mt-0.5 text-sm text-slate-500">Request and track association loans, approvals, repayment status and maturity.</p>
 </div>
 </div>
 
 <div class="flex flex-wrap items-center gap-2">
-<button type="button" onclick="loadLoans(currentPage)" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+<button type="button" onclick="loadLoans(currentPage)" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
 <i class="bi bi-arrow-clockwise"></i>
 Refresh
 </button>
 
-<button type="button" onclick="openRequestModal()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openRequestModal()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-circle"></i>
 Request Loan
 </button>
@@ -43,7 +43,7 @@ Request Loan
 </div>
 
 <div>
-<p class="text-xs font-semibold text-indigo-800">Association Loan</p>
+<p class="text-sm font-semibold text-indigo-800">Association Loan</p>
 <p class="mt-0.5 text-[11px] leading-5 text-indigo-700">
 Loan requests remain pending until reviewed and approved. After disbursement, repayments reduce the outstanding balance until the loan is fully repaid.
 </p>
@@ -117,7 +117,7 @@ Search
 </label>
 
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
 <input id="loanSearch" type="text" placeholder="Search loan no, purpose or status..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
@@ -142,7 +142,7 @@ Status
 </div>
 
 <div class="lg:col-span-2">
-<button type="button" onclick="clearLoanFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+<button type="button" onclick="clearLoanFilters()" class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 Clear
 </button>
 </div>
@@ -159,7 +159,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-sm font-semibold text-slate-800">Loan Portfolio</h2>
+<h2 class="text-base font-semibold text-slate-800">Loan Portfolio</h2>
 <p class="text-[11px] text-slate-400">Your association loan request and repayment history</p>
 </div>
 </div>
@@ -167,7 +167,7 @@ Clear
 <div id="loanList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading loans...</p>
+<p class="mt-3 text-sm text-slate-400">Loading loans...</p>
 </div>
 </div>
 
@@ -200,7 +200,7 @@ Clear
 <div id="loanDetailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
 <div class="flex shrink-0 justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
-<button type="button" onclick="closeLoanDetails()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+<button type="button" onclick="closeLoanDetails()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
 Close
 </button>
 </div>
@@ -233,7 +233,7 @@ Close
 
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
-<div id="loanRequestError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+<div id="loanRequestError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
 
 <div class="rounded-lg border border-indigo-200 bg-indigo-50/50 p-4">
 <div class="flex gap-3">
@@ -242,7 +242,7 @@ Close
 </div>
 
 <div>
-<p class="text-xs font-semibold text-indigo-800">Loan Request</p>
+<p class="text-sm font-semibold text-indigo-800">Loan Request</p>
 <p class="mt-0.5 text-[11px] leading-5 text-indigo-700">
 Requested amount may be adjusted during approval. No financial transaction is created until the approved loan is disbursed.
 </p>
@@ -254,12 +254,12 @@ Requested amount may be adjusted during approval. No financial transaction is cr
 <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
 
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">{{ $currency }}</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ $currency }}</span>
 
 <input id="amount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00">
 </div>
 
-<p data-field-error="amount" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="amount" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -267,7 +267,7 @@ Requested amount may be adjusted during approval. No financial transaction is cr
 
 <textarea id="purpose" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the purpose of this loan..."></textarea>
 
-<p data-field-error="purpose" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="purpose" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -275,18 +275,18 @@ Requested amount may be adjusted during approval. No financial transaction is cr
 
 <textarea id="notes" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Optional note"></textarea>
 
-<p data-field-error="notes" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="notes" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </div>
 
 <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
 
-<button type="button" onclick="closeRequestModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+<button type="button" onclick="closeRequestModal()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 Cancel
 </button>
 
-<button id="requestLoanButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
+<button id="requestLoanButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
 Submit Request
 </button>
 
@@ -362,7 +362,7 @@ currentPage=page;
 $('loanList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-xs text-slate-400">Loading loans...</p>
+<p class="mt-3 text-sm text-slate-400">Loading loans...</p>
 </div>`;
 
 $('pagination').innerHTML='';
@@ -403,15 +403,15 @@ $('loanList').innerHTML=`
 <i class="bi bi-exclamation-circle text-lg"></i>
 </div>
 
-<p class="mt-3 text-sm font-semibold text-red-600">
+<p class="mt-3 text-base font-semibold text-red-600">
 Failed to load loans
 </p>
 
-<p class="mt-1 text-xs text-red-400">
+<p class="mt-1 text-sm text-red-400">
 ${escapeHtml(AdminUI.extractError(error))}
 </p>
 
-<button type="button" onclick="loadLoans(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+<button type="button" onclick="loadLoans(currentPage)" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
 <i class="bi bi-arrow-clockwise"></i>
 Try Again
 </button>
@@ -465,11 +465,11 @@ root.innerHTML=`
 <i class="bi bi-bank text-xl"></i>
 </div>
 
-<p class="mt-4 text-sm font-semibold text-slate-700">
+<p class="mt-4 text-base font-semibold text-slate-700">
 No loans found
 </p>
 
-<p class="mt-1 text-xs text-slate-400">
+<p class="mt-1 text-sm text-slate-400">
 No loan records match the current filters.
 </p>
 
@@ -499,7 +499,7 @@ return`
 <div class="min-w-0">
 <div class="flex flex-wrap items-center gap-2">
 
-<p class="font-mono text-xs font-semibold text-indigo-600">
+<p class="font-mono text-sm font-semibold text-indigo-600">
 ${escapeHtml(loan.loan_no??'-')}
 </p>
 
@@ -565,7 +565,7 @@ ${loan.maturity_date?`
 <span class="text-[11px] text-slate-500">Maturity Date</span>
 </div>
 
-<span class="text-xs font-semibold text-slate-700">
+<span class="text-sm font-semibold text-slate-700">
 ${dateText(loan.maturity_date)}
 </span>
 </div>`:''}
@@ -627,7 +627,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<p class="mt-1 truncate text-xs font-bold ${tones[tone]??tones.slate}">
+<p class="mt-1 truncate text-sm font-bold ${tones[tone]??tones.slate}">
 ${escapeHtml(value)}
 </p>
 
@@ -875,7 +875,7 @@ statusTone(loan.status)
 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">
+<h3 class="text-base font-semibold text-slate-800">
 Loan Information
 </h3>
 
@@ -981,7 +981,7 @@ loan.total_repaid!==undefined
 Purpose
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(loan.purpose??'—')}
 </p>
 </div>
@@ -993,7 +993,7 @@ ${loan.notes?`
 Additional Note
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-slate-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(loan.notes)}
 </p>
 
@@ -1002,12 +1002,12 @@ ${escapeHtml(loan.notes)}
 ${loan.rejection_reason?`
 <div class="rounded-lg border border-red-200 bg-red-50 p-4">
 
-<p class="text-xs font-semibold text-red-700">
+<p class="text-sm font-semibold text-red-700">
 <i class="bi bi-x-circle mr-1"></i>
 Rejection Reason
 </p>
 
-<p class="mt-2 whitespace-pre-line text-xs leading-5 text-red-600">
+<p class="mt-2 whitespace-pre-line text-sm leading-5 text-red-600">
 ${escapeHtml(loan.rejection_reason)}
 </p>
 
@@ -1031,7 +1031,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-sm font-semibold text-slate-800">
+<h3 class="text-base font-semibold text-slate-800">
 Repayment History
 </h3>
 
@@ -1052,7 +1052,7 @@ ${repayments.map(payment=>`
 </div>
 
 <div>
-<p class="text-xs font-semibold text-slate-700">
+<p class="text-sm font-semibold text-slate-700">
 ${money(
 payment.total_amount??
 payment.amount
@@ -1103,7 +1103,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<p class="mt-2 truncate text-sm font-bold text-slate-700">
+<p class="mt-2 truncate text-base font-bold text-slate-700">
 ${escapeHtml(value)}
 </p>
 </div>
@@ -1124,7 +1124,7 @@ return`
 ${escapeHtml(label)}
 </p>
 
-<div class="mt-1 text-xs font-semibold text-slate-700">
+<div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>
 

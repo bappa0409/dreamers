@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MemberExit;
+use App\Services\ApprovalService;
 use App\Services\MemberExitService;
 use Illuminate\Http\Request;
 
 class MemberExitPortalController extends Controller
 {
     public function __construct(
-        protected MemberExitService $service
+        protected MemberExitService $service,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -96,15 +98,26 @@ class MemberExitPortalController extends Controller
         $validated['request_date']=now()
             ->toDateString();
 
+        $exit=$this->service->initiate(
+            $member,
+            $validated,
+            $request->user()->id,
+            true
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $exit,
+            'MemberExit',
+            'request',
+            $request->user()->id,
+            'Member exit process requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Resignation request submitted.',
-            'data'=>$this->service->initiate(
-                $member,
-                $validated,
-                $request->user()->id,
-                true
-            ),
+            'data'=>$exit,
+            'approval'=>$approval,
         ],201);
     }
 

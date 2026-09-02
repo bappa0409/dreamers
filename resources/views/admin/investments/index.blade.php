@@ -13,13 +13,13 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Investment Management</h1>
-                <p class="text-sm text-slate-500">Manage association investments, returns and accounting postings.</p>
+                <p class="text-xs text-slate-500">Manage association investments, returns and accounting postings.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Investment.create'))
         <button type="button" onclick="openInvestmentModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Investment
         </button>
@@ -87,7 +87,7 @@
                     </p>
                 </div>
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $stat['iconbox'] }}">
-                    <i class="bi {{ $stat['icon'] }} text-sm"></i>
+                    <i class="bi {{ $stat['icon'] }} text-base"></i>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Investments</p>
@@ -111,13 +111,13 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-[1fr_150px_auto] lg:w-auto lg:grid-cols-[300px_160px_auto] lg:gap-0">
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search investment..."
                         class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
                 <select id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="active">Active</option>
@@ -126,7 +126,7 @@
                 </select>
 
                 <button type="button" onclick="clearFilters()"
-                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -140,19 +140,19 @@
             <table class="w-full min-w-[1000px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Investment</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Payment Account</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Income</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Principal</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Investment</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Payment Account</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Income</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Principal</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="investmentTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">
                             Loading investments...
                         </td>
                     </tr>
@@ -163,7 +163,7 @@
 
     {{-- Mobile Cards --}}
     <div id="investmentMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             Loading investments...
         </div>
     </div>
@@ -181,7 +181,7 @@
                     <i class="bi bi-graph-up-arrow"></i>
                 </div>
                 <div>
-                    <h3 id="investmentModalTitle" class="text-lg font-bold text-slate-800">
+                    <h3 id="investmentModalTitle" class="text-base font-semibold text-slate-800">
                         Add Investment
                     </h3>
                     <p class="text-xs text-slate-500">
@@ -198,7 +198,7 @@
         <form id="investmentForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="investmentError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                    class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700">
                 </div>
 
                 <div class="grid gap-4 md:grid-cols-2">
@@ -210,7 +210,7 @@
                             <option value="">Select Cash/Bank</option>
                         </select>
                         <p data-field-error="paymentAccountId"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                         <p class="mt-1 text-[11px] text-slate-400">
                             Journal: Dr Investment Asset, Cr selected Cash/Bank.
                         </p>
@@ -225,7 +225,7 @@
                             <option value="pending">Pending</option>
                         </select>
                         <p data-field-error="investmentStatus"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                         <p class="mt-1 text-[11px] text-slate-400">
                             Completed status is set automatically after full principal recovery.
                         </p>
@@ -239,7 +239,7 @@
                             maxlength="150"
                             class="app-input w-full">
                         <p data-field-error="investmentTitle"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -252,7 +252,7 @@
                             step="0.01"
                             class="app-input w-full">
                         <p data-field-error="investmentAmount"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -263,7 +263,7 @@
                             step="0.01"
                             class="app-input w-full">
                         <p data-field-error="investmentExpectedReturn"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -271,7 +271,7 @@
                             Investment Date <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="investmentDate"
                                 type="text"
                                 class="app-input js-date-picker !pl-9"
@@ -279,13 +279,13 @@
                                 autocomplete="off">
                         </div>
                         <p data-field-error="investmentDate"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Maturity Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="maturityDate"
                                 type="text"
                                 class="app-input js-date-picker !pl-9"
@@ -293,7 +293,7 @@
                                 autocomplete="off">
                         </div>
                         <p data-field-error="maturityDate"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div class="md:col-span-2">
@@ -303,7 +303,7 @@
                             maxlength="5000"
                             class="app-input w-full resize-none"></textarea>
                         <p data-field-error="investmentDescription"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
             </div>
@@ -311,13 +311,13 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('investmentModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button id="saveInvestmentButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Investment
                 </button>
             </div>
@@ -336,10 +336,10 @@
                 </div>
 
                 <div>
-                    <h3 id="returnModalTitle" class="text-lg font-bold text-slate-800">
+                    <h3 id="returnModalTitle" class="text-base font-semibold text-slate-800">
                         Add Return
                     </h3>
-                    <p id="returnInvestmentInfo" class="text-xs text-slate-500"></p>
+                    <p id="returnInvestmentInfo" class="text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -356,7 +356,7 @@
 
             <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
                 <div id="returnError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+                    class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
@@ -368,7 +368,7 @@
                             <option value="principal">Principal Return</option>
                         </select>
                         <p data-field-error="returnType"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -381,7 +381,7 @@
                             <option value="cancelled">Cancelled</option>
                         </select>
                         <p data-field-error="returnStatus"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -394,7 +394,7 @@
                             step="0.01"
                             class="app-input w-full">
                         <p data-field-error="returnAmount"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -403,7 +403,7 @@
                         </label>
 
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="returnDate"
                                 type="text"
                                 class="app-input js-date-picker !pl-9"
@@ -412,7 +412,7 @@
                         </div>
 
                         <p data-field-error="returnDate"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div id="receiveAccountWrap" class="md:col-span-2">
@@ -425,7 +425,7 @@
                         </select>
 
                         <p data-field-error="receiveAccountId"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
 
                         <p class="mt-1 text-[11px] text-slate-400">
                             Income: Dr Cash/Bank, Cr Investment Income. Principal: Dr Cash/Bank, Cr Investment Asset.
@@ -439,7 +439,7 @@
                             maxlength="3000"
                             class="app-input w-full resize-none"></textarea>
                         <p data-field-error="returnDescription"
-                            class="mt-1 hidden text-xs text-red-600"></p>
+                            class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
                 </div>
             </div>
@@ -447,13 +447,13 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('returnModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button id="saveReturnButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
                     Save Return
                 </button>
             </div>
@@ -472,7 +472,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Investment Details</h3>
+                    <h3 class="text-base font-semibold text-slate-800">Investment Details</h3>
                     <p class="text-xs text-slate-500">
                         Investment, returns and accounting journals.
                     </p>
@@ -691,7 +691,7 @@ async function loadInvestments(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading investments...
@@ -755,7 +755,7 @@ async function loadInvestments(page=1){
 
         if(grid){
             grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                     ${esc(message)}
                 </div>
             `;
@@ -856,11 +856,11 @@ function renderInvestments(){
                         <i class="bi bi-inbox"></i>
                     </div>
 
-                    <p class="mt-3 text-sm font-semibold text-slate-600">
+                    <p class="mt-3 text-base font-semibold text-slate-600">
                         No investments found
                     </p>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1 text-sm text-slate-400">
                         Try changing the search or status filter.
                     </p>
                 </div>
@@ -877,7 +877,7 @@ function renderInvestments(){
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
                             <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                                <i class="bi bi-graph-up-arrow text-sm"></i>
+                                <i class="bi bi-graph-up-arrow text-base"></i>
                             </div>
 
                             <div class="min-w-0">
@@ -885,7 +885,7 @@ function renderInvestments(){
                                     ${esc(investment.investment_no)}
                                 </div>
 
-                                <div class="mt-0.5 max-w-[220px] truncate text-xs text-slate-400"
+                                <div class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400"
                                     title="${esc(investment.title)}">
                                     ${esc(investment.title)}
                                 </div>
@@ -894,7 +894,7 @@ function renderInvestments(){
                     </td>
 
                     <td class="px-4 py-3">
-                        <div class="max-w-[190px] truncate text-sm text-slate-500">
+                        <div class="max-w-[190px] truncate text-base text-slate-500">
                             ${esc(paymentAccountName(investment))}
                         </div>
                     </td>
@@ -954,7 +954,7 @@ function renderInvestments(){
                                     </div>
 
                                     <div class="min-w-0">
-                                        <p class="truncate text-sm font-bold text-slate-700">
+                                        <p class="truncate text-base font-bold text-slate-700">
                                             ${esc(investment.title)}
                                         </p>
 
@@ -977,7 +977,7 @@ function renderInvestments(){
                                         Invested
                                     </p>
 
-                                    <p class="mt-1 truncate text-sm font-bold text-slate-700">
+                                    <p class="mt-1 truncate text-base font-bold text-slate-700">
                                         ${money(investment.amount)}
                                     </p>
                                 </div>
@@ -987,7 +987,7 @@ function renderInvestments(){
                                         Income
                                     </p>
 
-                                    <p class="mt-1 truncate text-sm font-bold text-emerald-700">
+                                    <p class="mt-1 truncate text-base font-bold text-emerald-700">
                                         ${money(investment.paid_return_total)}
                                     </p>
                                 </div>
@@ -1020,7 +1020,7 @@ function renderInvestments(){
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-xs">
+                            <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-sm">
                                 <div>
                                     <p class="text-[10px] text-slate-400">
                                         Investment Date
@@ -1671,7 +1671,7 @@ function journalHtml(
     return`
         <div class="mt-4 overflow-hidden rounded-md border border-slate-200 bg-white">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2">
-                <span class="text-xs font-semibold text-slate-600">
+                <span class="text-sm font-semibold text-slate-600">
                     ${esc(title)}
                 </span>
 
@@ -1681,7 +1681,7 @@ function journalHtml(
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[600px] text-xs">
+                <table class="w-full min-w-[600px] text-sm">
                     <thead>
                         <tr class="border-b border-slate-100">
                             <th class="px-3 py-2 text-left text-slate-500">
@@ -1753,7 +1753,7 @@ window.viewInvestment=async function(id){
                     <p class="text-[11px] text-slate-400">
                         Investment No
                     </p>
-                    <p class="mt-1 truncate text-sm font-bold text-slate-700">
+                    <p class="mt-1 truncate text-base font-bold text-slate-700">
                         ${esc(investment.investment_no)}
                     </p>
                 </div>
@@ -1762,7 +1762,7 @@ window.viewInvestment=async function(id){
                     <p class="text-[11px] text-slate-400">
                         Amount
                     </p>
-                    <p class="mt-1 truncate text-sm font-bold text-slate-700">
+                    <p class="mt-1 truncate text-base font-bold text-slate-700">
                         ${money(investment.amount)}
                     </p>
                 </div>
@@ -1771,7 +1771,7 @@ window.viewInvestment=async function(id){
                     <p class="text-[11px] text-emerald-600">
                         Income
                     </p>
-                    <p class="mt-1 truncate text-sm font-bold text-emerald-700">
+                    <p class="mt-1 truncate text-base font-bold text-emerald-700">
                         ${money(investment.paid_return_total)}
                     </p>
                 </div>
@@ -1780,7 +1780,7 @@ window.viewInvestment=async function(id){
                     <p class="text-[11px] text-sky-600">
                         Principal Returned
                     </p>
-                    <p class="mt-1 truncate text-sm font-bold text-sky-700">
+                    <p class="mt-1 truncate text-base font-bold text-sky-700">
                         ${money(investment.principal_return_total)}
                     </p>
                 </div>
@@ -1789,11 +1789,11 @@ window.viewInvestment=async function(id){
             <div class="mt-4 rounded-md border border-slate-200 bg-white p-4">
                 <div class="mb-4">
                     <div class="mb-1.5 flex items-center justify-between">
-                        <span class="text-xs font-semibold text-slate-500">
+                        <span class="text-sm font-semibold text-slate-500">
                             Principal Recovery
                         </span>
 
-                        <span class="text-xs font-bold text-indigo-600">
+                        <span class="text-sm font-bold text-indigo-600">
                             ${progress.toFixed(0)}%
                         </span>
                     </div>
@@ -1804,7 +1804,7 @@ window.viewInvestment=async function(id){
                     </div>
                 </div>
 
-                <div class="grid gap-3 text-sm md:grid-cols-2">
+                <div class="grid gap-3 text-base md:grid-cols-2">
                     <div>
                         <span class="text-slate-400">Title:</span>
                         <span class="font-medium text-slate-700">
@@ -1868,7 +1868,7 @@ window.viewInvestment=async function(id){
 
             <div class="mt-5 overflow-hidden rounded-md border border-slate-200">
                 <div class="border-b border-slate-200 bg-slate-50 px-4 py-3">
-                    <h4 class="text-sm font-bold text-slate-700">
+                    <h4 class="text-base font-bold text-slate-700">
                         Returns
                     </h4>
 
@@ -1878,15 +1878,15 @@ window.viewInvestment=async function(id){
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[760px] text-sm">
+                    <table class="w-full min-w-[760px] text-base">
                         <thead>
                             <tr class="border-b border-slate-100">
-                                <th class="px-3 py-2 text-left text-xs text-slate-500">Date</th>
-                                <th class="px-3 py-2 text-left text-xs text-slate-500">Type</th>
-                                <th class="px-3 py-2 text-right text-xs text-slate-500">Amount</th>
-                                <th class="px-3 py-2 text-left text-xs text-slate-500">Account</th>
-                                <th class="px-3 py-2 text-left text-xs text-slate-500">Status</th>
-                                <th class="px-3 py-2 text-right text-xs text-slate-500">Actions</th>
+                                <th class="px-3 py-2 text-left text-sm text-slate-500">Date</th>
+                                <th class="px-3 py-2 text-left text-sm text-slate-500">Type</th>
+                                <th class="px-3 py-2 text-right text-sm text-slate-500">Amount</th>
+                                <th class="px-3 py-2 text-left text-sm text-slate-500">Account</th>
+                                <th class="px-3 py-2 text-left text-sm text-slate-500">Status</th>
+                                <th class="px-3 py-2 text-right text-sm text-slate-500">Actions</th>
                             </tr>
                         </thead>
 
@@ -1930,13 +1930,13 @@ window.viewInvestment=async function(id){
                                                         ?`
                                                             <button type="button"
                                                                 onclick="editReturnFromDetails(${item.id},${investment.id})"
-                                                                class="mr-1 rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">
+                                                                class="mr-1 rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-700 hover:bg-indigo-100">
                                                                 Edit
                                                             </button>
 
                                                             <button type="button"
                                                                 onclick="deleteReturn(${item.id},${investment.id})"
-                                                                class="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs font-semibold text-red-700 hover:bg-red-100">
+                                                                class="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-sm font-semibold text-red-700 hover:bg-red-100">
                                                                 Delete
                                                             </button>
                                                         `

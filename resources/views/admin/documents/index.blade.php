@@ -21,7 +21,7 @@
                     Document Management
                 </h1>
 
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     Upload, organize and securely share association documents.
                 </p>
             </div>
@@ -31,7 +31,7 @@
             <button
                 type="button"
                 onclick="openDocumentModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-cloud-arrow-up"></i>
                 Upload Document
@@ -48,7 +48,7 @@
 
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -65,7 +65,7 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
 
                 <div class="relative w-full sm:min-w-[230px] lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -77,14 +77,14 @@
 
                 <select
                     id="categoryFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[170px] lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[170px] lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Categories</option>
                 </select>
 
                 <select
                     id="extensionFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[130px] lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[130px] lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Types</option>
                 </select>
@@ -92,7 +92,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -112,7 +112,7 @@
         class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3"
     >
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
                 Loading documents...
             </div>
         </div>
@@ -150,14 +150,14 @@ DOCUMENT MODAL
                 <div class="min-w-0">
                     <h2
                         id="documentModalTitle"
-                        class="text-lg font-bold text-slate-800"
+                        class="text-base font-semibold text-slate-800"
                     >
                         Upload Document
                     </h2>
 
                     <p
                         id="documentModalDescription"
-                        class="text-xs text-slate-500"
+                        class="text-sm text-slate-500"
                     >
                         Upload a new association document.
                     </p>
@@ -274,7 +274,7 @@ DOCUMENT MODAL
 
                         <span
                             id="selectedFileName"
-                            class="mt-2 max-w-full truncate text-xs font-semibold text-slate-600"
+                            class="mt-2 max-w-full truncate text-sm font-semibold text-slate-600"
                         >
                             Choose a file
                         </span>
@@ -307,7 +307,7 @@ DOCUMENT MODAL
                     >
 
                     <div>
-                        <p class="text-xs font-semibold text-slate-700">
+                        <p class="text-sm font-semibold text-slate-700">
                             Active Document
                         </p>
 
@@ -322,7 +322,7 @@ DOCUMENT MODAL
                 {{-- Error --}}
                 <div
                     id="formError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
                 ></div>
 
             </div>
@@ -334,7 +334,7 @@ DOCUMENT MODAL
                 <button
                     type="button"
                     onclick="closeDocumentModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -342,7 +342,7 @@ DOCUMENT MODAL
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     Upload Document
                 </button>
@@ -449,7 +449,7 @@ function documentEmptyState(){
 function documentErrorState(error){
     elements.grid.innerHTML=`
         <div class="col-span-full">
-            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -628,7 +628,7 @@ function renderDocuments(){
                     <div class="min-w-0 flex-1">
 
                         <h3
-                            class="truncate text-sm font-bold text-slate-800"
+                            class="truncate text-base font-bold text-slate-800"
                             title="${AdminUI.escapeHtml(item.title??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -710,14 +710,14 @@ function renderDocuments(){
                     ${
                         item.description
                             ?`
-                                <p class="mt-3 line-clamp-2 break-words text-xs leading-5 text-slate-500">
+                                <p class="mt-3 line-clamp-2 break-words text-sm leading-5 text-slate-500">
                                     ${AdminUI.escapeHtml(
                                         item.description
                                     )}
                                 </p>
                             `
                             :`
-                                <p class="mt-3 text-xs italic text-slate-300">
+                                <p class="mt-3 text-sm italic text-slate-300">
                                     No description
                                 </p>
                             `
@@ -748,7 +748,7 @@ function renderDocuments(){
                             title="Download"
                             class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
                         >
-                            <i class="bi bi-download text-xs"></i>
+                            <i class="bi bi-download text-sm"></i>
                         </button>
 
 
@@ -761,7 +761,7 @@ function renderDocuments(){
                                         title="Edit"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                     >
-                                        <i class="bi bi-pencil-square text-xs"></i>
+                                        <i class="bi bi-pencil-square text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -777,7 +777,7 @@ function renderDocuments(){
                                         title="Delete"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                     >
-                                        <i class="bi bi-trash text-xs"></i>
+                                        <i class="bi bi-trash text-sm"></i>
                                     </button>
                                 `
                                 :''

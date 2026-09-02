@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Income;
 use App\Models\Member;
+use App\Services\ApprovalService;
 use App\Services\IncomeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IncomeController extends Controller
 {
     public function __construct(
-        protected IncomeService $incomeService
+        protected IncomeService $incomeService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -95,14 +98,26 @@ class IncomeController extends Controller
             'description'=>'nullable|string|max:2000',
         ]);
 
-        $income=$this->incomeService->create(
-            $validated,
-            $request->user()->id
-        );
+        $income=DB::transaction(function()use($validated,$request){
+            $income=$this->incomeService->create(
+                $validated,
+                $request->user()->id
+            );
+
+            $this->approvalService->createRequest(
+                $income,
+                'Income',
+                'create',
+                $request->user()->id,
+                'New income requires approval before posting.'
+            );
+
+            return $income;
+        });
 
         return response()->json([
             'success'=>true,
-            'message'=>'Income recorded and posted successfully.',
+            'message'=>'Income recorded and sent for approval.',
             'data'=>$income,
         ],201);
     }

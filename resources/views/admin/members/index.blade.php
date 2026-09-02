@@ -12,12 +12,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold tracking-tight text-slate-800">Membership Management</h1>
-                <p class="text-sm text-slate-500">Manage association members, status, assigned roles and share holdings.</p>
+                <p class="text-xs text-slate-500">Manage association members, status, assigned roles and share holdings.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Member.create'))
-            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-person-plus"></i>
                 Add Member
             </button>
@@ -40,7 +40,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-emerald-700">Active</p>
+                    <p class="text-sm text-emerald-700">Active</p>
                     <p id="activeMembers" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -52,7 +52,7 @@
         <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-amber-700">Pending</p>
+                    <p class="text-sm text-amber-700">Pending</p>
                     <p id="pendingMembers" class="mt-2 text-2xl font-bold text-amber-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
@@ -64,7 +64,7 @@
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-red-700">Suspended</p>
+                    <p class="text-sm text-red-700">Suspended</p>
                     <p id="suspendedMembers" class="mt-2 text-2xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
@@ -90,7 +90,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Members</p>
@@ -100,11 +100,11 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Status</option>
                     <option value="active">Active</option>
                     <option value="pending">Pending</option>
@@ -113,7 +113,7 @@
                     <option value="rejected">Rejected</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -126,13 +126,13 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[22%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Phone</th>
-                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Roles</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Joining</th>
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="w-[12%] px-3 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[22%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Code</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Phone</th>
+                        <th class="w-[17%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Roles</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Joining</th>
+                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[12%] px-3 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -157,7 +157,7 @@
                     <i class="bi bi-person-plus"></i>
                 </div>
                 <div>
-                    <h2 id="modalTitle" class="text-lg font-bold text-slate-800">Add Member</h2>
+                    <h2 id="modalTitle" class="text-base font-semibold text-slate-800">Add Member</h2>
                     <p id="modalDescription" class="text-sm text-slate-500">Create member profile and login account.</p>
                 </div>
             </div>
@@ -175,7 +175,7 @@
                             <i class="bi bi-person"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Account Information</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Account Information</h3>
                             <p class="text-[11px] text-slate-400">Login account for this association member.</p>
                         </div>
                     </div>
@@ -186,9 +186,9 @@
                         </div>
 
                         <div class="min-w-0">
-                            <p class="mb-2 text-xs font-semibold text-slate-700">Profile Photo</p>
+                            <p class="mb-2 text-sm font-semibold text-slate-700">Profile Photo</p>
 
-                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                                 <i class="bi bi-camera"></i>
                                 <span id="memberImageButtonText">Choose Photo</span>
                             </label>
@@ -234,7 +234,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Member Information</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Member Information</h3>
                             <p class="text-[11px] text-slate-400">Additional association membership details.</p>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                         <div>
                             <label class="form-label">Date of Birth</label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                                 <input id="date_of_birth" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                             </div>
@@ -295,21 +295,21 @@
                     <div class="flex gap-3">
                         <i class="bi bi-shield-check text-amber-600"></i>
                         <div>
-                            <p class="text-sm font-semibold text-amber-800">Approval Required</p>
-                            <p class="mt-1 text-xs text-amber-700">Member will remain inactive until approval.</p>
+                            <p class="text-base font-semibold text-amber-800">Approval Required</p>
+                            <p class="mt-1 text-sm text-amber-700">Member will remain inactive until approval.</p>
                         </div>
                     </div>
                 </div>
 
-                <div id="formError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
+                <div id="formError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
-                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Create Member
                 </button>
             </div>
@@ -328,7 +328,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Member Shares</h2>
+                    <h2 class="text-base font-semibold text-slate-800">Member Shares</h2>
                     <p id="shareMemberInfo" class="text-sm text-slate-500">View and manage share holdings.</p>
                 </div>
             </div>
@@ -356,7 +356,7 @@
                 <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs text-emerald-700">Active Shares</p>
+                            <p class="text-sm text-emerald-700">Active Shares</p>
                             <p id="shareActive" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
                         </div>
 
@@ -369,7 +369,7 @@
                 <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs text-indigo-700">Active Share Value</p>
+                            <p class="text-sm text-indigo-700">Active Share Value</p>
                             <p id="shareValue" class="mt-2 text-xl font-bold text-indigo-600">৳0.00</p>
                         </div>
 
@@ -389,12 +389,12 @@
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold text-slate-800">Purchase Additional Share</h3>
+                                <h3 class="text-base font-semibold text-slate-800">Purchase Additional Share</h3>
                                 <p class="text-[11px] text-slate-400">Issue another share to this existing member.</p>
                             </div>
                         </div>
 
-                        <button type="button" onclick="toggleSharePurchaseForm()" class="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                        <button type="button" onclick="toggleSharePurchaseForm()" class="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
                             <i class="bi bi-plus-lg"></i>
                             Add Share
                         </button>
@@ -406,7 +406,7 @@
                                 <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
 
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
 
                                     <input id="share_purchase_amount" type="number" step="0.01" min="0.01" value="{{ setting('default_share_value',50000) }}" class="app-input !pl-8" placeholder="0.00">
                                 </div>
@@ -432,14 +432,14 @@
                             </div>
                         </div>
 
-                        <div id="shareFormError" class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
+                        <div id="shareFormError" class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
 
                         <div class="mt-4 flex justify-end gap-2">
-                            <button type="button" onclick="cancelSharePurchase()" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                            <button type="button" onclick="cancelSharePurchase()" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                                 Cancel
                             </button>
 
-                            <button id="saveShareButton" type="submit" class="h-9 cursor-pointer rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                            <button id="saveShareButton" type="submit" class="h-9 cursor-pointer rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                                 Purchase Share
                             </button>
                         </div>
@@ -460,15 +460,15 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[720px] text-sm">
+                    <table class="w-full min-w-[720px] text-base">
                         <thead class="border-b border-slate-200 bg-white">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Share No.</th>
-                                <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Value</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Acquired</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Created By</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Notes</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Share No.</th>
+                                <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Value</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Acquired</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Created By</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Notes</th>
                             </tr>
                         </thead>
 
@@ -483,7 +483,7 @@
         </div>
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -660,7 +660,7 @@ function renderMembers(){
                                             alt="${AdminUI.escapeHtml(user.name??'Member')}">
                                     `
                                     :`
-                                        <span class="text-xs font-bold text-slate-400">
+                                        <span class="text-sm font-bold text-slate-400">
                                             ${AdminUI.escapeHtml(initial)}
                                         </span>
                                     `
@@ -668,7 +668,7 @@ function renderMembers(){
                         </div>
 
                         <div class="min-w-0">
-                            <p class="truncate text-xs font-semibold text-slate-800">
+                            <p class="truncate text-sm font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(user.name??'N/A')}
                             </p>
 
@@ -680,13 +680,13 @@ function renderMembers(){
                 </td>
 
                 <td class="px-3 py-3">
-                    <p class="truncate font-mono text-xs font-semibold text-indigo-600">
+                    <p class="truncate font-mono text-sm font-semibold text-indigo-600">
                         ${AdminUI.escapeHtml(member.member_code??'N/A')}
                     </p>
                 </td>
 
                 <td class="px-3 py-3">
-                    <p class="truncate text-xs text-slate-600">
+                    <p class="truncate text-sm text-slate-600">
                         ${AdminUI.escapeHtml(
                             member.phone||
                             user.mobile||
@@ -706,11 +706,11 @@ function renderMembers(){
                                     )}
                                 </span>
                             `).join('')
-                            :'<span class="text-xs text-slate-400">No roles</span>'
+                            :'<span class="text-sm text-slate-400">No roles</span>'
                     }
                 </td>
 
-                <td class="px-3 py-3 text-xs text-slate-600">
+                <td class="px-3 py-3 text-sm text-slate-600">
                     ${AdminUI.formatDate(member.joining_date)}
                 </td>
 
@@ -728,7 +728,7 @@ function renderMembers(){
                                         onclick="openShareModal(${member.id})"
                                         class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
                                         title="Shares">
-                                        <i class="bi bi-layers text-xs"></i>
+                                        <i class="bi bi-layers text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -742,7 +742,7 @@ function renderMembers(){
                                         onclick="editMember(${member.id})"
                                         class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                         title="Edit">
-                                        <i class="bi bi-pencil-square text-xs"></i>
+                                        <i class="bi bi-pencil-square text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -756,7 +756,7 @@ function renderMembers(){
                                         onclick="deleteMember(${member.id})"
                                         class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                         title="Delete">
-                                        <i class="bi bi-trash text-xs"></i>
+                                        <i class="bi bi-trash text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -1429,20 +1429,20 @@ function renderShareHistory(){
             share=>`
                 <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                     <td class="px-4 py-3">
-                        <span class="font-mono text-xs font-semibold text-indigo-600">
+                        <span class="font-mono text-sm font-semibold text-indigo-600">
                             ${AdminUI.escapeHtml(
                                 share.share_no??'—'
                             )}
                         </span>
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+                    <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                         ${money(
                             share.purchase_amount
                         )}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3 text-sm text-slate-600">
                         ${
                             share.acquired_date
                                 ?AdminUI.formatDate(
@@ -1459,7 +1459,7 @@ function renderShareHistory(){
                     </td>
 
                     <td class="px-4 py-3">
-                        <p class="text-xs font-medium text-slate-600">
+                        <p class="text-sm font-medium text-slate-600">
                             ${AdminUI.escapeHtml(
                                 share.creator?.name??
                                 'System'
@@ -1469,7 +1469,7 @@ function renderShareHistory(){
 
                     <td class="max-w-[200px] px-4 py-3">
                         <p
-                            class="truncate text-xs text-slate-500"
+                            class="truncate text-sm text-slate-500"
                             title="${AdminUI.escapeHtml(
                                 share.notes??''
                             )}">

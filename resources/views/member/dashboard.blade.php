@@ -29,11 +29,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     Member Dashboard
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     Welcome back,
                     <span class="font-semibold text-slate-700">
                         {{ $member->user?->name??'Member' }}
@@ -43,7 +43,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <span class="inline-flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 font-mono text-xs font-semibold text-emerald-700">
+            <span class="inline-flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 font-mono text-sm font-semibold text-emerald-700">
                 <i class="bi bi-person-badge"></i>
                 {{ $member->member_code }}
             </span>
@@ -193,7 +193,7 @@
                     </div>
 
                     <div>
-                        <h2 class="text-sm font-semibold text-slate-800">
+                        <h2 class="text-base font-semibold text-slate-800">
                             Current Month Subscription
                         </h2>
 
@@ -215,7 +215,7 @@
                 <div class="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                     <div class="flex items-center justify-between gap-3">
                         <div>
-                            <p class="text-xs font-semibold text-slate-700">
+                            <p class="text-sm font-semibold text-slate-700">
                                 Payment Progress
                             </p>
 
@@ -277,7 +277,7 @@
                             <i class="bi bi-info-circle mt-0.5 text-amber-600"></i>
 
                             <div>
-                                <p class="text-xs font-semibold text-amber-800">
+                                <p class="text-sm font-semibold text-amber-800">
                                     Payment is still due
                                 </p>
 
@@ -298,7 +298,7 @@
                         </div>
 
                         <div>
-                            <p class="text-xs font-semibold text-emerald-800">
+                            <p class="text-sm font-semibold text-emerald-800">
                                 Current month payment completed
                             </p>
 
@@ -322,7 +322,7 @@
                         </div>
 
                         <div>
-                            <h2 class="text-sm font-semibold text-slate-800">
+                            <h2 class="text-base font-semibold text-slate-800">
                                 My Shares
                             </h2>
 
@@ -362,11 +362,11 @@
 
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-xs text-slate-500">
+                            <span class="text-sm text-slate-500">
                                 Active Share Value
                             </span>
 
-                            <span class="text-sm font-bold text-slate-800">
+                            <span class="text-base font-bold text-slate-800">
                                 ৳{{ number_format($summary['active_share_value']??0,2) }}
                             </span>
                         </div>
@@ -374,17 +374,17 @@
 
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-xs text-slate-500">
+                            <span class="text-sm text-slate-500">
                                 Monthly Payable
                             </span>
 
-                            <span class="text-sm font-bold text-indigo-600">
+                            <span class="text-base font-bold text-indigo-600">
                                 ৳{{ number_format($summary['monthly_payable']??0,2) }}
                             </span>
                         </div>
                     </div>
 
-                    <a href="{{ route('member.shares') }}" class="flex h-9 w-full items-center justify-center gap-2 rounded-md bg-indigo-600 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                    <a href="{{ route('member.shares') }}" class="flex h-9 w-full items-center justify-center gap-2 rounded-md bg-indigo-600 text-sm font-semibold text-white transition hover:bg-indigo-700">
                         <i class="bi bi-plus-circle"></i>
                         Manage Shares
                     </a>
@@ -404,7 +404,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-sm font-semibold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Association Finance
                     </h2>
 
@@ -469,7 +469,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-sm font-semibold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Quick Access
                     </h2>
 
@@ -485,7 +485,7 @@
                         <i class="bi bi-person"></i>
                     </div>
 
-                    <span class="text-xs font-semibold text-slate-600">
+                    <span class="text-sm font-semibold text-slate-600">
                         My Profile
                     </span>
                 </a>
@@ -495,7 +495,7 @@
                         <i class="bi bi-credit-card"></i>
                     </div>
 
-                    <span class="text-xs font-semibold text-slate-600">
+                    <span class="text-sm font-semibold text-slate-600">
                         Subscription
                     </span>
                 </a>
@@ -506,7 +506,7 @@
                             <i class="bi bi-layers"></i>
                         </div>
 
-                        <span class="text-xs font-semibold text-slate-600">
+                        <span class="text-sm font-semibold text-slate-600">
                             My Shares
                         </span>
                     </a>
@@ -517,7 +517,7 @@
                         <i class="bi bi-bar-chart"></i>
                     </div>
 
-                    <span class="text-xs font-semibold text-slate-600">
+                    <span class="text-sm font-semibold text-slate-600">
                         Polls
                     </span>
                 </a>
@@ -527,7 +527,7 @@
                         <i class="bi bi-megaphone"></i>
                     </div>
 
-                    <span class="text-xs font-semibold text-slate-600">
+                    <span class="text-sm font-semibold text-slate-600">
                         Notices
                     </span>
                 </a>

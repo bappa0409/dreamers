@@ -38,11 +38,13 @@ return new class extends Migration
             $table->decimal('accumulated_depreciation', 15, 2)->default(0);
 
             $table->enum('status', [
+                'pending_approval',
+                'rejected',
                 'active',
                 'sold',
                 'disposed',
                 'cancelled',
-            ])->default('active');
+            ])->default('pending_approval');
 
             $table->date('disposal_date')->nullable();
             $table->decimal('disposal_amount', 15, 2)->nullable();

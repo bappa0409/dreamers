@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Income</h1>
-                <p class="text-sm text-slate-500">Record and manage association income transactions.</p>
+                <p class="text-xs text-slate-500">Record and manage association income transactions.</p>
             </div>
         </div>
 
@@ -20,7 +20,7 @@
         <button
             type="button"
             onclick="openIncomeModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Income
         </button>
@@ -49,7 +49,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -62,7 +62,7 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_240px_120px_auto] lg:gap-0">
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -72,20 +72,22 @@
                 </div>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
+                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
+                    <option value="pending_approval">Pending Approval</option>
+                    <option value="rejected">Rejected</option>
                     <option value="posted">Posted</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
@@ -93,7 +95,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -102,17 +104,17 @@
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="w-full overflow-x-auto">
-            <table class="w-full min-w-[950px] text-sm">
+            <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Income No</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Income Account</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Receive Account</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Income No</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Income Account</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Receive Account</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -140,8 +142,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Add Income</h2>
-                    <p class="text-sm text-slate-500">
+                    <h2 class="text-base font-semibold text-slate-800">Add Income</h2>
+                    <p class="text-xs text-slate-500">
                         Record income and automatically post journal entries.
                     </p>
                 </div>
@@ -164,7 +166,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Income Information</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Income Information</h3>
                             <p class="text-[11px] text-slate-400">Enter income transaction details.</p>
                         </div>
                     </div>
@@ -177,7 +179,7 @@
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                                 <input
                                     id="incomeDate"
@@ -262,7 +264,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Automatic Journal</h3>
+                            <h3 class="text-base font-semibold text-slate-800">Automatic Journal</h3>
                             <p class="text-[11px] text-slate-400">
                                 This journal will be posted automatically.
                             </p>
@@ -275,7 +277,7 @@
                                 Debit
                             </p>
 
-                            <p id="journalDebit" class="mt-1 text-sm font-semibold text-slate-700">
+                            <p id="journalDebit" class="mt-1 text-base font-semibold text-slate-700">
                                 Receive Account
                             </p>
                         </div>
@@ -285,7 +287,7 @@
                                 Credit
                             </p>
 
-                            <p id="journalCredit" class="mt-1 text-sm font-semibold text-slate-700">
+                            <p id="journalCredit" class="mt-1 text-base font-semibold text-slate-700">
                                 Income Account
                             </p>
                         </div>
@@ -294,7 +296,7 @@
 
                 <div
                     id="formError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 </div>
             </div>
 
@@ -302,14 +304,14 @@
                 <button
                     type="button"
                     onclick="closeIncomeModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Income
                 </button>
             </div>
@@ -327,8 +329,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Income Details</h2>
-                    <p class="text-sm text-slate-500">
+                    <h2 class="text-base font-semibold text-slate-800">Income Details</h2>
+                    <p class="text-xs text-slate-500">
                         View income transaction and journal information.
                     </p>
                 </div>
@@ -348,7 +350,7 @@
             <button
                 type="button"
                 onclick="closeIncomeDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -541,22 +543,22 @@ function renderIncomeTable(){
 
     el.table.innerHTML=incomes.map(item=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
-            <td class="px-4 py-3 font-mono text-xs font-semibold text-indigo-600">
+            <td class="px-4 py-3 font-mono text-sm font-semibold text-indigo-600">
                 ${AdminUI.escapeHtml(item.income_no)}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3 text-sm text-slate-600">
                 ${AdminUI.formatDate(item.income_date)}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3 text-sm text-slate-600">
                 ${AdminUI.escapeHtml(
                     item.member?.user?.name??'—'
                 )}
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-xs font-medium text-slate-700">
+                <p class="text-sm font-medium text-slate-700">
                     ${AdminUI.escapeHtml(
                         item.income_account?.name??'—'
                     )}
@@ -570,7 +572,7 @@ function renderIncomeTable(){
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-xs font-medium text-slate-700">
+                <p class="text-sm font-medium text-slate-700">
                     ${AdminUI.escapeHtml(
                         item.receive_account?.name??'—'
                     )}
@@ -583,7 +585,7 @@ function renderIncomeTable(){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right text-xs font-bold text-slate-800">
+            <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
                 ${money(item.amount)}
             </td>
 
@@ -598,7 +600,7 @@ function renderIncomeTable(){
                         onclick="viewIncome(${item.id})"
                         class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
                         title="View">
-                        <i class="bi bi-eye text-xs"></i>
+                        <i class="bi bi-eye text-sm"></i>
                     </button>
 
                     ${
@@ -609,7 +611,7 @@ function renderIncomeTable(){
                                     onclick="cancelIncome(${item.id})"
                                     class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100"
                                     title="Cancel">
-                                    <i class="bi bi-x-circle text-xs"></i>
+                                    <i class="bi bi-x-circle text-sm"></i>
                                 </button>
                             `
                             :''
@@ -967,16 +969,16 @@ window.viewIncome=async function(id){
             <div class="mt-5">
                 <div class="mb-2 flex items-center gap-2">
                     <div class="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <i class="bi bi-journal-text text-xs"></i>
+                        <i class="bi bi-journal-text text-sm"></i>
                     </div>
 
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         Journal Entry
                     </p>
                 </div>
 
                 <div class="overflow-x-auto rounded-md border border-slate-200">
-                    <table class="w-full min-w-[500px] text-xs">
+                    <table class="w-full min-w-[500px] text-sm">
                         <thead class="bg-slate-50">
                             <tr>
                                 <th class="px-3 py-2 text-left font-semibold text-slate-500">
@@ -1046,7 +1048,7 @@ window.viewIncome=async function(id){
                                 Description
                             </p>
 
-                            <p class="text-xs leading-5 text-slate-600">
+                            <p class="text-sm leading-5 text-slate-600">
                                 ${AdminUI.escapeHtml(
                                     item.description
                                 )}
@@ -1058,7 +1060,7 @@ window.viewIncome=async function(id){
         `;
     }catch(error){
         body.innerHTML=`
-            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -1134,7 +1136,7 @@ function detail(label,value){
                 ${AdminUI.escapeHtml(label)}
             </p>
 
-            <p class="mt-1 break-words text-sm font-medium text-slate-700">
+            <p class="mt-1 break-words text-base font-medium text-slate-700">
                 ${AdminUI.escapeHtml(
                     value??'—'
                 )}

@@ -11,16 +11,16 @@
                 <i class="bi bi-person-vcard"></i>
             </div>
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">My Profile</h1>
-                <p class="mt-0.5 text-xs text-slate-500">View and update your personal and membership information.</p>
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">My Profile</h1>
+                <p class="mt-0.5 text-sm text-slate-500">View and update your personal and membership information.</p>
             </div>
         </div>
         <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="loadMemberProfile()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+            <button type="button" onclick="loadMemberProfile()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                 <i class="bi bi-arrow-clockwise"></i>
                 Refresh
             </button>
-            <button type="button" onclick="openEditProfile()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-3 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openEditProfile()" class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-pencil-square"></i>
                 Edit Profile
             </button>
@@ -29,7 +29,7 @@
 
     <div id="profileLoading" class="rounded-md border border-slate-200 bg-white p-10 text-center">
         <div class="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-        <p class="mt-3 text-xs text-slate-500">Loading profile...</p>
+        <p class="mt-3 text-sm text-slate-500">Loading profile...</p>
     </div>
 
     <div id="profileContent" class="hidden space-y-5">
@@ -42,14 +42,14 @@
                         </div>
                         <div class="min-w-0">
                             <h2 id="profileName" class="truncate text-lg font-bold text-slate-800">-</h2>
-                            <p id="profileEmail" class="mt-0.5 truncate text-xs text-slate-500">-</p>
+                            <p id="profileEmail" class="mt-0.5 truncate text-sm text-slate-500">-</p>
                             <div class="mt-2 flex flex-wrap items-center gap-2">
                                 <span id="profileMemberCode" class="rounded-md bg-indigo-50 px-2 py-1 font-mono text-[10px] font-semibold text-indigo-600">-</span>
                                 <span id="profileStatus" class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">Active</span>
                             </div>
                         </div>
                     </div>
-                    <a href="{{ route('member.subscriptions') }}" class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-indigo-200 bg-indigo-50 px-4 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100">
+                    <a href="{{ route('member.subscriptions') }}" class="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-indigo-200 bg-indigo-50 px-4 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100">
                         <i class="bi bi-credit-card"></i>
                         My Subscription
                     </a>
@@ -62,7 +62,7 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <p class="text-[11px] text-slate-400">Member Code</p>
-                        <p id="memberCode" class="mt-1 font-mono text-sm font-bold text-indigo-600">-</p>
+                        <p id="memberCode" class="mt-1 font-mono text-base font-bold text-indigo-600">-</p>
                     </div>
                     <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                         <i class="bi bi-person-badge"></i>
@@ -74,7 +74,7 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <p class="text-[11px] text-slate-400">Joining Date</p>
-                        <p id="joiningDate" class="mt-1 text-sm font-bold text-slate-700">-</p>
+                        <p id="joiningDate" class="mt-1 text-base font-bold text-slate-700">-</p>
                     </div>
                     <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-sky-50 text-sky-600">
                         <i class="bi bi-calendar-check"></i>
@@ -86,7 +86,7 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <p class="text-[11px] text-emerald-700">Membership</p>
-                        <p id="membershipStatus" class="mt-1 text-sm font-bold text-emerald-600">-</p>
+                        <p id="membershipStatus" class="mt-1 text-base font-bold text-emerald-600">-</p>
                     </div>
                     <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
                         <i class="bi bi-patch-check"></i>
@@ -98,7 +98,7 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <p class="text-[11px] text-slate-400">Account Status</p>
-                        <p id="accountStatus" class="mt-1 text-sm font-bold text-slate-700">-</p>
+                        <p id="accountStatus" class="mt-1 text-base font-bold text-slate-700">-</p>
                     </div>
                     <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                         <i class="bi bi-shield-check"></i>
@@ -114,7 +114,7 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div>
-                        <h2 class="text-sm font-semibold text-slate-800">Personal Information</h2>
+                        <h2 class="text-base font-semibold text-slate-800">Personal Information</h2>
                         <p class="text-[11px] text-slate-400">Basic personal and contact details</p>
                     </div>
                 </div>
@@ -122,27 +122,27 @@
                 <div class="grid grid-cols-1 gap-px bg-slate-200 sm:grid-cols-2">
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Full Name</p>
-                        <p id="personalName" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                        <p id="personalName" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                     </div>
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Email</p>
-                        <p id="personalEmail" class="mt-1.5 break-all text-sm font-semibold text-slate-700">-</p>
+                        <p id="personalEmail" class="mt-1.5 break-all text-base font-semibold text-slate-700">-</p>
                     </div>
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Phone</p>
-                        <p id="phone" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                        <p id="phone" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                     </div>
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Alternate Phone</p>
-                        <p id="alternatePhone" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                        <p id="alternatePhone" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                     </div>
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Date of Birth</p>
-                        <p id="dateOfBirth" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                        <p id="dateOfBirth" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                     </div>
                     <div class="bg-white p-5">
                         <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Gender</p>
-                        <p id="gender" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                        <p id="gender" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                     </div>
                 </div>
             </div>
@@ -153,27 +153,27 @@
                         <i class="bi bi-person-check"></i>
                     </div>
                     <div>
-                        <h2 class="text-sm font-semibold text-slate-800">Membership</h2>
+                        <h2 class="text-base font-semibold text-slate-800">Membership</h2>
                         <p class="text-[11px] text-slate-400">Association membership details</p>
                     </div>
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Member Code</span>
-                        <span id="sideMemberCode" class="font-mono text-xs font-semibold text-indigo-600">-</span>
+                        <span class="text-sm text-slate-500">Member Code</span>
+                        <span id="sideMemberCode" class="font-mono text-sm font-semibold text-indigo-600">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Joining Date</span>
-                        <span id="sideJoiningDate" class="text-xs font-semibold text-slate-700">-</span>
+                        <span class="text-sm text-slate-500">Joining Date</span>
+                        <span id="sideJoiningDate" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Membership Status</span>
+                        <span class="text-sm text-slate-500">Membership Status</span>
                         <span id="sideMembershipStatus" class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 px-5 py-4">
-                        <span class="text-xs text-slate-500">Language</span>
-                        <span id="language" class="text-xs font-semibold text-slate-700">-</span>
+                        <span class="text-sm text-slate-500">Language</span>
+                        <span id="language" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                     <i class="bi bi-geo-alt"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-semibold text-slate-800">Address Information</h2>
+                    <h2 class="text-base font-semibold text-slate-800">Address Information</h2>
                     <p class="text-[11px] text-slate-400">Residential location details</p>
                 </div>
             </div>
@@ -193,19 +193,19 @@
             <div class="grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-3">
                 <div class="bg-white p-5 md:col-span-3">
                     <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Address</p>
-                    <p id="address" class="mt-1.5 text-sm font-semibold leading-6 text-slate-700">-</p>
+                    <p id="address" class="mt-1.5 text-base font-semibold leading-6 text-slate-700">-</p>
                 </div>
                 <div class="bg-white p-5">
                     <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">City</p>
-                    <p id="city" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                    <p id="city" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                 </div>
                 <div class="bg-white p-5">
                     <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">District</p>
-                    <p id="district" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                    <p id="district" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                 </div>
                 <div class="bg-white p-5">
                     <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Mobile</p>
-                    <p id="mobile" class="mt-1.5 text-sm font-semibold text-slate-700">-</p>
+                    <p id="mobile" class="mt-1.5 text-base font-semibold text-slate-700">-</p>
                 </div>
             </div>
         </div>
@@ -217,7 +217,7 @@
         <div class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Edit Profile</h3>
-                <p class="mt-0.5 text-xs text-slate-400">Update your profile information.</p>
+                <p class="mt-0.5 text-sm text-slate-400">Update your profile information.</p>
             </div>
             <button type="button" onclick="closeEditProfile()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
@@ -227,39 +227,39 @@
         <form id="editProfileForm" enctype="multipart/form-data" novalidate data-js-validation="1">
             <div class="grid gap-4 p-5 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Profile Photo</label>
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Profile Photo</label>
                     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center">
                         <div id="editPhotoPreview" class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-xl font-bold text-slate-500">
                             <i class="bi bi-person"></i>
                         </div>
                         <div class="min-w-0 flex-1">
-                            <input id="editProfilePhoto" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-xs text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100">
+                            <input id="editProfilePhoto" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100">
                             <p class="mt-2 text-[11px] text-slate-400">JPG, PNG or WEBP. Maximum 2 MB.</p>
                             <label class="mt-3 flex cursor-pointer items-center gap-2">
                                 <input id="removeProfilePhoto" type="checkbox" class="rounded border-slate-300 text-indigo-600">
-                                <span class="text-xs text-slate-600">Remove current profile photo</span>
+                                <span class="text-sm text-slate-600">Remove current profile photo</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Phone</label>
-                    <input id="editPhone" type="text" maxlength="30" class="h-10 w-full rounded-md border border-slate-300 px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Phone</label>
+                    <input id="editPhone" type="text" maxlength="30" class="h-10 w-full rounded-md border border-slate-300 px-3 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Alternate Phone</label>
-                    <input id="editAlternatePhone" type="text" maxlength="30" class="h-10 w-full rounded-md border border-slate-300 px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Alternate Phone</label>
+                    <input id="editAlternatePhone" type="text" maxlength="30" class="h-10 w-full rounded-md border border-slate-300 px-3 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Date of Birth</label>
-                    <input id="editDateOfBirth" type="date" class="h-10 w-full rounded-md border border-slate-300 px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Date of Birth</label>
+                    <input id="editDateOfBirth" type="date" class="h-10 w-full rounded-md border border-slate-300 px-3 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Gender</label>
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Gender</label>
                     <select id="editGender" class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                         <option value="">Select</option>
                         <option value="male">Male</option>
@@ -269,26 +269,26 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">City</label>
-                    <input id="editCity" type="text" maxlength="100" class="h-10 w-full rounded-md border border-slate-300 px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">City</label>
+                    <input id="editCity" type="text" maxlength="100" class="h-10 w-full rounded-md border border-slate-300 px-3 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">District</label>
-                    <input id="editDistrict" type="text" maxlength="100" class="h-10 w-full rounded-md border border-slate-300 px-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">District</label>
+                    <input id="editDistrict" type="text" maxlength="100" class="h-10 w-full rounded-md border border-slate-300 px-3 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div class="sm:col-span-2">
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-600">Address</label>
-                    <textarea id="editAddress" rows="3" maxlength="1000" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-600">Address</label>
+                    <textarea id="editAddress" rows="3" maxlength="1000" class="w-full rounded-md border border-slate-300 px-3 py-2 text-base text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
                 </div>
 
-                <div id="editProfileError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700 sm:col-span-2"></div>
+                <div id="editProfileError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 sm:col-span-2"></div>
             </div>
 
             <div class="sticky bottom-0 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeEditProfile()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-                <button id="saveProfileButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">Save Changes</button>
+                <button type="button" onclick="closeEditProfile()" class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+                <button id="saveProfileButton" type="submit" class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">Save Changes</button>
             </div>
         </form>
     </div>
@@ -308,7 +308,7 @@ async function loadMemberProfile(){
 
     loading.innerHTML=`
         <div class="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-        <p class="mt-3 text-xs text-slate-500">Loading profile...</p>
+        <p class="mt-3 text-sm text-slate-500">Loading profile...</p>
     `;
 
     try{
@@ -363,9 +363,9 @@ async function loadMemberProfile(){
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-500">
                 <i class="bi bi-exclamation-circle text-xl"></i>
             </div>
-            <p class="mt-3 text-sm font-semibold text-red-600">Failed to load profile.</p>
-            <p class="mt-1 text-xs text-slate-400">${escapeProfileHtml(error?.data?.message??error?.message??'Please refresh the page and try again.')}</p>
-            <button type="button" onclick="loadMemberProfile()" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+            <p class="mt-3 text-base font-semibold text-red-600">Failed to load profile.</p>
+            <p class="mt-1 text-sm text-slate-400">${escapeProfileHtml(error?.data?.message??error?.message??'Please refresh the page and try again.')}</p>
+            <button type="button" onclick="loadMemberProfile()" class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                 <i class="bi bi-arrow-clockwise"></i>
                 Try Again
             </button>

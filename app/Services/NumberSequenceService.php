@@ -33,9 +33,21 @@ class NumberSequenceService
 
             $current=(int)$sequence->current_value;
 
-            if($current===0&&$initialValue){
+            // Self-healing floor: some callers (e.g. member shares) have
+            // more than one code path that can create a record carrying
+            // this prefix, and not all of them necessarily go through this
+            // sequence. If the stored counter ever falls behind the actual
+            // highest number already in use (drift), blindly doing
+            // $current+1 can reissue a number that already exists and
+            // trip a unique-constraint violation. So on every call — not
+            // just when the counter is still at its initial 0 — we take
+            // whichever is higher: the stored counter, or whatever
+            // $initialValue() reports as the real current max. This keeps
+            // the sequence self-correcting without needing a one-off data
+            // migration.
+            if($initialValue){
                 $current=max(
-                    0,
+                    $current,
                     (int)$initialValue()
                 );
             }

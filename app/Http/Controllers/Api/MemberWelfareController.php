@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\WelfareDocument;
 use App\Models\WelfareFund;
 use App\Models\WelfareRequest;
+use App\Services\ApprovalService;
 use App\Services\WelfareService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Storage;
 class MemberWelfareController extends Controller
 {
     public function __construct(
-        protected WelfareService $service
+        protected WelfareService $service,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -129,13 +131,24 @@ class MemberWelfareController extends Controller
         $data['member_id']=$member->id;
         $data['request_date']=now()->toDateString();
 
+        $welfareRequest=$this->service->createRequest(
+            $data,
+            $request->user()->id
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $welfareRequest,
+            'Welfare',
+            'request',
+            $request->user()->id,
+            'New welfare assistance request requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Welfare request submitted.',
-            'data'=>$this->service->createRequest(
-                $data,
-                $request->user()->id
-            )
+            'data'=>$welfareRequest,
+            'approval'=>$approval
         ],201);
     }
 

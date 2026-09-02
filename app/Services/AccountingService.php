@@ -125,6 +125,121 @@ class AccountingService
         }
     }
 
+    /**
+     * Create a transaction in 'draft' status: entries are validated and
+     * stored, but nothing is posted to the ledger (Account::postedEntries()
+     * only sums 'posted' transactions) until postDraftTransaction() is
+     * called. Used by manual journal entries, which now require approval
+     * before posting.
+     */
+    public function createDraft(array $data): Transaction
+    {
+        return DB::transaction(function()use($data){
+            $entries=$this->normalizeEntries(
+                $data['entries']??[]
+            );
+
+            $this->validateAccounts(
+                $entries
+            );
+
+            $userId=$data['user_id']
+                ??auth()->id();
+
+            $transaction=Transaction::create([
+                'transaction_no'=>$this->generateNumber(),
+
+                'transaction_date'=>
+                    $data['transaction_date']
+                    ??now()->toDateString(),
+
+                'type'=>$data['type']
+                    ??'manual_journal',
+
+                'source_module'=>$data['source_module']
+                    ??'manual',
+
+                'source_id'=>$data['source_id']
+                    ??null,
+
+                'reference_type'=>$data['reference_type']
+                    ??null,
+
+                'reference_id'=>$data['reference_id']
+                    ??null,
+
+                'description'=>$data['description']
+                    ??null,
+
+                'status'=>'draft',
+                'created_by'=>$userId,
+            ]);
+
+            $transaction->entries()->createMany(
+                $entries
+            );
+
+            return $transaction->load(
+                'entries.account'
+            );
+        });
+    }
+
+    /**
+     * Move a 'draft' transaction into 'posted' status once its approval
+     * request has been approved. Re-validates that its accounts are
+     * still active/postable at approval time.
+     */
+    public function postDraftTransaction(
+        Transaction $transaction,
+        int $userId
+    ): Transaction{
+        return DB::transaction(function()use(
+            $transaction,
+            $userId
+        ){
+            $transaction=Transaction::query()
+                ->whereKey($transaction->id)
+                ->lockForUpdate()
+                ->with('entries')
+                ->firstOrFail();
+
+            if($transaction->status!=='draft'){
+                throw ValidationException::withMessages([
+                    'transaction'=>[
+                        'This journal entry is not awaiting approval.'
+                    ],
+                ]);
+            }
+
+            $this->validateAccounts(
+                $transaction->entries
+                    ->map(fn($entry)=>[
+                        'account_id'=>$entry->account_id,
+                    ])
+                    ->all()
+            );
+
+            $transaction->update([
+                'status'=>'posted',
+                'posted_at'=>now(),
+                'posted_by'=>$userId,
+            ]);
+
+            DB::afterCommit(function(){
+                $this->financeDashboardService
+                    ->forgetCache();
+
+                $this->memberDashboardService
+                    ->forgetFinancialCache();
+            });
+
+            return $transaction->load(
+                'entries.account'
+            );
+        });
+    }
+
     public function account(string $subType): Account
     {
         $account=Account::query()

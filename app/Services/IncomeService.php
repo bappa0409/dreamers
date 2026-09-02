@@ -55,8 +55,42 @@ class IncomeService
                 ),
                 'attachment'=>$data['attachment']??null,
                 'created_by'=>$userId,
-                'status'=>'posted',
+                'status'=>'pending_approval',
             ]);
+
+            // No ledger entry yet: nothing is posted until the
+            // Income.create approval request is approved — see
+            // finalizeApproval().
+            return $this->freshIncome($income);
+        });
+    }
+
+    /**
+     * Called by ApprovalService once the Income.create request is
+     * approved. Posts the actual double-entry ledger transaction and
+     * marks the income as posted.
+     */
+    public function finalizeApproval(
+        Income $income,
+        array $decisionData,
+        int $approvedBy
+    ): Income{
+        return DB::transaction(function()use(
+            $income,
+            $approvedBy
+        ){
+            $income=Income::query()
+                ->whereKey($income->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($income->status!=='pending_approval'){
+                throw ValidationException::withMessages([
+                    'income'=>[
+                        'This income is not awaiting approval.'
+                    ],
+                ]);
+            }
 
             $journal=$this->accountingService->post([
                 'idempotency_key'=>"income:post:{$income->id}",
@@ -70,18 +104,18 @@ class IncomeService
                 'reference_id'=>$income->id,
                 'description'=>$income->description
                     ??"Income {$income->income_no}",
-                'user_id'=>$userId,
+                'user_id'=>$approvedBy,
                 'entries'=>[
                     [
-                        'account_id'=>$receiveAccount->id,
-                        'debit'=>$amount,
+                        'account_id'=>$income->receive_account_id,
+                        'debit'=>$income->amount,
                         'credit'=>0,
                         'description'=>'Income received',
                     ],
                     [
-                        'account_id'=>$incomeAccount->id,
+                        'account_id'=>$income->income_account_id,
                         'debit'=>0,
-                        'credit'=>$amount,
+                        'credit'=>$income->amount,
                         'description'=>'Income recognized',
                     ],
                 ],
@@ -89,10 +123,54 @@ class IncomeService
 
             $income->update([
                 'finance_transaction_id'=>$journal->id,
+                'status'=>'posted',
             ]);
 
             return $this->freshIncome($income);
         });
+    }
+
+    /**
+     * Called by ApprovalService when the Income.create request is
+     * rejected. The income never gets a ledger entry.
+     */
+    public function finalizeRejection(
+        Income $income,
+        string $reason,
+        ?int $rejectedBy
+    ): Income{
+        $income=Income::query()
+            ->whereKey($income->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($income->status==='pending_approval'){
+            $income->update([
+                'status'=>'rejected',
+            ]);
+        }
+
+        return $this->freshIncome($income);
+    }
+
+    /**
+     * Called by ApprovalService when the Income.create request is
+     * cancelled/withdrawn before a decision is made.
+     */
+    public function finalizeCancellation(Income $income): Income
+    {
+        $income=Income::query()
+            ->whereKey($income->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($income->status==='pending_approval'){
+            $income->update([
+                'status'=>'cancelled',
+            ]);
+        }
+
+        return $this->freshIncome($income);
     }
 
     public function update(

@@ -82,17 +82,10 @@ class MemberShareController extends Controller
             'success' => true,
             'data' => [
                 // Summary intentionally remains global, not status-filtered.
-                'summary' => $this->memberShareService
-                    ->summary($member),
+                'summary' => $this->memberShareService->summary($member),
 
                 // Only one page of history is transferred to the app.
-                'shares' => $this->memberShareService
-                    ->memberSharesPaginated(
-                        $member,
-                        $validated['status'] ?? null,
-                        $validated['search'] ?? null,
-                        (int) ($validated['per_page'] ?? 15)
-                    ),
+                'shares' => $this->memberShareService->memberShares($member),
 
                 'settings' => [
                     'share_enabled' => $shareEnabled,

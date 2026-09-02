@@ -14,12 +14,12 @@
 </div>
 <div>
 <h1 class="text-base font-bold text-slate-800">Loan Management</h1>
-<p class="text-sm text-slate-500">Manage member loan requests, approvals, disbursements and repayments.</p>
+<p class="text-xs text-slate-500">Manage member loan requests, approvals, disbursements and repayments.</p>
 </div>
 </div>
 
 @if(auth()->user()->hasPermission('Loan.create'))
-<button type="button" onclick="openCreateLoan()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openCreateLoan()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-lg"></i>
 New Loan
 </button>
@@ -47,7 +47,7 @@ $stats=[
 <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
 </div>
 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $iconBox }}">
-<i class="bi {{ $icon }} text-sm"></i>
+<i class="bi {{ $icon }} text-base"></i>
 </div>
 </div>
 </div>
@@ -59,7 +59,7 @@ $stats=[
 <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 <div class="flex items-center gap-2">
 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-search text-sm"></i>
+<i class="bi bi-search text-base"></i>
 </div>
 <div>
 <p class="text-sm font-semibold text-slate-700">Search Loans</p>
@@ -69,11 +69,11 @@ $stats=[
 
 <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[290px_180px_auto] lg:gap-0">
 <div class="relative sm:col-span-2 lg:col-span-1">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="searchInput" type="text" placeholder="Search loans..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
 </div>
 
-<select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+<select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
 <option value="">All Status</option>
 <option value="pending">Pending</option>
 <option value="approved">Approved</option>
@@ -85,7 +85,7 @@ $stats=[
 <option value="cancelled">Cancelled</option>
 </select>
 
-<button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+<button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
 <i class="bi bi-x-lg text-[10px]"></i>
 Clear
 </button>
@@ -99,19 +99,19 @@ Clear
 <table class="w-full min-w-[1000px] text-sm">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Loan</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Requested</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Approved</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Outstanding</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Maturity</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Loan</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Requested</th>
+<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Approved</th>
+<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Outstanding</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Maturity</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 <tbody id="loanTableBody" class="divide-y divide-slate-100">
 <tr>
-<td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">Loading loans...</td>
+<td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading loans...</td>
 </tr>
 </tbody>
 </table>
@@ -120,7 +120,7 @@ Clear
 
 {{-- Mobile Cards --}}
 <div id="loanMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading loans...</div>
+<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">Loading loans...</div>
 </div>
 
 <div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
@@ -136,7 +136,7 @@ Clear
 <i class="bi bi-bank"></i>
 </div>
 <div>
-<h3 class="text-lg font-bold text-slate-800">Create Loan Request</h3>
+<h3 class="text-base font-semibold text-slate-800">Create Loan Request</h3>
 <p class="text-xs text-slate-500">Create a new loan request for an eligible member.</p>
 </div>
 </div>
@@ -148,7 +148,7 @@ Clear
 <form id="loanForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
-<div id="loanError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="loanError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div class="rounded-md border border-slate-200 p-4">
 <div class="mb-4 flex items-center gap-3">
@@ -156,7 +156,7 @@ Clear
 <i class="bi bi-person"></i>
 </div>
 <div>
-<h4 class="text-sm font-semibold text-slate-800">Loan Request</h4>
+<h4 class="text-base font-semibold text-slate-800">Loan Request</h4>
 <p class="text-[11px] text-slate-400">Select member and requested loan amount.</p>
 </div>
 </div>
@@ -167,32 +167,32 @@ Clear
 <select id="memberId" class="app-input w-full">
 <option value="">Select Member</option>
 </select>
-<p data-field-error="memberId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">৳</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
 <input id="requestedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00">
 </div>
-<p data-field-error="requestedAmount" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="requestedAmount" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Request Date <span class="text-red-500">*</span></label>
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="requestDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
 </div>
-<p data-field-error="requestDate" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="requestDate" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 </div>
 
 <div class="mt-4">
 <label class="form-label">Purpose <span class="text-red-500">*</span></label>
 <textarea id="purpose" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the purpose of this loan..."></textarea>
-<p data-field-error="purpose" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="purpose" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 </div>
 
@@ -205,8 +205,8 @@ Clear
 </div>
 
 <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-<button type="button" onclick="AdminUI.closeModal('loanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createLoanButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Loan</button>
+<button type="button" onclick="AdminUI.closeModal('loanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="createLoanButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Loan</button>
 </div>
 </form>
 </div>
@@ -222,8 +222,8 @@ Clear
 <i class="bi bi-bank2"></i>
 </div>
 <div>
-<h3 id="manageLoanTitle" class="text-lg font-bold text-slate-800">Loan Details</h3>
-<p id="manageLoanSubtitle" class="text-xs text-slate-500"></p>
+<h3 id="manageLoanTitle" class="text-base font-semibold text-slate-800">Loan Details</h3>
+<p id="manageLoanSubtitle" class="text-sm text-slate-500"></p>
 </div>
 </div>
 
@@ -234,7 +234,7 @@ Clear
 
 <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="manageLoanError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="manageLoanError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div id="loanSummaryCards" class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6"></div>
 
@@ -242,7 +242,7 @@ Clear
 
 <section class="rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-sm font-semibold text-slate-800">Loan Information</h4>
+<h4 class="text-base font-semibold text-slate-800">Loan Information</h4>
 <p class="text-[11px] text-slate-400">Request, approval and repayment details.</p>
 </div>
 <div id="loanDetails" class="grid grid-cols-2 gap-3"></div>
@@ -250,13 +250,13 @@ Clear
 
 <section class="rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-sm font-semibold text-slate-800">Purpose</h4>
+<h4 class="text-base font-semibold text-slate-800">Purpose</h4>
 </div>
-<div id="loanPurpose" class="whitespace-pre-line rounded-md bg-slate-50 p-3 text-xs leading-5 text-slate-600"></div>
+<div id="loanPurpose" class="whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
 
 <div id="loanRejectionWrap" class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3">
 <p class="text-[10px] font-semibold uppercase tracking-wide text-red-500">Rejection Reason</p>
-<p id="loanRejectionReason" class="mt-1 whitespace-pre-line text-xs text-red-700"></p>
+<p id="loanRejectionReason" class="mt-1 whitespace-pre-line text-sm text-red-700"></p>
 </div>
 </section>
 </div>
@@ -264,7 +264,7 @@ Clear
 {{-- Installments / repayments --}}
 <section id="repaymentHistorySection" class="hidden rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-sm font-semibold text-slate-800">Repayment History</h4>
+<h4 class="text-base font-semibold text-slate-800">Repayment History</h4>
 <p class="text-[11px] text-slate-400">Recorded repayments for this loan.</p>
 </div>
 <div id="repaymentHistory" class="space-y-2"></div>
@@ -283,7 +283,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Approve Loan</h3>
-<p id="approvalSubtitle" class="text-xs text-slate-500"></p>
+<p id="approvalSubtitle" class="text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('approvalModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -293,28 +293,28 @@ Clear
 <form id="approvalForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
-<div id="approvalError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="approvalError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div>
 <label class="form-label">Approved Amount <span class="text-red-500">*</span></label>
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">৳</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
 <input id="approvedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
 </div>
-<p data-field-error="approvedAmount" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="approvedAmount" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="grid gap-4 sm:grid-cols-2">
 <div>
 <label class="form-label">Interest Rate (%) <span class="text-red-500">*</span></label>
 <input id="interestRate" type="number" min="0" step="0.01" class="app-input w-full">
-<p data-field-error="interestRate" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="interestRate" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Duration (Months) <span class="text-red-500">*</span></label>
 <input id="durationMonths" type="number" min="1" step="1" class="app-input w-full">
-<p data-field-error="durationMonths" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="durationMonths" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 </div>
 
@@ -322,8 +322,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('approvalModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="approveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Approve Loan</button>
+<button type="button" onclick="AdminUI.closeModal('approvalModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="approveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Approve Loan</button>
 </div>
 </form>
 </div>
@@ -345,16 +345,16 @@ Clear
 
 <form id="rejectLoanForm" novalidate data-js-validation="1">
 <div class="p-5">
-<div id="rejectLoanError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="rejectLoanError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
 <textarea id="rejectionReason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Enter rejection reason..."></textarea>
-<p data-field-error="rejectionReason" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="rejectionReason" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('rejectLoanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="rejectLoanButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Loan</button>
+<button type="button" onclick="AdminUI.closeModal('rejectLoanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="rejectLoanButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Loan</button>
 </div>
 </form>
 </div>
@@ -367,7 +367,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Disburse Loan</h3>
-<p id="disbursementSubtitle" class="text-xs text-slate-500"></p>
+<p id="disbursementSubtitle" class="text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -377,23 +377,23 @@ Clear
 <form id="disbursementForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
-<div id="disbursementError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="disbursementError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div>
 <label class="form-label">Payment Account <span class="text-red-500">*</span></label>
 <select id="disbursementAccountId" class="app-input w-full">
 <option value="">Select Cash / Bank Account</option>
 </select>
-<p data-field-error="disbursementAccountId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="disbursementAccountId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Disbursement Date <span class="text-red-500">*</span></label>
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="disbursementDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
 </div>
-<p data-field-error="disbursementDate" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="disbursementDate" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="rounded-md border border-amber-200 bg-amber-50 p-3">
@@ -405,8 +405,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="disburseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Disburse Loan</button>
+<button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="disburseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Disburse Loan</button>
 </div>
 </form>
 </div>
@@ -419,7 +419,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Receive Loan Repayment</h3>
-<p id="repaymentSubtitle" class="text-xs text-slate-500"></p>
+<p id="repaymentSubtitle" class="text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -429,38 +429,38 @@ Clear
 <form id="repaymentForm" novalidate data-js-validation="1">
 <div class="space-y-4 p-5">
 
-<div id="repaymentError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+<div id="repaymentError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
 <div>
 <label class="form-label">Receive Account <span class="text-red-500">*</span></label>
 <select id="receiveAccountId" class="app-input w-full">
 <option value="">Select Cash / Bank Account</option>
 </select>
-<p data-field-error="receiveAccountId" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="receiveAccountId" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Total Repayment Amount <span class="text-red-500">*</span></label>
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">৳</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
 <input id="repaymentAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
 </div>
-<p data-field-error="repaymentAmount" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="repaymentAmount" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
 <label class="form-label">Repayment Date <span class="text-red-500">*</span></label>
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 <input id="repaymentDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
 </div>
-<p data-field-error="repaymentDate" class="mt-1 hidden text-xs text-red-600"></p>
+<p data-field-error="repaymentDate" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="repayButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Receive Repayment</button>
+<button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="repayButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Receive Repayment</button>
 </div>
 </form>
 </div>
@@ -622,7 +622,7 @@ async function loadLoans(page=1){
     $('loanTableBody').innerHTML=AdminUI.loadingState('Loading loans...',8);
 
     $('loanMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
             <span class="inline-flex items-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading loans...
@@ -653,7 +653,7 @@ async function loadLoans(page=1){
 
         $('loanTableBody').innerHTML=AdminUI.emptyState(message,8);
         $('loanMobileGrid').innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${esc(message)}
             </div>
         `;
@@ -669,8 +669,8 @@ function renderLoans(){
                 <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                     <i class="bi bi-bank"></i>
                 </div>
-                <p class="mt-3 text-sm font-semibold text-slate-600">No loans found</p>
-                <p class="mt-1 text-xs text-slate-400">Try changing the search or status filter.</p>
+                <p class="mt-3 text-base font-semibold text-slate-600">No loans found</p>
+                <p class="mt-1 text-sm text-slate-400">Try changing the search or status filter.</p>
             </div>
         `;
         return;
@@ -700,7 +700,7 @@ function renderLoans(){
                 ${outstandingAmount(loan)>0?money(outstandingAmount(loan)):'—'}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3 text-sm text-slate-600">
                 ${loan.maturity_date?date(loan.maturity_date):'—'}
             </td>
 
@@ -724,7 +724,7 @@ function renderLoans(){
             <div class="border-b border-slate-100 px-4 py-3">
                 <div class="flex items-start justify-between gap-3">
                     <div>
-                        <p class="text-sm font-bold text-slate-700">${esc(loan.loan_no)}</p>
+                        <p class="text-base font-bold text-slate-700">${esc(loan.loan_no)}</p>
                         <p class="mt-0.5 text-[11px] text-slate-400">${date(loan.request_date)}</p>
                     </div>
                     ${statusBadge(loan.status)}
@@ -733,23 +733,23 @@ function renderLoans(){
 
             <div class="space-y-3 p-4">
                 <div>
-                    <p class="text-xs font-semibold text-slate-700">${esc(loan.member?.user?.name??'N/A')}</p>
+                    <p class="text-sm font-semibold text-slate-700">${esc(loan.member?.user?.name??'N/A')}</p>
                     <p class="text-[11px] text-indigo-600">${esc(loan.member?.member_code??'')}</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
                     <div class="rounded-md bg-slate-50 p-3">
                         <p class="text-[10px] uppercase text-slate-400">Requested</p>
-                        <p class="mt-1 text-sm font-bold text-slate-700">${money(loan.requested_amount)}</p>
+                        <p class="mt-1 text-base font-bold text-slate-700">${money(loan.requested_amount)}</p>
                     </div>
 
                     <div class="rounded-md bg-indigo-50 p-3">
                         <p class="text-[10px] uppercase text-indigo-400">Approved</p>
-                        <p class="mt-1 text-sm font-bold text-indigo-700">${loan.approved_amount?money(loan.approved_amount):'—'}</p>
+                        <p class="mt-1 text-base font-bold text-indigo-700">${loan.approved_amount?money(loan.approved_amount):'—'}</p>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
+                <div class="flex items-center justify-between border-t border-slate-100 pt-3 text-sm">
                     <span class="text-slate-400">Maturity</span>
                     <span class="font-medium text-slate-600">${loan.maturity_date?date(loan.maturity_date):'—'}</span>
                 </div>
@@ -757,7 +757,7 @@ function renderLoans(){
 
             <div class="border-t border-slate-100 bg-slate-50/50 px-4 py-3">
                 <button type="button" onclick="openManageLoan(${loan.id})"
-                    class="inline-flex w-full items-center justify-center gap-1 rounded-md border border-indigo-200 bg-white px-3 py-2 text-xs font-semibold text-indigo-700">
+                    class="inline-flex w-full items-center justify-center gap-1 rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold text-indigo-700">
                     <i class="bi bi-eye"></i>
                     Manage Loan
                 </button>
@@ -863,7 +863,7 @@ function renderManageLoan(loan){
     ].map(([label,value,bg,text])=>`
         <div class="rounded-md ${bg} p-3">
             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${label}</p>
-            <p class="mt-1 text-sm font-bold ${text}">${value}</p>
+            <p class="mt-1 text-base font-bold ${text}">${value}</p>
         </div>
     `).join('');
 
@@ -881,7 +881,7 @@ function renderManageLoan(loan){
     ].map(([label,value])=>`
         <div class="rounded-md border border-slate-200 bg-slate-50/60 p-3">
             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${esc(label)}</p>
-            <p class="mt-1 break-words text-xs font-semibold capitalize text-slate-700">${esc(value)}</p>
+            <p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">${esc(value)}</p>
         </div>
     `).join('');
 
@@ -908,7 +908,7 @@ function renderRepayments(repayments){
     $('repaymentHistory').innerHTML=repayments.map(payment=>`
         <div class="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50/60 px-3 py-2.5">
             <div>
-                <p class="text-xs font-semibold text-slate-700">${money(payment.total_amount??payment.amount)}</p>
+                <p class="text-sm font-semibold text-slate-700">${money(payment.total_amount??payment.amount)}</p>
                 <p class="mt-0.5 text-[10px] text-slate-400">${date(payment.repayment_date??payment.payment_date)}</p>
             </div>
 
@@ -941,7 +941,7 @@ function renderLoanActions(loan){
 
     $('manageLoanActions').innerHTML=actions.length
         ?actions.join('')
-        :'<span class="text-xs text-slate-400">No further action available.</span>';
+        :'<span class="text-sm text-slate-400">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,onclick){
@@ -953,7 +953,7 @@ function actionButton(label,icon,color,onclick){
     };
 
     return`
-        <button type="button" onclick="${onclick}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold transition ${styles[color]}">
+        <button type="button" onclick="${onclick}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold transition ${styles[color]}">
             <i class="bi ${icon}"></i>
             ${label}
         </button>
@@ -995,15 +995,15 @@ function updateApprovalPreview(){
         <div class="grid grid-cols-3 gap-2">
             <div>
                 <p class="text-[10px] uppercase text-indigo-400">Principal</p>
-                <p class="mt-1 text-xs font-bold text-indigo-700">${money(principal)}</p>
+                <p class="mt-1 text-sm font-bold text-indigo-700">${money(principal)}</p>
             </div>
             <div>
                 <p class="text-[10px] uppercase text-indigo-400">Interest</p>
-                <p class="mt-1 text-xs font-bold text-indigo-700">${money(interest)}</p>
+                <p class="mt-1 text-sm font-bold text-indigo-700">${money(interest)}</p>
             </div>
             <div>
                 <p class="text-[10px] uppercase text-indigo-400">Total</p>
-                <p class="mt-1 text-xs font-bold text-indigo-700">${money(total)}</p>
+                <p class="mt-1 text-sm font-bold text-indigo-700">${money(total)}</p>
             </div>
         </div>
         <p class="mt-2 text-[10px] text-indigo-500">Duration: ${months||0} month${months===1?'':'s'}</p>

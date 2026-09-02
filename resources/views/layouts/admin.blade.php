@@ -356,7 +356,7 @@
             <div class="shrink-0 border-t border-white/[0.08] p-3">
                 <div class="flex items-center gap-3">
                     <div
-                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 text-xs font-bold text-white">
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sm font-bold text-white">
                         {{ strtoupper(substr($authUser?->name??'U',0,1)) }}
                     </div>
 
@@ -432,7 +432,7 @@
 
                             <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                                 <div>
-                                    <h3 class="text-xs font-semibold text-slate-700">Notifications</h3>
+                                    <h3 class="text-sm font-semibold text-slate-700">Notifications</h3>
                                     <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-400">
                                         {{ $unreadNotificationCount>0?$unreadNotificationCount.' unread notification'.($unreadNotificationCount===1?'':'s'):'No unread notifications' }}
                                     </p>
@@ -475,7 +475,7 @@
                             </div>
 
                             <div class="hidden text-left sm:block">
-                                <div class="max-w-[130px] truncate text-xs font-semibold text-slate-700">{{
+                                <div class="max-w-[130px] truncate text-sm font-semibold text-slate-700">{{
                                     $authUser?->name??'User' }}</div>
                                 <div class="max-w-[130px] truncate text-[10px] text-slate-400">{{ $authUser?->email??''
                                     }}</div>
@@ -489,7 +489,7 @@
                             class="absolute right-0 top-[48px] z-50 hidden w-60 overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
                             <div class="border-b border-slate-100 px-4 py-3">
                                 <div class="text-[11px] text-slate-400">Signed in as</div>
-                                <div class="mt-1 truncate text-sm font-semibold text-slate-700">{{
+                                <div class="mt-1 truncate text-base font-semibold text-slate-700">{{
                                     $authUser?->name??'User' }}</div>
                                 <div class="mt-0.5 truncate text-[11px] text-slate-400">{{ $authUser?->email??'' }}
                                 </div>
@@ -499,8 +499,8 @@
                             <div class="p-1.5">
                                 @if(Route::has('member.profile'))
                                 <a href="{{ route('member.profile') }}"
-                                    class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-left text-xs font-medium text-slate-600 transition hover:bg-slate-50">
-                                    <i class="bi bi-person text-sm"></i>
+                                    class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-left text-sm font-medium text-slate-600 transition hover:bg-slate-50">
+                                    <i class="bi bi-person text-base"></i>
                                     <span>My Profile</span>
                                 </a>
                                 @endif
@@ -508,8 +508,8 @@
                                 <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
                                     @csrf
                                     <button type="submit"
-                                        class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-left text-xs font-medium text-red-500 transition hover:bg-red-50">
-                                        <i class="bi bi-box-arrow-right text-sm"></i>
+                                        class="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-left text-sm font-medium text-red-500 transition hover:bg-red-50">
+                                        <i class="bi bi-box-arrow-right text-base"></i>
                                         <span>Sign Out</span>
                                     </button>
                                 </form>
@@ -525,19 +525,19 @@
 
                     @if(session('success'))
                     <div
-                        class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-700">
                         {{ session('success') }}
                     </div>
                     @endif
 
                     @if(session('error'))
-                    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-base text-red-700">
                         {{ session('error') }}
                     </div>
                     @endif
 
                     @if($errors->any())
-                    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-base text-red-700">
                         <div class="font-semibold">Please check the following:</div>
                         <ul class="mt-2 list-disc space-y-1 pl-5">
                             @foreach($errors->all() as $error)
@@ -743,7 +743,7 @@ function renderNotificationItems(notifications){
                 <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-400">
                     <i class="bi bi-bell"></i>
                 </div>
-                <p class="mt-3 text-xs font-semibold text-slate-600">No notifications</p>
+                <p class="mt-3 text-sm font-semibold text-slate-600">No notifications</p>
                 <p class="mt-1 text-[10px] text-slate-400">You're all caught up.</p>
             </div>`;
         return;
@@ -773,7 +773,7 @@ function renderNotificationItems(notifications){
 
             <div class="min-w-0 flex-1">
                 <div class="flex items-start justify-between gap-2">
-                    <div class="truncate text-xs font-semibold ${unread?'text-slate-800':'text-slate-700'}">
+                    <div class="truncate text-sm font-semibold ${unread?'text-slate-800':'text-slate-700'}">
                         ${AdminUI.escapeHtml(title)}
                     </div>
                     ${unread?`<span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-sky-500"></span>`:''}

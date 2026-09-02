@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">General Ledger</h1>
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     View account-wise posted journal movements and running balance.
                 </p>
             </div>
@@ -38,7 +38,7 @@
                     Date Range
                 </label>
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input
                         id="dateRangeFilter"
                         type="text"
@@ -70,10 +70,10 @@
                     <h2 id="accountTitle" class="font-bold text-slate-800"></h2>
                     <span id="accountStatus"></span>
                 </div>
-                <p id="accountMeta" class="mt-1 text-xs text-slate-500"></p>
+                <p id="accountMeta" class="mt-1 text-sm text-slate-500"></p>
             </div>
 
-            <div class="text-xs text-slate-500">
+            <div class="text-sm text-slate-500">
                 <i class="bi bi-calendar3 me-1"></i>
                 <span id="periodLabel">All posted transactions</span>
             </div>
@@ -90,21 +90,21 @@
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
-            <p class="text-xs text-emerald-600">Period Debit</p>
+            <p class="text-sm text-emerald-600">Period Debit</p>
             <p id="periodDebit" class="mt-1 truncate text-xl font-bold text-emerald-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
-            <p class="text-xs text-red-600">Period Credit</p>
+            <p class="text-sm text-red-600">Period Credit</p>
             <p id="periodCredit" class="mt-1 truncate text-xl font-bold text-red-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
-            <p class="text-xs text-indigo-600">Closing Balance</p>
+            <p class="text-sm text-indigo-600">Closing Balance</p>
             <p id="closingBalance" class="mt-1 truncate text-xl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
@@ -115,7 +115,7 @@
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-sm font-bold text-slate-700">Ledger Entries</h2>
+                <h2 class="text-base font-bold text-slate-700">Ledger Entries</h2>
                 <p class="text-[11px] text-slate-400">
                     Posted accounting transactions only
                 </p>
@@ -126,31 +126,31 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[1150px] text-sm">
+            <table class="w-full min-w-[1150px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Date
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Journal
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Type / Source
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Description
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Debit
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Credit
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
                             Balance
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
                             Posted By
                         </th>
                     </tr>
@@ -158,7 +158,7 @@
 
                 <tbody id="ledgerTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-12 text-center text-sm text-slate-400">
+                        <td colspan="8" class="px-4 py-12 text-center text-base text-slate-400">
                             Select an account to view the General Ledger.
                         </td>
                     </tr>
@@ -433,7 +433,7 @@ function renderEntries(entries){
 
         return `
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
-                <td class="whitespace-nowrap px-4 py-3 text-xs text-slate-600">
+                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
                     ${
                         transaction.transaction_date
                             ?AdminUI.formatDate(
@@ -444,7 +444,7 @@ function renderEntries(entries){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="font-mono text-xs font-semibold text-indigo-600">
+                    <div class="font-mono text-sm font-semibold text-indigo-600">
                         ${esc(
                             transaction.transaction_no||
                             '—'
@@ -453,7 +453,7 @@ function renderEntries(entries){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="text-xs font-medium text-slate-700">
+                    <div class="text-sm font-medium text-slate-700">
                         ${esc(
                             AdminUI.titleCase(
                                 transaction.type||
@@ -474,13 +474,13 @@ function renderEntries(entries){
 
                 <td class="max-w-[320px] px-4 py-3">
                     <p
-                        class="truncate text-xs text-slate-600"
+                        class="truncate text-sm text-slate-600"
                         title="${esc(description)}">
                         ${esc(description)}
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-emerald-700">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-emerald-700">
                     ${
                         Number(entry.debit)>0
                             ?money(entry.debit)
@@ -488,7 +488,7 @@ function renderEntries(entries){
                     }
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-semibold text-red-700">
+                <td class="px-4 py-3 text-right text-sm font-semibold text-red-700">
                     ${
                         Number(entry.credit)>0
                             ?money(entry.credit)
@@ -496,13 +496,13 @@ function renderEntries(entries){
                     }
                 </td>
 
-                <td class="px-4 py-3 text-right text-xs font-bold text-indigo-700">
+                <td class="px-4 py-3 text-right text-sm font-bold text-indigo-700">
                     ${money(
                         entry.running_balance
                     )}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3 text-sm text-slate-600">
                     ${esc(
                         transaction.poster?.name||
                         transaction.creator?.name||
@@ -537,7 +537,7 @@ function resetLedger(){
 
     el.table.innerHTML=`
         <tr>
-            <td colspan="8" class="px-4 py-12 text-center text-sm text-slate-400">
+            <td colspan="8" class="px-4 py-12 text-center text-base text-slate-400">
                 Select an account to view the General Ledger.
             </td>
         </tr>

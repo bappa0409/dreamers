@@ -19,11 +19,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     My Shares
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     View your association shares, purchase history and verification status.
                 </p>
             </div>
@@ -33,7 +33,7 @@
             <button
                 type="button"
                 onclick="loadShares()"
-                class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+                class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
                 <i class="bi bi-arrow-clockwise"></i>
                 Refresh
             </button>
@@ -42,7 +42,7 @@
                 id="buyShareButton"
                 type="button"
                 onclick="openPurchaseModal()"
-                class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-circle"></i>
                 Buy Share
             </button>
@@ -56,7 +56,7 @@
         </div>
 
         <div>
-            <p class="text-xs font-semibold text-indigo-800">
+            <p class="text-sm font-semibold text-indigo-800">
                 Association Share Ownership
             </p>
 
@@ -151,7 +151,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="shareSearch"
@@ -183,7 +183,7 @@
                 <button
                     type="button"
                     onclick="clearShareFilters()"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Clear
                 </button>
             </div>
@@ -200,7 +200,7 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Share Portfolio
                 </h2>
 
@@ -250,7 +250,7 @@
                         <td colspan="7" class="px-4 py-14 text-center">
                             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                            <p class="mt-3 text-xs text-slate-400">
+                            <p class="mt-3 text-sm text-slate-400">
                                 Loading shares...
                             </p>
                         </td>
@@ -306,7 +306,7 @@
             <button
                 type="button"
                 onclick="closeShareDetails()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -371,12 +371,12 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                         Purchase Amount
                     </label>
 
                     <div class="relative">
-                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">
+                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">
                             {{ $currency }}
                         </span>
 
@@ -396,7 +396,7 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                         Payment Method
                     </label>
 
@@ -412,7 +412,7 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                         Transaction Reference
                     </label>
 
@@ -425,7 +425,7 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                         Notes
                     </label>
 
@@ -439,7 +439,7 @@
 
                 <div
                     id="shareError"
-                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
                 </div>
 
             </div>
@@ -449,14 +449,14 @@
                 <button
                     type="button"
                     onclick="closePurchaseModal()"
-                    class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                    class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button
                     id="purchaseButton"
                     type="submit"
-                    class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
+                    class="h-9 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
                     Submit Purchase
                 </button>
 
@@ -505,7 +505,7 @@ async function loadShares(){
             <td colspan="7" class="px-4 py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-xs text-slate-400">
+                <p class="mt-3 text-sm text-slate-400">
                     Loading shares...
                 </p>
             </td>
@@ -571,11 +571,11 @@ async function loadShares(){
                         <i class="bi bi-exclamation-circle text-lg"></i>
                     </div>
 
-                    <p class="mt-3 text-sm font-semibold text-red-600">
+                    <p class="mt-3 text-base font-semibold text-red-600">
                         Failed to load shares
                     </p>
 
-                    <p class="mt-1 text-xs text-red-400">
+                    <p class="mt-1 text-sm text-red-400">
                         ${escapeShareHtml(
                             extractShareError(error)
                         )}
@@ -584,7 +584,7 @@ async function loadShares(){
                     <button
                         type="button"
                         onclick="loadShares()"
-                        class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                        class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
                         <i class="bi bi-arrow-clockwise"></i>
                         Try Again
                     </button>
@@ -691,11 +691,11 @@ function renderShares(){
                         <i class="bi bi-layers text-xl"></i>
                     </div>
 
-                    <p class="mt-4 text-sm font-semibold text-slate-700">
+                    <p class="mt-4 text-base font-semibold text-slate-700">
                         No shares found
                     </p>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1 text-sm text-slate-400">
                         No share records match the current filters.
                     </p>
 
@@ -723,7 +723,7 @@ function renderShares(){
 
                     <td class="px-4 py-3">
                         <div>
-                            <p class="font-mono text-[10px] font-semibold text-indigo-600">
+                            <p class="font-mono text-sm font-semibold text-indigo-600">
                                 ${escapeShareHtml(
                                     share.share_no??'-'
                                 )}
@@ -735,13 +735,13 @@ function renderShares(){
                         </div>
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
+                    <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
                         ${shareMoney(
                             share.purchase_amount
                         )}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3 text-sm text-slate-600">
                         ${escapeShareHtml(
                             titleShare(
                                 share.payment_method
@@ -758,7 +758,7 @@ function renderShares(){
                         </p>
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-500">
+                    <td class="px-4 py-3 text-sm text-slate-500">
                         ${
                             share.acquired_date
                                 ?formatShareDate(
@@ -962,7 +962,7 @@ window.openShareDetails=function(id){
             <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                 <div class="border-b border-slate-200 px-5 py-4">
-                    <h3 class="text-sm font-semibold text-slate-800">
+                    <h3 class="text-base font-semibold text-slate-800">
                         Share Information
                     </h3>
 
@@ -1036,13 +1036,13 @@ window.openShareDetails=function(id){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             Purchase Notes
                         </h3>
                     </div>
 
                     <div class="p-5">
-                        <p class="whitespace-pre-line break-words text-xs leading-6 text-slate-600">
+                        <p class="whitespace-pre-line break-words text-sm leading-6 text-slate-600">
                             ${
                                 share.notes
                                     ?escapeShareHtml(
@@ -1058,13 +1058,13 @@ window.openShareDetails=function(id){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-sm font-semibold text-slate-800">
+                        <h3 class="text-base font-semibold text-slate-800">
                             Verification Note
                         </h3>
                     </div>
 
                     <div class="p-5">
-                        <p class="whitespace-pre-line break-words text-xs leading-6 text-slate-600">
+                        <p class="whitespace-pre-line break-words text-sm leading-6 text-slate-600">
                             ${
                                 share.verification_note
                                     ?escapeShareHtml(
@@ -1143,7 +1143,7 @@ function shareSummaryCard(
                         ${escapeShareHtml(label)}
                     </p>
 
-                    <p class="mt-2 truncate text-sm font-bold text-slate-700">
+                    <p class="mt-2 truncate text-base font-bold text-slate-700">
                         ${escapeShareHtml(value)}
                     </p>
                 </div>
@@ -1172,7 +1172,7 @@ function shareInformationItem(
                 ${escapeShareHtml(label)}
             </p>
 
-            <div class="mt-1.5 break-words text-xs font-semibold text-slate-700">
+            <div class="mt-1.5 break-words text-sm font-semibold text-slate-700">
                 ${
                     raw
                         ?value

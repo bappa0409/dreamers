@@ -1,424 +1,563 @@
 @extends('layouts.admin')
 
 @section('title','Share Purchases')
+@section('page_title','Share Purchases')
 
 @section('content')
-<div class="space-y-5">
-
-    <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <h1 class="text-xl font-bold text-slate-800">
-                Share Purchases
-            </h1>
-
-            <p class="mt-1 text-sm text-slate-500">
-                Review member share purchase requests.
-            </p>
+<div class="space-y-4">
+    <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-start gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-pie-chart"></i>
+            </div>
+            <div>
+                <h1 class="text-base font-bold text-slate-800">Share Purchases</h1>
+                <p class="text-xs text-slate-500">Review and verify member share purchase requests.</p>
+            </div>
         </div>
 
         <button
             type="button"
             onclick="loadSharePurchases()"
-            class="inline-flex h-9 w-fit items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
     </div>
 
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
-
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class="text-xs text-slate-500">Total</p>
-            <p id="totalCount" class="mt-2 text-xl font-bold text-slate-800">0</p>
+            <p id="totalCount" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
 
-        <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-xs text-amber-700">Pending</p>
-            <p id="pendingCount" class="mt-2 text-xl font-bold text-amber-600">0</p>
+        <div class="rounded-md border border-slate-200 bg-white p-4">
+            <p class="text-xs text-amber-600">Pending</p>
+            <p id="pendingCount" class="mt-1 text-xl font-bold text-amber-600">0</p>
         </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs text-emerald-700">Active</p>
-            <p id="activeCount" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+        <div class="rounded-md border border-slate-200 bg-white p-4">
+            <p class="text-xs text-emerald-600">Active</p>
+            <p id="activeCount" class="mt-1 text-xl font-bold text-emerald-600">0</p>
         </div>
 
-        <div class="rounded-md border border-red-200 bg-red-50/40 p-4">
+        <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class="text-xs text-red-600">Rejected</p>
-            <p id="rejectedCount" class="mt-2 text-xl font-bold text-red-600">0</p>
+            <p id="rejectedCount" class="mt-1 text-xl font-bold text-red-600">0</p>
         </div>
-
     </div>
 
-    <div class="rounded-md border border-slate-200 bg-white">
+    {{-- Search / Filter --}}
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
 
-        <div class="grid gap-3 border-b border-slate-200 p-4 md:grid-cols-[1fr_180px_100px]">
-            <input
-                id="shareSearch"
-                type="text"
-                placeholder="Search member, share no, reference..."
-                class="h-9 rounded-md border border-slate-300 px-3 text-xs outline-none focus:border-indigo-400">
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">Search Share Purchases</p>
+                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                        Search by share no, member or reference.
+                    </p>
+                </div>
+            </div>
 
-            <select
-                id="shareStatus"
-                class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs outline-none focus:border-indigo-400">
+            <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_180px_auto] lg:gap-0">
+                <div class="relative">
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
-                <option value="">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="active">Active</option>
-                <option value="rejected">Rejected</option>
-                <option value="cancelled">Cancelled</option>
-            </select>
+                    <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search member, share no, reference..."
+                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
+                </div>
 
-            <button
-                type="button"
-                onclick="applyShareFilter()"
-                class="h-9 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-700">
-                Filter
-            </button>
+                <select
+                    id="statusFilter"
+                    class="h-9 border border-slate-300 bg-white px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="active">Active</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="transferred">Transferred</option>
+                    <option value="retired">Retired</option>
+                </select>
+
+                <button
+                    type="button"
+                    onclick="clearFilters()"
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    Clear
+                </button>
+            </div>
         </div>
+    </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[1050px] text-sm">
-
+    <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full min-w-[1050px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Share</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Method</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Reference</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Submitted</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Share</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Method</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Reference</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Submitted</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
-                <tbody id="sharePurchaseTable">
+                <tbody id="shareTable">
                     <tr>
                         <td colspan="8" class="px-4 py-10 text-center text-slate-400">
-                            Loading...
+                            Loading share purchases...
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div
-            id="sharePagination"
-            class="flex items-center justify-between border-t border-slate-200 px-4 py-3">
-        </div>
+        <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
 </div>
 
-<div
-    id="shareDetailsModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 p-4">
+{{-- Share Details Modal --}}
+<div id="shareDetailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
 
-    <div class="w-full max-w-2xl overflow-hidden rounded-md bg-white shadow-xl">
-
-        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <div>
-                <h3 class="text-base font-bold text-slate-800">
-                    Share Purchase Details
-                </h3>
-                <p class="text-xs text-slate-400">
-                    Review payment and member details.
-                </p>
+                <div>
+                    <h2 class="text-base font-semibold text-slate-800">Share Purchase Details</h2>
+                    <p class="text-xs text-slate-500">
+                        Review payment and member details.
+                    </p>
+                </div>
             </div>
 
             <button
                 type="button"
-                onclick="closeShareDetails()"
-                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+                onclick="closeShareDetailsModal()"
+                class="app-modal-close">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
 
         <div
-            id="shareDetails"
-            class="grid gap-4 p-5 sm:grid-cols-2">
+            id="shareDetailsBody"
+            class="min-h-0 flex-1 overflow-y-auto p-5">
         </div>
 
         <div
-            id="shareActions"
-            class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+            id="shareDetailsActions"
+            class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
         </div>
     </div>
 </div>
 
-<div
-    id="shareRejectModal"
-    class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-900/40 p-4">
+{{-- Reject Share Modal --}}
+<div id="shareRejectModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
+                    <i class="bi bi-x-circle"></i>
+                </div>
 
-    <div class="w-full max-w-md overflow-hidden rounded-md bg-white shadow-xl">
-
-        <div class="border-b border-slate-200 px-5 py-4">
-            <h3 class="text-base font-bold text-slate-800">
-                Reject Share Purchase
-            </h3>
-        </div>
-
-        <div class="p-5">
-            <label class="mb-1.5 block text-xs font-semibold text-slate-600">
-                Reason
-            </label>
-
-            <textarea
-                id="shareRejectReason"
-                rows="4"
-                class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-red-400">
-            </textarea>
-        </div>
-
-        <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-            <button
-                type="button"
-                onclick="closeShareReject()"
-                class="h-9 rounded-md border border-slate-300 px-4 text-xs font-semibold text-slate-600">
-                Cancel
-            </button>
+                <div>
+                    <h2 class="text-base font-semibold text-slate-800">Reject Share Purchase</h2>
+                    <p id="shareRejectDescription" class="text-sm text-slate-500"></p>
+                </div>
+            </div>
 
             <button
                 type="button"
-                onclick="confirmShareReject()"
-                class="h-9 rounded-md bg-red-600 px-4 text-xs font-semibold text-white">
-                Reject
+                onclick="closeShareRejectModal()"
+                class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
             </button>
         </div>
+
+        <form id="shareRejectForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
+            <input id="shareRejectId" type="hidden">
+
+            <div class="space-y-4 overflow-y-auto p-5">
+                <div>
+                    <label class="form-label">
+                        Rejection Reason <span class="text-red-500">*</span>
+                    </label>
+
+                    <textarea
+                        id="shareRejectReason"
+                        rows="4"
+                        maxlength="1000"
+                        class="app-input resize-none"
+                        placeholder="Enter rejection reason..."
+                        required></textarea>
+                </div>
+
+                <div
+                    id="shareRejectError"
+                    class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
+                </div>
+            </div>
+
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
+                <button
+                    type="button"
+                    onclick="closeShareRejectModal()"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Back
+                </button>
+
+                <button
+                    id="shareRejectButton"
+                    type="submit"
+                    class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                    Reject Share
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+<style>
+.form-label{
+    display:block;
+    margin-bottom:.4rem;
+    font-size:.8rem;
+    font-weight:600;
+    color:rgb(51 65 85);
+}
+</style>
 @endsection
 
 @push('scripts')
 <script>
-let sharePage=1;
-let selectedAdminShare=null;
+let shares=[];
+let currentPage=1;
+let lastPage=1;
+let total=0;
+let selectedShare=null;
 
-async function loadSharePurchases(page=sharePage){
-    sharePage=page;
+const canUpdate=@json(auth()->user()->hasPermission('Finance.update'));
 
-    const search=document
-        .getElementById('shareSearch')
-        .value
-        .trim();
+const el={
+    table:document.getElementById('shareTable'),
+    search:document.getElementById('searchInput'),
+    status:document.getElementById('statusFilter')
+};
 
-    const status=document
-        .getElementById('shareStatus')
-        .value;
+async function loadSharePurchases(page=1){
+    currentPage=page;
 
-    const params=new URLSearchParams({
-        page:sharePage,
-        per_page:20
+    el.table.innerHTML=
+        AdminUI.loadingState(
+            'Loading share purchases...',
+            8
+        );
+
+    const query=AdminUI.query({
+        search:el.search.value.trim(),
+        status:el.status.value,
+        page
     });
-
-    if(search){
-        params.set('search',search);
-    }
-
-    if(status){
-        params.set('status',status);
-    }
-
-    const tbody=document.getElementById(
-        'sharePurchaseTable'
-    );
-
-    tbody.innerHTML=`
-        <tr>
-            <td colspan="8" class="px-4 py-10 text-center text-slate-400">
-                Loading...
-            </td>
-        </tr>
-    `;
 
     try{
         const response=await api(
-            `/api/member-shares?${params.toString()}`
+            `/api/member-shares?${query}`
         );
 
-        const paginator=response.data??{};
-        const rows=paginator.data??[];
+        const paginator=
+            response.data??{};
 
-        renderAdminShares(rows);
-        renderSharePagination(paginator);
+        shares=
+            paginator.data??[];
 
-        document.getElementById('totalCount').textContent=
-            paginator.total??0;
+        currentPage=Number(
+            paginator.current_page??1
+        );
 
-        await loadShareCounts();
+        lastPage=Number(
+            paginator.last_page??1
+        );
+
+        total=Number(
+            paginator.total??0
+        );
+
+        renderShareTable();
+        updateSummary(
+            response.summary??{}
+        );
+
+        AdminUI.renderPagination({
+            container:'paginationContainer',
+            currentPage,
+            lastPage,
+            total,
+            onPageChange:loadSharePurchases
+        });
     }catch(error){
-        tbody.innerHTML=`
-            <tr>
-                <td colspan="8" class="px-4 py-10 text-center text-red-500">
-                    ${escapeAdminShare(error.message??'Failed to load shares.')}
-                </td>
-            </tr>
-        `;
+        el.table.innerHTML=
+            AdminUI.emptyState(
+                AdminUI.extractError(error),
+                8
+            );
     }
 }
 
-async function loadShareCounts(){
-    try{
-        const [pending,active,rejected]=await Promise.all([
-            api('/api/member-shares?status=pending&per_page=5'),
-            api('/api/member-shares?status=active&per_page=5'),
-            api('/api/member-shares?status=rejected&per_page=5')
-        ]);
-
-        document.getElementById('pendingCount').textContent=
-            pending.data?.total??0;
-
-        document.getElementById('activeCount').textContent=
-            active.data?.total??0;
-
-        document.getElementById('rejectedCount').textContent=
-            rejected.data?.total??0;
-
-    }catch(error){
-        console.error(error);
-    }
-}
-
-function applyShareFilter(){
-    loadSharePurchases(1);
-}
-
-function renderAdminShares(rows){
-    const tbody=document.getElementById(
-        'sharePurchaseTable'
-    );
-
-    if(!rows.length){
-        tbody.innerHTML=`
-            <tr>
-                <td colspan="8" class="px-4 py-10 text-center text-slate-400">
-                    No share purchases found.
-                </td>
-            </tr>
-        `;
+function renderShareTable(){
+    if(!shares.length){
+        el.table.innerHTML=
+            AdminUI.emptyState(
+                'No share purchases found.',
+                8
+            );
 
         return;
     }
 
-    tbody.innerHTML=rows.map(share=>{
+    el.table.innerHTML=shares.map(share=>{
         const member=share.member??{};
         const user=member.user??{};
 
         return`
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
-
-                <td class="px-4 py-3">
-                    <span class="font-mono text-xs font-semibold text-indigo-600">
-                        ${escapeAdminShare(share.share_no??'-')}
-                    </span>
+                <td class="px-4 py-3 font-mono text-sm font-semibold text-indigo-600">
+                    ${AdminUI.escapeHtml(share.share_no??'—')}
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="text-xs font-semibold text-slate-700">
-                        ${escapeAdminShare(user.name??'-')}
-                    </div>
+                    <p class="text-sm font-medium text-slate-700">
+                        ${AdminUI.escapeHtml(user.name??'—')}
+                    </p>
 
-                    <div class="mt-0.5 font-mono text-[10px] text-slate-400">
-                        ${escapeAdminShare(member.member_code??'-')}
-                    </div>
-                </td>
-
-                <td class="px-4 py-3 text-right text-xs font-semibold text-slate-700">
-                    ৳${shareAdminMoney(share.purchase_amount)}
-                </td>
-
-                <td class="px-4 py-3 text-xs text-slate-600">
-                    ${shareAdminTitle(share.payment_method)}
-                </td>
-
-                <td class="max-w-[170px] px-4 py-3">
-                    <p class="truncate text-xs text-slate-500">
-                        ${escapeAdminShare(share.transaction_reference??'-')}
+                    <p class="text-[10px] text-slate-400">
+                        ${AdminUI.escapeHtml(member.member_code??'')}
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
-                    ${shareAdminDate(share.created_at)}
+                <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
+                    ${money(share.purchase_amount)}
+                </td>
+
+                <td class="px-4 py-3 text-sm text-slate-600">
+                    ${AdminUI.titleCase(share.payment_method)}
+                </td>
+
+                <td class="max-w-[170px] px-4 py-3">
+                    <p class="truncate text-sm text-slate-500">
+                        ${AdminUI.escapeHtml(share.transaction_reference??'—')}
+                    </p>
+                </td>
+
+                <td class="px-4 py-3 text-sm text-slate-500">
+                    ${AdminUI.formatDate(share.created_at,true)}
                 </td>
 
                 <td class="px-4 py-3 text-center">
-                    ${shareAdminBadge(share.status)}
+                    ${AdminUI.statusBadge(share.status)}
                 </td>
 
-                <td class="px-4 py-3 text-right">
-                    <button
-                        type="button"
-                        onclick="viewAdminShare(${Number(share.id)})"
-                        class="inline-flex h-8 items-center rounded-md border border-slate-300 px-3 text-[11px] font-semibold text-slate-600 hover:bg-slate-50">
-                        View
-                    </button>
+                <td class="px-4 py-3">
+                    <div class="flex justify-end gap-1">
+                        <button
+                            type="button"
+                            onclick="viewShare(${Number(share.id)})"
+                            class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
+                            title="View">
+                            <i class="bi bi-eye text-sm"></i>
+                        </button>
+                    </div>
                 </td>
-
             </tr>
         `;
     }).join('');
 }
 
-async function viewAdminShare(id){
+function updateSummary(summary){
+    document.getElementById('totalCount').textContent=
+        AdminUI.formatNumber(summary.total??total);
+
+    document.getElementById('pendingCount').textContent=
+        AdminUI.formatNumber(summary.pending??0);
+
+    document.getElementById('activeCount').textContent=
+        AdminUI.formatNumber(summary.active??0);
+
+    document.getElementById('rejectedCount').textContent=
+        AdminUI.formatNumber(summary.rejected??0);
+}
+
+window.viewShare=async function(id){
+    AdminUI.openModal(
+        'shareDetailsModal'
+    );
+
+    document.getElementById(
+        'shareDetailsActions'
+    ).innerHTML='';
+
+    const body=
+        document.getElementById(
+            'shareDetailsBody'
+        );
+
+    body.innerHTML=
+        AdminUI.loadingState(
+            'Loading details...'
+        );
+
     try{
         const response=await api(
             `/api/member-shares/${id}`
         );
 
-        selectedAdminShare=response.data;
+        selectedShare=
+            response.data??{};
 
-        renderAdminShareDetails();
-
-        const modal=document.getElementById(
-            'shareDetailsModal'
-        );
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-
+        renderShareDetails();
     }catch(error){
-        alert(error.message??'Failed to load share.');
+        body.innerHTML=`
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
+                ${AdminUI.escapeHtml(
+                    AdminUI.extractError(error)
+                )}
+            </div>
+        `;
     }
-}
+};
 
-function renderAdminShareDetails(){
-    const share=selectedAdminShare??{};
+function renderShareDetails(){
+    const share=selectedShare??{};
     const member=share.member??{};
     const user=member.user??{};
+    const entries=
+        share.finance_transaction
+            ?.entries??[];
 
-    document.getElementById(
-        'shareDetails'
-    ).innerHTML=`
-        ${shareDetail('Share No',share.share_no)}
-        ${shareDetail('Member',user.name)}
-        ${shareDetail('Member Code',member.member_code)}
-        ${shareDetail('Amount','৳'+shareAdminMoney(share.purchase_amount))}
-        ${shareDetail('Payment Method',shareAdminTitle(share.payment_method))}
-        ${shareDetail('Reference',share.transaction_reference??'-')}
-        ${shareDetail('Status',shareAdminTitle(share.status))}
-        ${shareDetail('Submitted',shareAdminDate(share.created_at))}
-        ${shareDetail('Acquired',shareAdminDate(share.acquired_date))}
-        ${shareDetail('Verified At',shareAdminDate(share.verified_at))}
-        ${shareDetail('Note',share.verification_note??share.notes??'-')}
+    const body=
+        document.getElementById(
+            'shareDetailsBody'
+        );
+
+    body.innerHTML=`
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            ${detail('Share No',share.share_no)}
+            ${detail('Member',user.name)}
+            ${detail('Member Code',member.member_code)}
+            ${detail('Amount',money(share.purchase_amount))}
+            ${detail('Payment Method',AdminUI.titleCase(share.payment_method))}
+            ${detail('Reference',share.transaction_reference??'—')}
+            ${detail('Status',AdminUI.titleCase(share.status))}
+            ${detail('Submitted',AdminUI.formatDate(share.created_at,true))}
+            ${detail('Acquired',AdminUI.formatDate(share.acquired_date))}
+            ${detail('Verified At',AdminUI.formatDate(share.verified_at,true))}
+        </div>
+
+        ${
+            entries.length
+                ?`
+                    <div class="mt-5">
+                        <div class="mb-2 flex items-center gap-2">
+                            <div class="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                                <i class="bi bi-journal-text text-sm"></i>
+                            </div>
+
+                            <p class="text-sm font-semibold text-slate-700">
+                                Journal Entry
+                            </p>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-md border border-slate-200">
+                            <table class="w-full min-w-[500px] text-sm">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left font-semibold text-slate-500">Account</th>
+                                        <th class="px-3 py-2 text-right font-semibold text-slate-500">Debit</th>
+                                        <th class="px-3 py-2 text-right font-semibold text-slate-500">Credit</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    ${entries.map(entry=>`
+                                        <tr class="border-t border-slate-100">
+                                            <td class="px-3 py-2 text-slate-600">
+                                                ${AdminUI.escapeHtml(entry.account?.code??'')}
+                                                -
+                                                ${AdminUI.escapeHtml(entry.account?.name??'')}
+                                            </td>
+
+                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                                ${Number(entry.debit??0)>0?money(entry.debit):'—'}
+                                            </td>
+
+                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                                ${Number(entry.credit??0)>0?money(entry.credit):'—'}
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+                :''
+        }
+
+        ${
+            share.verification_note??share.notes
+                ?`
+                    <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
+                        <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            Note
+                        </p>
+
+                        <p class="text-sm leading-5 text-slate-600">
+                            ${AdminUI.escapeHtml(
+                                share.verification_note??share.notes
+                            )}
+                        </p>
+                    </div>
+                `
+                :''
+        }
     `;
 
-    const actions=document.getElementById(
-        'shareActions'
-    );
+    const actions=
+        document.getElementById(
+            'shareDetailsActions'
+        );
 
-    if(share.status==='pending'){
+    if(canUpdate&&share.status==='pending'){
         actions.innerHTML=`
             <button
                 type="button"
-                onclick="openShareReject()"
-                class="h-9 rounded-md border border-red-200 bg-white px-4 text-xs font-semibold text-red-600 hover:bg-red-50">
+                onclick="closeShareDetailsModal()"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                Close
+            </button>
+
+            <button
+                type="button"
+                onclick="openShareRejectModal(${Number(share.id)})"
+                class="cursor-pointer rounded-md border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50">
                 Reject
             </button>
 
             <button
                 type="button"
-                onclick="verifyAdminShare()"
-                class="h-9 rounded-md bg-emerald-600 px-4 text-xs font-semibold text-white hover:bg-emerald-700">
+                onclick="verifyShare(${Number(share.id)},'${escapeJs(share.share_no)}')"
+                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700">
                 Verify
             </button>
         `;
@@ -426,28 +565,36 @@ function renderAdminShareDetails(){
         actions.innerHTML=`
             <button
                 type="button"
-                onclick="closeShareDetails()"
-                class="h-9 rounded-md border border-slate-300 px-4 text-xs font-semibold text-slate-600">
+                onclick="closeShareDetailsModal()"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         `;
     }
 }
 
-async function verifyAdminShare(){
-    if(!selectedAdminShare){
-        return;
-    }
+window.closeShareDetailsModal=function(){
+    AdminUI.closeModal(
+        'shareDetailsModal'
+    );
+};
 
-    if(!confirm(
-        `Verify ${selectedAdminShare.share_no}?`
-    )){
+window.verifyShare=async function(id,shareNo){
+    const confirmed=await AdminUI.confirm({
+        title:'Verify Share Purchase?',
+        subtitle:'This will post the accounting entry.',
+        message:`Share purchase "${shareNo}" will be verified and activated.`,
+        confirmText:'Verify',
+        type:'success'
+    });
+
+    if(!confirmed){
         return;
     }
 
     try{
         const response=await api(
-            `/api/member-shares/${selectedAdminShare.id}/verify`,
+            `/api/member-shares/${id}/verify`,
             {
                 method:'POST',
                 body:JSON.stringify({
@@ -456,235 +603,211 @@ async function verifyAdminShare(){
             }
         );
 
-        alert(
-            response.message??
-            'Share verified.'
+        closeShareDetailsModal();
+
+        Toast.success(
+            response.message||
+            'Share verified successfully.'
         );
 
-        closeShareDetails();
-
-        await loadSharePurchases();
-
+        await loadSharePurchases(
+            currentPage
+        );
     }catch(error){
-        alert(
-            error?.data?.message??
-            error.message??
-            'Failed to verify share.'
+        Toast.error(
+            AdminUI.extractError(error)
         );
     }
-}
+};
 
-function openShareReject(){
+window.openShareRejectModal=function(id){
+    const share=selectedShare??{};
+
+    document.getElementById(
+        'shareRejectId'
+    ).value=id;
+
     document.getElementById(
         'shareRejectReason'
     ).value='';
 
-    closeShareDetails();
-
-    const modal=document.getElementById(
-        'shareRejectModal'
-    );
-
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
-
-function closeShareReject(){
-    const modal=document.getElementById(
-        'shareRejectModal'
-    );
-
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-
-async function confirmShareReject(){
-    if(!selectedAdminShare){
-        return;
-    }
-
-    const note=document
-        .getElementById('shareRejectReason')
-        .value
-        .trim();
-
-    if(!note){
-        alert('Rejection reason is required.');
-        return;
-    }
-
-    try{
-        const response=await api(
-            `/api/member-shares/${selectedAdminShare.id}/reject`,
-            {
-                method:'POST',
-                body:JSON.stringify({
-                    note
-                })
-            }
-        );
-
-        alert(
-            response.message??
-            'Share rejected.'
-        );
-
-        closeShareReject();
-
-        await loadSharePurchases();
-
-    }catch(error){
-        alert(
-            error?.data?.message??
-            error.message??
-            'Failed to reject share.'
-        );
-    }
-}
-
-function closeShareDetails(){
-    const modal=document.getElementById(
-        'shareDetailsModal'
-    );
-
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-
-function renderSharePagination(data){
-    const current=data.current_page??1;
-    const last=data.last_page??1;
-
     document.getElementById(
-        'sharePagination'
-    ).innerHTML=`
-        <span class="text-xs text-slate-400">
-            Showing ${data.from??0}-${data.to??0}
-            of ${data.total??0}
-        </span>
+        'shareRejectDescription'
+    ).textContent=
+        `${share.share_no??''} • ${money(share.purchase_amount)}`;
 
-        <div class="flex gap-2">
-            <button
-                type="button"
-                ${current<=1?'disabled':''}
-                onclick="loadSharePurchases(${current-1})"
-                class="h-8 rounded-md border border-slate-300 px-3 text-xs font-semibold text-slate-600 disabled:opacity-40">
-                Previous
-            </button>
+    AdminUI.clearError(
+        'shareRejectError'
+    );
 
-            <span class="flex h-8 items-center px-2 text-xs text-slate-500">
-                ${current} / ${last}
-            </span>
+    closeShareDetailsModal();
 
-            <button
-                type="button"
-                ${current>=last?'disabled':''}
-                onclick="loadSharePurchases(${current+1})"
-                class="h-8 rounded-md border border-slate-300 px-3 text-xs font-semibold text-slate-600 disabled:opacity-40">
-                Next
-            </button>
+    AdminUI.openModal(
+        'shareRejectModal'
+    );
+};
+
+window.closeShareRejectModal=function(){
+    AdminUI.closeModal(
+        'shareRejectModal'
+    );
+};
+
+document.getElementById(
+    'shareRejectForm'
+).addEventListener(
+    'submit',
+    async event=>{
+        event.preventDefault();
+
+        AdminUI.clearError(
+            'shareRejectError'
+        );
+
+        const id=Number(
+            document.getElementById(
+                'shareRejectId'
+            ).value
+        );
+
+        const note=
+            document
+                .getElementById(
+                    'shareRejectReason'
+                )
+                .value
+                .trim();
+
+        if(!note){
+            AdminUI.showError(
+                'shareRejectError',
+                'Rejection reason is required.'
+            );
+
+            return;
+        }
+
+        const button=
+            document.getElementById(
+                'shareRejectButton'
+            );
+
+        AdminUI.setLoading(
+            button,
+            'Rejecting...'
+        );
+
+        try{
+            const response=await api(
+                `/api/member-shares/${id}/reject`,
+                {
+                    method:'POST',
+                    body:JSON.stringify({
+                        note
+                    })
+                }
+            );
+
+            closeShareRejectModal();
+
+            Toast.success(
+                response.message||
+                'Share purchase rejected.'
+            );
+
+            await loadSharePurchases(
+                currentPage
+            );
+        }catch(error){
+            AdminUI.showError(
+                'shareRejectError',
+                AdminUI.extractError(error)
+            );
+        }finally{
+            AdminUI.resetLoading(
+                button
+            );
+        }
+    }
+);
+
+function detail(label,value){
+    return`
+        <div class="rounded-md border border-slate-200 bg-white p-3">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                ${AdminUI.escapeHtml(label)}
+            </p>
+
+            <p class="mt-1 break-words text-base font-medium text-slate-700">
+                ${AdminUI.escapeHtml(
+                    value??'—'
+                )}
+            </p>
         </div>
     `;
 }
 
-function shareDetail(label,value){
-    return`
-        <div class="rounded-md bg-slate-50 p-3">
-            <div class="text-[10px] uppercase tracking-wide text-slate-400">
-                ${escapeAdminShare(label)}
-            </div>
-
-            <div class="mt-1 text-sm font-semibold text-slate-700">
-                ${escapeAdminShare(value??'-')}
-            </div>
-        </div>
-    `;
-}
-
-function shareAdminBadge(status){
-    const styles={
-        pending:'bg-amber-50 text-amber-700',
-        active:'bg-emerald-50 text-emerald-700',
-        rejected:'bg-red-50 text-red-600',
-        cancelled:'bg-slate-100 text-slate-600',
-        transferred:'bg-indigo-50 text-indigo-700',
-        retired:'bg-slate-100 text-slate-600'
-    };
-
-    return`
-        <span class="rounded-md px-2 py-1 text-[10px] font-semibold ${
-            styles[status]??
-            'bg-slate-100 text-slate-600'
-        }">
-            ${escapeAdminShare(shareAdminTitle(status))}
-        </span>
-    `;
-}
-
-function shareAdminMoney(value){
-    return Number(value??0).toLocaleString(
+function money(value){
+    return `${@json(setting('currency_symbol','৳'))}${Number(
+        value??0
+    ).toLocaleString(
         'en-US',
         {
             minimumFractionDigits:2,
             maximumFractionDigits:2
         }
-    );
+    )}`;
 }
 
-function shareAdminTitle(value){
-    return String(value??'-')
-        .replaceAll('_',' ')
-        .replace(
-            /\b\w/g,
-            char=>char.toUpperCase()
+function escapeJs(value){
+    return String(value??'')
+        .replaceAll('\\','\\\\')
+        .replaceAll("'","\\'")
+        .replaceAll('\n',' ');
+}
+
+window.clearFilters=function(){
+    el.search.value='';
+    el.status.value='';
+
+    loadSharePurchases(1);
+};
+
+async function initSharePage(){
+    if(
+        typeof window.AdminUI==='undefined'||
+        typeof window.api==='undefined'
+    ){
+        setTimeout(
+            initSharePage,
+            50
         );
-}
 
-function shareAdminDate(value){
-    if(!value){
-        return'-';
+        return;
     }
 
-    const date=new Date(value);
-
-    if(Number.isNaN(date.getTime())){
-        return value;
-    }
-
-    return date.toLocaleString(
-        'en-GB',
-        {
-            day:'2-digit',
-            month:'short',
-            year:'numeric',
-            hour:'2-digit',
-            minute:'2-digit'
-        }
+    el.search.addEventListener(
+        'input',
+        AdminUI.debounce(
+            ()=>loadSharePurchases(1)
+        )
     );
+
+    el.status.addEventListener(
+        'change',
+        ()=>loadSharePurchases(1)
+    );
+
+    await loadSharePurchases();
 }
 
-function escapeAdminShare(value){
-    const div=document.createElement('div');
-    div.textContent=String(value??'');
-    return div.innerHTML;
+if(document.readyState==='loading'){
+    document.addEventListener(
+        'DOMContentLoaded',
+        initSharePage
+    );
+}else{
+    initSharePage();
 }
-
-document.addEventListener(
-    'DOMContentLoaded',
-    ()=>{
-        document
-            .getElementById('shareSearch')
-            .addEventListener(
-                'keydown',
-                event=>{
-                    if(event.key==='Enter'){
-                        applyShareFilter();
-                    }
-                }
-            );
-
-        loadSharePurchases();
-    }
-);
 </script>
 @endpush

@@ -21,7 +21,7 @@
                 Approval Management
             </h1>
 
-            <p class="text-sm text-slate-500">
+            <p class="text-xs text-slate-500">
                 Review, approve and reject pending association requests.
             </p>
         </div>
@@ -31,7 +31,7 @@
         @if(auth()->user()->hasPermission('Approval.update'))
             <a
                 href="{{ route('admin.approval-workflows') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-diagram-3 text-[11px]"></i>
                 Workflow Settings
@@ -41,7 +41,7 @@
         <button
             type="button"
             onclick="refreshApprovals()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
         >
             <i class="bi bi-arrow-clockwise text-[11px]"></i>
             Refresh
@@ -56,7 +56,7 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs font-medium text-slate-500">
+            <p class="text-sm font-medium text-slate-500">
                 Total
             </p>
 
@@ -70,7 +70,7 @@
 
 
         <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
-            <p class="text-xs font-medium text-amber-700">
+            <p class="text-sm font-medium text-amber-700">
                 Pending
             </p>
 
@@ -84,7 +84,7 @@
 
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-            <p class="text-xs font-medium text-emerald-700">
+            <p class="text-sm font-medium text-emerald-700">
                 Approved
             </p>
 
@@ -98,7 +98,7 @@
 
 
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-            <p class="text-xs font-medium text-red-700">
+            <p class="text-sm font-medium text-red-700">
                 Rejected
             </p>
 
@@ -112,7 +112,7 @@
 
 
         <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
-            <p class="text-xs font-medium text-slate-600">
+            <p class="text-sm font-medium text-slate-600">
                 Cancelled
             </p>
 
@@ -136,7 +136,7 @@
 
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-funnel text-sm"></i>
+                    <i class="bi bi-funnel text-base"></i>
                 </div>
 
                 <div>
@@ -154,7 +154,7 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
 
                 <div class="relative w-full sm:min-w-[240px] lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -167,7 +167,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
@@ -178,7 +178,7 @@
 
 
                 <label
-                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 lg:border-l-0"
+                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 lg:border-l-0"
                     title="যাদের turn এখনো আসেনি, সেই approval request গুলো লুকিয়ে রাখবে — শুধু যার approve করার পালা এখন, তার কাছেই দেখাবে।"
                 >
                     <input
@@ -194,7 +194,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -217,31 +217,31 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Request
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Module
                         </th>
 
-                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[17%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Subject
                         </th>
 
-                        <th class="w-[16%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[16%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Requested By
                         </th>
 
-                        <th class="w-[14%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Date
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[19%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[19%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -291,13 +291,13 @@ DETAIL MODAL
                 </div>
 
                 <div class="min-w-0">
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-base font-semibold text-slate-800">
                         Approval Details
                     </h2>
 
                     <p
                         id="detailSubtitle"
-                        class="mt-1 truncate text-xs text-slate-500"
+                        class="mt-1 truncate text-sm text-slate-500"
                     ></p>
                 </div>
 
@@ -325,7 +325,7 @@ DETAIL MODAL
             <button
                 type="button"
                 onclick="closeDetailModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Close
             </button>
@@ -347,7 +347,7 @@ REJECT MODAL
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-3">
 
             <div>
-                <h2 class="text-lg font-bold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Reject Request
                 </h2>
 
@@ -370,7 +370,7 @@ REJECT MODAL
 
         <div class="p-5">
 
-            <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+            <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                 Rejection Reason *
             </label>
 
@@ -384,7 +384,7 @@ REJECT MODAL
 
             <div
                 id="rejectError"
-                class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
             ></div>
 
         </div>
@@ -395,7 +395,7 @@ REJECT MODAL
             <button
                 type="button"
                 onclick="closeRejectModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600"
             >
                 Cancel
             </button>
@@ -404,7 +404,7 @@ REJECT MODAL
                 id="rejectButton"
                 type="button"
                 onclick="submitRejection()"
-                class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-red-700"
+                class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
             >
                 Reject
             </button>
@@ -427,7 +427,7 @@ CANCEL MODAL
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-3">
 
             <div>
-                <h2 class="text-lg font-bold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Cancel Request
                 </h2>
 
@@ -450,7 +450,7 @@ CANCEL MODAL
 
         <div class="p-5">
 
-            <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+            <label class="mb-1.5 block text-sm font-semibold text-slate-700">
                 Cancellation Reason
             </label>
 
@@ -465,7 +465,7 @@ CANCEL MODAL
 
             <div
                 id="cancelError"
-                class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                class="mt-3 hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
             ></div>
 
         </div>
@@ -476,7 +476,7 @@ CANCEL MODAL
             <button
                 type="button"
                 onclick="closeCancelModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600"
             >
                 Back
             </button>
@@ -485,7 +485,7 @@ CANCEL MODAL
                 id="cancelButton"
                 type="button"
                 onclick="submitCancellation()"
-                class="cursor-pointer rounded-md bg-slate-700 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
+                class="cursor-pointer rounded-md bg-slate-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
                 Cancel Request
             </button>
@@ -732,7 +732,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold capitalize text-slate-800"
+                            class="truncate text-sm font-semibold capitalize text-slate-800"
                             title="${AdminUI.escapeHtml(approval.action??'Request')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -764,7 +764,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(approvableLabel(approval))}"
                         >
                             ${AdminUI.escapeHtml(
@@ -778,7 +778,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(approval.requester?.name??'System')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -839,7 +839,7 @@ function renderApprovals(){
                                 title="View Details"
                                 class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                             >
-                                <i class="bi bi-eye text-xs"></i>
+                                <i class="bi bi-eye text-sm"></i>
                             </button>
 
 
@@ -852,7 +852,7 @@ function renderApprovals(){
                                             title="Approve"
                                             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
                                         >
-                                            <i class="bi bi-check-lg text-xs"></i>
+                                            <i class="bi bi-check-lg text-sm"></i>
                                         </button>
                                     `
                                     :''
@@ -868,7 +868,7 @@ function renderApprovals(){
                                             title="Reject"
                                             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                         >
-                                            <i class="bi bi-x-lg text-xs"></i>
+                                            <i class="bi bi-x-lg text-sm"></i>
                                         </button>
                                     `
                                     :''
@@ -884,7 +884,7 @@ function renderApprovals(){
                                             title="Cancel Request"
                                             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-slate-100 text-slate-600 transition hover:bg-slate-200"
                                         >
-                                            <i class="bi bi-slash-circle text-xs"></i>
+                                            <i class="bi bi-slash-circle text-sm"></i>
                                         </button>
                                     `
                                     :''
@@ -1243,7 +1243,7 @@ function detailItem(
     raw=false
 ){
     return `
-        <div class="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-3">
+        <div class="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-2.5">
 
             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                 ${AdminUI.escapeHtml(label)}
@@ -1286,7 +1286,7 @@ function detailBlock(
         <div class="rounded-md border ${
             styles[color]??
             styles.slate
-        } p-4">
+        } p-3">
 
             <p class="text-xs font-semibold ${
                 titleStyles[color]??
@@ -1295,7 +1295,7 @@ function detailBlock(
                 ${AdminUI.escapeHtml(label)}
             </p>
 
-            <p class="mt-2 whitespace-pre-line break-words text-sm text-slate-700">
+            <p class="mt-1.5 whitespace-pre-line break-words text-sm text-slate-700">
                 ${AdminUI.escapeHtml(value)}
             </p>
 

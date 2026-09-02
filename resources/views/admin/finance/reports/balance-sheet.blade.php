@@ -12,10 +12,10 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Balance Sheet</h1>
-                <p class="text-sm text-slate-500">Assets, liabilities and equity derived from posted accounting entries.</p>
+                <p class="text-xs text-slate-500">Assets, liabilities and equity derived from posted accounting entries.</p>
             </div>
         </div>
-        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-xs font-semibold"></div>
+        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
     </div>
 
     <div class="rounded-md border border-slate-200 bg-white p-4">
@@ -26,7 +26,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="asOfFilter"
@@ -82,15 +82,15 @@
     <div class="grid gap-4 xl:grid-cols-2">
         <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
             <div class="border-b border-slate-200 bg-slate-50 px-5 py-3">
-                <h2 class="text-sm font-bold text-slate-700">Assets</h2>
+                <h2 class="text-base font-bold text-slate-700">Assets</h2>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[520px] text-sm">
+                <table class="w-full min-w-[520px] text-base">
                     <thead class="border-b border-slate-200">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-xs font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500">Balance</th>
+                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
                         </tr>
                     </thead>
 
@@ -102,7 +102,7 @@
 
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">Total Assets</td>
+                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Assets</td>
                             <td id="assetFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -115,15 +115,15 @@
         <div class="space-y-4">
             <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
                 <div class="border-b border-slate-200 bg-slate-50 px-5 py-3">
-                    <h2 class="text-sm font-bold text-slate-700">Liabilities</h2>
+                    <h2 class="text-base font-bold text-slate-700">Liabilities</h2>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[520px] text-sm">
+                    <table class="w-full min-w-[520px] text-base">
                         <thead class="border-b border-slate-200">
                             <tr>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-slate-500">Account</th>
-                                <th class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500">Balance</th>
+                                <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
+                                <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
                             </tr>
                         </thead>
 
@@ -135,7 +135,7 @@
 
                         <tfoot class="border-t border-slate-200 bg-slate-50">
                             <tr>
-                                <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">Total Liabilities</td>
+                                <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Liabilities</td>
                                 <td id="liabilityFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                     {{ setting('currency_symbol','৳') }}0.00
                                 </td>
@@ -147,15 +147,15 @@
 
             <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
                 <div class="border-b border-slate-200 bg-slate-50 px-5 py-3">
-                    <h2 class="text-sm font-bold text-slate-700">Equity</h2>
+                    <h2 class="text-base font-bold text-slate-700">Equity</h2>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[520px] text-sm">
+                    <table class="w-full min-w-[520px] text-base">
                         <thead class="border-b border-slate-200">
                             <tr>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-slate-500">Account</th>
-                                <th class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500">Balance</th>
+                                <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
+                                <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
                             </tr>
                         </thead>
 
@@ -167,7 +167,7 @@
 
                         <tfoot class="border-t border-slate-200 bg-slate-50">
                             <tr>
-                                <td class="px-4 py-3 text-right text-xs font-bold text-slate-700">Total Equity</td>
+                                <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Equity</td>
                                 <td id="equityFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                     {{ setting('currency_symbol','৳') }}0.00
                                 </td>
@@ -181,7 +181,7 @@
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="border-b border-slate-200 px-5 py-3">
-            <h2 class="text-sm font-bold text-slate-700">Accounting Equation</h2>
+            <h2 class="text-base font-bold text-slate-700">Accounting Equation</h2>
             <p id="reportDate" class="mt-0.5 text-[11px] text-slate-400"></p>
         </div>
 
@@ -212,7 +212,7 @@
             </div>
         </div>
 
-        <div id="differenceWrap" class="hidden border-t border-red-200 bg-red-50 px-5 py-3 text-sm text-red-700">
+        <div id="differenceWrap" class="hidden border-t border-red-200 bg-red-50 px-5 py-3 text-base text-red-700">
             Difference:
             <span id="equationDifference" class="font-bold"></span>
         </div>
@@ -426,11 +426,11 @@ function renderAccounts(target,accounts){
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
             <td class="px-4 py-3">
                 <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-semibold text-indigo-600">
+                    <span class="font-mono text-sm font-semibold text-indigo-600">
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-sm font-medium text-slate-700">
+                    <span class="text-base font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>
@@ -466,11 +466,11 @@ function renderEquity(accounts,surplus){
         <tr class="border-b border-slate-100 hover:bg-slate-50/60">
             <td class="px-4 py-3">
                 <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-semibold text-indigo-600">
+                    <span class="font-mono text-sm font-semibold text-indigo-600">
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-sm font-medium text-slate-700">
+                    <span class="text-base font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>

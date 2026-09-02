@@ -61,8 +61,42 @@ class ExpenseService
                 ),
                 'attachment'=>$data['attachment']??null,
                 'created_by'=>$userId,
-                'status'=>'posted',
+                'status'=>'pending_approval',
             ]);
+
+            // No ledger entry yet: nothing is posted until the
+            // Expense.create approval request is approved — see
+            // finalizeApproval().
+            return $this->freshExpense($expense);
+        });
+    }
+
+    /**
+     * Called by ApprovalService once the Expense.create request is
+     * approved. Posts the actual double-entry ledger transaction and
+     * marks the expense as posted.
+     */
+    public function finalizeApproval(
+        Expense $expense,
+        array $decisionData,
+        int $approvedBy
+    ): Expense{
+        return DB::transaction(function()use(
+            $expense,
+            $approvedBy
+        ){
+            $expense=Expense::query()
+                ->whereKey($expense->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($expense->status!=='pending_approval'){
+                throw ValidationException::withMessages([
+                    'expense'=>[
+                        'This expense is not awaiting approval.'
+                    ],
+                ]);
+            }
 
             $journal=$this->accountingService->post([
                 'idempotency_key'=>"expense:post:{$expense->id}",
@@ -76,18 +110,18 @@ class ExpenseService
                 'reference_id'=>$expense->id,
                 'description'=>$expense->description
                     ??"Expense {$expense->expense_no}",
-                'user_id'=>$userId,
+                'user_id'=>$approvedBy,
                 'entries'=>[
                     [
-                        'account_id'=>$expenseAccount->id,
-                        'debit'=>$amount,
+                        'account_id'=>$expense->expense_account_id,
+                        'debit'=>$expense->amount,
                         'credit'=>0,
                         'description'=>'Expense recognized',
                     ],
                     [
-                        'account_id'=>$paymentAccount->id,
+                        'account_id'=>$expense->payment_account_id,
                         'debit'=>0,
-                        'credit'=>$amount,
+                        'credit'=>$expense->amount,
                         'description'=>'Expense payment',
                     ],
                 ],
@@ -95,10 +129,54 @@ class ExpenseService
 
             $expense->update([
                 'finance_transaction_id'=>$journal->id,
+                'status'=>'posted',
             ]);
 
             return $this->freshExpense($expense);
         });
+    }
+
+    /**
+     * Called by ApprovalService when the Expense.create request is
+     * rejected. The expense never gets a ledger entry.
+     */
+    public function finalizeRejection(
+        Expense $expense,
+        string $reason,
+        ?int $rejectedBy
+    ): Expense{
+        $expense=Expense::query()
+            ->whereKey($expense->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($expense->status==='pending_approval'){
+            $expense->update([
+                'status'=>'rejected',
+            ]);
+        }
+
+        return $this->freshExpense($expense);
+    }
+
+    /**
+     * Called by ApprovalService when the Expense.create request is
+     * cancelled/withdrawn before a decision is made.
+     */
+    public function finalizeCancellation(Expense $expense): Expense
+    {
+        $expense=Expense::query()
+            ->whereKey($expense->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($expense->status==='pending_approval'){
+            $expense->update([
+                'status'=>'cancelled',
+            ]);
+        }
+
+        return $this->freshExpense($expense);
     }
 
     public function update(

@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Association Tours</h1>
-                <p class="text-sm text-slate-500">
+                <p class="text-xs text-slate-500">
                     View upcoming tours, schedules and participation status.
                 </p>
             </div>
@@ -28,17 +28,17 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs text-indigo-600">Upcoming</p>
+            <p class="text-sm text-indigo-600">Upcoming</p>
             <p id="upcomingTours" class="mt-2 text-xl font-bold text-indigo-700">0</p>
         </div>
 
         <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-xs text-amber-600">Ongoing</p>
+            <p class="text-sm text-amber-600">Ongoing</p>
             <p id="ongoingTours" class="mt-2 text-xl font-bold text-amber-700">0</p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs text-emerald-600">My Participations</p>
+            <p class="text-sm text-emerald-600">My Participations</p>
             <p id="myParticipations" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
     </div>
@@ -47,7 +47,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -60,7 +60,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-72">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -71,7 +71,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none">
+                    class="h-9 border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none">
                     <option value="">All Status</option>
                     <option value="upcoming">Upcoming</option>
                     <option value="ongoing">Ongoing</option>
@@ -82,7 +82,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100">
+                    class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -91,7 +91,7 @@
     </div>
 
     <div id="tourGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
             Loading tours...
         </div>
     </div>
@@ -115,7 +115,7 @@
                         Tour Details
                     </h2>
 
-                    <p id="detailsSubtitle" class="mt-0.5 text-xs text-slate-500"></p>
+                    <p id="detailsSubtitle" class="mt-0.5 text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -129,7 +129,7 @@
         <div class="min-h-0 flex-1 overflow-y-auto p-5">
 
             <div id="tourDetailsLoading">
-                <div class="py-16 text-center text-sm text-slate-400">
+                <div class="py-16 text-center text-base text-slate-400">
                     Loading tour details...
                 </div>
             </div>
@@ -139,17 +139,17 @@
                 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-slate-400">Destination</p>
-                        <p id="detailDestination" class="mt-1 truncate text-sm font-bold text-slate-700"></p>
+                        <p id="detailDestination" class="mt-1 truncate text-base font-bold text-slate-700"></p>
                     </div>
 
                     <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-indigo-400">Start Date</p>
-                        <p id="detailStartDate" class="mt-1 text-sm font-bold text-indigo-700"></p>
+                        <p id="detailStartDate" class="mt-1 text-base font-bold text-indigo-700"></p>
                     </div>
 
                     <div class="rounded-md border border-sky-200 bg-sky-50 p-3">
                         <p class="text-[10px] uppercase tracking-wide text-sky-400">End Date</p>
-                        <p id="detailEndDate" class="mt-1 text-sm font-bold text-sky-700"></p>
+                        <p id="detailEndDate" class="mt-1 text-base font-bold text-sky-700"></p>
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
@@ -160,12 +160,12 @@
 
                 <div class="rounded-md border border-slate-200">
                     <div class="border-b border-slate-100 px-4 py-3">
-                        <h3 class="text-sm font-bold text-slate-700">Tour Information</h3>
+                        <h3 class="text-base font-bold text-slate-700">Tour Information</h3>
                     </div>
 
                     <div class="space-y-4 p-4">
                         <div id="tourInformation"
-                            class="grid grid-cols-2 gap-4 text-xs md:grid-cols-3"></div>
+                            class="grid grid-cols-2 gap-4 text-sm md:grid-cols-3"></div>
 
                         <div id="tourDescriptionBlock"
                             class="hidden border-t border-slate-100 pt-4">
@@ -174,7 +174,7 @@
                             </p>
 
                             <p id="tourDescription"
-                                class="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600"></p>
+                                class="mt-2 whitespace-pre-wrap text-base leading-6 text-slate-600"></p>
                         </div>
 
                         <div id="tourNotesBlock"
@@ -184,14 +184,14 @@
                             </p>
 
                             <p id="tourNotes"
-                                class="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600"></p>
+                                class="mt-2 whitespace-pre-wrap text-base leading-6 text-slate-600"></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="rounded-md border border-indigo-200 bg-indigo-50/30">
                     <div class="border-b border-indigo-100 px-4 py-3">
-                        <h3 class="text-sm font-bold text-indigo-700">
+                        <h3 class="text-base font-bold text-indigo-700">
                             My Participation
                         </h3>
                     </div>
@@ -217,7 +217,7 @@ const el={
 
 function loadingState(){
     el.grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading tours...
@@ -233,11 +233,11 @@ function emptyState(){
                 <i class="bi bi-airplane"></i>
             </div>
 
-            <p class="mt-3 text-sm font-semibold text-slate-600">
+            <p class="mt-3 text-base font-semibold text-slate-600">
                 No tours found
             </p>
 
-            <p class="mt-1 text-xs text-slate-400">
+            <p class="mt-1 text-sm text-slate-400">
                 No tour matches the selected filters.
             </p>
         </div>
@@ -321,7 +321,7 @@ async function loadTours(page=1){
         );
     }catch(error){
         el.grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-sm text-red-600">
+            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -346,7 +346,7 @@ function renderTours(){
                             ${AdminUI.escapeHtml(item.tour_no??'')}
                         </p>
 
-                        <h3 class="mt-1 truncate text-sm font-bold text-slate-800">
+                        <h3 class="mt-1 truncate text-base font-bold text-slate-800">
                             ${AdminUI.escapeHtml(item.title??'Tour')}
                         </h3>
 
@@ -367,7 +367,7 @@ function renderTours(){
                             Start Date
                         </p>
 
-                        <p class="mt-1 text-xs font-bold text-indigo-700">
+                        <p class="mt-1 text-sm font-bold text-indigo-700">
                             ${item.start_date
                                 ?AdminUI.formatDate(item.start_date)
                                 :'—'}
@@ -379,7 +379,7 @@ function renderTours(){
                             End Date
                         </p>
 
-                        <p class="mt-1 text-xs font-bold text-sky-700">
+                        <p class="mt-1 text-sm font-bold text-sky-700">
                             ${item.end_date
                                 ?AdminUI.formatDate(item.end_date)
                                 :'—'}
@@ -407,7 +407,7 @@ function renderTours(){
                             Participants
                         </p>
 
-                        <p class="mt-1 text-sm font-bold text-slate-700">
+                        <p class="mt-1 text-base font-bold text-slate-700">
                             ${item.participants_count??0}
                         </p>
                     </div>
@@ -451,7 +451,7 @@ window.viewTour=async function(id){
     );
 
     loading.innerHTML=`
-        <div class="py-16 text-center text-sm text-slate-400">
+        <div class="py-16 text-center text-base text-slate-400">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
 
             <p class="mt-2">
@@ -482,7 +482,7 @@ window.viewTour=async function(id){
         content.classList.remove('hidden');
     }catch(error){
         loading.innerHTML=`
-            <div class="py-12 text-center text-sm text-red-600">
+            <div class="py-12 text-center text-base text-red-600">
                 ${AdminUI.escapeHtml(
                     AdminUI.extractError(error)
                 )}
@@ -608,7 +608,7 @@ function renderMyParticipation(participation){
                         Not registered for this tour
                     </p>
 
-                    <p class="mt-1 text-xs text-slate-500">
+                    <p class="mt-1 text-sm text-slate-500">
                         No participation record was found for this tour.
                     </p>
                 </div>
@@ -644,7 +644,7 @@ function renderMyParticipation(participation){
                             Notes
                         </p>
 
-                        <p class="mt-1 text-xs leading-5 text-slate-600">
+                        <p class="mt-1 text-sm leading-5 text-slate-600">
                             ${AdminUI.escapeHtml(
                                 participation.notes
                             )}

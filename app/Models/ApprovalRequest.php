@@ -120,6 +120,29 @@ class ApprovalRequest extends Model
             'Tour'=>($subject->title??'Tour')
                 .' ('.($subject->tour_no??'#'.$subject->id).')',
 
+            'Income'=>'Income '
+                .($subject->income_no??'#'.$subject->id)
+                .' ('.number_format((float)($subject->amount??0),2).')',
+
+            'Expense'=>'Expense '
+                .($subject->expense_no??'#'.$subject->id)
+                .' ('.number_format((float)($subject->amount??0),2).')',
+
+            'SubscriptionPayment'=>'Payment '
+                .($subject->payment_no??'#'.$subject->id)
+                .' ('.number_format((float)($subject->amount??0),2).')',
+
+            'MemberCharge'=>'Charge '
+                .($subject->charge_no??'#'.$subject->id)
+                .' ('.number_format((float)($subject->amount??0),2).')',
+
+            'Asset'=>'Asset '
+                .($subject->asset_code??'#'.$subject->id)
+                .' ('.number_format((float)($subject->purchase_cost??0),2).')',
+
+            'Transaction'=>'Journal '
+                .($subject->transaction_no??'#'.$subject->id),
+
             default=>class_basename($this->approvable_type).' #'.$subject->id,
         };
     }

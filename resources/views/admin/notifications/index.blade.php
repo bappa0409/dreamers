@@ -13,12 +13,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Notifications</h1>
-                <p class="text-sm text-slate-500">Send announcements and manage notification history.</p>
+                <p class="text-xs text-slate-500">Send announcements and manage notification history.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Notification.send'))
-            <button type="button" onclick="openSendModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openSendModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-send"></i>
                 Send Notification
             </button>
@@ -32,15 +32,15 @@
             <p id="totalCampaigns" class="mt-2 text-2xl font-bold text-slate-800">0</p>
         </div>
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-            <p class="text-xs text-emerald-700">Sent</p>
+            <p class="text-sm text-emerald-700">Sent</p>
             <p id="sentCampaigns" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
         </div>
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-            <p class="text-xs text-red-700">Failed</p>
+            <p class="text-sm text-red-700">Failed</p>
             <p id="failedCampaigns" class="mt-2 text-2xl font-bold text-red-600">0</p>
         </div>
         <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
-            <p class="text-xs text-indigo-700">Recipients</p>
+            <p class="text-sm text-indigo-700">Recipients</p>
             <p id="totalRecipients" class="mt-2 text-2xl font-bold text-indigo-600">0</p>
         </div>
     </div>
@@ -50,7 +50,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Notifications</p>
@@ -60,17 +60,17 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search notifications..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Status</option>
                     <option value="sent">Sent</option>
                     <option value="failed">Failed</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -84,12 +84,12 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[30%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Notification</th>
-                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Audience</th>
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Recipients</th>
-                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Sender</th>
-                        <th class="w-[12%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Sent At</th>
+                        <th class="w-[30%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Notification</th>
+                        <th class="w-[15%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Audience</th>
+                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Recipients</th>
+                        <th class="w-[15%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Sender</th>
+                        <th class="w-[12%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[17%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Sent At</th>
                     </tr>
                 </thead>
                 <tbody id="campaignTable">
@@ -112,7 +112,7 @@
                     <i class="bi bi-send"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Send Notification</h2>
+                    <h2 class="text-base font-semibold text-slate-800">Send Notification</h2>
                     <p class="text-xs text-slate-500">Send notification to selected association users.</p>
                 </div>
             </div>
@@ -165,12 +165,12 @@
                     <label class="form-label">Select Users <span class="text-red-500">*</span></label>
 
                     <div class="relative">
-                        <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                        <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                         <input id="userSearch" type="text" placeholder="Search users..." class="app-input !pl-9">
                     </div>
 
                     <div id="userResults" class="mt-2 max-h-48 overflow-y-auto rounded-md border border-slate-200 bg-white p-2">
-                        <p class="p-3 text-center text-xs text-slate-400">Search users.</p>
+                        <p class="p-3 text-center text-sm text-slate-400">Search users.</p>
                     </div>
                 </div>
 
@@ -180,12 +180,12 @@
                     <p class="mt-1 text-[11px] text-slate-400">Optional. User can open this page from the notification.</p>
                 </div>
 
-                <div id="sendError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
+                <div id="sendError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeSendModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
-                <button id="sendButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">Send Notification</button>
+                <button type="button" onclick="closeSendModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button id="sendButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">Send Notification</button>
             </div>
         </form>
     </div>
@@ -288,7 +288,7 @@ function renderCampaigns(){
                 <div class="flex min-w-0 items-start gap-2">
                     <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${typeColor(item.type)}"></span>
                     <div class="min-w-0 flex-1">
-                        <p class="truncate text-xs font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
+                        <p class="truncate text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
                             ${AdminUI.escapeHtml(item.title??'Untitled')}
                         </p>
                         <p class="mt-1 truncate text-[11px] text-slate-400" title="${AdminUI.escapeHtml(item.message??'')}">
@@ -299,17 +299,17 @@ function renderCampaigns(){
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-xs text-slate-600" title="${AdminUI.escapeHtml(formatAudience(item.audience_type))}">
+                <p class="truncate text-sm text-slate-600" title="${AdminUI.escapeHtml(formatAudience(item.audience_type))}">
                     ${AdminUI.escapeHtml(formatAudience(item.audience_type))}
                 </p>
             </td>
 
             <td class="overflow-hidden px-3 py-4">
-                <p class="truncate text-xs font-semibold text-slate-700">${item.recipients_count??0}</p>
+                <p class="truncate text-sm font-semibold text-slate-700">${item.recipients_count??0}</p>
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-xs text-slate-600" title="${AdminUI.escapeHtml(item.sender?.name??'System')}">
+                <p class="truncate text-sm text-slate-600" title="${AdminUI.escapeHtml(item.sender?.name??'System')}">
                     ${AdminUI.escapeHtml(item.sender?.name??'System')}
                 </p>
             </td>
@@ -367,7 +367,7 @@ window.openSendModal=async function(){
     el.type.value='info';
     el.audienceType.value='all_active_members';
     el.userSearch.value='';
-    el.userResults.innerHTML='<p class="p-3 text-center text-xs text-slate-400">Search users.</p>';
+    el.userResults.innerHTML='<p class="p-3 text-center text-sm text-slate-400">Search users.</p>';
 
     handleAudienceChange();
     AdminUI.openModal('sendModal');
@@ -381,7 +381,7 @@ window.closeSendModal=function(){
 };
 
 async function loadRecipients(search=''){
-    el.userResults.innerHTML='<p class="p-3 text-center text-xs text-slate-400">Loading users...</p>';
+    el.userResults.innerHTML='<p class="p-3 text-center text-sm text-slate-400">Loading users...</p>';
 
     try{
         const response=await api(`/api/notification-campaigns/recipients?${AdminUI.query({search})}`);
@@ -391,7 +391,7 @@ async function loadRecipients(search=''){
         renderUsers(response.data?.users??[]);
     }catch(error){
         el.userResults.innerHTML=`
-            <p class="p-3 text-center text-xs text-red-600">
+            <p class="p-3 text-center text-sm text-red-600">
                 ${AdminUI.escapeHtml(AdminUI.extractError(error))}
             </p>
         `;
@@ -416,7 +416,7 @@ function renderRoles(){
 
 function renderUsers(users){
     if(!users.length){
-        el.userResults.innerHTML='<p class="p-3 text-center text-xs text-slate-400">No users found.</p>';
+        el.userResults.innerHTML='<p class="p-3 text-center text-sm text-slate-400">No users found.</p>';
         return;
     }
 
@@ -424,7 +424,7 @@ function renderUsers(users){
         <label class="flex cursor-pointer items-center gap-3 rounded-md p-2 transition hover:bg-slate-50">
             <input type="checkbox" value="${user.id}" ${selectedUsers.has(Number(user.id))?'checked':''} onchange="toggleUser(${user.id},this.checked)" class="h-4 w-4 shrink-0 rounded border-slate-300 text-indigo-600">
             <div class="min-w-0">
-                <p class="truncate text-xs font-semibold text-slate-700" title="${AdminUI.escapeHtml(user.name??'')}">
+                <p class="truncate text-sm font-semibold text-slate-700" title="${AdminUI.escapeHtml(user.name??'')}">
                     ${AdminUI.escapeHtml(user.name??'User')}
                 </p>
                 <p class="truncate text-[10px] text-slate-400" title="${AdminUI.escapeHtml(user.email??'')}">

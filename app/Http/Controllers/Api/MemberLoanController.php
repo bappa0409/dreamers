@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Loan;
 use App\Models\LoanRepayment;
+use App\Services\ApprovalService;
 use App\Services\LoanService;
 use Illuminate\Http\Request;
 
 class MemberLoanController extends Controller
 {
     public function __construct(
-        protected LoanService $loanService
+        protected LoanService $loanService,
+        protected ApprovalService $approvalService
     ){}
 
     public function index(Request $request)
@@ -164,13 +166,24 @@ class MemberLoanController extends Controller
         $validated['member_id']=$member->id;
         $validated['request_date']=now()->toDateString();
 
+        $loan=$this->loanService->createRequest(
+            $validated,
+            $request->user()->id
+        );
+
+        $approval=$this->approvalService->createRequest(
+            $loan,
+            'Loan',
+            'request',
+            $request->user()->id,
+            'New loan request requires approval.'
+        );
+
         return response()->json([
             'success'=>true,
             'message'=>'Loan request submitted successfully.',
-            'data'=>$this->loanService->createRequest(
-                $validated,
-                $request->user()->id
-            )
+            'data'=>$loan,
+            'approval'=>$approval
         ],201);
     }
 

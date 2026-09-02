@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">User Accounts</h1>
-                <p class="text-sm text-slate-500">Manage login accounts, account status and password resets.</p>
+                <p class="text-xs text-slate-500">Manage login accounts, account status and password resets.</p>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openUserModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add User
@@ -35,7 +35,7 @@
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-sm"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
@@ -46,7 +46,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="searchInput"
@@ -58,7 +58,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400"
+                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400"
                 >
                     <option value="">All Status</option>
                     <option value="active">Active</option>
@@ -68,7 +68,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -83,18 +83,18 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[25%] px-4 py-3 text-left text-xs font-semibold text-slate-600">User</th>
-                        <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="w-[20%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Roles</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Language</th>
-                        <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="w-[20%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[25%] px-4 py-3 text-left text-sm font-semibold text-slate-600">User</th>
+                        <th class="w-[14%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="w-[20%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Roles</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Language</th>
+                        <th class="w-[11%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[20%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="usersTable">
                     <tr>
-                        <td colspan="6" class="px-5 py-10 text-center text-sm text-slate-400">
+                        <td colspan="6" class="px-5 py-10 text-center text-base text-slate-400">
                             Loading users...
                         </td>
                     </tr>
@@ -116,8 +116,8 @@
                 </div>
 
                 <div>
-                    <h2 id="userModalTitle" class="text-lg font-bold text-slate-800">Add User</h2>
-                    <p class="text-sm text-slate-500">Manage user account information.</p>
+                    <h2 id="userModalTitle" class="text-base font-semibold text-slate-800">Add User</h2>
+                    <p class="text-xs text-slate-500">Manage user account information.</p>
                 </div>
             </div>
 
@@ -165,14 +165,14 @@
                     </div>
                 </div>
 
-                <div id="userFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="userFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
                 <button
                     type="button"
                     onclick="closeUserModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -180,7 +180,7 @@
                 <button
                     id="saveUserButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save User
                 </button>
@@ -199,7 +199,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Reset Password</h2>
+                    <h2 class="text-base font-semibold text-slate-800">Reset Password</h2>
                     <p id="passwordUserName" class="text-sm text-slate-500"></p>
                 </div>
             </div>
@@ -221,14 +221,14 @@
                     <input id="newPasswordConfirmation" type="password" minlength="8" class="app-input">
                 </div>
 
-                <div id="passwordError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700"></div>
+                <div id="passwordError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
                 <button
                     type="button"
                     onclick="closePasswordModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -236,7 +236,7 @@
                 <button
                     id="resetPasswordButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Reset Password
                 </button>
@@ -340,7 +340,7 @@ function renderUsers(){
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                 <td class="min-w-0 px-4 py-3">
                     <p
-                        class="truncate text-xs font-semibold text-slate-800"
+                        class="truncate text-sm font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(user.name??'')}"
                     >
                         ${AdminUI.escapeHtml(user.name??'N/A')}
@@ -450,7 +450,7 @@ function renderUsers(){
                                         title="Edit User"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
                                     >
-                                        <i class="bi bi-pencil-square text-xs"></i>
+                                        <i class="bi bi-pencil-square text-sm"></i>
                                     </button>
 
                                     <button
@@ -459,7 +459,7 @@ function renderUsers(){
                                         title="Reset Password"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-amber-50 text-amber-700 transition hover:bg-amber-100"
                                     >
-                                        <i class="bi bi-key text-xs"></i>
+                                        <i class="bi bi-key text-sm"></i>
                                     </button>
 
                                     <button
@@ -472,7 +472,7 @@ function renderUsers(){
                                                 :'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                                         } transition"
                                     >
-                                        <i class="bi ${user.is_active?'bi-person-x':'bi-person-check'} text-xs"></i>
+                                        <i class="bi ${user.is_active?'bi-person-x':'bi-person-check'} text-sm"></i>
                                     </button>
                                 `
                                 :''
@@ -487,7 +487,7 @@ function renderUsers(){
                                         title="Delete User"
                                         class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
                                     >
-                                        <i class="bi bi-trash text-xs"></i>
+                                        <i class="bi bi-trash text-sm"></i>
                                     </button>
                                 `
                                 :''

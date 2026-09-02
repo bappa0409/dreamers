@@ -45,36 +45,38 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->enum('status', [
+                'pending_approval',
                 'posted',
+                'rejected',
                 'cancelled',
             ])->default('posted');
 
             $table->timestamps();
 
             $table->index(
-    ['status','income_date'],
-    'incomes_status_date_idx'
-);
+                ['status', 'income_date'],
+                'incomes_status_date_idx'
+            );
 
-$table->index(
-    ['income_account_id','income_date'],
-    'incomes_income_account_date_idx'
-);
+            $table->index(
+                ['income_account_id', 'income_date'],
+                'incomes_income_account_date_idx'
+            );
 
-$table->index(
-    ['receive_account_id','income_date'],
-    'incomes_receive_account_date_idx'
-);
+            $table->index(
+                ['receive_account_id', 'income_date'],
+                'incomes_receive_account_date_idx'
+            );
 
-$table->index(
-    ['member_id','income_date'],
-    'incomes_member_date_idx'
-);
+            $table->index(
+                ['member_id', 'income_date'],
+                'incomes_member_date_idx'
+            );
 
-$table->index(
-    'finance_transaction_id',
-    'incomes_finance_tx_idx'
-);
+            $table->index(
+                'finance_transaction_id',
+                'incomes_finance_tx_idx'
+            );
         });
     }
 

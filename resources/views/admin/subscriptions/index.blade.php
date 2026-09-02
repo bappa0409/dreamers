@@ -11,8 +11,8 @@
                 <i class="bi bi-calendar-check"></i>
             </div>
             <div>
-                <h1 class="text-lg font-bold text-slate-800">Monthly Subscriptions</h1>
-                <p class="mt-1 text-xs text-slate-500">Manage member subscriptions and monthly dues.</p>
+                <h1 class="text-base font-semibold text-slate-800">Monthly Subscriptions</h1>
+                <p class="mt-1 text-sm text-slate-500">Manage member subscriptions and monthly dues.</p>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
             </button>
 
             <button type="button" onclick="openSubscriptionModal()"
-                class="inline-flex h-9 cursor-pointer items-center gap-2 rounded-md bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700">
+                class="inline-flex h-9 cursor-pointer items-center gap-2 rounded-md bg-indigo-600 px-3 text-sm font-semibold text-white hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Assign Subscription
             </button>
@@ -58,7 +58,7 @@
             <div class="md:col-span-2">
                 <label class="form-label">Search</label>
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="filterSearch"
                         type="text"
                         class="app-input !pl-9"
@@ -101,7 +101,7 @@
 
                 <tbody id="subscriptionTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="6" class="px-4 py-10 text-center text-xs text-slate-400">Loading...</td>
+                        <td colspan="6" class="px-4 py-10 text-center text-sm text-slate-400">Loading...</td>
                     </tr>
                 </tbody>
             </table>
@@ -119,7 +119,7 @@
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Assign Subscription</h3>
-                <p class="text-xs text-slate-400">Assign an active subscription plan to a member.</p>
+                <p class="text-sm text-slate-400">Assign an active subscription plan to a member.</p>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('subscriptionModal')" class="app-modal-close">
@@ -129,14 +129,14 @@
 
         <form id="subscriptionForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
-                <div id="subscriptionError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
+                <div id="subscriptionError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
 
                 <div>
                     <label class="form-label">Member <span class="text-red-500">*</span></label>
                     <select id="memberId" class="app-input">
                         <option value="">Select Member</option>
                     </select>
-                    <p data-field-error="memberId" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
 
                 <div>
@@ -144,31 +144,31 @@
                     <select id="planId" class="app-input">
                         <option value="">Select Plan</option>
                     </select>
-                    <p data-field-error="planId" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="planId" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
 
                 <div>
                     <label class="form-label">Start Date <span class="text-red-500">*</span></label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                         <input id="startDate"
                             type="text"
                             class="app-input js-date-picker !pl-9"
                             placeholder="Select date"
                             autocomplete="off">
                     </div>
-                    <p data-field-error="startDate" class="mt-1 hidden text-xs text-red-600"></p>
+                    <p data-field-error="startDate" class="mt-1 hidden text-sm text-red-600"></p>
                 </div>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
                 <button type="button" onclick="AdminUI.closeModal('subscriptionModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-600">
                     Cancel
                 </button>
 
                 <button id="saveSubscriptionButton" type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                     Assign
                 </button>
             </div>
@@ -182,7 +182,7 @@
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Generate Monthly Dues</h3>
-                <p class="text-xs text-slate-400">Generate dues for all active member subscriptions.</p>
+                <p class="text-sm text-slate-400">Generate dues for all active member subscriptions.</p>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('bulkModal')" class="app-modal-close">
@@ -192,7 +192,7 @@
 
         <form id="bulkForm" novalidate data-js-validation="1">
             <div class="space-y-4 p-5">
-                <div id="bulkError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-600"></div>
+                <div id="bulkError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
 
                 <div>
                     <label class="form-label">Year <span class="text-red-500">*</span></label>
@@ -204,19 +204,19 @@
                     <select id="bulkMonth" class="app-input"></select>
                 </div>
 
-                <div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-700">
+                <div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
                     Existing dues for the selected month will not be duplicated.
                 </div>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
                 <button type="button" onclick="AdminUI.closeModal('bulkModal')"
-                    class="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600">
+                    class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600">
                     Cancel
                 </button>
 
                 <button id="generateBulkButton" type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                     Generate
                 </button>
             </div>
@@ -362,7 +362,7 @@ async function loadSubscriptions(page=1){
         );
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             Loading subscriptions...
         </div>
     `;
@@ -424,7 +424,7 @@ function renderSubscriptions(){
             );
 
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
                 No subscriptions found.
             </div>
         `;
@@ -441,7 +441,7 @@ function renderSubscriptions(){
         return`
             <tr class="hover:bg-slate-50">
                 <td class="px-4 py-3">
-                    <p class="text-xs font-semibold text-slate-700">
+                    <p class="text-sm font-semibold text-slate-700">
                         ${esc(user.name||'—')}
                     </p>
 
@@ -451,7 +451,7 @@ function renderSubscriptions(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <p class="text-xs font-semibold text-slate-600">
+                    <p class="text-sm font-semibold text-slate-600">
                         ${esc(plan.name||'—')}
                     </p>
 
@@ -460,7 +460,7 @@ function renderSubscriptions(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3 text-sm text-slate-500">
                     ${AdminUI.formatDate(subscription.start_date)}
                 </td>
 
@@ -476,7 +476,7 @@ function renderSubscriptions(){
                     ${
                         due
                             ?`
-                                <p class="text-xs font-semibold text-slate-700">
+                                <p class="text-sm font-semibold text-slate-700">
                                     ${money(due.amount)}
                                 </p>
 
@@ -485,7 +485,7 @@ function renderSubscriptions(){
                                 </div>
                             `
                             :`
-                                <span class="text-xs text-slate-400">
+                                <span class="text-sm text-slate-400">
                                     Not generated
                                 </span>
                             `
@@ -534,7 +534,7 @@ function renderSubscriptions(){
                 <div class="border-b border-slate-100 px-4 py-3">
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <p class="text-sm font-bold text-slate-700">
+                            <p class="text-base font-bold text-slate-700">
                                 ${esc(user.name||'—')}
                             </p>
 
@@ -554,7 +554,7 @@ function renderSubscriptions(){
                 <div class="space-y-3 p-4">
                     <div>
                         <p class="text-[10px] text-slate-400">Plan</p>
-                        <p class="mt-1 text-sm font-semibold text-slate-600">
+                        <p class="mt-1 text-base font-semibold text-slate-600">
                             ${esc(plan.name||'—')}
                         </p>
                     </div>
@@ -562,14 +562,14 @@ function renderSubscriptions(){
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <p class="text-[10px] text-slate-400">Monthly</p>
-                            <p class="mt-1 text-sm font-semibold text-slate-700">
+                            <p class="mt-1 text-base font-semibold text-slate-700">
                                 ${money(plan.amount||0)}
                             </p>
                         </div>
 
                         <div>
                             <p class="text-[10px] text-slate-400">Start</p>
-                            <p class="mt-1 text-xs font-medium text-slate-600">
+                            <p class="mt-1 text-sm font-medium text-slate-600">
                                 ${AdminUI.formatDate(subscription.start_date)}
                             </p>
                         </div>
@@ -592,7 +592,7 @@ function renderSubscriptions(){
                                     </div>
                                 `
                                 :`
-                                    <p class="mt-1 text-xs text-slate-400">
+                                    <p class="mt-1 text-sm text-slate-400">
                                         Not generated
                                     </p>
                                 `

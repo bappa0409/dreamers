@@ -77,12 +77,60 @@ class AssetService
                 'useful_life_months'=>$data['useful_life_months']??null,
                 'salvage_value'=>$salvageValue,
                 'accumulated_depreciation'=>0,
-                'status'=>'active',
+                'status'=>'pending_approval',
                 'created_by'=>$userId,
                 'description'=>$this->nullableString(
                     $data['description']??null
                 ),
             ]);
+
+            // No ledger entry yet: nothing is posted until the
+            // Asset.create approval request is approved — see
+            // finalizeApproval().
+            return $this->freshAsset($asset);
+        });
+    }
+
+    /**
+     * Called by ApprovalService once the Asset.create request is
+     * approved. Posts the actual double-entry ledger transaction and
+     * moves the asset into its normal 'active' lifecycle.
+     */
+    public function finalizeApproval(
+        Asset $asset,
+        array $decisionData,
+        int $approvedBy
+    ): Asset{
+        return DB::transaction(function()use(
+            $asset,
+            $approvedBy
+        ){
+            $asset=Asset::query()
+                ->whereKey($asset->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if($asset->status!=='pending_approval'){
+                throw ValidationException::withMessages([
+                    'asset'=>[
+                        'This asset is not awaiting approval.'
+                    ],
+                ]);
+            }
+
+            $assetAccount=$this->assetAccount(
+                (int)$asset->asset_account_id
+            );
+
+            $paymentAccount=$this->cashBankAccount(
+                (int)$asset->payment_account_id,
+                'payment_account_id'
+            );
+
+            $purchaseCost=round(
+                (float)$asset->purchase_cost,
+                2
+            );
 
             $journal=$this->accountingService->post([
                 'idempotency_key'=>"asset:purchase:{$asset->id}",
@@ -96,7 +144,7 @@ class AssetService
                 'reference_id'=>$asset->id,
                 'description'=>$asset->description
                     ??"Asset purchase {$asset->asset_code}",
-                'user_id'=>$userId,
+                'user_id'=>$approvedBy,
                 'entries'=>[
                     [
                         'account_id'=>$assetAccount->id,
@@ -115,10 +163,54 @@ class AssetService
 
             $asset->update([
                 'finance_transaction_id'=>$journal->id,
+                'status'=>'active',
             ]);
 
             return $this->freshAsset($asset);
         });
+    }
+
+    /**
+     * Called by ApprovalService when the Asset.create request is
+     * rejected. The asset never gets a ledger entry.
+     */
+    public function finalizeRejection(
+        Asset $asset,
+        string $reason,
+        ?int $rejectedBy
+    ): Asset{
+        $asset=Asset::query()
+            ->whereKey($asset->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($asset->status==='pending_approval'){
+            $asset->update([
+                'status'=>'rejected',
+            ]);
+        }
+
+        return $this->freshAsset($asset);
+    }
+
+    /**
+     * Called by ApprovalService when the Asset.create request is
+     * cancelled/withdrawn before a decision is made.
+     */
+    public function finalizeCancellation(Asset $asset): Asset
+    {
+        $asset=Asset::query()
+            ->whereKey($asset->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if($asset->status==='pending_approval'){
+            $asset->update([
+                'status'=>'cancelled',
+            ]);
+        }
+
+        return $this->freshAsset($asset);
     }
 
     public function update(
@@ -134,10 +226,19 @@ class AssetService
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if($asset->status!=='active'){
+            if(
+                !in_array(
+                    $asset->status,
+                    [
+                        'pending_approval',
+                        'active',
+                    ],
+                    true
+                )
+            ){
                 throw ValidationException::withMessages([
                     'asset'=>[
-                        'Only active assets can be updated.'
+                        'Only an active or pending-approval asset can be updated.'
                     ],
                 ]);
             }
@@ -745,6 +846,14 @@ class AssetService
     protected function ensureActiveAsset(
         Asset $asset
     ): void{
+        if($asset->status==='pending_approval'){
+            throw ValidationException::withMessages([
+                'asset'=>[
+                    'This asset is still awaiting approval and cannot perform this action yet.'
+                ],
+            ]);
+        }
+
         if($asset->status!=='active'){
             throw ValidationException::withMessages([
                 'asset'=>[

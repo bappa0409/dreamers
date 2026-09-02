@@ -15,11 +15,11 @@
             </div>
 
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-800">
+                <h1 class="text-base font-semibold tracking-tight text-slate-800">
                     My Notifications
                 </h1>
 
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-sm text-slate-500">
                     View payment, share, investment, notice, poll and other account updates.
                 </p>
             </div>
@@ -29,7 +29,7 @@
             <button
                 type="button"
                 onclick="loadNotificationPage(1)"
-                class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
+                class="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
 
                 <i class="bi bi-arrow-clockwise"></i>
                 Refresh
@@ -39,7 +39,7 @@
                 id="pageMarkAllButton"
                 type="button"
                 onclick="markAllPageNotificationsRead()"
-                class="inline-flex h-9 items-center gap-2 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+                class="inline-flex h-9 items-center gap-2 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
 
                 <i class="bi bi-check2-all"></i>
                 Mark All Read
@@ -54,7 +54,7 @@
         </div>
 
         <div>
-            <p class="text-xs font-semibold text-sky-800">
+            <p class="text-sm font-semibold text-sky-800">
                 Notification Center
             </p>
 
@@ -159,7 +159,7 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
 
                     <input
                         id="notificationPageSearch"
@@ -196,7 +196,7 @@
                 <button
                     type="button"
                     onclick="clearNotificationPageFilters()"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 
                     Clear
                 </button>
@@ -214,7 +214,7 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-800">
+                <h2 class="text-base font-semibold text-slate-800">
                     Notification History
                 </h2>
 
@@ -231,7 +231,7 @@
             <div class="py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-xs text-slate-400">
+                <p class="mt-3 text-sm text-slate-400">
                     Loading notifications...
                 </p>
             </div>
@@ -290,7 +290,7 @@
             <button
                 type="button"
                 onclick="closeNotificationDetailsModal()"
-                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 
                 Close
             </button>
@@ -298,7 +298,7 @@
             <a
                 id="notificationDetailsAction"
                 href="#"
-                class="hidden h-9 items-center gap-1.5 rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                class="hidden h-9 items-center gap-1.5 rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700">
 
                 <i class="bi bi-box-arrow-up-right"></i>
 
@@ -341,7 +341,7 @@ async function loadNotificationPage(page=1){
         <div class="py-14 text-center">
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-xs text-slate-400">
+            <p class="mt-3 text-sm text-slate-400">
                 Loading notifications...
             </p>
         </div>
@@ -437,11 +437,11 @@ async function loadNotificationPage(page=1){
                     <i class="bi bi-exclamation-circle text-lg"></i>
                 </div>
 
-                <p class="mt-3 text-sm font-semibold text-red-600">
+                <p class="mt-3 text-base font-semibold text-red-600">
                     Failed to load notifications
                 </p>
 
-                <p class="mt-1 text-xs text-red-400">
+                <p class="mt-1 text-sm text-red-400">
                     ${escapeNotificationPageHtml(
                         extractNotificationPageError(
                             error
@@ -452,7 +452,7 @@ async function loadNotificationPage(page=1){
                 <button
                     type="button"
                     onclick="loadNotificationPage(${notificationPageCurrent})"
-                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                    class="mt-4 inline-flex h-9 items-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-600 transition hover:bg-red-50">
 
                     <i class="bi bi-arrow-clockwise"></i>
 
@@ -620,11 +620,11 @@ function renderNotificationPageItems(){
                     <i class="bi bi-bell text-xl"></i>
                 </div>
 
-                <p class="mt-4 text-sm font-semibold text-slate-700">
+                <p class="mt-4 text-base font-semibold text-slate-700">
                     No notifications found
                 </p>
 
-                <p class="mt-1 text-xs text-slate-400">
+                <p class="mt-1 text-sm text-slate-400">
                     No notifications match your current filters.
                 </p>
 
@@ -691,7 +691,7 @@ function renderNotificationPageRow(
 
                             <div class="flex flex-wrap items-center gap-2">
 
-                                <h3 class="text-sm font-semibold ${
+                                <h3 class="text-base font-semibold ${
                                     unread
                                         ?'text-slate-900'
                                         :'text-slate-700'
@@ -723,7 +723,7 @@ function renderNotificationPageRow(
 
                             </div>
 
-                            <p class="mt-1.5 max-w-4xl text-xs leading-5 text-slate-500">
+                            <p class="mt-1.5 max-w-4xl text-sm leading-5 text-slate-500">
 
                                 ${escapeNotificationPageHtml(
                                     notification.message??
@@ -1078,7 +1078,7 @@ function renderNotificationDetails(
                             )}
                         </h3>
 
-                        <p class="mt-2 whitespace-pre-line break-words text-sm leading-7 text-slate-600">
+                        <p class="mt-2 whitespace-pre-line break-words text-base leading-7 text-slate-600">
                             ${escapeNotificationPageHtml(
                                 message
                             )}
@@ -1160,7 +1160,7 @@ function notificationInfoRow(
                 )}
             </span>
 
-            <span class="text-xs font-semibold text-slate-700">
+            <span class="text-sm font-semibold text-slate-700">
                 ${escapeNotificationPageHtml(
                     value??'-'
                 )}

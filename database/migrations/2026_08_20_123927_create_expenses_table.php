@@ -41,31 +41,33 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->enum('status', [
-                'posted',
-                'cancelled',
-            ])->default('posted');
+                    'pending_approval',
+                    'posted',
+                    'rejected',
+                    'cancelled',
+                ])->default('posted');
 
             $table->timestamps();
 
             $table->index(
-    ['status','expense_date'],
-    'expenses_status_date_idx'
-);
+                ['status', 'expense_date'],
+                'expenses_status_date_idx'
+            );
 
-$table->index(
-    ['expense_account_id','expense_date'],
-    'expenses_expense_account_date_idx'
-);
+            $table->index(
+                ['expense_account_id', 'expense_date'],
+                'expenses_expense_account_date_idx'
+            );
 
-$table->index(
-    ['payment_account_id','expense_date'],
-    'expenses_payment_account_date_idx'
-);
+            $table->index(
+                ['payment_account_id', 'expense_date'],
+                'expenses_payment_account_date_idx'
+            );
 
-$table->index(
-    'finance_transaction_id',
-    'expenses_finance_tx_idx'
-);
+            $table->index(
+                'finance_transaction_id',
+                'expenses_finance_tx_idx'
+            );
         });
     }
 
