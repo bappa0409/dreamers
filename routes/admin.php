@@ -52,6 +52,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
     Route::get('/polls', 'polls')->middleware('permission:Poll.view')->name('polls');
     Route::get('/notices', 'notices')->middleware('permission:Notice.view')->name('notices');
     Route::get('/notifications', 'notifications')->middleware('permission:Notification.view')->name('notifications');
+    Route::get('/contact-messages', 'contactMessages')->middleware('permission:ContactMessage.view')->name('contact-messages');
     Route::get('/mailing', 'mailing')->middleware('permission:Mail.view,Mailing.view')->name('mailing');
 
     // Approvals

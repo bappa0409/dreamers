@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\IncomeController;
 use App\Http\Controllers\Api\InvestmentController;
 use App\Http\Controllers\Api\LandController;
+use App\Http\Controllers\Api\WebsiteSectionController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\MailCampaignController;
 use App\Http\Controllers\Api\MemberController;
@@ -41,6 +42,7 @@ use App\Http\Controllers\Api\MeetingExpenseController;
 use App\Http\Controllers\Api\MemberChargeController;
 use App\Http\Controllers\Api\ChargePaymentController;
 use App\Http\Controllers\Api\CommitteeController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NomineeController;
 use App\Http\Controllers\Api\NoticeController;
@@ -81,6 +83,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::get('/settings/public',[SettingController::class, 'publicSettings']);
+
+Route::post('/contact',[ContactMessageController::class, 'store'])
+    ->middleware('throttle:6,1');
 
 /*
 |--------------------------------------------------------------------------
@@ -450,6 +455,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Contact Messages
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('contact-messages')->group(function () {
+        Route::get('/', [ContactMessageController::class, 'index'])->middleware('permission:ContactMessage.view');
+        Route::get('/{contactMessage}', [ContactMessageController::class, 'show'])->middleware('permission:ContactMessage.view');
+        Route::patch('/{contactMessage}/toggle-read', [ContactMessageController::class, 'toggleRead'])->middleware('permission:ContactMessage.view');
+        Route::delete('/{contactMessage}', [ContactMessageController::class, 'destroy'])->middleware('permission:ContactMessage.delete');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
     | Finance
     |--------------------------------------------------------------------------
     */
@@ -697,6 +715,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{key}', [SettingController::class, 'show'])->middleware('permission:Setting.view');
         Route::post('/', [SettingController::class, 'store'])->middleware('permission:Setting.update');
         Route::delete('/{key}', [SettingController::class, 'destroy'])->middleware('permission:Setting.update');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Landing Page Sections
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('landing-page-sections')->group(function () {
+        Route::get('/', [WebsiteSectionController::class, 'index'])->middleware('permission:Setting.view');
+        Route::post('/{key}/upload', [WebsiteSectionController::class, 'uploadImage'])->middleware('permission:Setting.update');
+        Route::put('/{key}', [WebsiteSectionController::class, 'update'])->middleware('permission:Setting.update');
     });
 
     /*

@@ -98,13 +98,13 @@
                 </div>
             </div>
 
-            <div class="flex w-full items-center lg:w-auto">
-                <div class="relative w-full lg:w-80">
+            <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
+                <div class="relative w-full sm:min-w-[220px] lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="active">Active</option>
                     <option value="pending">Pending</option>
@@ -113,7 +113,7 @@
                     <option value="rejected">Rejected</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -122,8 +122,10 @@
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-sm">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[820px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
                         <th class="w-[22%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
@@ -142,6 +144,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="membersCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading members...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -547,6 +554,7 @@ const currencySymbol=@json(
 
 const el={
     table:document.getElementById('membersTable'),
+    cards:document.getElementById('membersCards'),
     search:document.getElementById('searchInput'),
     status:document.getElementById('statusFilter'),
     form:document.getElementById('memberForm'),
@@ -569,12 +577,32 @@ const el={
     imageHelp:document.getElementById('memberImageHelp')
 };
 
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
 async function loadMembers(page=1){
     currentPage=page;
 
     el.table.innerHTML=AdminUI.loadingState(
         'Loading members...',
         7
+    );
+
+    el.cards.innerHTML=cardsLoadingHtml(
+        'Loading members...'
     );
 
     const query=AdminUI.query({
@@ -625,7 +653,56 @@ async function loadMembers(page=1){
             AdminUI.extractError(error),
             7
         );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
+        );
     }
+}
+
+function memberActionButtons(member,{withLabel=false}={}){
+    const buttons=[];
+
+    if(canViewShares&&shareEnabled){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openShareModal(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+                title="Shares">
+                <i class="bi bi-layers text-sm"></i>
+                ${withLabel?'Shares':''}
+            </button>
+        `);
+    }
+
+    if(canEditMember){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="editMember(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+                title="Edit">
+                <i class="bi bi-pencil-square text-sm"></i>
+                ${withLabel?'Edit':''}
+            </button>
+        `);
+    }
+
+    if(canDeleteMember&&member.status!=='active'){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="deleteMember(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100"
+                title="Delete">
+                <i class="bi bi-trash text-sm"></i>
+                ${withLabel?'Delete':''}
+            </button>
+        `);
+    }
+
+    return buttons.join('');
 }
 
 function renderMembers(){
@@ -634,6 +711,11 @@ function renderMembers(){
             'No members found.',
             7
         );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No members found.'
+        );
+
         return;
     }
 
@@ -720,50 +802,107 @@ function renderMembers(){
 
                 <td class="px-3 py-3">
                     <div class="flex items-center justify-end gap-1">
-                        ${
-                            canViewShares&&shareEnabled
-                                ?`
-                                    <button
-                                        type="button"
-                                        onclick="openShareModal(${member.id})"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
-                                        title="Shares">
-                                        <i class="bi bi-layers text-sm"></i>
-                                    </button>
-                                `
-                                :''
-                        }
-
-                        ${
-                            canEditMember
-                                ?`
-                                    <button
-                                        type="button"
-                                        onclick="editMember(${member.id})"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
-                                        title="Edit">
-                                        <i class="bi bi-pencil-square text-sm"></i>
-                                    </button>
-                                `
-                                :''
-                        }
-
-                        ${
-                            canDeleteMember&&member.status!=='active'
-                                ?`
-                                    <button
-                                        type="button"
-                                        onclick="deleteMember(${member.id})"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
-                                        title="Delete">
-                                        <i class="bi bi-trash text-sm"></i>
-                                    </button>
-                                `
-                                :''
-                        }
+                        ${memberActionButtons(member)}
                     </div>
                 </td>
             </tr>
+        `;
+    }).join('');
+
+    el.cards.innerHTML=members.map(member=>{
+        const user=member.user??{};
+        const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
+
+        const initial=String(
+            user.name??'M'
+        ).trim().charAt(0).toUpperCase();
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
+                            ${
+                                photoUrl
+                                    ?`
+                                        <img
+                                            src="${AdminUI.escapeHtml(photoUrl)}"
+                                            class="h-full w-full object-cover"
+                                            alt="${AdminUI.escapeHtml(user.name??'Member')}">
+                                    `
+                                    :`
+                                        <span class="text-sm font-bold text-slate-400">
+                                            ${AdminUI.escapeHtml(initial)}
+                                        </span>
+                                    `
+                            }
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
+                            <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${AdminUI.statusBadge(member.status)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Code</p>
+                        <p class="truncate font-mono font-semibold text-indigo-600">
+                            ${AdminUI.escapeHtml(member.member_code??'N/A')}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Phone</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.escapeHtml(
+                                member.phone||
+                                user.mobile||
+                                'N/A'
+                            )}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Joining</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.formatDate(member.joining_date)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Roles</p>
+                        <div class="mt-0.5">
+                            ${
+                                roles.length
+                                    ?roles.slice(0,2).map(role=>`
+                                        <span class="mb-1 mr-1 inline-block rounded-md bg-violet-50 px-1.5 py-0.5 text-[9px] font-semibold text-violet-700">
+                                            ${AdminUI.escapeHtml(
+                                                role.display_name||
+                                                role.name
+                                            )}
+                                        </span>
+                                    `).join('')
+                                    :'<span class="text-slate-400">No roles</span>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    ${memberActionButtons(member,{withLabel:true})}
+                </div>
+            </div>
         `;
     }).join('');
 }

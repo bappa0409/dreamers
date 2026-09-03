@@ -129,6 +129,7 @@
     ['Notice.view','admin.notices','admin.notices*','bi-megaphone','Notices'],
     ['Mail.view,Mailing.view','admin.mailing','admin.mailing*','bi-envelope','Mailing'],
     ['FeedbackSupport.view','admin.feedback-support','admin.feedback-support*','bi-headset','Feedback & Support'],
+    ['ContactMessage.view','admin.contact-messages','admin.contact-messages*','bi-chat-square-text','Contact Messages'],
     ];
 
     $system=[
@@ -186,6 +187,12 @@
 
     $unreadNotificationCount=$authUser
     ?app(\App\Services\NotificationService::class)->unreadCount($authUser)
+    :0;
+
+    $canViewContactMessages=$can('ContactMessage.view');
+
+    $unreadContactMessagesCount=$canViewContactMessages
+    ?\App\Models\ContactMessage::unread()->count()
     :0;
     @endphp
 
@@ -415,17 +422,31 @@
                         </div>
                     </div>
 
-                    <div class="relative flex shrink-0 items-center gap-2 sm:gap-3">
+                    <div class="relative flex shrink-0 items-center gap-3 sm:gap-4">
 
-                        <button type="button" onclick="toggleNotificationMenu(event)"
-                            class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-                            title="Notifications">
-                            <i class="bi bi-bell text-[16px]"></i>
-                            <span id="notificationBadge"
-                                class="{{ $unreadNotificationCount>0?'':'hidden' }} absolute right-0.5 top-0.5 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold leading-4 text-white">
-                                {{ $unreadNotificationCount>99?'99+':$unreadNotificationCount }}
-                            </span>
-                        </button>
+                        <div class="flex items-center gap-0.5">
+                            <button type="button" onclick="toggleNotificationMenu(event)"
+                                class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                                title="Notifications">
+                                <i class="bi bi-bell text-[16px]"></i>
+                                <span id="notificationBadge"
+                                    class="{{ $unreadNotificationCount>0?'':'hidden' }} absolute right-0.5 top-0.5 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold leading-4 text-white">
+                                    {{ $unreadNotificationCount>99?'99+':$unreadNotificationCount }}
+                                </span>
+                            </button>
+
+                            @if($canViewContactMessages&&Route::has('admin.contact-messages'))
+                            <a href="{{ route('admin.contact-messages') }}"
+                                class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                                title="Contact Messages">
+                                <i class="bi bi-chat-square-text text-[16px]"></i>
+                                <span id="contactMessageBadge"
+                                    class="{{ $unreadContactMessagesCount>0?'':'hidden' }} absolute right-0.5 top-0.5 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold leading-4 text-white">
+                                    {{ $unreadContactMessagesCount>99?'99+':$unreadContactMessagesCount }}
+                                </span>
+                            </a>
+                            @endif
+                        </div>
 
                         <div id="notificationDropdown"
                             class="absolute right-12 top-[48px] z-50 hidden w-[340px] max-w-[85vw] overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
@@ -550,6 +571,8 @@
                     @yield('content')
                 </div>
             </main>
+
+            <footer class="shrink-0 border-t border-slate-200 bg-white p-4 sm:px-5 lg:px-6"> <div class="flex flex-col items-center justify-between gap-1.5 text-[11px] text-slate-400 sm:flex-row"> <p>&copy; {{ date('Y') }} {{ $organizationName }}. All rights reserved.</p> <p> Developed by <a href="https://www.facebook.com/bappa040976" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-500 hover:text-blue-600 transition-colors"> Bappa Sutradhar </a> </p> </div> </footer>
 
         </div>
     </div>
@@ -913,8 +936,31 @@ async function loadNotificationCount(){
     }
 }
 
+window.updateContactMessageBadge=function(count){
+    const badge=document.getElementById('contactMessageBadge');
+    if(!badge)return;
+
+    count=Number(count??0);
+
+    badge.textContent=count>99?'99+':count;
+    badge.classList.toggle('hidden',count<=0);
+};
+
+async function loadContactMessageCount(){
+    if(!document.getElementById('contactMessageBadge'))return;
+
+    try{
+        const response=await api('/api/contact-messages?per_page=5');
+
+        updateContactMessageBadge(response?.unread_count??0);
+    }catch(error){
+        console.error('Contact message count error:',error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
     loadNotificationCount();
+    loadContactMessageCount();
 });
     </script>
 

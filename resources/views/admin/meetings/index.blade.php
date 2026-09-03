@@ -150,7 +150,7 @@
     {{-- Desktop Table --}}
     <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[1100px] text-base">
+            <table class="w-full min-w-[1100px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting</th>
@@ -1011,7 +1011,7 @@ function renderMeetings(){
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="min-w-0">
-                            <div class="font-semibold text-slate-700">
+                            <div class="text-sm font-semibold text-slate-700">
                                 ${esc(meeting.meeting_no)}
                             </div>
                             <div class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400">
@@ -1026,7 +1026,7 @@ function renderMeetings(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="text-base text-slate-600">
+                    <div class="text-sm text-slate-600">
                         ${date(meeting.meeting_date)}
                     </div>
                     <div class="mt-0.5 text-[10px] text-slate-400">
@@ -1035,7 +1035,7 @@ function renderMeetings(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="max-w-[170px] truncate text-base text-slate-500">
+                    <div class="max-w-[170px] truncate text-sm text-slate-500">
                         ${esc(meeting.venue||'—')}
                     </div>
                 </td>
@@ -1076,7 +1076,7 @@ function renderMeetings(){
                                 <i class="bi bi-people"></i>
                             </div>
                             <div class="min-w-0">
-                                <p class="truncate text-base font-bold text-slate-700">
+                                <p class="truncate text-sm font-bold text-slate-700">
                                     ${esc(meeting.title)}
                                 </p>
                                 <p class="mt-0.5 text-[11px] font-medium text-indigo-600">
@@ -1097,7 +1097,7 @@ function renderMeetings(){
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                                 Attendees
                             </p>
-                            <p class="mt-1 text-base font-bold text-slate-700">
+                            <p class="mt-1 text-sm font-bold text-slate-700">
                                 ${meeting.attendees_count||0}
                             </p>
                         </div>
@@ -1106,7 +1106,7 @@ function renderMeetings(){
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-sky-600">
                                 Expense
                             </p>
-                            <p class="mt-1 truncate text-base font-bold text-sky-700">
+                            <p class="mt-1 truncate text-sm font-bold text-sky-700">
                                 ${money(meeting.actual_expense)}
                             </p>
                         </div>
@@ -1680,7 +1680,7 @@ function detailStat(label,value,tone){
             <p class="text-[10px] opacity-70">
                 ${esc(label)}
             </p>
-            <p class="mt-1 truncate text-base font-bold">
+            <p class="mt-1 truncate text-sm font-bold">
                 ${esc(value)}
             </p>
         </div>
@@ -1804,7 +1804,7 @@ function attendeesHtml(items){
                             </div>
 
                             <div class="min-w-0">
-                                <p class="truncate text-base font-semibold text-slate-700">
+                                <p class="truncate text-sm font-semibold text-slate-700">
                                     ${esc(item.member?.user?.name||'Member')}
                                 </p>
                                 <p class="text-[10px] text-slate-400">

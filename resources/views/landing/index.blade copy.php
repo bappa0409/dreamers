@@ -9,24 +9,6 @@ $organizationName = setting('organization_name', 'Dreamers Association');
 $organizationEmail = setting('organization_email', 'info@dreamersassociation.com');
 $organizationPhone = setting('organization_phone', '+880 1XXX-XXXXXX');
 $organizationAddress = setting('organization_address', 'Dhaka, Bangladesh');
-
-// Landing page content is editable from Admin > Website Page. Each helper
-// below falls back to the original hard-coded copy when a section hasn't
-// been saved in the database yet, so the page never breaks.
-$sections = $sections ?? collect();
-$lp = fn ($key) => $sections->get($key);
-$lpField = fn ($key, $field, $default = null) => data_get($lp($key), $field) ?? $default;
-$lpTitleParts = function ($key, $default1, $default2) use ($lp) {
-    $raw = data_get($lp($key), 'title');
-    if (!$raw) {
-        return [$default1, $default2];
-    }
-    $parts = explode('|', $raw, 2);
-    return [trim($parts[0]), trim($parts[1] ?? '')];
-};
-// A section stays visible by default; it's only hidden once an admin
-// explicitly switches it off in Admin > Website Page.
-$lpVisible = fn ($key) => $lp($key) === null ? true : (bool) $lp($key)->is_active;
 @endphp
 
 @include('landing.partials.navbar', ['active' => 'home'])
@@ -45,31 +27,30 @@ HERO
                 <div
                     class="mb-5 inline-flex items-center gap-2 rounded-full border border-teal-100 bg-teal-50 px-3 py-1.5 text-[13px] font-medium text-teal-700">
                     <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-teal-600"></span>
-                    {{ $lpField('hero', 'subtitle', 'একটি ঐক্যবদ্ধ ও স্বচ্ছ উদ্যোগ') }}
+                    একটি ঐক্যবদ্ধ ও স্বচ্ছ উদ্যোগ
                 </div>
 
-                @php [$heroLine1, $heroLine2] = $lpTitleParts('hero', 'একসাথে স্বপ্ন দেখি,', 'একসাথে এগিয়ে যাই।'); @endphp
                 <h1
                     class="max-w-xl text-[2rem] font-bold leading-[1.2] tracking-tight text-slate-900 sm:text-[2.6rem] lg:text-[3rem]">
-                    {{ $heroLine1 }}<br>
-                    <span class="text-brand-700">{{ $heroLine2 }}</span>
+                    একসাথে স্বপ্ন দেখি,<br>
+                    <span class="text-brand-700">একসাথে এগিয়ে যাই।</span>
                 </h1>
 
                 <p class="mt-5 max-w-xl text-[14px] leading-7 text-slate-600 sm:text-[15px]">
-                    {{ $organizationName }} {{ $lpField('hero', 'content', 'একটি ঐক্যবদ্ধ সংগঠন, যেখানে সদস্যদের
+                    {{ $organizationName }} একটি ঐক্যবদ্ধ সংগঠন, যেখানে সদস্যদের
                     সম্মিলিত সঞ্চয়, বিনিয়োগ ও পরিকল্পনার মাধ্যমে দীর্ঘমেয়াদি
-                    আর্থিক উন্নয়নের সুযোগ তৈরি করা হয়।') }}
+                    আর্থিক উন্নয়নের সুযোগ তৈরি করা হয়।
                 </p>
 
                 <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ $lpField('hero', 'button_url', route('about')) }}"
+                    <a href="{{ route('about') }}"
                         class="inline-flex items-center justify-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-[13px] font-semibold text-white shadow-xl shadow-teal-700/20 transition hover:-translate-y-0.5 hover:bg-teal-800">
-                        {{ $lpField('hero', 'button_text', 'আমাদের সম্পর্কে জানুন') }}
+                        আমাদের সম্পর্কে জানুন
                         <i data-lucide="arrow-right" class="h-4 w-4"></i>
                     </a>
-                    <a href="{{ $lpField('hero', 'settings.secondary_button_url', route('activities')) }}"
+                    <a href="{{ route('activities') }}"
                         class="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-5 py-3 text-[13px] font-semibold text-slate-700 transition hover:border-teal-200 hover:text-teal-700">
-                        {{ $lpField('hero', 'settings.secondary_button_text', 'আমাদের কার্যক্রম') }}
+                        আমাদের কার্যক্রম
                         <i data-lucide="move-up-right" class="h-4 w-4"></i>
                     </a>
                 </div>
@@ -173,54 +154,48 @@ HERO
 {{-- =========================================================
 STATS
 ========================================================== --}}
-@php
-$statItems = $lpField('stats', 'settings.items', [
-    ['value' => '25', 'suffix' => '', 'label' => 'সক্রিয় সদস্য'],
-    ['value' => '10', 'suffix' => '', 'label' => 'চলমান পরিকল্পনা'],
-    ['value' => '100', 'suffix' => '', 'label' => 'স্বচ্ছতার অঙ্গীকার'],
-    ['value' => 'Long', 'suffix' => '', 'label' => 'দীর্ঘমেয়াদি লক্ষ্য'],
-]);
-@endphp
-@if($lpVisible('stats'))
 <section class="border-y border-slate-100 bg-white">
     <div class="mx-auto grid max-w-7xl grid-cols-2 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
-        @foreach ($statItems as $i => $stat)
-        <div class="reveal px-4 text-center {{ $i < 3 ? 'border-r border-slate-100' : '' }}">
-            @if(is_numeric($stat['value'] ?? null))
-            <p class="counter text-3xl font-bold text-slate-900" data-target="{{ $stat['value'] }}">0</p>
-            @else
-            <p class="text-3xl font-bold text-teal-700">{{ $stat['value'] ?? '' }}</p>
-            @endif
-            <p class="mt-1 text-sm text-slate-500">{{ $stat['label'] ?? '' }}</p>
+        <div class="reveal border-r border-slate-100 px-4 text-center">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="25">0</p>
+            <p class="mt-1 text-sm text-slate-500">সক্রিয় সদস্য</p>
         </div>
-        @endforeach
+        <div class="reveal px-4 text-center lg:border-r lg:border-slate-100">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="10">0</p>
+            <p class="mt-1 text-sm text-slate-500">চলমান পরিকল্পনা</p>
+        </div>
+        <div class="reveal border-r border-slate-100 px-4 text-center">
+            <p class="counter text-3xl font-bold text-slate-900" data-target="100">0</p>
+            <p class="mt-1 text-sm text-slate-500">স্বচ্ছতার অঙ্গীকার</p>
+        </div>
+        <div class="reveal px-4 text-center">
+            <p class="text-3xl font-bold text-teal-700">Long</p>
+            <p class="mt-1 text-sm text-slate-500">দীর্ঘমেয়াদি লক্ষ্য</p>
+        </div>
     </div>
 </section>
-@endif
 
 
 {{-- =========================================================
 ABOUT
 ========================================================== --}}
-@if($lpVisible('about'))
 <section id="about" class="bg-slate-100 py-14 sm:py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid items-center gap-12 lg:grid-cols-2">
 
             <div class="reveal">
-                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">{{ $lpField('about', 'subtitle', 'About Us') }}</span>
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">About Us</span>
 
-                @php [$aboutLine1, $aboutLine2] = $lpTitleParts('about', 'আমাদের স্বপ্ন,', 'আমাদের সম্মিলিত শক্তি।'); @endphp
                 <h2 class="mt-3 text-[2rem] font-bold leading-tight text-slate-900 sm:text-[2.55rem]">
-                    {{ $aboutLine1 }}
-                    <span class="text-teal-700">{{ $aboutLine2 }}</span>
+                    আমাদের স্বপ্ন,
+                    <span class="text-teal-700">আমাদের সম্মিলিত শক্তি।</span>
                 </h2>
 
                 <p class="mt-3 text-[14px] leading-7 text-slate-600">
-                    {{ $organizationName }} {{ $lpField('about', 'content', 'এমন একটি সংগঠন যেখানে সদস্যদের
+                    {{ $organizationName }} এমন একটি সংগঠন যেখানে সদস্যদের
                     সম্মিলিত প্রচেষ্টা, নিয়মিত সঞ্চয় এবং পরিকল্পিত বিনিয়োগের
                     মাধ্যমে ভবিষ্যতের জন্য একটি শক্তিশালী ভিত্তি তৈরি করার
-                    চেষ্টা করা হয়।') }}
+                    চেষ্টা করা হয়।
                 </p>
 
                 <div class="mt-4 grid grid-cols-2 gap-3">
@@ -247,9 +222,9 @@ ABOUT
                     </div>
                 </div>
 
-                <a href="{{ $lpField('about', 'button_url', route('about')) }}"
+                <a href="{{ route('about') }}"
                     class="mt-6 inline-flex items-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-[13px] font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:-translate-y-0.5 hover:bg-teal-800">
-                    {{ $lpField('about', 'button_text', 'বিস্তারিত জানুন') }}
+                    বিস্তারিত জানুন
                     <i data-lucide="arrow-right" class="h-4 w-4"></i>
                 </a>
             </div>
@@ -317,24 +292,22 @@ ABOUT
         </div>
     </div>
 </section>
-@endif
 
 
 
 {{-- =========================================================
 ACTIVITIES (TEASER)
 ========================================================== --}}
-@if($lpVisible('activities'))
 <section id="activities" class="bg-white py-14 sm:py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         <div class="flex flex-col gap-2 reveal">
             <div>
-                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">{{ $lpField('activities', 'subtitle', 'Our Activities') }}</span>
-                <h2 class="text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">{{ $lpField('activities', 'title', 'আমাদের প্রধান কার্যক্রম') }}</h2>
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Our Activities</span>
+                <h2 class="text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">আমাদের প্রধান কার্যক্রম</h2>
                 <p class="max-w-2xl text-[13px] leading-6 text-slate-500">
-                    {{ $lpField('activities', 'content', 'সংগঠনের লক্ষ্য ও সদস্যদের দীর্ঘমেয়াদি কল্যাণকে সামনে রেখে
-                    বিভিন্ন সম্ভাবনাময় উদ্যোগ নিয়ে কাজ করা হয়।') }}
+                    সংগঠনের লক্ষ্য ও সদস্যদের দীর্ঘমেয়াদি কল্যাণকে সামনে রেখে
+                    বিভিন্ন সম্ভাবনাময় উদ্যোগ নিয়ে কাজ করা হয়।
                 </p>
             </div>
         </div>
@@ -413,43 +386,40 @@ ACTIVITIES (TEASER)
         </div>
 
         <div class="mt-10 reveal text-center">
-            <a href="{{ $lpField('activities', 'button_url', route('activities')) }}"
+            <a href="{{ route('activities') }}"
                 class="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-5 py-3 text-[13px] font-semibold text-slate-700 transition hover:border-teal-200 hover:text-teal-700">
-                {{ $lpField('activities', 'button_text', 'সব কার্যক্রম বিস্তারিত দেখুন') }}
+                সব কার্যক্রম বিস্তারিত দেখুন
                 <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
             </a>
         </div>
     </div>
 </section>
-@endif
 
 {{-- =========================================================
 TRANSPARENCY (TEASER)
 ========================================================== --}}
-@if($lpVisible('transparency'))
 <section id="transparency" class="bg-slate-100 py-14 sm:py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid items-center gap-12 lg:grid-cols-2">
 
             <div class="reveal">
-                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">{{ $lpField('transparency', 'subtitle', 'Transparency') }}</span>
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Transparency</span>
 
-                @php [$transLine1, $transLine2] = $lpTitleParts('transparency', 'হিসাব থাকবে পরিষ্কার,', 'সিদ্ধান্ত হবে স্বচ্ছ।'); @endphp
                 <h2 class="mt-3 text-[2rem] font-bold leading-tight text-slate-900 sm:text-[2.5rem]">
-                    {{ $transLine1 }}
-                    <span class="text-teal-700">{{ $transLine2 }}</span>
+                    হিসাব থাকবে পরিষ্কার,
+                    <span class="text-teal-700">সিদ্ধান্ত হবে স্বচ্ছ।</span>
                 </h2>
 
                 <p class="mt-5 text-[14px] leading-7 text-slate-600">
-                    {{ $lpField('transparency', 'content', 'একটি সংগঠনের জন্য আর্থিক স্বচ্ছতা ও সঠিক হিসাবরক্ষণ
+                    একটি সংগঠনের জন্য আর্থিক স্বচ্ছতা ও সঠিক হিসাবরক্ষণ
                     অত্যন্ত গুরুত্বপূর্ণ। তাই প্রতিটি লেনদেন, আয়-ব্যয় এবং
                     বিনিয়োগের তথ্য যথাযথভাবে সংরক্ষণ ও পর্যালোচনা করার
-                    ব্যবস্থা রাখা হয়।') }}
+                    ব্যবস্থা রাখা হয়।
                 </p>
 
-                <a href="{{ $lpField('transparency', 'button_url', route('transparency')) }}"
+                <a href="{{ route('transparency') }}"
                     class="mt-6 inline-flex items-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-[13px] font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:-translate-y-0.5 hover:bg-teal-800">
-                    {{ $lpField('transparency', 'button_text', 'স্বচ্ছতা সম্পর্কে বিস্তারিত জানুন') }}
+                    স্বচ্ছতা সম্পর্কে বিস্তারিত জানুন
                     <i data-lucide="arrow-right" class="h-4 w-4"></i>
                 </a>
             </div>
@@ -496,26 +466,24 @@ TRANSPARENCY (TEASER)
         </div>
     </div>
 </section>
-@endif
 
 {{-- =========================================================
 FAQ (TEASER)
 ========================================================== --}}
 
-@if($lpVisible('faq'))
 <section id="faq" class="bg-slate-50/70 py-10 sm:py-10">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
         <div class="mx-auto max-w-2xl text-center reveal">
             <span
                 class="inline-flex items-center rounded-full border border-teal-100 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-teal-700 shadow-sm">
-                {{ $lpField('faq', 'subtitle', 'Frequently Asked Questions') }}
+                Frequently Asked Questions
             </span>
-            <h2 class="mt-4 text-[1.8rem] font-bold tracking-tight text-slate-900 sm:text-[2.35rem]">{{ $lpField('faq', 'title', 'সাধারণ কিছু প্রশ্ন') }}
+            <h2 class="mt-4 text-[1.8rem] font-bold tracking-tight text-slate-900 sm:text-[2.35rem]">সাধারণ কিছু প্রশ্ন
             </h2>
             <p class="mx-auto max-w-xl text-[13px] leading-6 text-slate-500 sm:text-[14px]">
-                {{ $organizationName }} {{ $lpField('faq', 'content', 'সম্পর্কে প্রাথমিক কিছু প্রশ্নের সহজ ও
-                সংক্ষিপ্ত উত্তর।') }}
+                {{ $organizationName }} সম্পর্কে প্রাথমিক কিছু প্রশ্নের সহজ ও
+                সংক্ষিপ্ত উত্তর।
             </p>
         </div>
 
@@ -609,20 +577,18 @@ FAQ (TEASER)
         </div>
 
         <div class="mt-7 flex justify-center">
-            <a href="{{ $lpField('faq', 'button_url', route('faq')) }}"
+            <a href="{{ route('faq') }}"
                 class="reveal inline-flex items-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-[13px] font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:-translate-y-0.5 hover:bg-teal-800">
-                {{ $lpField('faq', 'button_text', 'সব প্রশ্নোত্তর দেখুন') }}
+                সব প্রশ্নোত্তর দেখুন
                 <i data-lucide="arrow-right" class="h-4 w-4"></i>
             </a>
         </div>
     </div>
 </section>
-@endif
 
 {{-- =========================================================
 CTA
 ========================================================== --}}
-@if($lpVisible('cta'))
 <section class="bg-slate-100 py-14 sm:py-16">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
         <div
@@ -635,38 +601,36 @@ CTA
                     <i data-lucide="sparkles" class="h-5 w-5"></i>
                 </div>
 
-                <h2 class="mt-5 text-[2rem] font-bold sm:text-[2.45rem]">{{ $lpField('cta', 'title', 'আমাদের স্বপ্নের অংশ হোন') }}</h2>
+                <h2 class="mt-5 text-[2rem] font-bold sm:text-[2.45rem]">আমাদের স্বপ্নের অংশ হোন</h2>
 
                 <p class="mx-auto mt-3 max-w-xl text-[13px] leading-6 text-teal-50">
-                    {{ $lpField('cta', 'content', 'একটি শক্তিশালী কমিউনিটি গড়ে তুলতে ঐক্য, আস্থা ও
-                    দীর্ঘমেয়াদি পরিকল্পনার বিকল্প নেই।') }}
+                    একটি শক্তিশালী কমিউনিটি গড়ে তুলতে ঐক্য, আস্থা ও
+                    দীর্ঘমেয়াদি পরিকল্পনার বিকল্প নেই।
                 </p>
 
-                <a href="{{ $lpField('cta', 'button_url', '#contact') }}"
+                <a href="#contact"
                     class="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-[13px] font-bold text-teal-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
-                    {{ $lpField('cta', 'button_text', 'যোগাযোগ করুন') }}
+                    যোগাযোগ করুন
                     <i data-lucide="arrow-right" class="h-4 w-4"></i>
                 </a>
             </div>
         </div>
     </div>
 </section>
-@endif
 
 {{-- =========================================================
 CONTACT
 ========================================================== --}}
-@if($lpVisible('contact'))
-<section id="contact" class="bg-white sm:py-16">
+<section id="contact" class="bg-whitepy-14 sm:py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid gap-10 lg:grid-cols-2">
 
             <div class="reveal">
-                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">{{ $lpField('contact', 'subtitle', 'Contact') }}</span>
-                <h2 class="mt-3 text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">{{ $lpField('contact', 'title', 'যোগাযোগ করুন') }}</h2>
+                <span class="text-[13px] font-bold uppercase tracking-[0.18em] text-teal-700">Contact</span>
+                <h2 class="mt-3 text-[2rem] font-bold text-slate-900 sm:text-[2.5rem]">যোগাযোগ করুন</h2>
                 <p class="max-w-lg text-[14px] leading-7 text-slate-500">
-                    {{ $organizationName }} {{ $lpField('contact', 'content', 'সম্পর্কে জানতে বা কোনো প্রশ্ন
-                    থাকলে আমাদের সাথে যোগাযোগ করুন।') }}
+                    {{ $organizationName }} সম্পর্কে জানতে বা কোনো প্রশ্ন
+                    থাকলে আমাদের সাথে যোগাযোগ করুন।
                 </p>
 
                 <div class="mt-8 space-y-4">
@@ -703,51 +667,42 @@ CONTACT
             </div>
 
             <div class="reveal">
-                <form id="contactForm" novalidate class="rounded-md border border-slate-200 bg-white p-5 shadow-soft sm:p-6">
+                <form id="contactForm" class="rounded-md border border-slate-200 bg-white p-5 shadow-soft sm:p-6">
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label for="contactName" class="mb-1.5 block text-[13px] font-semibold text-slate-700">আপনার নাম <span class="text-red-500">*</span></label>
-                            <input type="text" id="contactName" name="name" required placeholder="আপনার নাম লিখুন"
-                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
-                            <p id="contactNameError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
+                            <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">আপনার নাম</label>
+                            <input type="text" name="name" required placeholder="আপনার নাম লিখুন"
+                                class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                         </div>
 
                         <div>
-                            <label for="contactEmail" class="mb-1.5 block text-[13px] font-semibold text-slate-700">ই-মেইল <span class="text-red-500">*</span></label>
-                            <input type="email" id="contactEmail" name="email" required placeholder="আপনার ই-মেইল"
-                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
-                            <p id="contactEmailError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
+                            <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">ই-মেইল</label>
+                            <input type="email" name="email" required placeholder="আপনার ই-মেইল"
+                                class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <label for="contactSubject" class="mb-1.5 block text-[13px] font-semibold text-slate-700">বিষয় <span class="text-red-500">*</span></label>
-                        <input type="text" id="contactSubject" name="subject" required placeholder="কী বিষয়ে যোগাযোগ করতে চান?"
-                            class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
-                        <p id="contactSubjectError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
+                        <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">বিষয়</label>
+                        <input type="text" name="subject" required placeholder="কী বিষয়ে যোগাযোগ করতে চান?"
+                            class="w-full rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                     </div>
 
                     <div class="mt-4">
-                        <label for="contactMessage" class="mb-1.5 block text-[13px] font-semibold text-slate-700">বার্তা <span class="text-red-500">*</span></label>
-                        <textarea id="contactMessage" name="message" rows="5" required placeholder="আপনার বার্তা লিখুন..."
-                            class="w-full resize-none rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10"></textarea>
-                        <p id="contactMessageError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
+                        <label class="mb-1.5 block text-[13px] font-semibold text-slate-700">বার্তা</label>
+                        <textarea name="message" rows="5" required placeholder="আপনার বার্তা লিখুন..."
+                            class="w-full resize-none rounded-md border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10"></textarea>
                     </div>
 
-                    <button type="submit" id="contactSubmitBtn"
-                        class="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-teal-700 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-70">
-                        <span id="contactSubmitBtnText">বার্তা পাঠান</span>
-                        <i data-lucide="send" id="contactSubmitBtnIcon" class="h-4 w-4"></i>
-                        <i data-lucide="loader-2" id="contactSubmitSpinner" class="hidden h-4 w-4 animate-spin"></i>
+                    <button type="submit"
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-teal-700 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-700/20 transition hover:bg-teal-800">
+                        বার্তা পাঠান
+                        <i data-lucide="send" class="h-4 w-4"></i>
                     </button>
 
                     <p id="formMessage" class="mt-3 hidden text-center text-[13px] font-medium text-emerald-600">
                         আপনার বার্তা সফলভাবে পাঠানো হয়েছে।
-                    </p>
-
-                    <p id="formError" class="mt-3 hidden text-center text-[13px] font-medium text-rose-600">
-                        দুঃখিত, কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।
                     </p>
 
                 </form>
@@ -756,7 +711,6 @@ CONTACT
         </div>
     </div>
 </section>
-@endif
 
 @include('landing.partials.footer')
 @endsection
@@ -796,166 +750,18 @@ CONTACT
 
     counters.forEach(counter => counterObserver.observe(counter));
 
-    /* Contact Form */
+    /* Contact Form Demo */
     const contactForm = document.getElementById('contactForm');
     const formMessage = document.getElementById('formMessage');
-    const formError = document.getElementById('formError');
-    const submitBtn = document.getElementById('contactSubmitBtn');
-    const submitBtnText = document.getElementById('contactSubmitBtnText');
-    const submitBtnIcon = document.getElementById('contactSubmitBtnIcon');
-    const submitBtnSpinner = document.getElementById('contactSubmitSpinner');
 
-    const contactFields = [
-        {
-            input: document.getElementById('contactName'),
-            error: document.getElementById('contactNameError'),
-            validate: (value) => {
-                if (!value) return 'অনুগ্রহ করে আপনার নাম লিখুন।';
-                if (value.length > 150) return 'নাম সর্বোচ্চ ১৫০ অক্ষরের মধ্যে দিন।';
-                return '';
-            },
-        },
-        {
-            input: document.getElementById('contactEmail'),
-            error: document.getElementById('contactEmailError'),
-            validate: (value) => {
-                if (!value) return 'অনুগ্রহ করে আপনার ই-মেইল লিখুন।';
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'সঠিক ই-মেইল ঠিকানা লিখুন।';
-                return '';
-            },
-        },
-        {
-            input: document.getElementById('contactSubject'),
-            error: document.getElementById('contactSubjectError'),
-            validate: (value) => {
-                if (!value) return 'অনুগ্রহ করে বিষয় লিখুন।';
-                if (value.length > 200) return 'বিষয় সর্বোচ্চ ২০০ অক্ষরের মধ্যে দিন।';
-                return '';
-            },
-        },
-        {
-            input: document.getElementById('contactMessage'),
-            error: document.getElementById('contactMessageError'),
-            validate: (value) => {
-                if (!value) return 'অনুগ্রহ করে আপনার বার্তা লিখুন।';
-                if (value.length > 5000) return 'বার্তা সর্বোচ্চ ৫০০০ অক্ষরের মধ্যে দিন।';
-                return '';
-            },
-        },
-    ];
-
-    function setFieldError(field, message) {
-        if (message) {
-            field.input.classList.add('border-rose-400', 'focus:border-rose-500', 'focus:ring-rose-100');
-            field.input.classList.remove('border-slate-200', 'focus:border-teal-500', 'focus:ring-teal-500/10');
-            field.error.textContent = message;
-            field.error.classList.remove('hidden');
-        } else {
-            field.input.classList.remove('border-rose-400', 'focus:border-rose-500', 'focus:ring-rose-100');
-            field.input.classList.add('border-slate-200', 'focus:border-teal-500', 'focus:ring-teal-500/10');
-            field.error.textContent = '';
-            field.error.classList.add('hidden');
-        }
-    }
-
-    function validateContactForm() {
-        let firstInvalid = null;
-
-        contactFields.forEach((field) => {
-            const message = field.validate(field.input.value.trim());
-            setFieldError(field, message);
-
-            if (message && !firstInvalid) {
-                firstInvalid = field.input;
-            }
-        });
-
-        if (firstInvalid) {
-            firstInvalid.focus();
-            return false;
-        }
-
-        return true;
-    }
-
-    contactFields.forEach((field) => {
-        field.input.addEventListener('input', () => {
-            if (!field.error.classList.contains('hidden')) {
-                setFieldError(field, field.validate(field.input.value.trim()));
-            }
-        });
-    });
-
-    contactForm.addEventListener('submit', async function (event) {
+    contactForm.addEventListener('submit', function (event) {
         event.preventDefault();
+        formMessage.classList.remove('hidden');
+        contactForm.reset();
 
-        formMessage.classList.add('hidden');
-        formError.classList.add('hidden');
-
-        if (!validateContactForm()) {
-            return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtnText.textContent = 'পাঠানো হচ্ছে...';
-        submitBtnIcon.classList.add('hidden');
-        submitBtnSpinner.classList.remove('hidden');
-
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            ?.getAttribute('content');
-
-        const payload = {
-            name: contactForm.name.value,
-            email: contactForm.email.value,
-            subject: contactForm.subject.value,
-            message: contactForm.message.value,
-        };
-
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken || '',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const data = await response.json().catch(() => ({}));
-
-            if (!response.ok) {
-                if (data.errors) {
-                    const fieldMap = { name: 0, email: 1, subject: 2, message: 3 };
-
-                    Object.entries(data.errors).forEach(([key, messages]) => {
-                        const field = contactFields[fieldMap[key]];
-                        if (field) setFieldError(field, messages[0]);
-                    });
-                }
-
-                formError.textContent = data.message || 'দুঃখিত, কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।';
-                formError.classList.remove('hidden');
-            } else {
-                formMessage.classList.remove('hidden');
-                contactForm.reset();
-                contactFields.forEach((field) => setFieldError(field, ''));
-
-                setTimeout(() => {
-                    formMessage.classList.add('hidden');
-                }, 4000);
-            }
-        } catch (error) {
-            formError.textContent = 'নেটওয়ার্ক সমস্যা হয়েছে। আবার চেষ্টা করুন।';
-            formError.classList.remove('hidden');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtnText.textContent = 'বার্তা পাঠান';
-            submitBtnIcon.classList.remove('hidden');
-            submitBtnSpinner.classList.add('hidden');
-        }
+        setTimeout(() => {
+            formMessage.classList.add('hidden');
+        }, 4000);
     });
 </script>
 @endpush

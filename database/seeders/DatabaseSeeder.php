@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubscriptionPlanSeeder::class,
             FeedbackSupportCategorySeeder::class,
+            WebsiteSeeder::class,
         ]);
     }
 }

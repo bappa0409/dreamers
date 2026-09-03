@@ -130,6 +130,12 @@ th,td{border:1px solid var(--slate-200);padding:8px 10px;text-align:left;vertica
 th{background:var(--slate-100);font-size:12px;text-transform:uppercase;letter-spacing:.3px;color:var(--slate-500)}
 td.right,th.right{text-align:right}
 tr:nth-child(even) td{background:#fafbfe}
+td.cell-approval{color:var(--amber);font-weight:700}
+
+.badge-approval{
+    display:inline-block;background:#fffbeb;color:var(--amber);border:1px solid #fde68a;
+    border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.2px;
+}
 
 code,.code{
     font-family:Consolas,Menlo,monospace;background:var(--slate-100);
@@ -225,30 +231,31 @@ footer{
         <a href="#accrual">২. Accrual vs Cash Basis</a>
         <a href="#coa">৩. হিসাবের চার্ট (Chart of Accounts)</a>
         <a href="#engine">৪. জার্নাল ইঞ্জিন কীভাবে কাজ করে</a>
+        <a href="#approval-workflow">৫. Approval Workflow (অনুমোদন প্রবাহ) 🆕</a>
 
         <h2>টাকার প্রবাহ (মডিউল অনুযায়ী)</h2>
-        <a href="#subscription">৫. সদস্য চাঁদা (Subscription &amp; Dues)</a>
-        <a href="#charges">৬. সদস্য চার্জ (Member Charges)</a>
-        <a href="#loans">৭. ঋণ (Loans)</a>
-        <a href="#investments">৮. বিনিয়োগ (Investments)</a>
-        <a href="#shares">৯. শেয়ার (Member Shares)</a>
-        <a href="#assets">১০. সম্পদ ও অবচয় (Assets)</a>
-        <a href="#teller">১১. টেলার / নগদ ব্যবস্থাপনা</a>
-        <a href="#income-expense">১২. আয় ও ব্যয় (Income &amp; Expense)</a>
-        <a href="#manual-journal">১৩. ম্যানুয়াল জার্নাল ও রিভার্সাল</a>
+        <a href="#subscription">৬. সদস্য চাঁদা (Subscription &amp; Dues)</a>
+        <a href="#charges">৭. সদস্য চার্জ (Member Charges)</a>
+        <a href="#loans">৮. ঋণ (Loans)</a>
+        <a href="#investments">৯. বিনিয়োগ (Investments)</a>
+        <a href="#shares">১০. শেয়ার (Member Shares)</a>
+        <a href="#assets">১১. সম্পদ ও অবচয় (Assets)</a>
+        <a href="#teller">১২. টেলার / নগদ ব্যবস্থাপনা</a>
+        <a href="#income-expense">১৩. আয় ও ব্যয় (Income &amp; Expense)</a>
+        <a href="#manual-journal">১৪. ম্যানুয়াল জার্নাল ও রিভার্সাল</a>
 
         <h2>প্রভাব ও রেফারেন্স</h2>
-        <a href="#statements">১৪. ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</a>
-        <a href="#dashboard-map">১৫. ড্যাশবোর্ডের সংখ্যা কোথা থেকে আসে</a>
-        <a href="#appendix">১৬. অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</a>
+        <a href="#statements">১৫. ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</a>
+        <a href="#dashboard-map">১৬. ড্যাশবোর্ডের সংখ্যা কোথা থেকে আসে</a>
+        <a href="#appendix">১৭. অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</a>
 
         <h2>রিপোর্ট ও রসিদ</h2>
-        <a href="#reports">১৭. রিপোর্টসমূহ</a>
-        <a href="#receipts">১৮. রসিদ / প্রিন্ট (Receipts)</a>
+        <a href="#reports">১৮. রিপোর্টসমূহ</a>
+        <a href="#receipts">১৯. রসিদ / প্রিন্ট (Receipts)</a>
 
         <h2>অন্যান্য</h2>
-        <a href="#permissions">১৯. পারমিশন ও রোল</a>
-        <a href="#faq">২০. সাধারণ সমস্যা ও সমাধান</a>
+        <a href="#permissions">২০. পারমিশন ও রোল</a>
+        <a href="#faq">২১. সাধারণ সমস্যা ও সমাধান</a>
     </aside>
 
     <main class="content">
@@ -429,13 +436,13 @@ footer{
                     <b>গুরুত্বপূর্ণ</b>
                     ভুল জার্নাল হয়ে গেলে সরাসরি এডিট বা ডিলিট করা যায় না — এটি হিসাবরক্ষণের একটি
                     নিরাপত্তা নিয়ম, যাতে অডিট ট্রেইল ঠিক থাকে। ভুল সংশোধনের একমাত্র উপায় হলো
-                    <b>Reverse Journal</b> (দেখুন সেকশন ১৩)।
+                    <b>Reverse Journal</b> (দেখুন সেকশন ১৪)।
                 </div>
             </section>
 
             <!-- 5. SUBSCRIPTION (DETAILED) -->
             <section id="subscription">
-                <h2><span class="num">৫</span> সদস্য চাঁদা (Subscription &amp; Dues) — বিস্তারিত ফ্লো</h2>
+                <h2><span class="num">৬</span> সদস্য চাঁদা (Subscription &amp; Dues) — বিস্তারিত ফ্লো</h2>
 
                 <div class="flow-steps">
                     <div class="step"><div class="n">১</div>সদস্য Approve হওয়ার সময় / প্রতি মাসের শুরুতে সিস্টেম একটি <b>Due</b> তৈরি করে ও জার্নাল পোস্ট করে।</div>
@@ -595,7 +602,7 @@ footer{
 
             <!-- 6. CHARGES -->
             <section id="charges">
-                <h2><span class="num">৬</span> সদস্য চার্জ (Member Charges)</h2>
+                <h2><span class="num">৭</span> সদস্য চার্জ (Member Charges)</h2>
                 <p>চাঁদা ছাড়া অন্য যেকোনো নির্দিষ্ট চার্জ (যেমন — ভর্তি ফি, ফরম ফি, জরিমানা) সদস্যের নামে ধার্য করা হলে একইভাবে Receivable বাড়ে, ঠিক subscription due-এর মতোই accrual নিয়মে আয় ধরা হয়।</p>
                 <div class="jv">
                     <div class="jv-title">Journal — Charge ধার্য করার সময়</div>
@@ -636,7 +643,7 @@ footer{
 
             <!-- 7. LOANS -->
             <section id="loans">
-                <h2><span class="num">৭</span> ঋণ (Loans) — বিস্তারিত ফ্লো</h2>
+                <h2><span class="num">৮</span> ঋণ (Loans) — বিস্তারিত ফ্লো</h2>
 
                 <h3>ঋণ প্রদান (Disbursement)</h3>
                 <div class="jv">
@@ -690,7 +697,7 @@ footer{
 
             <!-- 8. INVESTMENTS -->
             <section id="investments">
-                <h2><span class="num">৮</span> বিনিয়োগ (Investments)</h2>
+                <h2><span class="num">৯</span> বিনিয়োগ (Investments)</h2>
                 <div class="jv">
                     <div class="jv-title">Journal — বিনিয়োগ করার সময়</div>
                     <table>
@@ -731,7 +738,7 @@ footer{
 
             <!-- 9. SHARES -->
             <section id="shares">
-                <h2><span class="num">৯</span> শেয়ার (Member Shares)</h2>
+                <h2><span class="num">১০</span> শেয়ার (Member Shares)</h2>
                 <div class="jv">
                     <div class="jv-title">Journal — শেয়ার ক্রয়</div>
                     <table>
@@ -770,7 +777,7 @@ footer{
 
             <!-- 10. ASSETS -->
             <section id="assets">
-                <h2><span class="num">১০</span> সম্পদ ও অবচয় (Assets &amp; Depreciation)</h2>
+                <h2><span class="num">১১</span> সম্পদ ও অবচয় (Assets &amp; Depreciation)</h2>
 
                 <h3>সম্পদ ক্রয় (Asset Purchase)</h3>
                 <div class="jv">
@@ -831,7 +838,7 @@ footer{
 
             <!-- 11. TELLER -->
             <section id="teller">
-                <h2><span class="num">১১</span> টেলার / নগদ ব্যবস্থাপনা (Teller)</h2>
+                <h2><span class="num">১২</span> টেলার / নগদ ব্যবস্থাপনা (Teller)</h2>
                 <p>যেকোনো ধরনের সরাসরি নগদ গ্রহণ (Receive) বা প্রদান (Payment) — যা অন্য কোনো নির্দিষ্ট মডিউলের (চাঁদা/চার্জ) অংশ নয় — টেলার মডিউল দিয়ে রেকর্ড করা হয়। প্রতিদিনের কাজ শুরুর আগে টেলার "Open" করতে হয় এবং দিনশেষে "Closing" করে ক্যাশ মিলিয়ে নিতে হয়।</p>
                 <div class="jv">
                     <div class="jv-title">Journal — Teller Receive</div>
@@ -867,7 +874,7 @@ footer{
 
             <!-- 12. INCOME/EXPENSE -->
             <section id="income-expense">
-                <h2><span class="num">১২</span> আয় ও ব্যয় (Direct Income &amp; Expense)</h2>
+                <h2><span class="num">১৩</span> আয় ও ব্যয় (Direct Income &amp; Expense)</h2>
                 <p>চাঁদা/চার্জ ছাড়া অন্য যেকোনো সরাসরি আয় (যেমন — অনুদান) বা ব্যয় (যেমন — অফিস ভাড়া, বিদ্যুৎ বিল) <code>Finance → Income</code> ও <code>Finance → Expenses</code> মেনু থেকে সরাসরি এন্ট্রি করা যায়।</p>
                 <div class="jv">
                     <div class="jv-title">Journal — Income Entry</div>
@@ -908,7 +915,7 @@ footer{
 
             <!-- 13. MANUAL JOURNAL -->
             <section id="manual-journal">
-                <h2><span class="num">১৩</span> ম্যানুয়াল জার্নাল ও রিভার্সাল</h2>
+                <h2><span class="num">১৪</span> ম্যানুয়াল জার্নাল ও রিভার্সাল</h2>
                 <p><code>Finance → Journal Entries → Manual Journal</code> থেকে যেকোনো কাস্টম হিসাব এন্ট্রি করা যায় — এটি ব্যবহার হয় এমন পরিস্থিতিতে যা অন্য কোনো মডিউলের অংশ নয় (যেমন — বছর শেষের সমন্বয় এন্ট্রি, ভুল সংশোধনের বিশেষ এন্ট্রি)।</p>
 
                 <h3>নিয়ম</h3>
@@ -944,7 +951,7 @@ footer{
 
             <!-- 14. STATEMENTS -->
             <section id="statements">
-                <h2><span class="num">১৪</span> ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</h2>
+                <h2><span class="num">১৫</span> ফাইন্যান্সিয়াল স্টেটমেন্টে প্রভাব</h2>
                 <div class="two-col">
                     <div>
                         <h3>Trial Balance</h3>
@@ -967,7 +974,7 @@ footer{
 
             <!-- 15. DASHBOARD MAP -->
             <section id="dashboard-map">
-                <h2><span class="num">১৫</span> ড্যাশবোর্ডের সংখ্যাগুলো কোথা থেকে আসে</h2>
+                <h2><span class="num">১৬</span> ড্যাশবোর্ডের সংখ্যাগুলো কোথা থেকে আসে</h2>
                 <p>উপরের Subscription উদাহরণের দিন ১২ (Late Fine বসার পর, এখনো কোনো পেমেন্ট verify হয়নি) সময়ের অবস্থা ধরে নিচের ড্যাশবোর্ড লেবেলগুলো ব্যাখ্যা করা হলো:</p>
                 <table>
                     <thead><tr><th>ড্যাশবোর্ড লেবেল</th><th>মানে</th><th class="right">দিন ১২-তে মান</th></tr></thead>
@@ -983,37 +990,45 @@ footer{
 
             <!-- 16. APPENDIX -->
             <section id="appendix">
-                <h2><span class="num">১৬</span> অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</h2>
+                <h2><span class="num">১৭</span> অ্যাপেন্ডিক্স — সব মডিউলের জার্নাল একনজরে</h2>
                 <p class="desc">দ্রুত রেফারেন্সের জন্য সব মডিউলের ডেবিট/ক্রেডিট এক টেবিলে:</p>
                 <table>
-                    <thead><tr><th>মডিউল / ইভেন্ট</th><th>Debit</th><th>Credit</th></tr></thead>
+                    <thead><tr><th>মডিউল / ইভেন্ট</th><th>Debit</th><th>Credit</th><th>Approval লাগে?</th></tr></thead>
                     <tbody>
-                        <tr><td>সাবস্ক্রিপশন Due তৈরি</td><td>Accounts Receivable</td><td>Subscription Income</td></tr>
-                        <tr><td>সাবস্ক্রিপশন Late Fine</td><td>Accounts Receivable</td><td>Fine Income</td></tr>
-                        <tr><td>সাবস্ক্রিপশন Payment Verify</td><td>Cash/Bank</td><td>Accounts Receivable</td></tr>
-                        <tr><td>মেম্বার চার্জ তৈরি</td><td>Accounts Receivable</td><td>Charge/Applicable Income</td></tr>
-                        <tr><td>মেম্বার চার্জ পরিশোধ</td><td>Cash/Bank</td><td>Accounts Receivable</td></tr>
-                        <tr><td>লোন ডিসবার্স</td><td>Member Loan Receivable</td><td>Cash/Bank</td></tr>
-                        <tr><td>লোন রিপেমেন্ট</td><td>Cash/Bank</td><td>Member Loan Receivable (+Interest Income)</td></tr>
-                        <tr><td>বিনিয়োগ (Investment) তৈরি</td><td>Investments</td><td>Cash/Bank</td></tr>
-                        <tr><td>বিনিয়োগ রিটার্ন প্রাপ্তি</td><td>Cash/Bank</td><td>Investment Income (বা Investments, principal হলে)</td></tr>
-                        <tr><td>শেয়ার ক্রয়</td><td>Cash/Bank</td><td>Member Share Capital</td></tr>
-                        <tr><td>মেম্বার এক্সিট সেটেলমেন্ট</td><td>Member Share Capital</td><td>Cash/Bank</td></tr>
-                        <tr><td>সম্পদ ক্রয়</td><td>Fixed Assets</td><td>Cash/Bank</td></tr>
-                        <tr><td>অ্যাসেট Depreciation</td><td>Depreciation Expense</td><td>Fixed Asset / Accumulated Depreciation</td></tr>
-                        <tr><td>সম্পদ বিক্রয়/অপসারণ</td><td>Cash/Bank (+Loss, হলে)</td><td>Fixed Asset (+Gain, হলে)</td></tr>
-                        <tr><td>টেলার — Receive</td><td>Cash</td><td>নির্বাচিত Counter Account</td></tr>
-                        <tr><td>টেলার — Payment</td><td>নির্বাচিত Counter Account</td><td>Cash</td></tr>
-                        <tr><td>সরাসরি Income Entry</td><td>Cash/Bank</td><td>নির্দিষ্ট Income অ্যাকাউন্ট</td></tr>
-                        <tr><td>সরাসরি Expense Entry</td><td>নির্দিষ্ট Expense অ্যাকাউন্ট</td><td>Cash/Bank</td></tr>
+                        <tr><td>সাবস্ক্রিপশন Due তৈরি</td><td>Accounts Receivable</td><td>Subscription Income</td><td>না</td></tr>
+                        <tr><td>সাবস্ক্রিপশন Late Fine</td><td>Accounts Receivable</td><td>Fine Income</td><td>না</td></tr>
+                        <tr><td>সাবস্ক্রিপশন Payment Verify</td><td>Cash/Bank</td><td>Accounts Receivable</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>মেম্বার চার্জ তৈরি</td><td>Accounts Receivable</td><td>Charge/Applicable Income</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>মেম্বার চার্জ পরিশোধ (Pay)</td><td>Cash/Bank</td><td>Accounts Receivable</td><td>না</td></tr>
+                        <tr><td>লোন Request/ডিসবার্স</td><td>Member Loan Receivable</td><td>Cash/Bank</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>লোন রিপেমেন্ট</td><td>Cash/Bank</td><td>Member Loan Receivable (+Interest Income)</td><td>না</td></tr>
+                        <tr><td>বিনিয়োগ (Investment) তৈরি</td><td>Investments</td><td>Cash/Bank</td><td>না</td></tr>
+                        <tr><td>বিনিয়োগ রিটার্ন প্রাপ্তি</td><td>Cash/Bank</td><td>Investment Income (বা Investments, principal হলে)</td><td>না</td></tr>
+                        <tr><td>শেয়ার ক্রয় (Purchase Request)</td><td>Cash/Bank</td><td>Member Share Capital</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>মেম্বার এক্সিট সেটেলমেন্ট</td><td>Member Share Capital</td><td>Cash/Bank</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>সম্পদ ক্রয় (Asset Create)</td><td>Fixed Assets</td><td>Cash/Bank</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>অ্যাসেট Depreciation</td><td>Depreciation Expense</td><td>Fixed Asset / Accumulated Depreciation</td><td>না</td></tr>
+                        <tr><td>সম্পদ বিক্রয়/অপসারণ (Sell/Dispose)</td><td>Cash/Bank (+Loss, হলে)</td><td>Fixed Asset (+Gain, হলে)</td><td>না</td></tr>
+                        <tr><td>টেলার — Receive</td><td>Cash</td><td>নির্বাচিত Counter Account</td><td>না</td></tr>
+                        <tr><td>টেলার — Payment</td><td>নির্বাচিত Counter Account</td><td>Cash</td><td>না</td></tr>
+                        <tr><td>সরাসরি Income Entry</td><td>Cash/Bank</td><td>নির্দিষ্ট Income অ্যাকাউন্ট</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>সরাসরি Expense Entry</td><td>নির্দিষ্ট Expense অ্যাকাউন্ট</td><td>Cash/Bank</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>ম্যানুয়াল জার্নাল এন্ট্রি</td><td>—</td><td>—</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
+                        <tr><td>নতুন Account তৈরি / Update / Delete</td><td>—</td><td>—</td><td class="cell-approval">হ্যাঁ 🔒</td></tr>
                     </tbody>
                 </table>
+                <div class="callout warn">
+                    <b>🔒 = Approval Workflow-এর আওতাধীন</b>
+                    যেসব সারিতে "হ্যাঁ 🔒" লেখা, সেগুলো সেভ করার সাথে সাথে জার্নালে Post হয় না — আগে একজন
+                    (বা একাধিক ধাপে) নির্ধারিত Approver-কে Approve করতে হয়, তারপর জার্নাল Post হয়। বিস্তারিত
+                    নিয়ম ও পুরো তালিকার জন্য দেখুন সেকশন ৫ — Approval Workflow।
+                </div>
                 <div class="callout info">📌 এই টেবিলটা শুধু দিক-নির্দেশনার জন্য — প্রতিটার সঠিক ধাপ, শর্ত ও বাস্তব উদাহরণ উপরের নিজস্ব সেকশনে বিস্তারিত দেওয়া আছে।</div>
             </section>
 
             <!-- 17. REPORTS -->
             <section id="reports">
-                <h2><span class="num">১৭</span> রিপোর্টসমূহ</h2>
+                <h2><span class="num">১৮</span> রিপোর্টসমূহ</h2>
                 <table>
                     <thead><tr><th>রিপোর্ট</th><th>কী দেখায়</th></tr></thead>
                     <tbody>
@@ -1029,7 +1044,7 @@ footer{
 
             <!-- 18. RECEIPTS -->
             <section id="receipts">
-                <h2><span class="num">১৮</span> রসিদ / প্রিন্ট (Receipts)</h2>
+                <h2><span class="num">১৯</span> রসিদ / প্রিন্ট (Receipts)</h2>
 
                 <h3>ক) সদস্যের পেমেন্ট রসিদ (Member Payment Receipt)</h3>
                 <div class="flow-steps">
@@ -1050,7 +1065,7 @@ footer{
 
             <!-- 19. PERMISSIONS -->
             <section id="permissions">
-                <h2><span class="num">১৯</span> পারমিশন ও রোল</h2>
+                <h2><span class="num">২০</span> পারমিশন ও রোল</h2>
                 <table>
                     <thead><tr><th>পারমিশন</th><th>কী করতে পারবে</th></tr></thead>
                     <tbody>
@@ -1064,7 +1079,7 @@ footer{
 
             <!-- 20. FAQ -->
             <section id="faq">
-                <h2><span class="num">২০</span> সাধারণ সমস্যা ও সমাধান</h2>
+                <h2><span class="num">২১</span> সাধারণ সমস্যা ও সমাধান</h2>
 
                 <h4>জার্নাল পোস্ট হচ্ছে না, "Not Balanced" দেখাচ্ছে</h4>
                 <p>প্রতিটি লাইনের Debit ও Credit যোগফল আলাদাভাবে মিলিয়ে দেখুন — টোটাল Debit অবশ্যই টোটাল Credit-এর সমান হতে হবে। উদাহরণস্বরূপ, ৩ লাইনের একটি ম্যানুয়াল জার্নালে যদি Debit-এ ২,১৫,০০০ এবং Credit-এ ২,১০,০০০ থাকে, তাহলে ৫,০০০ টাকার পার্থক্য খুঁজে বের করে ঠিক করতে হবে।</p>
@@ -1073,7 +1088,7 @@ footer{
                 <p>এন্ট্রি এডিট/ডিলিট করা যায় না। <b>Reverse Journal</b> ব্যবহার করে এর বিপরীত এন্ট্রি পোস্ট করুন — এটি হিসাবরক্ষণের নিরাপদ পদ্ধতি। যেমন, ভুলে ৳15,000-এর বদলে ৳51,000 অফিস খরচ এন্ট্রি হয়ে গেলে, প্রথমে পুরো এন্ট্রিটা Reverse করুন, তারপর সঠিক পরিমাণে নতুন এন্ট্রি করুন।</p>
 
                 <h4>সদস্যের পেমেন্ট জার্নালে দেখা যাচ্ছে না</h4>
-                <p>পেমেন্ট প্রথমে "Pending" অবস্থায় থাকে। <code>Finance → Subscription Payments</code>-এ গিয়ে অ্যাডমিন কর্তৃক Verify করার পরই এটি জার্নালে Posted হিসেবে দেখাবে (দেখুন সেকশন ৫, ধাপ ৩-৪)।</p>
+                <p>পেমেন্ট প্রথমে "Pending" অবস্থায় থাকে। <code>Finance → Subscription Payments</code>-এ গিয়ে অ্যাডমিন কর্তৃক Verify করার পরই এটি জার্নালে Posted হিসেবে দেখাবে (দেখুন সেকশন ৬, ধাপ ৩-৪)।</p>
 
                 <h4>টেবিলে হরাইজন্টাল স্ক্রল আসছে কেন, আগে হতো?</h4>
                 <p>জার্নাল লিস্টের টেবিল থেকে Type ও Source কলাম সরিয়ে Description-এর নিচে ছোট আকারে দেখানো হচ্ছে, এবং টেবিলটি এখন ফিক্সড-লেআউটে সেট করা — ফলে এখন থেকে টেবিলে অতিরিক্ত স্ক্রলবার আসবে না। সম্পূর্ণ তথ্য দেখতে View/রসিদে ক্লিক করুন।</p>

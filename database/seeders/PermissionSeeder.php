@@ -126,6 +126,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'FeedbackSupport.confidential', 'display_name' => 'View Confidential Feedback & Support', 'module' => 'Feedback & Support'],
             ['name' => 'FeedbackSupport.manage', 'display_name' => 'Manage Feedback & Support', 'module' => 'Feedback & Support'],
 
+            ['name' => 'ContactMessage.view', 'display_name' => 'View Contact Messages', 'module' => 'Contact Message'],
+            ['name' => 'ContactMessage.delete', 'display_name' => 'Delete Contact Messages', 'module' => 'Contact Message'],
+
             ['name' => 'Backup.view', 'display_name' => 'View Backups', 'module' => 'Backup'],
             ['name' => 'Backup.create', 'display_name' => 'Create Backup', 'module' => 'Backup'],
             ['name' => 'Backup.import', 'display_name' => 'Import Database', 'module' => 'Backup'],

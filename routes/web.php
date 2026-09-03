@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordSetupController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\WebsiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,13 @@ use App\Http\Controllers\Auth\PasswordResetController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', fn() => view('landing.index'))->name('home');
+Route::controller(WebsiteController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/about', 'about')->name('about');
+    Route::get('/activities', 'activities')->name('activities');
+    Route::get('/transparency', 'transparency')->name('transparency');
+    Route::get('/faq', 'faq')->name('faq');
+});
 
 /*
 |--------------------------------------------------------------------------

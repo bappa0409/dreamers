@@ -236,7 +236,7 @@
                     @foreach($dashboard['recent_members'] as $recentMember)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-base font-semibold text-slate-700">
+                                <p class="truncate text-sm font-semibold text-slate-700">
                                     {{ data_get($recentMember,'user.name','Member') }}
                                 </p>
 
@@ -269,7 +269,7 @@
                     @foreach($dashboard['recent_approvals'] as $approval)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-base font-semibold text-slate-700">
+                                <p class="truncate text-sm font-semibold text-slate-700">
                                     {{ $approval['module'] }} — {{ $approval['action'] }}
                                 </p>
 

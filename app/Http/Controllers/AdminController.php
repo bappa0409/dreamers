@@ -33,6 +33,11 @@ class AdminController extends Controller
         return view('admin.member-exits.index');
     }
 
+    public function contactMessages(): View
+    {
+        return view('admin.contact-messages.index');
+    }
+
     public function userRoles()
     {
         return view('admin.users.roles');
@@ -207,11 +212,9 @@ class AdminController extends Controller
         return view('admin.subscription-plans.index');
     }
 
-    public function landingPage(): RedirectResponse
+    public function landingPage(): View
     {
-        // The admin landing-page management view does not exist yet.
-        // Redirect safely instead of throwing a ViewNotFoundException.
-        return redirect()->route('admin.settings');
+        return view('admin.landing-page.index');
     }
 
     public function settings(): View

@@ -6,6 +6,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title','Member Portal') - {{ setting('organization_name','Dreamers Association') }}</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+@if(setting('site_favicon'))
+<link rel="icon" href="{{ asset('storage/'.setting('site_favicon')) }}">
+@endif
+
 @vite(['resources/css/app.css','resources/js/app.js'])
 <style>
 #memberSidebar nav::-webkit-scrollbar{width:2px}

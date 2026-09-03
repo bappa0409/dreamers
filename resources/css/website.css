@@ -1,0 +1,229 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "tailwindcss";
+
+/* =========================================================
+   Dreamers Association - Landing Theme
+   ========================================================= */
+
+@theme {
+
+    --font-sans: "Hind Siliguri", sans-serif;
+
+    --color-primary: #0f766e;
+    --color-secondary: #115e59;
+    --color-accent: #f59e0b;
+
+    --color-brand-50: #f0fdfa;
+    --color-brand-100: #ccfbf1;
+    --color-brand-200: #99f6e4;
+    --color-brand-300: #5eead4;
+    --color-brand-400: #2dd4bf;
+    --color-brand-500: #14b8a6;
+    --color-brand-600: #0d9488;
+    --color-brand-700: #0f766e;
+    --color-brand-800: #115e59;
+    --color-brand-900: #0f3d3a;
+    --color-brand-950: #082f2b;
+
+    --shadow-soft: 0 10px 40px rgba(15, 118, 110, 0.08);
+    --shadow-card: 0 20px 60px rgba(15, 23, 42, 0.08);
+
+    --animate-float: float 5s ease-in-out infinite;
+    --animate-pulse-slow: pulseSlow 3s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   Base
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Hind Siliguri", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   Hero Grid
+   ========================================================= */
+
+.hero-grid {
+    background-image:
+        linear-gradient(
+            rgba(15, 118, 110, 0.05) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(15, 118, 110, 0.05) 1px,
+            transparent 1px
+        );
+
+    background-size: 42px 42px;
+}
+
+
+/* =========================================================
+   Reveal Animation
+   ========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   Navbar
+   ========================================================= */
+
+.nav-scrolled {
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   Dashboard Line
+   ========================================================= */
+
+.dashboard-line {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.12),
+            rgba(20, 184, 166, 0.03)
+        );
+}
+
+
+/* =========================================================
+   FAQ Accordion
+   ========================================================= */
+
+.faq-item[open] .faq-plus {
+    background: rgb(240 253 250);
+    border-color: rgb(153 246 228);
+    color: rgb(13 148 136);
+}
+
+.faq-item[open] .faq-plus svg {
+    transform: rotate(45deg);
+}
+
+.faq-item[open] summary {
+    color: rgb(15 118 110);
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary {
+    outline: none;
+}
+
+.faq-item summary:focus-visible {
+    outline: 2px solid rgb(45 212 191);
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   Landing Buttons
+   ========================================================= */
+
+.landing-btn {
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.landing-btn:hover {
+    transform: translateY(-2px);
+}
+
+.landing-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   Animations
+   ========================================================= */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulseSlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+    .hero-grid {
+        background-size: 30px 30px;
+    }
+
+    .reveal {
+        transform: translateY(15px);
+    }
+}
+
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
