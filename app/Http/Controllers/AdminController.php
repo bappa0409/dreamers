@@ -90,9 +90,17 @@ class AdminController extends Controller
 
     public function accounts(): View
     {
-        return view(
-            'admin.finance.accounts.index'
-        );
+        return view('admin.finance.accounts.index');
+    }
+
+    public function manualGuide(): View
+    {
+        return view('admin.finance.manual-guide.index');
+    }
+
+    public function financeManualDetail(): View
+    {
+        return view('admin.finance.manual-guide.detail');
     }
 
     public function journals(): View

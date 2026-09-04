@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'আমাদের কার্যক্রম')
+@section('title', 'আমাদের কার্যক্রম | ' . setting('organization_name', 'Dreamers Association'))
 @section('description', 'Dreamers Association-এর বিনিয়োগ, জমি ও সম্পদ, ব্যবসায়িক উদ্যোগ, পণ্য ক্রয়-বিক্রয় ও সদস্য কল্যাণসহ প্রতিটি কার্যক্রম সম্পর্কে বিস্তারিত জানুন।')
 
 @section('content')
@@ -16,6 +16,19 @@ $organizationName = setting('organization_name', 'Dreamers Association');
 'title' => 'আমাদের প্রধান কার্যক্রম',
 'description' => 'সংগঠনের লক্ষ্য ও সদস্যদের দীর্ঘমেয়াদি কল্যাণকে সামনে রেখে বিভিন্ন সম্ভাবনাময় উদ্যোগ নিয়ে কাজ করা হয়।',
 ])
+
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'আমাদের প্রধান কার্যক্রম', 'item' => route('activities')],
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
 
 {{-- =========================================================
 ACTIVITIES — DETAILED

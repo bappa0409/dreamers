@@ -19,7 +19,8 @@ class MemberService
     public function __construct(
         protected DashboardService $dashboardService,
         protected SubscriptionService $subscriptionService,
-        protected NumberSequenceService $numberSequenceService
+        protected NumberSequenceService $numberSequenceService,
+        protected AccountingService $accounting
     ) {}
 
     public function createMember(array $data): Member
@@ -64,6 +65,7 @@ class MemberService
                     'password' => Hash::make($data['email']),
                     'password_setup_token' => null,
                     'password_setup_expires_at' => null,
+                    'must_change_password' => true,
                     'language' => $data['language']
                         ?? $defaultLanguage,
                     'is_active' => $autoActivate,
@@ -79,13 +81,18 @@ class MemberService
                 $member = Member::create([
                     'user_id' => $user->id,
                     'member_code' => $this->generateMemberCode(),
+                    'father_or_husband_name' => $data['father_or_husband_name'] ?? null,
+                    'mother_name' => $data['mother_name'] ?? null,
                     'phone' => $data['phone']
                         ?? $data['mobile']
                         ?? null,
                     'alternate_phone' => $data['alternate_phone'] ?? null,
                     'date_of_birth' => $data['date_of_birth'] ?? null,
                     'gender' => $data['gender'] ?? null,
+                    'nid_or_birth_reg_no' => $data['nid_or_birth_reg_no'] ?? null,
                     'address' => $data['address'] ?? null,
+                    'permanent_address' => $data['permanent_address'] ?? null,
+                    'profession' => $data['profession'] ?? null,
                     'city' => $data['city'] ?? null,
                     'district' => $data['district'] ?? null,
                     'joining_date' => $autoActivate
@@ -228,11 +235,16 @@ class MemberService
 
             /*
         |--------------------------------------------------------------------------
-        | Activate Initial Share
+        | Post Accounting For Pending Initial Share + Activate It
         |--------------------------------------------------------------------------
         |
-        | Share must be activated BEFORE generating the current subscription due,
-        | because monthly subscription amount depends on active share count.
+        | The initial share is created (pending) at member-creation time with
+        | its final amount already set; the physical money is collected before
+        | approval. So on approval we post that existing amount to accounting
+        | (same double-entry pattern as MemberShareService::finalizeApproval)
+        | and only then activate the share. Share must be activated BEFORE
+        | generating the current subscription due, because monthly subscription
+        | amount depends on active share count.
         |
         */
             if ($this->shareEnabled()) {
@@ -250,6 +262,79 @@ class MemberService
                     ]);
                 }
 
+                $financeTransactionId = $pendingShare->finance_transaction_id;
+
+                // Duplicate prevention: only post accounting if this pending
+                // share doesn't already carry a finance transaction reference
+                // (defensive — AccountingService::post()'s idempotency_key
+                // also guards against a duplicate posting on retry).
+                if (!$financeTransactionId) {
+                    $amount = round(
+                        (float) $pendingShare->purchase_amount,
+                        2
+                    );
+
+                    if ($amount <= 0) {
+                        throw ValidationException::withMessages([
+                            'share' => [
+                                'Initial share amount is invalid.'
+                            ],
+                        ]);
+                    }
+
+                    $receiveAccount = $this->resolveInitialShareReceiveAccount(
+                        $pendingShare->payment_method
+                    );
+
+                    $capitalAccount = $this->accounting
+                        ->account('member_equity');
+
+                    $memberName = $member->user?->name
+                        ?? $member->member_code
+                        ?? 'Member';
+
+                    $transaction = $this->accounting->post([
+                        'idempotency_key' =>
+                            "member-share:initial:{$pendingShare->id}",
+
+                        'transaction_date' => now()->toDateString(),
+
+                        'type' => 'member_initial_share',
+
+                        'source_module' => 'member_share',
+
+                        'source_id' => $pendingShare->id,
+
+                        'reference_type' => MemberShare::class,
+
+                        'reference_id' => $pendingShare->id,
+
+                        'description' =>
+                            "Initial share {$pendingShare->share_no} - {$memberName}",
+
+                        'user_id' => $approvedBy,
+
+                        'entries' => [
+                            [
+                                'account_id' => $receiveAccount->id,
+                                'debit' => $amount,
+                                'credit' => 0,
+                                'description' =>
+                                    "Initial share received - {$pendingShare->share_no}",
+                            ],
+                            [
+                                'account_id' => $capitalAccount->id,
+                                'debit' => 0,
+                                'credit' => $amount,
+                                'description' =>
+                                    "Association capital - {$pendingShare->share_no}",
+                            ],
+                        ],
+                    ]);
+
+                    $financeTransactionId = $transaction->id;
+                }
+
                 $pendingShare->update([
                     'status' => 'active',
                     'acquired_date' => $pendingShare->acquired_date
@@ -258,6 +343,7 @@ class MemberService
                     'created_by' => $pendingShare->created_by
                         ?? $approvedBy
                         ?? auth()->id(),
+                    'finance_transaction_id' => $financeTransactionId,
                 ]);
             }
 
@@ -321,6 +407,26 @@ class MemberService
             'created_by' => $createdBy,
             'notes' => 'Initial membership share.',
         ]);
+    }
+
+    /**
+     * Resolve which posting account received the initial share's physical
+     * payment. Mirrors MemberShareService::resolveReceiveAccount()'s
+     * mapping, but the initial share (created at member-creation time,
+     * before any payment method is collected) has no payment_method set,
+     * so it falls back to the cash account — money is physically taken in
+     * before the admin clicks Approve.
+     */
+    protected function resolveInitialShareReceiveAccount(
+        ?string $paymentMethod
+    ) {
+        return match ($paymentMethod) {
+            'bank',
+            'mobile_banking',
+            'online' => $this->accounting->account('bank'),
+
+            default => $this->accounting->account('cash'),
+        };
     }
 
     protected function shareEnabled(): bool

@@ -399,7 +399,7 @@ MANUAL JOURNAL MODAL
                     type="button"
                     onclick="closeJournalModal()"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Cancel
+                    Close
                 </button>
 
                 <button
@@ -581,7 +581,7 @@ REVERSE MODAL
                     type="button"
                     onclick="closeReverseModal()"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Cancel
+                    Close
                 </button>
 
                 <button

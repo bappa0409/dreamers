@@ -138,7 +138,7 @@ class TellerController extends Controller
                     $validated['cash_account_id']
                         ??null
                 )
-        ]);
+        ], 200, [], JSON_PRESERVE_ZERO_FRACTION);
     }
 
     public function transactions(Request $request)

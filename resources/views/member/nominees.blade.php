@@ -226,6 +226,35 @@ Clear
 </div>
 
 <div>
+<label class="form-label">Father / Husband Name</label>
+<input id="fatherOrHusbandName" type="text" maxlength="150" class="app-input w-full" placeholder="Father or husband's name">
+<p data-field-error="fatherOrHusbandName" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
+<label class="form-label">Mother's Name</label>
+<input id="motherName" type="text" maxlength="150" class="app-input w-full" placeholder="Mother's name">
+<p data-field-error="motherName" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
+<label class="form-label">Gender</label>
+<select id="gender" class="app-input w-full">
+<option value="">Select Gender</option>
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Other</option>
+</select>
+<p data-field-error="gender" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
+<label class="form-label">Profession</label>
+<input id="profession" type="text" maxlength="150" class="app-input w-full" placeholder="Profession">
+<p data-field-error="profession" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
 <label class="form-label">Date of Birth</label>
 
 <div class="relative">
@@ -243,6 +272,12 @@ Clear
 <label class="form-label">Address</label>
 <textarea id="address" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Nominee address"></textarea>
 <p data-field-error="address" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div class="mt-4">
+<label class="form-label">Permanent Address</label>
+<textarea id="permanentAddress" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Permanent address (if different)"></textarea>
+<p data-field-error="permanentAddress" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 </section>
@@ -903,11 +938,16 @@ $('nomineeId').value=nominee.id;
 $('name').value=nominee.name??'';
 $('relationship').value=nominee.relationship??'';
 $('phone').value=nominee.phone??'';
+$('fatherOrHusbandName').value=nominee.father_or_husband_name??'';
+$('motherName').value=nominee.mother_name??'';
+$('gender').value=nominee.gender??'';
+$('profession').value=nominee.profession??'';
 $('identityType').value=nominee.identity_type??'';
 $('identityNumber').value=nominee.identity_number??'';
 $('allocation').value=nominee.allocation_percentage??'';
 $('priority').value=nominee.priority??1;
 $('address').value=nominee.address??'';
+$('permanentAddress').value=nominee.permanent_address??'';
 $('notes').value=nominee.notes??'';
 
 $('modalTitle').textContent='Edit Nominee';
@@ -986,12 +1026,17 @@ const payload={
 name:$('name').value.trim(),
 relationship:$('relationship').value.trim(),
 phone:$('phone').value.trim()||null,
+father_or_husband_name:$('fatherOrHusbandName').value.trim()||null,
+mother_name:$('motherName').value.trim()||null,
+gender:$('gender').value||null,
+profession:$('profession').value.trim()||null,
 date_of_birth:$('dob').value||null,
 identity_type:identityType||null,
 identity_number:identityNumber||null,
 allocation_percentage:allocation,
 priority,
 address:$('address').value.trim()||null,
+permanent_address:$('permanentAddress').value.trim()||null,
 notes:$('notes').value.trim()||null
 };
 

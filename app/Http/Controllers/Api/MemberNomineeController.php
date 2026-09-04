@@ -260,6 +260,12 @@ class MemberNomineeController extends Controller
             'relationship'=>
                 $prefix.'required|string|max:80',
 
+            'father_or_husband_name'=>
+                'nullable|string|max:150',
+
+            'mother_name'=>
+                'nullable|string|max:150',
+
             'phone'=>'nullable|string|max:30',
 
             'identity_type'=>
@@ -271,7 +277,15 @@ class MemberNomineeController extends Controller
             'date_of_birth'=>
                 'nullable|date|before_or_equal:today',
 
+            'gender'=>
+                'nullable|string|max:30',
+
+            'profession'=>
+                'nullable|string|max:150',
+
             'address'=>'nullable|string|max:3000',
+
+            'permanent_address'=>'nullable|string|max:3000',
 
             'allocation_percentage'=>
                 $prefix.'required|numeric|min:0.01|max:100',

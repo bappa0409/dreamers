@@ -987,7 +987,10 @@ class ApprovalService
                 $approvalRequest->rejection_reason ?? '',
                 $approvalRequest->rejected_by
             );
+
+            return;
         }
+
         if (
             $approvable instanceof Account &&
             $approvalRequest->module === 'Account' &&

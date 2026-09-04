@@ -1676,16 +1676,6 @@ window.AdminUI={
                     'click',
                     onCancel
                 );
-
-                modal.removeEventListener(
-                    'click',
-                    onOverlay
-                );
-
-                document.removeEventListener(
-                    'keydown',
-                    onEscape
-                );
             };
 
             const finish=value=>{
@@ -1724,18 +1714,6 @@ window.AdminUI={
                 finish(false);
             };
 
-            const onOverlay=event=>{
-                if(event.target===modal){
-                    finish(false);
-                }
-            };
-
-            const onEscape=event=>{
-                if(event.key==='Escape'){
-                    finish(false);
-                }
-            };
-
             confirmButton.addEventListener(
                 'click',
                 onConfirm
@@ -1749,16 +1727,6 @@ window.AdminUI={
             closeButton.addEventListener(
                 'click',
                 onCancel
-            );
-
-            modal.addEventListener(
-                'click',
-                onOverlay
-            );
-
-            document.addEventListener(
-                'keydown',
-                onEscape
             );
 
             modal.classList.remove(
@@ -2028,39 +1996,12 @@ document.addEventListener(
 
 /*
 |--------------------------------------------------------------------------
-| Escape Key
+| Modal Close Behavior
 |--------------------------------------------------------------------------
-*/
-
-document.addEventListener(
-    'keydown',
-    event=>{
-        if(event.key!=='Escape'){
-            return;
-        }
-
-        const confirmModal=
-            document.getElementById(
-                'adminConfirmModal'
-            );
-
-        if(
-            confirmModal&&
-            confirmModal.classList.contains(
-                'flex'
-            )
-        ){
-            return;
-        }
-
-        AdminUI.closeAllModals();
-    }
-);
-
-/*
-|--------------------------------------------------------------------------
-| Overlay Click
-|--------------------------------------------------------------------------
+| Modals are only closed via their explicit close/cancel buttons now.
+| Pressing Escape or clicking the overlay/backdrop no longer closes them —
+| clicking the backdrop instead does a slow zoom punch on the panel
+| (static-backdrop style feedback).
 */
 
 document.addEventListener(
@@ -2073,14 +2014,26 @@ document.addEventListener(
 
         if(
             !overlay||
-            event.target!==overlay||
-            overlay.id==='adminConfirmModal'
+            event.target!==overlay
         ){
             return;
         }
 
-        AdminUI.closeModal(
-            overlay.id
+        const panel=
+            overlay.querySelector(
+                '.app-modal-panel'
+            );
+
+        if(!panel)return;
+
+        panel.classList.add(
+            'app-modal-punch'
         );
+
+        setTimeout(()=>{
+            panel.classList.remove(
+                'app-modal-punch'
+            );
+        },320);
     }
 );

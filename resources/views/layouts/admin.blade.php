@@ -160,6 +160,7 @@
     ['admin.finance.trial-balance','admin.finance.trial-balance*','bi-bar-chart-steps','Trial Balance'],
     ['admin.finance.balance-sheet','admin.finance.balance-sheet*','bi-table','Balance Sheet'],
     ['admin.finance.profit-loss','admin.finance.profit-loss*','bi-graph-up','Profit & Loss'],
+    ['admin.finance.manual-guide','admin.finance.manual-guide*','bi-book','Accounts Guide'],
     ];
 
     $financeOpen=request()->routeIs(
@@ -277,6 +278,12 @@
                                 <span>{{ $label }}</span>
                             </a>
                             @endforeach
+
+                            {{-- <a href="{{ route($route) }}"
+                            class="flex items-center gap-2 rounded-md px-2 py-1 text-[11.5px] transition text-sky-100/60 hover:bg-white/[0.06] hover:text-white">
+                                <i class="bi bi-book w-4 text-center text-[11px]"></i>
+                                <span>Accounts Guide</span>
+                            </a> --}}
                         </div>
                     </div>
                     @endif

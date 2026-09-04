@@ -16,9 +16,16 @@ Schedule::command('auth:clear-expired-setup-tokens')
     ->withoutOverlapping()
     ->onOneServer();
 
-$backupFrequency=strtolower(
-    trim((string)setting('backup_frequency','daily'))
-);
+$backupFrequency='daily';
+
+try{
+    $backupFrequency=strtolower(
+        trim((string)setting('backup_frequency','daily'))
+    );
+}catch(\Throwable){
+    // Settings table may not exist yet (fresh install/migrating).
+    // Keep command discovery working with a safe default.
+}
 
 $backupSchedule=Schedule::command('database:backup')
     ->when(fn() => (bool)setting('automatic_backup_enabled', true));
@@ -35,7 +42,14 @@ $backupSchedule
 
 // Pre-generate next month's dues a few days early (configurable day),
 // so members can see/pay upcoming dues in advance.
-$subscriptionGenerateDay = min(max((int)setting('subscription_generate_day', 25), 1), 28);
+$subscriptionGenerateDay = 25;
+
+try{
+    $subscriptionGenerateDay = min(max((int)setting('subscription_generate_day', 25), 1), 28);
+}catch(\Throwable){
+    // Settings table may not exist yet (fresh install/migrating).
+    // Keep command discovery working with a safe default.
+}
 Schedule::call(function () {
     $next = now()->addMonthNoOverflow();
 

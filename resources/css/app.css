@@ -73,11 +73,18 @@ button:not(:disabled):active,
 
 /* Global Modal Panel */
 .app-modal-panel{
+    position:relative;
     animation:appModalEnter .2s ease-out;
+    transition:transform .32s cubic-bezier(.34,1.56,.64,1);
     border:1px solid rgba(255,255,255,.25);
     box-shadow:
         0 30px 80px rgba(15,23,42,.22),
         0 10px 30px rgba(15,23,42,.12);
+}
+
+/* Modal Static-Backdrop Zoom Punch (outside click feedback) */
+.app-modal-punch{
+    transform:scale(1.025);
 }
 
 /* Global Modal Header */

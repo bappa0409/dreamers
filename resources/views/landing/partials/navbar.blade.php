@@ -21,6 +21,7 @@ $secondaryName = $nameParts[1] ?? '';
 
                 @if($siteLogo)
                 <img src="{{ asset('storage/'.$siteLogo) }}" alt="{{ $organizationName }}"
+                    width="36" height="36" decoding="async" fetchpriority="high"
                     class="h-full w-full object-contain">
                 @else
                 <i data-lucide="sparkles" class="h-[18px] w-[18px]"></i>

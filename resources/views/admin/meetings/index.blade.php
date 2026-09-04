@@ -276,7 +276,7 @@ CREATE / EDIT MEETING MODAL
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('meetingModal')"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Cancel
+                    Close
                 </button>
 
                 <button id="saveMeetingButton" type="submit"

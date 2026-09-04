@@ -2,7 +2,11 @@
 
 @section('title','Nominee Management')
 @section('page_title','Nominee Management')
-
+@push('styles')
+<style>
+.form-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:600;color:rgb(51 65 85)}
+</style>
+@endpush
 @section('content')
 <div class="space-y-5">
 
@@ -339,7 +343,7 @@
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
             <button type="button" onclick="AdminUI.closeModal('nomineeModal')"
                 class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                Cancel
+                Close
             </button>
 
             <button id="saveNomineeButton" type="submit"
@@ -404,9 +408,7 @@
 </div>
 @endsection
 
-<style>
-.form-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:600;color:rgb(51 65 85)}
-</style>
+
 
 @push('scripts')
 <script>

@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
-@section('title', setting('organization_name', 'Dreamers Association'))
-@section('description', 'Dreamers Association — একটি স্বচ্ছ, ঐক্যবদ্ধ ও দীর্ঘমেয়াদি আর্থিক উন্নয়নের উদ্যোগ।')
+@section('title', setting('organization_name', 'Dreamers Association') . ' | স্বচ্ছতা, ঐক্য ও সম্মিলিত আর্থিক উন্নয়ন')
+@section('description', setting('organization_name', 'Dreamers Association') . ' — সদস্যদের সম্মিলিত সঞ্চয়, বিনিয়োগ ও সম্পদ গঠনের মাধ্যমে স্বচ্ছ ও দীর্ঘমেয়াদি আর্থিক উন্নয়ন নিশ্চিত করার একটি ঐক্যবদ্ধ উদ্যোগ।')
+@section('keywords', 'Dreamers Association, Dreamers Association Bangladesh, সম্মিলিত সঞ্চয়, সম্মিলিত বিনিয়োগ, আর্থিক উন্নয়ন, সদস্যভিত্তিক সঞ্চয়, সম্পদ গঠন, স্বচ্ছ আর্থিক ব্যবস্থাপনা')
 
 @section('content')
 @php
@@ -503,7 +504,7 @@ FAQ (TEASER)
 ========================================================== --}}
 
 @if($lpVisible('faq'))
-<section id="faq" class="bg-slate-50/70 py-10 sm:py-10">
+<section id="faq" class="bg-white py-10 sm:py-10">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
         <div class="mx-auto max-w-2xl text-center reveal">
@@ -617,6 +618,23 @@ FAQ (TEASER)
         </div>
     </div>
 </section>
+
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'FAQPage',
+    'mainEntity' => collect(array_merge($faqLeft, $faqRight))->map(fn ($faq) => [
+        '@type' => 'Question',
+        'name' => $faq['q'],
+        'acceptedAnswer' => [
+            '@type' => 'Answer',
+            'text' => $faq['a'],
+        ],
+    ])->values()->all(),
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
 @endif
 
 {{-- =========================================================

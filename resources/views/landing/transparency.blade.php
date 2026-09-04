@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'স্বচ্ছতা')
+@section('title', 'স্বচ্ছতা ও জবাবদিহিতা | ' . setting('organization_name', 'Dreamers Association'))
 @section('description', 'Dreamers Association-এর আর্থিক স্বচ্ছতা, হিসাবরক্ষণ, প্রতিবেদন প্রকাশ ও পর্যালোচনা প্রক্রিয়া সম্পর্কে বিস্তারিত জানুন।')
 
 @section('content')
@@ -17,6 +17,19 @@ $organizationName = setting('organization_name', 'Dreamers Association');
 'description' => 'একটি সংগঠনের জন্য আর্থিক স্বচ্ছতা ও সঠিক হিসাবরক্ষণ অত্যন্ত গুরুত্বপূর্ণ। তাই প্রতিটি লেনদেন,
 আয়-ব্যয় এবং বিনিয়োগের তথ্য যথাযথভাবে সংরক্ষণ ও পর্যালোচনা করার ব্যবস্থা রাখা হয়।',
 ])
+
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'হিসাব থাকবে পরিষ্কার, সিদ্ধান্ত হবে স্বচ্ছ', 'item' => route('transparency')],
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
 
 {{-- =========================================================
 COMMITMENTS + DASHBOARD PREVIEW

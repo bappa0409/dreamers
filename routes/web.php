@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordSetupController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\SeoController;
+use App\Http\Controllers\Auth\ForcePasswordChangeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,11 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::get('/activities', 'activities')->name('activities');
     Route::get('/transparency', 'transparency')->name('transparency');
     Route::get('/faq', 'faq')->name('faq');
+});
+
+Route::controller(SeoController::class)->group(function () {
+    Route::get('/sitemap.xml', 'sitemap')->name('sitemap');
+    Route::get('/robots.txt', 'robots')->name('robots');
 });
 
 /*
@@ -48,6 +55,9 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware('auth')->group(function () {
+     Route::get('/change-password', [ForcePasswordChangeController::class, 'show'])->name('password.force-change');
+    Route::post('/change-password', [ForcePasswordChangeController::class, 'update'])->middleware('throttle:5,1')->name('password.force-change.submit');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

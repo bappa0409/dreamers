@@ -312,7 +312,7 @@
                 <button type="button"
                     onclick="AdminUI.closeModal('investmentModal')"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Cancel
+                    Close
                 </button>
 
                 <button id="saveInvestmentButton"
@@ -448,7 +448,7 @@
                 <button type="button"
                     onclick="AdminUI.closeModal('returnModal')"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Cancel
+                    Close
                 </button>
 
                 <button id="saveReturnButton"

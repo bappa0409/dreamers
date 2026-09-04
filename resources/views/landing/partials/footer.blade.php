@@ -18,6 +18,7 @@ $secondaryName = $nameParts[1] ?? '';
                 <div class="flex items-center gap-3">
                     @if($siteLogo)
                     <img src="{{ asset('storage/'.$siteLogo) }}" alt="{{ $organizationName }}"
+                        width="40" height="40" loading="lazy" decoding="async"
                         class="w-10 h-10 shrink-0 rounded-lg object-contain">
                     @else
                     <div class="w-10 h-10 shrink-0 flex items-center justify-center rounded-lg

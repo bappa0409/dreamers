@@ -38,6 +38,7 @@ class User extends Authenticatable
         'role_id',
         'password_setup_token',
         'password_setup_expires_at',
+        'must_change_password',
     ];
 
     protected $hidden = [
@@ -53,6 +54,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_active' => 'boolean',
             'password_setup_expires_at' => 'datetime',
+            'must_change_password' => 'boolean',
         ];
     }
 

@@ -23,10 +23,14 @@ return new class extends Migration
             $table->string('password');
             $table->string('password_setup_token', 64)->nullable()->unique();
             $table->timestamp('password_setup_expires_at')->nullable();
+            $table->boolean('must_change_password')->default(false);
             $table->rememberToken();
             $table->timestamps();
 
-            $table->fullText(['name', 'email', 'mobile']);
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $table->fullText(['name', 'email', 'mobile']);
+            }
+
             $table->index('is_active','users_is_active_idx');
         });
 

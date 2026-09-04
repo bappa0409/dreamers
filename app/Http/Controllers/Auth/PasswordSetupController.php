@@ -50,6 +50,7 @@ class PasswordSetupController extends Controller
             'password'=>Hash::make($validated['password']),
             'password_setup_token'=>null,
             'password_setup_expires_at'=>null,
+            'must_change_password'=>false,
         ]);
 
         $user->tokens()->delete();

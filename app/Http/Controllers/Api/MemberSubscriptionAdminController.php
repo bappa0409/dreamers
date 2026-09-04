@@ -474,23 +474,30 @@ class MemberSubscriptionAdminController extends Controller
                 &$existing,
                 &$failed
             ){
+                // Bulk-fetch which of this chunk's subscriptions
+                // already have a due for the target year/month in
+                // a single query, instead of one exists() query per
+                // subscription (was N+1 across the chunk).
+                $existingIds=SubscriptionDue::query()
+                    ->whereIn(
+                        'member_subscription_id',
+                        $subscriptions->pluck('id')
+                    )
+                    ->where(
+                        'year',
+                        $validated['year']
+                    )
+                    ->where(
+                        'month',
+                        $validated['month']
+                    )
+                    ->pluck('member_subscription_id')
+                    ->flip();
+
                 foreach($subscriptions as $subscription){
                     try{
                         $beforeExists=
-                            SubscriptionDue::query()
-                                ->where(
-                                    'member_subscription_id',
-                                    $subscription->id
-                                )
-                                ->where(
-                                    'year',
-                                    $validated['year']
-                                )
-                                ->where(
-                                    'month',
-                                    $validated['month']
-                                )
-                                ->exists();
+                            $existingIds->has($subscription->id);
 
                         $this
                             ->subscriptionService

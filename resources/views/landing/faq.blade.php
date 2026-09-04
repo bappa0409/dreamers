@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'প্রশ্নোত্তর')
+@section('title', 'সাধারণ জিজ্ঞাসা (FAQ) | ' . setting('organization_name', 'Dreamers Association'))
 @section('description', 'Dreamers Association সম্পর্কে সচরাচর জিজ্ঞাসিত প্রশ্ন ও তার উত্তর — সাধারণ তথ্য, সদস্যপদ,
 আর্থিক বিষয় ও কার্যক্রম অনুযায়ী সাজানো।')
 
@@ -82,6 +82,33 @@ $faqGroups = [
 'description' => $organizationName.' সম্পর্কে প্রাথমিক কিছু প্রশ্নের সহজ ও সংক্ষিপ্ত উত্তর, বিষয়ভিত্তিকভাবে
 সাজানো।',
 ])
+
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'সাধারণ কিছু প্রশ্ন', 'item' => route('faq')],
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'FAQPage',
+    'mainEntity' => collect($faqGroups)->flatMap(fn ($group) => $group['items'])->map(fn ($faq) => [
+        '@type' => 'Question',
+        'name' => $faq['q'],
+        'acceptedAnswer' => [
+            '@type' => 'Answer',
+            'text' => $faq['a'],
+        ],
+    ])->values()->all(),
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
 
 {{-- =========================================================
 CATEGORY QUICK NAV

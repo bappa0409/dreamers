@@ -49,7 +49,7 @@ return new class extends Migration
                 'posted',
                 'rejected',
                 'cancelled',
-            ])->default('posted');
+            ])->default('pending_approval');
 
             $table->timestamps();
 

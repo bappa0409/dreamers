@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 
 class SettingSeeder extends Seeder
 {
@@ -377,7 +378,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'smtp_password',
-                'value'=>'c736ad74e7107e',
+                'value'=>Crypt::encryptString('c736ad74e7107e'),
                 'type'=>'password',
                 'options'=>null,
                 'group'=>'mail',

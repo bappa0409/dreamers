@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'আমাদের সম্পর্কে')
+@section('title', 'আমাদের সম্পর্কে | ' . setting('organization_name', 'Dreamers Association'))
 @section('description', 'Dreamers Association-এর লক্ষ্য, দৃষ্টিভঙ্গি, দর্শন, যাত্রা, পরিচালনা কাঠামো ও সদস্যপদ সম্পর্কে বিস্তারিত জানুন।')
 
 @section('content')
@@ -17,6 +17,19 @@ $organizationName = setting('organization_name', 'Dreamers Association');
 'description' => $organizationName.' একটি ঐক্যবদ্ধ সংগঠন, যেখানে সদস্যদের সম্মিলিত সঞ্চয়, বিনিয়োগ ও
 পরিকল্পনার মাধ্যমে দীর্ঘমেয়াদি আর্থিক উন্নয়নের সুযোগ তৈরি করা হয়।',
 ])
+
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'আমাদের সম্পর্কে', 'item' => route('about')],
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
 
 {{-- =========================================================
 STORY / MISSION

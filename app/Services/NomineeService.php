@@ -67,11 +67,16 @@ class NomineeService
                 'member_id'=>$member->id,
                 'name'=>trim($data['name']),
                 'relationship'=>trim($data['relationship']),
+                'father_or_husband_name'=>$data['father_or_husband_name']??null,
+                'mother_name'=>$data['mother_name']??null,
                 'phone'=>$data['phone']??null,
                 'identity_type'=>$data['identity_type']??null,
                 'identity_number'=>$data['identity_number']??null,
                 'date_of_birth'=>$data['date_of_birth']??null,
+                'gender'=>$data['gender']??null,
+                'profession'=>$data['profession']??null,
                 'address'=>$data['address']??null,
+                'permanent_address'=>$data['permanent_address']??null,
                 'allocation_percentage'=>$allocation,
                 'priority'=>$priority,
                 'is_active'=>$data['is_active']??true,
@@ -182,8 +187,23 @@ class NomineeService
                 'date_of_birth'=>$data['date_of_birth']
                     ??$nominee->date_of_birth,
 
+                'father_or_husband_name'=>$data['father_or_husband_name']
+                    ??$nominee->father_or_husband_name,
+
+                'mother_name'=>$data['mother_name']
+                    ??$nominee->mother_name,
+
+                'gender'=>$data['gender']
+                    ??$nominee->gender,
+
+                'profession'=>$data['profession']
+                    ??$nominee->profession,
+
                 'address'=>$data['address']
                     ??$nominee->address,
+
+                'permanent_address'=>$data['permanent_address']
+                    ??$nominee->permanent_address,
 
                 'allocation_percentage'=>$allocation,
                 'priority'=>$priority,

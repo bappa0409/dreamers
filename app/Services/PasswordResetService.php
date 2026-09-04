@@ -83,6 +83,7 @@ class PasswordResetService
     {
         $user->update([
             'password' => Hash::make($newPassword),
+            'must_change_password' => false,
         ]);
 
         // Kill any active API tokens on password change.

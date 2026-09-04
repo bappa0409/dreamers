@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('member_id')
                 ->constrained('members')
                 ->restrictOnDelete();
-
+                
             $table->string('name',150);
             $table->string('relationship',80);
+            $table->string('father_or_husband_name')->nullable();
+            $table->string('mother_name')->nullable();
             $table->string('phone',30)->nullable();
 
             $table->enum('identity_type',[
@@ -30,7 +32,10 @@ return new class extends Migration
 
             $table->string('identity_number',100)->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->string('gender', 30)->nullable();
+            $table->string('profession')->nullable();
             $table->text('address')->nullable();
+            $table->text('permanent_address')->nullable();
 
             $table->decimal('allocation_percentage',5,2);
             $table->unsignedSmallInteger('priority')->default(1);

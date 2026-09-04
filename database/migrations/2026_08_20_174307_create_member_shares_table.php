@@ -19,9 +19,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('share_no',50)->unique();
-
             $table->decimal('purchase_amount',15,2);
-
             $table->date('acquired_date')->nullable();
 
             $table->enum('payment_method',[

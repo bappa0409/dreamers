@@ -129,10 +129,11 @@ class AssetController extends Controller
                         ->selectRaw("
                             COALESCE(
                                 SUM(
-                                    GREATEST(
-                                        purchase_cost-accumulated_depreciation,
-                                        0
-                                    )
+                                    CASE
+                                        WHEN purchase_cost-accumulated_depreciation > 0
+                                        THEN purchase_cost-accumulated_depreciation
+                                        ELSE 0
+                                    END
                                 ),
                                 0
                             ) total

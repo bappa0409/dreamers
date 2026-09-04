@@ -93,10 +93,8 @@ class MemberDashboardService
                 SUM(
                     CASE
                         WHEN subscription_dues.status IN ('unpaid','partial','overdue')
-                        THEN GREATEST(
-                            subscription_dues.amount-subscription_dues.paid_amount,
-                            0
-                        )
+                            AND subscription_dues.amount-subscription_dues.paid_amount > 0
+                        THEN subscription_dues.amount-subscription_dues.paid_amount
                         ELSE 0
                     END
                 ),

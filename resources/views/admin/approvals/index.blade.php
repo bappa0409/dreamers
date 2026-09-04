@@ -10,44 +10,44 @@
     {{-- =========================================================
     HEADER
     ========================================================== --}}
-<div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
-    <div class="flex items-start gap-3">
-        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-            <i class="bi bi-check2-square text-base"></i>
+    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-start gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-check2-square text-base"></i>
+            </div>
+
+            <div>
+                <h1 class="text-base font-bold tracking-tight text-slate-800">
+                    Approval Management
+                </h1>
+
+                <p class="text-xs text-slate-500">
+                    Review, approve and reject pending association requests.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <h1 class="text-base font-bold tracking-tight text-slate-800">
-                Approval Management
-            </h1>
+        <div class="flex flex-wrap items-center gap-2">
+            @if(auth()->user()->hasPermission('Approval.update'))
+                <a
+                    href="{{ route('admin.approval-workflows') }}"
+                    class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                >
+                    <i class="bi bi-diagram-3 text-[11px]"></i>
+                    Workflow Settings
+                </a>
+            @endif
 
-            <p class="text-xs text-slate-500">
-                Review, approve and reject pending association requests.
-            </p>
-        </div>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-2">
-        @if(auth()->user()->hasPermission('Approval.update'))
-            <a
-                href="{{ route('admin.approval-workflows') }}"
+            <button
+                type="button"
+                onclick="refreshApprovals()"
                 class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
-                <i class="bi bi-diagram-3 text-[11px]"></i>
-                Workflow Settings
-            </a>
-        @endif
-
-        <button
-            type="button"
-            onclick="refreshApprovals()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
-        >
-            <i class="bi bi-arrow-clockwise text-[11px]"></i>
-            Refresh
-        </button>
+                <i class="bi bi-arrow-clockwise text-[11px]"></i>
+                Refresh
+            </button>
+        </div>
     </div>
-</div>
 
 
     {{-- =========================================================

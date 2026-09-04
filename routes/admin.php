@@ -37,6 +37,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
         Route::get('/subscription-payments', 'subscriptionPayments')->name('finance.subscription-payments');
         Route::get('/subscription-plans', 'subscriptionPlans')->name('finance.subscription-plans');
         Route::get('/share-purchases', 'sharePurchases')->name('finance.share-purchases');
+        Route::get('/manual-guide', 'manualGuide')->name('finance.manual-guide');
+        Route::get('/manual-detail', 'financeManualDetail')->name('finance.manual-detail');
     });
 
     // Property & Projects

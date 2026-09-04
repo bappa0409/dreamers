@@ -56,7 +56,7 @@ class FinanceDashboardService
                 'overdue',
             ])
             ->selectRaw(
-                'COALESCE(SUM(GREATEST(amount-paid_amount,0)),0) total'
+                'COALESCE(SUM(CASE WHEN amount - paid_amount > 0 THEN amount - paid_amount ELSE 0 END),0) total'
             )
             ->value('total');
 
@@ -71,7 +71,7 @@ class FinanceDashboardService
         $assetBookValue=(float)Asset::query()
             ->where('status','active')
             ->selectRaw(
-                'COALESCE(SUM(GREATEST(purchase_cost-accumulated_depreciation,0)),0) total'
+                'COALESCE(SUM(CASE WHEN purchase_cost - accumulated_depreciation > 0 THEN purchase_cost - accumulated_depreciation ELSE 0 END),0) total'
             )
             ->value('total');
 
@@ -303,8 +303,7 @@ class FinanceDashboardService
                 ['income','expense']
             )
             ->selectRaw("
-                YEAR(t.transaction_date) year,
-                MONTH(t.transaction_date) month,
+                SUBSTR(t.transaction_date,1,7) period,
 
                 COALESCE(SUM(
                     CASE
@@ -323,15 +322,11 @@ class FinanceDashboardService
                 ),0) expense
             ")
             ->groupByRaw(
-                'YEAR(t.transaction_date),MONTH(t.transaction_date)'
+                'SUBSTR(t.transaction_date,1,7)'
             )
             ->get()
             ->keyBy(
-                fn($row)=>sprintf(
-                    '%04d-%02d',
-                    $row->year,
-                    $row->month
-                )
+                fn($row)=>$row->period
             );
 
         return $months
