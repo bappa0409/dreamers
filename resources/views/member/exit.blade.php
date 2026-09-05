@@ -149,7 +149,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-base font-semibold text-slate-800">Exit Requests</h2>
+<h2 class="text-sm font-semibold text-slate-800">Exit Requests</h2>
 <p class="text-[11px] text-slate-400">Your resignation, assessment and settlement history</p>
 </div>
 </div>
@@ -578,11 +578,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold text-slate-700">${from}</span>
+<span class="font-semibold text-xs text-slate-700">${from}</span>
 –
-<span class="font-semibold text-slate-700">${to}</span>
+<span class="font-semibold text-xs text-slate-700">${to}</span>
 of
-<span class="font-semibold text-slate-700">${total}</span>
+<span class="font-semibold text-xs text-slate-700">${total}</span>
 requests
 </p>
 
@@ -724,7 +724,7 @@ ${summaryBox('Status',titleCase(item.status))}
 
 <div class="overflow-hidden rounded-lg border border-slate-200">
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-base font-semibold text-slate-800">Exit Information</h3>
+<h3 class="text-sm font-semibold text-slate-800">Exit Information</h3>
 </div>
 
 <div class="grid sm:grid-cols-2">
@@ -774,7 +774,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-base font-semibold text-slate-800">Assessment Items</h3>
+<h3 class="text-sm font-semibold text-slate-800">Assessment Items</h3>
 <p class="text-[11px] text-slate-400">Financial and operational exit assessment</p>
 </div>
 

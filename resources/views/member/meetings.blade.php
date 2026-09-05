@@ -104,13 +104,13 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">My Status</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Meeting Status</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Venue</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">My Status</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
@@ -126,7 +126,7 @@
     </div>
 
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             Loading meetings...
         </div>
     </div>
@@ -150,7 +150,7 @@
                         Meeting Details
                     </h3>
 
-                    <p id="detailsSubtitle" class="text-sm text-slate-500"></p>
+                    <p id="detailsSubtitle" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -348,7 +348,7 @@ function loadingState(){
         );
 
     $('meetingMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -476,7 +476,7 @@ function renderMeetings(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="font-semibold text-slate-700">
+                        <p class="font-semibold text-xs text-slate-700">
                             ${esc(meeting.meeting_no)}
                         </p>
 

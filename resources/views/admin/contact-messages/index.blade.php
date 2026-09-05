@@ -39,10 +39,10 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search messages..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                    <input id="searchInput" type="text" placeholder="Search messages..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Messages</option>
                     <option value="unread">Unread</option>
                     <option value="read">Read</option>
@@ -62,12 +62,12 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[5%] px-3 py-3 text-left text-sm font-semibold text-slate-600"></th>
-                        <th class="w-[20%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Name</th>
-                        <th class="w-[20%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Email</th>
-                        <th class="w-[25%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Subject</th>
-                        <th class="w-[15%] px-3 py-3 text-left text-sm font-semibold text-slate-600">Received</th>
-                        <th class="w-[15%] px-3 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[5%] px-3 py-3 text-left text-xs font-semibold text-slate-600"></th>
+                        <th class="w-[20%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Name</th>
+                        <th class="w-[20%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Email</th>
+                        <th class="w-[25%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Subject</th>
+                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Received</th>
+                        <th class="w-[15%] px-3 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="messageTable">
@@ -90,7 +90,7 @@
                     <i class="bi bi-chat-square-text"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Contact Message</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Contact Message</h2>
                     <p class="text-xs text-slate-500">Submitted from the website contact form.</p>
                 </div>
             </div>
@@ -102,7 +102,7 @@
         <div id="messageModalBody" class="space-y-4 overflow-y-auto p-5"></div>
 
         <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="AdminUI.closeModal('messageModal')" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Close</button>
+            <button type="button" onclick="AdminUI.closeModal('messageModal')" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Close</button>
         </div>
     </div>
 </div>
@@ -197,19 +197,19 @@ function renderMessages(){
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
+                <p class="truncate text-xs font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
                     ${AdminUI.escapeHtml(item.name??'—')}
                 </p>
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-sm text-slate-600" title="${AdminUI.escapeHtml(item.email??'')}">
+                <p class="truncate text-xs text-slate-600" title="${AdminUI.escapeHtml(item.email??'')}">
                     ${AdminUI.escapeHtml(item.email??'—')}
                 </p>
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate text-sm text-slate-600" title="${AdminUI.escapeHtml(item.subject??'')}">
+                <p class="truncate text-xs text-slate-600" title="${AdminUI.escapeHtml(item.subject??'')}">
                     ${AdminUI.escapeHtml(item.subject??'—')}
                 </p>
             </td>

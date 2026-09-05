@@ -56,4 +56,73 @@ class LoanRepayment extends Model
     {
         return $this->belongsTo(User::class,'received_by');
     }
+
+    /**
+     * Data payload for the printable repayment receipt.
+     * Expects loan.member.user, receiveAccount and receiver to be
+     * loaded/eager-loaded.
+     */
+    public function toReceiptData(): array
+    {
+        return[
+            'title'=>'Loan Repayment Receipt',
+
+            'receipt_no'=>($this->loan?->loan_no??'LOAN')
+                .'-R'
+                .str_pad((string)$this->id,4,'0',STR_PAD_LEFT),
+
+            'status'=>'Received',
+
+            'issued_at'=>app_date($this->repayment_date),
+
+            'bill_to'=>[
+                'name'=>$this->loan?->member?->user?->name,
+
+                'lines'=>[
+                    'Member Code: '
+                        .($this->loan?->member?->member_code??'-'),
+
+                    $this->loan?->member?->user?->mobile,
+
+                    $this->loan?->member?->user?->email,
+                ],
+            ],
+
+            'meta'=>[
+                [
+                    'label'=>'Loan No',
+                    'value'=>$this->loan?->loan_no??'-',
+                ],
+                [
+                    'label'=>'Received Into',
+                    'value'=>$this->receiveAccount?->name??'-',
+                ],
+                [
+                    'label'=>'Received By',
+                    'value'=>$this->receiver?->name??'-',
+                ],
+            ],
+
+            'items'=>[
+                [
+                    'label'=>'Principal Amount',
+                    'value'=>money($this->principal_amount),
+                ],
+                [
+                    'label'=>'Interest Amount',
+                    'value'=>money($this->interest_amount),
+                ],
+                [
+                    'label'=>'Penalty Amount',
+                    'value'=>money($this->penalty_amount),
+                ],
+            ],
+
+            'total_label'=>'Total Repaid',
+
+            'total_amount'=>money($this->total_amount),
+
+            'notes'=>$this->notes,
+        ];
+    }
 }

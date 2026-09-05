@@ -18,7 +18,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Poll.create'))
-            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Create Poll
             </button>
@@ -69,7 +69,7 @@
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search polls..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <input id="searchInput" type="text" placeholder="Search polls..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <select id="stateFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
@@ -109,7 +109,7 @@
                     <i class="bi bi-ui-checks"></i>
                 </div>
                 <div>
-                    <h2 id="pollModalTitle" class="text-base font-semibold text-slate-800">Create Poll</h2>
+                    <h2 id="pollModalTitle" class="text-sm font-semibold text-slate-800">Create Poll</h2>
                     <p class="text-xs text-slate-500">Create voting options and configure voting period.</p>
                 </div>
             </div>
@@ -174,7 +174,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
@@ -195,8 +195,8 @@
                     <i class="bi bi-bar-chart"></i>
                 </div>
                 <div>
-                    <h2 id="resultTitle" class="text-base font-semibold text-slate-800">Poll Results</h2>
-                    <p id="resultTotal" class="text-sm text-slate-500"></p>
+                    <h2 id="resultTitle" class="text-sm font-semibold text-slate-800">Poll Results</h2>
+                    <p id="resultTotal" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 

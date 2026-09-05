@@ -7,6 +7,7 @@ use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
 use App\Services\ApprovalService;
 use App\Services\MemberDashboardService;
+use App\Services\ReceiptPdfService;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,8 @@ class MemberSubscriptionController extends Controller
     public function __construct(
         protected MemberDashboardService $memberDashboardService,
         protected SubscriptionService $subscriptionService,
-        protected ApprovalService $approvalService
+        protected ApprovalService $approvalService,
+        protected ReceiptPdfService $receiptPdfService
     ){}
 
     public function index(Request $request)
@@ -211,6 +213,38 @@ class MemberSubscriptionController extends Controller
             ],
             'data'=>$payments,
         ]);
+    }
+
+    public function paymentReceipt(
+        Request $request,
+        SubscriptionPayment $subscriptionPayment
+    ){
+        $member=$this->activeMember($request);
+
+        abort_unless(
+            $subscriptionPayment->member_id===$member->id,
+            404,
+            'Payment not found.'
+        );
+
+        abort_unless(
+            $subscriptionPayment->status==='verified',
+            422,
+            'Receipt is only available for verified payments.'
+        );
+
+        $subscriptionPayment->load([
+            'member:id,user_id,member_code',
+            'member.user:id,name,email,mobile',
+            'due:id,member_subscription_id,year,month',
+            'verifier:id,name',
+        ]);
+
+        return $this->receiptPdfService->download(
+            $this->receiptPdfService->branding(),
+            $subscriptionPayment->toReceiptData(),
+            'subscription-payment-'.$subscriptionPayment->payment_no
+        );
     }
 
     public function pay(

@@ -38,7 +38,7 @@
         <div class="p-6">
 
             <div class="mb-6">
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Create Your Password
                 </h2>
 

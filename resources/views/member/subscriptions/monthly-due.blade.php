@@ -122,7 +122,7 @@
                         <i class="bi bi-calendar-month"></i>
                     </div>
                     <div>
-                        <h2 class="text-base font-semibold text-slate-800">Current Month</h2>
+                        <h2 class="text-sm font-semibold text-slate-800">Current Month</h2>
                         <p id="currentPeriod" class="text-[11px] text-slate-400">-</p>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                     <i class="bi bi-journal-check"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Subscription Plan</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Subscription Plan</h2>
                     <p class="text-[11px] text-slate-400">Current active plan</p>
                 </div>
             </div>
@@ -221,23 +221,23 @@
 
                 <div class="mt-4 divide-y divide-slate-100 rounded-lg border border-slate-200">
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-sm text-slate-500">Due Day</span>
+                        <span class="text-xs text-slate-500">Due Day</span>
                         <span id="planDueDay" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
 
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-sm text-slate-500">Late Fine</span>
+                        <span class="text-xs text-slate-500">Late Fine</span>
                         <span id="planLateFine" class="text-right text-sm font-semibold text-amber-600">-</span>
                     </div>
 
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-sm text-slate-500">Started</span>
+                        <span class="text-xs text-slate-500">Started</span>
                         <span id="subscriptionStartDate" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
 
                     @if($shareEnabled)
                         <div class="flex items-center justify-between gap-3 px-4 py-3">
-                            <span class="text-sm text-slate-500">Billing Rule</span>
+                            <span class="text-xs text-slate-500">Billing Rule</span>
                             <span class="text-right text-[11px] font-semibold text-violet-600">Base × Active Shares</span>
                         </div>
                     @endif
@@ -253,7 +253,7 @@
                     <i class="bi bi-calendar3"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Monthly Due History</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Monthly Due History</h2>
                     <p class="text-[11px] text-slate-400">Monthly subscription, fine, paid and outstanding status</p>
                 </div>
             </div>

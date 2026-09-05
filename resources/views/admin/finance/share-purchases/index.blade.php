@@ -19,7 +19,7 @@
         <button
             type="button"
             onclick="loadSharePurchases()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -71,12 +71,12 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search member, share no, reference..."
-                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-xs outline-none focus:border-indigo-400 lg:rounded-r-none">
                 </div>
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 bg-white px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 bg-white px-3 text-xs outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="active">Active</option>
@@ -89,7 +89,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -101,14 +101,14 @@
             <table class="w-full min-w-[1050px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Share</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Method</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Reference</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Submitted</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Share</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Method</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Reference</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Submitted</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -136,7 +136,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Share Purchase Details</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Share Purchase Details</h2>
                     <p class="text-xs text-slate-500">
                         Review payment and member details.
                     </p>
@@ -173,8 +173,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Reject Share Purchase</h2>
-                    <p id="shareRejectDescription" class="text-sm text-slate-500"></p>
+                    <h2 class="text-sm font-semibold text-slate-800">Reject Share Purchase</h2>
+                    <p id="shareRejectDescription" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -214,7 +214,7 @@
                 <button
                     type="button"
                     onclick="closeShareRejectModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                     Back
                 </button>
 
@@ -337,7 +337,7 @@ function renderShareTable(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <p class="text-sm font-medium text-slate-700">
+                    <p class="text-xs font-medium text-slate-700">
                         ${AdminUI.escapeHtml(user.name??'—')}
                     </p>
 
@@ -346,11 +346,11 @@ function renderShareTable(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
+                <td class="px-4 py-3 text-right text-xs font-bold text-slate-800">
                     ${money(share.purchase_amount)}
                 </td>
 
-                <td class="px-4 py-3 text-sm text-slate-600">
+                <td class="px-4 py-3 text-xs text-slate-600">
                     ${AdminUI.titleCase(share.payment_method)}
                 </td>
 
@@ -360,7 +360,7 @@ function renderShareTable(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-sm text-slate-500">
+                <td class="px-4 py-3 text-xs text-slate-500">
                     ${AdminUI.formatDate(share.created_at,true)}
                 </td>
 
@@ -450,24 +450,69 @@ function renderShareDetails(){
             'shareDetailsBody'
         );
 
+    const initials=(user.name??'?')
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+    const methodIcons={
+        cash:'bi-cash-stack',
+        bank:'bi-bank',
+        mobile_banking:'bi-phone',
+        online:'bi-globe'
+    };
+
     body.innerHTML=`
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            ${detail('Share No',share.share_no)}
-            ${detail('Member',user.name)}
-            ${detail('Member Code',member.member_code)}
-            ${detail('Amount',money(share.purchase_amount))}
-            ${detail('Payment Method',AdminUI.titleCase(share.payment_method))}
-            ${detail('Reference',share.transaction_reference??'—')}
-            ${detail('Status',AdminUI.titleCase(share.status))}
-            ${detail('Submitted',AdminUI.formatDate(share.created_at,true))}
-            ${detail('Acquired',AdminUI.formatDate(share.acquired_date))}
-            ${detail('Verified At',AdminUI.formatDate(share.verified_at,true))}
+        <div class="mb-4 flex flex-col gap-4 rounded-md border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-3">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-indigo-600 text-white">
+                    <i class="bi bi-layers text-lg"></i>
+                </div>
+
+                <div class="min-w-0">
+                    <p class="truncate font-mono text-base font-bold text-slate-800">
+                        ${AdminUI.escapeHtml(share.share_no??'—')}
+                    </p>
+                    <p class="text-xs text-slate-500">Share Purchase</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-start">
+                ${AdminUI.statusBadge(share.status)}
+                <p class="text-xl font-bold text-emerald-600">
+                    ${money(share.purchase_amount)}
+                </p>
+            </div>
+        </div>
+
+        <div class="mb-4 flex items-center gap-3 rounded-md border border-slate-200 bg-white p-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-sm font-bold text-indigo-600">
+                ${AdminUI.escapeHtml(initials)}
+            </div>
+
+            <div class="min-w-0">
+                <p class="truncate text-xs font-semibold text-slate-700">
+                    ${AdminUI.escapeHtml(user.name??'—')}
+                </p>
+                <p class="text-[11px] text-slate-400">
+                    ${AdminUI.escapeHtml(member.member_code??'—')}
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            ${detail('Payment Method',AdminUI.titleCase(share.payment_method),methodIcons[share.payment_method]??'bi-credit-card')}
+            ${detail('Reference',share.transaction_reference??'—','bi-hash')}
+            ${detail('Submitted',AdminUI.formatDate(share.created_at,true),'bi-calendar-plus')}
+            ${detail('Acquired',AdminUI.formatDate(share.acquired_date),'bi-calendar-check')}
+            ${detail('Verified At',AdminUI.formatDate(share.verified_at,true),'bi-shield-check')}
+            ${detail('Verified By',share.verifier?.name??'—','bi-person-check')}
         </div>
 
         ${
             entries.length
                 ?`
-                    <div class="mt-5">
+                    <div class="mt-4">
                         <div class="mb-2 flex items-center gap-2">
                             <div class="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                                 <i class="bi bi-journal-text text-sm"></i>
@@ -478,30 +523,30 @@ function renderShareDetails(){
                             </p>
                         </div>
 
-                        <div class="overflow-x-auto rounded-md border border-slate-200">
+                        <div class="overflow-hidden overflow-x-auto rounded-md border border-slate-200">
                             <table class="w-full min-w-[500px] text-sm">
                                 <thead class="bg-slate-50">
                                     <tr>
-                                        <th class="px-3 py-2 text-left font-semibold text-slate-500">Account</th>
-                                        <th class="px-3 py-2 text-right font-semibold text-slate-500">Debit</th>
-                                        <th class="px-3 py-2 text-right font-semibold text-slate-500">Credit</th>
+                                        <th class="px-3 py-2 text-xs text-left font-semibold text-slate-500">Account</th>
+                                        <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">Debit</th>
+                                        <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">Credit</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     ${entries.map(entry=>`
-                                        <tr class="border-t border-slate-100">
-                                            <td class="px-3 py-2 text-slate-600">
+                                        <tr class="border-t border-slate-100 odd:bg-white even:bg-slate-50/60">
+                                            <td class="px-3 py-2 text-xs text-slate-600">
                                                 ${AdminUI.escapeHtml(entry.account?.code??'')}
                                                 -
                                                 ${AdminUI.escapeHtml(entry.account?.name??'')}
                                             </td>
 
-                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                                 ${Number(entry.debit??0)>0?money(entry.debit):'—'}
                                             </td>
 
-                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                                 ${Number(entry.credit??0)>0?money(entry.credit):'—'}
                                             </td>
                                         </tr>
@@ -518,11 +563,12 @@ function renderShareDetails(){
             share.verification_note??share.notes
                 ?`
                     <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                        <p class="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <i class="bi bi-sticky"></i>
                             Note
                         </p>
 
-                        <p class="text-sm leading-5 text-slate-600">
+                        <p class="text-xs leading-5 text-slate-600">
                             ${AdminUI.escapeHtml(
                                 share.verification_note??share.notes
                             )}
@@ -543,7 +589,7 @@ function renderShareDetails(){
             <button
                 type="button"
                 onclick="closeShareDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
@@ -557,7 +603,7 @@ function renderShareDetails(){
             <button
                 type="button"
                 onclick="verifyShare(${Number(share.id)},'${escapeJs(share.share_no)}')"
-                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700">
+                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
                 Verify
             </button>
         `;
@@ -566,9 +612,20 @@ function renderShareDetails(){
             <button
                 type="button"
                 onclick="closeShareDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
+            ${
+                share.status==='active'
+                    ?`<button
+                        type="button"
+                        onclick="downloadPdf('/api/member-shares/${Number(share.id)}/receipt','share-purchase-${AdminUI.escapeHtml(share.share_no??share.id)}.pdf')"
+                        class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
+                        <i class="bi bi-file-earmark-pdf mr-1"></i>
+                        Download PDF
+                    </button>`
+                    :''
+            }
         `;
     }
 }
@@ -738,7 +795,7 @@ function detail(label,value){
                 ${AdminUI.escapeHtml(label)}
             </p>
 
-            <p class="mt-1 break-words text-base font-medium text-slate-700">
+            <p class="mt-1 break-words text-sm font-medium text-slate-700">
                 ${AdminUI.escapeHtml(
                     value??'—'
                 )}

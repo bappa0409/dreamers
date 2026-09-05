@@ -19,7 +19,7 @@
     </div>
 
     @if(auth()->user()->hasPermission('MemberExit.create'))
-    <button type="button" onclick="openCreateModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+    <button type="button" onclick="openCreateModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
         <i class="bi bi-plus-lg"></i>
         Start Exit Process
     </button>
@@ -69,10 +69,10 @@
         <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[280px_180px_170px_auto] lg:gap-0">
             <div class="relative sm:col-span-2 lg:col-span-1">
                 <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                <input id="searchInput" type="text" placeholder="Search exit records..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                <input id="searchInput" type="text" placeholder="Search exit records..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
             </div>
 
-            <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+            <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Status</option>
                 <option value="submitted">Submitted</option>
                 <option value="under_review">Under Review</option>
@@ -85,7 +85,7 @@
                 <option value="cancelled">Cancelled</option>
             </select>
 
-            <select id="typeFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+            <select id="typeFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Types</option>
                 <option value="resignation">Resignation</option>
                 <option value="termination">Termination</option>
@@ -94,7 +94,7 @@
                 <option value="other">Other</option>
             </select>
 
-            <button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+            <button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                 <i class="bi bi-x-lg text-[10px]"></i>
                 Clear
             </button>
@@ -108,14 +108,14 @@
         <table class="w-full min-w-[1050px] text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Exit</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
-                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Liabilities</th>
-                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Share Refund</th>
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Blockers</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Exit</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Liabilities</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Share Refund</th>
+                    <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Blockers</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
                 </tr>
             </thead>
             <tbody id="exitTableBody" class="divide-y divide-slate-100">
@@ -129,7 +129,7 @@
 
 {{-- Mobile Cards --}}
 <div id="exitMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">Loading exit records...</div>
+    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading exit records...</div>
 </div>
 
 <div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
@@ -145,7 +145,7 @@
                 <i class="bi bi-box-arrow-right"></i>
             </div>
             <div>
-                <h3 class="text-base font-semibold text-slate-800">Start Member Exit</h3>
+                <h3 class="text-sm font-semibold text-slate-800">Start Member Exit</h3>
                 <p class="text-xs text-slate-500">Create a resignation, termination, death or removal process.</p>
             </div>
         </div>
@@ -166,7 +166,7 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Member & Exit Type</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Member & Exit Type</h4>
                         <p class="text-[11px] text-slate-400">Select the member and reason category.</p>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                         <i class="bi bi-calendar-event"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Exit Information</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Exit Information</h4>
                         <p class="text-[11px] text-slate-400">Reason and preferred effective date.</p>
                     </div>
                 </div>
@@ -231,8 +231,8 @@
         </div>
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-            <button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-            <button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Start Process</button>
+            <button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+            <button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Start Process</button>
         </div>
     </form>
 </div>
@@ -248,8 +248,8 @@
                 <i class="bi bi-person-gear"></i>
             </div>
             <div>
-                <h3 id="manageTitle" class="text-base font-semibold text-slate-800">Member Exit</h3>
-                <p id="manageSubtitle" class="text-sm text-slate-500"></p>
+                <h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Member Exit</h3>
+                <p id="manageSubtitle" class="text-xs text-slate-500"></p>
             </div>
         </div>
 
@@ -267,7 +267,7 @@
             <section class="rounded-md border border-slate-200 bg-white p-4">
                 <div class="mb-3 flex items-center justify-between">
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Financial & Operational Assessment</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Financial & Operational Assessment</h4>
                         <p class="text-[11px] text-slate-400">Blocking items must be resolved before approval.</p>
                     </div>
                     @if(auth()->user()->hasPermission('MemberExit.review'))
@@ -282,7 +282,7 @@
             </section>
 
             <section class="rounded-md border border-slate-200 bg-white p-4">
-                <h4 class="text-base font-semibold text-slate-800">Case Information</h4>
+                <h4 class="text-sm font-semibold text-slate-800">Case Information</h4>
                 <div id="caseDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
             </section>
         </div>
@@ -356,7 +356,7 @@
         </div>
 
         <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
             <button id="rejectButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Request</button>
         </div>
     </form>
@@ -500,7 +500,7 @@ async function loadExits(page=1){
     $('exitTableBody').innerHTML=AdminUI.loadingState('Loading exit records...',8);
 
     $('exitMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             <span class="inline-flex items-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading exit records...
@@ -553,12 +553,12 @@ function renderRecords(){
     $('exitTableBody').innerHTML=records.map(item=>`
         <tr class="transition hover:bg-slate-50/70">
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">${esc(item.exit_no)}</div>
+                <div class="font-semibold text-xs text-slate-700">${esc(item.exit_no)}</div>
                 <div class="mt-0.5 text-[11px] text-slate-400">${formatDate(item.request_date)}</div>
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">${esc(item.member?.user?.name??'N/A')}</div>
+                <div class="font-semibold text-xs text-slate-700">${esc(item.member?.user?.name??'N/A')}</div>
                 <div class="mt-0.5 text-[11px] font-medium text-indigo-600">${esc(item.member?.member_code??'')}</div>
             </td>
 
@@ -617,7 +617,7 @@ function renderRecords(){
                 </div>
 
                 <div class="flex items-center justify-between border-t border-slate-100 pt-3">
-                    <span class="text-sm text-slate-500">Blockers</span>
+                    <span class="text-xs text-slate-500">Blockers</span>
                     <span class="${Number(item.blocking_items_count)>0?'text-red-600':'text-emerald-600'} text-sm font-bold">${item.blocking_items_count}</span>
                 </div>
             </div>

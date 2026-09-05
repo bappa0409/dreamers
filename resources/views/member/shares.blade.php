@@ -200,7 +200,7 @@
             </div>
 
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Share Portfolio
                 </h2>
 
@@ -302,7 +302,14 @@
             class="min-h-0 flex-1 overflow-y-auto p-5">
         </div>
 
-        <div class="flex shrink-0 justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
+        <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
+            <button
+                id="downloadShareReceiptButton"
+                type="button"
+                class="hidden h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700">
+                <i class="bi bi-file-earmark-pdf"></i>
+                Download PDF
+            </button>
             <button
                 type="button"
                 onclick="closeShareDetails()"
@@ -741,7 +748,7 @@ function renderShares(){
                         )}
                     </td>
 
-                    <td class="px-4 py-3 text-sm text-slate-600">
+                    <td class="px-4 py-3 text-xs text-slate-600">
                         ${escapeShareHtml(
                             titleShare(
                                 share.payment_method
@@ -758,7 +765,7 @@ function renderShares(){
                         </p>
                     </td>
 
-                    <td class="px-4 py-3 text-sm text-slate-500">
+                    <td class="px-4 py-3 text-xs text-slate-500">
                         ${
                             share.acquired_date
                                 ?formatShareDate(
@@ -825,15 +832,15 @@ function renderSharePagination(){
 
             <p class="text-[11px] text-slate-500">
                 Showing
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${from}
                 </span>
                 –
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${to}
                 </span>
                 of
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${total}
                 </span>
                 shares
@@ -962,7 +969,7 @@ window.openShareDetails=function(id){
             <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                 <div class="border-b border-slate-200 px-5 py-4">
-                    <h3 class="text-base font-semibold text-slate-800">
+                    <h3 class="text-sm font-semibold text-slate-800">
                         Share Information
                     </h3>
 
@@ -1036,7 +1043,7 @@ window.openShareDetails=function(id){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             Purchase Notes
                         </h3>
                     </div>
@@ -1058,7 +1065,7 @@ window.openShareDetails=function(id){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             Verification Note
                         </h3>
                     </div>
@@ -1082,6 +1089,23 @@ window.openShareDetails=function(id){
         </div>
     `;
 
+    const receiptButton=document.getElementById(
+        'downloadShareReceiptButton'
+    );
+
+    if(share.status==='active'){
+        receiptButton.classList.remove('hidden');
+        receiptButton.classList.add('inline-flex');
+        receiptButton.onclick=()=>downloadPdf(
+            `/api/member/shares/${Number(share.id)}/receipt`,
+            `share-purchase-${share.share_no??share.id}.pdf`
+        );
+    }else{
+        receiptButton.classList.add('hidden');
+        receiptButton.classList.remove('inline-flex');
+        receiptButton.onclick=null;
+    }
+
     const modal=document.getElementById(
         'shareDetailsModal'
     );
@@ -1095,6 +1119,23 @@ window.openShareDetails=function(id){
 };
 
 window.closeShareDetails=function(){
+    const receiptButton=document.getElementById(
+        'downloadShareReceiptButton'
+    );
+
+    if(share.status==='active'){
+        receiptButton.classList.remove('hidden');
+        receiptButton.classList.add('inline-flex');
+        receiptButton.onclick=()=>downloadPdf(
+            `/api/member/shares/${Number(share.id)}/receipt`,
+            `share-purchase-${share.share_no??share.id}.pdf`
+        );
+    }else{
+        receiptButton.classList.add('hidden');
+        receiptButton.classList.remove('inline-flex');
+        receiptButton.onclick=null;
+    }
+
     const modal=document.getElementById(
         'shareDetailsModal'
     );

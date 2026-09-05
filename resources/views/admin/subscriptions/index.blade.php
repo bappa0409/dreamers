@@ -11,7 +11,7 @@
                 <i class="bi bi-calendar-check"></i>
             </div>
             <div>
-                <h1 class="text-base font-semibold text-slate-800">Monthly Subscriptions</h1>
+                <h1 class="text-sm font-semibold text-slate-800">Monthly Subscriptions</h1>
                 <p class="mt-1 text-sm text-slate-500">Manage member subscriptions and monthly dues.</p>
             </div>
         </div>
@@ -460,7 +460,7 @@ function renderSubscriptions(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-sm text-slate-500">
+                <td class="px-4 py-3 text-xs text-slate-500">
                     ${AdminUI.formatDate(subscription.start_date)}
                 </td>
 

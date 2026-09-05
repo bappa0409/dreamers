@@ -25,6 +25,7 @@ class Member extends Model
         'date_of_birth',
         'gender',
         'nid_or_birth_reg_no',
+        'nid_document',
         'address',
         'permanent_address',
         'profession',
@@ -43,12 +44,20 @@ class Member extends Model
 
     protected $appends = [
         'profile_photo_url',
+        'nid_document_url',
     ];
 
     public function getProfilePhotoUrlAttribute(): ?string
     {
         return $this->profile_photo
             ? asset('storage/' . $this->profile_photo)
+            : null;
+    }
+
+    public function getNidDocumentUrlAttribute(): ?string
+    {
+        return $this->nid_document
+            ? asset('storage/' . $this->nid_document)
             : null;
     }
 

@@ -126,7 +126,7 @@ LAND CREATE / EDIT MODAL
                     <i class="bi bi-map"></i>
                 </div>
                 <div>
-                    <h2 id="landModalTitle" class="text-base font-semibold text-slate-800">Add Land</h2>
+                    <h2 id="landModalTitle" class="text-sm font-semibold text-slate-800">Add Land</h2>
                     <p class="text-xs text-slate-500">Association-owned property information.</p>
                 </div>
             </div>
@@ -342,7 +342,7 @@ DETAILS MODAL
 
                 <div class="min-w-0">
                     <h2 id="detailsTitle" class="truncate text-lg font-bold text-slate-800">Land Details</h2>
-                    <p id="detailsCode" class="text-sm text-slate-500"></p>
+                    <p id="detailsCode" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -484,7 +484,7 @@ VALUATION MODAL
 
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-3">
             <div>
-                <h2 class="text-base font-semibold text-slate-800">Add Valuation</h2>
+                <h2 class="text-sm font-semibold text-slate-800">Add Valuation</h2>
                 <p class="text-xs text-slate-500">Update current market value.</p>
             </div>
 
@@ -561,7 +561,7 @@ DOCUMENT MODAL
 
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-3">
             <div>
-                <h2 class="text-base font-semibold text-slate-800">Upload Document</h2>
+                <h2 class="text-sm font-semibold text-slate-800">Upload Document</h2>
                 <p class="text-xs text-slate-500">PDF or image, maximum 10MB.</p>
             </div>
 
@@ -653,8 +653,8 @@ SELL MODAL
 
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-3">
             <div>
-                <h2 class="text-base font-semibold text-slate-800">Sell Land</h2>
-                <p id="sellLandInfo" class="text-sm text-slate-500"></p>
+                <h2 class="text-sm font-semibold text-slate-800">Sell Land</h2>
+                <p id="sellLandInfo" class="text-xs text-slate-500"></p>
             </div>
 
             <button type="button"

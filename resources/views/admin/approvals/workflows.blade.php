@@ -19,14 +19,14 @@
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.approvals') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-arrow-left text-[11px]"></i>
                 Back to Approval Requests
             </a>
 
             @if(auth()->user()->hasPermission('Approval.update'))
-                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
                     <i class="bi bi-plus-lg text-[11px]"></i>
                     Add Workflow
                 </button>
@@ -49,16 +49,16 @@
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search workflows..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <input id="searchInput" type="text" placeholder="Search workflows..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -70,11 +70,11 @@
         <table class="w-full table-fixed text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="w-[18%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Module</th>
-                    <th class="w-[14%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Action</th>
-                    <th class="w-[40%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Approval Steps</th>
-                    <th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                    <th class="w-[16%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                    <th class="w-[18%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Module</th>
+                    <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Action</th>
+                    <th class="w-[40%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Approval Steps</th>
+                    <th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                    <th class="w-[16%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                 </tr>
             </thead>
 
@@ -95,7 +95,7 @@
                     <i class="bi bi-diagram-3"></i>
                 </div>
                 <div>
-                    <h2 id="workflowModalTitle" class="text-base font-semibold text-slate-800">Add Workflow</h2>
+                    <h2 id="workflowModalTitle" class="text-sm font-semibold text-slate-800">Add Workflow</h2>
                     <p class="text-xs text-slate-500">Select module, action and up to 3 approvers.</p>
                 </div>
             </div>
@@ -125,7 +125,7 @@
 
                 <section class="rounded-md border border-slate-200 p-4">
                     <div class="mb-4">
-                        <h3 class="text-base font-semibold text-slate-800">Approval Steps</h3>
+                        <h3 class="text-sm font-semibold text-slate-800">Approval Steps</h3>
                         <p class="mt-1 text-[11px] text-slate-400">Step 1 is required. Step 2 and Step 3 are optional.</p>
                     </div>
 
@@ -168,7 +168,7 @@
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 px-5 py-4">
                 <button type="button" onclick="closeWorkflowModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
 
-                <button id="saveWorkflowButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Save Workflow</button>
+                <button id="saveWorkflowButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Save Workflow</button>
             </div>
         </form>
     </div>
@@ -289,7 +289,7 @@ function renderWorkflows(){
     el.table.innerHTML=rows.map(workflow=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
             <td class="px-4 py-3">
-                <p class="truncate text-sm font-semibold text-slate-800">
+                <p class="truncate text-xs font-semibold text-slate-800">
                     ${AdminUI.escapeHtml(workflow.module)}
                 </p>
             </td>

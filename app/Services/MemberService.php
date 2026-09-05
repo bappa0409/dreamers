@@ -26,6 +26,7 @@ class MemberService
     public function createMember(array $data): Member
     {
         $storedProfilePhoto = null;
+        $storedNidDocument = null;
 
         try {
             if (
@@ -38,6 +39,18 @@ class MemberService
                 );
 
                 $data['profile_photo'] = $storedProfilePhoto;
+            }
+
+            if (
+                isset($data['nid_document']) &&
+                $data['nid_document'] instanceof UploadedFile
+            ) {
+                $storedNidDocument = $data['nid_document']->store(
+                    'members/nid-documents',
+                    'public'
+                );
+
+                $data['nid_document'] = $storedNidDocument;
             }
 
             return DB::transaction(function () use ($data) {
@@ -90,6 +103,7 @@ class MemberService
                     'date_of_birth' => $data['date_of_birth'] ?? null,
                     'gender' => $data['gender'] ?? null,
                     'nid_or_birth_reg_no' => $data['nid_or_birth_reg_no'] ?? null,
+                    'nid_document' => $data['nid_document'] ?? null,
                     'address' => $data['address'] ?? null,
                     'permanent_address' => $data['permanent_address'] ?? null,
                     'profession' => $data['profession'] ?? null,
@@ -109,7 +123,9 @@ class MemberService
                     $this->createInitialShare(
                         $member,
                         $autoActivate,
-                        $user->id
+                        $user->id,
+                        $data['initial_share_amount'] ?? null,
+                        $data['initial_share_payment_method'] ?? null
                     );
                 }
 
@@ -129,6 +145,17 @@ class MemberService
             ) {
                 Storage::disk('public')->delete(
                     $storedProfilePhoto
+                );
+            }
+
+            if (
+                $storedNidDocument &&
+                Storage::disk('public')->exists(
+                    $storedNidDocument
+                )
+            ) {
+                Storage::disk('public')->delete(
+                    $storedNidDocument
                 );
             }
 
@@ -382,7 +409,9 @@ class MemberService
     protected function createInitialShare(
         Member $member,
         bool $autoActivate = false,
-        ?int $createdBy = null
+        ?int $createdBy = null,
+        ?float $amount = null,
+        ?string $paymentMethod = null
     ): MemberShare {
         $existingShare = MemberShare::query()
             ->where('member_id', $member->id)
@@ -392,12 +421,24 @@ class MemberService
             return $existingShare;
         }
 
-        $shareValue = $this->defaultShareValue();
+        // Use the amount the admin actually entered on the Add Member form
+        // (what this member is really paying now); only fall back to the
+        // configured default share value when nothing was entered.
+        $shareValue = $amount && $amount > 0
+            ? round($amount, 2)
+            : $this->defaultShareValue();
+
+        $paymentMethod = in_array(
+            $paymentMethod,
+            ['cash', 'bank', 'mobile_banking', 'online'],
+            true
+        ) ? $paymentMethod : 'cash';
 
         return MemberShare::create([
             'member_id' => $member->id,
             'share_no' => $this->generateShareNumber(),
             'purchase_amount' => $shareValue,
+            'payment_method' => $paymentMethod,
             'acquired_date' => $autoActivate
                 ? now()->toDateString()
                 : null,
@@ -412,10 +453,9 @@ class MemberService
     /**
      * Resolve which posting account received the initial share's physical
      * payment. Mirrors MemberShareService::resolveReceiveAccount()'s
-     * mapping, but the initial share (created at member-creation time,
-     * before any payment method is collected) has no payment_method set,
-     * so it falls back to the cash account — money is physically taken in
-     * before the admin clicks Approve.
+     * mapping. The initial share now records the payment method entered on
+     * the Add Member form; this only falls back to the cash account for
+     * legacy rows created before that field existed (null payment_method).
      */
     protected function resolveInitialShareReceiveAccount(
         ?string $paymentMethod

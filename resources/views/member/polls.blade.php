@@ -208,7 +208,7 @@
             </div>
 
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Active Polls
                 </h2>
 
@@ -1124,7 +1124,7 @@ window.openHistoryModal=function(){
                 </div>
 
                 <div>
-                    <h3 class="text-base font-semibold text-slate-800">
+                    <h3 class="text-sm font-semibold text-slate-800">
                         Submitted Votes
                     </h3>
 
@@ -1190,7 +1190,7 @@ window.openHistoryModal=function(){
 
                                         </td>
 
-                                        <td class="px-4 py-3 text-sm text-slate-500">
+                                        <td class="px-4 py-3 text-xs text-slate-500">
                                             ${dateTime(
                                                 item.created_at
                                             )}

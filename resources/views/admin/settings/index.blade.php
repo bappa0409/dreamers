@@ -621,7 +621,7 @@
                     </div>
 
                     <div>
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
@@ -659,7 +659,7 @@
                     </div>
 
                     <div>
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
@@ -814,7 +814,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-sm font-semibold text-slate-700">
+                    <label class="truncate text-xs font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -866,7 +866,7 @@
 
             <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                <label class="truncate text-sm font-semibold text-slate-700">
+                <label class="truncate text-xs font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -1024,7 +1024,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-sm font-semibold text-slate-700">
+                    <label class="truncate text-xs font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -1162,7 +1162,7 @@
 
                 <div class="mb-3 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-sm font-semibold text-slate-700">
+                    <label class="truncate text-xs font-semibold text-slate-700">
                         ${AdminUI.escapeHtml(title)}
                     </label>
 

@@ -200,7 +200,7 @@
             </div>
 
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Investment Portfolio
                 </h2>
 
@@ -470,7 +470,7 @@ function renderInvestments(investments){
 
                 <td class="px-4 py-3">
                     <div class="max-w-[250px]">
-                        <p class="truncate text-sm font-semibold text-slate-700">
+                        <p class="truncate text-xs font-semibold text-slate-700">
                             ${escapeValue(item.title??'-')}
                         </p>
 
@@ -500,11 +500,11 @@ function renderInvestments(investments){
                     ${money(item.remaining_principal)}
                 </td>
 
-                <td class="px-4 py-3 text-sm text-slate-500">
+                <td class="px-4 py-3 text-xs text-slate-500">
                     ${formatDate(item.investment_date)}
                 </td>
 
-                <td class="px-4 py-3 text-sm text-slate-500">
+                <td class="px-4 py-3 text-xs text-slate-500">
                     ${formatDate(item.maturity_date)}
                 </td>
 
@@ -593,15 +593,15 @@ function renderPagination(){
 
             <p class="text-[11px] text-slate-500">
                 Showing
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${from}
                 </span>
                 –
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${to}
                 </span>
                 of
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${totalInvestments}
                 </span>
                 investments
@@ -753,7 +753,7 @@ function renderInvestmentDetails(item){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white lg:col-span-2">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             Investment Information
                         </h3>
 
@@ -811,7 +811,7 @@ function renderInvestmentDetails(item){
                 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
                     <div class="border-b border-slate-200 px-5 py-4">
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             Description
                         </h3>
 
@@ -841,7 +841,7 @@ function renderInvestmentDetails(item){
                     </div>
 
                     <div>
-                        <h3 class="text-base font-semibold text-slate-800">
+                        <h3 class="text-sm font-semibold text-slate-800">
                             Returns Received
                         </h3>
 
@@ -894,13 +894,13 @@ function renderInvestmentDetails(item){
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-sm text-slate-500">
+                                            <td class="px-4 py-3 text-xs text-slate-500">
                                                 ${formatDate(
                                                     returnItem.return_date
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-sm text-slate-500">
+                                            <td class="px-4 py-3 text-xs text-slate-500">
                                                 ${
                                                     escapeValue(
                                                         returnItem.description??

@@ -19,7 +19,7 @@
 
         @if(auth()->user()->hasPermission('Tour.create'))
         <button type="button" onclick="openTourModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Tour
         </button>
@@ -153,14 +153,14 @@
             <table class="w-full min-w-[1100px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Tour</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Destination</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Schedule</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Participants</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Budget</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Expense</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Tour</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Destination</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Schedule</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Participants</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Budget</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Expense</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -177,7 +177,7 @@
 
     {{-- Mobile --}}
     <div id="tourMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             Loading tours...
         </div>
     </div>
@@ -197,7 +197,7 @@ CREATE / EDIT TOUR
                 </div>
 
                 <div>
-                    <h3 id="tourModalTitle" class="text-base font-semibold text-slate-800">Add Tour</h3>
+                    <h3 id="tourModalTitle" class="text-sm font-semibold text-slate-800">Add Tour</h3>
                     <p class="text-xs text-slate-500">Create and plan an association tour.</p>
                 </div>
             </div>
@@ -268,12 +268,12 @@ CREATE / EDIT TOUR
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('tourModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
                     Cancel
                 </button>
 
                 <button id="saveTourButton" type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     Save Tour
                 </button>
             </div>
@@ -294,7 +294,7 @@ DETAILS
 
                 <div class="min-w-0">
                     <h3 id="detailsTitle" class="truncate text-lg font-bold text-slate-800">Tour Details</h3>
-                    <p id="detailsSubtitle" class="text-sm text-slate-500"></p>
+                    <p id="detailsSubtitle" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -316,7 +316,7 @@ PARTICIPANT MODAL
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 id="participantModalTitle" class="text-base font-semibold text-slate-800">Add Participant</h3>
+                <h3 id="participantModalTitle" class="text-sm font-semibold text-slate-800">Add Participant</h3>
                 <p class="text-xs text-slate-500">Add a member to this tour.</p>
             </div>
 
@@ -380,7 +380,7 @@ EXPENSE MODAL
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
         <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h3 class="text-base font-semibold text-slate-800">Add Tour Expense</h3>
+                <h3 class="text-sm font-semibold text-slate-800">Add Tour Expense</h3>
                 <p class="text-xs text-slate-500">The expense will automatically post to accounting.</p>
             </div>
 
@@ -735,7 +735,7 @@ async function loadTours(page=1){
         );
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading tours...
@@ -911,7 +911,7 @@ function renderTours(){
                         </div>
 
                         <div class="min-w-0">
-                            <div class="font-semibold text-slate-700">
+                            <div class="font-semibold text-xs text-slate-700">
                                 ${esc(tour.tour_no)}
                             </div>
 
@@ -943,11 +943,11 @@ function renderTours(){
                     ${tour.participants_count||0}
                 </td>
 
-                <td class="px-4 py-3 text-right font-semibold text-slate-700">
+                <td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">
                     ${money(tour.budget_amount)}
                 </td>
 
-                <td class="px-4 py-3 text-right font-semibold text-slate-700">
+                <td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">
                     ${money(tour.actual_expense)}
                 </td>
 
@@ -1620,7 +1620,7 @@ function renderDetails(){
                 <div class="flex flex-wrap items-center gap-2">
                     ${AdminUI.statusBadge(tour.status)}
 
-                    <span class="text-sm text-slate-500">
+                    <span class="text-xs text-slate-500">
                         ${date(tour.start_date)}
                     </span>
 
@@ -1628,7 +1628,7 @@ function renderDetails(){
                         →
                     </span>
 
-                    <span class="text-sm text-slate-500">
+                    <span class="text-xs text-slate-500">
                         ${date(tour.end_date)}
                     </span>
                 </div>

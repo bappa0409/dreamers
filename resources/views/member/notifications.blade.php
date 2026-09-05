@@ -214,7 +214,7 @@
             </div>
 
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Notification History
                 </h2>
 
@@ -861,19 +861,19 @@ function renderNotificationPagePagination(){
 
                 Showing
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${from}
                 </span>
 
                 –
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${to}
                 </span>
 
                 of
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${notificationPageTotal}
                 </span>
 

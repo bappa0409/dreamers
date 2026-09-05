@@ -233,7 +233,7 @@
             </div>
 
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Published Notices
                 </h2>
 
@@ -696,19 +696,19 @@ function renderNoticePagination(){
 
                 Showing
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${from}
                 </span>
 
                 –
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${to}
                 </span>
 
                 of
 
-                <span class="font-semibold text-slate-700">
+                <span class="font-semibold text-xs text-slate-700">
                     ${total}
                 </span>
 
@@ -848,7 +848,7 @@ window.openNoticeModal=function(id){
 
                 <div class="border-b border-slate-200 px-5 py-4">
 
-                    <h3 class="text-base font-semibold text-slate-800">
+                    <h3 class="text-sm font-semibold text-slate-800">
                         Notice Content
                     </h3>
 
@@ -892,7 +892,7 @@ window.openNoticeModal=function(id){
                                             Attachment
                                         </p>
 
-                                        <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                                        <p class="truncate text-[10px] text-slate-400">
                                             ${escapeValue(
                                                 fileName(
                                                     item.attachment

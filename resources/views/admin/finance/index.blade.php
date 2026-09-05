@@ -1,531 +1,1054 @@
 @extends('layouts.admin')
 
-@section('title','Accounts & Finance')
-@section('page_title','Accounts & Finance')
+@section('title','Subscription Payments')
+@section('page_title','Subscription Payments')
 
 @section('content')
-<div class="space-y-4">
-    <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
+<div class="space-y-5">
+    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-wallet2"></i>
+                <i class="bi bi-cash-coin"></i>
             </div>
             <div>
-                <h1 class="text-base font-bold text-slate-800">Accounts & Finance</h1>
-                <p class="text-xs text-slate-500">
-                    Live financial position, monthly performance and accounting activity.
-                </p>
+                <h1 class="text-base font-bold tracking-tight text-slate-800">Subscription Payments</h1>
+                <p class="text-xs text-slate-500">Review and verify member subscription payments.</p>
             </div>
         </div>
 
-        <button
-            type="button"
-            onclick="refreshFinance()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
-            <i class="bi bi-arrow-clockwise"></i>
-            Refresh
-        </button>
-    </div>
+        <div class="flex w-fit shrink-0 items-center gap-2">
+            <button type="button" onclick="loadPayments()" class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <i class="bi bi-arrow-clockwise"></i>
+                Refresh
+            </button>
 
-    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Cash</p>
-            <p id="cashBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Bank</p>
-            <p id="bankBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Receivable</p>
-            <p id="receivableBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Investments</p>
-            <p id="investmentBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Asset Book Value</p>
-            <p id="assetBookValue" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Posted This Month</p>
-            <p id="postedTransactionCount" class="mt-2 text-xl font-bold text-slate-800">
-                0
-            </p>
+            @if(auth()->user()->hasPermission('Finance.create'))
+                <button type="button" onclick="openAddPaymentModal()" class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Payment
+                </button>
+            @endif
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
-            <p class="text-sm text-emerald-600">Monthly Income</p>
-            <p id="monthlyIncome" class="mt-2 truncate text-lg font-bold text-emerald-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
-            <p class="text-sm text-red-600">Monthly Expense</p>
-            <p id="monthlyExpense" class="mt-2 truncate text-lg font-bold text-red-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
-            <p class="text-sm text-indigo-600">Net Surplus</p>
-            <p id="netSurplus" class="mt-2 truncate text-lg font-bold text-indigo-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Subscription Outstanding</p>
-            <p id="subscriptionOutstanding" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-500">Total</p>
+                    <p id="totalCount" class="mt-2 text-2xl font-bold text-slate-800">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-receipt"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="col-span-2 rounded-md border border-slate-200 bg-white p-4 lg:col-span-1">
-            <p class="text-xs text-slate-500">Subscription Collected</p>
-            <p id="subscriptionCollected" class="mt-2 truncate text-lg font-bold text-emerald-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-            <p class="mt-1 text-[10px] text-slate-400">Current month</p>
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-amber-700">Pending</p>
+                    <p id="pendingCount" class="mt-2 text-2xl font-bold text-amber-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-emerald-700">Verified</p>
+                    <p id="verifiedCount" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-red-700">Rejected</p>
+                    <p id="rejectedCount" class="mt-2 text-2xl font-bold text-red-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
-        <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-            <div class="border-b border-slate-200 px-5 py-4">
-                <h2 class="text-base font-bold text-slate-700">
-                    Income vs Expense
-                </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
-                    Last six months
-                </p>
-            </div>
-
-            <div id="trendChart" class="space-y-4 p-5">
-                <div class="py-10 text-center text-base text-slate-400">
-                    Loading trend...
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">Search Payments</p>
+                    <p class="hidden text-[11px] text-slate-400 sm:block">Search by member, payment no or reference</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 border-t border-slate-100 px-5 py-3 text-[11px] text-slate-500">
-                <span class="inline-flex items-center gap-1.5">
-                    <span class="h-2.5 w-2.5 rounded-sm bg-emerald-500"></span>
-                    Income
-                </span>
-
-                <span class="inline-flex items-center gap-1.5">
-                    <span class="h-2.5 w-2.5 rounded-sm bg-red-400"></span>
-                    Expense
-                </span>
-            </div>
-        </div>
-
-        <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-            <div class="border-b border-slate-200 px-5 py-4">
-                <h2 class="text-base font-bold text-slate-700">
-                    Financial Position
-                </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
-                    Current ledger balances
-                </p>
-            </div>
-
-            <div class="divide-y divide-slate-100">
-                <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-sm text-slate-500">Cash + Bank</span>
-                    <span id="positionCashBank" class="text-base font-bold text-slate-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </span>
+            <div class="flex w-full items-center lg:w-auto">
+                <div class="relative w-full lg:w-80">
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <input id="searchInput" type="text" placeholder="Search member, ID, payment no, reference..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-sm text-slate-500">Accounts Receivable</span>
-                    <span id="positionReceivable" class="text-base font-bold text-slate-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </span>
-                </div>
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
+                    <option value="">All Payments</option>
+                    <option value="pending">Pending</option>
+                    <option value="verified">Verified</option>
+                    <option value="rejected">Rejected</option>
+                </select>
 
-                <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-sm text-slate-500">Investments</span>
-                    <span id="positionInvestment" class="text-base font-bold text-slate-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </span>
-                </div>
-
-                <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-sm text-slate-500">Fixed Assets</span>
-                    <span id="positionAssets" class="text-base font-bold text-slate-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </span>
-                </div>
-
-                <div class="flex items-center justify-between gap-3 bg-slate-50 px-5 py-3">
-                    <span class="text-sm font-semibold text-slate-600">Net Monthly Result</span>
-                    <span id="positionNet" class="text-base font-bold text-indigo-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </span>
-                </div>
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
+                    <i class="bi bi-x-lg text-[10px]"></i>
+                    Clear
+                </button>
             </div>
         </div>
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="flex flex-col gap-2 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-                <h2 class="text-base font-bold text-slate-700">
-                    Recent Posted Journals
-                </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
-                    Latest accounting activity
-                </p>
-            </div>
-
-            @if(Route::has('admin.finance.journals'))
-            <a
-                href="{{ route('admin.finance.journals') }}"
-                class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-                View Journal Entries
-                <i class="bi bi-arrow-right"></i>
-            </a>
-            @endif
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[850px] text-base">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full min-w-[860px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Journal
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Date
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Type
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Source
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Accounts
-                        </th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
-                            Amount
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
-                            Posted By
-                        </th>
+                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Payment</th>
+                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Period</th>
+                        <th class="px-3 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Method</th>
+                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-3 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
-                <tbody id="recentTransactionTable">
+                <tbody id="paymentTable">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-center text-slate-400">
-                            Loading recent journals...
-                        </td>
+                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading payments...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
 </div>
+
+{{-- Payment Details Modal --}}
+<div id="paymentModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-receipt"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-800">Payment Details</h2>
+                    <p class="text-xs text-slate-500">Review the payment before verifying or rejecting.</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="AdminUI.closeModal('paymentModal')" class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto p-5">
+            <div id="paymentDetails" class="grid grid-cols-1 gap-4 sm:grid-cols-2"></div>
+        </div>
+
+        <div id="paymentActions" class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end"></div>
+    </div>
+</div>
+
+{{-- Reject Payment Modal --}}
+<div id="rejectModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-800">Reject Payment</h2>
+                    <p class="text-xs text-slate-500">Explain why this payment is being rejected.</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="space-y-4 overflow-y-auto p-5">
+            <div>
+                <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
+                <textarea id="rejectReason" rows="4" maxlength="1000" class="app-input resize-none" placeholder="Enter rejection reason..."></textarea>
+            </div>
+
+            <div id="rejectFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
+        </div>
+
+        <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                Close
+            </button>
+
+            <button id="confirmRejectButton" type="button" onclick="confirmReject()" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                Reject Payment
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- Add Payment Modal --}}
+<div id="addPaymentModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-plus-lg"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-800">Add Payment</h2>
+                    <p class="text-xs text-slate-500">Record a payment received directly (e.g. cash) and verify it.</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeAddPaymentModal()" class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <form id="addPaymentForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
+            <div class="space-y-4 overflow-y-auto p-5">
+                <div>
+                    <label class="form-label">Member <span class="text-red-500">*</span></label>
+
+                    <select id="paymentMemberSelect" class="app-input">
+                        <option value="">Loading members...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-label">Outstanding Due <span class="text-red-500">*</span></label>
+
+                    <select id="paymentDueSelect" class="app-input" disabled>
+                        <option value="">Select a member first</option>
+                    </select>
+
+                    <p id="paymentDueHelp" class="mt-1.5 hidden text-[11px] text-amber-600">This member has no outstanding subscription dues.</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                        <label class="form-label">Amount <span class="text-red-500">*</span></label>
+
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                            <input id="paymentAmount" type="number" step="0.01" min="0.01" class="app-input !pl-8" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Payment Method <span class="text-red-500">*</span></label>
+
+                        <select id="paymentMethod" class="app-input">
+                            <option value="cash">Cash</option>
+                            <option value="bank">Bank</option>
+                            <option value="mobile_banking">Mobile Banking</option>
+                            <option value="online">Online</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Transaction Reference</label>
+                        <input id="paymentReference" type="text" maxlength="255" class="app-input" placeholder="Optional">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">Note</label>
+                    <textarea id="paymentNote" rows="3" maxlength="2000" class="app-input resize-none" placeholder="Optional verification note..."></textarea>
+                </div>
+
+                <div id="addPaymentFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
+            </div>
+
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
+                <button type="button" onclick="closeAddPaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Close
+                </button>
+
+                <button id="saveAddPaymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    Record Payment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.form-label{
+    display:block;
+    margin-bottom:.4rem;
+    font-size:.8rem;
+    font-weight:600;
+    color:rgb(51 65 85);
+}
+</style>
 @endsection
 
 @push('scripts')
 <script>
-const currency=@json(setting('currency_symbol','৳'));
+let payments=[];
+let currentPage=1;
+let lastPage=1;
+let total=0;
+let selectedPayment=null;
+
+const canVerifyPayment=@json(
+    auth()->user()->hasPermission('Finance.update')
+);
 
 const el={
-    cash:document.getElementById('cashBalance'),
-    bank:document.getElementById('bankBalance'),
-    receivable:document.getElementById('receivableBalance'),
-    investment:document.getElementById('investmentBalance'),
-    asset:document.getElementById('assetBookValue'),
-    posted:document.getElementById('postedTransactionCount'),
-    income:document.getElementById('monthlyIncome'),
-    expense:document.getElementById('monthlyExpense'),
-    net:document.getElementById('netSurplus'),
-    subscriptionOutstanding:document.getElementById('subscriptionOutstanding'),
-    subscriptionCollected:document.getElementById('subscriptionCollected'),
-    positionCashBank:document.getElementById('positionCashBank'),
-    positionReceivable:document.getElementById('positionReceivable'),
-    positionInvestment:document.getElementById('positionInvestment'),
-    positionAssets:document.getElementById('positionAssets'),
-    positionNet:document.getElementById('positionNet'),
-    trend:document.getElementById('trendChart'),
-    recent:document.getElementById('recentTransactionTable')
+    table:document.getElementById('paymentTable'),
+    search:document.getElementById('searchInput'),
+    status:document.getElementById('statusFilter')
 };
 
-const esc=value=>AdminUI.escapeHtml(value??'');
+async function loadPayments(page=1){
+    currentPage=page;
 
-function money(value){
-    const number=Number(value||0);
-
-    return `${number<0?'-':''}${currency}${Math.abs(number).toLocaleString(
-        'en-US',
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    )}`;
-}
-
-async function loadDashboard(){
-    try{
-        const response=await api(
-            '/api/finance/dashboard'
-        );
-
-        const data=response.data||{};
-        const summary=data.summary||{};
-
-        renderSummary(summary);
-        renderTrend(data.monthly_trend||[]);
-        renderRecent(data.recent_transactions||[]);
-    }catch(error){
-        Toast.error(
-            AdminUI.extractError(error)
-        );
-
-        el.trend.innerHTML=AdminUI.emptyState(
-            'Finance dashboard could not be loaded.',
-            1
-        );
-
-        el.recent.innerHTML=AdminUI.emptyState(
-            'Recent journals could not be loaded.',
-            7
-        );
-    }
-}
-
-function renderSummary(summary){
-    el.cash.textContent=money(summary.cash);
-    el.bank.textContent=money(summary.bank);
-    el.receivable.textContent=money(summary.receivable);
-    el.investment.textContent=money(summary.investment_balance);
-    el.asset.textContent=money(summary.asset_book_value);
-    el.posted.textContent=Number(summary.posted_transactions||0);
-
-    el.income.textContent=money(summary.monthly_income);
-    el.expense.textContent=money(summary.monthly_expense);
-    el.net.textContent=money(summary.net_surplus);
-    el.subscriptionOutstanding.textContent=money(summary.subscription_outstanding);
-    el.subscriptionCollected.textContent=money(summary.subscription_collected);
-
-    el.positionCashBank.textContent=money(summary.cash_bank);
-    el.positionReceivable.textContent=money(summary.receivable);
-    el.positionInvestment.textContent=money(summary.investment_balance);
-    el.positionAssets.textContent=money(summary.asset_book_value);
-    el.positionNet.textContent=money(summary.net_surplus);
-
-    const net=Number(summary.net_surplus||0);
-
-    el.net.className=
-        net<0
-            ?'mt-2 truncate text-lg font-bold text-red-700'
-            :'mt-2 truncate text-lg font-bold text-indigo-700';
-
-    el.positionNet.className=
-        net<0
-            ?'text-base font-bold text-red-700'
-            :'text-base font-bold text-indigo-700';
-}
-
-function renderTrend(rows){
-    if(!rows.length){
-        el.trend.innerHTML=`
-            <div class="py-10 text-center text-base text-slate-400">
-                No trend data available.
-            </div>
-        `;
-        return;
-    }
-
-    const maxValue=Math.max(
-        1,
-        ...rows.flatMap(row=>[
-            Number(row.income||0),
-            Number(row.expense||0)
-        ])
+    el.table.innerHTML=AdminUI.loadingState(
+        'Loading payments...',
+        7
     );
 
-    el.trend.innerHTML=rows.map(row=>{
-        const income=Math.max(
-            0,
-            Number(row.income||0)
+    const query=AdminUI.query({
+        search:el.search.value.trim(),
+        status:el.status.value,
+        page
+    });
+
+    try{
+        const response=await api(
+            `/api/finance/subscription-payments?${query}`
         );
 
-        const expense=Math.max(
-            0,
-            Number(row.expense||0)
+        const paginator=response.data??{};
+
+        payments=Array.isArray(paginator.data)
+            ?paginator.data
+            :(Array.isArray(response.data)
+                ?response.data
+                :[]);
+
+        currentPage=Number(
+            paginator.current_page??1
         );
 
-        const incomeWidth=Math.max(
-            income>0?2:0,
-            income/maxValue*100
+        lastPage=Number(
+            paginator.last_page??1
         );
 
-        const expenseWidth=Math.max(
-            expense>0?2:0,
-            expense/maxValue*100
+        total=Number(
+            paginator.total??payments.length
         );
 
-        return `
-            <div class="grid grid-cols-[68px_1fr] gap-3">
-                <div class="pt-1 text-[11px] font-medium text-slate-500">
-                    ${esc(row.label)}
-                </div>
+        renderPayments();
 
-                <div class="space-y-1.5">
-                    <div class="flex items-center gap-2">
-                        <div class="h-3 flex-1 overflow-hidden rounded-sm bg-slate-100">
-                            <div
-                                class="h-full rounded-sm bg-emerald-500"
-                                style="width:${incomeWidth}%">
-                            </div>
-                        </div>
+        document.getElementById(
+            'totalCount'
+        ).textContent=total;
 
-                        <div class="w-28 truncate text-right text-[10px] text-slate-500">
-                            ${money(income)}
-                        </div>
-                    </div>
+        AdminUI.renderPagination({
+            container:'paginationContainer',
+            currentPage,
+            lastPage,
+            total,
+            onPageChange:loadPayments
+        });
 
-                    <div class="flex items-center gap-2">
-                        <div class="h-3 flex-1 overflow-hidden rounded-sm bg-slate-100">
-                            <div
-                                class="h-full rounded-sm bg-red-400"
-                                style="width:${expenseWidth}%">
-                            </div>
-                        </div>
-
-                        <div class="w-28 truncate text-right text-[10px] text-slate-500">
-                            ${money(expense)}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
+        await loadStatusCounts();
+    }catch(error){
+        el.table.innerHTML=AdminUI.emptyState(
+            AdminUI.extractError(error),
+            7
+        );
+    }
 }
 
-function renderRecent(rows){
-    if(!rows.length){
-        el.recent.innerHTML=AdminUI.emptyState(
-            'No posted journals found.',
+async function loadStatusCounts(){
+    try{
+        const [pending,verified,rejected]=await Promise.all([
+            api('/api/finance/subscription-payments?status=pending&per_page=5'),
+            api('/api/finance/subscription-payments?status=verified&per_page=5'),
+            api('/api/finance/subscription-payments?status=rejected&per_page=5')
+        ]);
+
+        document.getElementById('pendingCount').textContent=
+            pending.data.total??0;
+
+        document.getElementById('verifiedCount').textContent=
+            verified.data.total??0;
+
+        document.getElementById('rejectedCount').textContent=
+            rejected.data.total??0;
+    }catch(error){
+        console.error(error);
+    }
+}
+
+function renderPayments(){
+    if(!payments.length){
+        el.table.innerHTML=AdminUI.emptyState(
+            'No subscription payments found.',
             7
         );
         return;
     }
 
-    el.recent.innerHTML=rows.map(transaction=>{
-        const accounts=(transaction.entries||[])
-            .slice(0,2)
-            .map(entry=>
-                `${esc(entry.account?.code||'')} ${esc(entry.account?.name||'')}`
-            );
+    el.table.innerHTML=payments.map(payment=>{
+        const member=payment.member??{};
+        const user=member.user??{};
+        const due=payment.due??{};
 
-        const more=(transaction.entries||[]).length-2;
+        return`
+            <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                <td class="px-3 py-3">
+                    <p class="truncate text-xs font-semibold text-slate-800">
+                        ${AdminUI.escapeHtml(payment.payment_no??'—')}
+                    </p>
+                    <p class="mt-0.5 text-[10px] text-slate-400">
+                        ${AdminUI.formatDate(payment.paid_at)}
+                    </p>
+                </td>
 
-        return `
-            <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
-                <td class="px-4 py-3">
-                    <div class="font-mono text-sm font-semibold text-indigo-600">
-                        ${esc(transaction.transaction_no)}
+                <td class="px-3 py-3">
+                    <p class="truncate text-xs font-semibold text-slate-800">
+                        ${AdminUI.escapeHtml(user.name??'N/A')}
+                    </p>
+                    <p class="mt-0.5 truncate text-[10px] font-mono text-indigo-600">
+                        ${AdminUI.escapeHtml(member.member_code??'')}
+                    </p>
+                </td>
+
+                <td class="px-3 py-3 text-xs text-slate-600">
+                    ${monthName(due.month)} ${due.year??''}
+                </td>
+
+                <td class="px-3 py-3 text-right text-sm font-semibold text-slate-700">
+                    ৳${money(payment.amount)}
+                </td>
+
+                <td class="px-3 py-3 text-xs text-slate-600">
+                    ${titleCase(payment.payment_method)}
+                </td>
+
+                <td class="px-3 py-3">
+                    ${AdminUI.statusBadge(payment.status)}
+                </td>
+
+                <td class="px-3 py-3">
+                    <div class="flex items-center justify-end">
+                        <button
+                            type="button"
+                            onclick="showPayment(${payment.id})"
+                            class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+                            title="View">
+                            <i class="bi bi-eye text-sm"></i>
+                        </button>
+                        ${
+                            payment.status==='verified'
+                                ?`<button
+                                    type="button"
+                                    onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf')"
+                                    class="ml-1 flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+                                    title="Download PDF">
+                                    <i class="bi bi-file-earmark-pdf text-sm"></i>
+                                </button>`
+                                :''
+                        }
                     </div>
-
-                    <div class="mt-0.5 max-w-[240px] truncate text-[10px] text-slate-400">
-                        ${esc(transaction.description||'No description')}
-                    </div>
-                </td>
-
-                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
-                    ${transaction.transaction_date
-                        ?AdminUI.formatDate(transaction.transaction_date)
-                        :'—'}
-                </td>
-
-                <td class="px-4 py-3 text-sm text-slate-600">
-                    ${esc(AdminUI.titleCase(transaction.type||'—'))}
-                </td>
-
-                <td class="px-4 py-3 text-sm text-slate-600">
-                    ${esc(AdminUI.titleCase(transaction.source_module||'—'))}
-                </td>
-
-                <td class="px-4 py-3">
-                    <div class="space-y-0.5 text-[10px] text-slate-500">
-                        ${accounts.map(account=>`
-                            <div class="truncate">${account}</div>
-                        `).join('')}
-
-                        ${more>0
-                            ?`<div class="font-medium text-indigo-500">+${more} more</div>`
-                            :''}
-                    </div>
-                </td>
-
-                <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
-                    ${money(transaction.total_debit)}
-                </td>
-
-                <td class="px-4 py-3 text-sm text-slate-600">
-                    ${esc(transaction.poster?.name||'System')}
                 </td>
             </tr>
         `;
     }).join('');
 }
 
-window.refreshFinance=async function(){
-    await loadDashboard();
+async function showPayment(id){
+    try{
+        const response=await api(
+            `/api/finance/subscription-payments/${id}`
+        );
 
-    Toast.success(
-        'Finance dashboard refreshed.'
+        selectedPayment=response.data;
+
+        renderPaymentDetails(selectedPayment);
+
+        AdminUI.openModal('paymentModal');
+    }catch(error){
+        Toast.error(AdminUI.extractError(error));
+    }
+}
+
+function renderPaymentDetails(payment){
+    const member=payment.member??{};
+    const user=member.user??{};
+    const due=payment.due??{};
+
+    document.getElementById('paymentDetails').innerHTML=`
+        ${detail('Member',`${AdminUI.escapeHtml(user.name??'-')} (${AdminUI.escapeHtml(member.member_code??'-')})`,false)}
+        ${detail('Payment No',payment.payment_no??'-')}
+        ${detail('Subscription Period',`${monthName(due.month)} ${due.year??''}`,false)}
+        ${detail('Payment Amount',`৳${money(payment.amount)}`,false)}
+        ${detail('Payment Method',titleCase(payment.payment_method))}
+        ${detail('Status',AdminUI.statusBadge(payment.status),false)}
+        ${detail('Transaction Reference',payment.transaction_reference??'-')}
+        ${detail('Submitted',AdminUI.formatDate(payment.paid_at,true))}
+
+        <div class="sm:col-span-2 border-t border-slate-100 pt-4">
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                ${detail('Base Amount',`৳${money(due.base_amount)}`,false)}
+                ${detail('Shares',due.share_count??1,false)}
+                ${detail('Fine',`৳${money(due.fine_amount)}`,false)}
+                ${detail('Total Due',`৳${money(due.amount)}`,false)}
+            </div>
+        </div>
+
+        ${
+            payment.verifier
+                ?`
+                    ${detail('Processed By',payment.verifier.name??'-')}
+                    ${detail('Processed At',AdminUI.formatDate(payment.verified_at,true))}
+                `
+                :''
+        }
+
+        ${
+            payment.verification_note
+                ?`
+                    <div class="sm:col-span-2">
+                        ${detail(
+                            payment.status==='rejected'
+                                ?'Rejection Reason'
+                                :'Verification Note',
+                            payment.verification_note
+                        )}
+                    </div>
+                `
+                :''
+        }
+    `;
+
+    const actions=document.getElementById('paymentActions');
+
+    if(payment.status==='pending'&&canVerifyPayment){
+        actions.innerHTML=`
+            <button
+                type="button"
+                onclick="openReject()"
+                class="cursor-pointer rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100">
+                Reject
+            </button>
+
+            <button
+                id="verifyButton"
+                type="button"
+                onclick="verifyPayment()"
+                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                Verify Payment
+            </button>
+        `;
+    }else{
+        actions.innerHTML=`
+            <button
+                type="button"
+                onclick="AdminUI.closeModal('paymentModal')"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                Close
+            </button>
+            ${
+                payment.status==='verified'
+                    ?`<button
+                        type="button"
+                        onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf')"
+                        class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
+                        <i class="bi bi-file-earmark-pdf mr-1"></i>
+                        Download PDF
+                    </button>`
+                    :''
+            }
+        `;
+    }
+}
+
+async function verifyPayment(){
+    if(!selectedPayment){
+        return;
+    }
+
+    if(!confirm(
+        `Verify payment ${selectedPayment.payment_no}?`
+    )){
+        return;
+    }
+
+    const button=document.getElementById('verifyButton');
+
+    AdminUI.setLoading(button,'Verifying...');
+
+    try{
+        await api(
+            `/api/finance/subscription-payments/${selectedPayment.id}/verify`,
+            {
+                method:'POST',
+                body:JSON.stringify({note:null})
+            }
+        );
+
+        AdminUI.closeModal('paymentModal');
+
+        Toast.success('Payment verified successfully.');
+
+        await loadPayments(currentPage);
+    }catch(error){
+        Toast.error(AdminUI.extractError(error));
+
+        AdminUI.resetLoading(button);
+    }
+}
+
+function openReject(){
+    if(!selectedPayment){
+        return;
+    }
+
+    document.getElementById('rejectReason').value='';
+
+    AdminUI.clearError('rejectFormError');
+
+    AdminUI.closeModal('paymentModal');
+
+    setTimeout(()=>{
+        AdminUI.openModal('rejectModal');
+    },200);
+}
+
+async function confirmReject(){
+    if(!selectedPayment){
+        return;
+    }
+
+    AdminUI.clearError('rejectFormError');
+
+    const reason=document
+        .getElementById('rejectReason')
+        .value
+        .trim();
+
+    if(!reason){
+        AdminUI.showError(
+            'rejectFormError',
+            'Rejection reason is required.'
+        );
+
+        return;
+    }
+
+    const button=document.getElementById(
+        'confirmRejectButton'
     );
+
+    AdminUI.setLoading(button,'Rejecting...');
+
+    try{
+        await api(
+            `/api/finance/subscription-payments/${selectedPayment.id}/reject`,
+            {
+                method:'POST',
+                body:JSON.stringify({reason})
+            }
+        );
+
+        AdminUI.closeModal('rejectModal');
+
+        Toast.success('Payment rejected successfully.');
+
+        await loadPayments(currentPage);
+    }catch(error){
+        AdminUI.showError(
+            'rejectFormError',
+            AdminUI.extractError(error)
+        );
+    }finally{
+        AdminUI.resetLoading(button);
+    }
+}
+
+function detail(label,value,escape=true){
+    return`
+        <div>
+            <p class="text-[11px] font-medium text-slate-400">${label}</p>
+            <p class="mt-1 text-sm font-semibold text-slate-700">
+                ${escape?AdminUI.escapeHtml(String(value??'-')):value}
+            </p>
+        </div>
+    `;
+}
+
+function money(value){
+    return Number(value??0).toLocaleString(
+        'en-US',
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+}
+
+function titleCase(value){
+    if(!value){
+        return'—';
+    }
+
+    return String(value)
+        .replaceAll('_',' ')
+        .replace(
+            /\b\w/g,
+            char=>char.toUpperCase()
+        );
+}
+
+function monthName(month){
+    const months=[
+        '','January','February','March','April','May','June',
+        'July','August','September','October','November','December'
+    ];
+
+    return months[Number(month)]??'-';
+}
+
+window.clearFilters=function(){
+    el.search.value='';
+    el.status.value='';
+
+    loadPayments(1);
 };
 
-function init(){
+/*
+|--------------------------------------------------------------------------
+| Add Payment
+|--------------------------------------------------------------------------
+*/
+
+let selectedPaymentMember=null;
+let outstandingDues=[];
+let allActiveMembers=[];
+
+const paymentEl={
+    form:document.getElementById('addPaymentForm'),
+    memberSelect:document.getElementById('paymentMemberSelect'),
+    dueSelect:document.getElementById('paymentDueSelect'),
+    dueHelp:document.getElementById('paymentDueHelp'),
+    amount:document.getElementById('paymentAmount'),
+    method:document.getElementById('paymentMethod'),
+    reference:document.getElementById('paymentReference'),
+    note:document.getElementById('paymentNote'),
+    saveButton:document.getElementById('saveAddPaymentButton')
+};
+
+window.openAddPaymentModal=function(){
+    resetAddPaymentForm();
+
+    AdminUI.openModal('addPaymentModal');
+
+    loadActiveMembers();
+};
+
+window.closeAddPaymentModal=function(){
+    AdminUI.closeModal('addPaymentModal');
+
+    resetAddPaymentForm();
+};
+
+function resetAddPaymentForm(){
+    paymentEl.form.reset();
+
+    AdminUI.clearError('addPaymentFormError');
+
+    selectedPaymentMember=null;
+    outstandingDues=[];
+
+    paymentEl.dueSelect.innerHTML=
+        '<option value="">Select a member first</option>';
+
+    paymentEl.dueSelect.disabled=true;
+
+    paymentEl.dueHelp.classList.add('hidden');
+
+    paymentEl.method.value='cash';
+}
+
+async function loadActiveMembers(){
+    paymentEl.memberSelect.innerHTML=
+        '<option value="">Loading members...</option>';
+
+    paymentEl.memberSelect.disabled=true;
+
+    try{
+        const response=await api(
+            '/api/finance/subscriptions/members'
+        );
+
+        allActiveMembers=Array.isArray(response.data)
+            ?response.data
+            :[];
+
+        renderMemberOptions();
+    }catch(error){
+        paymentEl.memberSelect.innerHTML=
+            '<option value="">Failed to load members</option>';
+
+        Toast.error(AdminUI.extractError(error));
+    }
+}
+
+function renderMemberOptions(){
+    if(!allActiveMembers.length){
+        paymentEl.memberSelect.innerHTML=
+            '<option value="">No active members found</option>';
+
+        paymentEl.memberSelect.disabled=true;
+
+        return;
+    }
+
+    paymentEl.memberSelect.disabled=false;
+
+    paymentEl.memberSelect.innerHTML=
+        '<option value="">Select a member</option>'+
+        allActiveMembers.map(member=>{
+            const user=member.user??{};
+
+            const label=
+                `${user.name??'N/A'} — ${member.member_code??''}`;
+
+            return`
+                <option value="${member.id}">
+                    ${AdminUI.escapeHtml(label)}
+                </option>
+            `;
+        }).join('');
+}
+
+paymentEl.memberSelect.addEventListener(
+    'change',
+    async function(){
+        const memberId=this.value;
+
+        outstandingDues=[];
+
+        paymentEl.dueSelect.disabled=true;
+
+        paymentEl.dueHelp.classList.add('hidden');
+
+        paymentEl.amount.value='';
+
+        if(!memberId){
+            selectedPaymentMember=null;
+
+            paymentEl.dueSelect.innerHTML=
+                '<option value="">Select a member first</option>';
+
+            return;
+        }
+
+        selectedPaymentMember=allActiveMembers.find(
+            member=>Number(member.id)===Number(memberId)
+        )??null;
+
+        paymentEl.dueSelect.innerHTML=
+            '<option value="">Loading dues...</option>';
+
+        try{
+            const response=await api(
+                `/api/finance/subscription-payments/outstanding-dues?member_id=${memberId}`
+            );
+
+            outstandingDues=Array.isArray(response.data)
+                ?response.data
+                :[];
+
+            renderDueOptions();
+        }catch(error){
+            paymentEl.dueSelect.innerHTML=
+                '<option value="">Failed to load dues</option>';
+
+            Toast.error(AdminUI.extractError(error));
+        }
+    }
+);
+
+
+function renderDueOptions(){
+    if(!outstandingDues.length){
+        paymentEl.dueSelect.innerHTML=
+            '<option value="">No outstanding dues</option>';
+
+        paymentEl.dueSelect.disabled=true;
+
+        paymentEl.dueHelp.classList.remove('hidden');
+
+        paymentEl.amount.value='';
+
+        return;
+    }
+
+    paymentEl.dueHelp.classList.add('hidden');
+
+    paymentEl.dueSelect.disabled=false;
+
+    paymentEl.dueSelect.innerHTML=
+        '<option value="">Select a due</option>'+
+        outstandingDues.map(due=>{
+            const outstanding=Number(
+                due.outstanding??
+                (due.amount-due.paid_amount)
+            ).toFixed(2);
+
+            return`
+                <option value="${due.id}" data-outstanding="${outstanding}">
+                    ${monthName(due.month)} ${due.year} — Due ${outstanding}
+                </option>
+            `;
+        }).join('');
+}
+
+paymentEl.dueSelect.addEventListener('change',function(){
+    const option=this.selectedOptions[0];
+
+    const outstanding=option
+        ?Number(option.dataset.outstanding??0)
+        :0;
+
+    paymentEl.amount.value=
+        outstanding>0
+            ?outstanding.toFixed(2)
+            :'';
+});
+
+paymentEl.form.addEventListener(
+    'submit',
+    async event=>{
+        event.preventDefault();
+
+        AdminUI.clearError('addPaymentFormError');
+
+        if(!selectedPaymentMember){
+            AdminUI.showError(
+                'addPaymentFormError',
+                'Please select a member.'
+            );
+            return;
+        }
+
+        const dueId=paymentEl.dueSelect.value;
+
+        if(!dueId){
+            AdminUI.showError(
+                'addPaymentFormError',
+                'Please select an outstanding due.'
+            );
+            return;
+        }
+
+        const amount=Number(paymentEl.amount.value);
+
+        if(!Number.isFinite(amount)||amount<=0){
+            AdminUI.showError(
+                'addPaymentFormError',
+                'Amount must be greater than zero.'
+            );
+            return;
+        }
+
+        AdminUI.setLoading(
+            paymentEl.saveButton,
+            'Recording...'
+        );
+
+        try{
+            await api(
+                '/api/finance/subscription-payments',
+                {
+                    method:'POST',
+                    body:JSON.stringify({
+                        member_id:selectedPaymentMember.id,
+                        subscription_due_id:Number(dueId),
+                        amount,
+                        payment_method:paymentEl.method.value,
+                        transaction_reference:
+                            paymentEl.reference.value.trim()||null,
+                        note:
+                            paymentEl.note.value.trim()||null
+                    })
+                }
+            );
+
+            closeAddPaymentModal();
+
+            Toast.success('Payment recorded and verified successfully.');
+
+            await loadPayments(1);
+        }catch(error){
+            AdminUI.showError(
+                'addPaymentFormError',
+                AdminUI.extractError(error)
+            );
+        }finally{
+            AdminUI.resetLoading(paymentEl.saveButton);
+        }
+    }
+);
+
+async function initSubscriptionPaymentsPage(){
     if(
         typeof window.AdminUI==='undefined'||
         typeof window.api==='undefined'
     ){
-        setTimeout(
-            init,
-            50
-        );
+        setTimeout(initSubscriptionPaymentsPage,50);
         return;
     }
 
-    loadDashboard();
+    el.search.addEventListener(
+        'input',
+        AdminUI.debounce(()=>loadPayments(1))
+    );
+
+    el.status.addEventListener(
+        'change',
+        ()=>loadPayments(1)
+    );
+
+    await loadPayments();
 }
 
 if(document.readyState==='loading'){
     document.addEventListener(
         'DOMContentLoaded',
-        init
+        initSubscriptionPaymentsPage
     );
 }else{
-    init();
+    initSubscriptionPaymentsPage();
 }
 </script>
 @endpush

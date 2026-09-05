@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openRoleModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add Role
@@ -107,7 +107,7 @@
                         id="roleSearchInput"
                         type="text"
                         placeholder="Search roles..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
@@ -129,11 +129,11 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[34%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Role</th>
-                        <th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
-                        <th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Users</th>
-                        <th class="w-[24%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Permissions</th>
-                        <th class="w-[16%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[34%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Role</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+                        <th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Users</th>
+                        <th class="w-[24%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Permissions</th>
+                        <th class="w-[16%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="min-w-0">
-                    <h2 id="roleModalTitle" class="text-base font-semibold text-slate-800">Add Role</h2>
+                    <h2 id="roleModalTitle" class="text-sm font-semibold text-slate-800">Add Role</h2>
                     <p class="text-xs text-slate-500">Configure role information and access permissions.</p>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-base font-semibold text-slate-800">Role Information</h3>
+                            <h3 class="text-sm font-semibold text-slate-800">Role Information</h3>
                             <p class="text-[11px] text-slate-400">Basic identity of this role.</p>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
                             </div>
 
                             <div>
-                                <h3 class="text-base font-semibold text-slate-800">Access Permissions</h3>
+                                <h3 class="text-sm font-semibold text-slate-800">Access Permissions</h3>
                                 <p class="text-[11px] text-slate-400">Select exactly what this role can access.</p>
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                 <button
                     type="button"
                     onclick="closeRoleModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -292,7 +292,7 @@
                 <button
                     id="saveRoleButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save Role
                 </button>
@@ -470,7 +470,7 @@ function renderRoles(){
                 <td class="min-w-0 px-4 py-3">
                     <div class="min-w-0">
                         <p
-                            class="truncate text-sm font-semibold text-slate-800"
+                            class="truncate text-xs font-semibold text-slate-800"
                             title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
                         >
                             ${AdminUI.escapeHtml(role.display_name||role.name||'—')}
@@ -650,7 +650,7 @@ function renderPermissionGroups(){
                         </div>
 
                         <div class="min-w-0">
-                            <h4 class="truncate text-sm font-semibold text-slate-800">
+                            <h4 class="truncate text-xs font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(module)}
                             </h4>
 

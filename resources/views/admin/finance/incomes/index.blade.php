@@ -68,7 +68,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search..."
-                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-xs outline-none focus:border-indigo-400 lg:rounded-r-none">
                 </div>
 
                 <div class="relative">
@@ -95,7 +95,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -107,20 +107,20 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Income No</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Income Account</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Receive Account</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Income No</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Income Account</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Receive Account</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="incomeTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-xs text-center text-slate-400">
                             Loading income...
                         </td>
                     </tr>
@@ -142,7 +142,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Add Income</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Add Income</h2>
                     <p class="text-xs text-slate-500">
                         Record income and automatically post journal entries.
                     </p>
@@ -166,7 +166,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-base font-semibold text-slate-800">Income Information</h3>
+                            <h3 class="text-sm font-semibold text-slate-800">Income Information</h3>
                             <p class="text-[11px] text-slate-400">Enter income transaction details.</p>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-base font-semibold text-slate-800">Automatic Journal</h3>
+                            <h3 class="text-sm font-semibold text-slate-800">Automatic Journal</h3>
                             <p class="text-[11px] text-slate-400">
                                 This journal will be posted automatically.
                             </p>
@@ -304,14 +304,14 @@
                 <button
                     type="button"
                     onclick="closeIncomeModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Income
                 </button>
             </div>
@@ -329,7 +329,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Income Details</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Income Details</h2>
                     <p class="text-xs text-slate-500">
                         View income transaction and journal information.
                     </p>
@@ -350,7 +350,7 @@
             <button
                 type="button"
                 onclick="closeIncomeDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -547,18 +547,18 @@ function renderIncomeTable(){
                 ${AdminUI.escapeHtml(item.income_no)}
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs text-slate-600">
                 ${AdminUI.formatDate(item.income_date)}
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs text-slate-600">
                 ${AdminUI.escapeHtml(
                     item.member?.user?.name??'—'
                 )}
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-sm font-medium text-slate-700">
+                <p class="text-xs font-medium text-slate-700">
                     ${AdminUI.escapeHtml(
                         item.income_account?.name??'—'
                     )}
@@ -572,7 +572,7 @@ function renderIncomeTable(){
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-sm font-medium text-slate-700">
+                <p class="text-xs font-medium text-slate-700">
                     ${AdminUI.escapeHtml(
                         item.receive_account?.name??'—'
                     )}
@@ -585,7 +585,7 @@ function renderIncomeTable(){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right text-sm font-bold text-slate-800">
+            <td class="px-4 py-3 text-right text-xs text-slate-800">
                 ${money(item.amount)}
             </td>
 
@@ -981,15 +981,15 @@ window.viewIncome=async function(id){
                     <table class="w-full min-w-[500px] text-sm">
                         <thead class="bg-slate-50">
                             <tr>
-                                <th class="px-3 py-2 text-left font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs text-left font-semibold text-slate-500">
                                     Account
                                 </th>
 
-                                <th class="px-3 py-2 text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">
                                     Debit
                                 </th>
 
-                                <th class="px-3 py-2 text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">
                                     Credit
                                 </th>
                             </tr>
@@ -1000,7 +1000,7 @@ window.viewIncome=async function(id){
                                 entries.length
                                     ?entries.map(entry=>`
                                         <tr class="border-t border-slate-100">
-                                            <td class="px-3 py-2 text-slate-600">
+                                            <td class="px-3 py-2 text-xs text-slate-600">
                                                 ${AdminUI.escapeHtml(
                                                     entry.account?.code??''
                                                 )}
@@ -1010,7 +1010,7 @@ window.viewIncome=async function(id){
                                                 )}
                                             </td>
 
-                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.debit??0)>0
                                                         ?money(entry.debit)
@@ -1018,7 +1018,7 @@ window.viewIncome=async function(id){
                                                 }
                                             </td>
 
-                                            <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.credit??0)>0
                                                         ?money(entry.credit)
@@ -1048,7 +1048,7 @@ window.viewIncome=async function(id){
                                 Description
                             </p>
 
-                            <p class="text-sm leading-5 text-slate-600">
+                            <p class="text-xs leading-5 text-slate-600">
                                 ${AdminUI.escapeHtml(
                                     item.description
                                 )}
@@ -1136,7 +1136,7 @@ function detail(label,value){
                 ${AdminUI.escapeHtml(label)}
             </p>
 
-            <p class="mt-1 break-words text-base font-medium text-slate-700">
+            <p class="mt-1 break-words text-sm font-medium text-slate-700">
                 ${AdminUI.escapeHtml(
                     value??'—'
                 )}

@@ -1,1632 +1,2555 @@
 @extends('layouts.admin')
 
-@section('title','Nominee Management')
-@section('page_title','Nominee Management')
-@push('styles')
-<style>
-.form-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:600;color:rgb(51 65 85)}
-</style>
-@endpush
+@section('title','Membership Management')
+@section('page_title','Membership Management')
+
 @section('content')
 <div class="space-y-5">
-
-{{-- Header --}}
-<div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
-    <div class="flex items-start gap-3">
-        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-            <i class="bi bi-person-heart"></i>
-        </div>
-        <div>
-            <h1 class="text-base font-bold text-slate-800">Nominee Management</h1>
-            <p class="text-xs text-slate-500">Manage nominee information, allocations, identity and verification.</p>
-        </div>
-    </div>
-
-    @if(auth()->user()->hasPermission('Nominee.create'))
-    <button type="button" onclick="openNomineeModal()"
-        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
-        <i class="bi bi-person-plus"></i>
-        Add Nominee
-    </button>
-    @endif
-</div>
-
-{{-- Statistics --}}
-<div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
-    @php
-        $stats=[
-            [
-                'id'=>'totalNominees',
-                'label'=>'Total Nominees',
-                'icon'=>'bi-people',
-                'box'=>'border-slate-200 bg-white',
-                'text'=>'text-slate-800',
-                'iconbox'=>'bg-slate-100 text-slate-500'
-            ],
-            [
-                'id'=>'activeNominees',
-                'label'=>'Active',
-                'icon'=>'bi-person-check',
-                'box'=>'border-emerald-200 bg-emerald-50/40',
-                'text'=>'text-emerald-700',
-                'iconbox'=>'bg-emerald-100 text-emerald-600'
-            ],
-            [
-                'id'=>'verifiedNominees',
-                'label'=>'Verified',
-                'icon'=>'bi-patch-check',
-                'box'=>'border-indigo-200 bg-indigo-50/40',
-                'text'=>'text-indigo-700',
-                'iconbox'=>'bg-indigo-100 text-indigo-600'
-            ],
-            [
-                'id'=>'pendingNominees',
-                'label'=>'Pending Verification',
-                'icon'=>'bi-hourglass-split',
-                'box'=>'border-amber-200 bg-amber-50/40',
-                'text'=>'text-amber-700',
-                'iconbox'=>'bg-amber-100 text-amber-600'
-            ]
-        ];
-    @endphp
-
-    @foreach($stats as $stat)
-    <div class="rounded-md border p-4 {{ $stat['box'] }}">
-        <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-                <p class="text-xs text-slate-500">{{ $stat['label'] }}</p>
-                <p id="{{ $stat['id'] }}" class="mt-2 text-xl font-bold {{ $stat['text'] }}">0</p>
-            </div>
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $stat['iconbox'] }}">
-                <i class="bi {{ $stat['icon'] }} text-base"></i>
-            </div>
-        </div>
-    </div>
-    @endforeach
-</div>
-
-{{-- Filters --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-start gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-people"></i>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-700">Search Nominees</p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">Search by nominee, member, phone or identity number.</p>
+                <h1 class="text-base font-bold tracking-tight text-slate-800">Membership Management</h1>
+                <p class="text-xs text-slate-500">Manage association members, status, assigned roles and share holdings.</p>
             </div>
         </div>
 
-        <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[280px_160px_140px_auto] lg:gap-0">
-            <div class="relative sm:col-span-2 lg:col-span-1">
-                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                <input id="searchInput" type="text" placeholder="Search nominee..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+        @if(auth()->user()->hasPermission('Member.create'))
+            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                <i class="bi bi-person-plus"></i>
+                Add Member
+            </button>
+        @endif
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+        <div class="rounded-md border border-slate-200 bg-white p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-500">Total Members</p>
+                    <p id="totalMembers" class="mt-2 text-xl font-bold text-slate-800">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-people"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-emerald-700">Active</p>
+                    <p id="activeMembers" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                    <i class="bi bi-person-check"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-amber-700">Pending</p>
+                    <p id="pendingMembers" class="mt-2 text-xl font-bold text-amber-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-red-700">Suspended</p>
+                    <p id="suspendedMembers" class="mt-2 text-xl font-bold text-red-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
+                    <i class="bi bi-person-dash"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 md:col-span-1">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-500">Rejected / Inactive</p>
+                    <p id="inactiveMembers" class="mt-2 text-xl font-bold text-slate-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-200 text-slate-600">
+                    <i class="bi bi-person-x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">Search Members</p>
+                    <p class="hidden text-[11px] text-slate-400 sm:block">Search by name, email, mobile or member code</p>
+                </div>
             </div>
 
-            <select id="verificationFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
-                <option value="">All Verification</option>
-                <option value="unverified">Unverified</option>
-                <option value="pending">Pending</option>
-                <option value="verified">Verified</option>
-                <option value="rejected">Rejected</option>
-            </select>
+            <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
+                <div class="relative w-full sm:min-w-[220px] lg:w-80">
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                </div>
 
-            <select id="activeFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
-                <option value="">All Status</option>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
-            </select>
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="rejected">Rejected</option>
+                </select>
 
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
-                <i class="bi bi-x-lg text-[10px]"></i>
-                Clear
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    <i class="bi bi-x-lg text-[10px]"></i>
+                    Clear
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[820px] text-sm">
+                <thead class="border-b border-slate-200 bg-slate-50">
+                    <tr>
+                        <th class="w-[22%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Phone</th>
+                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Roles</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Joining</th>
+                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="w-[12%] px-3 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="membersTable">
+                    <tr>
+                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading members...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="membersCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading members...</div>
+        </div>
+
+        <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
+    </div>
+</div>
+
+{{-- Member Modal --}}
+<div id="memberModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <div>
+                    <h2 id="modalTitle" class="text-sm font-semibold text-slate-800">Add Member</h2>
+                    <p id="modalDescription" class="text-xs text-slate-500">Create member profile and login account.</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeMemberModal()" class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
             </button>
         </div>
-    </div>
-</div>
 
-{{-- Desktop Table --}}
-<div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
-    <div class="overflow-x-auto">
-        <table class="w-full min-w-[1000px] text-sm">
-            <thead class="border-b border-slate-200 bg-slate-50">
-                <tr>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Nominee</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Relationship</th>
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Allocation</th>
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Priority</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Verification</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
-                </tr>
-            </thead>
+        <form id="memberForm" class="flex min-h-0 flex-1 flex-col" enctype="multipart/form-data" novalidate data-js-validation="1">
+            <div class="space-y-5 overflow-y-auto p-5">
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Account Information</h3>
+                            <p class="text-[11px] text-slate-400">Login account for this association member.</p>
+                        </div>
+                    </div>
 
-            <tbody id="nomineeTableBody" class="divide-y divide-slate-100">
-                <tr>
-                    <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading nominees...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    <div class="mb-5 flex flex-col gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3 sm:flex-row sm:items-center">
+                        <div id="memberImagePreview" class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white">
+                            <i class="bi bi-person text-2xl text-slate-300"></i>
+                        </div>
 
-{{-- Mobile Cards --}}
-<div id="nomineeMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
-        Loading nominees...
-    </div>
-</div>
+                        <div class="min-w-0">
+                            <p class="form-label">Profile Photo <span class="text-red-500">*</span></p>
 
-<div id="paginationWrap" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
-</div>
+                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                                <i class="bi bi-camera"></i>
+                                <span id="memberImageButtonText">Choose Photo</span>
+                            </label>
 
-{{-- Add/Edit Modal --}}
-<div id="nomineeModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-<div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
+                            <input id="profile_photo" type="file" accept="image/jpeg,image/png,image/webp" class="hidden">
 
-    <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
-        <div class="flex items-center gap-3">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-person-heart"></i>
+                            <p id="memberImageHelp" class="mt-1.5 text-[10px] text-slate-400">
+                                JPG, PNG or WEBP. Max 2MB.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Name <span class="text-red-500">*</span></label>
+                            <input id="name" type="text" class="app-input" maxlength="150">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Email <span class="text-red-500">*</span></label>
+                            <input id="email" type="email" class="app-input" maxlength="255">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Mobile <span class="text-red-500">*</span></label>
+                            <input id="mobile" type="tel" inputmode="numeric" data-mobile="true" placeholder="01XXXXXXXXX" class="app-input" maxlength="11">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Language</label>
+                            <select id="language" class="app-input">
+                                <option value="en">English</option>
+                                <option value="bn">বাংলা</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Member Information</h3>
+                            <p class="text-[11px] text-slate-400">Additional association membership details.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Father / Husband Name <span class="text-red-500">*</span></label>
+                            <input id="father_or_husband_name" type="text" class="app-input" maxlength="150">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Mother's Name <span class="text-red-500">*</span></label>
+                            <input id="mother_name" type="text" class="app-input" maxlength="150">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Alternate Mobile <span class="text-red-500">*</span></label>
+                            <input id="alternate_phone" type="tel" inputmode="numeric" data-mobile="true" placeholder="01XXXXXXXXX" class="app-input" maxlength="11">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Date of Birth <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+
+                                <input id="date_of_birth" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Gender <span class="text-red-500">*</span></label>
+                            <select id="gender" class="app-input">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label">NID / Birth Registration No. <span class="text-red-500">*</span></label>
+                            <input id="nid_or_birth_reg_no" type="number" inputmode="numeric" class="app-input" maxlength="17">
+                        </div>
+
+                        <div>
+                            <label class="form-label">NID / Birth Registration Document <span class="text-red-500">*</span></label>
+
+                            <label for="nid_document" class="flex h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                                <i class="bi bi-file-earmark-arrow-up"></i>
+                                <span id="nidDocumentButtonText" class="truncate">Choose File</span>
+                            </label>
+
+                            <input id="nid_document" type="file" accept="image/jpeg,image/png,.pdf" class="hidden">
+
+                            <p id="nidDocumentHelp" class="mt-1.5 text-[10px] text-slate-400">JPG, PNG or PDF. Max 5MB.</p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Profession <span class="text-red-500">*</span></label>
+                            <input id="profession" type="text" class="app-input" maxlength="150">
+                        </div>
+
+                        <div>
+                            <label class="form-label">District <span class="text-red-500">*</span></label>
+                            <select id="district" class="app-input">
+                                <option value="">Select District</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label">City <span class="text-red-500">*</span></label>
+                            <select id="city" class="app-input">
+                                <option value="">Select District First</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label">Present Address <span class="text-red-500">*</span></label>
+                        <textarea id="address" rows="3" class="app-input resize-none"></textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label">Permanent Address <span class="text-red-500">*</span></label>
+                        <textarea id="permanent_address" rows="3" class="app-input resize-none"></textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label">Notes</label>
+                        <textarea id="notes" rows="3" class="app-input resize-none"></textarea>
+                    </div>
+                </section>
+
+                @if(auth()->user()->hasPermission('Finance.create') && filter_var(setting('share_enabled',false),FILTER_VALIDATE_BOOLEAN))
+                <section id="initialShareSection" class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-layers"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Initial Share</h3>
+                            <p class="text-[11px] text-slate-400">Issue this member's first share right away.</p>
+                        </div>
+                    </div>
+
+                    <div id="initialShareFields" class="mt-4">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
+
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+
+                                    <input id="initial_share_amount" type="number" step="0.01" min="0.01" value="{{ setting('default_share_value',50000) }}" class="app-input !pl-8" placeholder="0.00">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Payment Method <span class="text-red-500">*</span></label>
+
+                                <select id="initial_share_payment_method" class="app-input">
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank</option>
+                                    <option value="mobile_banking">Mobile Banking</option>
+                                    <option value="online">Online</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <p class="mt-3 flex items-start gap-1.5 text-[11px] text-slate-400">
+                            <i class="bi bi-info-circle mt-0.5"></i>
+                            This one-time initial amount does not need to match the current share price setting — use it for what this member is actually paying now. It's sent for verification. All shares purchased after this will follow the configured share price.
+                        </p>
+                    </div>
+                </section>
+                @endif
+
+                <div id="approvalInfo" class="hidden rounded-md border border-amber-200 bg-amber-50 p-4">
+                    <div class="flex gap-3">
+                        <i class="bi bi-shield-check text-amber-600"></i>
+                        <div>
+                            <p class="text-base font-semibold text-amber-800">Approval Required</p>
+                            <p class="mt-1 text-sm text-amber-700">Member will remain inactive until approval.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="formError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
             </div>
-            <div>
-                <h3 id="nomineeModalTitle" class="text-base font-semibold text-slate-800">Add Nominee</h3>
-                <p id="nomineeModalSubtitle" class="text-sm text-slate-500">Add nominee information for a member.</p>
+
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Close
+                </button>
+
+                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    Create Member
+                </button>
             </div>
+        </form>
+    </div>
+</div>
+
+@if(filter_var(setting('share_enabled',false),FILTER_VALIDATE_BOOLEAN))
+{{-- Share Management Modal --}}
+<div id="shareModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                    <i class="bi bi-layers"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-800">Member Shares</h2>
+                    <p id="shareMemberInfo" class="text-xs text-slate-500">View and manage share holdings.</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeShareModal()" class="app-modal-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
         </div>
 
-        <button type="button" onclick="AdminUI.closeModal('nomineeModal')" class="app-modal-close">
-            <i class="bi bi-x-lg"></i>
-        </button>
-    </div>
-
-    <form id="nomineeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
-        <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-
-            <div id="nomineeError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
-
-            {{-- Member --}}
-            <div id="memberSection" class="rounded-md border border-slate-200 bg-white p-4">
-                <div class="mb-4 flex items-center gap-3">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-semibold text-slate-800">Member</h4>
-                        <p class="text-[11px] text-slate-400">Select the member for this nominee.</p>
-                    </div>
-                </div>
-
-                <label class="form-label">Member <span class="text-red-500">*</span></label>
-                <select id="memberId" class="app-input w-full">
-                    <option value="">Select Member</option>
-                </select>
-                <p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
-            </div>
-
-            {{-- Personal --}}
-            <div class="rounded-md border border-slate-200 bg-white p-4">
-                <div class="mb-4 flex items-center gap-3">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
-                        <i class="bi bi-person-vcard"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-semibold text-slate-800">Personal Information</h4>
-                        <p class="text-[11px] text-slate-400">Basic nominee information.</p>
-                    </div>
-                </div>
-
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Nominee Name <span class="text-red-500">*</span></label>
-                        <input id="nomineeName" type="text" maxlength="150" class="app-input w-full" placeholder="Full name">
-                        <p data-field-error="nomineeName" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Relationship <span class="text-red-500">*</span></label>
-                        <input id="relationship" type="text" maxlength="80" class="app-input w-full" placeholder="Spouse, Son, Daughter...">
-                        <p data-field-error="relationship" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Phone</label>
-                        <input id="phone" type="text" maxlength="30" class="app-input w-full" placeholder="Phone number">
-                        <p data-field-error="phone" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Father / Husband Name</label>
-                        <input id="fatherOrHusbandName" type="text" maxlength="150" class="app-input w-full" placeholder="Father or husband's name">
-                        <p data-field-error="fatherOrHusbandName" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Mother's Name</label>
-                        <input id="motherName" type="text" maxlength="150" class="app-input w-full" placeholder="Mother's name">
-                        <p data-field-error="motherName" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Gender</label>
-                        <select id="gender" class="app-input w-full">
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <p data-field-error="gender" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Profession</label>
-                        <input id="profession" type="text" maxlength="150" class="app-input w-full" placeholder="Profession">
-                        <p data-field-error="profession" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Date of Birth</label>
-                        <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                            <input id="dateOfBirth" type="text"
-                                class="app-input js-date-picker w-full !pl-9"
-                                placeholder="Select date"
-                                autocomplete="off">
+        <div class="min-h-0 flex-1 overflow-y-auto p-5">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-slate-500">Total Shares</p>
+                            <p id="shareTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
                         </div>
-                        <p data-field-error="dateOfBirth" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
 
-                    <div class="md:col-span-2">
-                        <label class="form-label">Address</label>
-                        <textarea id="address" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Address"></textarea>
-                        <p data-field-error="address" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="form-label">Permanent Address</label>
-                        <textarea id="permanentAddress" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Permanent address (if different)"></textarea>
-                        <p data-field-error="permanentAddress" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Identity --}}
-            <div class="rounded-md border border-slate-200 bg-white p-4">
-                <div class="mb-4 flex items-center gap-3">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-md bg-sky-50 text-sky-600">
-                        <i class="bi bi-card-heading"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-semibold text-slate-800">Identity Information</h4>
-                        <p class="text-[11px] text-slate-400">Identity details used for verification.</p>
-                    </div>
-                </div>
-
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Identity Type</label>
-                        <select id="identityType" class="app-input w-full">
-                            <option value="">Select Identity Type</option>
-                            <option value="nid">National ID (NID)</option>
-                            <option value="birth_certificate">Birth Certificate</option>
-                            <option value="passport">Passport</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <p data-field-error="identityType" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Identity Number</label>
-                        <input id="identityNumber" type="text" maxlength="100" class="app-input w-full" placeholder="Identity number">
-                        <p data-field-error="identityNumber" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Allocation --}}
-            <div class="rounded-md border border-slate-200 bg-white p-4">
-                <div class="mb-4 flex items-center gap-3">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
-                        <i class="bi bi-pie-chart"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-semibold text-slate-800">Allocation & Priority</h4>
-                        <p class="text-[11px] text-slate-400">Combined active nominee allocation cannot exceed 100%.</p>
-                    </div>
-                </div>
-
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Allocation Percentage <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <input id="allocationPercentage" type="number" min="0.01" max="100" step="0.01" class="app-input w-full !pr-9" placeholder="0.00">
-                            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">%</span>
+                        <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                            <i class="bi bi-layers"></i>
                         </div>
-                        <p data-field-error="allocationPercentage" class="mt-1 hidden text-sm text-red-600"></p>
+                    </div>
+                </div>
+
+                <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-emerald-700">Active Shares</p>
+                            <p id="shareActive" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+                        </div>
+
+                        <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-indigo-700">Active Share Value</p>
+                            <p id="shareValue" class="mt-2 text-xl font-bold text-indigo-600">৳0.00</p>
+                        </div>
+
+                        <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if(auth()->user()->hasPermission('Finance.create'))
+                <section class="mt-5 rounded-md border border-slate-200 bg-white">
+                    <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                                <i class="bi bi-plus-lg"></i>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold text-slate-800">Purchase Additional Share</h3>
+                                <p class="text-[11px] text-slate-400">Issue another share to this existing member.</p>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="toggleSharePurchaseForm()" class="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                            <i class="bi bi-plus-lg"></i>
+                            Add Share
+                        </button>
                     </div>
 
+                    <form id="shareForm" class="hidden p-4" novalidate data-js-validation="1">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
+
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+
+                                    <input id="share_purchase_amount" type="number" step="0.01" min="0.01" value="{{ setting('default_share_value',50000) }}" class="app-input !pl-8" placeholder="0.00">
+                                </div>
+                            </div>
+
+                        
+
+                            <div>
+                                <label class="form-label">Payment Method <span class="text-red-500">*</span></label>
+
+                                <select id="share_payment_method" class="app-input">
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank</option>
+                                    <option value="mobile_banking">Mobile Banking</option>
+                                    <option value="online">Online</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="form-label">Notes</label>
+
+                                <textarea id="share_notes" rows="3" maxlength="3000" class="app-input resize-none" placeholder="Optional notes..."></textarea>
+                            </div>
+                        </div>
+
+                        <div id="shareFormError" class="mt-4 hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
+
+                        <div class="mt-4 flex justify-end gap-2">
+                            <button type="button" onclick="cancelSharePurchase()" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                                Cancel
+                            </button>
+
+                            <button id="saveShareButton" type="submit" class="h-9 cursor-pointer rounded-md bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                                Purchase Share
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            @endif
+
+            <section class="mt-5 overflow-hidden rounded-md border border-slate-200 bg-white">
+                <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
                     <div>
-                        <label class="form-label">Priority <span class="text-red-500">*</span></label>
-                        <input id="priority" type="number" min="1" max="999" value="1" class="app-input w-full">
-                        <p data-field-error="priority" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p class="text-sm font-semibold text-slate-700">Share History</p>
+                        <p class="text-[11px] text-slate-400">All shares issued to this member.</p>
                     </div>
+
+                    <span id="shareHistoryCount" class="rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-semibold text-slate-500">
+                        0 shares
+                    </span>
                 </div>
 
-                <div class="mt-4 rounded-md border border-sky-200 bg-sky-50 px-3 py-2.5">
-                    <div class="flex gap-2">
-                        <i class="bi bi-info-circle mt-0.5 text-sky-600"></i>
-                        <p class="text-[11px] leading-4 text-sky-700">Multiple nominees are allowed, but total allocation of active nominees for one member cannot exceed 100%.</p>
-                    </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[720px] text-base">
+                        <thead class="border-b border-slate-200 bg-white">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Share No.</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Value</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Acquired</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Created By</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Notes</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="shareHistoryTable">
+                            <tr>
+                                <td colspan="6" class="px-4 py-10 text-xs text-center text-slate-400">Loading shares...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-
-            {{-- Notes --}}
-            <div>
-                <label class="form-label">Notes</label>
-                <textarea id="notes" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Optional notes..."></textarea>
-                <p data-field-error="notes" class="mt-1 hidden text-sm text-red-600"></p>
-            </div>
-
+            </section>
         </div>
 
-        <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-            <button type="button" onclick="AdminUI.closeModal('nomineeModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+        <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
+            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
-
-            <button id="saveNomineeButton" type="submit"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
-                Save Nominee
-            </button>
-        </div>
-    </form>
-</div>
-</div>
-
-{{-- Verification Modal --}}
-<div id="verificationModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-<div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
-
-    <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
-        <div class="flex items-center gap-3">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
-                <i class="bi bi-patch-check"></i>
-            </div>
-            <div>
-                <h3 class="text-base font-semibold text-slate-800">Nominee Verification</h3>
-                <p id="verificationSubtitle" class="text-sm text-slate-500"></p>
-            </div>
-        </div>
-
-        <button type="button" onclick="AdminUI.closeModal('verificationModal')" class="app-modal-close">
-            <i class="bi bi-x-lg"></i>
-        </button>
-    </div>
-
-    <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
-        <input id="verificationNomineeId" type="hidden">
-
-        <div id="verificationError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
-
-        <div id="verificationDetails" class="grid grid-cols-2 gap-3"></div>
-
-        <div>
-            <label class="form-label">Verification Note</label>
-            <textarea id="verificationNote" rows="4" maxlength="3000" class="app-input w-full resize-none" placeholder="Optional note for verification or required reason for rejection..."></textarea>
-            <p data-field-error="verificationNote" class="mt-1 hidden text-sm text-red-600"></p>
         </div>
     </div>
-
-    @if(auth()->user()->hasPermission('Nominee.verify'))
-    <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-        <button type="button" onclick="rejectNominee()"
-            class="cursor-pointer rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100">
-            <i class="bi bi-x-circle mr-1"></i>
-            Reject
-        </button>
-
-        <button id="verifyNomineeButton" type="button" onclick="verifyNominee()"
-            class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
-            <i class="bi bi-check2-circle mr-1"></i>
-            Verify
-        </button>
-    </div>
-    @endif
 </div>
-</div>
+@endif
+
+<style>
+.form-label{
+    display:block;
+    margin-bottom:.4rem;
+    font-size:.8rem;
+    font-weight:600;
+    color:rgb(51 65 85);
+}
+</style>
 @endsection
-
-
 
 @push('scripts')
 <script>
-const API='/api/nominees';
-const canUpdate=@json(auth()->user()->hasPermission('Nominee.update'));
-const canVerify=@json(auth()->user()->hasPermission('Nominee.verify'));
-const canDelete=@json(auth()->user()->hasPermission('Nominee.delete'));
-
-let nominees=[];
-let memberOptions=[];
-let editingNominee=null;
+let members=[];
+let memberSummary=null;
+let editingMember=null;
 let currentPage=1;
+let lastPage=1;
+let total=0;
+let previewObjectUrl=null;
+let selectedShareMember=null;
+let memberShares=[];
 
-const $=id=>document.getElementById(id);
-const esc=value=>AdminUI.escapeHtml(value??'');
-const date=value=>value?AdminUI.formatDate(value):'—';
+const canEditMember=@json(
+    auth()->user()->hasPermission('Member.update')
+);
 
-const nomineeFieldMap={
-    member_id:'memberId',
-    name:'nomineeName',
-    relationship:'relationship',
-    phone:'phone',
-    date_of_birth:'dateOfBirth',
-    identity_type:'identityType',
-    identity_number:'identityNumber',
-    allocation_percentage:'allocationPercentage',
-    priority:'priority',
-    address:'address',
-    notes:'notes'
+const canDeleteMember=@json(
+    auth()->user()->hasPermission('Member.delete')
+);
+
+const canViewShares=@json(
+    auth()->user()->hasPermission('Member.view')
+);
+
+const canIssueShare=@json(
+    auth()->user()->hasPermission('Finance.create')
+);
+
+const shareEnabled=@json(
+    filter_var(
+        setting('share_enabled',false),
+        FILTER_VALIDATE_BOOLEAN
+    )
+);
+
+const defaultShareValue=Number(
+    @json(setting('default_share_value',50000))
+);
+
+const currencySymbol=@json(
+    setting('currency_symbol','৳')
+);
+
+const el={
+    table:document.getElementById('membersTable'),
+    cards:document.getElementById('membersCards'),
+    search:document.getElementById('searchInput'),
+    status:document.getElementById('statusFilter'),
+    form:document.getElementById('memberForm'),
+    saveButton:document.getElementById('saveButton'),
+    name:document.getElementById('name'),
+    email:document.getElementById('email'),
+    mobile:document.getElementById('mobile'),
+    language:document.getElementById('language'),
+    alternatePhone:document.getElementById('alternate_phone'),
+    fatherOrHusbandName:document.getElementById('father_or_husband_name'),
+    motherName:document.getElementById('mother_name'),
+    dateOfBirth:document.getElementById('date_of_birth'),
+    gender:document.getElementById('gender'),
+    nidOrBirthRegNo:document.getElementById('nid_or_birth_reg_no'),
+    profession:document.getElementById('profession'),
+    city:document.getElementById('city'),
+    district:document.getElementById('district'),
+    address:document.getElementById('address'),
+    permanentAddress:document.getElementById('permanent_address'),
+    notes:document.getElementById('notes'),
+    profilePhoto:document.getElementById('profile_photo'),
+    imagePreview:document.getElementById('memberImagePreview'),
+    imageButtonText:document.getElementById('memberImageButtonText'),
+    imageHelp:document.getElementById('memberImageHelp'),
+    nidDocument:document.getElementById('nid_document'),
+    nidDocumentButtonText:document.getElementById('nidDocumentButtonText'),
+    nidDocumentHelp:document.getElementById('nidDocumentHelp'),
+    initialShareSection:document.getElementById('initialShareSection'),
+    initialShareFields:document.getElementById('initialShareFields'),
+    initialShareAmount:document.getElementById('initial_share_amount'),
+    initialSharePaymentMethod:document.getElementById('initial_share_payment_method')
 };
 
-function setDate(id,value){
-    const element=$(id);
-    if(!element)return;
+/*
+|--------------------------------------------------------------------------
+| Bangladesh District -> City/Upazila Map
+|--------------------------------------------------------------------------
+| Covers all 64 districts. Feel free to extend the upazila lists below —
+| this file is the single source of truth for the District/City selects.
+*/
+const bdDistrictCities={
+    'Dhaka':['Dhaka Sadar','Dhamrai','Dohar','Keraniganj','Nawabganj','Savar'],
+    'Faridpur':['Faridpur Sadar','Alfadanga','Bhanga','Boalmari','Charbhadrasan','Madhukhali','Nagarkanda','Sadarpur','Saltha'],
+    'Gazipur':['Gazipur Sadar','Kaliakair','Kaliganj','Kapasia','Sreepur'],
+    'Gopalganj':['Gopalganj Sadar','Kashiani','Kotalipara','Muksudpur','Tungipara'],
+    'Kishoreganj':['Kishoreganj Sadar','Austagram','Bajitpur','Bhairab','Hossainpur','Itna','Karimganj','Katiadi','Kuliarchar','Mithamain','Nikli','Pakundia','Tarail'],
+    'Madaripur':['Madaripur Sadar','Kalkini','Rajoir','Shibchar'],
+    'Manikganj':['Manikganj Sadar','Daulatpur','Ghior','Harirampur','Saturia','Shivalaya','Singair'],
+    'Munshiganj':['Munshiganj Sadar','Gazaria','Lohajang','Sirajdikhan','Sreenagar','Tongibari'],
+    'Narayanganj':['Narayanganj Sadar','Araihazar','Bandar','Rupganj','Sonargaon'],
+    'Narsingdi':['Narsingdi Sadar','Belabo','Monohardi','Palash','Raipura','Shibpur'],
+    'Rajbari':['Rajbari Sadar','Baliakandi','Goalandaghat','Pangsha','Kalukhali'],
+    'Shariatpur':['Shariatpur Sadar','Bhedarganj','Damudya','Gosairhat','Naria','Zajira'],
+    'Tangail':['Tangail Sadar','Basail','Bhuapur','Delduar','Dhanbari','Ghatail','Gopalpur','Kalihati','Madhupur','Mirzapur','Nagarpur','Sakhipur'],
+    'Jamalpur':['Jamalpur Sadar','Bakshiganj','Dewanganj','Islampur','Madarganj','Melandaha','Sarishabari'],
+    'Mymensingh':['Mymensingh Sadar','Bhaluka','Dhobaura','Fulbaria','Gaffargaon','Gauripur','Haluaghat','Ishwarganj','Muktagacha','Nandail','Phulpur','Trishal'],
+    'Netrokona':['Netrokona Sadar','Atpara','Barhatta','Durgapur','Kalmakanda','Kendua','Khaliajuri','Madan','Mohanganj','Purbadhala'],
+    'Sherpur':['Sherpur Sadar','Jhenaigati','Nakla','Nalitabari','Sreebardi'],
+    'Bandarban':['Bandarban Sadar','Alikadam','Lama','Naikhongchhari','Rowangchhari','Ruma','Thanchi'],
+    'Brahmanbaria':['Brahmanbaria Sadar','Akhaura','Ashuganj','Bancharampur','Bijoynagar','Kasba','Nabinagar','Nasirnagar','Sarail'],
+    'Chandpur':['Chandpur Sadar','Faridganj','Haimchar','Haziganj','Kachua','Matlab Dakshin','Matlab Uttar','Shahrasti'],
+    'Chattogram':['Chattogram Sadar','Anwara','Banshkhali','Boalkhali','Chandanaish','Fatikchhari','Hathazari','Lohagara','Mirsharai','Patiya','Rangunia','Raozan','Sandwip','Satkania','Sitakunda'],
+    'Cumilla':['Cumilla Sadar','Barura','Brahmanpara','Burichang','Chandina','Chauddagram','Daudkandi','Debidwar','Homna','Laksam','Lalmai','Meghna','Muradnagar','Nangalkot','Titas'],
+    "Cox's Bazar":["Cox's Bazar Sadar",'Chakaria','Kutubdia','Maheshkhali','Pekua','Ramu','Teknaf','Ukhia'],
+    'Feni':['Feni Sadar','Chhagalnaiya','Daganbhuiyan','Parshuram','Sonagazi','Fulgazi'],
+    'Khagrachhari':['Khagrachhari Sadar','Dighinala','Lakshmichhari','Mahalchhari','Manikchhari','Matiranga','Panchhari','Ramgarh'],
+    'Lakshmipur':['Lakshmipur Sadar','Kamalnagar','Raipur','Ramganj','Ramgati'],
+    'Noakhali':['Noakhali Sadar','Begumganj','Chatkhil','Companiganj','Hatiya','Kabirhat','Senbagh','Sonaimuri','Subarnachar'],
+    'Rangamati':['Rangamati Sadar','Baghaichhari','Barkal','Belaichhari','Juraichhari','Kaptai','Kawkhali','Langadu','Naniarchar','Rajasthali'],
+    'Bogura':['Bogura Sadar','Adamdighi','Dhunat','Dhupchanchia','Gabtali','Kahaloo','Nandigram','Sariakandi','Shajahanpur','Sherpur','Shibganj','Sonatola'],
+    'Joypurhat':['Joypurhat Sadar','Akkelpur','Kalai','Khetlal','Panchbibi'],
+    'Naogaon':['Naogaon Sadar','Atrai','Badalgachhi','Dhamoirhat','Manda','Mahadebpur','Niamatpur','Patnitala','Porsha','Raninagar','Sapahar'],
+    'Natore':['Natore Sadar','Bagatipara','Baraigram','Gurudaspur','Lalpur','Singra'],
+    'Chapainawabganj':['Chapainawabganj Sadar','Bholahat','Gomastapur','Nachole','Shibganj'],
+    'Pabna':['Pabna Sadar','Atgharia','Bera','Bhangura','Chatmohar','Faridpur','Ishwardi','Santhia','Sujanagar'],
+    'Rajshahi':['Rajshahi Sadar','Bagha','Bagmara','Charghat','Durgapur','Godagari','Mohanpur','Paba','Puthia','Tanore'],
+    'Sirajganj':['Sirajganj Sadar','Belkuchi','Chauhali','Kamarkhanda','Kazipur','Raiganj','Shahjadpur','Tarash','Ullapara'],
+    'Bagerhat':['Bagerhat Sadar','Chitalmari','Fakirhat','Kachua','Mollahat','Mongla','Morrelganj','Rampal','Sarankhola'],
+    'Chuadanga':['Chuadanga Sadar','Alamdanga','Damurhuda','Jibannagar'],
+    'Jashore':['Jashore Sadar','Abhaynagar','Bagherpara','Chaugachha','Jhikargachha','Keshabpur','Manirampur','Sharsha'],
+    'Jhenaidah':['Jhenaidah Sadar','Harinakunda','Kaliganj','Kotchandpur','Maheshpur','Shailkupa'],
+    'Khulna':['Khulna Sadar','Batiaghata','Dacope','Dumuria','Dighalia','Koyra','Paikgachha','Phultala','Rupsa','Terokhada'],
+    'Kushtia':['Kushtia Sadar','Bheramara','Daulatpur','Khoksa','Kumarkhali','Mirpur'],
+    'Magura':['Magura Sadar','Mohammadpur','Shalikha','Sreepur'],
+    'Meherpur':['Meherpur Sadar','Gangni','Mujibnagar'],
+    'Narail':['Narail Sadar','Kalia','Lohagara'],
+    'Satkhira':['Satkhira Sadar','Assasuni','Debhata','Kalaroa','Kaliganj','Shyamnagar','Tala'],
+    'Barguna':['Barguna Sadar','Amtali','Bamna','Betagi','Patharghata','Taltali'],
+    'Barishal':['Barishal Sadar','Agailjhara','Babuganj','Bakerganj','Banaripara','Gaurnadi','Hizla','Mehendiganj','Muladi','Wazirpur'],
+    'Bhola':['Bhola Sadar','Borhanuddin','Char Fasson','Daulatkhan','Lalmohan','Manpura','Tazumuddin'],
+    'Jhalokati':['Jhalokati Sadar','Kathalia','Nalchity','Rajapur'],
+    'Patuakhali':['Patuakhali Sadar','Bauphal','Dashmina','Dumki','Galachipa','Kalapara','Mirzaganj','Rangabali'],
+    'Pirojpur':['Pirojpur Sadar','Bhandaria','Kaukhali','Mathbaria','Nazirpur','Nesarabad','Zianagar'],
+    'Habiganj':['Habiganj Sadar','Ajmiriganj','Bahubal','Baniyachong','Chunarughat','Lakhai','Madhabpur','Nabiganj'],
+    'Moulvibazar':['Moulvibazar Sadar','Barlekha','Juri','Kamalganj','Kulaura','Rajnagar','Sreemangal'],
+    'Sunamganj':['Sunamganj Sadar','Bishwamvarpur','Chhatak','Derai','Dharmapasha','Dowarabazar','Jagannathpur','Jamalganj','Sulla','Tahirpur'],
+    'Sylhet':['Sylhet Sadar','Balaganj','Beanibazar','Bishwanath','Companiganj','Fenchuganj','Golapganj','Gowainghat','Jaintiapur','Kanaighat','Osmani Nagar','Zakiganj'],
+    'Dinajpur':['Dinajpur Sadar','Birampur','Birganj','Biral','Bochaganj','Chirirbandar','Fulbari','Ghoraghat','Hakimpur','Kaharole','Khansama','Nawabganj','Parbatipur'],
+    'Gaibandha':['Gaibandha Sadar','Fulchhari','Gobindaganj','Palashbari','Sadullapur','Saghata','Sundarganj'],
+    'Kurigram':['Kurigram Sadar','Bhurungamari','Char Rajibpur','Chilmari','Phulbari','Nageshwari','Rajarhat','Raomari','Ulipur'],
+    'Lalmonirhat':['Lalmonirhat Sadar','Aditmari','Hatibandha','Kaliganj','Patgram'],
+    'Nilphamari':['Nilphamari Sadar','Dimla','Domar','Jaldhaka','Kishoreganj','Saidpur'],
+    'Panchagarh':['Panchagarh Sadar','Atwari','Boda','Debiganj','Tetulia'],
+    'Rangpur':['Rangpur Sadar','Badarganj','Gangachara','Kaunia','Mithapukur','Pirgachha','Pirganj','Taraganj'],
+    'Thakurgaon':['Thakurgaon Sadar','Baliadangi','Haripur','Pirganj','Ranisankail']
+};
 
-    const dateValue=value
-        ?String(value).substring(0,10)
-        :'';
+function populateDistrictSelect(){
+    if(!el.district)return;
 
-    element.value=dateValue;
+    const districts=Object.keys(
+        bdDistrictCities
+    ).sort();
 
-    if(element._flatpickr){
-        dateValue
-            ?element._flatpickr.setDate(dateValue,false,'Y-m-d')
-            :element._flatpickr.clear();
+    el.district.innerHTML=
+        '<option value="">Select District</option>'+
+        districts.map(d=>
+            `<option value="${AdminUI.escapeHtml(d)}">${AdminUI.escapeHtml(d)}</option>`
+        ).join('');
+}
+
+function populateCitySelect(district,selectedCity=''){
+    if(!el.city)return;
+
+    const cities=bdDistrictCities[district]??[];
+
+    if(!district||!cities.length){
+        el.city.innerHTML=
+            '<option value="">Select District First</option>';
+
+        el.city.disabled=true;
+        return;
+    }
+
+    el.city.disabled=false;
+
+    el.city.innerHTML=
+        '<option value="">Select City</option>'+
+        cities.map(c=>
+            `<option value="${AdminUI.escapeHtml(c)}" ${c===selectedCity?'selected':''}>${AdminUI.escapeHtml(c)}</option>`
+        ).join('');
+
+    // Existing member data may hold a city that isn't in the list above
+    // (older free-text entry) — keep it selectable so it isn't silently lost.
+    if(
+        selectedCity&&
+        !cities.includes(selectedCity)
+    ){
+        el.city.insertAdjacentHTML(
+            'beforeend',
+            `<option value="${AdminUI.escapeHtml(selectedCity)}" selected>${AdminUI.escapeHtml(selectedCity)}</option>`
+        );
     }
 }
 
-function verificationBadge(status){
-    const map={
-        verified:['Verified','bg-emerald-50 text-emerald-700','bi-patch-check-fill'],
-        pending:['Pending','bg-amber-50 text-amber-700','bi-hourglass-split'],
-        rejected:['Rejected','bg-red-50 text-red-600','bi-x-circle'],
-        unverified:['Unverified','bg-slate-100 text-slate-500','bi-question-circle']
-    };
-
-    const item=map[status]??map.unverified;
-
+function cardsLoadingHtml(message){
     return`
-        <span class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-semibold ${item[1]}">
-            <i class="bi ${item[2]}"></i>
-            ${item[0]}
-        </span>
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
     `;
 }
 
-function activeBadge(active){
-    return active
-        ?'<span class="inline-flex rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">Active</span>'
-        :'<span class="inline-flex rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-500">Inactive</span>';
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
 }
 
-function identityLabel(type){
-    return{
-        nid:'National ID',
-        birth_certificate:'Birth Certificate',
-        passport:'Passport',
-        other:'Other'
-    }[type]??'—';
-}
-
-async function loadOptions(){
-    try{
-        const response=await api(`${API}/options`);
-
-        memberOptions=
-            response.data?.members??[];
-
-        $('memberId').innerHTML=
-            '<option value="">Select Member</option>'+
-            memberOptions.map(member=>`
-                <option value="${member.id}">
-                    ${esc(member.user?.name??'N/A')} (${esc(member.member_code??'')})
-                </option>
-            `).join('');
-
-    }catch(error){
-        Toast.error(
-            AdminUI.extractError(error)
-        );
-    }
-}
-
-async function loadStatistics(){
-    try{
-        const response=await api(
-            `${API}/statistics`
-        );
-
-        const data=response.data??{};
-
-        $('totalNominees').textContent=
-            data.total??0;
-
-        $('activeNominees').textContent=
-            data.active??0;
-
-        $('verifiedNominees').textContent=
-            data.verified??0;
-
-        $('pendingNominees').textContent=
-            data.pending??0;
-
-    }catch(error){
-        console.error(error);
-    }
-}
-
-async function loadNominees(page=1){
+async function loadMembers(page=1){
     currentPage=page;
 
-    const tbody=$('nomineeTableBody');
-    const grid=$('nomineeMobileGrid');
+    el.table.innerHTML=AdminUI.loadingState(
+        'Loading members...',
+        7
+    );
 
-    if(tbody){
-        tbody.innerHTML=
-            AdminUI.loadingState(
-                'Loading nominees...',
-                8
-            );
-    }
+    el.cards.innerHTML=cardsLoadingHtml(
+        'Loading members...'
+    );
 
-    if(grid){
-        grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
-                <div class="flex items-center justify-center gap-2">
-                    <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
-                    Loading nominees...
-                </div>
-            </div>
-        `;
-    }
-
-    const params=new URLSearchParams({
-        page,
-        per_page:15
+    const query=AdminUI.query({
+        search:el.search.value.trim(),
+        status:el.status.value,
+        page
     });
-
-    const search=$('searchInput').value.trim();
-    const verification=$('verificationFilter').value;
-    const active=$('activeFilter').value;
-
-    if(search){
-        params.set('search',search);
-    }
-
-    if(verification){
-        params.set(
-            'verification_status',
-            verification
-        );
-    }
-
-    if(active!==''){
-        params.set('active',active);
-    }
 
     try{
         const response=await api(
-            `${API}?${params.toString()}`
+            `/api/members?${query}`
         );
 
         const paginator=response.data??{};
 
-        nominees=paginator.data??[];
+        members=Array.isArray(paginator.data)
+            ?paginator.data
+            :(Array.isArray(response.data)
+                ?response.data
+                :[]);
 
-        renderNominees();
-
-        $('paginationWrap').innerHTML='';
-
-        AdminUI.renderPagination(
-            paginator,
-            $('paginationWrap'),
-            loadNominees
+        currentPage=Number(
+            paginator.current_page??1
         );
 
+        lastPage=Number(
+            paginator.last_page??1
+        );
+
+        total=Number(
+            paginator.total??members.length
+        );
+
+        memberSummary=response.summary??null;
+
+        renderMembers();
+        updateStats();
+
+        AdminUI.renderPagination({
+            container:'paginationContainer',
+            currentPage,
+            lastPage,
+            total,
+            onPageChange:loadMembers
+        });
     }catch(error){
-        const message=
-            AdminUI.extractError(error);
+        el.table.innerHTML=AdminUI.emptyState(
+            AdminUI.extractError(error),
+            7
+        );
 
-        if(tbody){
-            tbody.innerHTML=
-                AdminUI.emptyState(
-                    message,
-                    8
-                );
-        }
-
-        if(grid){
-            grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
-                    ${esc(message)}
-                </div>
-            `;
-        }
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
+        );
     }
 }
 
-function nomineeActions(nominee){
-    const actions=[];
+function memberActionButtons(member,{withLabel=false}={}){
+    const buttons=[];
 
-    if(canVerify){
-        actions.push(`
-            <button type="button"
-                onclick="openVerificationModal(${nominee.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-[11px] font-semibold text-emerald-700 transition hover:bg-emerald-100">
-                <i class="bi bi-patch-check"></i>
-                Verify
+    if(canViewShares&&shareEnabled){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openShareModal(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+                title="Shares">
+                <i class="bi bi-layers text-sm"></i>
+                ${withLabel?'Shares':''}
             </button>
         `);
     }
 
-    if(canUpdate){
-        actions.push(`
-            <button type="button"
-                onclick="editNominee(${nominee.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-700 transition hover:bg-indigo-100">
-                <i class="bi bi-pencil"></i>
-                Edit
-            </button>
-        `);
-
-        actions.push(`
-            <button type="button"
-                onclick="toggleNominee(${nominee.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border ${nominee.is_active?'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100':'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'} px-2.5 py-1.5 text-[11px] font-semibold transition">
-                <i class="bi ${nominee.is_active?'bi-pause-circle':'bi-play-circle'}"></i>
-                ${nominee.is_active?'Deactivate':'Activate'}
+    if(canEditMember){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="editMember(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+                title="Edit">
+                <i class="bi bi-pencil-square text-sm"></i>
+                ${withLabel?'Edit':''}
             </button>
         `);
     }
 
-    if(canDelete){
-        actions.push(`
-            <button type="button"
-                onclick="deleteNominee(${nominee.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-red-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-red-600 transition hover:bg-red-50">
-                <i class="bi bi-trash3"></i>
-                Delete
+    if(canDeleteMember&&member.status!=='active'){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="deleteMember(${member.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100"
+                title="Delete">
+                <i class="bi bi-trash text-sm"></i>
+                ${withLabel?'Delete':''}
             </button>
         `);
     }
 
-    return actions.join('');
+    return buttons.join('');
 }
 
-function renderNominees(){
-    const tbody=$('nomineeTableBody');
-    const grid=$('nomineeMobileGrid');
+function renderMembers(){
+    if(!members.length){
+        el.table.innerHTML=AdminUI.emptyState(
+            'No members found.',
+            7
+        );
 
-    if(!nominees.length){
-        if(tbody){
-            tbody.innerHTML=
-                AdminUI.emptyState(
-                    'No nominees found.',
-                    8
-                );
-        }
-
-        if(grid){
-            grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
-                    <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                        <i class="bi bi-person-heart"></i>
-                    </div>
-                    <p class="mt-3 text-base font-semibold text-slate-600">No nominees found</p>
-                    <p class="mt-1 text-sm text-slate-400">Try changing the search or filters.</p>
-                </div>
-            `;
-        }
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No members found.'
+        );
 
         return;
     }
 
-    if(tbody){
-        tbody.innerHTML=nominees.map(nominee=>`
-            <tr class="transition hover:bg-slate-50/70">
+    el.table.innerHTML=members.map(member=>{
+        const user=member.user??{};
+        const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
 
-                <td class="px-4 py-3">
-                    <div class="min-w-0">
-                        <div class="font-semibold text-slate-700">
-                            ${esc(nominee.member?.user?.name??'N/A')}
-                        </div>
-                        <div class="mt-0.5 text-[11px] font-medium text-indigo-600">
-                            ${esc(nominee.member?.member_code??'')}
-                        </div>
-                    </div>
-                </td>
+        const initial=String(
+            user.name??'M'
+        ).trim().charAt(0).toUpperCase();
 
-                <td class="px-4 py-3">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                            <i class="bi bi-person-heart"></i>
+        return`
+            <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                <td class="min-w-0 px-3 py-3">
+                    <div class="flex min-w-0 items-center gap-2.5">
+                        <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
+                            ${
+                                photoUrl
+                                    ?`
+                                        <img
+                                            src="${AdminUI.escapeHtml(photoUrl)}"
+                                            class="h-full w-full object-cover"
+                                            alt="${AdminUI.escapeHtml(user.name??'Member')}">
+                                    `
+                                    :`
+                                        <span class="text-sm font-bold text-slate-400">
+                                            ${AdminUI.escapeHtml(initial)}
+                                        </span>
+                                    `
+                            }
                         </div>
 
                         <div class="min-w-0">
-                            <div class="font-semibold text-slate-700">
-                                ${esc(nominee.name)}
-                            </div>
+                            <p class="truncate text-sm font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
 
-                            <div class="mt-0.5 max-w-[180px] truncate text-sm text-slate-400">
-                                ${esc(nominee.phone||'No phone')}
-                            </div>
+                            <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
                         </div>
                     </div>
                 </td>
 
-                <td class="px-4 py-3 text-slate-500">
-                    ${esc(nominee.relationship)}
+                <td class="px-3 py-3">
+                    <p class="truncate font-mono text-sm font-semibold text-indigo-600">
+                        ${AdminUI.escapeHtml(member.member_code??'N/A')}
+                    </p>
                 </td>
 
-                <td class="px-4 py-3 text-center">
-                    <span class="inline-flex rounded-md bg-indigo-50 px-2 py-1 text-sm font-bold text-indigo-700">
-                        ${Number(nominee.allocation_percentage||0).toFixed(2)}%
-                    </span>
+                <td class="px-3 py-3">
+                    <p class="truncate text-sm text-slate-600">
+                        ${AdminUI.escapeHtml(
+                            member.phone||
+                            user.mobile||
+                            'N/A'
+                        )}
+                    </p>
                 </td>
 
-                <td class="px-4 py-3 text-center">
-                    <span class="inline-flex min-w-7 items-center justify-center rounded-md bg-slate-100 px-2 py-1 text-sm font-semibold text-slate-600">
-                        ${nominee.priority??1}
-                    </span>
+                <td class="px-3 py-3">
+                    ${
+                        roles.length
+                            ?roles.slice(0,2).map(role=>`
+                                <span class="mr-1 rounded-md bg-violet-50 px-2 py-1 text-[10px] font-semibold text-violet-700">
+                                    ${AdminUI.escapeHtml(
+                                        role.display_name||
+                                        role.name
+                                    )}
+                                </span>
+                            `).join('')
+                            :'<span class="text-sm text-slate-400">No roles</span>'
+                    }
                 </td>
 
-                <td class="px-4 py-3">
-                    ${verificationBadge(
-                        nominee.verification_status
-                    )}
+                <td class="px-3 py-3 text-sm text-slate-600">
+                    ${AdminUI.formatDate(member.joining_date)}
                 </td>
 
-                <td class="px-4 py-3">
-                    ${activeBadge(
-                        nominee.is_active
-                    )}
+                <td class="px-3 py-3">
+                    ${AdminUI.statusBadge(member.status)}
                 </td>
 
-                <td class="px-4 py-3">
-                    <div class="flex flex-wrap justify-end gap-1">
-                        ${nomineeActions(nominee)}
+                <td class="px-3 py-3">
+                    <div class="flex items-center justify-end gap-1">
+                        ${memberActionButtons(member)}
                     </div>
                 </td>
             </tr>
-        `).join('');
+        `;
+    }).join('');
+
+    el.cards.innerHTML=members.map(member=>{
+        const user=member.user??{};
+        const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
+
+        const initial=String(
+            user.name??'M'
+        ).trim().charAt(0).toUpperCase();
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
+                            ${
+                                photoUrl
+                                    ?`
+                                        <img
+                                            src="${AdminUI.escapeHtml(photoUrl)}"
+                                            class="h-full w-full object-cover"
+                                            alt="${AdminUI.escapeHtml(user.name??'Member')}">
+                                    `
+                                    :`
+                                        <span class="text-sm font-bold text-slate-400">
+                                            ${AdminUI.escapeHtml(initial)}
+                                        </span>
+                                    `
+                            }
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
+                            <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${AdminUI.statusBadge(member.status)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Code</p>
+                        <p class="truncate font-mono font-semibold text-indigo-600">
+                            ${AdminUI.escapeHtml(member.member_code??'N/A')}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Phone</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.escapeHtml(
+                                member.phone||
+                                user.mobile||
+                                'N/A'
+                            )}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Joining</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.formatDate(member.joining_date)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400">Roles</p>
+                        <div class="mt-0.5">
+                            ${
+                                roles.length
+                                    ?roles.slice(0,2).map(role=>`
+                                        <span class="mb-1 mr-1 inline-block rounded-md bg-violet-50 px-1.5 py-0.5 text-[9px] font-semibold text-violet-700">
+                                            ${AdminUI.escapeHtml(
+                                                role.display_name||
+                                                role.name
+                                            )}
+                                        </span>
+                                    `).join('')
+                                    :'<span class="text-slate-400">No roles</span>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    ${memberActionButtons(member,{withLabel:true})}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getProfilePhotoUrl(member){
+    if(member?.profile_photo_url){
+        return member.profile_photo_url;
     }
 
-    if(grid){
-        grid.innerHTML=nominees.map(nominee=>`
-            <article class="overflow-hidden rounded-md border border-slate-200 bg-white">
+    if(!member?.profile_photo){
+        return null;
+    }
 
-                <div class="border-b border-slate-100 px-4 py-3">
-                    <div class="flex items-start justify-between gap-3">
+    const value=String(
+        member.profile_photo
+    );
 
-                        <div class="flex min-w-0 items-start gap-3">
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                                <i class="bi bi-person-heart"></i>
-                            </div>
+    if(
+        value.startsWith('http://')||
+        value.startsWith('https://')||
+        value.startsWith('/storage/')
+    ){
+        return value;
+    }
 
-                            <div class="min-w-0">
-                                <p class="truncate text-base font-bold text-slate-700">
-                                    ${esc(nominee.name)}
-                                </p>
+    return `/storage/${value.replace(/^\/+/,'')}`;
+}
 
-                                <p class="mt-0.5 truncate text-[11px] text-slate-400">
-                                    ${esc(nominee.relationship)}
-                                </p>
-                            </div>
-                        </div>
+function resetProfilePhoto(){
+    if(previewObjectUrl){
+        URL.revokeObjectURL(
+            previewObjectUrl
+        );
 
-                        ${verificationBadge(
-                            nominee.verification_status
-                        )}
-                    </div>
-                </div>
+        previewObjectUrl=null;
+    }
 
-                <div class="space-y-3 p-4">
+    el.profilePhoto.value='';
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                                Allocation
-                            </p>
+    el.imagePreview.innerHTML=`
+        <i class="bi bi-person text-2xl text-slate-300"></i>
+    `;
 
-                            <p class="mt-1 text-base font-bold text-indigo-700">
-                                ${Number(
-                                    nominee.allocation_percentage||0
-                                ).toFixed(2)}%
-                            </p>
-                        </div>
+    el.imageButtonText.textContent=
+        'Choose Photo';
 
-                        <div class="rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                                Priority
-                            </p>
+    el.imageHelp.textContent=
+        'JPG, PNG or WEBP. Max 2MB.';
 
-                            <p class="mt-1 text-base font-bold text-slate-700">
-                                ${nominee.priority??1}
-                            </p>
-                        </div>
-                    </div>
+    el.imageHelp.className=
+        'mt-1.5 text-[10px] text-slate-400';
+}
 
-                    <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-sm">
+function showExistingProfilePhoto(member){
+    const url=getProfilePhotoUrl(
+        member
+    );
 
-                        <div>
-                            <p class="text-[10px] text-slate-400">Member</p>
-                            <p class="mt-0.5 truncate font-medium text-slate-600">
-                                ${esc(
-                                    nominee.member?.user?.name??
-                                    'N/A'
-                                )}
-                            </p>
-                        </div>
+    if(!url){
+        return;
+    }
 
-                        <div>
-                            <p class="text-[10px] text-slate-400">Member Code</p>
-                            <p class="mt-0.5 truncate font-medium text-indigo-600">
-                                ${esc(
-                                    nominee.member?.member_code??
-                                    '—'
-                                )}
-                            </p>
-                        </div>
+    el.imagePreview.innerHTML=`
+        <img
+            src="${AdminUI.escapeHtml(url)}"
+            class="h-full w-full object-cover"
+            alt="Profile photo">
+    `;
 
-                        <div>
-                            <p class="text-[10px] text-slate-400">Date of Birth</p>
-                            <p class="mt-0.5 font-medium text-slate-600">
-                                ${date(
-                                    nominee.date_of_birth
-                                )}
-                            </p>
-                        </div>
+    el.imageButtonText.textContent=
+        'Replace Photo';
+}
 
-                        <div>
-                            <p class="text-[10px] text-slate-400">Status</p>
-                            <div class="mt-0.5">
-                                ${activeBadge(
-                                    nominee.is_active
-                                )}
-                            </div>
-                        </div>
+el.profilePhoto.addEventListener(
+    'change',
+    function(){
+        const file=this.files?.[0];
 
-                    </div>
-                </div>
+        if(!file){
+            return;
+        }
 
-                <div class="flex flex-wrap gap-1.5 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-                    ${nomineeActions(nominee)}
-                </div>
-            </article>
-        `).join('');
+        if(file.size>2*1024*1024){
+            Toast.error(
+                'Profile photo must be 2MB or smaller.'
+            );
+
+            this.value='';
+            return;
+        }
+
+        const allowed=[
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        if(!allowed.includes(file.type)){
+            Toast.error(
+                'Only JPG, PNG or WEBP images are allowed.'
+            );
+
+            this.value='';
+            return;
+        }
+
+        if(previewObjectUrl){
+            URL.revokeObjectURL(
+                previewObjectUrl
+            );
+        }
+
+        previewObjectUrl=
+            URL.createObjectURL(file);
+
+        el.imagePreview.innerHTML=`
+            <img
+                src="${previewObjectUrl}"
+                class="h-full w-full object-cover"
+                alt="Profile preview">
+        `;
+
+        el.imageButtonText.textContent=
+            'Change Photo';
+
+        el.imageHelp.textContent=
+            file.name;
+
+        el.imageHelp.className=
+            'mt-1.5 truncate text-[10px] text-emerald-600';
+    }
+);
+
+function resetNidDocument(){
+    if(!el.nidDocument)return;
+
+    el.nidDocument.value='';
+
+    if(el.nidDocumentButtonText){
+        el.nidDocumentButtonText.textContent=
+            'Choose File';
+    }
+
+    if(el.nidDocumentHelp){
+        el.nidDocumentHelp.textContent=
+            'JPG, PNG or PDF. Max 5MB.';
+
+        el.nidDocumentHelp.className=
+            'mt-1.5 text-[10px] text-slate-400';
     }
 }
 
-window.openNomineeModal=function(){
-    editingNominee=null;
+function showExistingNidDocument(member){
+    if(
+        !el.nidDocumentButtonText||
+        !member?.nid_document_url
+    ){
+        return;
+    }
 
-    $('nomineeForm').reset();
+    el.nidDocumentButtonText.textContent=
+        'Replace Document';
 
-    AdminUI.clearError(
-        'nomineeError'
+    if(el.nidDocumentHelp){
+        el.nidDocumentHelp.innerHTML=
+            `<a href="${AdminUI.escapeHtml(member.nid_document_url)}" target="_blank" class="text-indigo-600 underline">View current document</a>`;
+    }
+}
+
+if(el.nidDocument){
+    el.nidDocument.addEventListener(
+        'change',
+        function(){
+            const file=this.files?.[0];
+
+            if(!file){
+                return;
+            }
+
+            if(file.size>5*1024*1024){
+                Toast.error(
+                    'NID/Birth registration document must be 5MB or smaller.'
+                );
+
+                this.value='';
+                return;
+            }
+
+            const allowed=[
+                'image/jpeg',
+                'image/png',
+                'application/pdf'
+            ];
+
+            if(!allowed.includes(file.type)){
+                Toast.error(
+                    'Only JPG, PNG or PDF files are allowed.'
+                );
+
+                this.value='';
+                return;
+            }
+
+            if(el.nidDocumentButtonText){
+                el.nidDocumentButtonText.textContent=
+                    'Change Document';
+            }
+
+            if(el.nidDocumentHelp){
+                el.nidDocumentHelp.textContent=
+                    file.name;
+
+                el.nidDocumentHelp.className=
+                    'mt-1.5 truncate text-[10px] text-emerald-600';
+            }
+        }
     );
+}
 
-    AdminUI.clearFieldErrors(
-        'nomineeForm'
-    );
+window.openMemberModal=function(member=null){
+    editingMember=member;
 
-    $('nomineeModalTitle')
-        .textContent='Add Nominee';
+    AdminUI.resetForm(el.form);
+    AdminUI.clearError('formError');
+    resetProfilePhoto();
 
-    $('nomineeModalSubtitle')
-        .textContent=
-            'Add nominee information for a member.';
+    document.getElementById(
+        'modalTitle'
+    ).innerText=
+        member
+            ?'Edit Member'
+            :'Add Member';
 
-    $('memberSection')
-        .classList.remove('hidden');
+    document.getElementById(
+        'modalDescription'
+    ).innerText=
+        member
+            ?'Update member profile information.'
+            :'Create member profile and login account.';
 
-    $('memberId').disabled=false;
-    $('priority').value=1;
+    el.saveButton.innerText=
+        member
+            ?'Update Member'
+            :'Create Member';
+
+    resetNidDocument();
+
+    if(member){
+        const user=member.user??{};
+
+        el.name.value=user.name??'';
+        el.email.value=user.email??'';
+        el.mobile.value=user.mobile??'';
+        el.language.value=user.language??'en';
+
+        el.alternatePhone.value=
+            member.alternate_phone??'';
+
+        el.fatherOrHusbandName.value=
+            member.father_or_husband_name??'';
+
+        el.motherName.value=
+            member.mother_name??'';
+
+        el.gender.value=
+            member.gender??'';
+
+        el.nidOrBirthRegNo.value=
+            member.nid_or_birth_reg_no??'';
+
+        el.profession.value=
+            member.profession??'';
+
+        el.district.value=
+            member.district??'';
+
+        populateCitySelect(
+            member.district??'',
+            member.city??''
+        );
+
+        el.address.value=
+            member.address??'';
+
+        el.permanentAddress.value=
+            member.permanent_address??'';
+
+        el.notes.value=
+            member.notes??'';
+
+        setPickerDate(
+            el.dateOfBirth,
+            member.date_of_birth
+        );
+
+        showExistingProfilePhoto(
+            member
+        );
+
+        showExistingNidDocument(
+            member
+        );
+    }else{
+        el.language.value='en';
+        populateCitySelect('');
+    }
+
+    if(el.initialShareSection){
+        el.initialShareSection.classList.toggle(
+            'hidden',
+            Boolean(member)
+        );
+
+        if(el.initialShareAmount){
+            el.initialShareAmount.value=
+                defaultShareValue||
+                '';
+        }
+    }
 
     AdminUI.openModal(
-        'nomineeModal'
+        'memberModal'
     );
 
-    window.initDatePickers?.();
-
-    setDate(
-        'dateOfBirth',
-        ''
-    );
-};
-
-window.editNominee=async function(id){
-    try{
-        const response=await api(
-            `${API}/${id}`
-        );
-
-        const nominee=response.data;
-
-        editingNominee=nominee;
-
-        $('nomineeForm').reset();
-
-        AdminUI.clearError(
-            'nomineeError'
-        );
-
-        AdminUI.clearFieldErrors(
-            'nomineeForm'
-        );
-
-        $('nomineeModalTitle')
-            .textContent='Edit Nominee';
-
-        $('nomineeModalSubtitle')
-            .textContent=
-                'Update nominee information and allocation.';
-
-        $('memberSection')
-            .classList.add('hidden');
-
-        $('nomineeName').value=
-            nominee.name||'';
-
-        $('relationship').value=
-            nominee.relationship||'';
-
-        $('phone').value=
-            nominee.phone||'';
-
-        $('fatherOrHusbandName').value=
-            nominee.father_or_husband_name||'';
-
-        $('motherName').value=
-            nominee.mother_name||'';
-
-        $('gender').value=
-            nominee.gender||'';
-
-        $('profession').value=
-            nominee.profession||'';
-
-        $('identityType').value=
-            nominee.identity_type||'';
-
-        $('identityNumber').value=
-            nominee.identity_number||'';
-
-        $('allocationPercentage').value=
-            nominee.allocation_percentage||'';
-
-        $('priority').value=
-            nominee.priority||1;
-
-        $('address').value=
-            nominee.address||'';
-
-        $('permanentAddress').value=
-            nominee.permanent_address||'';
-
-        $('notes').value=
-            nominee.notes||'';
-
-        AdminUI.openModal(
-            'nomineeModal'
-        );
-
-        window.initDatePickers?.();
-
-        setDate(
-            'dateOfBirth',
-            nominee.date_of_birth
-        );
-
-    }catch(error){
-        Toast.error(
-            AdminUI.extractError(error)
-        );
+    if(
+        typeof window.initDatePickers===
+        'function'
+    ){
+        window.initDatePickers();
     }
 };
 
-$('nomineeForm').addEventListener(
+window.closeMemberModal=function(){
+    AdminUI.closeModal(
+        'memberModal'
+    );
+
+    editingMember=null;
+
+    if(previewObjectUrl){
+        URL.revokeObjectURL(
+            previewObjectUrl
+        );
+
+        previewObjectUrl=null;
+    }
+};
+
+function setPickerDate(element,value){
+    const date=value
+        ?String(value).substring(0,10)
+        :'';
+
+    element.value=date;
+
+    if(element._flatpickr){
+        date
+            ?element._flatpickr.setDate(
+                date,
+                false
+            )
+            :element._flatpickr.clear();
+    }
+}
+
+el.form.addEventListener(
     'submit',
     async event=>{
         event.preventDefault();
 
         AdminUI.clearError(
-            'nomineeError'
+            'formError'
         );
 
-        AdminUI.clearFieldErrors(
-            'nomineeForm'
-        );
-
-        const required={
-            nomineeName:
-                'Nominee name is required.',
-            relationship:
-                'Relationship is required.',
-            allocationPercentage:
-                'Allocation percentage is required.',
-            priority:
-                'Priority is required.'
-        };
-
-        if(!editingNominee){
-            required.memberId=
-                'Please select a member.';
-        }
-
-        if(
-            !AdminUI.validateForm(
-                'nomineeForm',
-                required
-            )
-        ){
-            return;
-        }
-
-        const allocation=
-            Number(
-                $('allocationPercentage').value
-            );
-
-        if(
-            !Number.isFinite(allocation)||
-            allocation<=0||
-            allocation>100
-        ){
-            AdminUI.showFieldError(
-                'allocationPercentage',
-                'Allocation must be greater than 0 and not exceed 100%.'
-            );
-
-            return;
-        }
-
-        const priority=
-            Number(
-                $('priority').value
-            );
-
-        if(
-            !Number.isInteger(priority)||
-            priority<1
-        ){
-            AdminUI.showFieldError(
-                'priority',
-                'Priority must be at least 1.'
-            );
-
-            return;
-        }
-
-        const identityType=
-            $('identityType').value;
-
-        const identityNumber=
-            $('identityNumber').value.trim();
-
-        if(
-            identityType&&
-            !identityNumber
-        ){
-            AdminUI.showFieldError(
-                'identityNumber',
-                'Identity number is required when identity type is selected.'
-            );
-
-            return;
-        }
-
-        if(
-            identityNumber&&
-            !identityType
-        ){
-            AdminUI.showFieldError(
-                'identityType',
-                'Please select an identity type.'
-            );
-
-            return;
-        }
+        const editing=
+            Boolean(editingMember);
 
         const data={
-            name:
-                $('nomineeName')
-                    .value.trim(),
-
-            relationship:
-                $('relationship')
-                    .value.trim(),
-
-            phone:
-                $('phone')
-                    .value.trim()||null,
+            alternate_phone:
+                el.alternatePhone.value.trim()||
+                null,
 
             father_or_husband_name:
-                $('fatherOrHusbandName')
-                    .value.trim()||null,
+                el.fatherOrHusbandName.value.trim()||
+                null,
 
             mother_name:
-                $('motherName')
-                    .value.trim()||null,
-
-            gender:
-                $('gender')
-                    .value||null,
-
-            profession:
-                $('profession')
-                    .value.trim()||null,
+                el.motherName.value.trim()||
+                null,
 
             date_of_birth:
-                $('dateOfBirth')
-                    .value||null,
+                el.dateOfBirth.value||
+                null,
 
-            identity_type:
-                identityType||null,
+            gender:
+                el.gender.value||
+                null,
 
-            identity_number:
-                identityNumber||null,
+            nid_or_birth_reg_no:
+                el.nidOrBirthRegNo.value.trim()||
+                null,
 
-            allocation_percentage:
-                allocation,
+            profession:
+                el.profession.value.trim()||
+                null,
 
-            priority,
+            city:
+                el.city.value.trim()||
+                null,
+
+            district:
+                el.district.value.trim()||
+                null,
 
             address:
-                $('address')
-                    .value.trim()||null,
+                el.address.value.trim()||
+                null,
 
             permanent_address:
-                $('permanentAddress')
-                    .value.trim()||null,
+                el.permanentAddress.value.trim()||
+                null,
 
             notes:
-                $('notes')
-                    .value.trim()||null
+                el.notes.value.trim()||
+                null
         };
 
-        if(!editingNominee){
-            data.member_id=
-                Number(
-                    $('memberId').value
+        const requiredChecks=[
+            [data.father_or_husband_name,'Father / Husband name is required.'],
+            [data.mother_name,"Mother's name is required."],
+            [data.date_of_birth,'Date of birth is required.'],
+            [data.gender,'Gender is required.'],
+            [data.nid_or_birth_reg_no,'NID / Birth registration no. is required.'],
+            [data.profession,'Profession is required.'],
+            [data.district,'District is required.'],
+            [data.city,'City is required.'],
+            [data.address,'Present address is required.'],
+            [data.permanent_address,'Permanent address is required.']
+        ];
+
+        for(const[value,message]of requiredChecks){
+            if(!value){
+                AdminUI.showError(
+                    'formError',
+                    message
                 );
+
+                return;
+            }
         }
 
-        const button=
-            $('saveNomineeButton');
+        if(
+            !data.alternate_phone||
+            !AdminUI.isValidMobile(data.alternate_phone)
+        ){
+            AdminUI.showError(
+                'formError',
+                'A valid 11 digit alternate mobile number is required.'
+            );
+
+            return;
+        }
+
+        if(!editing){
+            data.name=
+                el.name.value.trim();
+
+            data.email=
+                el.email.value.trim();
+
+            data.mobile=
+                el.mobile.value.trim()||
+                null;
+
+            data.language=
+                el.language.value||
+                'en';
+
+            if(!data.name){
+                AdminUI.showError(
+                    'formError',
+                    'Name is required.'
+                );
+
+                return;
+            }
+
+            if(!data.email){
+                AdminUI.showError(
+                    'formError',
+                    'Email is required.'
+                );
+
+                return;
+            }
+
+            if(!el.profilePhoto.files?.[0]){
+                AdminUI.showError(
+                    'formError',
+                    'Profile photo is required.'
+                );
+
+                return;
+            }
+
+            if(!el.nidDocument?.files?.[0]){
+                AdminUI.showError(
+                    'formError',
+                    'NID / Birth registration document is required.'
+                );
+
+                return;
+            }
+
+            if(
+                el.initialShareSection&&
+                !el.initialShareSection.classList.contains('hidden')
+            ){
+                const initialAmount=Number(
+                    el.initialShareAmount?.value
+                );
+
+                if(
+                    !Number.isFinite(initialAmount)||
+                    initialAmount<=0
+                ){
+                    AdminUI.showError(
+                        'formError',
+                        'Initial share amount is required.'
+                    );
+
+                    return;
+                }
+
+                data.initial_share_amount=
+                    initialAmount;
+
+                data.initial_share_payment_method=
+                    el.initialSharePaymentMethod?.value||
+                    'cash';
+            }
+        }
+
+        const formData=
+            new FormData();
+
+        Object.entries(data)
+            .forEach(([key,value])=>{
+                if(
+                    value!==null&&
+                    value!==undefined
+                ){
+                    formData.append(
+                        key,
+                        value
+                    );
+                }
+            });
+
+        if(
+            el.profilePhoto.files?.[0]
+        ){
+            formData.append(
+                'profile_photo',
+                el.profilePhoto.files[0]
+            );
+        }
+
+        if(
+            el.nidDocument?.files?.[0]
+        ){
+            formData.append(
+                'nid_document',
+                el.nidDocument.files[0]
+            );
+        }
+
+        if(editing){
+            formData.append(
+                '_method',
+                'PUT'
+            );
+        }
 
         AdminUI.setLoading(
-            button,
-            editingNominee
+            el.saveButton,
+            editing
                 ?'Updating...'
-                :'Saving...'
+                :'Creating...'
         );
 
         try{
             await api(
-                editingNominee
-                    ?`${API}/${editingNominee.id}`
-                    :API,
+                editing
+                    ?`/api/members/${editingMember.id}`
+                    :'/api/members',
                 {
-                    method:
-                        editingNominee
-                            ?'PUT'
-                            :'POST',
-
-                    body:JSON.stringify(data)
+                    method:'POST',
+                    body:formData
                 }
             );
 
-            AdminUI.closeModal(
-                'nomineeModal'
-            );
+            closeMemberModal();
 
             Toast.success(
-                editingNominee
-                    ?'Nominee updated successfully.'
-                    :'Nominee created successfully.'
+                editing
+                    ?'Member updated successfully.'
+                    :'Member created successfully.'
             );
 
-            await Promise.all([
-                loadNominees(
-                    editingNominee
-                        ?currentPage
-                        :1
-                ),
-                loadStatistics()
-            ]);
-
+            await loadMembers(
+                editing
+                    ?currentPage
+                    :1
+            );
         }catch(error){
-            if(
-                !AdminUI.showValidationErrors(
-                    'nomineeForm',
-                    error,
-                    nomineeFieldMap
-                )
-            ){
+            const hasFieldErrors=
+                AdminUI.showValidationErrors(
+                    el.form,
+                    error
+                );
+
+            if(!hasFieldErrors){
                 AdminUI.showError(
-                    'nomineeError',
+                    'formError',
                     AdminUI.extractError(error)
                 );
             }
-
         }finally{
             AdminUI.resetLoading(
-                button
+                el.saveButton
             );
         }
     }
 );
 
-window.openVerificationModal=async function(id){
-    try{
-        const response=await api(
-            `${API}/${id}`
-        );
+window.editMember=function(id){
+    const member=members.find(
+        item=>
+            Number(item.id)===
+            Number(id)
+    );
 
-        const nominee=response.data;
-
-        AdminUI.clearError(
-            'verificationError'
-        );
-
-        $('verificationNote').value='';
-
-        $('verificationNomineeId').value=
-            nominee.id;
-
-        $('verificationSubtitle')
-            .textContent=
-            `${nominee.name} • ${nominee.relationship}`;
-
-        $('verificationDetails').innerHTML=`
-            ${detailBox(
-                'Verification',
-                nominee.verification_status
-                    ?nominee.verification_status.replaceAll('_',' ')
-                    :'Unverified'
-            )}
-
-            ${detailBox(
-                'Identity Type',
-                identityLabel(
-                    nominee.identity_type
-                )
-            )}
-
-            ${detailBox(
-                'Identity Number',
-                nominee.identity_number||'—'
-            )}
-
-            ${detailBox(
-                'Date of Birth',
-                nominee.date_of_birth
-                    ?date(nominee.date_of_birth)
-                    :'—'
-            )}
-
-            ${detailBox(
-                'Allocation',
-                `${Number(
-                    nominee.allocation_percentage||0
-                ).toFixed(2)}%`
-            )}
-
-            ${detailBox(
-                'Priority',
-                String(
-                    nominee.priority||1
-                )
-            )}
-        `;
-
-        AdminUI.openModal(
-            'verificationModal'
-        );
-
-    }catch(error){
+    if(!member){
         Toast.error(
-            AdminUI.extractError(error)
-        );
-    }
-};
-
-function detailBox(label,value){
-    return`
-        <div class="rounded-md border border-slate-200 bg-slate-50/60 p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                ${esc(label)}
-            </p>
-
-            <p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">
-                ${esc(value)}
-            </p>
-        </div>
-    `;
-}
-
-window.verifyNominee=async function(){
-    const id=
-        $('verificationNomineeId').value;
-
-    if(!id)return;
-
-    AdminUI.clearError(
-        'verificationError'
-    );
-
-    const button=
-        $('verifyNomineeButton');
-
-    AdminUI.setLoading(
-        button,
-        'Verifying...'
-    );
-
-    try{
-        await api(
-            `${API}/${id}/verify`,
-            {
-                method:'POST',
-
-                body:JSON.stringify({
-                    verification_note:
-                        $('verificationNote')
-                            .value.trim()||null
-                })
-            }
-        );
-
-        AdminUI.closeModal(
-            'verificationModal'
-        );
-
-        Toast.success(
-            'Nominee verified successfully.'
-        );
-
-        await Promise.all([
-            loadNominees(currentPage),
-            loadStatistics()
-        ]);
-
-    }catch(error){
-        AdminUI.showError(
-            'verificationError',
-            AdminUI.extractError(error)
-        );
-
-    }finally{
-        AdminUI.resetLoading(
-            button
-        );
-    }
-};
-
-window.rejectNominee=function(){
-    const id=
-        $('verificationNomineeId').value;
-
-    const note=
-        $('verificationNote')
-            .value.trim();
-
-    if(!note){
-        AdminUI.showFieldError(
-            'verificationNote',
-            'Rejection reason is required.'
+            'Member not found.'
         );
 
         return;
     }
 
-    AdminUI.request(
-        `${API}/${id}/reject`,
-        {
-            method:'POST',
-
-            data:{
-                rejection_reason:note
-            },
-
-            confirmation:{
-                title:'Reject Nominee Verification?',
-                message:
-                    'Are you sure you want to reject this nominee verification?',
-                confirmText:'Reject Nominee',
-                type:'danger'
-            },
-
-            successMessage:
-                'Nominee verification rejected.',
-
-            onSuccess:async()=>{
-                AdminUI.closeModal(
-                    'verificationModal'
-                );
-
-                await Promise.all([
-                    loadNominees(
-                        currentPage
-                    ),
-                    loadStatistics()
-                ]);
-            }
-        }
+    openMemberModal(
+        member
     );
 };
 
-window.toggleNominee=function(id){
-    const nominee=
-        nominees.find(
-            item=>
-                Number(item.id)===
-                Number(id)
-        );
-
-    if(!nominee){
-        Toast.error(
-            'Nominee not found.'
-        );
-
-        return;
-    }
-
-    const activating=
-        !Boolean(
-            nominee.is_active
-        );
-
-    AdminUI.request(
-        `${API}/${id}/active`,
-        {
-            method:'PATCH',
-
-            data:{
-                is_active:
-                    activating
-            },
-
-            confirmation:{
-                title:
-                    activating
-                        ?'Activate Nominee?'
-                        :'Deactivate Nominee?',
-
-                message:
-                    activating
-                        ?`Activate ${nominee.name}?`
-                        :`Deactivate ${nominee.name}? The nominee will no longer be included in active allocation calculations.`,
-
-                confirmText:
-                    activating
-                        ?'Activate'
-                        :'Deactivate',
-
-                type:
-                    activating
-                        ?'success'
-                        :'danger'
-            },
-
-            successMessage:
-                activating
-                    ?'Nominee activated successfully.'
-                    :'Nominee deactivated successfully.',
-
-            onSuccess:async()=>
-                Promise.all([
-                    loadNominees(
-                        currentPage
-                    ),
-                    loadStatistics()
-                ])
-        }
+window.deleteMember=function(id){
+    const member=members.find(
+        item=>
+            Number(item.id)===
+            Number(id)
     );
-};
 
-window.deleteNominee=function(id){
-    const nominee=
-        nominees.find(
-            item=>
-                Number(item.id)===
-                Number(id)
-        );
-
-    if(!nominee){
+    if(!member){
         Toast.error(
-            'Nominee not found.'
+            'Member not found.'
         );
 
         return;
     }
 
     AdminUI.deleteRequest(
-        `${API}/${id}`,
+        `/api/members/${id}`,
         {
-            message:
-                `Delete nominee ${nominee.name}? This action cannot be undone.`,
-
-            successMessage:
-                'Nominee deleted successfully.',
-
-            onSuccess:async()=>
-                Promise.all([
-                    loadNominees(
-                        currentPage
-                    ),
-                    loadStatistics()
-                ])
+            title:'Delete Member?',
+            message:'This member will be permanently deleted.',
+            confirmText:'Delete',
+            successMessage:'Member deleted successfully.',
+            onSuccess:()=>
+                loadMembers(currentPage)
         }
     );
 };
 
-window.clearFilters=function(){
-    $('searchInput').value='';
-    $('verificationFilter').value='';
-    $('activeFilter').value='';
+/*
+|--------------------------------------------------------------------------
+| Share Management
+|--------------------------------------------------------------------------
+*/
 
-    loadNominees(1);
+window.openShareModal=async function(id){
+    if(!shareEnabled){
+        Toast.error(
+            'Share purchasing is currently disabled.'
+        );
+
+        return;
+    }
+
+    const member=members.find(
+        item=>
+            Number(item.id)===
+            Number(id)
+    );
+
+    if(!member){
+        Toast.error(
+            'Member not found.'
+        );
+
+        return;
+    }
+
+    selectedShareMember=member;
+    memberShares=[];
+
+    const user=
+        member.user??{};
+
+    const info=
+        document.getElementById(
+            'shareMemberInfo'
+        );
+
+    if(info){
+        info.textContent=
+            `${user.name??'Member'} • ${member.member_code??''}`;
+    }
+
+    document.getElementById(
+        'shareTotal'
+    ).textContent='0';
+
+    document.getElementById(
+        'shareActive'
+    ).textContent='0';
+
+    document.getElementById(
+        'shareValue'
+    ).textContent=money(0);
+
+    document.getElementById(
+        'shareHistoryCount'
+    ).textContent='0 shares';
+
+    document.getElementById(
+        'shareHistoryTable'
+    ).innerHTML=
+        AdminUI.loadingState(
+            'Loading shares...',
+            6
+        );
+
+    resetShareForm();
+
+    AdminUI.openModal(
+        'shareModal'
+    );
+
+    if(
+        typeof window.initDatePickers===
+        'function'
+    ){
+        window.initDatePickers();
+    }
+
+    await loadMemberShares();
 };
 
-async function init(){
+window.closeShareModal=function(){
+    if(!shareEnabled){
+        return;
+    }
+
+    AdminUI.closeModal(
+        'shareModal'
+    );
+
+    selectedShareMember=null;
+    memberShares=[];
+
+    resetShareForm();
+};
+
+async function loadMemberShares(){
     if(
-        typeof AdminUI==='undefined'||
-        typeof api==='undefined'
+        !shareEnabled||
+        !selectedShareMember
+    ){
+        return;
+    }
+
+    const table=
+        document.getElementById(
+            'shareHistoryTable'
+        );
+
+    if(!table){
+        return;
+    }
+
+    table.innerHTML=
+        AdminUI.loadingState(
+            'Loading shares...',
+            6
+        );
+
+    try{
+        const response=await api(
+            `/api/members/${selectedShareMember.id}/shares`
+        );
+
+        const data=
+            response.data??{};
+
+        const summary=
+            data.summary??{};
+
+        memberShares=
+            Array.isArray(data.shares)
+                ?data.shares
+                :[];
+
+        document.getElementById(
+            'shareTotal'
+        ).textContent=
+            Number(
+                summary.total_shares??
+                memberShares.length
+            );
+
+        document.getElementById(
+            'shareActive'
+        ).textContent=
+            Number(
+                summary.active_shares??
+                memberShares.filter(
+                    item=>
+                        item.status===
+                        'active'
+                ).length
+            );
+
+        document.getElementById(
+            'shareValue'
+        ).textContent=
+            money(
+                summary.active_share_value
+            );
+
+        document.getElementById(
+            'shareHistoryCount'
+        ).textContent=
+            `${memberShares.length} share${memberShares.length===1?'':'s'}`;
+
+        renderShareHistory();
+    }catch(error){
+        table.innerHTML=
+            AdminUI.emptyState(
+                AdminUI.extractError(error),
+                6
+            );
+    }
+}
+
+function renderShareHistory(){
+    if(!shareEnabled){
+        return;
+    }
+
+    const table=
+        document.getElementById(
+            'shareHistoryTable'
+        );
+
+    if(!table){
+        return;
+    }
+
+    if(!memberShares.length){
+        table.innerHTML=
+            AdminUI.emptyState(
+                'No shares found for this member.',
+                6
+            );
+
+        return;
+    }
+
+    table.innerHTML=
+        memberShares.map(
+            share=>`
+                <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                    <td class="px-4 py-3">
+                        <span class="font-mono text-sm font-semibold text-indigo-600">
+                            ${AdminUI.escapeHtml(
+                                share.share_no??'—'
+                            )}
+                        </span>
+                    </td>
+
+                    <td class="px-4 py-3 text-right text-sm font-semibold text-slate-700">
+                        ${money(
+                            share.purchase_amount
+                        )}
+                    </td>
+
+                    <td class="px-4 py-3 text-xs text-slate-600">
+                        ${
+                            share.acquired_date
+                                ?AdminUI.formatDate(
+                                    share.acquired_date
+                                )
+                                :'—'
+                        }
+                    </td>
+
+                    <td class="px-4 py-3">
+                        ${shareStatusBadge(
+                            share.status
+                        )}
+                    </td>
+
+                    <td class="px-4 py-3">
+                        <p class="text-sm font-medium text-slate-600">
+                            ${AdminUI.escapeHtml(
+                                share.creator?.name??
+                                'System'
+                            )}
+                        </p>
+                    </td>
+
+                    <td class="max-w-[200px] px-4 py-3">
+                        <p
+                            class="truncate text-sm text-slate-500"
+                            title="${AdminUI.escapeHtml(
+                                share.notes??''
+                            )}">
+                            ${AdminUI.escapeHtml(
+                                share.notes??'—'
+                            )}
+                        </p>
+                    </td>
+                </tr>
+            `
+        ).join('');
+}
+
+function shareStatusBadge(status){
+    const styles={
+        pending:
+            'bg-amber-50 text-amber-700',
+
+        active:
+            'bg-emerald-50 text-emerald-700',
+
+        transferred:
+            'bg-sky-50 text-sky-700',
+
+        cancelled:
+            'bg-red-50 text-red-600',
+
+        retired:
+            'bg-slate-100 text-slate-600'
+    };
+
+    return`
+        <span class="inline-flex rounded-md px-2 py-1 text-[10px] font-semibold ${styles[status]??styles.retired}">
+            ${AdminUI.escapeHtml(
+                titleCase(status)
+            )}
+        </span>
+    `;
+}
+
+window.toggleSharePurchaseForm=function(){
+    if(!shareEnabled){
+        Toast.error(
+            'Share purchasing is currently disabled.'
+        );
+
+        return;
+    }
+
+    if(!canIssueShare){
+        Toast.error(
+            'You do not have permission to purchase shares.'
+        );
+
+        return;
+    }
+
+    const form=
+        document.getElementById(
+            'shareForm'
+        );
+
+    if(!form){
+        return;
+    }
+
+    form.classList.toggle(
+        'hidden'
+    );
+
+    if(
+        !form.classList.contains(
+            'hidden'
+        )
+    ){
+        const amount=
+            document.getElementById(
+                'share_purchase_amount'
+            );
+
+        if(amount){
+            amount.value=
+                defaultShareValue;
+        }
+
+        setShareDate(
+            document.getElementById(
+                'share_acquired_date'
+            ),
+            new Date()
+        );
+    }
+
+    if(
+        typeof window.initDatePickers===
+        'function'
+    ){
+        window.initDatePickers();
+    }
+};
+
+window.cancelSharePurchase=function(){
+    resetShareForm();
+};
+
+function resetShareForm(){
+    if(!shareEnabled){
+        return;
+    }
+
+    const form=
+        document.getElementById(
+            'shareForm'
+        );
+
+    if(!form){
+        return;
+    }
+
+    form.reset();
+
+    form.classList.add(
+        'hidden'
+    );
+
+    const amount=
+        document.getElementById(
+            'share_purchase_amount'
+        );
+
+    if(amount){
+        amount.value=
+            defaultShareValue;
+    }
+
+    const method=
+        document.getElementById(
+            'share_payment_method'
+        );
+
+    if(method){
+        method.value='cash';
+    }
+
+    AdminUI.clearError(
+        'shareFormError'
+    );
+
+    const date=
+        document.getElementById(
+            'share_acquired_date'
+        );
+
+    if(date?._flatpickr){
+        date._flatpickr.clear();
+    }
+
+    if(date){
+        date.value='';
+    }
+}
+
+function setShareDate(element,date){
+    if(!element){
+        return;
+    }
+
+    const value=[
+        date.getFullYear(),
+        String(
+            date.getMonth()+1
+        ).padStart(2,'0'),
+        String(
+            date.getDate()
+        ).padStart(2,'0')
+    ].join('-');
+
+    element.value=value;
+
+    if(element._flatpickr){
+        element._flatpickr.setDate(
+            value,
+            false
+        );
+    }
+}
+
+const shareForm=
+    document.getElementById(
+        'shareForm'
+    );
+
+if(
+    shareEnabled&&
+    shareForm
+){
+    shareForm.addEventListener(
+        'submit',
+        async event=>{
+            event.preventDefault();
+
+            if(!shareEnabled){
+                Toast.error(
+                    'Share purchasing is currently disabled.'
+                );
+
+                return;
+            }
+
+            if(!selectedShareMember){
+                Toast.error(
+                    'Member not found.'
+                );
+
+                return;
+            }
+
+            AdminUI.clearError(
+                'shareFormError'
+            );
+
+            const purchaseAmount=
+                Number(
+                    document.getElementById(
+                        'share_purchase_amount'
+                    ).value
+                );
+
+            const acquiredDate=
+                document.getElementById(
+                    'share_acquired_date'
+                ).value;
+
+            const paymentMethod=
+                document.getElementById(
+                    'share_payment_method'
+                ).value;
+
+            const notes=
+                document.getElementById(
+                    'share_notes'
+                ).value.trim();
+
+            if(
+                !Number.isFinite(
+                    purchaseAmount
+                )||
+                purchaseAmount<=0
+            ){
+                AdminUI.showError(
+                    'shareFormError',
+                    'Purchase amount must be greater than zero.'
+                );
+
+                return;
+            }
+
+            if(!acquiredDate){
+                AdminUI.showError(
+                    'shareFormError',
+                    'Acquired date is required.'
+                );
+
+                return;
+            }
+
+            const button=
+                document.getElementById(
+                    'saveShareButton'
+                );
+
+            AdminUI.setLoading(
+                button,
+                'Purchasing...'
+            );
+
+            try{
+                const response=await api(
+                    `/api/members/${selectedShareMember.id}/shares`,
+                    {
+                        method:'POST',
+                        body:JSON.stringify({
+                            purchase_amount:
+                                purchaseAmount,
+
+                            acquired_date:
+                                acquiredDate,
+
+                            payment_method:
+                                paymentMethod,
+
+                            notes:
+                                notes||null
+                        })
+                    }
+                );
+
+                Toast.success(
+                    response.message??
+                    'Additional share purchased successfully.'
+                );
+
+                resetShareForm();
+
+                await loadMemberShares();
+            }catch(error){
+                const hasFieldErrors=
+                    AdminUI.showValidationErrors(
+                        shareForm,
+                        error,
+                        {
+                            purchase_amount:
+                                'share_purchase_amount',
+
+                            acquired_date:
+                                'share_acquired_date',
+
+                            payment_method:
+                                'share_payment_method',
+
+                            notes:
+                                'share_notes'
+                        }
+                    );
+
+                if(!hasFieldErrors){
+                    AdminUI.showError(
+                        'shareFormError',
+                        AdminUI.extractError(
+                            error
+                        )
+                    );
+                }
+            }finally{
+                AdminUI.resetLoading(
+                    button
+                );
+            }
+        }
+    );
+}
+
+function money(value){
+    return`${currencySymbol}${Number(
+        value??0
+    ).toLocaleString(
+        'en-US',
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    )}`;
+}
+
+function titleCase(value){
+    if(!value){
+        return'—';
+    }
+
+    return String(value)
+        .replaceAll('_',' ')
+        .replace(
+            /\b\w/g,
+            char=>char.toUpperCase()
+        );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Statistics
+|--------------------------------------------------------------------------
+*/
+
+function updateStats(){
+    const stats=
+        memberSummary??{
+            total:
+                members.length,
+
+            active:
+                members.filter(
+                    x=>x.status==='active'
+                ).length,
+
+            pending:
+                members.filter(
+                    x=>x.status==='pending'
+                ).length,
+
+            suspended:
+                members.filter(
+                    x=>x.status==='suspended'
+                ).length,
+
+            inactive:
+                members.filter(
+                    x=>[
+                        'inactive',
+                        'rejected'
+                    ].includes(x.status)
+                ).length
+        };
+
+    document.getElementById(
+        'totalMembers'
+    ).innerText=
+        stats.total??0;
+
+    document.getElementById(
+        'activeMembers'
+    ).innerText=
+        stats.active??0;
+
+    document.getElementById(
+        'pendingMembers'
+    ).innerText=
+        stats.pending??0;
+
+    document.getElementById(
+        'suspendedMembers'
+    ).innerText=
+        stats.suspended??0;
+
+    document.getElementById(
+        'inactiveMembers'
+    ).innerText=
+        stats.inactive??0;
+}
+
+window.clearFilters=function(){
+    el.search.value='';
+    el.status.value='';
+
+    loadMembers(1);
+};
+
+/*
+|--------------------------------------------------------------------------
+| Init
+|--------------------------------------------------------------------------
+*/
+
+async function initMembersPage(){
+    if(
+        typeof window.AdminUI===
+            'undefined'||
+        typeof window.api===
+            'undefined'
     ){
         setTimeout(
-            init,
+            initMembersPage,
             50
         );
 
         return;
     }
 
-    $('searchInput').addEventListener(
+    if(
+        typeof window.initDatePickers===
+        'function'
+    ){
+        window.initDatePickers();
+    }
+
+    if(el.district){
+        populateDistrictSelect();
+
+        el.district.addEventListener(
+            'change',
+            ()=>populateCitySelect(el.district.value)
+        );
+    }
+
+    el.search.addEventListener(
         'input',
         AdminUI.debounce(
-            ()=>loadNominees(1)
+            ()=>loadMembers(1)
         )
     );
 
-    $('verificationFilter')
-        .addEventListener(
-            'change',
-            ()=>loadNominees(1)
-        );
+    el.status.addEventListener(
+        'change',
+        ()=>loadMembers(1)
+    );
 
-    $('activeFilter')
-        .addEventListener(
-            'change',
-            ()=>loadNominees(1)
-        );
-window.initDatePickers?.();
-
-    await Promise.all([
-        loadOptions(),
-        loadNominees(),
-        loadStatistics()
-    ]);
+    await loadMembers();
 }
 
-init();
+if(
+    document.readyState===
+    'loading'
+){
+    document.addEventListener(
+        'DOMContentLoaded',
+        initMembersPage
+    );
+}else{
+    initMembersPage();
+}
 </script>
 @endpush

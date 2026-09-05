@@ -159,7 +159,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-base font-semibold text-slate-800">Loan Portfolio</h2>
+<h2 class="text-sm font-semibold text-slate-800">Loan Portfolio</h2>
 <p class="text-[11px] text-slate-400">Your association loan request and repayment history</p>
 </div>
 </div>
@@ -663,11 +663,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold text-slate-700">${from}</span>
+<span class="font-semibold text-xs text-slate-700">${from}</span>
 –
-<span class="font-semibold text-slate-700">${to}</span>
+<span class="font-semibold text-xs text-slate-700">${to}</span>
 of
-<span class="font-semibold text-slate-700">${total}</span>
+<span class="font-semibold text-xs text-slate-700">${total}</span>
 loans
 </p>
 
@@ -875,7 +875,7 @@ statusTone(loan.status)
 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-base font-semibold text-slate-800">
+<h3 class="text-sm font-semibold text-slate-800">
 Loan Information
 </h3>
 
@@ -1014,6 +1014,7 @@ ${escapeHtml(loan.rejection_reason)}
 </div>`:''}
 
 ${renderRepayments(
+loan.id,
 loan.repayments??[]
 )}
 
@@ -1022,7 +1023,7 @@ loan.repayments??[]
 openModal('loanDetailsModal');
 };
 
-function renderRepayments(repayments){
+function renderRepayments(loanId,repayments){
 if(!repayments.length){
 return'';
 }
@@ -1031,7 +1032,7 @@ return`
 <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
 
 <div class="border-b border-slate-200 px-5 py-4">
-<h3 class="text-base font-semibold text-slate-800">
+<h3 class="text-sm font-semibold text-slate-800">
 Repayment History
 </h3>
 
@@ -1068,9 +1069,17 @@ payment.payment_date
 </div>
 </div>
 
+<div class="flex items-center gap-2">
 <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
 Received
 </span>
+<button type="button"
+onclick="downloadPdf('/api/member/loans/${Number(loanId)}/repayments/${Number(payment.id)}/receipt','loan-repayment-${Number(loanId)}-${Number(payment.id)}.pdf')"
+class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+title="Download PDF">
+<i class="bi bi-file-earmark-pdf"></i>
+</button>
+</div>
 
 </div>
 `).join('')}

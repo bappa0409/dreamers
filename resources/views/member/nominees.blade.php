@@ -150,7 +150,7 @@ Clear
 </div>
 
 <div>
-<h2 class="text-base font-semibold text-slate-800">Nominee Portfolio</h2>
+<h2 class="text-sm font-semibold text-slate-800">Nominee Portfolio</h2>
 <p class="text-[11px] text-slate-400">Your nominee, allocation and verification records</p>
 </div>
 </div>
@@ -201,7 +201,7 @@ Clear
 <section class="rounded-lg border border-slate-200 bg-white p-4">
 
 <div class="mb-4">
-<h3 class="text-base font-semibold text-slate-800">Personal Information</h3>
+<h3 class="text-sm font-semibold text-slate-800">Personal Information</h3>
 <p class="text-[11px] text-slate-400">Basic information about your nominee.</p>
 </div>
 
@@ -220,14 +220,8 @@ Clear
 </div>
 
 <div>
-<label class="form-label">Phone</label>
-<input id="phone" type="text" maxlength="30" class="app-input w-full" placeholder="Phone number">
-<p data-field-error="phone" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
-
-<div>
 <label class="form-label">Father / Husband Name</label>
-<input id="fatherOrHusbandName" type="text" maxlength="150" class="app-input w-full" placeholder="Father or husband's name">
+<input id="fatherOrHusbandName" type="text" maxlength="150" class="app-input w-full" placeholder="Father or husband name">
 <p data-field-error="fatherOrHusbandName" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
@@ -235,6 +229,24 @@ Clear
 <label class="form-label">Mother's Name</label>
 <input id="motherName" type="text" maxlength="150" class="app-input w-full" placeholder="Mother's name">
 <p data-field-error="motherName" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
+<label class="form-label">Phone</label>
+<input id="phone" type="text" maxlength="30" class="app-input w-full" placeholder="Phone number">
+<p data-field-error="phone" class="mt-1 hidden text-sm text-red-600"></p>
+</div>
+
+<div>
+<label class="form-label">Date of Birth</label>
+
+<div class="relative">
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+
+<input id="dob" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
+</div>
+
+<p data-field-error="dob" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div>
@@ -254,29 +266,17 @@ Clear
 <p data-field-error="profession" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
-<div>
-<label class="form-label">Date of Birth</label>
-
-<div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-
-<input id="dob" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
-</div>
-
-<p data-field-error="dob" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
-
 </div>
 
 <div class="mt-4">
-<label class="form-label">Address</label>
+<label class="form-label">Present Address</label>
 <textarea id="address" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Nominee address"></textarea>
 <p data-field-error="address" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
 <div class="mt-4">
 <label class="form-label">Permanent Address</label>
-<textarea id="permanentAddress" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Permanent address (if different)"></textarea>
+<textarea id="permanentAddress" rows="3" maxlength="3000" class="app-input w-full resize-none" placeholder="Nominee permanent address"></textarea>
 <p data-field-error="permanentAddress" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
@@ -286,7 +286,7 @@ Clear
 <section class="rounded-lg border border-slate-200 bg-white p-4">
 
 <div class="mb-4">
-<h3 class="text-base font-semibold text-slate-800">Identity Information</h3>
+<h3 class="text-sm font-semibold text-slate-800">Identity Information</h3>
 <p class="text-[11px] text-slate-400">Provide identity details for nominee verification.</p>
 </div>
 
@@ -321,7 +321,7 @@ Clear
 <section class="rounded-lg border border-slate-200 bg-white p-4">
 
 <div class="mb-4">
-<h3 class="text-base font-semibold text-slate-800">Allocation</h3>
+<h3 class="text-sm font-semibold text-slate-800">Allocation</h3>
 <p class="text-[11px] text-slate-400">Define entitlement allocation and nominee priority.</p>
 </div>
 
@@ -841,11 +841,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold text-slate-700">${from}</span>
+<span class="font-semibold text-xs text-slate-700">${from}</span>
 –
-<span class="font-semibold text-slate-700">${to}</span>
+<span class="font-semibold text-xs text-slate-700">${to}</span>
 of
-<span class="font-semibold text-slate-700">${total}</span>
+<span class="font-semibold text-xs text-slate-700">${total}</span>
 nominees
 </p>
 
@@ -937,9 +937,9 @@ AdminUI.clearFieldErrors('nomineeForm');
 $('nomineeId').value=nominee.id;
 $('name').value=nominee.name??'';
 $('relationship').value=nominee.relationship??'';
-$('phone').value=nominee.phone??'';
 $('fatherOrHusbandName').value=nominee.father_or_husband_name??'';
 $('motherName').value=nominee.mother_name??'';
+$('phone').value=nominee.phone??'';
 $('gender').value=nominee.gender??'';
 $('profession').value=nominee.profession??'';
 $('identityType').value=nominee.identity_type??'';
@@ -1025,12 +1025,12 @@ const id=$('nomineeId').value;
 const payload={
 name:$('name').value.trim(),
 relationship:$('relationship').value.trim(),
-phone:$('phone').value.trim()||null,
 father_or_husband_name:$('fatherOrHusbandName').value.trim()||null,
 mother_name:$('motherName').value.trim()||null,
+phone:$('phone').value.trim()||null,
+date_of_birth:$('dob').value||null,
 gender:$('gender').value||null,
 profession:$('profession').value.trim()||null,
-date_of_birth:$('dob').value||null,
 identity_type:identityType||null,
 identity_number:identityNumber||null,
 allocation_percentage:allocation,

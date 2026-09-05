@@ -31,7 +31,7 @@
             <button
                 type="button"
                 onclick="openDocumentModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-cloud-arrow-up"></i>
                 Upload Document
@@ -71,7 +71,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search documents..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
                     >
                 </div>
 
@@ -150,14 +150,14 @@ DOCUMENT MODAL
                 <div class="min-w-0">
                     <h2
                         id="documentModalTitle"
-                        class="text-base font-semibold text-slate-800"
+                        class="text-sm font-semibold text-slate-800"
                     >
                         Upload Document
                     </h2>
 
                     <p
                         id="documentModalDescription"
-                        class="text-sm text-slate-500"
+                        class="text-xs text-slate-500"
                     >
                         Upload a new association document.
                     </p>
@@ -342,7 +342,7 @@ DOCUMENT MODAL
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     Upload Document
                 </button>

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ApprovalRequest;
+use App\Models\ApprovalWorkflow;
 use App\Models\Investment;
 use App\Models\Member;
 use App\Models\Project;
@@ -20,7 +21,26 @@ class DashboardService
             'projects'=>$this->projectSummary($user),
             'recent_members'=>$this->recentMembers($user),
             'recent_approvals'=>$this->recentApprovals($user),
+            'no_approval_workflow'=>$this->noApprovalWorkflowConfigured($user),
         ];
+    }
+
+    /**
+     * True when the admin has permission to manage approvals but no active,
+     * fully-configured workflow exists yet — meaning every module/action
+     * currently auto-approves instead of waiting on a reviewer
+     * (see ApprovalService::createRequest()).
+     */
+    protected function noApprovalWorkflowConfigured(User $user): bool
+    {
+        if(!$user->hasPermission('Approval.view')){
+            return false;
+        }
+
+        return !ApprovalWorkflow::query()
+            ->where('is_active', true)
+            ->whereHas('steps')
+            ->exists();
     }
 
     protected function memberSummary(User $user): ?array

@@ -158,7 +158,7 @@
                 <i class="bi bi-receipt-cutoff"></i>
             </div>
             <div>
-                <h2 class="text-base font-semibold text-slate-800">Payment History</h2>
+                <h2 class="text-sm font-semibold text-slate-800">Payment History</h2>
                 <p class="text-[11px] text-slate-400">Subscription payment submissions and verification status</p>
             </div>
         </div>
@@ -215,7 +215,12 @@
 
         <div id="paymentDetailsBody" class="max-h-[70vh] overflow-y-auto p-5"></div>
 
-        <div class="flex justify-end border-t border-slate-200 bg-slate-50/50 px-5 py-4">
+        <div class="flex justify-end gap-2 border-t border-slate-200 bg-slate-50/50 px-5 py-4">
+            <button id="downloadPaymentReceiptButton" type="button"
+                    class="hidden h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700">
+                <i class="bi bi-file-earmark-pdf"></i>
+                Download PDF
+            </button>
             <button type="button" onclick="closePaymentDetails()"
                     class="h-9 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                 Close
@@ -398,6 +403,16 @@ function renderPayments(){
                     <i class="bi bi-eye"></i>
                     View
                 </button>
+                ${
+                    payment.status==='verified'
+                        ?`<button type="button"
+                            onclick="downloadPdf('/api/member/subscriptions/payments/${Number(payment.id)}/receipt','subscription-payment-${escapeAttribute(payment.payment_no??payment.id)}.pdf')"
+                            class="inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[11px] font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            PDF
+                        </button>`
+                        :''
+                }
             </td>
         </tr>
     `).join('');
@@ -424,11 +439,11 @@ function renderPagination(){
         <div class="flex flex-col gap-3 border-t border-slate-200 bg-slate-50/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
             <p class="text-[11px] text-slate-500">
                 Showing
-                <span class="font-semibold text-slate-700">${from}</span>
+                <span class="font-semibold text-xs text-slate-700">${from}</span>
                 –
-                <span class="font-semibold text-slate-700">${to}</span>
+                <span class="font-semibold text-xs text-slate-700">${to}</span>
                 of
-                <span class="font-semibold text-slate-700">${totalPayments}</span>
+                <span class="font-semibold text-xs text-slate-700">${totalPayments}</span>
                 payments
             </p>
 
@@ -515,6 +530,23 @@ window.viewPayment=function(id){
             }
         </div>`;
 
+    const receiptButton=document.getElementById(
+        'downloadPaymentReceiptButton'
+    );
+
+    if(payment.status==='verified'){
+        receiptButton.classList.remove('hidden');
+        receiptButton.classList.add('inline-flex');
+        receiptButton.onclick=()=>downloadPdf(
+            `/api/member/subscriptions/payments/${Number(payment.id)}/receipt`,
+            `subscription-payment-${payment.payment_no??payment.id}.pdf`
+        );
+    }else{
+        receiptButton.classList.add('hidden');
+        receiptButton.classList.remove('inline-flex');
+        receiptButton.onclick=null;
+    }
+
     const modal=document.getElementById('paymentDetailsModal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -522,6 +554,23 @@ window.viewPayment=function(id){
 };
 
 window.closePaymentDetails=function(){
+    const receiptButton=document.getElementById(
+        'downloadPaymentReceiptButton'
+    );
+
+    if(payment.status==='verified'){
+        receiptButton.classList.remove('hidden');
+        receiptButton.classList.add('inline-flex');
+        receiptButton.onclick=()=>downloadPdf(
+            `/api/member/subscriptions/payments/${Number(payment.id)}/receipt`,
+            `subscription-payment-${payment.payment_no??payment.id}.pdf`
+        );
+    }else{
+        receiptButton.classList.add('hidden');
+        receiptButton.classList.remove('inline-flex');
+        receiptButton.onclick=null;
+    }
+
     const modal=document.getElementById('paymentDetailsModal');
     modal.classList.add('hidden');
     modal.classList.remove('flex');

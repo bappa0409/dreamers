@@ -31,7 +31,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Code, account or sub type..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                 </label>
                 <select
                     id="typeFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                     <option value="">All Types</option>
                     <option value="asset">Asset</option>
                     <option value="liability">Liability</option>
@@ -60,7 +60,7 @@
                     <input
                         id="asOfFilter"
                         type="text"
-                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date"
                         autocomplete="off">
                 </div>
@@ -136,12 +136,12 @@
             <table class="w-full min-w-[850px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Code</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Account</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Sub Type</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Debit</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Credit</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Account</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Sub Type</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Debit</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Credit</th>
                     </tr>
                 </thead>
 
@@ -399,7 +399,7 @@ function renderAccounts(accounts){
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">
+                <div class="font-semibold text-xs text-slate-700">
                     ${esc(account.name)}
                 </div>
 
@@ -414,7 +414,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs text-slate-600">
                 ${esc(
                     AdminUI.titleCase(
                         account.type
@@ -422,7 +422,7 @@ function renderAccounts(accounts){
                 )}
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-500">
+            <td class="px-4 py-3 text-xs text-slate-500">
                 ${
                     account.sub_type
                         ?esc(

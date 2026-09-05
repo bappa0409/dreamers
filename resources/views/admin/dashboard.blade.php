@@ -42,6 +42,29 @@
         </div>
     </div>
 
+    {{-- No Approval Workflow Configured --}}
+    @if($dashboard['no_approval_workflow'])
+        <div class="flex flex-col gap-3 rounded-md border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-start gap-3">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-amber-800">No approval workflow is set up</p>
+                    <p class="mt-0.5 text-xs text-amber-700">
+                        Without a workflow, everything (member registration, share purchases, loans, welfare requests, etc.) gets approved automatically — nothing waits for review.
+                    </p>
+                </div>
+            </div>
+
+            <a href="{{ route('admin.approval-workflows') }}" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md bg-amber-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-amber-700">
+                <i class="bi bi-diagram-3"></i>
+                Set Up Workflow
+            </a>
+        </div>
+    @endif
+
     {{-- Member Stats --}}
     @if($dashboard['members'])
         <section>
@@ -59,35 +82,35 @@
             <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
                 <div class="rounded-md border border-slate-200 bg-white p-4 ">
                     <p class="text-xs text-slate-500">Total Members</p>
-                    <p class="mt-2 text-2xl font-bold text-slate-800">
+                    <p class="mt-2 text-xl font-bold text-slate-800">
                         {{ $dashboard['members']['total'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-                    <p class="text-sm text-emerald-700">Active</p>
-                    <p class="mt-2 text-2xl font-bold text-emerald-600">
+                    <p class="text-xs text-emerald-700">Active</p>
+                    <p class="mt-2 text-xl font-bold text-emerald-600">
                         {{ $dashboard['members']['active'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
-                    <p class="text-sm text-amber-700">Pending</p>
-                    <p class="mt-2 text-2xl font-bold text-amber-600">
+                    <p class="text-xs text-amber-700">Pending</p>
+                    <p class="mt-2 text-xl font-bold text-amber-600">
                         {{ $dashboard['members']['pending'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-                    <p class="text-sm text-red-700">Suspended</p>
-                    <p class="mt-2 text-2xl font-bold text-red-600">
+                    <p class="text-xs text-red-700">Suspended</p>
+                    <p class="mt-2 text-xl font-bold text-red-600">
                         {{ $dashboard['members']['suspended'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-slate-200 bg-slate-50 p-4">
                     <p class="text-xs text-slate-500">Inactive</p>
-                    <p class="mt-2 text-2xl font-bold text-slate-600">
+                    <p class="mt-2 text-xl font-bold text-slate-600">
                         {{ $dashboard['members']['inactive'] }}
                     </p>
                 </div>
@@ -236,7 +259,7 @@
                     @foreach($dashboard['recent_members'] as $recentMember)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-slate-700">
+                                <p class="truncate text-xs font-semibold text-slate-700">
                                     {{ data_get($recentMember,'user.name','Member') }}
                                 </p>
 
@@ -269,7 +292,7 @@
                     @foreach($dashboard['recent_approvals'] as $approval)
                         <div class="flex items-center justify-between gap-3 px-5 py-3">
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-slate-700">
+                                <p class="truncate text-xs font-semibold text-slate-700">
                                     {{ $approval['module'] }} — {{ $approval['action'] }}
                                 </p>
 

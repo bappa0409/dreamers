@@ -23,7 +23,7 @@
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.finance.manual-detail') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-journal-text text-[11px]"></i>
                 Accounts Detail

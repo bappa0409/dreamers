@@ -7,13 +7,15 @@ use App\Models\Member;
 use App\Models\MemberShare;
 use App\Services\ApprovalService;
 use App\Services\MemberShareService;
+use App\Services\ReceiptPdfService;
 use Illuminate\Http\Request;
 
 class MemberShareController extends Controller
 {
     public function __construct(
         protected MemberShareService $memberShareService,
-        protected ApprovalService $approvalService
+        protected ApprovalService $approvalService,
+        protected ReceiptPdfService $receiptPdfService
     ) {}
 
     public function index(Member $member)
@@ -34,6 +36,12 @@ class MemberShareController extends Controller
         Member $member
     ) {
         $validated = $this->validatePurchase($request);
+
+        // Only this admin-only, Finance.create-gated endpoint may flag a
+        // share as the member's initial share (exempt from the fixed share
+        // price check). The member self-purchase endpoint below never
+        // reads this flag from user input.
+        $validated['is_initial'] = $request->boolean('is_initial');
 
         $share = $this->memberShareService->issue(
             $member,
@@ -170,6 +178,43 @@ class MemberShareController extends Controller
                 'financeTransaction.entries.account',
             ]),
         ]);
+    }
+
+    public function receipt(Request $request, MemberShare $memberShare)
+    {
+        $member = $request->user()->member;
+
+        if (!$request->user()->hasPermission('Finance.view')) {
+            abort_unless(
+                $member && $member->status === 'active',
+                403,
+                'Active membership is required.'
+            );
+
+            abort_unless(
+                $memberShare->member_id === $member->id,
+                404,
+                'Share purchase not found.'
+            );
+        }
+
+        abort_unless(
+            $memberShare->status === 'active',
+            422,
+            'Receipt is only available for verified share purchases.'
+        );
+
+        $memberShare->load([
+            'member:id,user_id,member_code',
+            'member.user:id,name,email,mobile',
+            'verifier:id,name',
+        ]);
+
+        return $this->receiptPdfService->download(
+            $this->receiptPdfService->branding(),
+            $memberShare->toReceiptData(),
+            'share-purchase-'.$memberShare->share_no
+        );
     }
 
     public function reject(

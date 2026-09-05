@@ -114,7 +114,7 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div>
-                        <h2 class="text-base font-semibold text-slate-800">Personal Information</h2>
+                        <h2 class="text-sm font-semibold text-slate-800">Personal Information</h2>
                         <p class="text-[11px] text-slate-400">Basic personal and contact details</p>
                     </div>
                 </div>
@@ -153,26 +153,26 @@
                         <i class="bi bi-person-check"></i>
                     </div>
                     <div>
-                        <h2 class="text-base font-semibold text-slate-800">Membership</h2>
+                        <h2 class="text-sm font-semibold text-slate-800">Membership</h2>
                         <p class="text-[11px] text-slate-400">Association membership details</p>
                     </div>
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-sm text-slate-500">Member Code</span>
+                        <span class="text-xs text-slate-500">Member Code</span>
                         <span id="sideMemberCode" class="font-mono text-sm font-semibold text-indigo-600">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-sm text-slate-500">Joining Date</span>
+                        <span class="text-xs text-slate-500">Joining Date</span>
                         <span id="sideJoiningDate" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-sm text-slate-500">Membership Status</span>
+                        <span class="text-xs text-slate-500">Membership Status</span>
                         <span id="sideMembershipStatus" class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 px-5 py-4">
-                        <span class="text-sm text-slate-500">Language</span>
+                        <span class="text-xs text-slate-500">Language</span>
                         <span id="language" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                     <i class="bi bi-geo-alt"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Address Information</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Address Information</h2>
                     <p class="text-[11px] text-slate-400">Residential location details</p>
                 </div>
             </div>

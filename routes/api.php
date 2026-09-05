@@ -151,6 +151,7 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::get('/member-shares', [MemberShareController::class, 'adminIndex'])->middleware('permission:Finance.view');
+    Route::get('/member-shares/{memberShare}/receipt', [MemberShareController::class, 'receipt'])->middleware('permission:Finance.view');
     Route::get('/member-shares/{memberShare}', [MemberShareController::class, 'show'])->middleware('permission:Finance.view');
     Route::post('/member-shares/{memberShare}/verify', [MemberShareController::class, 'verify'])->middleware('permission:Finance.update');
     Route::post('/member-shares/{memberShare}/reject', [MemberShareController::class, 'reject'])->middleware('permission:Finance.update');
@@ -244,6 +245,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{loan}/cancel', [LoanController::class, 'cancel'])->middleware('permission:Loan.update');
         Route::post('/{loan}/disburse', [LoanController::class, 'disburse'])->middleware('permission:Loan.disburse');
         Route::post('/{loan}/repay', [LoanController::class, 'repay'])->middleware('permission:Loan.repay');
+         Route::get('/{loan}/repayments/{repayment}/receipt', [LoanController::class, 'repaymentReceipt'])->middleware('permission:Loan.view');
         Route::post('/{loan}/default', [LoanController::class, 'markDefaulted'])->middleware('permission:Loan.update');
     });
 
@@ -592,6 +594,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [SubscriptionPaymentController::class, 'index'])->middleware('permission:Finance.view');
             Route::get('/outstanding-dues', [SubscriptionPaymentController::class, 'outstandingDues'])->middleware('permission:Finance.view');
             Route::post('/', [SubscriptionPaymentController::class, 'store'])->middleware('permission:Finance.create');
+            Route::get('/{subscriptionPayment}/receipt', [SubscriptionPaymentController::class, 'receipt'])->middleware('permission:Finance.view');
             Route::get('/{subscriptionPayment}', [SubscriptionPaymentController::class, 'show'])->middleware('permission:Finance.view');
             Route::post('/{subscriptionPayment}/verify', [SubscriptionPaymentController::class, 'verify'])->middleware('permission:Finance.update');
             Route::post('/{subscriptionPayment}/reject', [SubscriptionPaymentController::class, 'reject'])->middleware('permission:Finance.update');
@@ -831,6 +834,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('shares')->group(function () {
             Route::get('/', [MemberShareController::class, 'myShares']);
             Route::post('/', [MemberShareController::class, 'purchase']);
+            Route::get('/{memberShare}/receipt', [MemberShareController::class, 'receipt']);
         });
 
         // Investments
@@ -859,6 +863,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', [MemberLoanController::class, 'store']);
             Route::get('/{loan}', [MemberLoanController::class, 'show']);
             Route::post('/{loan}/cancel', [MemberLoanController::class, 'cancel']);
+            Route::get('/{loan}/repayments/{repayment}/receipt', [MemberLoanController::class, 'repaymentReceipt']);
         });
 
         // Nominees

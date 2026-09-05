@@ -19,7 +19,7 @@
 
         @if(auth()->user()->hasPermission('Investment.create'))
         <button type="button" onclick="openInvestmentModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Investment
         </button>
@@ -113,11 +113,11 @@
                 <div class="relative">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search investment..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
                 <select id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="active">Active</option>
@@ -126,7 +126,7 @@
                 </select>
 
                 <button type="button" onclick="clearFilters()"
-                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -140,14 +140,14 @@
             <table class="w-full min-w-[1000px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Investment</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Payment Account</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Income</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Principal</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Investment</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Payment Account</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Income</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Principal</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="investmentTableBody" class="divide-y divide-slate-100">
@@ -163,7 +163,7 @@
 
     {{-- Mobile Cards --}}
     <div id="investmentMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             Loading investments...
         </div>
     </div>
@@ -181,7 +181,7 @@
                     <i class="bi bi-graph-up-arrow"></i>
                 </div>
                 <div>
-                    <h3 id="investmentModalTitle" class="text-base font-semibold text-slate-800">
+                    <h3 id="investmentModalTitle" class="text-sm font-semibold text-slate-800">
                         Add Investment
                     </h3>
                     <p class="text-xs text-slate-500">
@@ -311,13 +311,13 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('investmentModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
                 <button id="saveInvestmentButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Investment
                 </button>
             </div>
@@ -336,10 +336,10 @@
                 </div>
 
                 <div>
-                    <h3 id="returnModalTitle" class="text-base font-semibold text-slate-800">
+                    <h3 id="returnModalTitle" class="text-sm font-semibold text-slate-800">
                         Add Return
                     </h3>
-                    <p id="returnInvestmentInfo" class="text-sm text-slate-500"></p>
+                    <p id="returnInvestmentInfo" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -447,13 +447,13 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('returnModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
                 <button id="saveReturnButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
                     Save Return
                 </button>
             </div>
@@ -472,7 +472,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-base font-semibold text-slate-800">Investment Details</h3>
+                    <h3 class="text-sm font-semibold text-slate-800">Investment Details</h3>
                     <p class="text-xs text-slate-500">
                         Investment, returns and accounting journals.
                     </p>
@@ -691,7 +691,7 @@ async function loadInvestments(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading investments...
@@ -881,7 +881,7 @@ function renderInvestments(){
                             </div>
 
                             <div class="min-w-0">
-                                <div class="font-semibold text-slate-700">
+                                <div class="font-semibold text-xs text-slate-700">
                                     ${esc(investment.investment_no)}
                                 </div>
 
@@ -900,7 +900,7 @@ function renderInvestments(){
                     </td>
 
                     <td class="px-4 py-3 text-right">
-                        <div class="font-semibold text-slate-700">
+                        <div class="font-semibold text-xs text-slate-700">
                             ${money(investment.amount)}
                         </div>
                     </td>
@@ -1700,16 +1700,16 @@ function journalHtml(
                         ${(journal.entries||[])
                             .map(entry=>`
                                 <tr class="border-b border-slate-50">
-                                    <td class="px-3 py-2 text-slate-600">
+                                    <td class="px-3 py-2 text-xs text-slate-600">
                                         ${esc(entry.account?.code||'')} -
                                         ${esc(entry.account?.name||'')}
                                     </td>
 
-                                    <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                    <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                         ${money(entry.debit)}
                                     </td>
 
-                                    <td class="px-3 py-2 text-right font-medium text-slate-700">
+                                    <td class="px-3 py-2 text-xs text-right font-medium text-slate-700">
                                         ${money(entry.credit)}
                                     </td>
                                 </tr>

@@ -57,7 +57,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Description or user..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
                 <select
                     id="userFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                 >
                     <option value="">All users</option>
                 </select>
@@ -84,7 +84,7 @@
 
                 <select
                     id="moduleFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                 >
                     <option value="">All modules</option>
                 </select>
@@ -98,7 +98,7 @@
 
                 <select
                     id="actionFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                 >
                     <option value="">All actions</option>
                 </select>
@@ -116,7 +116,7 @@
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date range"
                         autocomplete="off"
                     >
@@ -173,7 +173,7 @@
                             IP Address
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
                             Details
                         </th>
                     </tr>
@@ -222,7 +222,7 @@ DETAIL MODAL
                 </div>
 
                 <div class="min-w-0">
-                    <h2 class="text-base font-semibold text-slate-800">
+                    <h2 class="text-sm font-semibold text-slate-800">
                         Log Details
                     </h2>
 
@@ -648,7 +648,7 @@ function renderTable(logs){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate text-sm font-semibold text-slate-700"
+                            class="truncate text-xs font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(log.user?.name||'System')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -661,7 +661,7 @@ function renderTable(logs){
                             log.user?.email
                                 ?`
                                     <p
-                                        class="mt-0.5 truncate text-[10px] text-slate-400"
+                                        class="truncate text-[10px] text-slate-400"
                                         title="${AdminUI.escapeHtml(log.user.email)}"
                                     >
                                         ${AdminUI.escapeHtml(
@@ -698,7 +698,7 @@ function renderTable(logs){
 
                 <td class="min-w-0 overflow-hidden px-3 py-3">
                     <p
-                        class="truncate text-sm text-slate-600"
+                        class="truncate text-xs text-slate-600"
                         title="${AdminUI.escapeHtml(log.description||'')}"
                     >
                         ${AdminUI.escapeHtml(

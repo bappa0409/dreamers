@@ -36,7 +36,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-500">Total</p>
-                    <p id="totalCount" class="mt-2 text-2xl font-bold text-slate-800">0</p>
+                    <p id="totalCount" class="mt-2 text-xl font-bold text-slate-800">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-receipt"></i>
@@ -47,8 +47,8 @@
         <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-amber-700">Pending</p>
-                    <p id="pendingCount" class="mt-2 text-2xl font-bold text-amber-600">0</p>
+                    <p class="text-xs text-amber-700">Pending</p>
+                    <p id="pendingCount" class="mt-2 text-xl font-bold text-amber-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
                     <i class="bi bi-hourglass-split"></i>
@@ -59,8 +59,8 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-emerald-700">Verified</p>
-                    <p id="verifiedCount" class="mt-2 text-2xl font-bold text-emerald-600">0</p>
+                    <p class="text-xs text-emerald-700">Verified</p>
+                    <p id="verifiedCount" class="mt-2 text-xl font-bold text-emerald-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
                     <i class="bi bi-check2-circle"></i>
@@ -71,8 +71,8 @@
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-red-700">Rejected</p>
-                    <p id="rejectedCount" class="mt-2 text-2xl font-bold text-red-600">0</p>
+                    <p class="text-xs text-red-700">Rejected</p>
+                    <p id="rejectedCount" class="mt-2 text-xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
                     <i class="bi bi-x-circle"></i>
@@ -96,7 +96,7 @@
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search member, ID, payment no, reference..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <input id="searchInput" type="text" placeholder="Search member, ID, payment no, reference..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
@@ -119,13 +119,13 @@
             <table class="w-full min-w-[860px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Payment</th>
-                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Period</th>
-                        <th class="px-3 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Method</th>
-                        <th class="px-3 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-3 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
+                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-600">Payment</th>
+                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-600">Period</th>
+                        <th class="px-3 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-600">Method</th>
+                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="px-3 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
@@ -150,7 +150,7 @@
                     <i class="bi bi-receipt"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Payment Details</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Payment Details</h2>
                     <p class="text-xs text-slate-500">Review the payment before verifying or rejecting.</p>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                     <i class="bi bi-x-circle"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Reject Payment</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Reject Payment</h2>
                     <p class="text-xs text-slate-500">Explain why this payment is being rejected.</p>
                 </div>
             </div>
@@ -197,7 +197,7 @@
         </div>
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
@@ -217,7 +217,7 @@
                     <i class="bi bi-plus-lg"></i>
                 </div>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Add Payment</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Add Payment</h2>
                     <p class="text-xs text-slate-500">Record a payment received directly (e.g. cash) and verify it.</p>
                 </div>
             </div>
@@ -283,11 +283,11 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeAddPaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button type="button" onclick="closeAddPaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
-                <button id="saveAddPaymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveAddPaymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Record Payment
                 </button>
             </div>
@@ -424,7 +424,7 @@ function renderPayments(){
         return`
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                 <td class="px-3 py-3">
-                    <p class="truncate text-sm font-semibold text-slate-800">
+                    <p class="truncate text-xs font-semibold text-slate-800">
                         ${AdminUI.escapeHtml(payment.payment_no??'—')}
                     </p>
                     <p class="mt-0.5 text-[10px] text-slate-400">
@@ -433,7 +433,7 @@ function renderPayments(){
                 </td>
 
                 <td class="px-3 py-3">
-                    <p class="truncate text-sm font-semibold text-slate-800">
+                    <p class="truncate text-xs font-semibold text-slate-800">
                         ${AdminUI.escapeHtml(user.name??'N/A')}
                     </p>
                     <p class="mt-0.5 truncate text-[10px] font-mono text-indigo-600">
@@ -441,7 +441,7 @@ function renderPayments(){
                     </p>
                 </td>
 
-                <td class="px-3 py-3 text-sm text-slate-600">
+                <td class="px-3 py-3 text-xs text-slate-600">
                     ${monthName(due.month)} ${due.year??''}
                 </td>
 
@@ -449,7 +449,7 @@ function renderPayments(){
                     ৳${money(payment.amount)}
                 </td>
 
-                <td class="px-3 py-3 text-sm text-slate-600">
+                <td class="px-3 py-3 text-xs text-slate-600">
                     ${titleCase(payment.payment_method)}
                 </td>
 
@@ -553,7 +553,7 @@ function renderPaymentDetails(payment){
                 id="verifyButton"
                 type="button"
                 onclick="verifyPayment()"
-                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
                 Verify Payment
             </button>
         `;
@@ -562,7 +562,7 @@ function renderPaymentDetails(payment){
             <button
                 type="button"
                 onclick="AdminUI.closeModal('paymentModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         `;

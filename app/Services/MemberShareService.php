@@ -39,18 +39,19 @@ class MemberShareService
                 ]);
             }
 
-            $configuredShareValue=round(
-                (float)setting(
-                    'default_share_value',
-                    0
-                ),
-                2
+            $isInitial=(bool)(
+                $data['is_initial']??false
             );
 
-            if($configuredShareValue<=0){
+            if(
+                $isInitial&&
+                MemberShare::query()
+                    ->where('member_id',$member->id)
+                    ->exists()
+            ){
                 throw ValidationException::withMessages([
                     'purchase_amount'=>[
-                        'Share value is not configured.'
+                        'This member already has a share on record; the fixed share price applies from here on.'
                     ],
                 ]);
             }
@@ -68,21 +69,44 @@ class MemberShareService
                 ]);
             }
 
-            if(
-                abs(
-                    $amount-$configuredShareValue
-                )>0.001
-            ){
-                throw ValidationException::withMessages([
-                    'purchase_amount'=>[
-                        'Each share price is '.
-                        number_format(
-                            $configuredShareValue,
-                            2
-                        ).
-                        '.'
-                    ],
-                ]);
+            // The initial share issued at member registration is a custom
+            // one-off amount (e.g. what earlier members already paid in) and
+            // is exempt from matching the currently configured share price.
+            // Every share purchased afterwards must match the configured
+            // price exactly, since that price can change over time.
+            if(!$isInitial){
+                $configuredShareValue=round(
+                    (float)setting(
+                        'default_share_value',
+                        0
+                    ),
+                    2
+                );
+
+                if($configuredShareValue<=0){
+                    throw ValidationException::withMessages([
+                        'purchase_amount'=>[
+                            'Share value is not configured.'
+                        ],
+                    ]);
+                }
+
+                if(
+                    abs(
+                        $amount-$configuredShareValue
+                    )>0.001
+                ){
+                    throw ValidationException::withMessages([
+                        'purchase_amount'=>[
+                            'Each share price is '.
+                            number_format(
+                                $configuredShareValue,
+                                2
+                            ).
+                            '.'
+                        ],
+                    ]);
+                }
             }
 
             $paymentMethod=

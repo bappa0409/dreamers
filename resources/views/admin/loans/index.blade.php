@@ -19,7 +19,7 @@
 </div>
 
 @if(auth()->user()->hasPermission('Loan.create'))
-<button type="button" onclick="openCreateLoan()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openCreateLoan()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-lg"></i>
 New Loan
 </button>
@@ -70,10 +70,10 @@ $stats=[
 <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[290px_180px_auto] lg:gap-0">
 <div class="relative sm:col-span-2 lg:col-span-1">
 <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-<input id="searchInput" type="text" placeholder="Search loans..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+<input id="searchInput" type="text" placeholder="Search loans..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
 </div>
 
-<select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+<select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
 <option value="">All Status</option>
 <option value="pending">Pending</option>
 <option value="approved">Approved</option>
@@ -85,7 +85,7 @@ $stats=[
 <option value="cancelled">Cancelled</option>
 </select>
 
-<button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+<button type="button" onclick="clearFilters()" class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
 <i class="bi bi-x-lg text-[10px]"></i>
 Clear
 </button>
@@ -99,14 +99,14 @@ Clear
 <table class="w-full min-w-[1000px] text-sm">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Loan</th>
-<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Requested</th>
-<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Approved</th>
-<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Outstanding</th>
-<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Maturity</th>
-<th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-<th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Loan</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Requested</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Approved</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Outstanding</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Maturity</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 <tbody id="loanTableBody" class="divide-y divide-slate-100">
@@ -120,7 +120,7 @@ Clear
 
 {{-- Mobile Cards --}}
 <div id="loanMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">Loading loans...</div>
+<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading loans...</div>
 </div>
 
 <div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
@@ -136,7 +136,7 @@ Clear
 <i class="bi bi-bank"></i>
 </div>
 <div>
-<h3 class="text-base font-semibold text-slate-800">Create Loan Request</h3>
+<h3 class="text-sm font-semibold text-slate-800">Create Loan Request</h3>
 <p class="text-xs text-slate-500">Create a new loan request for an eligible member.</p>
 </div>
 </div>
@@ -156,7 +156,7 @@ Clear
 <i class="bi bi-person"></i>
 </div>
 <div>
-<h4 class="text-base font-semibold text-slate-800">Loan Request</h4>
+<h4 class="text-sm font-semibold text-slate-800">Loan Request</h4>
 <p class="text-[11px] text-slate-400">Select member and requested loan amount.</p>
 </div>
 </div>
@@ -205,8 +205,8 @@ Clear
 </div>
 
 <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-<button type="button" onclick="AdminUI.closeModal('loanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createLoanButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Loan</button>
+<button type="button" onclick="AdminUI.closeModal('loanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="createLoanButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Loan</button>
 </div>
 </form>
 </div>
@@ -222,8 +222,8 @@ Clear
 <i class="bi bi-bank2"></i>
 </div>
 <div>
-<h3 id="manageLoanTitle" class="text-base font-semibold text-slate-800">Loan Details</h3>
-<p id="manageLoanSubtitle" class="text-sm text-slate-500"></p>
+<h3 id="manageLoanTitle" class="text-sm font-semibold text-slate-800">Loan Details</h3>
+<p id="manageLoanSubtitle" class="text-xs text-slate-500"></p>
 </div>
 </div>
 
@@ -242,7 +242,7 @@ Clear
 
 <section class="rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-base font-semibold text-slate-800">Loan Information</h4>
+<h4 class="text-sm font-semibold text-slate-800">Loan Information</h4>
 <p class="text-[11px] text-slate-400">Request, approval and repayment details.</p>
 </div>
 <div id="loanDetails" class="grid grid-cols-2 gap-3"></div>
@@ -250,7 +250,7 @@ Clear
 
 <section class="rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-base font-semibold text-slate-800">Purpose</h4>
+<h4 class="text-sm font-semibold text-slate-800">Purpose</h4>
 </div>
 <div id="loanPurpose" class="whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
 
@@ -264,7 +264,7 @@ Clear
 {{-- Installments / repayments --}}
 <section id="repaymentHistorySection" class="hidden rounded-md border border-slate-200 bg-white p-4">
 <div class="mb-3">
-<h4 class="text-base font-semibold text-slate-800">Repayment History</h4>
+<h4 class="text-sm font-semibold text-slate-800">Repayment History</h4>
 <p class="text-[11px] text-slate-400">Recorded repayments for this loan.</p>
 </div>
 <div id="repaymentHistory" class="space-y-2"></div>
@@ -283,7 +283,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Approve Loan</h3>
-<p id="approvalSubtitle" class="text-sm text-slate-500"></p>
+<p id="approvalSubtitle" class="text-xs text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('approvalModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -322,7 +322,7 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('approvalModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button type="button" onclick="AdminUI.closeModal('approvalModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
 <button id="approveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Approve Loan</button>
 </div>
 </form>
@@ -353,7 +353,7 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('rejectLoanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button type="button" onclick="AdminUI.closeModal('rejectLoanModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
 <button id="rejectLoanButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Loan</button>
 </div>
 </form>
@@ -367,7 +367,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Disburse Loan</h3>
-<p id="disbursementSubtitle" class="text-sm text-slate-500"></p>
+<p id="disbursementSubtitle" class="text-xs text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -405,8 +405,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="disburseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Disburse Loan</button>
+<button type="button" onclick="AdminUI.closeModal('disbursementModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="disburseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Disburse Loan</button>
 </div>
 </form>
 </div>
@@ -419,7 +419,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Receive Loan Repayment</h3>
-<p id="repaymentSubtitle" class="text-sm text-slate-500"></p>
+<p id="repaymentSubtitle" class="text-xs text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="app-modal-close">
 <i class="bi bi-x-lg"></i>
@@ -459,7 +459,7 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button type="button" onclick="AdminUI.closeModal('repaymentModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
 <button id="repayButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">Receive Repayment</button>
 </div>
 </form>
@@ -622,7 +622,7 @@ async function loadLoans(page=1){
     $('loanTableBody').innerHTML=AdminUI.loadingState('Loading loans...',8);
 
     $('loanMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
             <span class="inline-flex items-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading loans...
@@ -679,20 +679,20 @@ function renderLoans(){
     $('loanTableBody').innerHTML=loans.map(loan=>`
         <tr class="transition hover:bg-slate-50/70">
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">${esc(loan.loan_no)}</div>
+                <div class="font-semibold text-xs text-slate-700">${esc(loan.loan_no)}</div>
                 <div class="mt-0.5 text-[11px] text-slate-400">${date(loan.request_date)}</div>
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">${esc(loan.member?.user?.name??'N/A')}</div>
+                <div class="font-semibold text-xs text-slate-700">${esc(loan.member?.user?.name??'N/A')}</div>
                 <div class="mt-0.5 text-[11px] font-medium text-indigo-600">${esc(loan.member?.member_code??'')}</div>
             </td>
 
-            <td class="px-4 py-3 text-right font-semibold text-slate-700">
+            <td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">
                 ${money(loan.requested_amount)}
             </td>
 
-            <td class="px-4 py-3 text-right font-semibold text-indigo-700">
+            <td class="px-4 py-3 text-right text-xs font-semibold text-indigo-700">
                 ${loan.approved_amount?money(loan.approved_amount):'—'}
             </td>
 
@@ -700,7 +700,7 @@ function renderLoans(){
                 ${outstandingAmount(loan)>0?money(outstandingAmount(loan)):'—'}
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs text-slate-600">
                 ${loan.maturity_date?date(loan.maturity_date):'—'}
             </td>
 
@@ -912,9 +912,18 @@ function renderRepayments(repayments){
                 <p class="mt-0.5 text-[10px] text-slate-400">${date(payment.repayment_date??payment.payment_date)}</p>
             </div>
 
-            <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
-                Received
-            </span>
+            <div class="flex items-center gap-2">
+                <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
+                    Received
+                </span>
+                <button
+                    type="button"
+                    onclick="downloadPdf('/api/finance/loans/${Number(currentLoan.id)}/repayments/${Number(payment.id)}/receipt','loan-repayment-${AdminUI.escapeHtml(currentLoan.loan_no??currentLoan.id)}-${Number(payment.id)}.pdf')"
+                    class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+                    title="Download PDF">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                </button>
+            </div>
         </div>
     `).join('');
 }

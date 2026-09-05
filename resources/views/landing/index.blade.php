@@ -694,7 +694,7 @@ CONTACT
                         </div>
                         <div>
                             <p class="text-[12px] text-slate-400">Email</p>
-                            <p class="text-base font-semibold text-slate-800">{{ $organizationEmail }}</p>
+                            <p class="text-sm font-semibold text-slate-800">{{ $organizationEmail }}</p>
                         </div>
                     </div>
 
@@ -704,7 +704,7 @@ CONTACT
                         </div>
                         <div>
                             <p class="text-[12px] text-slate-400">Phone</p>
-                            <p class="text-base font-semibold text-slate-800">{{ $organizationPhone }}</p>
+                            <p class="text-sm font-semibold text-slate-800">{{ $organizationPhone }}</p>
                         </div>
                     </div>
 
@@ -714,7 +714,7 @@ CONTACT
                         </div>
                         <div>
                             <p class="text-[12px] text-slate-400">Location</p>
-                            <p class="text-base font-semibold text-slate-800">{{ $organizationAddress }}</p>
+                            <p class="text-sm font-semibold text-slate-800">{{ $organizationAddress }}</p>
                         </div>
                     </div>
                 </div>

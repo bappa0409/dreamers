@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\SubscriptionDue;
 use App\Models\SubscriptionPayment;
 use App\Services\ApprovalService;
+use App\Services\ReceiptPdfService;
 use App\Services\SubscriptionService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class SubscriptionPaymentController extends Controller
 {
     public function __construct(
         protected SubscriptionService $subscriptionService,
-        protected ApprovalService $approvalService
+        protected ApprovalService $approvalService,
+        protected ReceiptPdfService $receiptPdfService
     ){}
 
     public function index(Request $request)
@@ -224,6 +226,29 @@ class SubscriptionPaymentController extends Controller
             'success'=>true,
             'data'=>$subscriptionPayment,
         ]);
+    }
+
+    public function receipt(
+        SubscriptionPayment $subscriptionPayment
+    ){
+        abort_unless(
+            $subscriptionPayment->status==='verified',
+            422,
+            'Receipt is only available for verified payments.'
+        );
+
+        $subscriptionPayment->load([
+            'member:id,user_id,member_code',
+            'member.user:id,name,email,mobile',
+            'due:id,member_subscription_id,year,month',
+            'verifier:id,name',
+        ]);
+
+        return $this->receiptPdfService->download(
+            $this->receiptPdfService->branding(),
+            $subscriptionPayment->toReceiptData(),
+            'subscription-payment-'.$subscriptionPayment->payment_no
+        );
     }
 
     public function verify(

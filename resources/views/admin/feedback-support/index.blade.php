@@ -116,14 +116,14 @@ Clear
 <table class="w-full min-w-[1080px] table-fixed text-base">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Ticket</th>
-<th class="w-[16%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-<th class="w-[12%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Type</th>
-<th class="w-[13%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Category</th>
-<th class="w-[20%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Subject</th>
-<th class="w-[9%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Priority</th>
-<th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-<th class="w-[8%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Action</th>
+<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Ticket</th>
+<th class="w-[16%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
+<th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Category</th>
+<th class="w-[20%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Subject</th>
+<th class="w-[9%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Priority</th>
+<th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+<th class="w-[8%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 
@@ -149,7 +149,7 @@ Clear
 <i class="bi bi-headset"></i>
 </div>
 <div>
-<h3 class="text-base font-semibold text-slate-800">New Feedback & Support</h3>
+<h3 class="text-sm font-semibold text-slate-800">New Feedback & Support</h3>
 <p class="text-xs text-slate-500">Create a request on behalf of a member.</p>
 </div>
 </div>
@@ -230,8 +230,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
+<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
 </div>
 </form>
 </div>
@@ -247,8 +247,8 @@ Clear
 <i class="bi bi-headset"></i>
 </div>
 <div>
-<h3 id="manageTitle" class="text-base font-semibold text-slate-800">Feedback & Support</h3>
-<p id="manageSubtitle" class="text-sm text-slate-500"></p>
+<h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Feedback & Support</h3>
+<p id="manageSubtitle" class="text-xs text-slate-500"></p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -263,12 +263,12 @@ Clear
 <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
 
 <section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-base font-semibold text-slate-800">Request Information</h4>
+<h4 class="text-sm font-semibold text-slate-800">Request Information</h4>
 <div id="ticketDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
 </section>
 
 <section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-base font-semibold text-slate-800">Description</h4>
+<h4 class="text-sm font-semibold text-slate-800">Description</h4>
 <div id="ticketDescription" class="mt-3 whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
 
 <div id="resolutionWrap" class="mt-3 hidden rounded-md border border-emerald-200 bg-emerald-50 p-3">
@@ -281,7 +281,7 @@ Clear
 <section class="rounded-md border border-slate-200 p-4">
 <div class="mb-3 flex items-center justify-between">
 <div>
-<h4 class="text-base font-semibold text-slate-800">Conversation & Updates</h4>
+<h4 class="text-sm font-semibold text-slate-800">Conversation & Updates</h4>
 <p class="text-[11px] text-slate-400">Support responses, member follow-ups and internal notes.</p>
 </div>
 </div>
@@ -340,7 +340,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
-<p id="messageModalSubtitle" class="text-sm text-slate-500"></p>
+<p id="messageModalSubtitle" class="text-xs text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -563,7 +563,7 @@ ${ticket.is_confidential?'<i class="bi bi-lock-fill text-[10px] text-red-500" ti
 </td>
 
 <td class="px-4 py-3">
-<div class="truncate text-sm font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
+<div class="truncate text-xs font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
 <div class="mt-0.5 truncate text-[10px] font-medium text-indigo-500">${esc(ticket.member?.member_code??'')}</div>
 </td>
 
@@ -577,7 +577,7 @@ ${ticket.is_confidential?'<i class="bi bi-lock-fill text-[10px] text-red-500" ti
 
 <td class="px-4 py-3">
 <div class="max-w-[240px] truncate text-sm font-semibold text-slate-700">${esc(ticket.subject)}</div>
-${ticket.assignee?`<div class="mt-0.5 truncate text-[10px] text-slate-400">Assigned: ${esc(ticket.assignee.name)}</div>`:''}
+${ticket.assignee?`<div class="truncate text-[10px] text-slate-400">Assigned: ${esc(ticket.assignee.name)}</div>`:''}
 </td>
 
 <td class="px-4 py-3">

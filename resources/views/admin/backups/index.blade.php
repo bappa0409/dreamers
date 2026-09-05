@@ -57,7 +57,7 @@
                 <button
                     type="button"
                     onclick="openConfirmBackupModal()"
-                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
                 >
                     <i class="bi bi-play-circle text-[12px]"></i>
                     Run Backup Now
@@ -102,7 +102,7 @@
                             Created At
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -152,7 +152,7 @@ CONFIRM BACKUP MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">
+                    <h2 class="text-sm font-semibold text-slate-800">
                         Run Database Backup?
                     </h2>
 
@@ -225,7 +225,7 @@ CONFIRM IMPORT MODAL
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">
+                    <h2 class="text-sm font-semibold text-slate-800">
                         Import Database?
                     </h2>
 
@@ -505,7 +505,7 @@ function renderTable(backups){
                         <i class="bi bi-file-earmark-zip shrink-0 text-slate-400"></i>
 
                         <span
-                            class="truncate text-sm font-semibold text-slate-700"
+                            class="truncate text-xs font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(backup.filename??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -544,7 +544,7 @@ function renderTable(backups){
                 <td class="overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate text-sm text-slate-600"
+                        class="truncate text-xs text-slate-600"
                         title="${AdminUI.escapeHtml(AdminUI.formatBytes(backup.size))}"
                     >
                         ${AdminUI.formatBytes(
@@ -558,7 +558,7 @@ function renderTable(backups){
                 <td class="min-w-0 overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate text-sm text-slate-600"
+                        class="truncate text-xs text-slate-600"
                         title="${AdminUI.escapeHtml(backup.creator?.name??'—')}"
                     >
                         ${AdminUI.escapeHtml(

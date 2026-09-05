@@ -36,7 +36,7 @@
             <button
                 type="button"
                 onclick="openCampaignModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg"></i>
                 New Campaign
@@ -131,27 +131,27 @@
 
                     <tr>
 
-                        <th class="w-[34%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="w-[34%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Campaign
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Recipients
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Sent
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Failed
                         </th>
 
-                        <th class="w-[15%] px-3 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="w-[15%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[20%] px-3 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="w-[20%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
                             Actions
                         </th>
 
@@ -209,7 +209,7 @@ CAMPAIGN MODAL
                 <div>
                     <h2
                         id="campaignModalTitle"
-                        class="text-base font-semibold text-slate-800"
+                        class="text-sm font-semibold text-slate-800"
                     >
                         New Campaign
                     </h2>
@@ -286,7 +286,7 @@ CAMPAIGN MODAL
                 <button
                     type="button"
                     onclick="closeCampaignModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -328,7 +328,7 @@ RECIPIENT MODAL
 
                 <div class="min-w-0">
 
-                    <h2 class="text-base font-semibold text-slate-800">
+                    <h2 class="text-sm font-semibold text-slate-800">
                         Add Recipients
                     </h2>
 
@@ -472,7 +472,7 @@ RECIPIENT MODAL
             <button
                 type="button"
                 onclick="closeRecipientModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -720,7 +720,7 @@ function renderCampaigns(){
                 <td class="min-w-0 overflow-hidden px-3 py-4">
 
                     <p
-                        class="truncate text-sm font-semibold text-slate-800"
+                        class="truncate text-xs font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(item.subject??'')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -746,7 +746,7 @@ function renderCampaigns(){
                 {{-- Recipients --}}
                 <td class="overflow-hidden px-3 py-4">
 
-                    <p class="truncate text-sm font-semibold text-slate-700">
+                    <p class="truncate text-xs font-semibold text-slate-700">
                         ${item.recipients_count??0}
                     </p>
 
@@ -1245,7 +1245,7 @@ async function loadMembers(search=''){
                     <div class="min-w-0 flex-1">
 
                         <p
-                            class="truncate text-sm font-semibold text-slate-700"
+                            class="truncate text-xs font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(user.name??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1554,7 +1554,7 @@ async function(id){
                                         <div class="min-w-0 flex-1">
 
                                             <p
-                                                class="truncate text-sm font-semibold text-slate-700"
+                                                class="truncate text-xs font-semibold text-slate-700"
                                                 title="${AdminUI.escapeHtml(recipient.name??recipient.email??'')}"
                                             >
                                                 ${AdminUI.escapeHtml(

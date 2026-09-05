@@ -7,13 +7,15 @@ use App\Models\Loan;
 use App\Models\LoanRepayment;
 use App\Services\ApprovalService;
 use App\Services\LoanService;
+use App\Services\ReceiptPdfService;
 use Illuminate\Http\Request;
 
 class MemberLoanController extends Controller
 {
     public function __construct(
         protected LoanService $loanService,
-        protected ApprovalService $approvalService
+        protected ApprovalService $approvalService,
+        protected ReceiptPdfService $receiptPdfService
     ){}
 
     public function index(Request $request)
@@ -223,6 +225,35 @@ class MemberLoanController extends Controller
             'success'=>true,
             'data'=>$loan
         ]);
+    }
+
+    public function repaymentReceipt(
+        Request $request,
+        Loan $loan,
+        LoanRepayment $repayment
+    ) {
+        abort_unless(
+            $loan->member_id === $request->user()->member?->id,
+            403
+        );
+
+        abort_unless(
+            $repayment->loan_id === $loan->id,
+            404,
+            'Repayment not found.'
+        );
+
+        $repayment->load([
+            'loan.member.user',
+            'receiveAccount:id,code,name',
+            'receiver:id,name',
+        ]);
+
+        return $this->receiptPdfService->download(
+            $this->receiptPdfService->branding(),
+            $repayment->toReceiptData(),
+            'loan-repayment-'.$loan->loan_no.'-'.$repayment->id
+        );
     }
 
     public function cancel(Request $request,Loan $loan)

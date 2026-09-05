@@ -269,7 +269,7 @@
                         </button>
 
                         <div id="financeSubmenu"
-                            class="ml-[24px] border-l border-white/10 pl-3 pt-2 {{ $financeOpen?'':'hidden' }}">
+                            class="ml-[24px] border-l border-white/10 pl-2 pt-2 {{ $financeOpen?'':'hidden' }}">
                             @foreach($financeItems as [$route,$match,$icon,$label])
                             @php($active=request()->routeIs($match))
                             <a href="{{ route($route) }}"

@@ -240,7 +240,7 @@ Completed Investments
 
 <div class="min-w-0 flex-1">
 <div class="truncate text-[12px] font-semibold text-slate-700">{{ $userName }}</div>
-<div class="mt-0.5 truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
+<div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
 </div>
 
 <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
@@ -307,7 +307,7 @@ View Website
 </div>
 
 <div class="hidden max-w-[140px] text-left sm:block">
-<div class="truncate text-sm font-semibold text-slate-700">{{ $userName }}</div>
+<div class="truncate text-xs font-semibold text-slate-700">{{ $userName }}</div>
 <div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
 </div>
 

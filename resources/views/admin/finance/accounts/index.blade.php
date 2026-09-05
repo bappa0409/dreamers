@@ -111,39 +111,39 @@
             <table class="w-full min-w-[980px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Code
                         </th>
 
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Account
                         </th>
 
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Sub Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Parent
                         </th>
 
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
                             Opening
                         </th>
 
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
                             Balance
                         </th>
 
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -151,7 +151,7 @@
 
                 <tbody id="accountTable">
                     <tr>
-                        <td colspan="9" class="px-4 py-10 text-center text-slate-400">
+                        <td colspan="9" class="px-4 py-10 text-xs text-center text-slate-400">
                             Loading accounts...
                         </td>
                     </tr>
@@ -175,7 +175,7 @@
             <div>
                 <h2
                     id="accountModalTitle"
-                    class="text-base font-semibold text-slate-800">
+                    class="text-sm font-semibold text-slate-800">
                     Add Account
                 </h2>
 
@@ -353,7 +353,7 @@
     <div class="app-modal-panel w-full max-w-3xl overflow-hidden rounded-md bg-white">
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
-                <h2 class="text-base font-semibold text-slate-800">
+                <h2 class="text-sm font-semibold text-slate-800">
                     Account Details
                 </h2>
 
@@ -566,7 +566,7 @@ function renderAccounts(){
                     <button
                         type="button"
                         onclick="viewAccount(${account.id})"
-                        class="rounded border border-slate-300 px-2 py-1 text-sm text-slate-600 hover:bg-slate-50">
+                        class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
                         View
                     </button>
                 `
@@ -587,7 +587,7 @@ function renderAccounts(){
                         <button
                             type="button"
                             onclick="toggleAccount(${account.id})"
-                            class="rounded border border-slate-300 px-2 py-1 text-sm text-slate-600 hover:bg-slate-50">
+                            class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
                             ${account.is_active?'Deactivate':'Activate'}
                         </button>
                     `);
@@ -613,13 +613,13 @@ function renderAccounts(){
             return `
                 <tr class="border-b border-slate-100 hover:bg-slate-50/60">
                     <td class="px-4 py-3">
-                        <span class="font-semibold text-slate-700">
+                        <span class="font-semibold text-xs text-slate-700">
                             ${esc(account.code)}
                         </span>
                     </td>
 
                     <td class="px-4 py-3">
-                        <div class="font-semibold text-slate-700">
+                        <div class="font-semibold text-xs text-slate-700">
                             ${esc(account.name)}
                         </div>
 
@@ -629,7 +629,7 @@ function renderAccounts(){
                         </div>
                     </td>
 
-                    <td class="px-4 py-3 text-slate-600">
+                    <td class="px-4 py-3 text-xs text-slate-600">
                         ${esc(AdminUI.titleCase(account.type))}
                     </td>
 
@@ -647,7 +647,7 @@ function renderAccounts(){
                         ${money(account.opening_balance)}
                     </td>
 
-                    <td class="px-4 py-3 text-right font-semibold text-slate-700">
+                    <td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">
                         ${money(accountBalance(account))}
                     </td>
 

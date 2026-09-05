@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
             $table->string('nid_or_birth_reg_no')->nullable();
+            $table->string('nid_document')->nullable();
             $table->text('address')->nullable();
             $table->text('permanent_address')->nullable();
             $table->string('profession')->nullable();

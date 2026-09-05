@@ -295,7 +295,7 @@ class WelfareService
             }
 
             $approvedAmount=round(
-                (float)($decisionData['approved_amount']??0),
+                (float)($decisionData['approved_amount']??$request->requested_amount),
                 2
             );
 

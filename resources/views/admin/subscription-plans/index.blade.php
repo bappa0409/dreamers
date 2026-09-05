@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openPlanModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add Plan
@@ -52,7 +52,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search plans..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
@@ -83,13 +83,13 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[24%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Plan</th>
-                        <th class="w-[13%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Due Day</th>
-                        <th class="w-[18%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Late Fine</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Default</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="w-[15%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[24%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Plan</th>
+                        <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Due Day</th>
+                        <th class="w-[18%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Late Fine</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Default</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="w-[15%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -117,7 +117,7 @@
                 </div>
 
                 <div>
-                    <h2 id="planModalTitle" class="text-base font-semibold text-slate-800">Add Subscription Plan</h2>
+                    <h2 id="planModalTitle" class="text-sm font-semibold text-slate-800">Add Subscription Plan</h2>
                     <p class="text-xs text-slate-500">Configure the monthly amount and due date rules.</p>
                 </div>
             </div>
@@ -226,7 +226,7 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('planModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Close
                 </button>
@@ -234,7 +234,7 @@
                 <button
                     id="savePlanButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save Plan
                 </button>
@@ -357,7 +357,7 @@ function renderPlans(){
     el.tableBody.innerHTML=plans.map(plan=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
             <td class="min-w-0 px-4 py-3">
-                <p class="truncate text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(plan.name??'')}">
+                <p class="truncate text-xs font-semibold text-slate-800" title="${AdminUI.escapeHtml(plan.name??'')}">
                     ${AdminUI.escapeHtml(plan.name??'N/A')}
                 </p>
 
@@ -370,7 +370,7 @@ function renderPlans(){
                 ${money(plan.amount)}
             </td>
 
-            <td class="px-4 py-3 text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs text-slate-600">
                 Day ${plan.due_day}
             </td>
 

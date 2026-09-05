@@ -24,7 +24,7 @@
 
     @if(auth()->user()->hasPermission('Nominee.create'))
     <button type="button" onclick="openNomineeModal()"
-        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
         <i class="bi bi-person-plus"></i>
         Add Nominee
     </button>
@@ -102,11 +102,11 @@
             <div class="relative sm:col-span-2 lg:col-span-1">
                 <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                 <input id="searchInput" type="text" placeholder="Search nominee..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
             </div>
 
             <select id="verificationFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Verification</option>
                 <option value="unverified">Unverified</option>
                 <option value="pending">Pending</option>
@@ -115,14 +115,14 @@
             </select>
 
             <select id="activeFilter"
-                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 <option value="">All Status</option>
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
             </select>
 
             <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                 <i class="bi bi-x-lg text-[10px]"></i>
                 Clear
             </button>
@@ -136,14 +136,14 @@
         <table class="w-full min-w-[1000px] text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Nominee</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Relationship</th>
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Allocation</th>
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-600">Priority</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Verification</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                    <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Nominee</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Relationship</th>
+                    <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Allocation</th>
+                    <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600">Priority</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Verification</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                 </tr>
             </thead>
 
@@ -158,7 +158,7 @@
 
 {{-- Mobile Cards --}}
 <div id="nomineeMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
         Loading nominees...
     </div>
 </div>
@@ -176,8 +176,8 @@
                 <i class="bi bi-person-heart"></i>
             </div>
             <div>
-                <h3 id="nomineeModalTitle" class="text-base font-semibold text-slate-800">Add Nominee</h3>
-                <p id="nomineeModalSubtitle" class="text-sm text-slate-500">Add nominee information for a member.</p>
+                <h3 id="nomineeModalTitle" class="text-sm font-semibold text-slate-800">Add Nominee</h3>
+                <p id="nomineeModalSubtitle" class="text-xs text-slate-500">Add nominee information for a member.</p>
             </div>
         </div>
 
@@ -198,7 +198,7 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Member</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Member</h4>
                         <p class="text-[11px] text-slate-400">Select the member for this nominee.</p>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                         <i class="bi bi-person-vcard"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Personal Information</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Personal Information</h4>
                         <p class="text-[11px] text-slate-400">Basic nominee information.</p>
                     </div>
                 </div>
@@ -268,7 +268,7 @@
                         <i class="bi bi-card-heading"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Identity Information</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Identity Information</h4>
                         <p class="text-[11px] text-slate-400">Identity details used for verification.</p>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
                         <i class="bi bi-pie-chart"></i>
                     </div>
                     <div>
-                        <h4 class="text-base font-semibold text-slate-800">Allocation & Priority</h4>
+                        <h4 class="text-sm font-semibold text-slate-800">Allocation & Priority</h4>
                         <p class="text-[11px] text-slate-400">Combined active nominee allocation cannot exceed 100%.</p>
                     </div>
                 </div>
@@ -342,12 +342,12 @@
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
             <button type="button" onclick="AdminUI.closeModal('nomineeModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
 
             <button id="saveNomineeButton" type="submit"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                 Save Nominee
             </button>
         </div>
@@ -365,8 +365,8 @@
                 <i class="bi bi-patch-check"></i>
             </div>
             <div>
-                <h3 class="text-base font-semibold text-slate-800">Nominee Verification</h3>
-                <p id="verificationSubtitle" class="text-sm text-slate-500"></p>
+                <h3 class="text-sm font-semibold text-slate-800">Nominee Verification</h3>
+                <p id="verificationSubtitle" class="text-xs text-slate-500"></p>
             </div>
         </div>
 
@@ -398,7 +398,7 @@
         </button>
 
         <button id="verifyNomineeButton" type="button" onclick="verifyNominee()"
-            class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+            class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
             <i class="bi bi-check2-circle mr-1"></i>
             Verify
         </button>
@@ -553,7 +553,7 @@ async function loadNominees(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading nominees...
@@ -709,7 +709,7 @@ function renderNominees(){
 
                 <td class="px-4 py-3">
                     <div class="min-w-0">
-                        <div class="font-semibold text-slate-700">
+                        <div class="font-semibold text-xs text-slate-700">
                             ${esc(nominee.member?.user?.name??'N/A')}
                         </div>
                         <div class="mt-0.5 text-[11px] font-medium text-indigo-600">
@@ -725,7 +725,7 @@ function renderNominees(){
                         </div>
 
                         <div class="min-w-0">
-                            <div class="font-semibold text-slate-700">
+                            <div class="font-semibold text-xs text-slate-700">
                                 ${esc(nominee.name)}
                             </div>
 

@@ -18,7 +18,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Project.create'))
-            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Project
             </button>
@@ -69,10 +69,10 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-72">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search projects..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                    <input id="searchInput" type="text" placeholder="Search projects..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="planned">Planned</option>
                     <option value="active">Active</option>
@@ -113,7 +113,7 @@
                     <i class="bi bi-kanban"></i>
                 </div>
                 <div>
-                    <h2 id="projectModalTitle" class="text-base font-semibold text-slate-800">Add Project</h2>
+                    <h2 id="projectModalTitle" class="text-sm font-semibold text-slate-800">Add Project</h2>
                     <p class="text-xs text-slate-500">Project details, financials and progress.</p>
                 </div>
             </div>
@@ -201,7 +201,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveProjectButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Project</button>
             </div>
         </form>
@@ -217,7 +217,7 @@
                     <i class="bi bi-person-plus"></i>
                 </div>
                 <div class="min-w-0">
-                    <h2 class="text-base font-semibold text-slate-800">Assign Member</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Assign Member</h2>
                     <p id="memberProjectInfo" class="mt-1 truncate text-sm text-slate-500"></p>
                 </div>
             </div>
@@ -270,7 +270,7 @@
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveMemberButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Assign Member</button>
             </div>
         </form>

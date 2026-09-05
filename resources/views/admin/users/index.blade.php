@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openUserModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add User
@@ -52,7 +52,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search users..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
@@ -83,12 +83,12 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[25%] px-4 py-3 text-left text-sm font-semibold text-slate-600">User</th>
-                        <th class="w-[14%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Member</th>
-                        <th class="w-[20%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Roles</th>
-                        <th class="w-[10%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Language</th>
-                        <th class="w-[11%] px-4 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
-                        <th class="w-[20%] px-4 py-3 text-right text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[25%] px-4 py-3 text-left text-xs font-semibold text-slate-600">User</th>
+                        <th class="w-[14%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
+                        <th class="w-[20%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Roles</th>
+                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Language</th>
+                        <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
+                        <th class="w-[20%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -116,7 +116,7 @@
                 </div>
 
                 <div>
-                    <h2 id="userModalTitle" class="text-base font-semibold text-slate-800">Add User</h2>
+                    <h2 id="userModalTitle" class="text-sm font-semibold text-slate-800">Add User</h2>
                     <p class="text-xs text-slate-500">Manage user account information.</p>
                 </div>
             </div>
@@ -172,7 +172,7 @@
                 <button
                     type="button"
                     onclick="closeUserModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Close
                 </button>
@@ -180,7 +180,7 @@
                 <button
                     id="saveUserButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save User
                 </button>
@@ -199,8 +199,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">Reset Password</h2>
-                    <p id="passwordUserName" class="text-sm text-slate-500"></p>
+                    <h2 class="text-sm font-semibold text-slate-800">Reset Password</h2>
+                    <p id="passwordUserName" class="text-xs text-slate-500"></p>
                 </div>
             </div>
 
@@ -228,7 +228,7 @@
                 <button
                     type="button"
                     onclick="closePasswordModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -236,7 +236,7 @@
                 <button
                     id="resetPasswordButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Reset Password
                 </button>
@@ -340,7 +340,7 @@ function renderUsers(){
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                 <td class="min-w-0 px-4 py-3">
                     <p
-                        class="truncate text-sm font-semibold text-slate-800"
+                        class="truncate text-xs font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(user.name??'')}"
                     >
                         ${AdminUI.escapeHtml(user.name??'N/A')}

@@ -1334,7 +1334,7 @@ window.AdminUI={
             return `
                 <tr>
                     <td colspan="${colspan}"
-                        class="px-6 py-10 text-center text-sm text-slate-400">
+                        class="px-6 py-10 text-center text-xs text-slate-400">
                         ${this.escapeHtml(message)}
                     </td>
                 </tr>
@@ -1356,7 +1356,7 @@ window.AdminUI={
             return `
                 <tr>
                     <td colspan="${colspan}"
-                        class="px-6 py-10 text-center text-sm text-slate-400">
+                        class="px-6 py-10 text-center text-xs text-slate-400">
                         <div class="inline-flex items-center gap-2">
                             <i class="bi bi-arrow-repeat animate-spin"></i>
                             ${this.escapeHtml(message)}

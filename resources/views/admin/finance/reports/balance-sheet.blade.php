@@ -31,7 +31,7 @@
                     <input
                         id="asOfFilter"
                         type="text"
-                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date"
                         autocomplete="off">
                 </div>
@@ -96,7 +96,7 @@
 
                     <tbody id="assetTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10 text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10 text-xs text-center text-slate-400">Loading...</td>
                         </tr>
                     </tbody>
 
@@ -489,7 +489,7 @@ function renderEquity(accounts,surplus){
     html+=`
         <tr class="border-t border-indigo-100 bg-indigo-50/40">
             <td class="px-4 py-3">
-                <div class="font-semibold text-slate-700">
+                <div class="font-semibold text-xs text-slate-700">
                     ${surplus>=0
                         ?'Current Surplus'
                         :'Current Deficit'}

@@ -129,3 +129,58 @@ window.api=async(url,options={})=>{
 
     return data;
 };
+
+
+window.downloadPdf=async(url,filename='receipt.pdf')=>{
+    let response;
+
+    try{
+        response=await fetch(url,{
+            method:'GET',
+            credentials:'same-origin',
+            headers:{
+                Accept:'application/pdf'
+            }
+        });
+    }catch{
+        throw new Error('Network error. Please check your connection.');
+    }
+
+    if(!response.ok){
+        let message=`Request failed (${response.status}).`;
+
+        try{
+            const contentType=response.headers.get('content-type')??'';
+
+            if(contentType.includes('application/json')){
+                const data=await response.json();
+                message=data.message??message;
+            }
+        }catch{}
+
+        if(response.status===401){
+            window.location.href='/login';
+        }
+
+        throw new Error(message);
+    }
+
+    const blob=await response.blob();
+    const disposition=response.headers.get('content-disposition')??'';
+    const match=disposition.match(/filename="?([^"]+)"?/i);
+    const finalName=match?.[1]??filename;
+
+    const objectUrl=URL.createObjectURL(blob);
+    const anchor=document.createElement('a');
+
+    anchor.href=objectUrl;
+    anchor.download=finalName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    setTimeout(
+        ()=>URL.revokeObjectURL(objectUrl),
+        1000
+    );
+};

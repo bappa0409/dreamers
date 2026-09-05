@@ -21,7 +21,7 @@
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.finance.manual-guide') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-arrow-left text-[11px]"></i>
                 Accounts Guide (সংক্ষিপ্ত)
@@ -144,11 +144,11 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Assets (সম্পদ)</td><td class="px-3 py-2 text-slate-600">1000–1999</td><td class="px-3 py-2 text-slate-600">Debit দিয়ে</td><td class="px-3 py-2 text-slate-500">Cash, Bank, Receivable, Fixed Assets</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Liabilities (দায়)</td><td class="px-3 py-2 text-slate-600">2000–2999</td><td class="px-3 py-2 text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Accounts Payable</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Equity (তহবিল)</td><td class="px-3 py-2 text-slate-600">3000–3999</td><td class="px-3 py-2 text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Association Fund, Member Share Capital</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Income (আয়)</td><td class="px-3 py-2 text-slate-600">4000–4999</td><td class="px-3 py-2 text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Subscription, Investment, Fine Income</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Expense (ব্যয়)</td><td class="px-3 py-2 text-slate-600">5000–5999</td><td class="px-3 py-2 text-slate-600">Debit দিয়ে</td><td class="px-3 py-2 text-slate-500">Office, Maintenance, Welfare Expense</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Assets (সম্পদ)</td><td class="px-3 py-2 text-xs text-slate-600">1000–1999</td><td class="px-3 py-2 text-xs text-slate-600">Debit দিয়ে</td><td class="px-3 py-2 text-slate-500">Cash, Bank, Receivable, Fixed Assets</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Liabilities (দায়)</td><td class="px-3 py-2 text-xs text-slate-600">2000–2999</td><td class="px-3 py-2 text-xs text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Accounts Payable</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Equity (তহবিল)</td><td class="px-3 py-2 text-xs text-slate-600">3000–3999</td><td class="px-3 py-2 text-xs text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Association Fund, Member Share Capital</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Income (আয়)</td><td class="px-3 py-2 text-xs text-slate-600">4000–4999</td><td class="px-3 py-2 text-xs text-slate-600">Credit দিয়ে</td><td class="px-3 py-2 text-slate-500">Subscription, Investment, Fine Income</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Expense (ব্যয়)</td><td class="px-3 py-2 text-xs text-slate-600">5000–5999</td><td class="px-3 py-2 text-xs text-slate-600">Debit দিয়ে</td><td class="px-3 py-2 text-slate-500">Office, Maintenance, Welfare Expense</td></tr>
                 </tbody>
             </table>
         </div>
@@ -183,8 +183,8 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 text-slate-600">Cash Basis</td><td class="px-3 py-2 text-slate-600">যেদিন হাতে টাকা আসে, সেদিন</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Accrual Basis (এই সিস্টেম)</td><td class="px-3 py-2 text-slate-600">যেদিন পাওনা তৈরি হয় (due generate হয়), <b>টাকা হাতে আসার আগেই</b></td></tr>
+                    <tr><td class="px-3 py-2 text-xs text-slate-600">Cash Basis</td><td class="px-3 py-2 text-xs text-slate-600">যেদিন হাতে টাকা আসে, সেদিন</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Accrual Basis (এই সিস্টেম)</td><td class="px-3 py-2 text-xs text-slate-600">যেদিন পাওনা তৈরি হয় (due generate হয়), <b>টাকা হাতে আসার আগেই</b></td></tr>
                 </tbody>
             </table>
         </div>
@@ -346,9 +346,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Posted</span></td><td class="px-3 py-2 text-slate-600">চূড়ান্তভাবে খাতায় জমা হয়েছে; হিসাবের ব্যালেন্সে প্রভাব ফেলে।</td></tr>
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">Draft</span></td><td class="px-3 py-2 text-slate-600">এখনো খাতায় প্রভাব ফেলেনি (সাধারণত ব্যবহার হয় না, ম্যানুয়াল জার্নালে সরাসরি Posted হয়)।</td></tr>
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700">Cancelled / Reversed</span></td><td class="px-3 py-2 text-slate-600">মূল জার্নাল বাতিল দেখানো হয়েছে; এর বিপরীতে একটি নতুন Reversal জার্নাল পোস্ট হয়েছে।</td></tr>
+                    <tr><td class="px-3 py-2"><span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Posted</span></td><td class="px-3 py-2 text-xs text-slate-600">চূড়ান্তভাবে খাতায় জমা হয়েছে; হিসাবের ব্যালেন্সে প্রভাব ফেলে।</td></tr>
+                    <tr><td class="px-3 py-2"><span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">Draft</span></td><td class="px-3 py-2 text-xs text-slate-600">এখনো খাতায় প্রভাব ফেলেনি (সাধারণত ব্যবহার হয় না, ম্যানুয়াল জার্নালে সরাসরি Posted হয়)।</td></tr>
+                    <tr><td class="px-3 py-2"><span class="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700">Cancelled / Reversed</span></td><td class="px-3 py-2 text-xs text-slate-600">মূল জার্নাল বাতিল দেখানো হয়েছে; এর বিপরীতে একটি নতুন Reversal জার্নাল পোস্ট হয়েছে।</td></tr>
                 </tbody>
             </table>
         </div>
@@ -432,7 +432,7 @@
                     <tr>
                         <td class="px-3 py-2 font-semibold text-slate-700">{{ $module }}</td>
                         <td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">{{ $action }}</code></td>
-                        <td class="px-3 py-2 text-slate-600">{{ $behavior }}</td>
+                        <td class="px-3 py-2 text-xs text-slate-600">{{ $behavior }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -525,10 +525,10 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1100/1200</code></td><td class="px-3 py-2 text-slate-600">Cash / Bank</td><td class="px-3 py-2 text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">হাতে নগদ/ব্যাংক ব্যালেন্স বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1300</code></td><td class="px-3 py-2 text-slate-600">Accounts Receivable</td><td class="px-3 py-2 text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">সদস্যদের কাছে অ্যাসোসিয়েশনের পাওনা বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4100</code></td><td class="px-3 py-2 text-slate-600">Subscription Income</td><td class="px-3 py-2 text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">মাসিক চাঁদা বাবদ আয় বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4410</code></td><td class="px-3 py-2 text-slate-600">Late Fine Income</td><td class="px-3 py-2 text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">জরিমানা বাবদ আয় বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1100/1200</code></td><td class="px-3 py-2 text-xs text-slate-600">Cash / Bank</td><td class="px-3 py-2 text-xs text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">হাতে নগদ/ব্যাংক ব্যালেন্স বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1300</code></td><td class="px-3 py-2 text-xs text-slate-600">Accounts Receivable</td><td class="px-3 py-2 text-xs text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">সদস্যদের কাছে অ্যাসোসিয়েশনের পাওনা বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4100</code></td><td class="px-3 py-2 text-xs text-slate-600">Subscription Income</td><td class="px-3 py-2 text-xs text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">মাসিক চাঁদা বাবদ আয় বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4410</code></td><td class="px-3 py-2 text-xs text-slate-600">Late Fine Income</td><td class="px-3 py-2 text-xs text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">জরিমানা বাবদ আয় বেড়েছে</td></tr>
                 </tbody>
             </table>
         </div>
@@ -724,10 +724,10 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 text-slate-600">দিন ১ (due তৈরি)</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">0</td></tr>
-                    <tr><td class="px-3 py-2 text-slate-600">দিন ১২ (fine)</td><td class="px-3 py-2 text-right text-slate-600">1,050</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
-                    <tr><td class="px-3 py-2 text-slate-600">দিন ১৫ (৳600 verify)</td><td class="px-3 py-2 text-right text-slate-600">450</td><td class="px-3 py-2 text-right text-slate-600">600</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
-                    <tr><td class="px-3 py-2 text-slate-600">দিন ২০ (৳450 verify)</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,050</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
+                    <tr><td class="px-3 py-2 text-xs text-slate-600">দিন ১ (due তৈরি)</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">0</td></tr>
+                    <tr><td class="px-3 py-2 text-xs text-slate-600">দিন ১২ (fine)</td><td class="px-3 py-2 text-right text-slate-600">1,050</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
+                    <tr><td class="px-3 py-2 text-xs text-slate-600">দিন ১৫ (৳600 verify)</td><td class="px-3 py-2 text-right text-slate-600">450</td><td class="px-3 py-2 text-right text-slate-600">600</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
+                    <tr><td class="px-3 py-2 text-xs text-slate-600">দিন ২০ (৳450 verify)</td><td class="px-3 py-2 text-right text-slate-600">0</td><td class="px-3 py-2 text-right text-slate-600">1,050</td><td class="px-3 py-2 text-right text-slate-600">1,000</td><td class="px-3 py-2 text-right text-slate-600">50</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1311,11 +1311,11 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">This Month's Amount</td><td class="px-3 py-2 text-slate-600">চলতি মাসের due-এর নির্ধারিত মোট এমাউন্ট (paid হোক বা না হোক)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due (Outstanding)</td><td class="px-3 py-2 text-slate-600">সব মাসের unpaid/partial/overdue due-এর বাকি অংশের যোগফল</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due বক্সের ভেতরের "Current Due"</td><td class="px-3 py-2 text-slate-600">শুধু চলতি মাসের বাকি অংশ (outstanding)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Fine</td><td class="px-3 py-2 text-slate-600">unpaid/partial/overdue due-গুলোর মধ্যে জমে থাকা মোট ফাইন</td><td class="px-3 py-2 text-right text-slate-600">৳50</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Deposited</td><td class="px-3 py-2 text-slate-600">ভেরিফাইড পেমেন্টের সমষ্টি + সক্রিয় শেয়ারের মূল্য</td><td class="px-3 py-2 text-right text-slate-600">৳0 (এখনো কোনো পেমেন্ট verify হয়নি)</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">This Month's Amount</td><td class="px-3 py-2 text-xs text-slate-600">চলতি মাসের due-এর নির্ধারিত মোট এমাউন্ট (paid হোক বা না হোক)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due (Outstanding)</td><td class="px-3 py-2 text-xs text-slate-600">সব মাসের unpaid/partial/overdue due-এর বাকি অংশের যোগফল</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due বক্সের ভেতরের "Current Due"</td><td class="px-3 py-2 text-xs text-slate-600">শুধু চলতি মাসের বাকি অংশ (outstanding)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Fine</td><td class="px-3 py-2 text-xs text-slate-600">unpaid/partial/overdue due-গুলোর মধ্যে জমে থাকা মোট ফাইন</td><td class="px-3 py-2 text-right text-slate-600">৳50</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Deposited</td><td class="px-3 py-2 text-xs text-slate-600">ভেরিফাইড পেমেন্টের সমষ্টি + সক্রিয় শেয়ারের মূল্য</td><td class="px-3 py-2 text-right text-slate-600">৳0 (এখনো কোনো পেমেন্ট verify হয়নি)</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1370,8 +1370,8 @@
                     @foreach($appendixRows as [$event, $dr, $cr, $needsApproval])
                     <tr>
                         <td class="px-3 py-2 text-slate-700">{{ $event }}</td>
-                        <td class="px-3 py-2 text-slate-600">{{ $dr }}</td>
-                        <td class="px-3 py-2 text-slate-600">{{ $cr }}</td>
+                        <td class="px-3 py-2 text-xs text-slate-600">{{ $dr }}</td>
+                        <td class="px-3 py-2 text-xs text-slate-600">{{ $cr }}</td>
                         <td class="px-3 py-2">
                             @if($needsApproval)
                                 <span class="font-semibold text-amber-600">হ্যাঁ 🔒</span>
@@ -1415,11 +1415,11 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">General Ledger</td><td class="px-3 py-2 text-slate-600">একটি নির্দিষ্ট অ্যাকাউন্টের সব লেনদেন, তারিখ অনুযায়ী, চলমান ব্যালেন্সসহ।</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Trial Balance</td><td class="px-3 py-2 text-slate-600">নির্দিষ্ট সময়ে সব অ্যাকাউন্টের Debit ও Credit ব্যালেন্স তালিকা — মোট মিলতেই হবে।</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Balance Sheet</td><td class="px-3 py-2 text-slate-600">একটি নির্দিষ্ট তারিখে Assets = Liabilities + Equity অবস্থা।</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Profit &amp; Loss (আয়-ব্যয়)</td><td class="px-3 py-2 text-slate-600">নির্দিষ্ট সময়ের মোট আয় বনাম মোট ব্যয় এবং নিট উদ্বৃত্ত/ঘাটতি।</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Journal Entries</td><td class="px-3 py-2 text-slate-600">সব ধরনের (স্বয়ংক্রিয় + ম্যানুয়াল) জার্নালের তালিকা, ফিল্টার ও সার্চসহ।</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">General Ledger</td><td class="px-3 py-2 text-xs text-slate-600">একটি নির্দিষ্ট অ্যাকাউন্টের সব লেনদেন, তারিখ অনুযায়ী, চলমান ব্যালেন্সসহ।</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Trial Balance</td><td class="px-3 py-2 text-xs text-slate-600">নির্দিষ্ট সময়ে সব অ্যাকাউন্টের Debit ও Credit ব্যালেন্স তালিকা — মোট মিলতেই হবে।</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Balance Sheet</td><td class="px-3 py-2 text-xs text-slate-600">একটি নির্দিষ্ট তারিখে Assets = Liabilities + Equity অবস্থা।</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Profit &amp; Loss (আয়-ব্যয়)</td><td class="px-3 py-2 text-xs text-slate-600">নির্দিষ্ট সময়ের মোট আয় বনাম মোট ব্যয় এবং নিট উদ্বৃত্ত/ঘাটতি।</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Journal Entries</td><td class="px-3 py-2 text-xs text-slate-600">সব ধরনের (স্বয়ংক্রিয় + ম্যানুয়াল) জার্নালের তালিকা, ফিল্টার ও সার্চসহ।</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1494,9 +1494,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.view</code></td><td class="px-3 py-2 text-slate-600">জার্নাল, রিপোর্ট, লেজার দেখতে পারবে।</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.create</code></td><td class="px-3 py-2 text-slate-600">ম্যানুয়াল জার্নাল পোস্ট করতে পারবে, নতুন আয়/ব্যয়/পেমেন্ট এন্ট্রি করতে পারবে।</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.update</code></td><td class="px-3 py-2 text-slate-600">জার্নাল Reverse করতে পারবে, পেমেন্ট Verify/Reject করতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.view</code></td><td class="px-3 py-2 text-xs text-slate-600">জার্নাল, রিপোর্ট, লেজার দেখতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.create</code></td><td class="px-3 py-2 text-xs text-slate-600">ম্যানুয়াল জার্নাল পোস্ট করতে পারবে, নতুন আয়/ব্যয়/পেমেন্ট এন্ট্রি করতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.update</code></td><td class="px-3 py-2 text-xs text-slate-600">জার্নাল Reverse করতে পারবে, পেমেন্ট Verify/Reject করতে পারবে।</td></tr>
                 </tbody>
             </table>
         </div>
