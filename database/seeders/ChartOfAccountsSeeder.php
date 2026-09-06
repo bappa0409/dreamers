@@ -58,6 +58,30 @@ class ChartOfAccountsSeeder extends Seeder
                 ?Account::where('code',$parentCode)->value('id')
                 :null;
 
+            // Guard against creating a second leaf account for a sub_type
+            // that already has one under a different code (this is exactly
+            // how the duplicate 'member_equity' account was created - see
+            // finance:merge-duplicate-accounts). If a live account already
+            // owns this sub_type, only sync it (name/parent), never insert
+            // a competing row.
+            $existingForSubType=$subType
+                ?Account::query()
+                    ->where('sub_type',$subType)
+                    ->where('code','!=',$code)
+                    ->whereDoesntHave('children')
+                    ->first()
+                :null;
+
+            if($existingForSubType){
+                $existingForSubType->update([
+                    'name'=>$name,
+                    'type'=>$type,
+                    'is_active'=>true,
+                ]);
+
+                continue;
+            }
+
             Account::updateOrCreate(
                 ['code'=>$code],
                 [

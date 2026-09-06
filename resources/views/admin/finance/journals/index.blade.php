@@ -1491,14 +1491,6 @@ window.viewJournal=async function(id){
         $('detailsActions').innerHTML=`
             <button
                 type="button"
-                onclick="printJournalReceipt()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
-                <i class="bi bi-printer mr-1"></i>
-                Print
-            </button>
-
-            <button
-                type="button"
                 onclick="closeDetailsModal()"
                 class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close

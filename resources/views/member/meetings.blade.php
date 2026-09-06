@@ -492,7 +492,7 @@ function renderMeetings(){
             </td>
 
             <td class="px-4 py-3">
-                <p class="text-base text-slate-600">
+                <p class="text-xs text-slate-600">
                     ${meeting.meeting_date
                         ?AdminUI.formatDate(meeting.meeting_date)
                         :'—'}

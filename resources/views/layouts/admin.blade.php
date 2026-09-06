@@ -579,8 +579,20 @@
                 </div>
             </main>
 
-            <footer class="shrink-0 border-t border-slate-200 bg-white p-4 sm:px-5 lg:px-6"> <div class="flex flex-col items-center justify-between gap-1.5 text-[11px] text-slate-400 sm:flex-row"> <p>&copy; {{ date('Y') }} {{ $organizationName }}. All rights reserved.</p> <p> Developed by <a href="https://www.facebook.com/bappa040976" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-500 hover:text-blue-600 transition-colors"> Bappa Sutradhar </a> </p> </div> </footer>
-
+            <footer class="relative z-10 shrink-0 border-t border-slate-200 bg-white p-4 sm:px-5 lg:px-6">
+                <div class="flex flex-col items-center justify-between gap-1.5 text-[11px] text-slate-400 sm:flex-row">
+                    <p>&copy; {{ date('Y') }} {{ $organizationName }}. All rights reserved.</p>
+                    <p>
+                        Developed by
+                        <a href="https://www.facebook.com/bappa040976"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-semibold text-slate-500 transition-colors hover:text-blue-600">
+                            Bappa Sutradhar
+                        </a>
+                    </p>
+                </div>
+            </footer>
         </div>
     </div>
 

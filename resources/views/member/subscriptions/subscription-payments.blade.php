@@ -370,7 +370,7 @@ function renderPayments(){
                 </span>
             </td>
 
-            <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
+            <td class="whitespace-nowrap px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${payment.due?`${monthName(payment.due.month)} ${payment.due.year}`:'-'}
             </td>
 

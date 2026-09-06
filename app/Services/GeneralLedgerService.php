@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\TransactionEntry;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class GeneralLedgerService
@@ -285,11 +286,18 @@ class GeneralLedgerService
 
     private function totals(Builder $query): array
     {
+        // periodQuery()/openingBalance() build $query with
+        // ->select('transaction_entries.*') for the entries list. selectRaw()
+        // APPENDS to that existing select instead of replacing it, so the
+        // aggregate query below would end up mixing SUM() with unaggregated
+        // columns and no GROUP BY - illegal under MySQL's ONLY_FULL_GROUP_BY
+        // mode. Using select() here replaces the select list entirely,
+        // leaving only the two aggregate columns.
         $totals=(clone $query)
-            ->selectRaw('
-                COALESCE(SUM(transaction_entries.debit),0) total_debit,
-                COALESCE(SUM(transaction_entries.credit),0) total_credit
-            ')
+            ->select(DB::raw('
+                COALESCE(SUM(transaction_entries.debit),0) as total_debit,
+                COALESCE(SUM(transaction_entries.credit),0) as total_credit
+            '))
             ->first();
 
         return[

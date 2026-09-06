@@ -75,7 +75,7 @@
                         id="showZeroFilter"
                         type="checkbox"
                         class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                    <span class="text-base text-slate-600">Show Zero</span>
+                    <span class="text-xs text-slate-600">Show Zero</span>
                 </label>
             </div>
 

@@ -430,7 +430,7 @@ function renderAccounts(target,accounts){
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-base font-medium text-slate-700">
+                    <span class="text-sm font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>
@@ -470,7 +470,7 @@ function renderEquity(accounts,surplus){
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-base font-medium text-slate-700">
+                    <span class="text-sm font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>

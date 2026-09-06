@@ -242,13 +242,14 @@ class AccountingService
 
     public function account(string $subType): Account
     {
-        $account=Account::query()
+        $accounts=Account::query()
             ->where('sub_type',$subType)
             ->where('is_active',true)
             ->whereDoesntHave('children')
-            ->first();
+            ->orderBy('id')
+            ->get();
 
-        if(!$account){
+        if($accounts->isEmpty()){
             throw ValidationException::withMessages([
                 'account'=>[
                     "Active posting account for '{$subType}' was not found."
@@ -256,7 +257,25 @@ class AccountingService
             ]);
         }
 
-        return $account;
+        // More than one active leaf account shares this sub_type - this is a
+        // data problem (usually a seeder run twice / two seeders creating the
+        // same system account under different codes), not something we
+        // should silently resolve by picking the first row. Postings must be
+        // unambiguous, so fail loudly with enough detail to fix the data
+        // (see the finance:merge-duplicate-accounts command).
+        if($accounts->count()>1){
+            $codes=$accounts
+                ->pluck('code')
+                ->implode(', ');
+
+            throw ValidationException::withMessages([
+                'account'=>[
+                    "Multiple active posting accounts share sub_type '{$subType}' (codes: {$codes}). Run `php artisan finance:merge-duplicate-accounts` to resolve this before posting."
+                ],
+            ]);
+        }
+
+        return $accounts->first();
     }
 
     private function normalizeEntries(array $entries): array

@@ -111,7 +111,7 @@
         </div>
     </div>
 
-    {{-- Ledger Table --}}
+    {{-- Ledger --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -120,18 +120,16 @@
                     Posted accounting transactions only
                 </p>
             </div>
-            <span class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+            <span class="hidden text-[10px] font-medium uppercase tracking-wide text-slate-400 md:inline">
                 Running Balance
             </span>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[1150px] text-base">
+        {{-- Desktop / tablet table (md and up) --}}
+        <div class="hidden overflow-x-auto md:block">
+            <table class="w-full text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
-                            Date
-                        </th>
                         <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Journal
                         </th>
@@ -158,12 +156,19 @@
 
                 <tbody id="ledgerTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-12 text-center text-base text-slate-400">
+                        <td colspan="7" class="px-4 py-12 text-center text-xs text-slate-400">
                             Select an account to view the General Ledger.
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile card list (below md) --}}
+        <div id="ledgerCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-12 text-center text-xs text-slate-400">
+                Select an account to view the General Ledger.
+            </div>
         </div>
 
         <div
@@ -187,6 +192,7 @@ const el={
     account:document.getElementById('accountFilter'),
     dateRange:document.getElementById('dateRangeFilter'),
     table:document.getElementById('ledgerTable'),
+    cards:document.getElementById('ledgerCards'),
     pagination:document.getElementById('paginationContainer'),
     info:document.getElementById('ledgerInfo'),
     accountTitle:document.getElementById('accountTitle'),
@@ -293,10 +299,13 @@ async function loadLedger(page=1){
         return;
     }
 
-    el.table.innerHTML=AdminUI.loadingState(
+    const loadingTable=AdminUI.loadingState(
         'Loading ledger...',
-        8
+        7
     );
+
+    el.table.innerHTML=loadingTable;
+    el.cards.innerHTML=loadingCards();
 
     const params=new URLSearchParams({
         page:String(page),
@@ -350,17 +359,33 @@ async function loadLedger(page=1){
             onPageChange:loadLedger
         });
     }catch(error){
+        const message=AdminUI.extractError(error);
+
         el.table.innerHTML=AdminUI.emptyState(
-            AdminUI.extractError(error),
-            8
+            message,
+            7
         );
+
+        el.cards.innerHTML=`
+            <div class="px-4 py-12 text-center text-xs text-slate-400">
+                ${esc(message)}
+            </div>
+        `;
 
         el.pagination.innerHTML='';
 
-        Toast.error(
-            AdminUI.extractError(error)
-        );
+        Toast.error(message);
     }
+}
+
+function loadingCards(){
+    return Array.from({length:4}).map(()=>`
+        <div class="animate-pulse space-y-2 px-4 py-4">
+            <div class="h-3 w-1/3 rounded bg-slate-100"></div>
+            <div class="h-3 w-2/3 rounded bg-slate-100"></div>
+            <div class="h-3 w-1/2 rounded bg-slate-100"></div>
+        </div>
+    `).join('');
 }
 
 function renderAccountInfo(account,summary){
@@ -414,104 +439,216 @@ function renderAccountInfo(account,summary){
 
 function renderEntries(entries){
     if(!entries.length){
-        el.table.innerHTML=AdminUI.emptyState(
+        const empty=AdminUI.emptyState(
             'No posted ledger entries found for this period.',
-            8
+            7
         );
+
+        el.table.innerHTML=empty;
+
+        el.cards.innerHTML=`
+            <div class="px-4 py-12 text-center text-xs text-slate-400">
+                No posted ledger entries found for this period.
+            </div>
+        `;
 
         return;
     }
 
-    el.table.innerHTML=entries.map(entry=>{
-        const transaction=
-            entry.transaction??{};
+    el.table.innerHTML=entries.map(renderTableRow).join('');
+    el.cards.innerHTML=entries.map(renderCard).join('');
+}
 
-        const description=
-            entry.description||
-            transaction.description||
-            '—';
+function journalCell(entry){
+    const transaction=
+        entry.transaction??{};
 
-        return `
-            <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
-                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
-                    ${
+    return `
+        <div class="font-mono text-sm font-semibold text-indigo-600">
+            ${esc(
+                transaction.transaction_no||
+                '—'
+            )}
+        </div>
+
+        <div class="mt-0.5 text-[10px] text-slate-400">
+            ${
+                transaction.transaction_date
+                    ?AdminUI.formatDate(
                         transaction.transaction_date
-                            ?AdminUI.formatDate(
-                                transaction.transaction_date
-                            )
-                            :'—'
-                    }
-                </td>
+                    )
+                    :'—'
+            }
+        </div>
+    `;
+}
 
-                <td class="px-4 py-3">
+function renderTableRow(entry){
+    const transaction=
+        entry.transaction??{};
+
+    const description=
+        entry.description||
+        transaction.description||
+        '—';
+
+    return `
+        <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
+            <td class="whitespace-nowrap px-4 py-3">
+                ${journalCell(entry)}
+            </td>
+
+            <td class="px-4 py-3">
+                <div class=" text-xs 2xl:text-sm font-medium text-slate-700">
+                    ${esc(
+                        AdminUI.titleCase(
+                            transaction.type||
+                            '—'
+                        )
+                    )}
+                </div>
+
+                <div class="mt-0.5 text-[10px] text-slate-400">
+                    ${esc(
+                        AdminUI.titleCase(
+                            transaction.source_module||
+                            '—'
+                        )
+                    )}
+                </div>
+            </td>
+
+            <td class="max-w-[320px] px-4 py-3">
+                <p
+                    class="truncate  text-xs 2xl:text-sm text-slate-600"
+                    title="${esc(description)}">
+                    ${esc(description)}
+                </p>
+            </td>
+
+            <td class="px-4 py-3 text-right text-sm font-semibold text-emerald-700">
+                ${
+                    Number(entry.debit)>0
+                        ?money(entry.debit)
+                        :'—'
+                }
+            </td>
+
+            <td class="px-4 py-3 text-right text-sm font-semibold text-red-700">
+                ${
+                    Number(entry.credit)>0
+                        ?money(entry.credit)
+                        :'—'
+                }
+            </td>
+
+            <td class="px-4 py-3 text-right text-sm font-bold text-indigo-700">
+                ${money(
+                    entry.running_balance
+                )}
+            </td>
+
+            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                ${esc(
+                    transaction.poster?.name||
+                    transaction.creator?.name||
+                    'System'
+                )}
+            </td>
+        </tr>
+    `;
+}
+
+function renderCard(entry){
+    const transaction=
+        entry.transaction??{};
+
+    const description=
+        entry.description||
+        transaction.description||
+        '—';
+
+    return `
+        <div class="space-y-2 px-4 py-4">
+            <div class="flex items-start justify-between gap-2">
+                <div>
                     <div class="font-mono text-sm font-semibold text-indigo-600">
                         ${esc(
                             transaction.transaction_no||
                             '—'
                         )}
                     </div>
-                </td>
-
-                <td class="px-4 py-3">
-                    <div class=" text-xs 2xl:text-sm font-medium text-slate-700">
-                        ${esc(
-                            AdminUI.titleCase(
-                                transaction.type||
-                                '—'
-                            )
-                        )}
-                    </div>
 
                     <div class="mt-0.5 text-[10px] text-slate-400">
-                        ${esc(
-                            AdminUI.titleCase(
-                                transaction.source_module||
-                                '—'
-                            )
+                        ${
+                            transaction.transaction_date
+                                ?AdminUI.formatDate(
+                                    transaction.transaction_date
+                                )
+                                :'—'
+                        }
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <div class="text-[10px] uppercase tracking-wide text-slate-400">
+                        Balance
+                    </div>
+                    <div class="text-sm font-bold text-indigo-700">
+                        ${money(
+                            entry.running_balance
                         )}
                     </div>
-                </td>
+                </div>
+            </div>
 
-                <td class="max-w-[320px] px-4 py-3">
-                    <p
-                        class="truncate  text-xs 2xl:text-sm text-slate-600"
-                        title="${esc(description)}">
-                        ${esc(description)}
-                    </p>
-                </td>
+            <p class=" text-xs 2xl:text-sm text-slate-600">
+                ${esc(description)}
+            </p>
 
-                <td class="px-4 py-3 text-right text-sm font-semibold text-emerald-700">
-                    ${
-                        Number(entry.debit)>0
-                            ?money(entry.debit)
-                            :'—'
-                    }
-                </td>
-
-                <td class="px-4 py-3 text-right text-sm font-semibold text-red-700">
-                    ${
-                        Number(entry.credit)>0
-                            ?money(entry.credit)
-                            :'—'
-                    }
-                </td>
-
-                <td class="px-4 py-3 text-right text-sm font-bold text-indigo-700">
-                    ${money(
-                        entry.running_balance
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500">
+                <span>
+                    ${esc(
+                        AdminUI.titleCase(
+                            transaction.type||
+                            '—'
+                        )
                     )}
-                </td>
+                    ${
+                        transaction.source_module
+                            ?` • ${esc(AdminUI.titleCase(transaction.source_module))}`
+                            :''
+                    }
+                </span>
 
-                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                <span>
                     ${esc(
                         transaction.poster?.name||
                         transaction.creator?.name||
                         'System'
                     )}
-                </td>
-            </tr>
-        `;
-    }).join('');
+                </span>
+            </div>
+
+            <div class="flex items-center gap-4 text-sm font-semibold">
+                <span class="text-emerald-700">
+                    Debit: ${
+                        Number(entry.debit)>0
+                            ?money(entry.debit)
+                            :'—'
+                    }
+                </span>
+
+                <span class="text-red-700">
+                    Credit: ${
+                        Number(entry.credit)>0
+                            ?money(entry.credit)
+                            :'—'
+                    }
+                </span>
+            </div>
+        </div>
+    `;
 }
 
 function resetLedger(){
@@ -537,10 +674,16 @@ function resetLedger(){
 
     el.table.innerHTML=`
         <tr>
-            <td colspan="8" class="px-4 py-12 text-center text-base text-slate-400">
+            <td colspan="7" class="px-4 py-12 text-center text-xs text-slate-400">
                 Select an account to view the General Ledger.
             </td>
         </tr>
+    `;
+
+    el.cards.innerHTML=`
+        <div class="px-4 py-12 text-center text-xs text-slate-400">
+            Select an account to view the General Ledger.
+        </div>
     `;
 }
 
