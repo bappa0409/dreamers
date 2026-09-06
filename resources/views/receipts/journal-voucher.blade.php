@@ -23,7 +23,7 @@ body {
 hr {
     border: 0;
     border-top: 1px solid #000;
-    margin: 18px 0;
+    margin: 10px 0;
     height: 0;
 }
 
@@ -35,7 +35,7 @@ table {
 /* ================= HEADER ================= */
 
 .header-table {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .header-table td {
@@ -49,7 +49,7 @@ table {
 }
 
 .header-gap {
-    width: 18px;
+    width: 14px;
 }
 
 .company-logo {
@@ -60,7 +60,7 @@ table {
     vertical-align: middle;
     font-size: 25px;
     font-weight: bold;
-    color: #333;
+    color: #000;
     background: #fafafa;
 }
 
@@ -72,17 +72,22 @@ table {
     margin: 0;
     font-size: 21px;
     font-weight: 700;
+    color: #000;
 }
 
 .company-info p {
-    margin: 3px 0 0;
-    font-size: 10px;
-    color: #666;
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #000;
+}
+.company-address {
+    font-size: 14px;
+    color: #000;
 }
 
 .company-contact {
     margin-top: 5px;
-    font-size: 9px;
+    font-size: 11px;
     color: #000;
 }
 
@@ -96,45 +101,53 @@ table {
     font-size: 18px;
     font-weight: 700;
     letter-spacing: .7px;
+    color: #000;
 }
 
 .voucher-heading span {
     display: inline-block;
     margin-top: 6px;
     padding: 4px 9px;
-    border: 1px solid #bbb;
+    border: 1px solid #000;
     font-size: 9px;
-    color: #555;
+    font-weight: 600;
+    color: #000;
 }
 
 /* ================= VOUCHER INFORMATION ================= */
 
 .voucher-info-table {
-    margin: 23px 0 20px;
-    font-size: 11px;
+    margin: 10px 0 25px;
+    font-size: 10px;
 }
 
 .voucher-info-table td {
     border: none;
-    padding: 3px 0;
-    line-height: 1.7;
+    padding: 0 10px 6px 0;
     vertical-align: top;
 }
 
+.info-col-70 {
+    width: 70%;
+}
+
+.info-col-30 {
+    width: 30%;
+    padding-right: 0;
+}
+
 .info-label {
-    width: 105px;
-    font-weight: 600;
-    color: #444;
-    padding-right: 10px !important;
+    display: block;
+    font-weight: 700;
+    font-size: 11px;
+    color: #000;
 }
 
 .info-value {
-    color: #222;
-    padding-right: 45px !important;
-}
-
-.description-row .info-value {
-    padding-right: 0 !important;
+    display: block;
+    font-weight: 600;
+    font-size: 11px;
+    color: #000;
 }
 
 /* ================= ACCOUNTING TABLE ================= */
@@ -147,9 +160,10 @@ table {
 
 .voucher-table th,
 .voucher-table td {
-    border: 1px solid #bfc3c7;
+    border: 1px solid #000;
     padding: 11px 12px;
     font-size: 11px;
+    color: #000;
 }
 
 .voucher-table th {
@@ -163,6 +177,9 @@ table {
     text-align: right;
     width: 145px;
 }
+.text-right{
+    text-align: right;
+}
 
 .account-code {
     font-weight: 600;
@@ -171,7 +188,7 @@ table {
 .account-description {
     display: block;
     margin-top: 3px;
-    color: #777;
+    color: #000;
     font-size: 9px;
 }
 
@@ -182,38 +199,38 @@ table {
 
 /* ================= SIGNATURE ================= */
 
-.signature-table {
-    margin-top: 65px;
+.signature-block {
+    margin-top: 60px;
 }
 
-.signature-table td {
+.signature-block td {
     border: none;
-    width: 200px;
-    text-align: center;
-    font-size: 10px;
+    width: 45%;
     padding: 0;
 }
 
-.signature-spacer {
-    width: auto;
+.signature-block .signature-gap {
+    width: 10%;
 }
 
-.signature-divider {
-    border-left: 1px solid #bbb;
-}
-
-.signature-line {
-    border-top: 1px solid #444;
-    margin-bottom: 7px;
+.signature-line-table td {
+    border: none;
+    border-top: 1px solid #000;
+    padding-top: 6px;
+    text-align: center;
 }
 
 .signature-title {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 10px;
+    color: #000;
 }
 
 .signature-name {
-    color: #666;
     margin-top: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000;
 }
 
 /* ================= FOOTER ================= */
@@ -225,9 +242,9 @@ table {
     bottom: -8mm;
     width: 100%;
     padding-top: 11px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #000;
     text-align: center;
-    color: #777;
+    color: #000;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 8px;
     white-space: nowrap;
@@ -253,9 +270,9 @@ table {
 <table class="header-table">
     <tr>
         <td class="company-logo-cell">
-            @if(!empty($organization['logo_path']))
+            @if(!empty($organization['site_logo_other']))
                 <img
-                    src="{{ $organization['logo_path'] }}"
+                    src="{{ $organization['site_logo_other'] }}"
                     style="width: 62px; height: 62px; object-fit: contain;"
                 >
             @else
@@ -273,14 +290,15 @@ table {
                     <p>{{ $organization['tagline'] }}</p>
                 @endif
 
-                @if(
-                    !empty($organization['address']) ||
-                    !empty($organization['phone']) ||
-                    !empty($organization['email'])
-                )
+                 @if(!empty($organization['address']))
+                    <div class="company-address">
+                        {{ $organization['address'] }}
+                    </div>
+                @endif
+
+                @if(!empty($organization['phone']) || !empty($organization['email']))
                     <div class="company-contact">
                         {{ collect([
-                            $organization['address'] ?? null,
                             !empty($organization['phone'])
                                 ? 'Phone: '.$organization['phone']
                                 : null,
@@ -312,29 +330,25 @@ table {
 
 <table class="voucher-info-table">
     <tr>
-        <td class="info-label">Voucher No</td>
-        <td class="info-value">{{ $voucher['voucher_no'] }}</td>
-        <td class="info-label">Date</td>
-        <td class="info-value">{{ $voucher['date'] ?? '—' }}</td>
+        <td class="info-col-70">
+            <span class="info-label">Voucher No</span>
+            <span class="info-value">: {{ $voucher['voucher_no'] }}</span>
+        </td>
+        <td class="info-col-30">
+            <span class="info-label">Date</span>
+            <span class="info-value">: {{ $voucher['date'] ?? '—' }}</span>
+        </td>
     </tr>
     <tr>
-        <td class="info-label">Type</td>
-        <td class="info-value">{{ $voucher['type'] }}</td>
-        <td class="info-label">Source</td>
-        <td class="info-value">{{ $voucher['source'] }}</td>
+        <td class="info-col-70">
+            <span class="info-label">Posted At</span>
+            <span class="info-value">: {{ $voucher['posted_at'] ?? '—' }}</span>
+        </td>
+        <td class="info-col-30">
+            <span class="info-label">Reference</span>
+            <span class="info-value">: {{ $voucher['reference'] ?? '—' }}</span>
+        </td>
     </tr>
-    <tr>
-        <td class="info-label">Posted At</td>
-        <td class="info-value">{{ $voucher['posted_at'] ?? '—' }}</td>
-        <td class="info-label">Reference</td>
-        <td class="info-value">{{ $voucher['reference'] ?? '—' }}</td>
-    </tr>
-    @if(!empty($voucher['description']))
-        <tr class="description-row">
-            <td class="info-label">Description</td>
-            <td class="info-value" colspan="3">{{ $voucher['description'] }}</td>
-        </tr>
-    @endif
 </table>
 
 <table class="voucher-table">
@@ -347,15 +361,13 @@ table {
     </thead>
 
     <tbody>
-
         @foreach($voucher['entries'] as $entry)
-
             <tr>
                 <td>
                     <span class="account-code">
                         {{ $entry['account'] }}
                     </span>
-
+                    <br>
                     @if(!empty($entry['description']))
                         <span class="account-description">
                             {{ $entry['description'] }}
@@ -377,11 +389,10 @@ table {
                     }}
                 </td>
             </tr>
-
         @endforeach
 
         <tr class="total-row">
-            <td>Total</td>
+            <td class="text-right">Total</td>
             <td class="amount">{{ number_format($voucher['total_debit'], 2) }}</td>
             <td class="amount">{{ number_format($voucher['total_credit'], 2) }}</td>
         </tr>
@@ -389,18 +400,34 @@ table {
     </tbody>
 </table>
 
-<table class="signature-table">
+<table class="signature-block">
     <tr>
         <td>
-            <div class="signature-line"></div>
-            <div class="signature-title">Prepared By</div>
-            <div class="signature-name">{{ $voucher['prepared_by'] }}</div>
+            <table class="signature-line-table">
+                <tr>
+                    <td style="border-top: none; height: 30px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; padding-top: 4px;">
+                        <div class="signature-title">Prepared By</div>
+                        <div class="signature-name">{{ $voucher['prepared_by'] }}</div>
+                    </td>
+                </tr>
+            </table>
         </td>
-        <td class="signature-spacer signature-divider">&nbsp;</td>
+        <td class="signature-gap">&nbsp;</td>
         <td>
-            <div class="signature-line"></div>
-            <div class="signature-title">Authorized By</div>
-            <div class="signature-name">{{ $voucher['authorized_by'] }}</div>
+            <table class="signature-line-table">
+                <tr>
+                    <td style="border-top: none; height: 30px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; padding-top: 4px;">
+                        <div class="signature-title">Authorized By</div>
+                        <div class="signature-name">{{ $voucher['authorized_by'] }}</div>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>

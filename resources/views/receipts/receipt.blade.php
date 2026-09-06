@@ -209,9 +209,9 @@ body{
 
 <div class="header">
 
-    @if(!empty($organization['logo_path']))
+    @if(!empty($organization['site_logo_other']))
         <img
-            src="{{ $organization['logo_path'] }}"
+            src="{{ $organization['site_logo_other'] }}"
             class="logo"
         >
     @endif

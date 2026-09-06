@@ -12,7 +12,7 @@ class SettingSeeder extends Seeder
     {
         Setting::whereIn('key',[
             'member_approval_type',
-            'theme_mode',
+            'theme_mode'
         ])->delete();
 
         $settings=[
@@ -88,7 +88,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'organization_email',
-                'value'=>null,
+                'value'=>'info@dreamersassociation.com',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'organization',
@@ -115,7 +115,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'organization_website',
-                'value'=>null,
+                'value'=>'https://dreamersassociation.com',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'organization',
@@ -124,7 +124,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'organization_address',
-                'value'=>null,
+                'value'=>'Haluaghat, Mymemsing-2260',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'organization',
@@ -133,7 +133,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'=>'organization_description',
-                'value'=>null,
+                'value'=>'ড্রিমার এসোসিয়েশন একটি স্বেচ্ছাসেবী সঞ্চয় ও বিনিয়োগ সংগঠন, যা এর সদস্যদের মাসিক নির্দিষ্ট পরিমাণ চাঁদার মাধ্যমে একটি যৌথ তহবিল গড়ে তোলে। এই তহবিল ব্যবসা, পণ্য কেনাবেচা, জমি ক্রয়সহ বিভিন্ন লাভজনক খাতে বিনিয়োগ করা হয়, যার মূল লক্ষ্য সদস্যদের আর্থিক সচ্ছলতা ও ভবিষ্যৎ নিরাপত্তা নিশ্চিত করা।',
                 'type'=>'string',
                 'options'=>null,
                 'group'=>'organization',
@@ -332,6 +332,15 @@ class SettingSeeder extends Seeder
                 'options'=>null,
                 'group'=>'branding',
                 'description'=>'Browser favicon',
+                'is_public'=>true,
+            ],
+            [
+                'key'=>'site_logo_other',
+                'value'=>null,
+                'type'=>'image',
+                'options'=>null,
+                'group'=>'branding',
+                'description'=>'For Receipt, Invoice, Voucher.',
                 'is_public'=>true,
             ],
 
@@ -609,7 +618,7 @@ class SettingSeeder extends Seeder
                 'description'=>'Enable late fine for overdue monthly subscriptions',
                 'is_public'=>false,
             ],
-           
+
 
             [
                 'key'=>'loan_enabled',

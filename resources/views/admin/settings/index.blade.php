@@ -154,9 +154,29 @@
     const generalImageKeys=[
         'site_logo',
         'site_favicon',
+        'site_logo_other',
         'logo',
         'favicon'
     ];
+
+    // Display label shown above each image upload field. Falls back
+    // to a title-cased version of the key when a setting's key isn't
+    // listed here, so a newly seeded image setting never silently
+    // inherits another field's label.
+    const imageFieldTitles={
+        site_logo:'Organization Logo',
+        logo:'Organization Logo',
+        site_favicon:'Browser Favicon',
+        favicon:'Browser Favicon',
+        site_logo_other:'Others'
+    };
+
+    // Short explanatory line shown directly under an image field's
+    // label (e.g. what the image is used for). Only set where extra
+    // context is genuinely needed.
+    const imageFieldSubtitles={
+        site_logo_other:'For Receipt, Invoice, Voucher.'
+    };
 
     async function loadSettings(){
         loadingBadge.classList.remove('hidden');
@@ -1152,21 +1172,40 @@
                 :null;
 
         const title=
-            setting.key==='site_favicon'||
-            setting.key==='favicon'
-                ?'Browser Favicon'
-                :'Organization Logo';
+            imageFieldTitles[setting.key]??
+            AdminUI.titleCase(setting.key);
+
+        const subtitle=
+            imageFieldSubtitles[setting.key]??
+            null;
+
+        const caption=
+            'PNG, JPG, WEBP or ICO. Max 2MB.';
 
         return`
             <div class="rounded-md border border-slate-200 p-3">
 
-                <div class="mb-3 flex items-center justify-between gap-2">
+                <div class="mb-3">
 
-                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
-                        ${AdminUI.escapeHtml(title)}
-                    </label>
+                    <div class="flex items-center justify-between gap-2">
 
-                    ${publicBadge(setting)}
+                        <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                            ${AdminUI.escapeHtml(title)}
+                        </label>
+
+                        ${publicBadge(setting)}
+
+                    </div>
+
+                    ${
+                        subtitle
+                            ?`
+                                <p class="mt-0.5 text-[10px] text-slate-400">
+                                    ${AdminUI.escapeHtml(subtitle)}
+                                </p>
+                            `
+                            :''
+                    }
 
                 </div>
 
@@ -1221,7 +1260,7 @@
                             id="uploadStatus_${AdminUI.escapeHtml(setting.key)}"
                             class="mt-1.5 text-[10px] text-slate-400">
 
-                            PNG, JPG, WEBP or ICO. Max 2MB.
+                            ${AdminUI.escapeHtml(caption)}
 
                         </p>
 

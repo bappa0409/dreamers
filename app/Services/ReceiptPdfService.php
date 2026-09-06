@@ -321,71 +321,22 @@ class ReceiptPdfService
             )
         );
 
-        $logoPath=null;
-        $logoUrl=null;
+        ['path'=>$logoPath,'url'=>$logoUrl]=
+            $this->resolveImageSetting($logo);
 
-        if($logo){
-            $logo=str_replace(
-                '\\',
-                '/',
-                trim((string)$logo)
-            );
+        // Separate, manually-uploaded logo meant specifically for
+        // voucher / receipt / invoice PDFs (e.g. a plain, print-
+        // friendly mark instead of the full-colour site logo).
+        $logoOther=setting('site_logo_other',null);
 
-            $logo=ltrim(
-                $logo,
-                '/'
-            );
+        ['path'=>$logoOtherPath,'url'=>$logoOtherUrl]=
+            $this->resolveImageSetting($logoOther);
 
-            if(str_starts_with(
-                $logo,
-                'storage/'
-            )){
-                $relative=substr(
-                    $logo,
-                    strlen('storage/')
-                );
-
-                if(
-                    Storage::disk('public')
-                        ->exists($relative)
-                ){
-                    $logoPath=
-                        Storage::disk('public')
-                            ->path($relative);
-
-                    $logoUrl=
-                        Storage::disk('public')
-                            ->url($relative);
-                }
-            }
-
-            if(
-                !$logoPath&&
-                Storage::disk('public')
-                    ->exists($logo)
-            ){
-                $logoPath=
-                    Storage::disk('public')
-                        ->path($logo);
-
-                $logoUrl=
-                    Storage::disk('public')
-                        ->url($logo);
-            }
-
-            if(
-                !$logoPath&&
-                is_file(
-                    public_path($logo)
-                )
-            ){
-                $logoPath=
-                    public_path($logo);
-
-                $logoUrl=
-                    asset($logo);
-            }
-        }
+        // Voucher / receipt / invoice PDFs prefer the dedicated
+        // "other" logo when one has been uploaded, and fall back to
+        // the main site logo otherwise.
+        $documentLogoPath=$logoOtherPath?:$logoPath;
+        $documentLogoUrl=$logoOtherUrl?:$logoUrl;
 
         return[
             'name'=>(string)$name,
@@ -395,6 +346,13 @@ class ReceiptPdfService
             'logo_path'=>
                 $withPath
                     ?$logoPath
+                    :null,
+
+            'site_logo_other_url'=>$documentLogoUrl,
+
+            'site_logo_other'=>
+                $withPath
+                    ?$documentLogoPath
                     :null,
 
             'address'=>(string)setting(
@@ -417,5 +375,82 @@ class ReceiptPdfService
                 ''
             ),
         ];
+    }
+
+    /**
+     * Resolve a stored setting value (a "storage/..." web path, a
+     * plain path relative to the "public" disk, or a raw public_path()
+     * file) to a local filesystem path mPDF can embed plus a public
+     * URL. Also returns the path relative to the "public" disk, when
+     * that's where the file actually lives, so callers can hand it
+     * straight to LogoVariantService::generate().
+     */
+    protected function resolveImageSetting(mixed $value): array{
+        $empty=[
+            'path'=>null,
+            'url'=>null,
+            'storage_path'=>null,
+        ];
+
+        if(!$value){
+            return $empty;
+        }
+
+        $value=str_replace(
+            '\\',
+            '/',
+            trim((string)$value)
+        );
+
+        $value=ltrim(
+            $value,
+            '/'
+        );
+
+        if(str_starts_with(
+            $value,
+            'storage/'
+        )){
+            $relative=substr(
+                $value,
+                strlen('storage/')
+            );
+
+            if(
+                Storage::disk('public')
+                    ->exists($relative)
+            ){
+                return[
+                    'path'=>Storage::disk('public')->path($relative),
+                    'url'=>Storage::disk('public')->url($relative),
+                    'storage_path'=>$relative,
+                ];
+            }
+        }
+
+        if(
+            Storage::disk('public')
+                ->exists($value)
+        ){
+            return[
+                'path'=>Storage::disk('public')->path($value),
+                'url'=>Storage::disk('public')->url($value),
+                'storage_path'=>$value,
+            ];
+        }
+
+        if(
+            is_file(
+                public_path($value)
+            )
+        ){
+            return[
+                'path'=>public_path($value),
+                'url'=>asset($value),
+                'storage_path'=>null,
+            ];
+        }
+
+        return $empty;
     }
 }

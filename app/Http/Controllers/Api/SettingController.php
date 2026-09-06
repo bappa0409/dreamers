@@ -155,6 +155,10 @@ class SettingController extends Controller
                 'group'=>'branding',
                 'description'=>'Browser favicon',
             ],
+            'site_logo_other'=>[
+                'group'=>'branding',
+                'description'=>'For Receipt, Invoice, Voucher.',
+            ],
         ];
 
         $validated=$request->validate([
