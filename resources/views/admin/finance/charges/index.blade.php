@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Member Charges</h1>
-                <p class="text-xs text-slate-500">Create, collect and manage member charges and receivables.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Create, collect and manage member charges and receivables.</p>
             </div>
         </div>
         @if(auth()->user()->hasPermission('Finance.create'))
@@ -25,19 +25,19 @@
 
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Charged</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Charged</p>
             <p id="summaryCharged" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Collected</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Collected</p>
             <p id="summaryPaid" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Outstanding</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Outstanding</p>
             <p id="summaryOutstanding" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Unpaid / Partial</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Unpaid / Partial</p>
             <p id="summaryUnpaid" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
     </div>
@@ -58,7 +58,7 @@
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_240px_130px_auto] lg:gap-0">
                 <div class="relative">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search..." class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-xs outline-none focus:border-indigo-400 lg:rounded-r-none">
+                    <input id="searchInput" type="text" placeholder="Search..." class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3  text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
                 </div>
 
                 <div class="relative">
@@ -77,7 +77,7 @@
                     <option value="cancelled">Cancelled</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -89,21 +89,21 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Charge</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Charge Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Due Date</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Paid</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Outstanding</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Charge</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Charge Date</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Due Date</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Paid</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Outstanding</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="chargeTable">
                     <tr>
-                        <td colspan="10" class="px-4 py-10 text-xs text-center text-slate-400">Loading charges...</td>
+                        <td colspan="10" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading charges...</td>
                     </tr>
                 </tbody>
             </table>
@@ -122,7 +122,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Add Member Charge</h2>
-                    <p class="text-xs text-slate-500">Create receivable and post accounting entry automatically.</p>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Create receivable and post accounting entry automatically.</p>
                 </div>
             </div>
             <button type="button" onclick="closeChargeModal()" class="app-modal-close">
@@ -232,10 +232,10 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeChargeModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closeChargeModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Cancel
                 </button>
-                <button id="saveChargeButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveChargeButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     Create Charge
                 </button>
             </div>
@@ -253,7 +253,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Receive Payment</h2>
-                    <p id="paymentDescription" class="text-xs text-slate-500"></p>
+                    <p id="paymentDescription" class=" text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
             <button type="button" onclick="closePaymentModal()" class="app-modal-close">
@@ -326,10 +326,10 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closePaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closePaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Cancel
                 </button>
-                <button id="paymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                <button id="paymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     Post Payment
                 </button>
             </div>
@@ -347,7 +347,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Charge Details</h2>
-                    <p class="text-xs text-slate-500">View charge, accounting and payment information.</p>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">View charge, accounting and payment information.</p>
                 </div>
             </div>
             <button type="button" onclick="closeDetailsModal()" class="app-modal-close">
@@ -358,7 +358,7 @@
         <div id="detailsBody" class="min-h-0 flex-1 overflow-y-auto p-5"></div>
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="closeDetailsModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+            <button type="button" onclick="closeDetailsModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -375,7 +375,7 @@
                 </div>
                 <div>
                     <h2 id="reasonTitle" class="text-sm font-semibold text-slate-800">Update Charge</h2>
-                    <p id="reasonDescription" class="text-xs text-slate-500"></p>
+                    <p id="reasonDescription" class=" text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
             <button type="button" onclick="closeReasonModal()" class="app-modal-close">
@@ -397,7 +397,7 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeReasonModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="closeReasonModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Back
                 </button>
                 <button id="reasonButton" type="submit" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
@@ -589,15 +589,15 @@ function renderCharges(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                     ${AdminUI.escapeHtml(titleCase(item.charge_type))}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                     ${AdminUI.formatDate(item.charge_date)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                     ${item.due_date?AdminUI.formatDate(item.due_date):'—'}
                 </td>
 
@@ -883,12 +883,12 @@ window.viewCharge=async function(id){
             </div>
 
             <div class="mt-5">
-                <p class="mb-2 text-xs font-semibold text-slate-700">Charge Journal</p>
+                <p class="mb-2  text-xs 2xl:text-sm font-semibold text-slate-700">Charge Journal</p>
                 ${journalTable(entries)}
             </div>
 
             <div class="mt-5">
-                <p class="mb-2 text-xs font-semibold text-slate-700">Payment History</p>
+                <p class="mb-2  text-xs 2xl:text-sm font-semibold text-slate-700">Payment History</p>
 
                 <div class="overflow-x-auto rounded-md border border-slate-200">
                     <table class="w-full min-w-[620px] text-sm">

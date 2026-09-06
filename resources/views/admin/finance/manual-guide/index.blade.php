@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Accounts (Ledger) — কোন কাজে হিট হয়</h1>
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     সিস্টেমের কোন action ledger-এ entry তৈরি করে, এবং সেটা কোথায় গিয়ে দেখা যাবে — তার রেফারেন্স ম্যাপ।
                 </p>
             </div>
@@ -23,7 +23,7 @@
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.finance.manual-detail') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-journal-text text-[11px]"></i>
                 Accounts Detail
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-4 py-3 text-xs leading-5 text-indigo-700">
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-4 py-3  text-xs 2xl:text-sm leading-5 text-indigo-700">
         <i class="bi bi-info-circle mr-1"></i>
         সিস্টেমে যত ধরনের accounting entry তৈরি হয়, সবগুলো একই common নিয়মে check হয়ে ledger-এ post হয় —
         প্রতিটা entry-তে Debit ও Credit-এর total সমান কিনা যাচাই করা হয়, এবং একই action দুইবার ভুলবশত জমা হয়ে
@@ -41,11 +41,11 @@
     <div class="grid gap-3 sm:grid-cols-2">
         <div class="rounded-md border-l-4 border-l-emerald-500 border border-slate-200 bg-white p-4">
             <p class="text-sm font-semibold text-slate-800">Posted (workflow না থাকলে)</p>
-            <p class="mt-1 text-xs text-slate-500">যেকোনো wired module/action (Member, Loan, Income, Expense, Account, Manual Journal — সবগুলোই) তৈরি হওয়ার সাথে সাথে approval request auto-approve হয়ে যায়, আর একই মুহূর্তেই সরাসরি ledger-এ posted/effective হয়ে যায়।</p>
+            <p class="mt-1  text-xs 2xl:text-sm text-slate-500">যেকোনো wired module/action (Member, Loan, Income, Expense, Account, Manual Journal — সবগুলোই) তৈরি হওয়ার সাথে সাথে approval request auto-approve হয়ে যায়, আর একই মুহূর্তেই সরাসরি ledger-এ posted/effective হয়ে যায়।</p>
         </div>
         <div class="rounded-md border-l-4 border-l-amber-500 border border-slate-200 bg-white p-4">
             <p class="text-sm font-semibold text-slate-800">Pending (workflow থাকলে)</p>
-            <p class="mt-1 text-xs text-slate-500">Active workflow বসানো থাকলে entry pending অবস্থায় থাকে যতক্ষণ না approve হয় (Manual Journal-এর ক্ষেত্রে ততক্ষণ transaction draft) — approve হলে তবেই একই posting logic চলে।</p>
+            <p class="mt-1  text-xs 2xl:text-sm text-slate-500">Active workflow বসানো থাকলে entry pending অবস্থায় থাকে যতক্ষণ না approve হয় (Manual Journal-এর ক্ষেত্রে ততক্ষণ transaction draft) — approve হলে তবেই একই posting logic চলে।</p>
         </div>
     </div>
 
@@ -57,11 +57,11 @@
         <table class="w-full text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Sidebar Module</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">কী করলে hit হয়</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Type</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Debit / Credit</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">কোথায় দেখবেন</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Sidebar Module</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">কী করলে hit হয়</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Type</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Debit / Credit</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">কোথায় দেখবেন</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -100,20 +100,20 @@
 
                 @foreach($rows as [$module, $action, $type, $entry, $where])
                 <tr class="align-top">
-                    <td class="px-4 py-2.5 text-xs font-semibold text-slate-700">{{ $module }}</td>
-                    <td class="px-4 py-2.5 text-xs text-slate-600">{{ $action }}</td>
-                    <td class="px-4 py-2.5 text-xs">
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm font-semibold text-slate-700">{{ $module }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm text-slate-600">{{ $action }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm">
                         <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">{{ $type }}</code>
                     </td>
-                    <td class="px-4 py-2.5 text-xs text-slate-600">{{ $entry }}</td>
-                    <td class="px-4 py-2.5 text-xs text-slate-500">{{ $where }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm text-slate-600">{{ $entry }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm text-slate-500">{{ $where }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 
-    <div class="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-800">
+    <div class="rounded-md border border-amber-200 bg-amber-50 px-4 py-3  text-xs 2xl:text-sm leading-5 text-amber-800">
         <i class="bi bi-arrow-repeat mr-1"></i>
         <strong>Reversal:</strong> উপরের প্রায় প্রতিটা module-এ reverse/cancel action আছে (<code class="rounded bg-white px-1.5 py-0.5 font-mono text-[11px] text-amber-700">*_reversal</code>) —
         original entry-র উল্টো debit/credit দিয়ে নতুন transaction পোস্ট হয়, original টা delete হয় না (audit trail থাকে)।
@@ -121,7 +121,7 @@
 
     <div class="rounded-md border border-slate-200 bg-white px-5 py-4">
         <h2 class="text-sm font-bold text-slate-800">Approval Workflow না বসালে কী হয় — সব module/action</h2>
-        <p class="mt-1 text-xs text-slate-500">
+        <p class="mt-1  text-xs 2xl:text-sm text-slate-500">
             এই লিস্টের বাইরে কোনো module/action-এর জন্য Approval Workflow Builder থেকে workflow বানানোই যায় না —
             এই কয়টাই একমাত্র module/action যেগুলোর জন্য সিস্টেম আসলে approval চেক করে।
             যেকোনো একটার জন্য active workflow (কমপক্ষে ১টা approver step সহ) না থাকলে — request block হয় না, সাথে সাথে
@@ -134,9 +134,9 @@
         <table class="w-full text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Module</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Action</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Workflow না থাকলে (auto-approve)</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Module</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Action</th>
+                    <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold uppercase tracking-wide text-slate-500">Workflow না থাকলে (auto-approve)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -160,18 +160,18 @@
 
                 @foreach($workflowRows as [$module, $action, $behavior])
                 <tr class="align-top">
-                    <td class="px-4 py-2.5 text-xs font-semibold text-slate-700">{{ $module }}</td>
-                    <td class="px-4 py-2.5 text-xs">
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm font-semibold text-slate-700">{{ $module }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm">
                         <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">{{ $action }}</code>
                     </td>
-                    <td class="px-4 py-2.5 text-xs text-slate-600">{{ $behavior }}</td>
+                    <td class="px-4 py-2.5  text-xs 2xl:text-sm text-slate-600">{{ $behavior }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 
-    <div class="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-5 text-slate-600">
+    <div class="rounded-md border border-slate-200 bg-slate-50 px-4 py-3  text-xs 2xl:text-sm leading-5 text-slate-600">
         <i class="bi bi-gear mr-1"></i>
         Compulsory approval-এর মধ্য দিয়ে নিতে চাইলে <strong>Approval → Workflow Builder</strong>-এ গিয়ে ওই module/action-এর জন্য
         একটা active workflow (কমপক্ষে ১টা approver step সহ) বসাতে হবে।
@@ -179,7 +179,7 @@
 
     <div class="rounded-md border border-slate-200 bg-white px-5 py-4">
         <h2 class="text-sm font-bold text-slate-800">সব entry একসাথে কোথায় দেখবেন</h2>
-        <ul class="mt-2 space-y-1.5 text-xs text-slate-600">
+        <ul class="mt-2 space-y-1.5  text-xs 2xl:text-sm text-slate-600">
             <li><i class="bi bi-journal-text mr-1 text-indigo-500"></i> <strong>Finance → Journal Entries</strong> — সব posted/draft transaction, <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">source_module</code> দিয়ে filter করা যায়</li>
             <li><i class="bi bi-journal-bookmark mr-1 text-indigo-500"></i> <strong>Finance → General Ledger</strong> — account-wise সব entry</li>
             <li><i class="bi bi-bar-chart-steps mr-1 text-indigo-500"></i> <strong>Finance → Trial Balance / Balance Sheet / Profit &amp; Loss</strong> — সারাংশ রিপোর্ট</li>

@@ -485,6 +485,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/transactions', [FinanceController::class, 'index'])->middleware('permission:Finance.view');
         Route::post('/transactions', [FinanceController::class, 'store'])->middleware('permission:Finance.create');
         Route::get('/transactions/{transaction}', [FinanceController::class, 'show'])->middleware('permission:Finance.view');
+        Route::get('/transactions/{transaction}/voucher', [FinanceController::class, 'voucher'])->middleware('permission:Finance.view');
         Route::post('/transactions/{transaction}/reverse', [FinanceController::class, 'reverse'])->middleware('permission:Finance.update');
 
         // Accounts

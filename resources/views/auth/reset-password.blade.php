@@ -27,7 +27,7 @@
             Stay Protected
         </p>
 
-        <p class="text-xs text-emerald-100/70 mt-1">
+        <p class=" text-xs 2xl:text-sm text-emerald-100/70 mt-1">
             Use at least 8 characters with a mix of letters and numbers.
         </p>
     </div>
@@ -48,7 +48,7 @@
 
         <p class="mt-3 text-sm sm:text-base text-slate-500 leading-relaxed">
             Set a new password for
-            <span class="font-semibold text-xs text-slate-700">{{ $email }}</span>
+            <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">{{ $email }}</span>
         </p>
     </div>
 
@@ -91,7 +91,7 @@
             <div class="mt-2 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
                 <div id="strengthBar" class="strength-bar h-full w-0 bg-red-400"></div>
             </div>
-            <p id="strengthLabel" class="mt-1 text-xs text-slate-400">
+            <p id="strengthLabel" class="mt-1  text-xs 2xl:text-sm text-slate-400">
                 Minimum 8 characters
             </p>
         </div>
@@ -130,10 +130,10 @@
     <div class="mt-8">
         <div class="flex items-center gap-3">
             <div class="h-px bg-slate-200 flex-1"></div>
-            <span class="text-xs text-slate-400 uppercase tracking-wider">Secure Access</span>
+            <span class=" text-xs 2xl:text-sm text-slate-400 uppercase tracking-wider">Secure Access</span>
             <div class="h-px bg-slate-200 flex-1"></div>
         </div>
-        <p class="mt-5 text-center text-xs text-slate-400 leading-relaxed">
+        <p class="mt-5 text-center  text-xs 2xl:text-sm text-slate-400 leading-relaxed">
             This link expires 60 minutes after it was requested.
         </p>
     </div>

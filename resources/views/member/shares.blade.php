@@ -1098,7 +1098,8 @@ window.openShareDetails=function(id){
         receiptButton.classList.add('inline-flex');
         receiptButton.onclick=()=>downloadPdf(
             `/api/member/shares/${Number(share.id)}/receipt`,
-            `share-purchase-${share.share_no??share.id}.pdf`
+            `share-purchase-${share.share_no??share.id}.pdf`,
+            receiptButton
         );
     }else{
         receiptButton.classList.add('hidden');
@@ -1128,7 +1129,8 @@ window.closeShareDetails=function(){
         receiptButton.classList.add('inline-flex');
         receiptButton.onclick=()=>downloadPdf(
             `/api/member/shares/${Number(share.id)}/receipt`,
-            `share-purchase-${share.share_no??share.id}.pdf`
+            `share-purchase-${share.share_no??share.id}.pdf`,
+            receiptButton
         );
     }else{
         receiptButton.classList.add('hidden');

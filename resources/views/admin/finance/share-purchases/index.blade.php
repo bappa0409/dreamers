@@ -619,7 +619,7 @@ function renderShareDetails(){
                 share.status==='active'
                     ?`<button
                         type="button"
-                        onclick="downloadPdf('/api/member-shares/${Number(share.id)}/receipt','share-purchase-${AdminUI.escapeHtml(share.share_no??share.id)}.pdf')"
+                        onclick="downloadPdf('/api/member-shares/${Number(share.id)}/receipt','share-purchase-${AdminUI.escapeHtml(share.share_no??share.id)}.pdf',this)"
                         class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
                         <i class="bi bi-file-earmark-pdf mr-1"></i>
                         Download PDF

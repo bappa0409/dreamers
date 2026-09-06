@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">General Ledger</h1>
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     View account-wise posted journal movements and running balance.
                 </p>
             </div>
@@ -28,7 +28,7 @@
                 </label>
                 <select
                     id="accountFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5  text-xs 2xl:text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                     <option value="">Select Account</option>
                 </select>
             </div>
@@ -42,7 +42,7 @@
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
@@ -52,7 +52,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-x-circle me-1"></i>
                     Clear
                 </button>
@@ -73,7 +73,7 @@
                 <p id="accountMeta" class="mt-1 text-sm text-slate-500"></p>
             </div>
 
-            <div class="text-xs text-slate-500">
+            <div class=" text-xs 2xl:text-sm text-slate-500">
                 <i class="bi bi-calendar3 me-1"></i>
                 <span id="periodLabel">All posted transactions</span>
             </div>
@@ -83,7 +83,7 @@
     {{-- Summary --}}
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Opening Balance</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Opening Balance</p>
             <p id="openingBalance" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
@@ -129,28 +129,28 @@
             <table class="w-full min-w-[1150px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Date
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Journal
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Type / Source
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Description
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Debit
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Credit
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Balance
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Posted By
                         </th>
                     </tr>
@@ -453,7 +453,7 @@ function renderEntries(entries){
                 </td>
 
                 <td class="px-4 py-3">
-                    <div class="text-xs font-medium text-slate-700">
+                    <div class=" text-xs 2xl:text-sm font-medium text-slate-700">
                         ${esc(
                             AdminUI.titleCase(
                                 transaction.type||
@@ -474,7 +474,7 @@ function renderEntries(entries){
 
                 <td class="max-w-[320px] px-4 py-3">
                     <p
-                        class="truncate text-xs text-slate-600"
+                        class="truncate  text-xs 2xl:text-sm text-slate-600"
                         title="${esc(description)}">
                         ${esc(description)}
                     </p>
@@ -502,7 +502,7 @@ function renderEntries(entries){
                     )}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-600">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                     ${esc(
                         transaction.poster?.name||
                         transaction.creator?.name||

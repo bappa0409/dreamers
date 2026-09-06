@@ -14,7 +14,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Association Tours</h1>
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     View upcoming tours, schedules and participation status.
                 </p>
             </div>
@@ -23,7 +23,7 @@
 
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Available Tours</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Available Tours</p>
             <p id="totalTours" class="mt-2 text-xl font-bold text-slate-800">0</p>
         </div>
 

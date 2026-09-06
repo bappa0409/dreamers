@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Monthly Subscriptions</h1>
-                <p class="text-xs text-slate-500">Manage member subscriptions, monthly dues and payments.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Manage member subscriptions, monthly dues and payments.</p>
             </div>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -103,7 +103,7 @@
                 </thead>
                 <tbody id="subscriptionBody">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-xs text-center text-slate-400">Loading subscriptions...</td>
+                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading subscriptions...</td>
                     </tr>
                 </tbody>
             </table>
@@ -150,7 +150,7 @@
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h2 class="font-bold text-slate-800">Subscription Plans</h2>
-                <p class="text-xs text-slate-500">Configure monthly subscription amounts.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Configure monthly subscription amounts.</p>
             </div>
             <button type="button" onclick="closeModal('planModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
@@ -210,7 +210,7 @@
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h2 class="font-bold text-slate-800">Pending Payments</h2>
-                <p class="text-xs text-slate-500">Verify member submitted subscription payments.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Verify member submitted subscription payments.</p>
             </div>
             <button type="button" onclick="closeModal('paymentListModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
         </div>
@@ -312,7 +312,7 @@ async function loadPage(page=1){
 
     document.getElementById('subscriptionBody').innerHTML=`
         <tr>
-            <td colspan="8" class="px-4 py-10 text-xs text-center text-slate-400">
+            <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
                 <i class="bi bi-arrow-repeat animate-spin"></i>
                 Loading subscriptions...
             </td>
@@ -370,10 +370,10 @@ function renderSubscriptions(items){
         return`
             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
                 <td class="px-4 py-3">
-                    <div class="font-semibold text-xs text-slate-700">${escapeHtml(user.name??'—')}</div>
+                    <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${escapeHtml(user.name??'—')}</div>
                     <div class="text-sm text-slate-400">${escapeHtml(member.member_code??'—')}</div>
                 </td>
-                <td class="px-4 py-3 text-xs text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
                 <td class="px-4 py-3 text-right font-medium text-slate-700">${money(item.plan?.amount)}</td>
                 <td class="px-4 py-3 text-slate-500">${monthName(month)} ${year}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.amount):'—'}</td>
@@ -670,7 +670,7 @@ async function loadPayments(){
     openModal('paymentListModal');
 
     const body=document.getElementById('paymentBody');
-    body.innerHTML=`<tr><td colspan="7" class="px-4 py-10 text-xs text-center text-slate-400">Loading payments...</td></tr>`;
+    body.innerHTML=`<tr><td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading payments...</td></tr>`;
 
     try{
         const response=await api('/api/finance/subscription-payments?status=pending');
@@ -685,7 +685,7 @@ function renderPayments(){
     const body=document.getElementById('paymentBody');
 
     if(!payments.length){
-        body.innerHTML=`<tr><td colspan="7" class="px-4 py-10 text-xs text-center text-slate-400">No pending payments.</td></tr>`;
+        body.innerHTML=`<tr><td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">No pending payments.</td></tr>`;
         return;
     }
 

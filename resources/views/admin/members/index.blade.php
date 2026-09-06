@@ -12,12 +12,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold tracking-tight text-slate-800">Membership Management</h1>
-                <p class="text-xs text-slate-500">Manage association members, status, assigned roles and share holdings.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Manage association members, status, assigned roles and share holdings.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Member.create'))
-            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-person-plus"></i>
                 Add Member
             </button>
@@ -28,7 +28,7 @@
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-slate-500">Total Members</p>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Total Members</p>
                     <p id="totalMembers" class="mt-2 text-xl font-bold text-slate-800">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
@@ -40,7 +40,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-emerald-700">Active</p>
+                    <p class=" text-xs 2xl:text-sm text-emerald-700">Active</p>
                     <p id="activeMembers" class="mt-2 text-xl font-bold text-emerald-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -52,7 +52,7 @@
         <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-amber-700">Pending</p>
+                    <p class=" text-xs 2xl:text-sm text-amber-700">Pending</p>
                     <p id="pendingMembers" class="mt-2 text-xl font-bold text-amber-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
@@ -64,7 +64,7 @@
         <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-red-700">Suspended</p>
+                    <p class=" text-xs 2xl:text-sm text-red-700">Suspended</p>
                     <p id="suspendedMembers" class="mt-2 text-xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
@@ -76,7 +76,7 @@
         <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 md:col-span-1">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-slate-500">Rejected / Inactive</p>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Rejected / Inactive</p>
                     <p id="inactiveMembers" class="mt-2 text-xl font-bold text-slate-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-200 text-slate-600">
@@ -101,10 +101,10 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                    <input id="searchInput" type="text" placeholder="Search members..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="active">Active</option>
                     <option value="pending">Pending</option>
@@ -113,7 +113,7 @@
                     <option value="rejected">Rejected</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -128,13 +128,13 @@
             <table class="w-full min-w-[820px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[22%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Phone</th>
-                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Roles</th>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Joining</th>
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="w-[12%] px-3 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="w-[22%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Phone</th>
+                        <th class="w-[17%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Joining</th>
+                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[12%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
@@ -165,7 +165,7 @@
                 </div>
                 <div>
                     <h2 id="modalTitle" class="text-sm font-semibold text-slate-800">Add Member</h2>
-                    <p id="modalDescription" class="text-xs text-slate-500">Create member profile and login account.</p>
+                    <p id="modalDescription" class=" text-xs 2xl:text-sm text-slate-500">Create member profile and login account.</p>
                 </div>
             </div>
 
@@ -195,7 +195,7 @@
                         <div class="min-w-0">
                             <p class="form-label">Profile Photo <span class="text-red-500">*</span></p>
 
-                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                                 <i class="bi bi-camera"></i>
                                 <span id="memberImageButtonText">Choose Photo</span>
                             </label>
@@ -289,7 +289,7 @@
                         <div>
                             <label class="form-label">NID / Birth Registration Document <span class="text-red-500">*</span></label>
 
-                            <label for="nid_document" class="flex h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                            <label for="nid_document" class="flex h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                                 <i class="bi bi-file-earmark-arrow-up"></i>
                                 <span id="nidDocumentButtonText" class="truncate">Choose File</span>
                             </label>
@@ -393,11 +393,11 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
-                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Create Member
                 </button>
             </div>
@@ -417,7 +417,7 @@
 
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Member Shares</h2>
-                    <p id="shareMemberInfo" class="text-xs text-slate-500">View and manage share holdings.</p>
+                    <p id="shareMemberInfo" class=" text-xs 2xl:text-sm text-slate-500">View and manage share holdings.</p>
                 </div>
             </div>
 
@@ -431,7 +431,7 @@
                 <div class="rounded-md border border-slate-200 bg-white p-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs text-slate-500">Total Shares</p>
+                            <p class=" text-xs 2xl:text-sm text-slate-500">Total Shares</p>
                             <p id="shareTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
                         </div>
 
@@ -444,7 +444,7 @@
                 <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs text-emerald-700">Active Shares</p>
+                            <p class=" text-xs 2xl:text-sm text-emerald-700">Active Shares</p>
                             <p id="shareActive" class="mt-2 text-xl font-bold text-emerald-600">0</p>
                         </div>
 
@@ -551,18 +551,18 @@
                     <table class="w-full min-w-[720px] text-base">
                         <thead class="border-b border-slate-200 bg-white">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Share No.</th>
-                                <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Value</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Acquired</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Created By</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Notes</th>
+                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Share No.</th>
+                                <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Value</th>
+                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Acquired</th>
+                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Created By</th>
+                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Notes</th>
                             </tr>
                         </thead>
 
                         <tbody id="shareHistoryTable">
                             <tr>
-                                <td colspan="6" class="px-4 py-10 text-xs text-center text-slate-400">Loading shares...</td>
+                                <td colspan="6" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading shares...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -571,7 +571,7 @@
         </div>
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -964,7 +964,7 @@ function renderMembers(){
                         </div>
 
                         <div class="min-w-0">
-                            <p class="truncate text-sm font-semibold text-slate-800">
+                            <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(user.name??'N/A')}
                             </p>
 
@@ -976,13 +976,13 @@ function renderMembers(){
                 </td>
 
                 <td class="px-3 py-3">
-                    <p class="truncate font-mono text-sm font-semibold text-indigo-600">
+                    <p class="truncate font-mono text-xs 2xl:text-sm font-semibold text-indigo-600">
                         ${AdminUI.escapeHtml(member.member_code??'N/A')}
                     </p>
                 </td>
 
                 <td class="px-3 py-3">
-                    <p class="truncate text-sm text-slate-600">
+                    <p class="truncate text-xs 2xl:text-sm text-slate-600">
                         ${AdminUI.escapeHtml(
                             member.phone||
                             user.mobile||
@@ -1006,7 +1006,7 @@ function renderMembers(){
                     }
                 </td>
 
-                <td class="px-3 py-3 text-sm text-slate-600">
+                <td class="px-3 py-3 text-xs 2xl:text-sm text-slate-600">
                     ${AdminUI.formatDate(member.joining_date)}
                 </td>
 
@@ -1054,7 +1054,7 @@ function renderMembers(){
                         </div>
 
                         <div class="min-w-0">
-                            <p class="truncate text-sm font-semibold text-slate-800">
+                            <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(user.name??'N/A')}
                             </p>
                             <p class="mt-0.5 truncate text-[11px] text-slate-400">
@@ -2024,7 +2024,7 @@ function renderShareHistory(){
                         )}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                         ${
                             share.acquired_date
                                 ?AdminUI.formatDate(

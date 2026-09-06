@@ -21,7 +21,7 @@
                     Approval Management
                 </h1>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Review, approve and reject pending association requests.
                 </p>
             </div>
@@ -31,7 +31,7 @@
             @if(auth()->user()->hasPermission('Approval.update'))
                 <a
                     href="{{ route('admin.approval-workflows') }}"
-                    class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     <i class="bi bi-diagram-3 text-[11px]"></i>
                     Workflow Settings
@@ -41,7 +41,7 @@
             <button
                 type="button"
                 onclick="refreshApprovals()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-arrow-clockwise text-[11px]"></i>
                 Refresh
@@ -160,14 +160,14 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search approvals..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
                     >
                 </div>
 
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
@@ -178,7 +178,7 @@
 
 
                 <label
-                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 lg:border-l-0"
+                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 lg:border-l-0"
                     title="যাদের turn এখনো আসেনি, সেই approval request গুলো লুকিয়ে রাখবে — শুধু যার approve করার পালা এখন, তার কাছেই দেখাবে।"
                 >
                     <input
@@ -194,7 +194,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -217,31 +217,31 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[13%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Request
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Module
                         </th>
 
-                        <th class="w-[17%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[17%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Subject
                         </th>
 
-                        <th class="w-[16%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[16%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Requested By
                         </th>
 
-                        <th class="w-[14%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Date
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[19%] px-3 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[19%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -325,7 +325,7 @@ DETAIL MODAL
             <button
                 type="button"
                 onclick="closeDetailModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Close
             </button>
@@ -351,7 +351,7 @@ REJECT MODAL
                     Reject Request
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Provide a reason for rejection.
                 </p>
             </div>
@@ -431,7 +431,7 @@ CANCEL MODAL
                     Cancel Request
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     You may provide an optional cancellation reason.
                 </p>
             </div>
@@ -732,7 +732,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold capitalize text-slate-800"
+                            class="truncate  text-xs 2xl:text-sm font-semibold capitalize text-slate-800"
                             title="${AdminUI.escapeHtml(approval.action??'Request')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -764,7 +764,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(approvableLabel(approval))}"
                         >
                             ${AdminUI.escapeHtml(
@@ -778,7 +778,7 @@ function renderApprovals(){
                     <td class="min-w-0 overflow-hidden px-3 py-4">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-700"
+                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(approval.requester?.name??'System')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1180,7 +1180,7 @@ function stepsBlock(approval){
                 } px-3 py-2">
 
                     <div class="min-w-0">
-                        <p class="truncate text-xs font-semibold text-slate-700">
+                        <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                             Step ${step.step_no}: ${AdminUI.escapeHtml(
                                 step.approver?.name??'Unassigned'
                             )}
@@ -1288,7 +1288,7 @@ function detailBlock(
             styles.slate
         } p-3">
 
-            <p class="text-xs font-semibold ${
+            <p class=" text-xs 2xl:text-sm font-semibold ${
                 titleStyles[color]??
                 titleStyles.slate
             }">

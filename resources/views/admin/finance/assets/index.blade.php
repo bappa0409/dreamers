@@ -15,7 +15,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Assets</h1>
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Manage association assets, depreciation, sale and disposal.
                 </p>
             </div>
@@ -35,22 +35,22 @@
     {{-- Summary --}}
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Active Assets</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Active Assets</p>
             <p id="summaryActive" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Purchase Cost</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Cost</p>
             <p id="summaryPurchaseCost" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Accumulated Depreciation</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Accumulated Depreciation</p>
             <p id="summaryDepreciation" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Book Value</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Book Value</p>
             <p id="summaryBookValue" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
         </div>
     </div>
@@ -84,7 +84,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search..."
-                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-xs outline-none focus:border-indigo-400 lg:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3  text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
                 </div>
 
                 <div class="relative">
@@ -119,7 +119,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     Clear
                 </button>
             </div>
@@ -132,20 +132,20 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Asset</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Category</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Cost</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Depreciation</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Book Value</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Purchase Date</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Asset</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Cost</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Depreciation</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Book Value</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Date</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="assetTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-xs text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
                             Loading assets...
                         </td>
                     </tr>
@@ -172,7 +172,7 @@
                         Add Asset
                     </h2>
 
-                    <p class="text-xs text-slate-500">
+                    <p class=" text-xs 2xl:text-sm text-slate-500">
                         Record association-owned fixed asset.
                     </p>
                 </div>
@@ -412,14 +412,14 @@
                 <button
                     type="button"
                     onclick="closeAssetModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     Close
                 </button>
 
                 <button
                     id="assetSaveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     Save Asset
                 </button>
             </div>
@@ -442,7 +442,7 @@
                         Asset Details
                     </h2>
 
-                    <p id="assetDetailsSubtitle" class="text-xs text-slate-500">
+                    <p id="assetDetailsSubtitle" class=" text-xs 2xl:text-sm text-slate-500">
                         View asset and accounting information.
                     </p>
                 </div>
@@ -462,7 +462,7 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('assetDetailsModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -484,7 +484,7 @@
                         Sell Asset
                     </h2>
 
-                    <p id="sellAssetInfo" class="text-xs text-slate-500">—</p>
+                    <p id="sellAssetInfo" class=" text-xs 2xl:text-sm text-slate-500">—</p>
                 </div>
             </div>
 
@@ -597,7 +597,7 @@
                         Dispose Asset
                     </h2>
 
-                    <p id="disposeAssetInfo" class="text-xs text-slate-500">—</p>
+                    <p id="disposeAssetInfo" class=" text-xs 2xl:text-sm text-slate-500">—</p>
                 </div>
             </div>
 
@@ -686,7 +686,7 @@
                         Post Depreciation
                     </h2>
 
-                    <p id="depreciationAssetInfo" class="text-xs text-slate-500">—</p>
+                    <p id="depreciationAssetInfo" class=" text-xs 2xl:text-sm text-slate-500">—</p>
                 </div>
             </div>
 
@@ -791,7 +791,7 @@
                         Depreciation History
                     </h2>
 
-                    <p id="depreciationHistoryAsset" class="text-xs text-slate-500">—</p>
+                    <p id="depreciationHistoryAsset" class=" text-xs 2xl:text-sm text-slate-500">—</p>
                 </div>
             </div>
 
@@ -1156,11 +1156,11 @@ function renderAssetTable(){
                         }
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                         ${AdminUI.escapeHtml(item.category??'—')}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs text-slate-800">
+                    <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
                         ${money(item.purchase_cost)}
                     </td>
 
@@ -1168,11 +1168,11 @@ function renderAssetTable(){
                         ${money(item.accumulated_depreciation)}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-xs text-slate-800">
+                    <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
                         ${money(bookValue)}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                         ${AdminUI.formatDate(item.purchase_date)}
                     </td>
 
@@ -1819,7 +1819,7 @@ window.viewAsset=async function(id){
                                 Description
                             </p>
 
-                            <p class="text-xs leading-5 text-slate-600">
+                            <p class=" text-xs 2xl:text-sm leading-5 text-slate-600">
                                 ${AdminUI.escapeHtml(
                                     item.description
                                 )}
@@ -2395,27 +2395,27 @@ async function(id){
                 <table class="w-full min-w-[750px] text-sm">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-3 py-2 text-xs text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Period
                             </th>
 
-                            <th class="px-3 py-2 text-xs text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Date
                             </th>
 
-                            <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 Amount
                             </th>
 
-                            <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 Before
                             </th>
 
-                            <th class="px-3 py-2 text-xs text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 After
                             </th>
 
-                            <th class="px-3 py-2 text-xs text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Journal
                             </th>
                         </tr>
@@ -2433,7 +2433,7 @@ async function(id){
                                             )}
                                         </td>
 
-                                        <td class="px-3 py-2 text-xs text-slate-600">
+                                        <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
                                             ${AdminUI.formatDate(
                                                 row.depreciation_date
                                             )}
@@ -2457,7 +2457,7 @@ async function(id){
                                             )}
                                         </td>
 
-                                        <td class="px-3 py-2 text-xs text-slate-600">
+                                        <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
                                             ${AdminUI.escapeHtml(
                                                 row.finance_transaction
                                                     ?.transaction_no??'—'

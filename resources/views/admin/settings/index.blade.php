@@ -20,7 +20,7 @@
                     System Settings
                 </h1>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Manage organization, system, membership and finance configuration.
                 </p>
             </div>
@@ -289,7 +289,7 @@
                     <button
                         type="button"
                         data-group="${AdminUI.escapeHtml(group)}"
-                        class="settings-tab-btn inline-flex cursor-pointer items-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition ${
+                        class="settings-tab-btn inline-flex cursor-pointer items-center gap-2 rounded-md px-3.5 py-2 text-xs 2xl:text-sm font-semibold transition ${
                             active
                                 ?'bg-white text-indigo-700 shadow-sm ring-1 ring-slate-200'
                                 :'text-slate-500 hover:bg-white hover:text-slate-700'
@@ -814,7 +814,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -866,7 +866,7 @@
 
             <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                <label class="truncate text-xs font-semibold text-slate-700">
+                <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -1024,7 +1024,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -1162,7 +1162,7 @@
 
                 <div class="mb-3 flex items-center justify-between gap-2">
 
-                    <label class="truncate text-xs font-semibold text-slate-700">
+                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${AdminUI.escapeHtml(title)}
                     </label>
 

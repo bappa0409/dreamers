@@ -470,7 +470,7 @@ function renderPayments(){
                             payment.status==='verified'
                                 ?`<button
                                     type="button"
-                                    onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf')"
+                                    onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf',this)"
                                     class="ml-1 flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
                                     title="Download PDF">
                                     <i class="bi bi-file-earmark-pdf text-sm"></i>
@@ -580,7 +580,7 @@ function renderPaymentDetails(payment){
                 payment.status==='verified'
                     ?`<button
                         type="button"
-                        onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf')"
+                        onclick="downloadPdf('/api/finance/subscription-payments/${payment.id}/receipt','subscription-payment-${AdminUI.escapeHtml(payment.payment_no??payment.id)}.pdf',this)"
                         class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
                         <i class="bi bi-file-earmark-pdf mr-1"></i>
                         Download PDF

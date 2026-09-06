@@ -323,7 +323,7 @@
                         Dreamers Association
                     </h1>
 
-                    <p class="text-xs text-slate-500">
+                    <p class=" text-xs 2xl:text-sm text-slate-500">
                         Together We Dream. Together We Grow.
                     </p>
                 </div>

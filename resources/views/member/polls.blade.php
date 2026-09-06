@@ -185,7 +185,7 @@
                     <button
                         type="button"
                         onclick="openHistoryModal()"
-                        class="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100">
+                        class="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100">
 
                         <i class="bi bi-clock-history"></i>
 
@@ -1190,7 +1190,7 @@ window.openHistoryModal=function(){
 
                                         </td>
 
-                                        <td class="px-4 py-3 text-xs text-slate-500">
+                                        <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                                             ${dateTime(
                                                 item.created_at
                                             )}

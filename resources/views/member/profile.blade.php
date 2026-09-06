@@ -160,19 +160,19 @@
 
                 <div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Member Code</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Member Code</span>
                         <span id="sideMemberCode" class="font-mono text-sm font-semibold text-indigo-600">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Joining Date</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Joining Date</span>
                         <span id="sideJoiningDate" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-                        <span class="text-xs text-slate-500">Membership Status</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Membership Status</span>
                         <span id="sideMembershipStatus" class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">-</span>
                     </div>
                     <div class="flex items-center justify-between gap-3 px-5 py-4">
-                        <span class="text-xs text-slate-500">Language</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Language</span>
                         <span id="language" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
                 </div>

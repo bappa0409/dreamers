@@ -28,7 +28,7 @@
             Secure Reset Link
         </p>
 
-        <p class="text-xs text-emerald-100/70 mt-1">
+        <p class=" text-xs 2xl:text-sm text-emerald-100/70 mt-1">
             We'll email you a one-time link that expires in 60 minutes.
         </p>
     </div>
@@ -87,10 +87,10 @@
     <div class="mt-8">
         <div class="flex items-center gap-3">
             <div class="h-px bg-slate-200 flex-1"></div>
-            <span class="text-xs text-slate-400 uppercase tracking-wider">Secure Access</span>
+            <span class=" text-xs 2xl:text-sm text-slate-400 uppercase tracking-wider">Secure Access</span>
             <div class="h-px bg-slate-200 flex-1"></div>
         </div>
-        <p class="mt-5 text-center text-xs text-slate-400 leading-relaxed">
+        <p class="mt-5 text-center  text-xs 2xl:text-sm text-slate-400 leading-relaxed">
             Remembered your password?
             <a href="{{ route('login') }}" class="font-semibold text-emerald-600 hover:text-emerald-700">
                 Sign in instead

@@ -25,7 +25,7 @@ function ensureAdminConfirmModal(){
                             </h2>
 
                             <p id="adminConfirmSubtitle"
-                                class="mt-0.5 text-xs text-slate-500">
+                                class="mt-0.5  text-xs 2xl:text-sm text-slate-500">
                                 Please confirm before continuing.
                             </p>
                         </div>
@@ -47,13 +47,13 @@ function ensureAdminConfirmModal(){
                 <div class="flex items-center justify-end gap-2 border-t border-slate-100 px-5 py-4">
                     <button type="button"
                         id="adminConfirmCancel"
-                        class="cursor-pointer rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+                        class="cursor-pointer rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                         Cancel
                     </button>
 
                     <button type="button"
                         id="adminConfirmSubmit"
-                        class="cursor-pointer rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+                        class="cursor-pointer rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                         Confirm
                     </button>
                 </div>
@@ -534,7 +534,7 @@ window.AdminUI={
 
         error=document.createElement('p');
         error.dataset.fieldError=id;
-        error.className='mt-1 hidden text-xs text-red-600';
+        error.className='mt-1 hidden  text-xs 2xl:text-sm text-red-600';
         error.setAttribute('role','alert');
         error.setAttribute('aria-live','polite');
 
@@ -1334,7 +1334,7 @@ window.AdminUI={
             return `
                 <tr>
                     <td colspan="${colspan}"
-                        class="px-6 py-10 text-center text-xs text-slate-400">
+                        class="px-6 py-10 text-center  text-xs 2xl:text-sm text-slate-400">
                         ${this.escapeHtml(message)}
                     </td>
                 </tr>
@@ -1356,7 +1356,7 @@ window.AdminUI={
             return `
                 <tr>
                     <td colspan="${colspan}"
-                        class="px-6 py-10 text-center text-xs text-slate-400">
+                        class="px-6 py-10 text-center  text-xs 2xl:text-sm text-slate-400">
                         <div class="inline-flex items-center gap-2">
                             <i class="bi bi-arrow-repeat animate-spin"></i>
                             ${this.escapeHtml(message)}
@@ -1449,7 +1449,7 @@ window.AdminUI={
 
         element.innerHTML=`
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <span class="text-xs text-slate-500">
+                <span class=" text-xs 2xl:text-sm text-slate-500">
                     Page ${currentPage} of ${lastPage}
                     ${
                         total!==null
@@ -1463,7 +1463,7 @@ window.AdminUI={
                         type="button"
                         ${currentPage<=1?'disabled':''}
                         data-page="${currentPage-1}"
-                        class="admin-page-btn cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
+                        class="admin-page-btn cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
                         Previous
                     </button>
 
@@ -1473,12 +1473,12 @@ window.AdminUI={
                                 <button
                                     type="button"
                                     data-page="1"
-                                    class="admin-page-btn h-8 min-w-8 rounded-md border border-slate-300 bg-white px-2 text-xs font-semibold text-slate-600">
+                                    class="admin-page-btn h-8 min-w-8 rounded-md border border-slate-300 bg-white px-2  text-xs 2xl:text-sm font-semibold text-slate-600">
                                     1
                                 </button>
                                 ${
                                     start>2
-                                        ?'<span class="px-1 text-xs text-slate-400">...</span>'
+                                        ?'<span class="px-1  text-xs 2xl:text-sm text-slate-400">...</span>'
                                         :''
                                 }
                             `
@@ -1489,7 +1489,7 @@ window.AdminUI={
                         <button
                             type="button"
                             data-page="${page}"
-                            class="admin-page-btn h-8 min-w-8 rounded-md border px-2 text-xs font-semibold ${
+                            class="admin-page-btn h-8 min-w-8 rounded-md border px-2  text-xs 2xl:text-sm font-semibold ${
                                 page===currentPage
                                     ?'border-indigo-600 bg-indigo-600 text-white'
                                     :'border-slate-300 bg-white text-slate-600 hover:bg-slate-50'
@@ -1503,14 +1503,14 @@ window.AdminUI={
                             ?`
                                 ${
                                     end<lastPage-1
-                                        ?'<span class="px-1 text-xs text-slate-400">...</span>'
+                                        ?'<span class="px-1  text-xs 2xl:text-sm text-slate-400">...</span>'
                                         :''
                                 }
 
                                 <button
                                     type="button"
                                     data-page="${lastPage}"
-                                    class="admin-page-btn h-8 min-w-8 rounded-md border border-slate-300 bg-white px-2 text-xs font-semibold text-slate-600">
+                                    class="admin-page-btn h-8 min-w-8 rounded-md border border-slate-300 bg-white px-2  text-xs 2xl:text-sm font-semibold text-slate-600">
                                     ${lastPage}
                                 </button>
                             `
@@ -1521,7 +1521,7 @@ window.AdminUI={
                         type="button"
                         ${currentPage>=lastPage?'disabled':''}
                         data-page="${currentPage+1}"
-                        class="admin-page-btn cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
+                        class="admin-page-btn cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-1.5  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">
                         Next
                     </button>
                 </div>
@@ -1656,7 +1656,7 @@ window.AdminUI={
             `flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${theme.iconWrap}`;
 
         confirmButton.className=
-            `cursor-pointer rounded-md px-3.5 py-2 text-xs font-semibold text-white transition ${theme.button}`;
+            `cursor-pointer rounded-md px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition ${theme.button}`;
 
         return new Promise(resolve=>{
             let finished=false;

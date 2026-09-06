@@ -13,7 +13,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">Chart of Accounts</h1>
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Manage the accounting structure used by all finance modules.
                 </p>
             </div>
@@ -32,27 +32,27 @@
 
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Accounts</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Accounts</p>
             <p id="totalAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Active</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Active</p>
             <p id="activeAccounts" class="mt-1 text-xl font-bold text-emerald-700">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Inactive</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Inactive</p>
             <p id="inactiveAccounts" class="mt-1 text-xl font-bold text-slate-600">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Posting Accounts</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Posting Accounts</p>
             <p id="postingAccounts" class="mt-1 text-xl font-bold text-indigo-700">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">System Accounts</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">System Accounts</p>
             <p id="systemAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
     </div>
@@ -111,39 +111,39 @@
             <table class="w-full min-w-[980px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Code
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Account
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Sub Type
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Parent
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Opening
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Balance
                         </th>
 
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -151,7 +151,7 @@
 
                 <tbody id="accountTable">
                     <tr>
-                        <td colspan="9" class="px-4 py-10 text-xs text-center text-slate-400">
+                        <td colspan="9" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
                             Loading accounts...
                         </td>
                     </tr>
@@ -179,7 +179,7 @@
                     Add Account
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Create a posting or parent account.
                 </p>
             </div>
@@ -357,7 +357,7 @@
                     Account Details
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Account structure and current balance.
                 </p>
             </div>
@@ -566,7 +566,7 @@ function renderAccounts(){
                     <button
                         type="button"
                         onclick="viewAccount(${account.id})"
-                        class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
+                        class="rounded border border-slate-300 px-2 py-1  text-xs 2xl:text-sm text-slate-600 hover:bg-slate-50">
                         View
                     </button>
                 `
@@ -587,7 +587,7 @@ function renderAccounts(){
                         <button
                             type="button"
                             onclick="toggleAccount(${account.id})"
-                            class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 hover:bg-slate-50">
+                            class="rounded border border-slate-300 px-2 py-1  text-xs 2xl:text-sm text-slate-600 hover:bg-slate-50">
                             ${account.is_active?'Deactivate':'Activate'}
                         </button>
                     `);
@@ -613,13 +613,13 @@ function renderAccounts(){
             return `
                 <tr class="border-b border-slate-100 hover:bg-slate-50/60">
                     <td class="px-4 py-3">
-                        <span class="font-semibold text-xs text-slate-700">
+                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                             ${esc(account.code)}
                         </span>
                     </td>
 
                     <td class="px-4 py-3">
-                        <div class="font-semibold text-xs text-slate-700">
+                        <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                             ${esc(account.name)}
                         </div>
 
@@ -629,7 +629,7 @@ function renderAccounts(){
                         </div>
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-slate-600">
+                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                         ${esc(AdminUI.titleCase(account.type))}
                     </td>
 
@@ -647,7 +647,7 @@ function renderAccounts(){
                         ${money(account.opening_balance)}
                     </td>
 
-                    <td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">
+                    <td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">
                         ${money(accountBalance(account))}
                     </td>
 

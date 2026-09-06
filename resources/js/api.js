@@ -131,56 +131,109 @@ window.api=async(url,options={})=>{
 };
 
 
-window.downloadPdf=async(url,filename='receipt.pdf')=>{
-    let response;
+/*
+|--------------------------------------------------------------------------
+| Download PDF
+|--------------------------------------------------------------------------
+|
+| Optional third argument: the button that was clicked (element or id
+| string). When given, it spins/disables the same way every other submit
+| button in the admin does (AdminUI.setLoading/resetLoading), so a PDF
+| download gives the same feedback as saving a form instead of feeling
+| unresponsive while the file is being generated.
+|
+*/
+
+function startPdfButtonSpin(button){
+    if(typeof button==='string'){
+        button=document.getElementById(button);
+    }
+
+    if(!button)return null;
+
+    const hasVisibleText=button.textContent.trim().length>0;
+
+    if(hasVisibleText&&window.AdminUI){
+        AdminUI.setLoading(button,'Downloading...');
+        return()=>AdminUI.resetLoading(button);
+    }
+
+    // Icon-only row buttons (fixed h-8 w-8 squares) have no room for a
+    // "Downloading..." label, so just spin the icon in place instead.
+    const icon=button.querySelector('i');
+    const originalIconClass=icon?icon.className:null;
+
+    button.disabled=true;
+
+    if(icon){
+        icon.className='bi bi-arrow-repeat animate-spin';
+    }
+
+    return()=>{
+        button.disabled=false;
+
+        if(icon&&originalIconClass){
+            icon.className=originalIconClass;
+        }
+    };
+}
+
+window.downloadPdf=async(url,filename='receipt.pdf',button=null)=>{
+    const stopSpin=button?startPdfButtonSpin(button):null;
 
     try{
-        response=await fetch(url,{
-            method:'GET',
-            credentials:'same-origin',
-            headers:{
-                Accept:'application/pdf'
-            }
-        });
-    }catch{
-        throw new Error('Network error. Please check your connection.');
-    }
-
-    if(!response.ok){
-        let message=`Request failed (${response.status}).`;
+        let response;
 
         try{
-            const contentType=response.headers.get('content-type')??'';
-
-            if(contentType.includes('application/json')){
-                const data=await response.json();
-                message=data.message??message;
-            }
-        }catch{}
-
-        if(response.status===401){
-            window.location.href='/login';
+            response=await fetch(url,{
+                method:'GET',
+                credentials:'same-origin',
+                headers:{
+                    Accept:'application/pdf'
+                }
+            });
+        }catch{
+            throw new Error('Network error. Please check your connection.');
         }
 
-        throw new Error(message);
+        if(!response.ok){
+            let message=`Request failed (${response.status}).`;
+
+            try{
+                const contentType=response.headers.get('content-type')??'';
+
+                if(contentType.includes('application/json')){
+                    const data=await response.json();
+                    message=data.message??message;
+                }
+            }catch{}
+
+            if(response.status===401){
+                window.location.href='/login';
+            }
+
+            throw new Error(message);
+        }
+
+        const blob=await response.blob();
+        const disposition=response.headers.get('content-disposition')??'';
+        const match=disposition.match(/filename="?([^"]+)"?/i);
+        const finalName=match?.[1]??filename;
+
+        const objectUrl=URL.createObjectURL(blob);
+        const anchor=document.createElement('a');
+
+        anchor.href=objectUrl;
+        anchor.download=finalName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+
+        setTimeout(
+            ()=>URL.revokeObjectURL(objectUrl),
+            1000
+        );
+    }finally{
+        stopSpin?.();
     }
-
-    const blob=await response.blob();
-    const disposition=response.headers.get('content-disposition')??'';
-    const match=disposition.match(/filename="?([^"]+)"?/i);
-    const finalName=match?.[1]??filename;
-
-    const objectUrl=URL.createObjectURL(blob);
-    const anchor=document.createElement('a');
-
-    anchor.href=objectUrl;
-    anchor.download=finalName;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-
-    setTimeout(
-        ()=>URL.revokeObjectURL(objectUrl),
-        1000
-    );
 };

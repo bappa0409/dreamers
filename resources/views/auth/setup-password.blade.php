@@ -30,7 +30,7 @@
                 Dreamers Association
             </h1>
 
-            <p class="mt-1 text-xs text-sky-100">
+            <p class="mt-1  text-xs 2xl:text-sm text-sky-100">
                 Secure account activation
             </p>
         </div>
@@ -42,7 +42,7 @@
                     Create Your Password
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     Welcome {{ $user->name }}. Set a secure password for your account.
                 </p>
             </div>
@@ -84,7 +84,7 @@
                         </button>
                     </div>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1  text-xs 2xl:text-sm text-slate-400">
                         Minimum 8 characters.
                     </p>
                 </div>

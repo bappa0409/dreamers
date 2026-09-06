@@ -30,7 +30,7 @@
                 Dreamers Association
             </h1>
 
-            <p class="mt-1 text-xs text-sky-100">
+            <p class="mt-1  text-xs 2xl:text-sm text-sky-100">
                 Secure account activation
             </p>
         </div>
@@ -42,7 +42,7 @@
                     Change Your Password
                 </h2>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     You're using a default password. Set a new password to continue to your dashboard.
                 </p>
             </div>
@@ -82,7 +82,7 @@
                         </button>
                     </div>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1  text-xs 2xl:text-sm text-slate-400">
                         Minimum 8 characters.
                     </p>
                 </div>
@@ -125,7 +125,7 @@
 
             <form method="POST" action="{{ route('logout') }}" class="mt-4 text-center">
                 @csrf
-                <button type="submit" class="text-xs text-slate-400 hover:text-slate-600">
+                <button type="submit" class=" text-xs 2xl:text-sm text-slate-400 hover:text-slate-600">
                     <i class="bi bi-box-arrow-right mr-1"></i>
                     Logout
                 </button>

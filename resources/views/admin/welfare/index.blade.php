@@ -14,20 +14,20 @@
 </div>
 <div>
 <h1 class="text-base font-bold text-slate-800">Welfare Fund</h1>
-<p class="text-xs text-slate-500">Manage welfare funds, assistance requests, approvals and disbursements.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Manage welfare funds, assistance requests, approvals and disbursements.</p>
 </div>
 </div>
 
 <div class="flex flex-wrap gap-2">
 @if(auth()->user()->hasPermission('Welfare.manage'))
-<button type="button" onclick="openFundModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+<button type="button" onclick="openFundModal()" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
 <i class="bi bi-wallet2"></i>
 New Fund
 </button>
 @endif
 
 @if(auth()->user()->hasPermission('Welfare.create'))
-<button type="button" onclick="openRequestModal()" class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+<button type="button" onclick="openRequestModal()" class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
 <i class="bi bi-plus-lg"></i>
 New Request
 </button>
@@ -51,7 +51,7 @@ $stats=[
 <div class="rounded-md border p-4 {{ $box }}">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-xs text-slate-500">{{ $label }}</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
 <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
 </div>
 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $iconBox }}">
@@ -92,10 +92,10 @@ $stats=[
 <div class="grid w-full gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[290px_180px_auto] lg:gap-0">
 <div class="relative sm:col-span-2 lg:col-span-1">
 <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-<input id="searchInput" type="text" placeholder="Search welfare requests..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+<input id="searchInput" type="text" placeholder="Search welfare requests..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
 </div>
 
-<select id="statusFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+<select id="statusFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
 <option value="">All Status</option>
 <option value="submitted">Submitted</option>
 <option value="under_review">Under Review</option>
@@ -106,7 +106,7 @@ $stats=[
 <option value="reversed">Reversed</option>
 </select>
 
-<button type="button" onclick="clearFilters()" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+<button type="button" onclick="clearFilters()" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
 <i class="bi bi-x-lg text-[10px]"></i>
 Clear
 </button>
@@ -120,14 +120,14 @@ Clear
 <table class="w-full min-w-[1050px] text-sm">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Request</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Fund</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Requested</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Approved</th>
-<th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-<th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+<th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Request</th>
+<th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+<th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Fund</th>
+<th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+<th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Requested</th>
+<th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Approved</th>
+<th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+<th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 <tbody id="requestTableBody" class="divide-y divide-slate-100">
@@ -151,7 +151,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Create Welfare Fund</h3>
-<p class="text-xs text-slate-500">Create a dedicated fund for welfare assistance.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Create a dedicated fund for welfare assistance.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('fundModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -184,8 +184,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('fundModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="fundButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Fund</button>
+<button type="button" onclick="AdminUI.closeModal('fundModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="fundButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Fund</button>
 </div>
 </form>
 </div>
@@ -197,7 +197,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Add Fund Allocation</h3>
-<p id="allocationSubtitle" class="text-xs text-slate-500"></p>
+<p id="allocationSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('allocationModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -239,8 +239,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('allocationModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="allocationButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Add Allocation</button>
+<button type="button" onclick="AdminUI.closeModal('allocationModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="allocationButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Add Allocation</button>
 </div>
 </form>
 </div>
@@ -254,7 +254,7 @@ Clear
 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-rose-50 text-rose-600"><i class="bi bi-heart-pulse"></i></div>
 <div>
 <h3 class="text-sm font-semibold text-slate-800">New Welfare Request</h3>
-<p class="text-xs text-slate-500">Submit emergency or welfare assistance for a member.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Submit emergency or welfare assistance for a member.</p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('requestModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -310,8 +310,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('requestModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="requestButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
+<button type="button" onclick="AdminUI.closeModal('requestModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="requestButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
 </div>
 </form>
 </div>
@@ -326,7 +326,7 @@ Clear
 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600"><i class="bi bi-heart-pulse"></i></div>
 <div>
 <h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Welfare Request</h3>
-<p id="manageSubtitle" class="text-xs text-slate-500"></p>
+<p id="manageSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -365,7 +365,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Start Review</h3>
-<p class="text-xs text-slate-500">Add an optional review note.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Add an optional review note.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('reviewModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -391,7 +391,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Approve Welfare Request</h3>
-<p id="approveSubtitle" class="text-xs text-slate-500"></p>
+<p id="approveSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('approveModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -424,7 +424,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Reject Welfare Request</h3>
-<p class="text-xs text-slate-500">Provide a reason for rejection.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Provide a reason for rejection.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -451,7 +451,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Disburse Welfare Assistance</h3>
-<p id="disburseSubtitle" class="text-xs text-slate-500"></p>
+<p id="disburseSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('disburseModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -490,7 +490,7 @@ Clear
 <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Reverse Disbursement</h3>
-<p class="text-xs text-slate-500">Provide the reason for reversal.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Provide the reason for reversal.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('reverseModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -711,17 +711,17 @@ return;
 $('requestTableBody').innerHTML=requests.map(r=>`
 <tr class="transition hover:bg-slate-50/70">
 <td class="px-4 py-3">
-<div class="font-semibold text-xs text-slate-700">${esc(r.request_no)}</div>
+<div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(r.request_no)}</div>
 <div class="mt-0.5 text-[11px] text-slate-400">${date(r.request_date??r.created_at)}</div>
 </td>
 <td class="px-4 py-3">
-<div class="font-semibold text-xs text-slate-700">${esc(r.member?.user?.name??'N/A')}</div>
+<div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(r.member?.user?.name??'N/A')}</div>
 <div class="mt-0.5 text-[11px] font-medium text-indigo-600">${esc(r.member?.member_code??'')}</div>
 </td>
-<td class="px-4 py-3 text-xs text-slate-600">${esc(r.fund?.name??'—')}</td>
-<td class="px-4 py-3 text-xs text-slate-600">${esc(assistanceLabel(r.assistance_type))}</td>
-<td class="px-4 py-3 text-xs text-right font-semibold text-slate-700">${money(r.requested_amount)}</td>
-<td class="px-4 py-3 text-right text-xs font-semibold text-indigo-700">${r.approved_amount?money(r.approved_amount):'—'}</td>
+<td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${esc(r.fund?.name??'—')}</td>
+<td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${esc(assistanceLabel(r.assistance_type))}</td>
+<td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">${money(r.requested_amount)}</td>
+<td class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-indigo-700">${r.approved_amount?money(r.approved_amount):'—'}</td>
 <td class="px-4 py-3">${statusBadge(r.status)}</td>
 <td class="px-4 py-3 text-right">
 <button type="button" onclick="openManageModal(${r.id})" class="inline-flex items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-700 hover:bg-indigo-100">

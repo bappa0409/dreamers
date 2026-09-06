@@ -406,7 +406,7 @@ function renderPayments(){
                 ${
                     payment.status==='verified'
                         ?`<button type="button"
-                            onclick="downloadPdf('/api/member/subscriptions/payments/${Number(payment.id)}/receipt','subscription-payment-${escapeAttribute(payment.payment_no??payment.id)}.pdf')"
+                            onclick="downloadPdf('/api/member/subscriptions/payments/${Number(payment.id)}/receipt','subscription-payment-${escapeAttribute(payment.payment_no??payment.id)}.pdf',this)"
                             class="inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[11px] font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
                             <i class="bi bi-file-earmark-pdf"></i>
                             PDF
@@ -539,7 +539,8 @@ window.viewPayment=function(id){
         receiptButton.classList.add('inline-flex');
         receiptButton.onclick=()=>downloadPdf(
             `/api/member/subscriptions/payments/${Number(payment.id)}/receipt`,
-            `subscription-payment-${payment.payment_no??payment.id}.pdf`
+            `subscription-payment-${payment.payment_no??payment.id}.pdf`,
+            receiptButton
         );
     }else{
         receiptButton.classList.add('hidden');
@@ -563,7 +564,8 @@ window.closePaymentDetails=function(){
         receiptButton.classList.add('inline-flex');
         receiptButton.onclick=()=>downloadPdf(
             `/api/member/subscriptions/payments/${Number(payment.id)}/receipt`,
-            `subscription-payment-${payment.payment_no??payment.id}.pdf`
+            `subscription-payment-${payment.payment_no??payment.id}.pdf`,
+            receiptButton
         );
     }else{
         receiptButton.classList.add('hidden');

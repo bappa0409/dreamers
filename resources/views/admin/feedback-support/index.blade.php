@@ -14,7 +14,7 @@
 </div>
 <div>
 <h1 class="text-base font-bold text-slate-800">Feedback & Support</h1>
-<p class="text-xs text-slate-500">Manage member feedback, support requests, complaints, suggestions and service issues.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Manage member feedback, support requests, complaints, suggestions and service issues.</p>
 </div>
 </div>
 
@@ -42,7 +42,7 @@ $stats=[
 <div class="rounded-md border p-4 {{ $box }}">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-xs text-slate-500">{{ $label }}</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
 <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
 </div>
 <div class="flex h-8 w-8 items-center justify-center rounded-md {{ $iconBox }}">
@@ -116,14 +116,14 @@ Clear
 <table class="w-full min-w-[1080px] table-fixed text-base">
 <thead class="border-b border-slate-200 bg-slate-50">
 <tr>
-<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Ticket</th>
-<th class="w-[16%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Member</th>
-<th class="w-[12%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-<th class="w-[13%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Category</th>
-<th class="w-[20%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Subject</th>
-<th class="w-[9%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Priority</th>
-<th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
-<th class="w-[8%] px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+<th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Ticket</th>
+<th class="w-[16%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+<th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+<th class="w-[13%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
+<th class="w-[20%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Subject</th>
+<th class="w-[9%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Priority</th>
+<th class="w-[10%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+<th class="w-[8%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
 </tr>
 </thead>
 
@@ -150,7 +150,7 @@ Clear
 </div>
 <div>
 <h3 class="text-sm font-semibold text-slate-800">New Feedback & Support</h3>
-<p class="text-xs text-slate-500">Create a request on behalf of a member.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Create a request on behalf of a member.</p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('createModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -230,8 +230,8 @@ Clear
 </div>
 
 <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
+<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
 </div>
 </form>
 </div>
@@ -248,7 +248,7 @@ Clear
 </div>
 <div>
 <h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Feedback & Support</h3>
-<p id="manageSubtitle" class="text-xs text-slate-500"></p>
+<p id="manageSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 </div>
 <button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
@@ -302,7 +302,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Assign Request</h3>
-<p class="text-xs text-slate-500">Assign this request to an active user.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Assign this request to an active user.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('assignModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -340,7 +340,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
-<p id="messageModalSubtitle" class="text-xs text-slate-500"></p>
+<p id="messageModalSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -369,7 +369,7 @@ Clear
 <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Resolve Request</h3>
-<p class="text-xs text-slate-500">Provide the final resolution for the member.</p>
+<p class=" text-xs 2xl:text-sm text-slate-500">Provide the final resolution for the member.</p>
 </div>
 <button type="button" onclick="AdminUI.closeModal('resolveModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
 </div>
@@ -563,7 +563,7 @@ ${ticket.is_confidential?'<i class="bi bi-lock-fill text-[10px] text-red-500" ti
 </td>
 
 <td class="px-4 py-3">
-<div class="truncate text-xs font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
+<div class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">${esc(ticket.member?.user?.name??'N/A')}</div>
 <div class="mt-0.5 truncate text-[10px] font-medium text-indigo-500">${esc(ticket.member?.member_code??'')}</div>
 </td>
 

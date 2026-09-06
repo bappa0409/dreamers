@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Profit & Loss</h1>
-                <p class="text-xs text-slate-500">Income, expenses and net operating result from posted journals.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Income, expenses and net operating result from posted journals.</p>
             </div>
         </div>
         <div id="resultBadge" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
@@ -30,7 +30,7 @@
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
@@ -60,7 +60,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-x-circle me-1"></i>
                     Clear
                 </button>
@@ -134,7 +134,7 @@
                     </thead>
                     <tbody id="incomeTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10 text-xs text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading...</td>
                         </tr>
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
@@ -168,7 +168,7 @@
                     </thead>
                     <tbody id="expenseTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10 text-xs text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading...</td>
                         </tr>
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
@@ -198,14 +198,14 @@
 
         <div class="space-y-3 p-5">
             <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                <span class="text-xs text-slate-500">Total Income</span>
+                <span class=" text-xs 2xl:text-sm text-slate-500">Total Income</span>
                 <span id="resultIncome" class="font-bold text-emerald-700">
                     {{ setting('currency_symbol','৳') }}0.00
                 </span>
             </div>
 
             <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                <span class="text-xs text-slate-500">Less: Total Expense</span>
+                <span class=" text-xs 2xl:text-sm text-slate-500">Less: Total Expense</span>
                 <span id="resultExpense" class="font-bold text-red-700">
                     {{ setting('currency_symbol','৳') }}0.00
                 </span>

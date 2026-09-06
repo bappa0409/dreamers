@@ -15,7 +15,7 @@
 
             <div>
                 <h1 class="text-base font-bold text-slate-800">User Role Assignment</h1>
-                <p class="text-xs text-slate-500">Assign one or more roles to association users.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Assign one or more roles to association users.</p>
             </div>
         </div>
     </div>
@@ -45,14 +45,14 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search users..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
                 <button
                     type="button"
                     onclick="clearSearch()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -68,23 +68,23 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[27%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[27%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             User
                         </th>
 
-                        <th class="w-[17%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[17%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Member
                         </th>
 
-                        <th class="w-[31%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[31%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Roles
                         </th>
 
-                        <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        <th class="w-[11%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                        <th class="w-[14%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -125,7 +125,7 @@
                         Assign Roles
                     </h2>
 
-                    <p id="roleUserName" class="text-xs text-slate-500"></p>
+                    <p id="roleUserName" class=" text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -163,7 +163,7 @@
             <button
                 type="button"
                 onclick="closeRoleModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
             >
                 Close
             </button>
@@ -172,7 +172,7 @@
                 id="saveRolesButton"
                 type="button"
                 onclick="saveUserRoles()"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 Save Roles
             </button>
@@ -296,7 +296,7 @@ function renderUsers(){
                 <td class="min-w-0 px-4 py-3">
 
                     <p
-                        class="truncate text-xs font-semibold text-slate-800"
+                        class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(user.name??'')}"
                     >
                         ${AdminUI.escapeHtml(user.name??'N/A')}
@@ -561,7 +561,7 @@ function renderRoleList(){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate text-xs font-semibold text-slate-800"
+                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
                             title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
                         >
                             ${AdminUI.escapeHtml(role.display_name||role.name||'')}

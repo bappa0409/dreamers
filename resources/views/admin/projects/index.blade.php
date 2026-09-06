@@ -13,12 +13,12 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Project Management</h1>
-                <p class="text-xs text-slate-500">Manage projects, budgets, progress and member participation.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Manage projects, budgets, progress and member participation.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Project.create'))
-            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Project
             </button>
@@ -28,7 +28,7 @@
     {{-- Statistics --}}
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-5">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Projects</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Projects</p>
             <p id="totalProjects" class="mt-2 text-xl font-bold text-slate-800">0</p>
         </div>
 
@@ -48,7 +48,7 @@
         </div>
 
         <div class="col-span-2 rounded-md border border-slate-200 bg-white p-4 xl:col-span-1">
-            <p class="text-xs text-slate-500">Avg. Progress</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Avg. Progress</p>
             <p id="averageProgress" class="mt-2 text-xl font-bold text-slate-800">0%</p>
         </div>
     </div>
@@ -69,10 +69,10 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
                 <div class="relative w-full sm:min-w-[220px] lg:w-72">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search projects..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
+                    <input id="searchInput" type="text" placeholder="Search projects..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="planned">Planned</option>
                     <option value="active">Active</option>
@@ -114,7 +114,7 @@
                 </div>
                 <div>
                     <h2 id="projectModalTitle" class="text-sm font-semibold text-slate-800">Add Project</h2>
-                    <p class="text-xs text-slate-500">Project details, financials and progress.</p>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Project details, financials and progress.</p>
                 </div>
             </div>
 
@@ -201,7 +201,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveProjectButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Project</button>
             </div>
         </form>
@@ -270,7 +270,7 @@
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveMemberButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Assign Member</button>
             </div>
         </form>

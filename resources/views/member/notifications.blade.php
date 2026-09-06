@@ -861,19 +861,19 @@ function renderNotificationPagePagination(){
 
                 Showing
 
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${from}
                 </span>
 
                 –
 
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${to}
                 </span>
 
                 of
 
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${notificationPageTotal}
                 </span>
 

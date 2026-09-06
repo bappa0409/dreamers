@@ -130,6 +130,21 @@ class ReportController extends Controller
     ){
         /*
         |--------------------------------------------------------------------------
+        | Extra Memory Headroom For This Action Only
+        |--------------------------------------------------------------------------
+        |
+        | Large reports (thousands of rows + a logo image) can need more memory
+        | than a normal JSON request. Raising the limit only inside this method
+        | (instead of in php.ini) keeps every other PHP-FPM worker's baseline
+        | memory usage untouched, so total server RAM usage stays low.
+        |
+        */
+
+        $previousMemoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', '512M');
+
+        /*
+        |--------------------------------------------------------------------------
         | Default mPDF Config
         |--------------------------------------------------------------------------
         */
@@ -334,37 +349,47 @@ class ReportController extends Controller
 
         $mpdf->WriteHTML($html);
 
+        unset($html);
+
         /*
         |--------------------------------------------------------------------------
-        | Download
+        | Output To A Temp File Instead Of A PHP String
         |--------------------------------------------------------------------------
+        |
+        | Destination::STRING_RETURN keeps the entire finished PDF (which for a
+        | large report can be several MB) sitting in a PHP variable for the rest
+        | of the request. Writing straight to disk and streaming that file back
+        | avoids holding a second full copy of the PDF in RAM, and Laravel/PHP
+        | cleans the temp file up right after the response is sent.
+        |
         */
 
-        $content=$mpdf->Output(
-            '',
-            Destination::STRING_RETURN
+        $tempPdfPath = $tempDir
+            .DIRECTORY_SEPARATOR
+            .'export-'
+            .now()->format('YmdHis')
+            .'-'
+            .str()->random(8)
+            .'.pdf';
+
+        $mpdf->Output(
+            $tempPdfPath,
+            Destination::FILE
         );
 
-        return response(
-            $content,
-            200,
+        unset($mpdf);
+
+        ini_set('memory_limit', $previousMemoryLimit);
+
+        return response()->download(
+            $tempPdfPath,
+            "{$filename}.pdf",
             [
                 'Content-Type'=>'application/pdf',
-
-                'Content-Disposition'=>
-                    'attachment; filename="'
-                    .$filename
-                    .'.pdf"',
-
-                'Content-Length'=>
-                    strlen($content),
-
-                'Cache-Control'=>
-                    'private, no-store, no-cache, must-revalidate',
-
+                'Cache-Control'=>'private, no-store, no-cache, must-revalidate',
                 'Pragma'=>'no-cache',
             ]
-        );
+        )->deleteFileAfterSend(true);
     }
 
     protected function exportExcel(
@@ -373,6 +398,20 @@ class ReportController extends Controller
         array $branding,
         Request $request
     ){
+        /*
+        |--------------------------------------------------------------------------
+        | Extra Memory Headroom For This Action Only
+        |--------------------------------------------------------------------------
+        |
+        | PhpSpreadsheet (used under maatwebsite/excel) keeps every cell as an
+        | object in memory while building the sheet, so large exports can be
+        | memory-heavy. Bump the limit only for this request instead of raising
+        | php.ini globally, so every other PHP-FPM worker's baseline stays low.
+        |
+        */
+
+        ini_set('memory_limit', '512M');
+
         return Excel::download(
             new GenericReportExport(
                 rows:$report['rows'],

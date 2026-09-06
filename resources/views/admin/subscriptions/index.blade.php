@@ -18,7 +18,7 @@
 
         <div class="flex flex-wrap gap-2">
             <button type="button" onclick="openBulkModal()"
-                class="inline-flex h-9 cursor-pointer items-center gap-2 rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-700 hover:bg-indigo-100">
+                class="inline-flex h-9 cursor-pointer items-center gap-2 rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-700 hover:bg-indigo-100">
                 <i class="bi bi-stack"></i>
                 Generate Monthly Dues
             </button>
@@ -460,7 +460,7 @@ function renderSubscriptions(){
                     </p>
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                     ${AdminUI.formatDate(subscription.start_date)}
                 </td>
 

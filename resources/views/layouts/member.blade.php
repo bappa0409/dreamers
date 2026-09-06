@@ -307,7 +307,7 @@ View Website
 </div>
 
 <div class="hidden max-w-[140px] text-left sm:block">
-<div class="truncate text-xs font-semibold text-slate-700">{{ $userName }}</div>
+<div class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">{{ $userName }}</div>
 <div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
 </div>
 

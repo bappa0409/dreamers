@@ -14,11 +14,11 @@
 
             <div class="min-w-0">
                 <h1 class="text-base font-bold text-slate-800">Reports & Analytics</h1>
-                <p class="text-xs text-slate-500">Generate, filter, review and export association reports.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Generate, filter, review and export association reports.</p>
             </div>
         </div>
 
-        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50">
+        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>

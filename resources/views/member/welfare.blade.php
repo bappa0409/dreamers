@@ -826,11 +826,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold text-xs text-slate-700">${from}</span>
+<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${from}</span>
 –
-<span class="font-semibold text-xs text-slate-700">${to}</span>
+<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${to}</span>
 of
-<span class="font-semibold text-xs text-slate-700">${total}</span>
+<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${total}</span>
 requests
 </p>
 
@@ -1288,7 +1288,7 @@ ${documents.map(document=>`
 </div>
 
 <div class="min-w-0 flex-1">
-<p class="truncate text-xs font-semibold text-slate-700">
+<p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
 ${escapeHtml(
 document.original_name??
 document.file_name??

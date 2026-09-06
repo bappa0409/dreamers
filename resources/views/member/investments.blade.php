@@ -470,7 +470,7 @@ function renderInvestments(investments){
 
                 <td class="px-4 py-3">
                     <div class="max-w-[250px]">
-                        <p class="truncate text-xs font-semibold text-slate-700">
+                        <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
                             ${escapeValue(item.title??'-')}
                         </p>
 
@@ -500,11 +500,11 @@ function renderInvestments(investments){
                     ${money(item.remaining_principal)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                     ${formatDate(item.investment_date)}
                 </td>
 
-                <td class="px-4 py-3 text-xs text-slate-500">
+                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                     ${formatDate(item.maturity_date)}
                 </td>
 
@@ -593,15 +593,15 @@ function renderPagination(){
 
             <p class="text-[11px] text-slate-500">
                 Showing
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${from}
                 </span>
                 –
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${to}
                 </span>
                 of
-                <span class="font-semibold text-xs text-slate-700">
+                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${totalInvestments}
                 </span>
                 investments
@@ -894,13 +894,13 @@ function renderInvestmentDetails(item){
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-xs text-slate-500">
+                                            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                                                 ${formatDate(
                                                     returnItem.return_date
                                                 )}
                                             </td>
 
-                                            <td class="px-4 py-3 text-xs text-slate-500">
+                                            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                                                 ${
                                                     escapeValue(
                                                         returnItem.description??

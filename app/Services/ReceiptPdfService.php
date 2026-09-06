@@ -48,6 +48,124 @@ class ReceiptPdfService
         array $branding,
         array $receipt
     ): string{
+        [$mpdf]=$this->buildMpdf('A5','P');
+
+        $mpdf->SetTitle(
+            $receipt['title']
+            .' - '
+            .$branding['name']
+        );
+
+        $mpdf->SetAuthor(
+            $branding['name']
+        );
+
+        $mpdf->SetCreator(
+            config('app.name')
+        );
+
+        $html=view(
+            'receipts.receipt',
+            [
+                'receipt'=>$receipt,
+                'organization'=>$branding,
+            ]
+        )->render();
+
+        $mpdf->WriteHTML($html);
+
+        $content=$mpdf->Output(
+            '',
+            Destination::STRING_RETURN
+        );
+
+        unset($mpdf,$html);
+
+        return $content;
+    }
+
+    /**
+     * Same as download(), but for multi-line journal vouchers
+     * (account / particulars / debit / credit rows) instead of the
+     * single-item receipt layout used by payments and repayments.
+     */
+    public function downloadJournalVoucher(
+        array $branding,
+        array $voucher,
+        string $filename
+    ){
+        $content=$this->renderJournalVoucher($branding,$voucher);
+
+        return response(
+            $content,
+            200,
+            [
+                'Content-Type'=>'application/pdf',
+
+                'Content-Disposition'=>
+                    'attachment; filename="'
+                    .$filename
+                    .'.pdf"',
+
+                'Content-Length'=>
+                    strlen($content),
+
+                'Cache-Control'=>
+                    'private, no-store, no-cache, must-revalidate',
+
+                'Pragma'=>'no-cache',
+            ]
+        );
+    }
+
+    protected function renderJournalVoucher(
+        array $branding,
+        array $voucher
+    ): string{
+        [$mpdf,]=$this->buildMpdf('A4','P');
+
+        $mpdf->SetTitle(
+            $voucher['title']
+            .' - '
+            .$branding['name']
+        );
+
+        $mpdf->SetAuthor(
+            $branding['name']
+        );
+
+        $mpdf->SetCreator(
+            config('app.name')
+        );
+
+        $html=view(
+            'receipts.journal-voucher',
+            [
+                'voucher'=>$voucher,
+                'organization'=>$branding,
+            ]
+        )->render();
+
+        $mpdf->WriteHTML($html);
+
+        $content=$mpdf->Output(
+            '',
+            Destination::STRING_RETURN
+        );
+
+        unset($mpdf,$html);
+
+        return $content;
+    }
+
+    /**
+     * Shared mPDF bootstrap (fonts + temp dir) used by both the
+     * compact receipt layout and the journal voucher layout.
+     */
+    protected function buildMpdf(
+        string $format='A5',
+        string $orientation='P'
+    ): array{
         /*
         |--------------------------------------------------------------------------
         | Default mPDF Config
@@ -133,16 +251,16 @@ class ReceiptPdfService
 
         /*
         |--------------------------------------------------------------------------
-        | mPDF Configuration (compact portrait receipt)
+        | mPDF Configuration
         |--------------------------------------------------------------------------
         */
 
         $config=[
             'mode'=>'utf-8',
 
-            'format'=>'A5',
+            'format'=>$format,
 
-            'orientation'=>'P',
+            'orientation'=>$orientation,
 
             'margin_left'=>10,
             'margin_right'=>10,
@@ -167,36 +285,7 @@ class ReceiptPdfService
             $config['default_font']='notosans';
         }
 
-        $mpdf=new Mpdf($config);
-
-        $mpdf->SetTitle(
-            $receipt['title']
-            .' - '
-            .$branding['name']
-        );
-
-        $mpdf->SetAuthor(
-            $branding['name']
-        );
-
-        $mpdf->SetCreator(
-            config('app.name')
-        );
-
-        $html=view(
-            'receipts.receipt',
-            [
-                'receipt'=>$receipt,
-                'organization'=>$branding,
-            ]
-        )->render();
-
-        $mpdf->WriteHTML($html);
-
-        return $mpdf->Output(
-            '',
-            Destination::STRING_RETURN
-        );
+        return [new Mpdf($config)];
     }
 
     /**
@@ -307,6 +396,26 @@ class ReceiptPdfService
                 $withPath
                     ?$logoPath
                     :null,
+
+            'address'=>(string)setting(
+                'organization_address',
+                ''
+            ),
+
+            'phone'=>(string)setting(
+                'organization_phone',
+                ''
+            ),
+
+            'email'=>(string)setting(
+                'organization_email',
+                ''
+            ),
+
+            'website'=>(string)setting(
+                'organization_website',
+                ''
+            ),
         ];
     }
 }

@@ -131,7 +131,7 @@
         @hasSection('bn_message')
             <div class="relative mt-4 flex items-start gap-2 rounded-md border border-slate-100 bg-slate-50 px-3.5 py-2.5 text-left">
                 <i class="bi bi-translate mt-0.5 text-[13px] text-slate-400"></i>
-                <p class="text-xs leading-relaxed text-slate-500">
+                <p class=" text-xs 2xl:text-sm leading-relaxed text-slate-500">
                     @yield('bn_message')
                 </p>
             </div>
@@ -140,7 +140,7 @@
         <div class="relative mt-7 flex flex-col items-center justify-center gap-2 sm:flex-row">
             <a
                 href="{{ url('/') }}"
-                class="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-gradient-to-r {{ $t['btn'] }} px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:shadow-md sm:w-auto"
+                class="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-gradient-to-r {{ $t['btn'] }} px-4 py-2.5  text-xs 2xl:text-sm font-semibold text-white shadow-sm transition hover:shadow-md sm:w-auto"
             >
                 <i class="bi bi-house-door text-[12px]"></i>
                 Go to Home
@@ -149,7 +149,7 @@
             <button
                 type="button"
                 onclick="window.history.back()"
-                class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-slate-200 px-4 py-2.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 sm:w-auto"
+                class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-slate-200 px-4 py-2.5  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50 sm:w-auto"
             >
                 <i class="bi bi-arrow-left text-[12px]"></i>
                 Go Back

@@ -35,7 +35,7 @@
 
                 <p class="mt-0.5 text-sm text-slate-500">
                     Welcome back,
-                    <span class="font-semibold text-xs text-slate-700">
+                    <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                         {{ $member->user?->name??'Member' }}
                     </span>
                 </p>
@@ -362,7 +362,7 @@
 
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-xs text-slate-500">
+                            <span class=" text-xs 2xl:text-sm text-slate-500">
                                 Active Share Value
                             </span>
 
@@ -374,7 +374,7 @@
 
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-xs text-slate-500">
+                            <span class=" text-xs 2xl:text-sm text-slate-500">
                                 Monthly Payable
                             </span>
 

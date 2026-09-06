@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Trial Balance</h1>
-                <p class="text-xs text-slate-500">Account balances derived from posted journal entries.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Account balances derived from posted journal entries.</p>
             </div>
         </div>
         <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
@@ -31,7 +31,7 @@
                         id="searchInput"
                         type="text"
                         placeholder="Code, account or sub type..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                 </label>
                 <select
                     id="typeFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5  text-xs 2xl:text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                     <option value="">All Types</option>
                     <option value="asset">Asset</option>
                     <option value="liability">Liability</option>
@@ -60,7 +60,7 @@
                     <input
                         id="asOfFilter"
                         type="text"
-                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date"
                         autocomplete="off">
                 </div>
@@ -83,7 +83,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-x-circle me-1"></i>
                     Clear
                 </button>
@@ -94,26 +94,26 @@
     {{-- Summary --}}
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Accounts</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Accounts</p>
             <p id="totalAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Debit</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Debit</p>
             <p id="totalDebit" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Credit</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Credit</p>
             <p id="totalCredit" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Difference</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Difference</p>
             <p id="difference" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
@@ -136,12 +136,12 @@
             <table class="w-full min-w-[850px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Code</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Account</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Sub Type</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Debit</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Credit</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Account</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Sub Type</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Debit</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Credit</th>
                     </tr>
                 </thead>
 
@@ -399,7 +399,7 @@ function renderAccounts(accounts){
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold text-xs text-slate-700">
+                <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${esc(account.name)}
                 </div>
 
@@ -414,7 +414,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-600">
+            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
                 ${esc(
                     AdminUI.titleCase(
                         account.type
@@ -422,7 +422,7 @@ function renderAccounts(accounts){
                 )}
             </td>
 
-            <td class="px-4 py-3 text-xs text-slate-500">
+            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
                 ${
                     account.sub_type
                         ?esc(

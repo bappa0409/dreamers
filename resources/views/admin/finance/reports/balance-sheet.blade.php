@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-800">Balance Sheet</h1>
-                <p class="text-xs text-slate-500">Assets, liabilities and equity derived from posted accounting entries.</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Assets, liabilities and equity derived from posted accounting entries.</p>
             </div>
         </div>
         <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
@@ -31,7 +31,7 @@
                     <input
                         id="asOfFilter"
                         type="text"
-                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date"
                         autocomplete="off">
                 </div>
@@ -41,7 +41,7 @@
                 <button
                     type="button"
                     onclick="resetDate()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-calendar-check me-1"></i>
                     Today
                 </button>
@@ -51,28 +51,28 @@
 
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Assets</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Assets</p>
             <p id="totalAssets" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Liabilities</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Liabilities</p>
             <p id="totalLiabilities" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Equity</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Equity</p>
             <p id="totalEquity" class="mt-1 truncate text-xl font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Current Surplus / Deficit</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Current Surplus / Deficit</p>
             <p id="currentSurplus" class="mt-1 truncate text-xl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
@@ -96,7 +96,7 @@
 
                     <tbody id="assetTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10 text-xs text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading...</td>
                         </tr>
                     </tbody>
 
@@ -187,7 +187,7 @@
 
         <div class="grid gap-3 p-5 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center">
             <div class="rounded-md border border-slate-200 p-4 text-center">
-                <p class="text-xs text-slate-500">Assets</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Assets</p>
                 <p id="equationAssets" class="mt-1 text-lg font-bold text-slate-800">
                     {{ setting('currency_symbol','৳') }}0.00
                 </p>
@@ -196,7 +196,7 @@
             <div class="text-center text-xl font-bold text-slate-400">=</div>
 
             <div class="rounded-md border border-slate-200 p-4 text-center">
-                <p class="text-xs text-slate-500">Liabilities</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Liabilities</p>
                 <p id="equationLiabilities" class="mt-1 text-lg font-bold text-slate-800">
                     {{ setting('currency_symbol','৳') }}0.00
                 </p>
@@ -205,7 +205,7 @@
             <div class="text-center text-xl font-bold text-slate-400">+</div>
 
             <div class="rounded-md border border-slate-200 p-4 text-center">
-                <p class="text-xs text-slate-500">Equity</p>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Equity</p>
                 <p id="equationEquity" class="mt-1 text-lg font-bold text-slate-800">
                     {{ setting('currency_symbol','৳') }}0.00
                 </p>
@@ -489,7 +489,7 @@ function renderEquity(accounts,surplus){
     html+=`
         <tr class="border-t border-indigo-100 bg-indigo-50/40">
             <td class="px-4 py-3">
-                <div class="font-semibold text-xs text-slate-700">
+                <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                     ${surplus>=0
                         ?'Current Surplus'
                         :'Current Deficit'}

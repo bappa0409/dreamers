@@ -918,7 +918,7 @@ function renderRepayments(repayments){
                 </span>
                 <button
                     type="button"
-                    onclick="downloadPdf('/api/finance/loans/${Number(currentLoan.id)}/repayments/${Number(payment.id)}/receipt','loan-repayment-${AdminUI.escapeHtml(currentLoan.loan_no??currentLoan.id)}-${Number(payment.id)}.pdf')"
+                    onclick="downloadPdf('/api/finance/loans/${Number(currentLoan.id)}/repayments/${Number(payment.id)}/receipt','loan-repayment-${AdminUI.escapeHtml(currentLoan.loan_no??currentLoan.id)}-${Number(payment.id)}.pdf',this)"
                     class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
                     title="Download PDF">
                     <i class="bi bi-file-earmark-pdf"></i>

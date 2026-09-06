@@ -40,7 +40,7 @@ window.Toast={
             <i class="bi ${icons[type]??icons.info} mt-0.5 shrink-0"></i>
             <div class="min-w-0 flex-1">${AdminUI.escapeHtml(message)}</div>
             <button type="button" class="shrink-0 opacity-60 hover:opacity-100">
-                <i class="bi bi-x-lg text-xs"></i>
+                <i class="bi bi-x-lg  text-xs 2xl:text-sm"></i>
             </button>
         `;
 

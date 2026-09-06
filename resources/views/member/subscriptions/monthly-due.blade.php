@@ -221,23 +221,23 @@
 
                 <div class="mt-4 divide-y divide-slate-100 rounded-lg border border-slate-200">
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-xs text-slate-500">Due Day</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Due Day</span>
                         <span id="planDueDay" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
 
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-xs text-slate-500">Late Fine</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Late Fine</span>
                         <span id="planLateFine" class="text-right text-sm font-semibold text-amber-600">-</span>
                     </div>
 
                     <div class="flex items-center justify-between gap-3 px-4 py-3">
-                        <span class="text-xs text-slate-500">Started</span>
+                        <span class=" text-xs 2xl:text-sm text-slate-500">Started</span>
                         <span id="subscriptionStartDate" class="text-sm font-semibold text-slate-700">-</span>
                     </div>
 
                     @if($shareEnabled)
                         <div class="flex items-center justify-between gap-3 px-4 py-3">
-                            <span class="text-xs text-slate-500">Billing Rule</span>
+                            <span class=" text-xs 2xl:text-sm text-slate-500">Billing Rule</span>
                             <span class="text-right text-[11px] font-semibold text-violet-600">Base × Active Shares</span>
                         </div>
                     @endif

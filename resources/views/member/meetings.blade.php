@@ -15,7 +15,7 @@
             <div>
                 <h1 class="text-base font-bold text-slate-800">Association Meetings</h1>
 
-                <p class="text-xs text-slate-500">
+                <p class=" text-xs 2xl:text-sm text-slate-500">
                     View meeting schedules, agendas, attendance and decisions.
                 </p>
             </div>
@@ -24,7 +24,7 @@
 
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total Meetings</p>
+            <p class=" text-xs 2xl:text-sm text-slate-500">Total Meetings</p>
             <p id="totalMeetings" class="mt-2 text-xl font-bold text-slate-800">0</p>
         </div>
 
@@ -104,13 +104,13 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">My Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">Meeting Status</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Venue</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">My Status</th>
+                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting Status</th>
+                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
@@ -150,7 +150,7 @@
                         Meeting Details
                     </h3>
 
-                    <p id="detailsSubtitle" class="text-xs text-slate-500"></p>
+                    <p id="detailsSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
 
@@ -476,7 +476,7 @@ function renderMeetings(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="font-semibold text-xs text-slate-700">
+                        <p class="font-semibold  text-xs 2xl:text-sm text-slate-700">
                             ${esc(meeting.meeting_no)}
                         </p>
 
