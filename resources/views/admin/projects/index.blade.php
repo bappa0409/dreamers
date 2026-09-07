@@ -33,7 +33,7 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-sm text-indigo-600">Budget</p>
+            <p class="text-xs 2xl:text-sm text-indigo-600">Budget</p>
             <p id="totalBudget" class="mt-2 truncate text-lg font-bold text-indigo-700">{{ setting('currency_symbol','৳') }}0</p>
         </div>
 
@@ -43,7 +43,7 @@
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-sm text-emerald-600">Completed</p>
+            <p class="text-xs 2xl:text-sm text-emerald-600">Completed</p>
             <p id="completedCount" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
 
@@ -82,11 +82,11 @@
                 </select>
 
                 <div class="relative min-w-0 lg:w-[200px]">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="dateRangeFilter" type="text" placeholder="Start date range" autocomplete="off" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm font-medium text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:rounded-none lg:border-l-0">
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2  text-xs 2xl:text-sm text-slate-400"></i>
+                    <input id="dateRangeFilter" type="text" placeholder="Start date range" autocomplete="off" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                 </div>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -481,7 +481,7 @@ function renderProjects(){
 
                     <div class="mt-4">
                         <div class="mb-1 flex items-center justify-between text-[10px]">
-                            <span class="text-slate-400">Progress</span>
+                            <span class="text-slate-400 text-xs 2xl:text-sm">Progress</span>
                             <span class="font-semibold text-slate-600">${progress}%</span>
                         </div>
 

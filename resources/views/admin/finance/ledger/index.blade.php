@@ -84,28 +84,28 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Opening Balance</p>
-            <p id="openingBalance" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="openingBalance" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
-            <p class="text-sm text-emerald-600">Period Debit</p>
-            <p id="periodDebit" class="mt-1 truncate text-xl font-bold text-emerald-700">
+            <p class="text-xs 2xl:text-sm text-emerald-600">Period Debit</p>
+            <p id="periodDebit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-emerald-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
-            <p class="text-sm text-red-600">Period Credit</p>
-            <p id="periodCredit" class="mt-1 truncate text-xl font-bold text-red-700">
+            <p class="text-xs 2xl:text-sm text-red-600">Period Credit</p>
+            <p id="periodCredit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-red-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
-            <p class="text-sm text-indigo-600">Closing Balance</p>
-            <p id="closingBalance" class="mt-1 truncate text-xl font-bold text-indigo-700">
+            <p class="text-xs 2xl:text-sm text-indigo-600">Closing Balance</p>
+            <p id="closingBalance" class="mt-1 truncate text-base 2xl:text-lgl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
@@ -526,7 +526,7 @@ function renderTableRow(entry){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right text-sm font-semibold text-emerald-700">
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-emerald-700">
                 ${
                     Number(entry.debit)>0
                         ?money(entry.debit)
@@ -542,7 +542,7 @@ function renderTableRow(entry){
                 }
             </td>
 
-            <td class="px-4 py-3 text-right text-sm font-bold text-indigo-700">
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-indigo-700">
                 ${money(
                     entry.running_balance
                 )}

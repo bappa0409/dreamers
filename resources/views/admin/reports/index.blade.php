@@ -62,7 +62,7 @@
                 <div class="relative min-w-0 xl:w-56">
                     <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
 
-                    <input id="reportDateRange" type="text" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0" placeholder="All time" autocomplete="off">
+                    <input id="reportDateRange" type="text" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0" placeholder="All time" autocomplete="off">
                 </div>
 
                 <button type="button" onclick="clearReportFilters()" class="h-9 cursor-pointer whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">

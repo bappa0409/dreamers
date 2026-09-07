@@ -158,7 +158,7 @@
 
 {{-- Mobile Cards --}}
 <div id="nomineeMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
         Loading nominees...
     </div>
 </div>
@@ -553,7 +553,7 @@ async function loadNominees(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading nominees...
@@ -736,7 +736,7 @@ function renderNominees(){
                     </div>
                 </td>
 
-                <td class="px-4 py-3 text-slate-500">
+                <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                     ${esc(nominee.relationship)}
                 </td>
 

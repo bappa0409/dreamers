@@ -25,7 +25,7 @@
         <button
             type="button"
             onclick="openAssetModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Asset
         </button>
@@ -36,22 +36,22 @@
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Active Assets</p>
-            <p id="summaryActive" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="summaryActive" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Cost</p>
-            <p id="summaryPurchaseCost" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryPurchaseCost" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Accumulated Depreciation</p>
-            <p id="summaryDepreciation" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryDepreciation" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Book Value</p>
-            <p id="summaryBookValue" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryBookValue" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
     </div>
 
@@ -93,14 +93,14 @@
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
+                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending_approval">Pending Approval</option>
                     <option value="rejected">Rejected</option>
@@ -112,7 +112,7 @@
 
                 <select
                     id="categoryFilter"
-                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Categories</option>
                 </select>
 

@@ -203,7 +203,7 @@
                 </div>
                 <div>
                     <h3 class="text-base font-bold text-slate-800">Payment Details</h3>
-                    <p class="text-sm text-slate-400">Subscription payment information</p>
+                    <p class="text-xs 2xl:text-sm text-slate-400">Subscription payment information</p>
                 </div>
             </div>
 

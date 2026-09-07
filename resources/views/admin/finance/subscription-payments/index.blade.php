@@ -17,13 +17,8 @@
         </div>
 
         <div class="flex w-fit shrink-0 items-center gap-2">
-            <button type="button" onclick="loadPayments()" class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                <i class="bi bi-arrow-clockwise"></i>
-                Refresh
-            </button>
-
             @if(auth()->user()->hasPermission('Finance.create'))
-                <button type="button" onclick="openAddPaymentModal()" class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                <button type="button" onclick="openAddPaymentModal()" class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                     <i class="bi bi-plus-lg"></i>
                     Add Payment
                 </button>
@@ -99,14 +94,14 @@
                     <input id="searchInput" type="text" placeholder="Search member, ID, payment no, reference..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Payments</option>
                     <option value="pending">Pending</option>
                     <option value="verified">Verified</option>
                     <option value="rejected">Rejected</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>

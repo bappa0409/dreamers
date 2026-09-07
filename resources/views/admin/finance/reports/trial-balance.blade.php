@@ -95,26 +95,26 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Accounts</p>
-            <p id="totalAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="totalAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Debit</p>
-            <p id="totalDebit" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="totalDebit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Credit</p>
-            <p id="totalCredit" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="totalCredit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Difference</p>
-            <p id="difference" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="difference" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
@@ -155,13 +155,13 @@
 
                 <tfoot class="border-t border-slate-200 bg-slate-50">
                     <tr>
-                        <td colspan="4" class="px-4 py-3 text-right text-sm font-bold text-slate-700">
+                        <td colspan="4" class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">
                             Total
                         </td>
-                        <td id="footerDebit" class="px-4 py-3 text-right text-base font-bold text-slate-800">
+                        <td id="footerDebit" class="px-4 py-3 text-right text-sm 2xl:text-base font-bold text-slate-800">
                             {{ setting('currency_symbol','৳') }}0.00
                         </td>
-                        <td id="footerCredit" class="px-4 py-3 text-right text-base font-bold text-slate-800">
+                        <td id="footerCredit" class="px-4 py-3 text-right text-sm 2xl:text-base font-bold text-slate-800">
                             {{ setting('currency_symbol','৳') }}0.00
                         </td>
                     </tr>

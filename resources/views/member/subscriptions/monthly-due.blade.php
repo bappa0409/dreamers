@@ -299,7 +299,7 @@
                 </div>
                 <div>
                     <h3 class="text-base font-bold text-slate-800">Submit Payment</h3>
-                    <p id="paymentPeriodText" class="text-sm text-slate-400">Monthly subscription payment</p>
+                    <p id="paymentPeriodText" class="text-xs 2xl:text-sm text-slate-400">Monthly subscription payment</p>
                 </div>
             </div>
 

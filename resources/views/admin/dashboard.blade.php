@@ -137,7 +137,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div class="rounded-md bg-slate-50 p-3">
                         <p class="text-[11px] text-slate-400">Total</p>
-                        <p class="mt-1 text-xl font-bold text-slate-800">
+                        <p class="mt-1 text-sm font-bold text-slate-800">
                             {{ $dashboard['investments']['total'] }}
                         </p>
                     </div>
@@ -176,7 +176,7 @@
                 <div class="grid grid-cols-3 gap-2">
                     <div class="rounded-md bg-slate-50 p-3 text-center">
                         <p class="text-[10px] text-slate-400">Total</p>
-                        <p class="mt-1 text-xl font-bold text-slate-800">
+                        <p class="mt-1 text-sm font-bold text-slate-800">
                             {{ $dashboard['projects']['total'] }}
                         </p>
                     </div>

@@ -20,7 +20,7 @@
         <button
             type="button"
             onclick="openExpenseModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Expense
         </button>
@@ -30,17 +30,17 @@
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Expenses</p>
-            <p id="totalExpense" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="totalExpense" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">This Month</p>
-            <p id="monthExpense" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="monthExpense" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Transactions</p>
-            <p id="expenseCount" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="expenseCount" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
     </div>
 
@@ -77,14 +77,14 @@
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
+                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
 
                 <select
                     id="statusFilter"
-                    class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                    class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending_approval">Pending Approval</option>
                     <option value="rejected">Rejected</option>
@@ -272,7 +272,7 @@
                                 Debit
                             </p>
 
-                            <p id="journalDebit" class="mt-1 text-base font-semibold text-slate-700">
+                            <p id="journalDebit" class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">
                                 Expense Account
                             </p>
                         </div>
@@ -282,7 +282,7 @@
                                 Credit
                             </p>
 
-                            <p id="journalCredit" class="mt-1 text-base font-semibold text-slate-700">
+                            <p id="journalCredit" class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">
                                 Payment Account
                             </p>
                         </div>

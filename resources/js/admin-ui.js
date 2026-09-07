@@ -1342,7 +1342,7 @@ window.AdminUI={
         }
 
         return `
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-xs 2xl:text-sm text-slate-400">
                 ${this.escapeHtml(message)}
             </div>
         `;
@@ -1367,7 +1367,7 @@ window.AdminUI={
         }
 
         return `
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-xs 2xl:text-sm text-slate-400">
                 <div class="inline-flex items-center gap-2">
                     <i class="bi bi-arrow-repeat animate-spin"></i>
                     ${this.escapeHtml(message)}

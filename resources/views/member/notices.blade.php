@@ -652,6 +652,7 @@ function renderNotices(){
                                 View
 
                             </button>
+                            
 
                         </div>
 

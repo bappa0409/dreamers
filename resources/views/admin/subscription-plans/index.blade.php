@@ -58,7 +58,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400"
+                    class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400"
                 >
                     <option value="">All Status</option>
                     <option value="active">Active</option>
@@ -68,7 +68,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -280,7 +280,7 @@ const money=value=>`${currency}${Number(value||0).toLocaleString('en-BD',{
 
 function fineLabel(plan){
     if(!plan.fine_type||plan.fine_type==='none'){
-        return`<span class="text-sm text-slate-400">No fine</span>`;
+        return`<span class="text-xs 2xl:text-sm text-slate-400">No fine</span>`;
     }
 
     const value=plan.fine_type==='percentage'
@@ -346,7 +346,7 @@ function renderPlans(){
         );
 
         el.mobileGrid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
                 No subscription plans found.
             </div>
         `;
@@ -366,7 +366,7 @@ function renderPlans(){
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">
                 ${money(plan.amount)}
             </td>
 
@@ -382,7 +382,7 @@ function renderPlans(){
                 ${
                     plan.is_default
                         ?`<span class="rounded-md bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">Default</span>`
-                        :`<span class="text-sm text-slate-400">&mdash;</span>`
+                        :`<span class="text-xs 2xl:text-sm text-slate-400">&mdash;</span>`
                 }
             </td>
 

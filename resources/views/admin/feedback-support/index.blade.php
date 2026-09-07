@@ -797,7 +797,7 @@ actions.push(actionButton('Close Request','bi-check2-square','emerald','closeReq
 
 $('manageActions').innerHTML=actions.length
 ?actions.join('')
-:'<span class="text-sm text-slate-400">No further action available.</span>';
+:'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,handler){

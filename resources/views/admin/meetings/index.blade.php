@@ -178,7 +178,7 @@
 
     {{-- Mobile Cards --}}
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             Loading meetings...
         </div>
     </div>
@@ -865,7 +865,7 @@ async function loadMeetings(page=1){
     tbody.innerHTML=AdminUI.loadingState('Loading meetings...',9);
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -922,11 +922,13 @@ async function loadMeetings(page=1){
 function meetingActions(meeting){
     const actions=[
         `
-        <button type="button"
+        <button
+            type="button"
             onclick="viewMeeting(${meeting.id})"
-            class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-50">
-            <i class="bi bi-eye"></i>
-            View
+            title="View Details"
+            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+        >
+            <i class="bi bi-eye text-sm"></i>
         </button>
         `
     ];
@@ -1021,7 +1023,7 @@ function renderMeetings(){
                     </div>
                 </td>
 
-                <td class="px-4 py-3 text-slate-500">
+                <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                     ${esc(formatType(meeting.type))}
                 </td>
 
@@ -1947,7 +1949,7 @@ function expensesHtml(items){
                                 <td class="px-3 py-2 text-right font-semibold text-slate-700">
                                     ${money(item.amount)}
                                 </td>
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-2 text-xs 2xl:text-sm">
                                     ${AdminUI.statusBadge(item.status)}
                                 </td>
                                 <td class="px-3 py-2 text-right">
@@ -1974,7 +1976,7 @@ function expensesHtml(items){
 function infoMini(label,value){
     return`
         <div>
-            <p class="text-slate-400">${esc(label)}</p>
+            <p class="text-slate-400 text-xs 2xl:text-sm">${esc(label)}</p>
             <p class="mt-0.5 truncate font-medium text-slate-600">
                 ${esc(value)}
             </p>

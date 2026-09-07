@@ -346,9 +346,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Posted</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">চূড়ান্তভাবে খাতায় জমা হয়েছে; হিসাবের ব্যালেন্সে প্রভাব ফেলে।</td></tr>
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">Draft</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">এখনো খাতায় প্রভাব ফেলেনি (সাধারণত ব্যবহার হয় না, ম্যানুয়াল জার্নালে সরাসরি Posted হয়)।</td></tr>
-                    <tr><td class="px-3 py-2"><span class="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700">Cancelled / Reversed</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">মূল জার্নাল বাতিল দেখানো হয়েছে; এর বিপরীতে একটি নতুন Reversal জার্নাল পোস্ট হয়েছে।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Posted</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">চূড়ান্তভাবে খাতায় জমা হয়েছে; হিসাবের ব্যালেন্সে প্রভাব ফেলে।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">Draft</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">এখনো খাতায় প্রভাব ফেলেনি (সাধারণত ব্যবহার হয় না, ম্যানুয়াল জার্নালে সরাসরি Posted হয়)।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><span class="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700">Cancelled / Reversed</span></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">মূল জার্নাল বাতিল দেখানো হয়েছে; এর বিপরীতে একটি নতুন Reversal জার্নাল পোস্ট হয়েছে।</td></tr>
                 </tbody>
             </table>
         </div>
@@ -431,7 +431,7 @@
                     @foreach($wfRows as [$module, $action, $behavior])
                     <tr>
                         <td class="px-3 py-2 font-semibold text-slate-700">{{ $module }}</td>
-                        <td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">{{ $action }}</code></td>
+                        <td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">{{ $action }}</code></td>
                         <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">{{ $behavior }}</td>
                     </tr>
                     @endforeach
@@ -525,10 +525,10 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1100/1200</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Cash / Bank</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">হাতে নগদ/ব্যাংক ব্যালেন্স বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1300</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Accounts Receivable</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">সদস্যদের কাছে অ্যাসোসিয়েশনের পাওনা বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4100</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Subscription Income</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">মাসিক চাঁদা বাবদ আয় বেড়েছে</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4410</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Late Fine Income</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">জরিমানা বাবদ আয় বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1100/1200</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Cash / Bank</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">হাতে নগদ/ব্যাংক ব্যালেন্স বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">1300</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Accounts Receivable</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Asset</td><td class="px-3 py-2 text-slate-500">সদস্যদের কাছে অ্যাসোসিয়েশনের পাওনা বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4100</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Subscription Income</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">মাসিক চাঁদা বাবদ আয় বেড়েছে</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">4410</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Late Fine Income</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">Income</td><td class="px-3 py-2 text-slate-500">জরিমানা বাবদ আয় বেড়েছে</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1372,7 +1372,7 @@
                         <td class="px-3 py-2 text-slate-700">{{ $event }}</td>
                         <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">{{ $dr }}</td>
                         <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">{{ $cr }}</td>
-                        <td class="px-3 py-2">
+                        <td class="px-3 py-2 text-xs 2xl:text-sm">
                             @if($needsApproval)
                                 <span class="font-semibold text-amber-600">হ্যাঁ 🔒</span>
                             @else
@@ -1494,9 +1494,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.view</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">জার্নাল, রিপোর্ট, লেজার দেখতে পারবে।</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.create</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">ম্যানুয়াল জার্নাল পোস্ট করতে পারবে, নতুন আয়/ব্যয়/পেমেন্ট এন্ট্রি করতে পারবে।</td></tr>
-                    <tr><td class="px-3 py-2"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.update</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">জার্নাল Reverse করতে পারবে, পেমেন্ট Verify/Reject করতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.view</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">জার্নাল, রিপোর্ট, লেজার দেখতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.create</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">ম্যানুয়াল জার্নাল পোস্ট করতে পারবে, নতুন আয়/ব্যয়/পেমেন্ট এন্ট্রি করতে পারবে।</td></tr>
+                    <tr><td class="px-3 py-2 text-xs 2xl:text-sm"><code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">Finance.update</code></td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">জার্নাল Reverse করতে পারবে, পেমেন্ট Verify/Reject করতে পারবে।</td></tr>
                 </tbody>
             </table>
         </div>

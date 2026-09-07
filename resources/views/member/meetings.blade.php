@@ -29,7 +29,7 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-sm text-indigo-600">Scheduled</p>
+            <p class="text-xs 2xl:text-sm text-indigo-600">Scheduled</p>
             <p id="scheduledMeetings" class="mt-2 text-xl font-bold text-indigo-700">0</p>
         </div>
 
@@ -39,7 +39,7 @@
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-sm text-emerald-600">My Invitations</p>
+            <p class="text-xs 2xl:text-sm text-emerald-600">My Invitations</p>
             <p id="myInvitations" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
     </div>
@@ -126,7 +126,7 @@
     </div>
 
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             Loading meetings...
         </div>
     </div>
@@ -348,7 +348,7 @@ function loadingState(){
         );
 
     $('meetingMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -930,7 +930,7 @@ function renderDecisions(items){
                                     item.agenda?.title
                                         ?`
                                         <div>
-                                            <p class="text-slate-400">
+                                            <p class="text-slate-400 text-xs 2xl:text-sm">
                                                 Related Agenda
                                             </p>
 
@@ -946,7 +946,7 @@ function renderDecisions(items){
                                     item.due_date
                                         ?`
                                         <div>
-                                            <p class="text-slate-400">
+                                            <p class="text-slate-400 text-xs 2xl:text-sm">
                                                 Due Date
                                             </p>
 

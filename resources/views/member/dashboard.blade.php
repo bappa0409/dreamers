@@ -73,7 +73,7 @@
 
             <div class="mt-4 space-y-2 border-t border-slate-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-slate-400">Subscriptions</span>
+                    <span class="text-slate-400 text-xs 2xl:text-sm">Subscriptions</span>
 
                     <span class="font-semibold text-slate-600">
                         ৳{{ number_format($summary['subscription_deposited']??0,2) }}
@@ -82,7 +82,7 @@
 
                 @if($shareEnabled)
                     <div class="flex items-center justify-between gap-3 text-[11px]">
-                        <span class="text-slate-400">Shares</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Shares</span>
 
                         <span class="font-semibold text-slate-600">
                             ৳{{ number_format($summary['share_deposited']??0,2) }}
@@ -112,7 +112,7 @@
 
             <div class="mt-4 border-t border-slate-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-slate-400">This Month's Amount</span>
+                    <span class="text-slate-400 text-xs 2xl:text-sm">This Month's Amount</span>
 
                     <span class="font-semibold text-slate-600">
                         ৳{{ number_format($currentDue,2) }}

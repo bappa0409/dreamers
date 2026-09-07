@@ -38,7 +38,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Total Due</p>
-                    <p id="summaryDue" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryDue" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-receipt text-xl text-slate-300"></i>
             </div>
@@ -47,7 +47,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Collected</p>
-                    <p id="summaryPaid" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-check-circle text-xl text-slate-300"></i>
             </div>
@@ -56,7 +56,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Outstanding</p>
-                    <p id="summaryOutstanding" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
                 </div>
                 <i class="bi bi-hourglass-split text-xl text-slate-300"></i>
             </div>
@@ -191,7 +191,7 @@
                 <table class="w-full text-base">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-3 py-2 text-left text-sm">Plan</th>
+                            <th class="px-3 py-2 text-left text-xs 2xl:text-sm">Plan</th>
                             <th class="px-3 py-2 text-right text-sm">Amount</th>
                             <th class="px-3 py-2 text-center text-sm">Due</th>
                             <th class="px-3 py-2 text-right text-sm"></th>
@@ -371,15 +371,15 @@ function renderSubscriptions(items){
             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
                 <td class="px-4 py-3">
                     <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${escapeHtml(user.name??'—')}</div>
-                    <div class="text-sm text-slate-400">${escapeHtml(member.member_code??'—')}</div>
+                    <div class="text-xs 2xl:text-sm text-slate-400">${escapeHtml(member.member_code??'—')}</div>
                 </td>
                 <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
                 <td class="px-4 py-3 text-right font-medium text-slate-700">${money(item.plan?.amount)}</td>
-                <td class="px-4 py-3 text-slate-500">${monthName(month)} ${year}</td>
+                <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">${monthName(month)} ${year}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.amount):'—'}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.paid_amount):'—'}</td>
                 <td class="px-4 py-3">
-                    ${due?dueBadge(due.status):'<span class="text-sm text-slate-400">Not Generated</span>'}
+                    ${due?dueBadge(due.status):'<span class="text-xs 2xl:text-sm text-slate-400">Not Generated</span>'}
                 </td>
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-1">
@@ -502,15 +502,15 @@ function renderPlans(){
 
     body.innerHTML=plans.map(item=>`
         <tr class="border-t border-slate-100">
-            <td class="px-3 py-2">
-                <div class="font-medium text-slate-700">${escapeHtml(item.name)}</div>
+            <td class="px-3 py-2 text-xs 2xl:text-sm">
+                <div class="font-medium text-xs 2xl:text-sm text-slate-700">${escapeHtml(item.name)}</div>
                 <div class="text-[10px] text-slate-400">
                     ${item.is_default?'Default · ':''}${item.is_active?'Active':'Inactive'}
                 </div>
             </td>
             <td class="px-3 py-2 text-right">${money(item.amount)}</td>
             <td class="px-3 py-2 text-center">${item.due_day}</td>
-            <td class="px-3 py-2">
+            <td class="px-3 py-2 text-xs 2xl:text-sm">
                 <div class="flex justify-end gap-1">
                     <button type="button" onclick="editPlan(${item.id})" class="inline-flex h-7 w-7 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
                         <i class="bi bi-pencil"></i>
@@ -694,12 +694,12 @@ function renderPayments(){
             <td class="px-4 py-3 font-medium text-slate-700">${escapeHtml(item.payment_no)}</td>
             <td class="px-4 py-3">
                 <div>${escapeHtml(item.member?.user?.name??'—')}</div>
-                <div class="text-sm text-slate-400">${escapeHtml(item.member?.member_code??'')}</div>
+                <div class="text-xs 2xl:text-sm text-slate-400">${escapeHtml(item.member?.member_code??'')}</div>
             </td>
             <td class="px-4 py-3">${monthName(item.due?.month)} ${item.due?.year??''}</td>
             <td class="px-4 py-3 text-right font-semibold">${money(item.amount)}</td>
             <td class="px-4 py-3">${titleCase(item.payment_method)}</td>
-            <td class="px-4 py-3 text-slate-500">${escapeHtml(item.transaction_reference??'—')}</td>
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">${escapeHtml(item.transaction_reference??'—')}</td>
             <td class="px-4 py-3">
                 <div class="flex justify-end gap-1">
                     <button type="button" onclick="confirmVerifyPayment(${item.id},'${escapeJs(item.payment_no)}')" class="rounded-md bg-emerald-50 px-2.5 py-1.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Verify</button>

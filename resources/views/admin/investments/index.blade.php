@@ -163,7 +163,7 @@
 
     {{-- Mobile Cards --}}
     <div id="investmentMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             Loading investments...
         </div>
     </div>
@@ -691,7 +691,7 @@ async function loadInvestments(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading investments...
@@ -766,11 +766,13 @@ async function loadInvestments(page=1){
 function investmentActions(investment){
     const actions=[
         `
-        <button type="button"
+        <button
+            type="button"
             onclick="viewInvestment(${investment.id})"
-            class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-50">
-            <i class="bi bi-eye"></i>
-            View
+            title="View Details"
+            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+        >
+            <i class="bi bi-eye text-sm"></i>
         </button>
         `
     ];
@@ -921,7 +923,7 @@ function renderInvestments(){
                         </div>
                     </td>
 
-                    <td class="px-4 py-3 text-slate-500">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                         ${date(investment.investment_date)}
                     </td>
 
@@ -1494,7 +1496,7 @@ function syncReturnAccount(){
     if(label){
         label.innerHTML=paid
             ?'Receive Account <span class="text-red-500">*</span>'
-            :'Receive Account <span class="text-slate-400">(Optional)</span>';
+            :'Receive Account <span class="text-slate-400 text-xs 2xl:text-sm">(Optional)</span>';
     }
 
     if(!paid){
@@ -1806,50 +1808,50 @@ window.viewInvestment=async function(id){
 
                 <div class="grid gap-3 text-base md:grid-cols-2">
                     <div>
-                        <span class="text-slate-400">Title:</span>
-                        <span class="font-medium text-slate-700">
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Title:</span>
+                        <span class="font-medium text-xs 2xl:text-sm text-slate-700">
                             ${esc(investment.title)}
                         </span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Payment:</span>
-                        <span class="font-medium text-slate-700">
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Payment:</span>
+                        <span class="font-medium text-xs 2xl:text-sm text-slate-700">
                             ${esc(paymentAccountName(investment))}
                         </span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Status:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Status:</span>
                         ${AdminUI.statusBadge(investment.status)}
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Investment Date:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Investment Date:</span>
                         ${date(investment.investment_date)}
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Maturity:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Maturity:</span>
                         ${date(investment.maturity_date)}
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Expected Income:</span>
-                        <span class="font-medium text-slate-700">
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Expected Income:</span>
+                        <span class="font-medium text-xs 2xl:text-sm text-slate-700">
                             ${money(investment.expected_return)}
                         </span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Principal Due:</span>
-                        <span class="font-medium text-slate-700">
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Principal Due:</span>
+                        <span class="font-medium text-xs 2xl:text-sm text-slate-700">
                             ${money(remainingPrincipal(investment))}
                         </span>
                     </div>
 
                     <div class="md:col-span-2">
-                        <span class="text-slate-400">Description:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Description:</span>
                         <span class="text-slate-700">
                             ${esc(investment.description||'—')}
                         </span>
@@ -1895,11 +1897,11 @@ window.viewInvestment=async function(id){
                                 returns.length
                                     ?returns.map(item=>`
                                         <tr class="border-t border-slate-100">
-                                            <td class="px-3 py-2">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                 ${date(item.return_date)}
                                             </td>
 
-                                            <td class="px-3 py-2">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                 ${esc(
                                                     AdminUI.titleCase(
                                                         item.return_type
@@ -1911,7 +1913,7 @@ window.viewInvestment=async function(id){
                                                 ${money(item.amount)}
                                             </td>
 
-                                            <td class="px-3 py-2">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                 ${
                                                     item.receive_account
                                                         ?`${esc(item.receive_account.code)} - ${esc(item.receive_account.name)}`
@@ -1919,7 +1921,7 @@ window.viewInvestment=async function(id){
                                                 }
                                             </td>
 
-                                            <td class="px-3 py-2">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                 ${AdminUI.statusBadge(item.status)}
                                             </td>
 

@@ -23,7 +23,7 @@
         <button
             type="button"
             onclick="openAccountModal()"
-            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Account
         </button>
@@ -33,7 +33,7 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Accounts</p>
-            <p id="totalAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="totalAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
@@ -53,7 +53,7 @@
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">System Accounts</p>
-            <p id="systemAccounts" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="systemAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
     </div>
 
@@ -74,12 +74,12 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search accounts..."
-                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-indigo-400 xl:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 xl:rounded-r-none">
                 </div>
 
                 <select
                     id="typeFilter"
-                    class="h-9 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Types</option>
                     <option value="asset">Asset</option>
                     <option value="liability">Liability</option>
@@ -90,7 +90,7 @@
 
                 <select
                     id="statusFilter"
-                    class="h-9 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
@@ -99,7 +99,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     Clear
                 </button>
             </div>
@@ -563,22 +563,17 @@ function renderAccounts(){
 
             const actions=[
                 `
-                    <button
-                        type="button"
-                        onclick="viewAccount(${account.id})"
-                        class="rounded border border-slate-300 px-2 py-1  text-xs 2xl:text-sm text-slate-600 hover:bg-slate-50">
-                        View
+                    <button type="button" onclick="viewAccount(${account.id})" title="View Details" class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
+                        <i class="bi bi-eye text-sm"></i>
                     </button>
                 `
             ];
 
             if(canUpdate){
                 actions.push(`
-                    <button
-                        type="button"
-                        onclick="editAccount(${account.id})"
-                        class="rounded border border-indigo-300 px-2 py-1 text-sm text-indigo-700 hover:bg-indigo-50">
-                        Edit
+                    <button type="button" onclick="editAccount(${account.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100" title="Edit">
+                        <i class="bi bi-pencil-square text-sm"></i>
+                        
                     </button>
                 `);
 
@@ -633,17 +628,17 @@ function renderAccounts(){
                         ${esc(AdminUI.titleCase(account.type))}
                     </td>
 
-                    <td class="px-4 py-3 text-slate-500">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                         ${account.sub_type
                             ?esc(AdminUI.titleCase(account.sub_type))
                             :'—'}
                     </td>
 
-                    <td class="px-4 py-3 text-slate-500">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                         ${parent}
                     </td>
 
-                    <td class="px-4 py-3 text-right text-slate-600">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-right text-slate-600">
                         ${money(account.opening_balance)}
                     </td>
 
@@ -965,56 +960,56 @@ window.viewAccount=async function(id){
             </div>
 
             <div class="mt-4 rounded-md border border-slate-200 p-4">
-                <div class="grid gap-3 text-base md:grid-cols-2">
+                <div class="grid gap-1 md:grid-cols-2">
                     <div>
-                        <span class="text-slate-400">Name:</span>
-                        ${esc(account.name)}
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Name:
+                        ${esc(account.name)}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Sub Type:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Sub Type:
                         ${account.sub_type
                             ?esc(AdminUI.titleCase(account.sub_type))
-                            :'—'}
+                            :'—'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Parent:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Parent:
                         ${account.parent
                             ?`${esc(account.parent.code)} - ${esc(account.parent.name)}`
-                            :'—'}
+                            :'—'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Account Class:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Account Class:
                         ${account.is_posting
                             ?'Posting Account'
-                            :'Parent Account'}
+                            :'Parent Account'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Journal Entries:</span>
-                        ${account.entries_count||0}
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Journal Entries:
+                        ${account.entries_count||0}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400">Status:</span>
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Status:
                         ${AdminUI.statusBadge(
                             account.is_active
                                 ?'active'
                                 :'inactive'
-                        )}
+                        )}</span>
                     </div>
 
                     <div class="md:col-span-2">
-                        <span class="text-slate-400">Description:</span>
-                        ${esc(account.description||'—')}
+                        <span class="text-slate-400 text-xs 2xl:text-sm">Description:
+                        ${esc(account.description||'—')}</span>
                     </div>
                 </div>
             </div>
 
             <div class="mt-4">
-                <h3 class="mb-2 text-base font-bold text-slate-700">
+                <h3 class="mb-2 text-sm 2xl:text-base font-bold text-slate-700">
                     Child Accounts
                 </h3>
 
@@ -1025,13 +1020,13 @@ window.viewAccount=async function(id){
                                 <table class="w-full text-base">
                                     <thead class="bg-slate-50">
                                         <tr>
-                                            <th class="px-3 py-2 text-left text-sm">
+                                            <th class="px-3 py-2 text-left text-xs 2xl:text-sm">
                                                 Code
                                             </th>
-                                            <th class="px-3 py-2 text-left text-sm">
+                                            <th class="px-3 py-2 text-left text-xs 2xl:text-sm">
                                                 Name
                                             </th>
-                                            <th class="px-3 py-2 text-left text-sm">
+                                            <th class="px-3 py-2 text-left text-xs 2xl:text-sm">
                                                 Status
                                             </th>
                                         </tr>
@@ -1040,15 +1035,15 @@ window.viewAccount=async function(id){
                                     <tbody>
                                         ${children.map(child=>`
                                             <tr class="border-t border-slate-100">
-                                                <td class="px-3 py-2">
+                                                <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                     ${esc(child.code)}
                                                 </td>
 
-                                                <td class="px-3 py-2">
+                                                <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                     ${esc(child.name)}
                                                 </td>
 
-                                                <td class="px-3 py-2">
+                                                <td class="px-3 py-2 text-xs 2xl:text-sm">
                                                     ${AdminUI.statusBadge(
                                                         child.is_active
                                                             ?'active'

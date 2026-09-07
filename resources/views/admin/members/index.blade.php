@@ -1002,7 +1002,7 @@ function renderMembers(){
                                     )}
                                 </span>
                             `).join('')
-                            :'<span class="text-sm text-slate-400">No roles</span>'
+                            :'<span class="text-xs 2xl:text-sm text-slate-400">No roles</span>'
                     }
                 </td>
 
@@ -1070,14 +1070,14 @@ function renderMembers(){
 
                 <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                     <div class="min-w-0">
-                        <p class="text-slate-400">Code</p>
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Code</p>
                         <p class="truncate font-mono font-semibold text-indigo-600">
                             ${AdminUI.escapeHtml(member.member_code??'N/A')}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400">Phone</p>
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Phone</p>
                         <p class="truncate font-medium text-slate-700">
                             ${AdminUI.escapeHtml(
                                 member.phone||
@@ -1088,14 +1088,14 @@ function renderMembers(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400">Joining</p>
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Joining</p>
                         <p class="truncate font-medium text-slate-700">
                             ${AdminUI.formatDate(member.joining_date)}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400">Roles</p>
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Roles</p>
                         <div class="mt-0.5">
                             ${
                                 roles.length
@@ -1107,7 +1107,7 @@ function renderMembers(){
                                             )}
                                         </span>
                                     `).join('')
-                                    :'<span class="text-slate-400">No roles</span>'
+                                    :'<span class="text-slate-400 text-xs 2xl:text-sm">No roles</span>'
                             }
                         </div>
                     </div>

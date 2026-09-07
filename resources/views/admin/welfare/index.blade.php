@@ -72,7 +72,7 @@ $stats=[
 </div>
 
 <div id="fundGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading funds...</div>
+<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">Loading funds...</div>
 </div>
 </div>
 
@@ -139,7 +139,7 @@ Clear
 
 {{-- Mobile --}}
 <div id="requestMobileGrid" class="grid gap-3 sm:grid-cols-2 lg:hidden">
-<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading welfare requests...</div>
+<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">Loading welfare requests...</div>
 </div>
 
 <div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
@@ -639,7 +639,7 @@ $('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-red-
 
 function renderFunds(){
 if(!funds.length){
-$('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">No welfare funds found.</div>`;
+$('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">No welfare funds found.</div>`;
 return;
 }
 
@@ -704,7 +704,7 @@ $('requestMobileGrid').innerHTML=`<div class="col-span-full rounded-md border bo
 function renderRequests(){
 if(!requests.length){
 $('requestTableBody').innerHTML=AdminUI.emptyState('No welfare requests found.',8);
-$('requestMobileGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">No welfare requests found.</div>`;
+$('requestMobileGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">No welfare requests found.</div>`;
 return;
 }
 
@@ -984,7 +984,7 @@ if(permissions.manage&&r.status==='completed'){
 actions.push(actionButton('Reverse','bi-arrow-counterclockwise','red','openReverseModal()'));
 }
 
-$('manageActions').innerHTML=actions.length?actions.join(''):'<span class="text-sm text-slate-400">No further action available.</span>';
+$('manageActions').innerHTML=actions.length?actions.join(''):'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,handler){

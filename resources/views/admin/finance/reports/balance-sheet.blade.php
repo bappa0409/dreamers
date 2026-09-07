@@ -52,28 +52,28 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Assets</p>
-            <p id="totalAssets" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="totalAssets" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Liabilities</p>
-            <p id="totalLiabilities" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="totalLiabilities" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Equity</p>
-            <p id="totalEquity" class="mt-1 truncate text-xl font-bold text-slate-800">
+            <p id="totalEquity" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Current Surplus / Deficit</p>
-            <p id="currentSurplus" class="mt-1 truncate text-xl font-bold text-indigo-700">
+            <p id="currentSurplus" class="mt-1 truncate text-base 2xl:text-lgl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
         </div>
@@ -102,7 +102,7 @@
 
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Assets</td>
+                            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">Total Assets</td>
                             <td id="assetFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -135,7 +135,7 @@
 
                         <tfoot class="border-t border-slate-200 bg-slate-50">
                             <tr>
-                                <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Liabilities</td>
+                                <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">Total Liabilities</td>
                                 <td id="liabilityFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                     {{ setting('currency_symbol','৳') }}0.00
                                 </td>
@@ -167,7 +167,7 @@
 
                         <tfoot class="border-t border-slate-200 bg-slate-50">
                             <tr>
-                                <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Equity</td>
+                                <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">Total Equity</td>
                                 <td id="equityFooter" class="px-4 py-3 text-right font-bold text-slate-800">
                                     {{ setting('currency_symbol','৳') }}0.00
                                 </td>

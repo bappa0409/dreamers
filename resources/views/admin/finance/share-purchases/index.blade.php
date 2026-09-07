@@ -28,7 +28,7 @@
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class="text-xs text-slate-500">Total</p>
-            <p id="totalCount" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="totalCount" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">

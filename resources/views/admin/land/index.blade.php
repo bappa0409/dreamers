@@ -23,7 +23,7 @@
         @if(auth()->user()->hasPermission('Land.create'))
         <button type="button"
                 onclick="openLandModal()"
-                class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Land
         </button>
@@ -40,14 +40,14 @@
         </div>
 
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-sm text-indigo-600">Current Value</p>
+            <p class="text-xs 2xl:text-sm text-indigo-600">Current Value</p>
             <p id="currentValue" class="mt-2 truncate text-xl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0
             </p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-sm text-emerald-600">Sold</p>
+            <p class="text-xs 2xl:text-sm text-emerald-600">Sold</p>
             <p id="soldCount" class="mt-2 text-xl font-bold text-emerald-700">0</p>
         </div>
 
@@ -80,11 +80,11 @@
                     <input id="searchInput"
                            type="text"
                            placeholder="Search land..."
-                           class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                           class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <select id="statusFilter"
-                        class="h-9 border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none">
+                        class="h-9 border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none">
                     <option value="">All Status</option>
                     <option value="planned">Planned</option>
                     <option value="negotiating">Negotiating</option>
@@ -95,7 +95,7 @@
 
                 <button type="button"
                         onclick="clearFilters()"
-                        class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100">
+                        class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>

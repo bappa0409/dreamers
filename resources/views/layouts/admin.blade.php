@@ -580,7 +580,7 @@
             </main>
 
             <footer class="relative z-10 shrink-0 border-t border-slate-200 bg-white p-4 sm:px-5 lg:px-6">
-                <div class="flex flex-col items-center justify-between gap-1.5 text-[11px] text-slate-400 sm:flex-row">
+                <div class="flex flex-col items-center justify-between text-[11px] text-slate-400 sm:flex-row">
                     <p>&copy; {{ date('Y') }} {{ $organizationName }}. All rights reserved.</p>
                     <p>
                         Developed by

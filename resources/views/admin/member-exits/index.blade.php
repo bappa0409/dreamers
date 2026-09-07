@@ -129,7 +129,7 @@
 
 {{-- Mobile Cards --}}
 <div id="exitMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">Loading exit records...</div>
+    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">Loading exit records...</div>
 </div>
 
 <div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
@@ -500,7 +500,7 @@ async function loadExits(page=1){
     $('exitTableBody').innerHTML=AdminUI.loadingState('Loading exit records...',8);
 
     $('exitMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             <span class="inline-flex items-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading exit records...
@@ -566,7 +566,7 @@ function renderRecords(){
 
             <td class="px-4 py-3 text-right font-semibold ${Number(item.total_liabilities)>0?'text-red-600':'text-slate-600'}">${money(item.total_liabilities)}</td>
 
-            <td class="px-4 py-3 text-right font-semibold text-emerald-700">${money(item.share_refund)}</td>
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-emerald-700">${money(item.share_refund)}</td>
 
             <td class="px-4 py-3 text-center">
                 ${Number(item.blocking_items_count)>0
@@ -854,7 +854,7 @@ function renderManageActions(item){
 
     $('manageActions').innerHTML=actions.length
         ?actions.join('')
-        :'<span class="text-sm text-slate-400">No further action available.</span>';
+        :'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,onclick,outline=false){

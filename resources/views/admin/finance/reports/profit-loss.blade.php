@@ -40,7 +40,7 @@
                 <button
                     type="button"
                     onclick="setCurrentMonth()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar-month me-1"></i>
                     Current Month
                 </button>
@@ -50,7 +50,7 @@
                 <button
                     type="button"
                     onclick="setCurrentYear()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar3 me-1"></i>
                     Current Year
                 </button>
@@ -73,8 +73,8 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-sm text-emerald-600">Total Income</p>
-                    <p id="totalIncome" class="mt-2 truncate text-xl font-bold text-emerald-700">
+                    <p class="text-xs 2xl:text-sm text-emerald-600">Total Income</p>
+                    <p id="totalIncome" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-emerald-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
                 </div>
@@ -87,8 +87,8 @@
         <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-sm text-red-600">Total Expense</p>
-                    <p id="totalExpense" class="mt-2 truncate text-xl font-bold text-red-700">
+                    <p class="text-xs 2xl:text-sm text-red-600">Total Expense</p>
+                    <p id="totalExpense" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-red-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
                 </div>
@@ -101,8 +101,8 @@
         <div id="netCard" class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
-                    <p id="netLabel" class="text-sm text-indigo-600">Net Surplus</p>
-                    <p id="netResult" class="mt-2 truncate text-xl font-bold text-indigo-700">
+                    <p id="netLabel" class="text-xs 2xl:text-sm text-indigo-600">Net Surplus</p>
+                    <p id="netResult" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-indigo-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </p>
                 </div>
@@ -139,7 +139,7 @@
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Income</td>
+                            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">Total Income</td>
                             <td id="incomeFooter" class="px-4 py-3 text-right font-bold text-emerald-700">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -173,7 +173,7 @@
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
                         <tr>
-                            <td class="px-4 py-3 text-right text-sm font-bold text-slate-700">Total Expense</td>
+                            <td class="px-4 py-3 text-right text-xs 2xl:text-sm font-bold text-slate-700">Total Expense</td>
                             <td id="expenseFooter" class="px-4 py-3 text-right font-bold text-red-700">
                                 {{ setting('currency_symbol','৳') }}0.00
                             </td>
@@ -212,8 +212,8 @@
             </div>
 
             <div id="resultBox" class="flex items-center justify-between gap-3 rounded-md border border-indigo-100 bg-indigo-50/40 p-4">
-                <span id="resultLabel" class="text-base font-bold text-slate-700">Net Surplus</span>
-                <span id="resultNet" class="text-xl font-bold text-indigo-700">
+                <span id="resultLabel" class="text-base 2xl:text-xl font-bold text-slate-700">Net Surplus</span>
+                <span id="resultNet" class="text-base 2xl:text-xl font-bold text-indigo-700">
                     {{ setting('currency_symbol','৳') }}0.00
                 </span>
             </div>
@@ -621,7 +621,7 @@ function renderAccounts(target,accounts,type){
                         ${esc(account.code)}
                     </span>
 
-                    <span class="font-medium text-slate-700">
+                    <span class="font-medium text-xs 2xl:text-sm text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>

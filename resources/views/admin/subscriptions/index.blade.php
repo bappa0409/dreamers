@@ -34,7 +34,7 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class="text-[11px] text-slate-400">Total Due</p>
-            <p id="statDue" class="mt-1 text-xl font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
+            <p id="statDue" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
 
         <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
@@ -119,7 +119,7 @@
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Assign Subscription</h3>
-                <p class="text-sm text-slate-400">Assign an active subscription plan to a member.</p>
+                <p class="text-xs 2xl:text-sm text-slate-400">Assign an active subscription plan to a member.</p>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('subscriptionModal')" class="app-modal-close">
@@ -182,7 +182,7 @@
         <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Generate Monthly Dues</h3>
-                <p class="text-sm text-slate-400">Generate dues for all active member subscriptions.</p>
+                <p class="text-xs 2xl:text-sm text-slate-400">Generate dues for all active member subscriptions.</p>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('bulkModal')" class="app-modal-close">
@@ -362,7 +362,7 @@ async function loadSubscriptions(page=1){
         );
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
             Loading subscriptions...
         </div>
     `;
@@ -424,7 +424,7 @@ function renderSubscriptions(){
             );
 
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-sm text-slate-400">
+            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
                 No subscriptions found.
             </div>
         `;
@@ -485,7 +485,7 @@ function renderSubscriptions(){
                                 </div>
                             `
                             :`
-                                <span class="text-sm text-slate-400">
+                                <span class="text-xs 2xl:text-sm text-slate-400">
                                     Not generated
                                 </span>
                             `
@@ -562,7 +562,7 @@ function renderSubscriptions(){
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <p class="text-[10px] text-slate-400">Monthly</p>
-                            <p class="mt-1 text-base font-semibold text-slate-700">
+                            <p class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">
                                 ${money(plan.amount||0)}
                             </p>
                         </div>

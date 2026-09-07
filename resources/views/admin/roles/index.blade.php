@@ -48,7 +48,7 @@
         <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-indigo-600">System Roles</p>
+                    <p class="text-xs 2xl:text-sm text-indigo-600">System Roles</p>
                     <p id="systemRoles" class="mt-2 text-xl font-bold text-indigo-700">0</p>
                 </div>
 
@@ -61,7 +61,7 @@
         <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-emerald-600">Custom Roles</p>
+                    <p class="text-xs 2xl:text-sm text-emerald-600">Custom Roles</p>
                     <p id="customRoles" class="mt-2 text-xl font-bold text-emerald-700">0</p>
                 </div>
 

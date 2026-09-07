@@ -16,7 +16,7 @@
             </div>
         </div>
         @if(auth()->user()->hasPermission('Finance.create'))
-        <button type="button" onclick="openChargeModal()" class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+        <button type="button" onclick="openChargeModal()" class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Charge
         </button>
@@ -26,19 +26,19 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Charged</p>
-            <p id="summaryCharged" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryCharged" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Collected</p>
-            <p id="summaryPaid" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Outstanding</p>
-            <p id="summaryOutstanding" class="mt-1 text-xl font-bold text-slate-800">৳0.00</p>
+            <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Unpaid / Partial</p>
-            <p id="summaryUnpaid" class="mt-1 text-xl font-bold text-slate-800">0</p>
+            <p id="summaryUnpaid" class="mt-1 text-sm font-bold text-slate-800">0</p>
         </div>
     </div>
 
@@ -63,10 +63,10 @@
 
                 <div class="relative">
                     <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="dateRangeFilter" type="text" class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0" placeholder="Select date range" autocomplete="off">
+                    <input id="dateRangeFilter" type="text" class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0" placeholder="Select date range" autocomplete="off">
                 </div>
 
-                <select id="statusFilter" class="h-9 border border-slate-300 px-3 text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                <select id="statusFilter" class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="pending_approval">Pending Approval</option>
                     <option value="rejected">Rejected</option>
@@ -218,12 +218,12 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="rounded-md border border-emerald-200 bg-emerald-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Debit</p>
-                            <p class="mt-1 text-base font-semibold text-slate-700">Accounts Receivable</p>
+                            <p class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">Accounts Receivable</p>
                         </div>
 
                         <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-indigo-600">Credit</p>
-                            <p id="journalCredit" class="mt-1 text-base font-semibold text-slate-700">Income Account</p>
+                            <p id="journalCredit" class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">Income Account</p>
                         </div>
                     </div>
                 </section>
@@ -313,11 +313,11 @@
                     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="rounded-md border border-emerald-200 bg-emerald-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Debit</p>
-                            <p class="mt-1 text-base font-semibold text-slate-700">Cash / Bank</p>
+                            <p class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">Cash / Bank</p>
                         </div>
                         <div class="rounded-md border border-indigo-200 bg-indigo-50 p-3">
                             <p class="text-[10px] font-semibold uppercase tracking-wide text-indigo-600">Credit</p>
-                            <p class="mt-1 text-base font-semibold text-slate-700">Accounts Receivable</p>
+                            <p class="mt-1 text-sm 2xl:text-base font-semibold text-slate-700">Accounts Receivable</p>
                         </div>
                     </div>
                 </section>
@@ -909,16 +909,16 @@ window.viewCharge=async function(id){
                                     <td class="px-3 py-2 font-mono">
                                         ${AdminUI.escapeHtml(payment.payment_no)}
                                     </td>
-                                    <td class="px-3 py-2">
+                                    <td class="px-3 py-2 text-xs 2xl:text-sm">
                                         ${AdminUI.formatDate(payment.payment_date)}
                                     </td>
-                                    <td class="px-3 py-2">
+                                    <td class="px-3 py-2 text-xs 2xl:text-sm">
                                         ${AdminUI.escapeHtml(payment.receive_account?.name??'—')}
                                     </td>
-                                    <td class="px-3 py-2">
+                                    <td class="px-3 py-2 text-xs 2xl:text-sm">
                                         ${AdminUI.escapeHtml(payment.reference??'—')}
                                     </td>
-                                    <td class="px-3 py-2">
+                                    <td class="px-3 py-2 text-xs 2xl:text-sm">
                                         ${AdminUI.escapeHtml(titleCase(payment.status))}
                                     </td>
                                     <td class="px-3 py-2 text-right font-semibold">
@@ -1129,7 +1129,7 @@ function journalTable(entries){
                 <tbody>
                     ${entries.length?entries.map(entry=>`
                         <tr class="border-t border-slate-100">
-                            <td class="px-3 py-2">
+                            <td class="px-3 py-2 text-xs 2xl:text-sm">
                                 ${AdminUI.escapeHtml(entry.account?.code??'')}
                                 -
                                 ${AdminUI.escapeHtml(entry.account?.name??'')}
