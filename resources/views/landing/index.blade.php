@@ -660,7 +660,7 @@ CTA
                     দীর্ঘমেয়াদি পরিকল্পনার বিকল্প নেই।') }}
                 </p>
 
-                <a href="{{ $lpField('cta', 'button_url', '#contact') }}"
+                <a href="{{ $lpField('cta', 'button_url', route('contact')) }}"
                     class="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-[13px] font-bold text-teal-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
                     {{ $lpField('cta', 'button_text', 'যোগাযোগ করুন') }}
                     <i data-lucide="arrow-right" class="h-4 w-4"></i>

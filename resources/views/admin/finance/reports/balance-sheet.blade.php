@@ -15,7 +15,7 @@
                 <p class=" text-xs 2xl:text-sm text-slate-500">Assets, liabilities and equity derived from posted accounting entries.</p>
             </div>
         </div>
-        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
+        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-xs 2xl:text-sm font-semibold"></div>
     </div>
 
     <div class="rounded-md border border-slate-200 bg-white p-4">
@@ -89,8 +89,8 @@
                 <table class="w-full min-w-[520px] text-base">
                     <thead class="border-b border-slate-200">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
+                            <th class="px-4 py-2.5 text-left text-xs 2xl:text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-xs 2xl:text-sm font-semibold text-slate-500">Balance</th>
                         </tr>
                     </thead>
 
@@ -122,8 +122,8 @@
                     <table class="w-full min-w-[520px] text-base">
                         <thead class="border-b border-slate-200">
                             <tr>
-                                <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
-                                <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
+                                <th class="px-4 py-2.5 text-left text-xs 2xl:text-sm font-semibold text-slate-500">Account</th>
+                                <th class="px-4 py-2.5 text-right text-xs 2xl:text-sm font-semibold text-slate-500">Balance</th>
                             </tr>
                         </thead>
 
@@ -154,8 +154,8 @@
                     <table class="w-full min-w-[520px] text-base">
                         <thead class="border-b border-slate-200">
                             <tr>
-                                <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
-                                <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Balance</th>
+                                <th class="px-4 py-2.5 text-left text-xs 2xl:text-sm font-semibold text-slate-500">Account</th>
+                                <th class="px-4 py-2.5 text-right text-xs 2xl:text-sm font-semibold text-slate-500">Balance</th>
                             </tr>
                         </thead>
 
@@ -430,7 +430,7 @@ function renderAccounts(target,accounts){
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-sm font-medium text-slate-700">
+                    <span class="text-xs 2xl:text-sm font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>
@@ -470,7 +470,7 @@ function renderEquity(accounts,surplus){
                         ${esc(account.code)}
                     </span>
 
-                    <span class="text-sm font-medium text-slate-700">
+                    <span class="text-xs 2xl:text-sm font-medium text-slate-700">
                         ${esc(account.name)}
                     </span>
                 </div>

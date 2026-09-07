@@ -21,6 +21,7 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::get('/activities', 'activities')->name('activities');
     Route::get('/transparency', 'transparency')->name('transparency');
     Route::get('/faq', 'faq')->name('faq');
+    Route::get('/contact', 'contact')->name('contact');
 });
 
 Route::controller(SeoController::class)->group(function () {

@@ -182,6 +182,16 @@ class NomineeController extends Controller
         ]);
     }
 
+    public function memberSummary(Member $member)
+    {
+        return response()->json([
+            'success'=>true,
+            'data'=>$this->nomineeService->summary(
+                $member
+            )
+        ]);
+    }
+
     public function show(MemberNominee $nominee)
     {
         return response()->json([
@@ -202,6 +212,11 @@ class NomineeController extends Controller
             $request
         );
 
+        $photo=$request->file('photo');
+        $identityDocument=$request->file('identity_document');
+
+        unset($validated['photo'],$validated['identity_document']);
+
         $member=Member::findOrFail(
             $validated['member_id']
         );
@@ -212,7 +227,9 @@ class NomineeController extends Controller
             'data'=>$this->nomineeService->create(
                 $member,
                 $validated,
-                $request->user()->id
+                $request->user()->id,
+                $photo,
+                $identityDocument
             )
         ],201);
     }
@@ -228,13 +245,20 @@ class NomineeController extends Controller
 
         unset($validated['member_id']);
 
+        $photo=$request->file('photo');
+        $identityDocument=$request->file('identity_document');
+
+        unset($validated['photo'],$validated['identity_document']);
+
         return response()->json([
             'success'=>true,
             'message'=>'Nominee updated successfully.',
             'data'=>$this->nomineeService->update(
                 $nominee,
                 $validated,
-                $request->user()->id
+                $request->user()->id,
+                $photo,
+                $identityDocument
             )
         ]);
     }
@@ -373,6 +397,7 @@ class NomineeController extends Controller
         bool $update=false
     ): array{
         $prefix=$update?'sometimes|':'';
+        $fileRule=$update?'nullable':'required';
 
         return $request->validate([
             'member_id'=>$update
@@ -385,20 +410,35 @@ class NomineeController extends Controller
             'relationship'=>
                 $prefix.'required|string|max:80',
 
+            'father_or_husband_name'=>
+                $prefix.'required|string|max:150',
+
+            'mother_name'=>
+                $prefix.'required|string|max:150',
+
             'phone'=>
                 'nullable|string|max:30',
 
             'identity_type'=>
-                'nullable|in:nid,birth_certificate,passport,other',
+                $prefix.'required|in:nid,birth_certificate,passport,other',
 
             'identity_number'=>
-                'nullable|string|max:100',
+                $prefix.'required|string|max:100',
 
             'date_of_birth'=>
-                'nullable|date|before_or_equal:today',
+                $prefix.'required|date|before_or_equal:today',
+
+            'gender'=>
+                $prefix.'required|in:male,female,other',
+
+            'profession'=>
+                'nullable|string|max:150',
 
             'address'=>
-                'nullable|string|max:3000',
+                $prefix.'required|string|max:3000',
+
+            'permanent_address'=>
+                $prefix.'required|string|max:3000',
 
             'allocation_percentage'=>
                 $prefix.'required|numeric|min:0.01|max:100',
@@ -410,7 +450,13 @@ class NomineeController extends Controller
                 'nullable|boolean',
 
             'notes'=>
-                'nullable|string|max:3000'
+                'nullable|string|max:3000',
+
+            'photo'=>
+                $fileRule.'|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            'identity_document'=>
+                $fileRule.'|file|mimes:pdf,jpg,jpeg,png,webp|max:5120'
         ]);
     }
 }

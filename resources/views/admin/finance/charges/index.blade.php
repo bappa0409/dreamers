@@ -85,7 +85,9 @@
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-x-auto">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -108,6 +110,12 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Mobile card list --}}
+        <div id="chargeCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading charges...</div>
+        </div>
+
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
 </div>
@@ -115,7 +123,7 @@
 {{-- Add Member Charge Modal --}}
 <div id="chargeModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-receipt"></i>
@@ -233,9 +241,11 @@
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="closeChargeModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
                 <button id="saveChargeButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Create Charge
                 </button>
             </div>
@@ -246,7 +256,7 @@
 {{-- Payment Modal --}}
 <div id="paymentModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                     <i class="bi bi-cash-coin"></i>
@@ -327,9 +337,11 @@
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="closePaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
                 <button id="paymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Post Payment
                 </button>
             </div>
@@ -340,7 +352,7 @@
 {{-- Details Modal --}}
 <div id="detailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-receipt-cutoff"></i>
@@ -359,6 +371,7 @@
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
             <button type="button" onclick="closeDetailsModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <i class="bi bi-x-lg"></i>
                 Close
             </button>
         </div>
@@ -368,7 +381,7 @@
 {{-- Reason Modal --}}
 <div id="reasonModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div id="reasonIcon" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
                     <i class="bi bi-exclamation-circle"></i>
@@ -398,10 +411,12 @@
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="closeReasonModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <i class="bi bi-arrow-left"></i>
                     Back
                 </button>
                 <button id="reasonButton" type="submit" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
-                    Continue
+                    <i id="reasonButtonIcon" class="bi bi-arrow-right"></i>
+                    <span id="reasonButtonLabel">Continue</span>
                 </button>
             </div>
         </form>
@@ -437,6 +452,7 @@ const canUpdate=@json(auth()->user()->hasPermission('Finance.update'));
 
 const el={
     table:document.getElementById('chargeTable'),
+    cards:document.getElementById('chargeCards'),
     search:document.getElementById('searchInput'),
     dateRange:document.getElementById('dateRangeFilter'),
     status:document.getElementById('statusFilter'),
@@ -503,9 +519,30 @@ function initDateRangePicker(){
     });
 }
 
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
 async function loadCharges(page=1){
     currentPage=page;
+
     el.table.innerHTML=AdminUI.loadingState('Loading charges...',10);
+
+    el.cards.innerHTML=cardsLoadingHtml(
+        'Loading charges...'
+    );
 
     const query=AdminUI.query({
         search:el.search.value.trim(),
@@ -540,6 +577,10 @@ async function loadCharges(page=1){
         });
     }catch(error){
         el.table.innerHTML=AdminUI.emptyState(AdminUI.extractError(error),10);
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
+        );
     }
 }
 
@@ -557,9 +598,61 @@ function renderSummary(data){
         Number(data.unpaid_count??0);
 }
 
+function chargeActionButtons(item,{withLabel=false}={}){
+    const outstanding=Math.max(
+        Number(item.amount??0)-Number(item.paid_amount??0),
+        0
+    );
+
+    const buttons=[];
+
+    const baseClass=withLabel
+        ?'flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold'
+        :'flex h-8 w-8 items-center justify-center rounded-md';
+
+    buttons.push(`
+        <button type="button" onclick="viewCharge(${item.id})" class="${baseClass} bg-slate-50 text-slate-500 hover:bg-slate-100" title="View">
+            <i class="bi bi-eye text-sm"></i>
+            ${withLabel?'View':''}
+        </button>
+    `);
+
+    if(canCreate&&['unpaid','partial'].includes(item.status)){
+        buttons.push(`
+            <button type="button" onclick="openPaymentModal(${item.id})" class="${baseClass} bg-emerald-50 text-emerald-600 hover:bg-emerald-100" title="Receive Payment">
+                <i class="bi bi-cash-coin text-sm"></i>
+                ${withLabel?'Receive':''}
+            </button>
+        `);
+    }
+
+    if(canUpdate&&item.status==='unpaid'){
+        buttons.push(`
+            <button type="button" onclick="openReasonModal(${item.id},'waive')" class="${baseClass} bg-amber-50 text-amber-600 hover:bg-amber-100" title="Waive">
+                <i class="bi bi-percent text-sm"></i>
+                ${withLabel?'Waive':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button type="button" onclick="openReasonModal(${item.id},'cancel')" class="${baseClass} bg-red-50 text-red-600 hover:bg-red-100" title="Cancel">
+                <i class="bi bi-x-circle text-sm"></i>
+                ${withLabel?'Cancel':''}
+            </button>
+        `);
+    }
+
+    return buttons.join('');
+}
+
 function renderCharges(){
     if(!charges.length){
         el.table.innerHTML=AdminUI.emptyState('No member charges found.',10);
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No member charges found.'
+        );
+
         return;
     }
 
@@ -619,27 +712,74 @@ function renderCharges(){
 
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-1">
-                        <button type="button" onclick="viewCharge(${item.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100" title="View">
-                            <i class="bi bi-eye text-sm"></i>
-                        </button>
-
-                        ${canCreate&&['unpaid','partial'].includes(item.status)?`
-                            <button type="button" onclick="openPaymentModal(${item.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100" title="Receive Payment">
-                                <i class="bi bi-cash-coin text-sm"></i>
-                            </button>
-                        `:''}
-
-                        ${canUpdate&&item.status==='unpaid'?`
-                            <button type="button" onclick="openReasonModal(${item.id},'waive')" class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600 hover:bg-amber-100" title="Waive">
-                                <i class="bi bi-percent text-sm"></i>
-                            </button>
-                            <button type="button" onclick="openReasonModal(${item.id},'cancel')" class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100" title="Cancel">
-                                <i class="bi bi-x-circle text-sm"></i>
-                            </button>
-                        `:''}
+                        ${chargeActionButtons(item)}
                     </div>
                 </td>
             </tr>
+        `;
+    }).join('');
+
+    el.cards.innerHTML=charges.map(item=>{
+        const outstanding=Math.max(
+            Number(item.amount??0)-Number(item.paid_amount??0),
+            0
+        );
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="truncate font-mono text-xs 2xl:text-sm font-semibold text-indigo-600">
+                            ${AdminUI.escapeHtml(item.charge_no)}
+                        </p>
+
+                        <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                            ${AdminUI.escapeHtml(titleCase(item.charge_type))}
+                        </p>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${chargeBadge(item.status)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Member</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.escapeHtml(item.member?.user?.name??'—')}
+                        </p>
+                        <p class="truncate font-mono text-[10px] text-indigo-600">
+                            ${AdminUI.escapeHtml(item.member?.member_code??'')}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Amount</p>
+                        <p class="truncate font-semibold text-slate-800">
+                            ${money(item.amount)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Charge Date</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.formatDate(item.charge_date)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Outstanding</p>
+                        <p class="truncate font-semibold ${outstanding>0?'text-red-600':'text-slate-700'}">
+                            ${money(outstanding)}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
+                    ${chargeActionButtons(item,{withLabel:true})}
+                </div>
+            </div>
         `;
     }).join('');
 }
@@ -930,6 +1070,7 @@ window.viewCharge=async function(id){
                                                 type="button"
                                                 onclick="openPaymentCancelModal(${payment.id})"
                                                 class="rounded border border-red-200 px-2 py-1 text-[11px] font-semibold text-red-600 hover:bg-red-50">
+                                                <i class="bi bi-x-circle"></i>
                                                 Cancel
                                             </button>
                                         `:'—'}
@@ -983,8 +1124,10 @@ window.openPaymentCancelModal=function(paymentId){
     icon.className='flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600';
     icon.innerHTML='<i class="bi bi-x-circle"></i>';
 
+    document.getElementById('reasonButtonLabel').textContent='Cancel Payment';
+    document.getElementById('reasonButtonIcon').className='bi bi-x-circle';
+
     const button=document.getElementById('reasonButton');
-    button.textContent='Cancel Payment';
     button.className='cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60';
 
     AdminUI.clearError('reasonError');
@@ -1022,10 +1165,13 @@ window.openReasonModal=function(id,action){
         ?'<i class="bi bi-percent"></i>'
         :'<i class="bi bi-x-circle"></i>';
 
-    const button=document.getElementById('reasonButton');
-
-    button.textContent=
+    document.getElementById('reasonButtonLabel').textContent=
         waive?'Waive Charge':'Cancel Charge';
+
+    document.getElementById('reasonButtonIcon').className=
+        waive?'bi bi-percent':'bi bi-x-circle';
+
+    const button=document.getElementById('reasonButton');
 
     button.className=waive
         ?'cursor-pointer rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 disabled:opacity-60'

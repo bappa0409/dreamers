@@ -124,7 +124,7 @@
                 </div>
 
                 <select id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="draft">Draft</option>
                     <option value="approved">Approved</option>
@@ -135,11 +135,11 @@
                 </select>
 
                 <select id="yearFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                 </select>
 
                 <button type="button" onclick="clearFilters()"
-                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -189,8 +189,8 @@
 CREATE / EDIT TOUR
 ============================================================= --}}
 <div id="tourModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-airplane"></i>
@@ -208,58 +208,116 @@ CREATE / EDIT TOUR
         </div>
 
         <form id="tourForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
-            <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
+            <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
                 <div id="tourError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div class="md:col-span-2">
-                        <label class="form-label">Tour Title <span class="text-red-500">*</span></label>
-                        <input id="tourTitle" type="text" maxlength="255" class="app-input w-full" data-validation-required-message="Tour title is required.">
-                        <p data-field-error="tourTitle" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="form-label">Destination <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <i class="bi bi-geo-alt pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                            <input id="tourDestination" type="text" maxlength="255" class="app-input w-full !pl-9" data-validation-required-message="Destination is required.">
+                {{-- Basic Information --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-info-circle"></i>
                         </div>
-                        <p data-field-error="tourDestination" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Start Date <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                            <input id="tourStartDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Start date is required.">
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Basic Information</h3>
+                            <p class="text-[11px] text-slate-400">Title and destination of the tour.</p>
                         </div>
-                        <p data-field-error="tourStartDate" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
-                    <div>
-                        <label class="form-label">End Date <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                            <input id="tourEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="End date is required." data-on-or-after="tourStartDate" data-validation-compare-message="End date cannot be earlier than start date.">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div class="md:col-span-2">
+                            <label class="form-label">Tour Title <span class="text-red-500">*</span></label>
+                            <input id="tourTitle" type="text" maxlength="255" class="app-input w-full" data-validation-required-message="Tour title is required.">
+                            <p data-field-error="tourTitle" class="mt-1 hidden text-sm text-red-600"></p>
                         </div>
-                        <p data-field-error="tourEndDate" class="mt-1 hidden text-sm text-red-600"></p>
+
+                        <div class="md:col-span-2">
+                            <label class="form-label">Destination <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="bi bi-geo-alt pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <input id="tourDestination" type="text" maxlength="255" class="app-input w-full !pl-9" data-validation-required-message="Destination is required.">
+                            </div>
+                            <p data-field-error="tourDestination" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Schedule --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                            <i class="bi bi-calendar3"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Schedule</h3>
+                            <p class="text-[11px] text-slate-400">When the tour starts and ends.</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Budget Amount</label>
-                        <input id="tourBudget" type="number" min="0" step="0.01" class="app-input w-full">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Start Date <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <input id="tourStartDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Start date is required.">
+                            </div>
+                            <p data-field-error="tourStartDate" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">End Date <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <input id="tourEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="End date is required." data-on-or-after="tourStartDate" data-validation-compare-message="End date cannot be earlier than start date.">
+                            </div>
+                            <p data-field-error="tourEndDate" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Budget --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Budget</h3>
+                            <p class="text-[11px] text-slate-400">Planned spending for this tour.</p>
+                        </div>
                     </div>
 
-                    <div class="md:col-span-2">
-                        <label class="form-label">Description</label>
-                        <textarea id="tourDescription" rows="4" maxlength="5000" class="app-input w-full resize-none"></textarea>
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Budget Amount</label>
+                            <input id="tourBudget" type="number" min="0" step="0.01" class="app-input w-full">
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Description & Notes --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Description &amp; Notes</h3>
+                            <p class="text-[11px] text-slate-400">Any additional details.</p>
+                        </div>
                     </div>
 
-                    <div class="md:col-span-2">
-                        <label class="form-label">Notes</label>
-                        <textarea id="tourNotes" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
+                    <div class="grid gap-4">
+                        <div>
+                            <label class="form-label">Description</label>
+                            <textarea id="tourDescription" rows="4" maxlength="5000" class="app-input w-full resize-none"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Notes</label>
+                            <textarea id="tourNotes" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
+                        </div>
                     </div>
-                </div>
+                </section>
 
                 <div class="rounded-md border border-indigo-100 bg-indigo-50/50 px-3 py-2 text-[11px] leading-5 text-indigo-700">
                     New tours are created as Draft. Approve the tour after planning is complete.
@@ -269,12 +327,12 @@ CREATE / EDIT TOUR
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('tourModal')"
                     class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                    Cancel
+                    <i class="bi bi-x-lg"></i> Close
                 </button>
 
                 <button id="saveTourButton" type="submit"
                     class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
-                    Save Tour
+                    <i class="bi bi-check2-circle"></i> Save Tour
                 </button>
             </div>
         </form>
@@ -286,7 +344,7 @@ DETAILS
 ============================================================= --}}
 <div id="detailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[96vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-airplane-engines"></i>
@@ -314,10 +372,15 @@ PARTICIPANT MODAL
 ============================================================= --}}
 <div id="participantModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <div>
-                <h3 id="participantModalTitle" class="text-sm font-semibold text-slate-800">Add Participant</h3>
-                <p class=" text-xs 2xl:text-sm text-slate-500">Add a member to this tour.</p>
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div>
+                    <h3 id="participantModalTitle" class="text-sm font-semibold text-slate-800">Add Participant</h3>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Add a member to this tour.</p>
+                </div>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('participantModal')" class="app-modal-close">
@@ -328,34 +391,48 @@ PARTICIPANT MODAL
         <form id="participantForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <input id="participantId" type="hidden">
 
-            <div class="space-y-4 p-5">
+            <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
                 <div id="participantError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-                <div id="participantMemberWrap">
-                    <label class="form-label">Member <span class="text-red-500">*</span></label>
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Participant Information</h3>
+                            <p class="text-[11px] text-slate-400">Member and participation status.</p>
+                        </div>
+                    </div>
 
-                    <select id="participantMemberId" class="app-input w-full" data-validation-required-message="Please select a member.">
-                        <option value="">Select member</option>
-                    </select>
-                    <p data-field-error="participantMemberId" class="mt-1 hidden text-sm text-red-600"></p>
-                </div>
+                    <div class="grid gap-4">
+                        <div id="participantMemberWrap">
+                            <label class="form-label">Member <span class="text-red-500">*</span></label>
 
-                <div>
-                    <label class="form-label">Status</label>
+                            <select id="participantMemberId" class="app-input w-full" data-validation-required-message="Please select a member.">
+                                <option value="">Select member</option>
+                            </select>
+                            <p data-field-error="participantMemberId" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
 
-                    <select id="participantStatus" class="app-input w-full">
-                        <option value="registered">Registered</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="attended">Attended</option>
-                        <option value="absent">Absent</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
-                </div>
+                        <div>
+                            <label class="form-label">Status</label>
 
-                <div>
-                    <label class="form-label">Notes</label>
-                    <textarea id="participantNotes" rows="3" maxlength="3000" class="app-input w-full resize-none"></textarea>
-                </div>
+                            <select id="participantStatus" class="app-input w-full">
+                                <option value="registered">Registered</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="attended">Attended</option>
+                                <option value="absent">Absent</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Notes</label>
+                            <textarea id="participantNotes" rows="3" maxlength="3000" class="app-input w-full resize-none"></textarea>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
@@ -378,10 +455,15 @@ EXPENSE MODAL
 ============================================================= --}}
 <div id="expenseModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <div>
-                <h3 class="text-sm font-semibold text-slate-800">Add Tour Expense</h3>
-                <p class=" text-xs 2xl:text-sm text-slate-500">The expense will automatically post to accounting.</p>
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-800">Add Tour Expense</h3>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">The expense will automatically post to accounting.</p>
+                </div>
             </div>
 
             <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="app-modal-close">
@@ -390,66 +472,104 @@ EXPENSE MODAL
         </div>
 
         <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
-            <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
+            <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
                 <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Category <span class="text-red-500">*</span></label>
-                        <input id="expenseCategory" maxlength="100" class="app-input w-full" placeholder="Transport, Hotel, Food..." data-validation-required-message="Expense category is required.">
-                        <p data-field-error="expenseCategory" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Amount <span class="text-red-500">*</span></label>
-                        <input id="expenseAmount" type="number" min="0.01" step="0.01" class="app-input w-full" data-validation-required-message="Expense amount is required." data-validation-min-message="Expense amount must be greater than zero.">
-                        <p data-field-error="expenseAmount" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Expense Account <span class="text-red-500">*</span></label>
-                        <select id="expenseAccountId" class="app-input w-full" data-validation-required-message="Select an expense account.">
-                            <option value="">Select expense account</option>
-                        </select>
-                        <p data-field-error="expenseAccountId" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Payment Account <span class="text-red-500">*</span></label>
-                        <select id="paymentAccountId" class="app-input w-full" data-validation-required-message="Select a payment account.">
-                            <option value="">Select Cash/Bank</option>
-                        </select>
-                        <p data-field-error="paymentAccountId" class="mt-1 hidden text-sm text-red-600"></p>
-                    </div>
-
-                    <div>
-                        <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-                            <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Expense date is required.">
+                {{-- Expense Details --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-rose-50 text-rose-600">
+                            <i class="bi bi-receipt"></i>
                         </div>
-                        <p data-field-error="expenseDate" class="mt-1 hidden text-sm text-red-600"></p>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Expense Details</h3>
+                            <p class="text-[11px] text-slate-400">What this expense is for.</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Payee</label>
-                        <input id="expensePayee" maxlength="255" class="app-input w-full">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Category <span class="text-red-500">*</span></label>
+                            <input id="expenseCategory" maxlength="100" class="app-input w-full" placeholder="Transport, Hotel, Food..." data-validation-required-message="Expense category is required.">
+                            <p data-field-error="expenseCategory" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Amount <span class="text-red-500">*</span></label>
+                            <input id="expenseAmount" type="number" min="0.01" step="0.01" class="app-input w-full" data-validation-required-message="Expense amount is required." data-validation-min-message="Expense amount must be greater than zero.">
+                            <p data-field-error="expenseAmount" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Expense date is required.">
+                            </div>
+                            <p data-field-error="expenseDate" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Payee</label>
+                            <input id="expensePayee" maxlength="255" class="app-input w-full">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="form-label">Reference No</label>
+                            <input id="expenseReference" maxlength="150" class="app-input w-full">
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Accounting --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-bank"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Accounting</h3>
+                            <p class="text-[11px] text-slate-400">Which accounts this expense posts to.</p>
+                        </div>
                     </div>
 
-                    <div class="md:col-span-2">
-                        <label class="form-label">Reference No</label>
-                        <input id="expenseReference" maxlength="150" class="app-input w-full">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Expense Account <span class="text-red-500">*</span></label>
+                            <select id="expenseAccountId" class="app-input w-full" data-validation-required-message="Select an expense account.">
+                                <option value="">Select expense account</option>
+                            </select>
+                            <p data-field-error="expenseAccountId" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Payment Account <span class="text-red-500">*</span></label>
+                            <select id="paymentAccountId" class="app-input w-full" data-validation-required-message="Select a payment account.">
+                                <option value="">Select Cash/Bank</option>
+                            </select>
+                            <p data-field-error="paymentAccountId" class="mt-1 hidden text-sm text-red-600"></p>
+                        </div>
                     </div>
 
-                    <div class="md:col-span-2">
-                        <label class="form-label">Description</label>
-                        <textarea id="expenseDescription" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
-                    </div>
-
-                    <div class="md:col-span-2 rounded-md border border-indigo-100 bg-indigo-50/50 px-3 py-2 text-[11px] text-indigo-700">
+                    <div class="mt-4 rounded-md border border-indigo-100 bg-indigo-50/50 px-3 py-2 text-[11px] text-indigo-700">
                         Accounting: Dr selected Expense Account, Cr selected Cash/Bank account.
                     </div>
-                </div>
+                </section>
+
+                {{-- Description --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Description</h3>
+                            <p class="text-[11px] text-slate-400">Any additional details.</p>
+                        </div>
+                    </div>
+
+                    <textarea id="expenseDescription" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
+                </section>
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">

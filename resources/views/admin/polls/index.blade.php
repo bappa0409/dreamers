@@ -103,7 +103,7 @@
 {{-- Poll Modal --}}
 <div id="pollModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-ui-checks"></i>
@@ -189,7 +189,7 @@
 {{-- Result Modal --}}
 <div id="resultModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-sky-50 text-sky-600">
                     <i class="bi bi-bar-chart"></i>

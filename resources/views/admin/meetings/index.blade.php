@@ -115,7 +115,7 @@
                 </div>
 
                 <select id="typeFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Types</option>
                     <option value="general">General</option>
                     <option value="annual">Annual</option>
@@ -125,7 +125,7 @@
                 </select>
 
                 <select id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                     <option value="">All Status</option>
                     <option value="draft">Draft</option>
                     <option value="scheduled">Scheduled</option>
@@ -135,11 +135,11 @@
                 </select>
 
                 <select id="yearFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 xl:rounded-none xl:border-l-0">
                 </select>
 
                 <button type="button" onclick="clearFilters()"
-                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
+                    class="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -191,7 +191,7 @@ CREATE / EDIT MEETING MODAL
 ================================================================ --}}
 <div id="meetingModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-people"></i>
@@ -293,7 +293,7 @@ DETAILS MODAL
 ================================================================ --}}
 <div id="detailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[96vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-card-list"></i>
@@ -320,7 +320,7 @@ AGENDA MODAL
 ================================================================ --}}
 <div id="agendaModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 id="agendaModalTitle" class="text-sm font-semibold text-slate-800">Add Agenda</h3>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Add or update a meeting agenda item.</p>
@@ -382,7 +382,7 @@ ATTENDEE MODAL
 ================================================================ --}}
 <div id="attendeeModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 id="attendeeModalTitle" class="text-sm font-semibold text-slate-800">Add Attendee</h3>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Invite a member or update attendance.</p>
@@ -439,7 +439,7 @@ DECISION MODAL
 ================================================================ --}}
 <div id="decisionModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 id="decisionModalTitle" class="text-sm font-semibold text-slate-800">Add Decision</h3>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Record resolution, voting and responsibility.</p>
@@ -547,7 +547,7 @@ MINUTES MODAL
 ================================================================ --}}
 <div id="minutesModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-sm font-semibold text-slate-800">Meeting Minutes</h3>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Record the official minutes of the meeting.</p>
@@ -582,7 +582,7 @@ EXPENSE MODAL
 ================================================================ --}}
 <div id="expenseModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-sm font-semibold text-slate-800">Add Meeting Expense</h3>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Expense will automatically post to accounting.</p>

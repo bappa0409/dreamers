@@ -46,7 +46,7 @@
             Reset password
         </h2>
 
-        <p class="mt-3 text-sm sm:text-base text-slate-500 leading-relaxed">
+        <p class="text-sm sm:text-base text-slate-500 leading-relaxed">
             Set a new password for
             <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">{{ $email }}</span>
         </p>

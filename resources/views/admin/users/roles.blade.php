@@ -113,7 +113,7 @@
     <div class="app-modal-panel w-full max-w-4xl overflow-hidden rounded-md bg-white">
 
         {{-- Modal Header --}}
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
+        <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
 
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">

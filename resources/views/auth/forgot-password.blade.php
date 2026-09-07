@@ -48,7 +48,7 @@
             Forgot password?
         </h2>
 
-        <p class="mt-3 text-sm sm:text-base text-slate-500 leading-relaxed">
+        <p class="text-sm sm:text-base text-slate-500 leading-relaxed">
             No worries — enter your account email and we'll send you a link to reset it.
         </p>
     </div>

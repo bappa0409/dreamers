@@ -282,7 +282,7 @@
                 </div>
 
                 <div class="max-w-xl">
-                    <p class="text-emerald-200 uppercase tracking-[0.3em] text-sm font-semibold mb-5">
+                    <p class="text-emerald-200 uppercase tracking-[0.3em] text-sm font-semibold mb-3">
                         @yield('brand-eyebrow', 'DREAMERS ASSOCIATION')
                     </p>
 

@@ -13,49 +13,67 @@
                 <i class="bi bi-map"></i>
             </div>
             <div>
-                <h1 class="text-base font-bold text-slate-800">Land Management</h1>
-                <p class=" text-xs 2xl:text-sm text-slate-500">
-                    Manage association-owned land, valuation, documents and sales.
-                </p>
+                <h1 class="text-base font-bold tracking-tight text-slate-800">Land Management</h1>
+                <p class=" text-xs 2xl:text-sm text-slate-500">Manage association-owned land, valuation, documents and sales.</p>
             </div>
         </div>
 
         @if(auth()->user()->hasPermission('Land.create'))
-        <button type="button"
-                onclick="openLandModal()"
-                class="inline-flex w-fit items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
-            <i class="bi bi-plus-lg"></i>
-            Add Land
-        </button>
+            <button type="button" onclick="openLandModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+                <i class="bi bi-plus-lg"></i>
+                Add Land
+            </button>
         @endif
     </div>
 
     {{-- Statistics --}}
-    <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Value</p>
-            <p id="purchaseValue" class="mt-2 truncate text-xl font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0
-            </p>
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Value</p>
+                    <p id="purchaseValue" class="mt-2 truncate text-xl font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0</p>
+                </div>
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-indigo-600">Current Value</p>
-            <p id="currentValue" class="mt-2 truncate text-xl font-bold text-indigo-700">
-                {{ setting('currency_symbol','৳') }}0
-            </p>
+        <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class=" text-xs 2xl:text-sm text-indigo-700">Current Value</p>
+                    <p id="currentValue" class="mt-2 truncate text-xl font-bold text-indigo-600">{{ setting('currency_symbol','৳') }}0</p>
+                </div>
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-emerald-600">Sold</p>
-            <p id="soldCount" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class=" text-xs 2xl:text-sm text-emerald-700">Sold</p>
+                    <p id="soldCount" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+                </div>
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+            </div>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Profit / Loss</p>
-            <p id="profitLoss" class="mt-2 truncate text-xl font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0
-            </p>
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class=" text-xs 2xl:text-sm text-slate-500">Profit / Loss</p>
+                    <p id="profitLoss" class="mt-2 truncate text-xl font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0</p>
+                </div>
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -63,28 +81,22 @@
     <div class="rounded-md border border-slate-200 bg-white p-3">
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-2">
-                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-search text-base"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Land</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
-                        Code, title, location, mouza, khatian, dag or deed
-                    </p>
+                    <p class="hidden text-[11px] text-slate-400 sm:block">Code, title, location, mouza, khatian, dag or deed</p>
                 </div>
             </div>
 
-            <div class="flex w-full items-center lg:w-auto">
-                <div class="relative w-full lg:w-80">
+            <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
+                <div class="relative w-full sm:min-w-[220px] lg:w-80">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput"
-                           type="text"
-                           placeholder="Search land..."
-                           class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <input id="searchInput" type="text" placeholder="Search land..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
                 </div>
 
-                <select id="statusFilter"
-                        class="h-9 border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none">
+                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0">
                     <option value="">All Status</option>
                     <option value="planned">Planned</option>
                     <option value="negotiating">Negotiating</option>
@@ -93,9 +105,7 @@
                     <option value="cancelled">Cancelled</option>
                 </select>
 
-                <button type="button"
-                        onclick="clearFilters()"
-                        class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -103,14 +113,39 @@
         </div>
     </div>
 
-    {{-- Grid --}}
-    <div id="landGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
-            Loading lands...
-        </div>
-    </div>
+    {{-- Listing --}}
+    <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
-    <div id="paginationContainer"></div>
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[900px] text-sm">
+                <thead class="border-b border-slate-200 bg-slate-50">
+                    <tr>
+                        <th class="w-[24%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Land</th>
+                        <th class="w-[18%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Location</th>
+                        <th class="w-[12%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Area</th>
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Price</th>
+                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Current Value</th>
+                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[10%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="landTable">
+                    <tr>
+                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading lands...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="landCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading lands...</div>
+        </div>
+
+        <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
+    </div>
 </div>
 
 {{-- =====================================================================
@@ -118,11 +153,11 @@ LAND CREATE / EDIT MODAL
 ===================================================================== --}}
 <div id="landModal"
      class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-map"></i>
                 </div>
                 <div>
@@ -139,34 +174,56 @@ LAND CREATE / EDIT MODAL
         <form id="landForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="sm:col-span-2">
-                        <label class="form-label">Title *</label>
-                        <input id="title" maxlength="255" class="app-input" placeholder="Land title">
+                {{-- Basic Information --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Basic Information</h3>
+                            <p class="text-[11px] text-slate-400">Title and description of the land.</p>
+                        </div>
                     </div>
 
-                    <div class="sm:col-span-2">
-                        <label class="form-label">Description</label>
-                        <textarea id="description" rows="2" class="app-input resize-none"></textarea>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="form-label">Title <span class="text-red-500">*</span></label>
+                            <input id="title" maxlength="255" class="app-input" placeholder="Land title">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Description</label>
+                            <textarea id="description" rows="2" class="app-input resize-none"></textarea>
+                        </div>
                     </div>
-                </div>
+                </section>
 
                 {{-- Location --}}
-                <section class="border-t border-slate-100 pt-4">
-                    <div class="mb-3 flex items-center gap-2">
-                        <i class="bi bi-geo-alt text-indigo-500"></i>
-                        <p class="text-sm font-bold uppercase tracking-wide text-slate-500">Location</p>
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Location</h3>
+                            <p class="text-[11px] text-slate-400">Where the land is situated.</p>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div>
                             <label class="form-label">District</label>
-                            <input id="district" class="app-input">
+                            <select id="district" class="app-input">
+                                <option value="">Select District</option>
+                            </select>
                         </div>
 
                         <div>
                             <label class="form-label">Upazila</label>
-                            <input id="upazila" class="app-input">
+                            <select id="upazila" class="app-input">
+                                <option value="">Select District First</option>
+                            </select>
                         </div>
 
                         <div>
@@ -177,15 +234,18 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Property --}}
-                <section class="border-t border-slate-100 pt-4">
-                    <div class="mb-3 flex items-center gap-2">
-                        <i class="bi bi-bounding-box text-indigo-500"></i>
-                        <p class="text-sm font-bold uppercase tracking-wide text-slate-500">
-                            Property Information
-                        </p>
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                            <i class="bi bi-bounding-box"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Property Information</h3>
+                            <p class="text-[11px] text-slate-400">Legal identifiers and status.</p>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div>
                             <label class="form-label">Khatian No</label>
                             <input id="khatianNo" class="app-input">
@@ -248,15 +308,18 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Finance --}}
-                <section class="border-t border-slate-100 pt-4">
-                    <div class="mb-3 flex items-center gap-2">
-                        <i class="bi bi-cash-stack text-indigo-500"></i>
-                        <p class="text-sm font-bold uppercase tracking-wide text-slate-500">
-                            Financial Information
-                        </p>
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Financial Information</h3>
+                            <p class="text-[11px] text-slate-400">Purchase price and valuation.</p>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div>
                             <label class="form-label">Purchase Price</label>
                             <input id="purchasePrice" type="number" min="0" step="0.01" class="app-input">
@@ -280,15 +343,18 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Seller --}}
-                <section class="border-t border-slate-100 pt-4">
-                    <div class="mb-3 flex items-center gap-2">
-                        <i class="bi bi-person text-indigo-500"></i>
-                        <p class="text-sm font-bold uppercase tracking-wide text-slate-500">
-                            Seller Information
-                        </p>
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Seller Information</h3>
+                            <p class="text-[11px] text-slate-400">Contact details of the seller.</p>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
                             <label class="form-label">Seller Name</label>
                             <input id="sellerName" class="app-input">
@@ -301,26 +367,37 @@ LAND CREATE / EDIT MODAL
                     </div>
                 </section>
 
-                <div>
-                    <label class="form-label">Notes</label>
+                {{-- Notes --}}
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Notes</h3>
+                            <p class="text-[11px] text-slate-400">Any additional remarks.</p>
+                        </div>
+                    </div>
+
                     <textarea id="notes" rows="3" class="app-input resize-none"></textarea>
-                </div>
+                </section>
 
                 <div id="landError"
                      class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
-            <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 px-5 py-4">
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                         onclick="closeLandModal()"
-                        class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
-                    Cancel
+                        class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i> Close
                 </button>
 
                 <button id="saveLandButton"
                         type="submit"
-                        class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
-                    Save Land
+                        class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
+                    <span>Save Land</span>
                 </button>
             </div>
         </form>
@@ -334,14 +411,14 @@ DETAILS MODAL
      class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[95vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex min-w-0 items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-map"></i>
                 </div>
 
                 <div class="min-w-0">
-                    <h2 id="detailsTitle" class="truncate text-lg font-bold text-slate-800">Land Details</h2>
+                    <h2 id="detailsTitle" class="truncate text-sm font-semibold text-slate-800">Land Details</h2>
                     <p id="detailsCode" class=" text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
@@ -482,7 +559,7 @@ VALUATION MODAL
      class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-lg overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-3">
             <div>
                 <h2 class="text-sm font-semibold text-slate-800">Add Valuation</h2>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Update current market value.</p>
@@ -559,7 +636,7 @@ DOCUMENT MODAL
      class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-lg overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-3">
             <div>
                 <h2 class="text-sm font-semibold text-slate-800">Upload Document</h2>
                 <p class=" text-xs 2xl:text-sm text-slate-500">PDF or image, maximum 10MB.</p>
@@ -651,7 +728,7 @@ SELL MODAL
      class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-3">
+        <div class="flex items-start justify-between border-b border-slate-200 px-5 py-3">
             <div>
                 <h2 class="text-sm font-semibold text-slate-800">Sell Land</h2>
                 <p id="sellLandInfo" class=" text-xs 2xl:text-sm text-slate-500"></p>
@@ -801,7 +878,8 @@ const canDelete=@json(auth()->user()->hasPermission('Land.delete'));
 const currency=@json(setting('currency_symbol','৳'));
 
 const el={
-    grid:document.getElementById('landGrid'),
+    table:document.getElementById('landTable'),
+    cards:document.getElementById('landCards'),
     search:document.getElementById('searchInput'),
     statusFilter:document.getElementById('statusFilter'),
     form:document.getElementById('landForm'),
@@ -826,6 +904,121 @@ const el={
     notes:document.getElementById('notes'),
     saveButton:document.getElementById('saveLandButton')
 };
+
+/*
+|--------------------------------------------------------------------------
+| Bangladesh District -> Upazila Map
+|--------------------------------------------------------------------------
+| Covers all 64 districts. Single source of truth for the District/Upazila
+| selects on this page.
+*/
+const bdDistrictUpazilas={
+    'Dhaka':['Dhaka Sadar','Dhamrai','Dohar','Keraniganj','Nawabganj','Savar'],
+    'Faridpur':['Faridpur Sadar','Alfadanga','Bhanga','Boalmari','Charbhadrasan','Madhukhali','Nagarkanda','Sadarpur','Saltha'],
+    'Gazipur':['Gazipur Sadar','Kaliakair','Kaliganj','Kapasia','Sreepur'],
+    'Gopalganj':['Gopalganj Sadar','Kashiani','Kotalipara','Muksudpur','Tungipara'],
+    'Kishoreganj':['Kishoreganj Sadar','Austagram','Bajitpur','Bhairab','Hossainpur','Itna','Karimganj','Katiadi','Kuliarchar','Mithamain','Nikli','Pakundia','Tarail'],
+    'Madaripur':['Madaripur Sadar','Kalkini','Rajoir','Shibchar'],
+    'Manikganj':['Manikganj Sadar','Daulatpur','Ghior','Harirampur','Saturia','Shivalaya','Singair'],
+    'Munshiganj':['Munshiganj Sadar','Gazaria','Lohajang','Sirajdikhan','Sreenagar','Tongibari'],
+    'Narayanganj':['Narayanganj Sadar','Araihazar','Bandar','Rupganj','Sonargaon'],
+    'Narsingdi':['Narsingdi Sadar','Belabo','Monohardi','Palash','Raipura','Shibpur'],
+    'Rajbari':['Rajbari Sadar','Baliakandi','Goalandaghat','Pangsha','Kalukhali'],
+    'Shariatpur':['Shariatpur Sadar','Bhedarganj','Damudya','Gosairhat','Naria','Zajira'],
+    'Tangail':['Tangail Sadar','Basail','Bhuapur','Delduar','Dhanbari','Ghatail','Gopalpur','Kalihati','Madhupur','Mirzapur','Nagarpur','Sakhipur'],
+    'Jamalpur':['Jamalpur Sadar','Bakshiganj','Dewanganj','Islampur','Madarganj','Melandaha','Sarishabari'],
+    'Mymensingh':['Mymensingh Sadar','Bhaluka','Dhobaura','Fulbaria','Gaffargaon','Gauripur','Haluaghat','Ishwarganj','Muktagacha','Nandail','Phulpur','Trishal'],
+    'Netrokona':['Netrokona Sadar','Atpara','Barhatta','Durgapur','Kalmakanda','Kendua','Khaliajuri','Madan','Mohanganj','Purbadhala'],
+    'Sherpur':['Sherpur Sadar','Jhenaigati','Nakla','Nalitabari','Sreebardi'],
+    'Bandarban':['Bandarban Sadar','Alikadam','Lama','Naikhongchhari','Rowangchhari','Ruma','Thanchi'],
+    'Brahmanbaria':['Brahmanbaria Sadar','Akhaura','Ashuganj','Bancharampur','Bijoynagar','Kasba','Nabinagar','Nasirnagar','Sarail'],
+    'Chandpur':['Chandpur Sadar','Faridganj','Haimchar','Haziganj','Kachua','Matlab Dakshin','Matlab Uttar','Shahrasti'],
+    'Chattogram':['Chattogram Sadar','Anwara','Banshkhali','Boalkhali','Chandanaish','Fatikchhari','Hathazari','Lohagara','Mirsharai','Patiya','Rangunia','Raozan','Sandwip','Satkania','Sitakunda'],
+    'Cumilla':['Cumilla Sadar','Barura','Brahmanpara','Burichang','Chandina','Chauddagram','Daudkandi','Debidwar','Homna','Laksam','Lalmai','Meghna','Muradnagar','Nangalkot','Titas'],
+    "Cox's Bazar":["Cox's Bazar Sadar",'Chakaria','Kutubdia','Maheshkhali','Pekua','Ramu','Teknaf','Ukhia'],
+    'Feni':['Feni Sadar','Chhagalnaiya','Daganbhuiyan','Parshuram','Sonagazi','Fulgazi'],
+    'Khagrachhari':['Khagrachhari Sadar','Dighinala','Lakshmichhari','Mahalchhari','Manikchhari','Matiranga','Panchhari','Ramgarh'],
+    'Lakshmipur':['Lakshmipur Sadar','Kamalnagar','Raipur','Ramganj','Ramgati'],
+    'Noakhali':['Noakhali Sadar','Begumganj','Chatkhil','Companiganj','Hatiya','Kabirhat','Senbagh','Sonaimuri','Subarnachar'],
+    'Rangamati':['Rangamati Sadar','Baghaichhari','Barkal','Belaichhari','Juraichhari','Kaptai','Kawkhali','Langadu','Naniarchar','Rajasthali'],
+    'Bogura':['Bogura Sadar','Adamdighi','Dhunat','Dhupchanchia','Gabtali','Kahaloo','Nandigram','Sariakandi','Shajahanpur','Sherpur','Shibganj','Sonatola'],
+    'Joypurhat':['Joypurhat Sadar','Akkelpur','Kalai','Khetlal','Panchbibi'],
+    'Naogaon':['Naogaon Sadar','Atrai','Badalgachhi','Dhamoirhat','Manda','Mahadebpur','Niamatpur','Patnitala','Porsha','Raninagar','Sapahar'],
+    'Natore':['Natore Sadar','Bagatipara','Baraigram','Gurudaspur','Lalpur','Singra'],
+    'Chapainawabganj':['Chapainawabganj Sadar','Bholahat','Gomastapur','Nachole','Shibganj'],
+    'Pabna':['Pabna Sadar','Atgharia','Bera','Bhangura','Chatmohar','Faridpur','Ishwardi','Santhia','Sujanagar'],
+    'Rajshahi':['Rajshahi Sadar','Bagha','Bagmara','Charghat','Durgapur','Godagari','Mohanpur','Paba','Puthia','Tanore'],
+    'Sirajganj':['Sirajganj Sadar','Belkuchi','Chauhali','Kamarkhanda','Kazipur','Raiganj','Shahjadpur','Tarash','Ullapara'],
+    'Bagerhat':['Bagerhat Sadar','Chitalmari','Fakirhat','Kachua','Mollahat','Mongla','Morrelganj','Rampal','Sarankhola'],
+    'Chuadanga':['Chuadanga Sadar','Alamdanga','Damurhuda','Jibannagar'],
+    'Jashore':['Jashore Sadar','Abhaynagar','Bagherpara','Chaugachha','Jhikargachha','Keshabpur','Manirampur','Sharsha'],
+    'Jhenaidah':['Jhenaidah Sadar','Harinakunda','Kaliganj','Kotchandpur','Maheshpur','Shailkupa'],
+    'Khulna':['Khulna Sadar','Batiaghata','Dacope','Dumuria','Dighalia','Koyra','Paikgachha','Phultala','Rupsa','Terokhada'],
+    'Kushtia':['Kushtia Sadar','Bheramara','Daulatpur','Khoksa','Kumarkhali','Mirpur'],
+    'Magura':['Magura Sadar','Mohammadpur','Shalikha','Sreepur'],
+    'Meherpur':['Meherpur Sadar','Gangni','Mujibnagar'],
+    'Narail':['Narail Sadar','Kalia','Lohagara'],
+    'Satkhira':['Satkhira Sadar','Assasuni','Debhata','Kalaroa','Kaliganj','Shyamnagar','Tala'],
+    'Barguna':['Barguna Sadar','Amtali','Bamna','Betagi','Patharghata','Taltali'],
+    'Barishal':['Barishal Sadar','Agailjhara','Babuganj','Bakerganj','Banaripara','Gaurnadi','Hizla','Mehendiganj','Muladi','Wazirpur'],
+    'Bhola':['Bhola Sadar','Borhanuddin','Char Fasson','Daulatkhan','Lalmohan','Manpura','Tazumuddin'],
+    'Jhalokati':['Jhalokati Sadar','Kathalia','Nalchity','Rajapur'],
+    'Patuakhali':['Patuakhali Sadar','Bauphal','Dashmina','Dumki','Galachipa','Kalapara','Mirzaganj','Rangabali'],
+    'Pirojpur':['Pirojpur Sadar','Bhandaria','Kaukhali','Mathbaria','Nazirpur','Nesarabad','Zianagar'],
+    'Habiganj':['Habiganj Sadar','Ajmiriganj','Bahubal','Baniyachong','Chunarughat','Lakhai','Madhabpur','Nabiganj'],
+    'Moulvibazar':['Moulvibazar Sadar','Barlekha','Juri','Kamalganj','Kulaura','Rajnagar','Sreemangal'],
+    'Sunamganj':['Sunamganj Sadar','Bishwamvarpur','Chhatak','Derai','Dharmapasha','Dowarabazar','Jagannathpur','Jamalganj','Sulla','Tahirpur'],
+    'Sylhet':['Sylhet Sadar','Balaganj','Beanibazar','Bishwanath','Companiganj','Fenchuganj','Golapganj','Gowainghat','Jaintiapur','Kanaighat','Osmani Nagar','Zakiganj'],
+    'Dinajpur':['Dinajpur Sadar','Birampur','Birganj','Biral','Bochaganj','Chirirbandar','Fulbari','Ghoraghat','Hakimpur','Kaharole','Khansama','Nawabganj','Parbatipur'],
+    'Gaibandha':['Gaibandha Sadar','Fulchhari','Gobindaganj','Palashbari','Sadullapur','Saghata','Sundarganj'],
+    'Kurigram':['Kurigram Sadar','Bhurungamari','Char Rajibpur','Chilmari','Phulbari','Nageshwari','Rajarhat','Raomari','Ulipur'],
+    'Lalmonirhat':['Lalmonirhat Sadar','Aditmari','Hatibandha','Kaliganj','Patgram'],
+    'Nilphamari':['Nilphamari Sadar','Dimla','Domar','Jaldhaka','Kishoreganj','Saidpur'],
+    'Panchagarh':['Panchagarh Sadar','Atwari','Boda','Debiganj','Tetulia'],
+    'Rangpur':['Rangpur Sadar','Badarganj','Gangachara','Kaunia','Mithapukur','Pirgachha','Pirganj','Taraganj'],
+    'Thakurgaon':['Thakurgaon Sadar','Baliadangi','Haripur','Pirganj','Ranisankail']
+};
+
+function populateDistrictSelect(){
+    if(!el.district)return;
+
+    const districts=Object.keys(bdDistrictUpazilas).sort();
+
+    el.district.innerHTML=
+        '<option value="">Select District</option>'+
+        districts.map(d=>
+            `<option value="${AdminUI.escapeHtml(d)}">${AdminUI.escapeHtml(d)}</option>`
+        ).join('');
+}
+
+function populateUpazilaSelect(district,selectedUpazila=''){
+    if(!el.upazila)return;
+
+    const upazilas=bdDistrictUpazilas[district]??[];
+
+    if(!district||!upazilas.length){
+        el.upazila.innerHTML='<option value="">Select District First</option>';
+        el.upazila.disabled=true;
+        return;
+    }
+
+    el.upazila.disabled=false;
+
+    el.upazila.innerHTML=
+        '<option value="">Select Upazila</option>'+
+        upazilas.map(u=>
+            `<option value="${AdminUI.escapeHtml(u)}" ${u===selectedUpazila?'selected':''}>${AdminUI.escapeHtml(u)}</option>`
+        ).join('');
+
+    // Existing land data may hold an upazila that isn't in the list above
+    // (older free-text entry) — keep it selectable so it isn't silently lost.
+    if(selectedUpazila&&!upazilas.includes(selectedUpazila)){
+        el.upazila.insertAdjacentHTML(
+            'beforeend',
+            `<option value="${AdminUI.escapeHtml(selectedUpazila)}" selected>${AdminUI.escapeHtml(selectedUpazila)}</option>`
+        );
+    }
+}
 
 function money(value){
     return currency+Number(value??0).toLocaleString('en-US',{
@@ -864,29 +1057,21 @@ function locationText(item){
         item.mouza,
         item.upazila,
         item.district
-    ].filter(Boolean).join(', ')||'Location not specified';
+    ].filter(Boolean).join(', ')||'—';
 }
 
-function loadingState(){
-    el.grid.innerHTML=`
-        <div class="col-span-full">
-            ${AdminUI.loadingState('Loading lands...')}
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
         </div>
     `;
 }
 
-function emptyState(){
-    el.grid.innerHTML=`
-        <div class="col-span-full">
-            ${AdminUI.emptyState('No lands found.')}
-        </div>
-    `;
-}
-
-function errorState(error){
-    el.grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
-            ${AdminUI.escapeHtml(AdminUI.extractError(error))}
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
         </div>
     `;
 }
@@ -915,7 +1100,9 @@ async function loadOptions(){
 
 async function loadLands(page=1){
     currentPage=page;
-    loadingState();
+
+    el.table.innerHTML=AdminUI.loadingState('Loading lands...',7);
+    el.cards.innerHTML=cardsLoadingHtml('Loading lands...');
 
     const query=AdminUI.query({
         search:el.search.value.trim(),
@@ -942,7 +1129,8 @@ async function loadLands(page=1){
             onPageChange:loadLands
         });
     }catch(error){
-        errorState(error);
+        el.table.innerHTML=AdminUI.emptyState(AdminUI.extractError(error),7);
+        el.cards.innerHTML=cardsEmptyHtml(AdminUI.extractError(error));
     }
 }
 
@@ -977,142 +1165,169 @@ async function loadStatistics(){
     }
 }
 
+function landActionButtons(item,{withLabel=false}={}){
+    const buttons=[];
+
+    buttons.push(`
+        <button type="button"
+                onclick="viewLand(${item.id})"
+                title="View Details"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-slate-100 text-slate-600 transition hover:bg-slate-200">
+            <i class="bi bi-eye text-sm"></i>
+            ${withLabel?'View':''}
+        </button>
+    `);
+
+    if(canUpdate&&item.status==='purchased'){
+        buttons.push(`
+            <button type="button"
+                    onclick="openSellModal(${item.id})"
+                    title="Sell Land"
+                    class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100">
+                <i class="bi bi-cash-stack text-sm"></i>
+                ${withLabel?'Sell':''}
+            </button>
+        `);
+    }
+
+    if(canUpdate&&item.status!=='sold'){
+        buttons.push(`
+            <button type="button"
+                    onclick="editLand(${item.id})"
+                    title="Edit Land"
+                    class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
+                <i class="bi bi-pencil-square text-sm"></i>
+                ${withLabel?'Edit':''}
+            </button>
+        `);
+    }
+
+    if(canDelete&&item.status!=='sold'){
+        buttons.push(`
+            <button type="button"
+                    onclick="deleteLand(${item.id})"
+                    title="Delete Land"
+                    class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100">
+                <i class="bi bi-trash text-sm"></i>
+                ${withLabel?'Delete':''}
+            </button>
+        `);
+    }
+
+    return buttons.join('');
+}
+
 function renderLands(){
     if(!lands.length){
-        emptyState();
+        el.table.innerHTML=AdminUI.emptyState('No lands found.',7);
+        el.cards.innerHTML=cardsEmptyHtml('No lands found.');
         return;
     }
 
-    el.grid.innerHTML=lands.map(item=>`
-        <article class="flex min-w-0 flex-col overflow-hidden rounded-md border border-slate-200 bg-white transition hover:border-slate-300 hover:shadow-sm">
-            <div class="p-4">
+    el.table.innerHTML=lands.map(item=>`
+        <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+            <td class="min-w-0 px-3 py-3">
+                <p class="truncate font-mono text-xs 2xl:text-sm font-semibold text-indigo-600">
+                    ${AdminUI.escapeHtml(item.land_code??'—')}
+                </p>
+                <p class="mt-0.5 truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                    ${AdminUI.escapeHtml(item.title??'Untitled')}
+                </p>
+            </td>
 
-                <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                        <p class="truncate text-sm font-bold text-indigo-600">
-                            ${AdminUI.escapeHtml(item.land_code??'—')}
-                        </p>
+            <td class="px-3 py-3">
+                <p class="truncate text-xs 2xl:text-sm text-slate-600">
+                    ${AdminUI.escapeHtml(locationText(item))}
+                </p>
+            </td>
 
-                        <h3 class="mt-1 truncate text-base font-bold text-slate-800">
-                            ${AdminUI.escapeHtml(item.title??'Untitled')}
-                        </h3>
+            <td class="px-3 py-3 text-xs 2xl:text-sm text-slate-600">
+                ${
+                    item.land_area
+                        ?`${AdminUI.escapeHtml(item.land_area)} ${AdminUI.escapeHtml(item.area_unit??'')}`
+                        :'—'
+                }
+            </td>
 
-                        <p class="mt-1 truncate text-[11px] text-slate-400">
-                            <i class="bi bi-geo-alt me-1"></i>
-                            ${AdminUI.escapeHtml(locationText(item))}
-                        </p>
-                    </div>
+            <td class="px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-700">
+                ${money(item.purchase_price)}
+            </td>
 
+            <td class="px-3 py-3 text-xs 2xl:text-sm font-semibold text-indigo-700">
+                ${money(item.current_value)}
+            </td>
+
+            <td class="px-3 py-3">
+                ${AdminUI.statusBadge(item.status)}
+            </td>
+
+            <td class="px-3 py-3">
+                <div class="flex items-center justify-end gap-1">
+                    ${landActionButtons(item)}
+                </div>
+            </td>
+        </tr>
+    `).join('');
+
+    el.cards.innerHTML=lands.map(item=>`
+        <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <p class="truncate font-mono text-xs 2xl:text-sm font-semibold text-indigo-600">
+                        ${AdminUI.escapeHtml(item.land_code??'—')}
+                    </p>
+                    <p class="mt-0.5 truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                        ${AdminUI.escapeHtml(item.title??'Untitled')}
+                    </p>
+                    <p class="mt-1 truncate text-[11px] text-slate-400">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        ${AdminUI.escapeHtml(locationText(item))}
+                    </p>
+                </div>
+
+                <div class="shrink-0">
                     ${AdminUI.statusBadge(item.status)}
                 </div>
-
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <div class="rounded-md bg-slate-50 p-3">
-                        <p class="text-[10px] text-slate-400">Purchase Price</p>
-                        <p class="mt-1 truncate text-sm font-bold text-slate-700">
-                            ${money(item.purchase_price)}
-                        </p>
-                    </div>
-
-                    <div class="rounded-md bg-indigo-50 p-3">
-                        <p class="text-[10px] text-indigo-400">Current Value</p>
-                        <p class="mt-1 truncate text-sm font-bold text-indigo-700">
-                            ${money(item.current_value)}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="mt-3 flex flex-wrap gap-1.5 text-[10px] text-slate-500">
-                    ${
-                        item.land_area
-                            ?`<span class="rounded-md bg-slate-100 px-2 py-1">
-                                ${AdminUI.escapeHtml(item.land_area)}
-                                ${AdminUI.escapeHtml(item.area_unit??'')}
-                              </span>`
-                            :''
-                    }
-
-                    ${
-                        item.khatian_no
-                            ?`<span class="rounded-md bg-slate-100 px-2 py-1">
-                                Khatian: ${AdminUI.escapeHtml(item.khatian_no)}
-                              </span>`
-                            :''
-                    }
-
-                    ${
-                        item.dag_no
-                            ?`<span class="rounded-md bg-slate-100 px-2 py-1">
-                                Dag: ${AdminUI.escapeHtml(item.dag_no)}
-                              </span>`
-                            :''
-                    }
-                </div>
-
-                ${
-                    item.purchase_date
-                        ?`<p class="mt-3 text-[10px] text-slate-400">
-                            <i class="bi bi-calendar-check me-1"></i>
-                            Purchased: ${AdminUI.formatDate(item.purchase_date)}
-                          </p>`
-                        :''
-                }
             </div>
 
-            <div class="mt-auto flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-                <span class="text-[10px] text-slate-400">
-                    Association Property
-                </span>
+            <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Purchase Price</p>
+                    <p class="truncate font-semibold text-slate-700">
+                        ${money(item.purchase_price)}
+                    </p>
+                </div>
 
-                <div class="flex gap-1">
-                    <button type="button"
-                            onclick="viewLand(${item.id})"
-                            title="View Details"
-                            class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200">
-                        <i class="bi bi-eye text-sm"></i>
-                    </button>
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Current Value</p>
+                    <p class="truncate font-semibold text-indigo-700">
+                        ${money(item.current_value)}
+                    </p>
+                </div>
 
-                    ${
-                        canUpdate&&item.status==='purchased'
-                            ?`
-                                <button type="button"
-                                        onclick="openSellModal(${item.id})"
-                                        title="Sell Land"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100">
-                                    <i class="bi bi-cash-stack text-sm"></i>
-                                </button>
-                            `
-                            :''
-                    }
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Area</p>
+                    <p class="truncate font-medium text-slate-700">
+                        ${
+                            item.land_area
+                                ?`${AdminUI.escapeHtml(item.land_area)} ${AdminUI.escapeHtml(item.area_unit??'')}`
+                                :'—'
+                        }
+                    </p>
+                </div>
 
-                    ${
-                        canUpdate&&item.status!=='sold'
-                            ?`
-                                <button type="button"
-                                        onclick="editLand(${item.id})"
-                                        title="Edit Land"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100">
-                                    <i class="bi bi-pencil-square text-sm"></i>
-                                </button>
-                            `
-                            :''
-                    }
-
-                    ${
-                        canDelete&&item.status!=='sold'
-                            ?`
-                                <button type="button"
-                                        onclick="deleteLand(${item.id})"
-                                        title="Delete Land"
-                                        class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100">
-                                    <i class="bi bi-trash text-sm"></i>
-                                </button>
-                            `
-                            :''
-                    }
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Purchased</p>
+                    <p class="truncate font-medium text-slate-700">
+                        ${item.purchase_date?AdminUI.formatDate(item.purchase_date):'—'}
+                    </p>
                 </div>
             </div>
-        </article>
+
+            <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                ${landActionButtons(item,{withLabel:true})}
+            </div>
+        </div>
     `).join('');
 }
 
@@ -1125,11 +1340,13 @@ window.openLandModal=function(item=null){
     document.getElementById('landModalTitle').innerText=
         item?'Edit Land':'Add Land';
 
+    populateDistrictSelect();
+
     if(item){
         el.title.value=item.title??'';
         el.description.value=item.description??'';
         el.district.value=item.district??'';
-        el.upazila.value=item.upazila??'';
+        populateUpazilaSelect(item.district??'',item.upazila??'');
         el.mouza.value=item.mouza??'';
         el.khatianNo.value=item.khatian_no??'';
         el.dagNo.value=item.dag_no??'';
@@ -1149,10 +1366,15 @@ window.openLandModal=function(item=null){
     }else{
         el.status.value='planned';
         el.areaUnit.value='decimal';
+        populateUpazilaSelect('');
         setPickerDate(el.purchaseDate,null);
     }
 
     AdminUI.openModal('landModal');
+
+    if(typeof window.initDatePickers==='function'){
+        window.initDatePickers();
+    }
 };
 
 window.closeLandModal=function(){
@@ -1761,6 +1983,10 @@ window.openSellModal=async function(id){
     updateSalePreview();
 
     AdminUI.openModal('sellModal');
+
+    if(typeof window.initDatePickers==='function'){
+        window.initDatePickers();
+    }
 };
 
 function updateSalePreview(){
@@ -1910,8 +2136,10 @@ window.deleteLand=function(id){
     AdminUI.deleteRequest(
         `/api/lands/${id}`,
         {
+            title:'Delete Land?',
             message:
                 `Delete "${item.land_code} - ${item.title}" permanently?`,
+            confirmText:'Delete',
             successMessage:
                 'Land deleted successfully.',
             onSuccess:async()=>{
@@ -1949,6 +2177,14 @@ async function initLandPage(){
     if(typeof window.initDatePickers==='function'){
         window.initDatePickers();
     }
+
+    populateDistrictSelect();
+    populateUpazilaSelect('');
+
+    el.district.addEventListener(
+        'change',
+        ()=>populateUpazilaSelect(el.district.value)
+    );
 
     el.search.addEventListener(
         'input',

@@ -134,9 +134,10 @@
         </div>
     </div>
 
-    {{-- Desktop Table --}}
-    <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
-        <div class="overflow-x-auto">
+    <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[1000px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -152,30 +153,28 @@
                 </thead>
                 <tbody id="investmentTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">
                             Loading investments...
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
-    {{-- Mobile Cards --}}
-    <div id="investmentMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
-            Loading investments...
+        {{-- Mobile card list --}}
+        <div id="investmentMobileGrid" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">Loading investments...</div>
         </div>
-    </div>
 
-    <div id="paginationWrap" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
+        <div id="paginationWrap" class="border-t border-slate-200 px-4 py-3"></div>
+    </div>
 </div>
 
 {{-- Investment Modal --}}
 <div id="investmentModal"
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-graph-up-arrow"></i>
@@ -311,13 +310,15 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('investmentModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button id="saveInvestmentButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Save Investment
                 </button>
             </div>
@@ -329,7 +330,7 @@
 <div id="returnModal"
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                     <i class="bi bi-cash-coin"></i>
@@ -447,13 +448,15 @@
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                     onclick="AdminUI.closeModal('returnModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button id="saveReturnButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                    <i class="bi bi-cash-coin"></i>
                     Save Return
                 </button>
             </div>
@@ -465,7 +468,7 @@
 <div id="detailsModal"
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-card-list"></i>
@@ -691,7 +694,7 @@ async function loadInvestments(page=1){
 
     if(grid){
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">
                 <div class="flex items-center justify-center gap-2">
                     <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                     Loading investments...
@@ -755,7 +758,7 @@ async function loadInvestments(page=1){
 
         if(grid){
             grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
+                <div class="px-4 py-10 text-center text-sm text-red-600">
                     ${esc(message)}
                 </div>
             `;
@@ -763,16 +766,17 @@ async function loadInvestments(page=1){
     }
 }
 
-function investmentActions(investment){
+function investmentActions(investment,{withLabel=false}={}){
     const actions=[
         `
         <button
             type="button"
             onclick="viewInvestment(${investment.id})"
             title="View Details"
-            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+            class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 shrink-0 items-center justify-center rounded-md'} cursor-pointer bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
         >
             <i class="bi bi-eye text-sm"></i>
+            ${withLabel?'View':''}
         </button>
         `
     ];
@@ -853,7 +857,7 @@ function renderInvestments(){
 
         if(grid){
             grid.innerHTML=`
-                <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
+                <div class="px-4 py-10 text-center">
                     <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                         <i class="bi bi-inbox"></i>
                     </div>
@@ -947,115 +951,105 @@ function renderInvestments(){
                     principalProgress(investment);
 
                 return`
-                    <article class="overflow-hidden rounded-md border border-slate-200 bg-white">
-                        <div class="border-b border-slate-100 px-4 py-3">
-                            <div class="flex items-start justify-between gap-3">
-                                <div class="flex min-w-0 items-start gap-3">
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                                        <i class="bi bi-graph-up-arrow"></i>
-                                    </div>
-
-                                    <div class="min-w-0">
-                                        <p class="truncate text-base font-bold text-slate-700">
-                                            ${esc(investment.title)}
-                                        </p>
-
-                                        <p class="mt-0.5 text-[11px] font-medium text-indigo-600">
-                                            ${esc(investment.investment_no)}
-                                        </p>
-                                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex min-w-0 items-start gap-3">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                                    <i class="bi bi-graph-up-arrow"></i>
                                 </div>
 
-                                <div class="shrink-0">
-                                    ${AdminUI.statusBadge(investment.status)}
+                                <div class="min-w-0">
+                                    <p class="truncate text-base font-bold text-slate-700">
+                                        ${esc(investment.title)}
+                                    </p>
+
+                                    <p class="mt-0.5 text-[11px] font-medium text-indigo-600">
+                                        ${esc(investment.investment_no)}
+                                    </p>
                                 </div>
+                            </div>
+
+                            <div class="shrink-0">
+                                ${AdminUI.statusBadge(investment.status)}
                             </div>
                         </div>
 
-                        <div class="space-y-4 p-4">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="rounded-md bg-slate-50 p-3">
-                                    <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                                        Invested
-                                    </p>
+                        <div class="mt-3 grid grid-cols-2 gap-3">
+                            <div class="rounded-md bg-slate-50 p-3">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                                    Invested
+                                </p>
 
-                                    <p class="mt-1 truncate text-base font-bold text-slate-700">
-                                        ${money(investment.amount)}
-                                    </p>
-                                </div>
-
-                                <div class="rounded-md bg-emerald-50 p-3">
-                                    <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">
-                                        Income
-                                    </p>
-
-                                    <p class="mt-1 truncate text-base font-bold text-emerald-700">
-                                        ${money(investment.paid_return_total)}
-                                    </p>
-                                </div>
+                                <p class="mt-1 truncate text-base font-bold text-slate-700">
+                                    ${money(investment.amount)}
+                                </p>
                             </div>
 
-                            <div>
-                                <div class="mb-1.5 flex items-center justify-between gap-3">
-                                    <p class="text-[11px] font-medium text-slate-500">
-                                        Principal recovery
-                                    </p>
+                            <div class="rounded-md bg-emerald-50 p-3">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">
+                                    Income
+                                </p>
 
-                                    <p class="text-[11px] font-semibold text-slate-600">
-                                        ${progress.toFixed(0)}%
-                                    </p>
-                                </div>
-
-                                <div class="h-1.5 overflow-hidden rounded-full bg-slate-100">
-                                    <div class="h-full rounded-full bg-indigo-500 transition-all"
-                                        style="width:${progress}%"></div>
-                                </div>
-
-                                <div class="mt-1.5 flex items-center justify-between gap-2 text-[10px] text-slate-400">
-                                    <span>
-                                        Returned ${money(investment.principal_return_total)}
-                                    </span>
-
-                                    <span>
-                                        Due ${money(remainingPrincipal(investment))}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-slate-100 pt-3 text-sm">
-                                <div>
-                                    <p class="text-[10px] text-slate-400">
-                                        Investment Date
-                                    </p>
-                                    <p class="mt-0.5 font-medium text-slate-600">
-                                        ${date(investment.investment_date)}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p class="text-[10px] text-slate-400">
-                                        Maturity
-                                    </p>
-                                    <p class="mt-0.5 font-medium text-slate-600">
-                                        ${date(investment.maturity_date)}
-                                    </p>
-                                </div>
-
-                                <div class="col-span-2">
-                                    <p class="text-[10px] text-slate-400">
-                                        Payment Account
-                                    </p>
-                                    <p class="mt-0.5 truncate font-medium text-slate-600">
-                                        ${esc(paymentAccountName(investment))}
-                                    </p>
-                                </div>
+                                <p class="mt-1 truncate text-base font-bold text-emerald-700">
+                                    ${money(investment.paid_return_total)}
+                                </p>
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-1.5 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
+                        <div class="mt-3">
+                            <div class="mb-1.5 flex items-center justify-between gap-3">
+                                <p class="text-[11px] font-medium text-slate-500">
+                                    Principal recovery
+                                </p>
+
+                                <p class="text-[11px] font-semibold text-slate-600">
+                                    ${progress.toFixed(0)}%
+                                </p>
+                            </div>
+
+                            <div class="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                                <div class="h-full rounded-full bg-indigo-500 transition-all"
+                                    style="width:${progress}%"></div>
+                            </div>
+
+                            <div class="mt-1.5 flex items-center justify-between gap-2 text-[10px] text-slate-400">
+                                <span>
+                                    Returned ${money(investment.principal_return_total)}
+                                </span>
+
+                                <span>
+                                    Due ${money(remainingPrincipal(investment))}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                            <div class="min-w-0">
+                                <p class="text-slate-400 text-xs 2xl:text-sm">Investment Date</p>
+                                <p class="truncate font-medium text-slate-700">
+                                    ${date(investment.investment_date)}
+                                </p>
+                            </div>
+
+                            <div class="min-w-0">
+                                <p class="text-slate-400 text-xs 2xl:text-sm">Maturity</p>
+                                <p class="truncate font-medium text-slate-700">
+                                    ${date(investment.maturity_date)}
+                                </p>
+                            </div>
+
+                            <div class="col-span-2 min-w-0">
+                                <p class="text-slate-400 text-xs 2xl:text-sm">Payment Account</p>
+                                <p class="truncate font-medium text-slate-700">
+                                    ${esc(paymentAccountName(investment))}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
                             ${investmentActions(investment)}
                         </div>
-                    </article>
+                    </div>
                 `;
             }).join('');
     }
@@ -1932,13 +1926,15 @@ window.viewInvestment=async function(id){
                                                         ?`
                                                             <button type="button"
                                                                 onclick="editReturnFromDetails(${item.id},${investment.id})"
-                                                                class="mr-1 rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-700 hover:bg-indigo-100">
+                                                                class="mr-1 inline-flex items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-700 hover:bg-indigo-100">
+                                                                <i class="bi bi-pencil"></i>
                                                                 Edit
                                                             </button>
 
                                                             <button type="button"
                                                                 onclick="deleteReturn(${item.id},${investment.id})"
-                                                                class="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-sm font-semibold text-red-700 hover:bg-red-100">
+                                                                class="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-sm font-semibold text-red-700 hover:bg-red-100">
+                                                                <i class="bi bi-trash3"></i>
                                                                 Delete
                                                             </button>
                                                         `

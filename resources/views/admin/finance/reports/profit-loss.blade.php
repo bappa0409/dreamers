@@ -15,7 +15,7 @@
                 <p class=" text-xs 2xl:text-sm text-slate-500">Income, expenses and net operating result from posted journals.</p>
             </div>
         </div>
-        <div id="resultBadge" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
+        <div id="resultBadge" class="hidden rounded-md border px-3 py-2 text-xs 2xl:text-sm font-semibold"></div>
     </div>
 
     {{-- Filters --}}
@@ -128,8 +128,8 @@
                 <table class="w-full min-w-[500px] text-base">
                     <thead class="border-b border-slate-200 bg-slate-50">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Amount</th>
+                            <th class="px-4 py-2.5 text-left text-xs 2xl:text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-xs 2xl:text-sm font-semibold text-slate-500">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="incomeTable">
@@ -162,8 +162,8 @@
                 <table class="w-full min-w-[500px] text-base">
                     <thead class="border-b border-slate-200 bg-slate-50">
                         <tr>
-                            <th class="px-4 py-2.5 text-left text-sm font-semibold text-slate-500">Account</th>
-                            <th class="px-4 py-2.5 text-right text-sm font-semibold text-slate-500">Amount</th>
+                            <th class="px-4 py-2.5 text-left text-xs 2xl:text-sm font-semibold text-slate-500">Account</th>
+                            <th class="px-4 py-2.5 text-right text-xs 2xl:text-sm font-semibold text-slate-500">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="expenseTable">

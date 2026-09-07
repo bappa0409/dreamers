@@ -58,7 +58,7 @@
             Welcome back
         </h2>
 
-        <p class="mt-3 text-sm sm:text-base text-slate-500 leading-relaxed">
+        <p class="text-sm sm:text-base text-slate-500 leading-relaxed">
             Sign in to manage your Dreamers Association account.
         </p>
     </div>

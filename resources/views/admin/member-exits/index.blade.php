@@ -68,7 +68,7 @@
 
         <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[280px_180px_170px_auto] lg:gap-0">
             <div class="relative sm:col-span-2 lg:col-span-1">
-                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
                 <input id="searchInput" type="text" placeholder="Search exit records..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none">
             </div>
 
@@ -102,9 +102,11 @@
     </div>
 </div>
 
-{{-- Desktop Table --}}
-<div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
-    <div class="overflow-x-auto">
+{{-- Exit Records --}}
+<div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+
+    {{-- Desktop / tablet table --}}
+    <div class="hidden w-full overflow-x-auto md:block">
         <table class="w-full min-w-[1050px] text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
@@ -125,21 +127,21 @@
             </tbody>
         </table>
     </div>
-</div>
 
-{{-- Mobile Cards --}}
-<div id="exitMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-    <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">Loading exit records...</div>
-</div>
+    {{-- Mobile card list --}}
+    <div id="exitMobileGrid" class="divide-y divide-slate-100 md:hidden">
+        <div class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">Loading exit records...</div>
+    </div>
 
-<div id="paginationContainer" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
+    <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
+</div>
 </div>
 
 {{-- Create Modal --}}
 <div id="createModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
 
-    <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+    <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-rose-50 text-rose-600">
                 <i class="bi bi-box-arrow-right"></i>
@@ -177,7 +179,7 @@
                         <select id="memberId" class="app-input w-full" data-validation-required-message="Please select a member.">
                             <option value="">Select Member</option>
                         </select>
-                        <p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="memberId" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -190,7 +192,7 @@
                             <option value="permanent_removal">Permanent Removal</option>
                             <option value="other">Other</option>
                         </select>
-                        <p data-field-error="exitType" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="exitType" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
                 </div>
             </div>
@@ -209,16 +211,16 @@
                 <div>
                     <label class="form-label">Reason <span class="text-red-500">*</span></label>
                     <textarea id="reason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Describe the reason for membership cancel..." data-validation-required-message="Reason is required."></textarea>
-                    <p data-field-error="reason" class="mt-1 hidden text-sm text-red-600"></p>
+                    <p data-field-error="reason" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                 </div>
 
                 <div class="mt-4">
                     <label class="form-label">Proposed Cancel Date</label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
                         <input id="proposedExitDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
                     </div>
-                    <p data-field-error="proposedExitDate" class="mt-1 hidden text-sm text-red-600"></p>
+                    <p data-field-error="proposedExitDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                 </div>
             </div>
 
@@ -231,8 +233,8 @@
         </div>
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-            <button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-            <button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Start Process</button>
+            <button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i class="bi bi-x-lg mr-1"></i>Cancel</button>
+            <button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"><i class="bi bi-play-fill mr-1"></i>Start Process</button>
         </div>
     </form>
 </div>
@@ -242,7 +244,7 @@
 <div id="manageModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 <div class="app-modal-panel flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
 
-    <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+    <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                 <i class="bi bi-person-gear"></i>
@@ -298,7 +300,7 @@
         <section id="reviewSection" class="rounded-md border border-slate-200 bg-white p-4">
             <label class="form-label">Review Note</label>
             <textarea id="reviewNote" rows="3" maxlength="5000" class="app-input w-full resize-none" placeholder="Optional review note..."></textarea>
-            <p data-field-error="reviewNote" class="mt-1 hidden text-sm text-red-600"></p>
+            <p data-field-error="reviewNote" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
         </section>
 
         <section id="settlementSection" class="hidden rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
@@ -313,16 +315,16 @@
                     <select id="payoutAccountId" class="app-input w-full" data-validation-required-message="Please select a payout account.">
                         <option value="">Select Cash / Bank Account</option>
                     </select>
-                    <p data-field-error="payoutAccountId" class="mt-1 hidden text-sm text-red-600"></p>
+                    <p data-field-error="payoutAccountId" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                 </div>
 
                 <div>
                     <label class="form-label">Settlement Date <span class="text-red-500">*</span></label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
                         <input id="settlementDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Settlement date is required.">
                     </div>
-                    <p data-field-error="settlementDate" class="mt-1 hidden text-sm text-red-600"></p>
+                    <p data-field-error="settlementDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                 </div>
             </form>
         </section>
@@ -336,7 +338,7 @@
 <div id="rejectModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
 <div class="app-modal-panel w-full max-w-lg rounded-md bg-white">
 
-    <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
+    <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
         <div>
             <h3 class="text-base font-bold text-slate-800">Reject Exit Request</h3>
             <p class=" text-xs 2xl:text-sm text-slate-500">Provide a reason for rejection.</p>
@@ -352,12 +354,12 @@
 
             <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
             <textarea id="rejectionReason" rows="4" maxlength="5000" class="app-input w-full resize-none" placeholder="Enter rejection reason..." data-validation-required-message="Rejection reason is required."></textarea>
-            <p data-field-error="rejectionReason" class="mt-1 hidden text-sm text-red-600"></p>
+            <p data-field-error="rejectionReason" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
         </div>
 
         <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-            <button id="rejectButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60">Reject Request</button>
+            <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i class="bi bi-x-lg mr-1"></i>Cancel</button>
+            <button id="rejectButton" type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"><i class="bi bi-x-circle mr-1"></i>Reject Request</button>
         </div>
     </form>
 </div>
@@ -500,12 +502,7 @@ async function loadExits(page=1){
     $('exitTableBody').innerHTML=AdminUI.loadingState('Loading exit records...',8);
 
     $('exitMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
-            <span class="inline-flex items-center gap-2">
-                <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
-                Loading exit records...
-            </span>
-        </div>`;
+        <div class="px-4 py-10 text-center text-sm text-slate-400">Loading exit records...</div>`;
 
     const params=new URLSearchParams({page,per_page:15});
 
@@ -531,7 +528,7 @@ async function loadExits(page=1){
 
         $('exitTableBody').innerHTML=AdminUI.emptyState(message,8);
         $('exitMobileGrid').innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">${esc(message)}</div>`;
+            <div class="px-4 py-10 text-center text-sm text-slate-400">${esc(message)}</div>`;
     }
 }
 
@@ -540,13 +537,7 @@ function renderRecords(){
         $('exitTableBody').innerHTML=AdminUI.emptyState('No member exit records found.',8);
 
         $('exitMobileGrid').innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
-                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                    <i class="bi bi-box-arrow-right"></i>
-                </div>
-                <p class="mt-3 text-base font-semibold text-slate-600">No exit records found</p>
-                <p class="mt-1 text-sm text-slate-400">Try changing the search or filters.</p>
-            </div>`;
+            <div class="px-4 py-10 text-center text-sm text-slate-400">No exit records found.</div>`;
         return;
     }
 
@@ -587,48 +578,47 @@ function renderRecords(){
     `).join('');
 
     $('exitMobileGrid').innerHTML=records.map(item=>`
-        <article class="overflow-hidden rounded-md border border-slate-200 bg-white">
-            <div class="border-b border-slate-100 px-4 py-3">
-                <div class="flex items-start justify-between gap-3">
-                    <div>
-                        <p class="text-base font-bold text-slate-700">${esc(item.exit_no)}</p>
-                        <p class="mt-0.5 text-[11px] text-slate-400">${esc(typeLabel(item.exit_type))}</p>
-                    </div>
+        <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">${esc(item.exit_no)}</p>
+                    <p class="mt-0.5 truncate text-[11px] text-slate-400">${esc(typeLabel(item.exit_type))} • ${formatDate(item.request_date)}</p>
+                </div>
+
+                <div class="shrink-0">
                     ${statusBadge(item.status)}
                 </div>
             </div>
 
-            <div class="space-y-3 p-4">
-                <div>
-                    <p class="text-sm font-semibold text-slate-700">${esc(item.member?.user?.name??'N/A')}</p>
-                    <p class="text-[11px] text-indigo-600">${esc(item.member?.member_code??'')}</p>
+            <div class="mt-3 rounded-md bg-slate-50/60 p-3">
+                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">${esc(item.member?.user?.name??'N/A')}</p>
+                <p class="mt-0.5 truncate text-[11px] text-indigo-600">${esc(item.member?.member_code??'')}</p>
+            </div>
+
+            <div class="mt-3 grid grid-cols-3 gap-x-3 gap-y-2.5 text-[11px]">
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Liabilities</p>
+                    <p class="truncate font-semibold ${Number(item.total_liabilities)>0?'text-red-600':'text-slate-700'}">${money(item.total_liabilities)}</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="rounded-md bg-red-50 p-3">
-                        <p class="text-[10px] uppercase text-red-400">Liabilities</p>
-                        <p class="mt-1 text-base font-bold text-red-700">${money(item.total_liabilities)}</p>
-                    </div>
-
-                    <div class="rounded-md bg-emerald-50 p-3">
-                        <p class="text-[10px] uppercase text-emerald-500">Share Refund</p>
-                        <p class="mt-1 text-base font-bold text-emerald-700">${money(item.share_refund)}</p>
-                    </div>
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Share Refund</p>
+                    <p class="truncate font-semibold text-emerald-700">${money(item.share_refund)}</p>
                 </div>
 
-                <div class="flex items-center justify-between border-t border-slate-100 pt-3">
-                    <span class=" text-xs 2xl:text-sm text-slate-500">Blockers</span>
-                    <span class="${Number(item.blocking_items_count)>0?'text-red-600':'text-emerald-600'} text-sm font-bold">${item.blocking_items_count}</span>
+                <div class="min-w-0">
+                    <p class="text-slate-400 text-xs 2xl:text-sm">Blockers</p>
+                    <p class="truncate font-semibold ${Number(item.blocking_items_count)>0?'text-red-600':'text-emerald-600'}">${item.blocking_items_count}</p>
                 </div>
             </div>
 
-            <div class="border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-                <button type="button" onclick="openManageModal(${item.id})" class="inline-flex w-full items-center justify-center gap-1 rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold text-indigo-700">
-                    <i class="bi bi-eye"></i>
-                    Manage Exit
+            <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                <button type="button" onclick="openManageModal(${item.id})" class="flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md bg-indigo-50 px-2 text-[11px] font-semibold text-indigo-600 transition hover:bg-indigo-100">
+                    <i class="bi bi-eye text-sm"></i>
+                    Manage
                 </button>
             </div>
-        </article>
+        </div>
     `).join('');
 }
 
@@ -866,7 +856,7 @@ function actionButton(label,icon,color,onclick,outline=false){
     };
 
     return`
-        <button type="button" onclick="${onclick}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold transition ${styles[color]}">
+        <button type="button" onclick="${onclick}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs 2xl:text-sm font-semibold transition ${styles[color]}">
             <i class="bi ${icon}"></i>
             ${label}
         </button>`;

@@ -20,218 +20,302 @@ class NomineeService
     public function create(
         Member $member,
         array $data,
-        int $userId
+        int $userId,
+        ?UploadedFile $photo=null,
+        ?UploadedFile $identityDocument=null
     ): MemberNominee{
-        return DB::transaction(function()use(
-            $member,
-            $data,
-            $userId
-        ){
-            $member=Member::query()
-                ->whereKey($member->id)
-                ->lockForUpdate()
-                ->firstOrFail();
+        $photoPath=$photo
+            ?$photo->store(
+                "nominees/{$member->id}/photos",
+                'public'
+            )
+            :null;
 
-            if(in_array(
-                $member->status,
-                ['rejected','exited','deceased'],
-                true
-            )){
-                throw ValidationException::withMessages([
-                    'member_id'=>[
-                        'This member cannot have new nominees.'
-                    ]
-                ]);
-            }
-
-            $allocation=round(
-                (float)$data['allocation_percentage'],
-                2
-            );
-
-            $priority=(int)($data['priority']??1);
-
-            $this->validateAllocation(
+        try{
+            $nominee=DB::transaction(function()use(
                 $member,
-                $allocation
-            );
+                $data,
+                $userId,
+                $photoPath,
+                $identityDocument
+            ){
+                $member=Member::query()
+                    ->whereKey($member->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
-            if(($data['is_active']??true)){
-                $this->validatePriority(
-                    $member,
-                    $priority
+                if(in_array(
+                    $member->status,
+                    ['rejected','exited','deceased'],
+                    true
+                )){
+                    throw ValidationException::withMessages([
+                        'member_id'=>[
+                            'This member cannot have new nominees.'
+                        ]
+                    ]);
+                }
+
+                $allocation=round(
+                    (float)$data['allocation_percentage'],
+                    2
                 );
+
+                $priority=(int)($data['priority']??1);
+
+                // A single nominee may hold anywhere from 0.01% to 100%.
+                // validateAllocation() only rejects the request when the
+                // sum of a member's ACTIVE nominees would exceed 100% —
+                // it does not require the total to reach 100%.
+                $this->validateAllocation(
+                    $member,
+                    $allocation
+                );
+
+                if(($data['is_active']??true)){
+                    $this->validatePriority(
+                        $member,
+                        $priority
+                    );
+                }
+
+                $nominee=MemberNominee::create([
+                    'member_id'=>$member->id,
+                    'name'=>trim($data['name']),
+                    'relationship'=>trim($data['relationship']),
+                    'father_or_husband_name'=>$data['father_or_husband_name']??null,
+                    'mother_name'=>$data['mother_name']??null,
+                    'phone'=>$data['phone']??null,
+                    'identity_type'=>$data['identity_type']??null,
+                    'identity_number'=>$data['identity_number']??null,
+                    'date_of_birth'=>$data['date_of_birth']??null,
+                    'gender'=>$data['gender']??null,
+                    'profession'=>$data['profession']??null,
+                    'address'=>$data['address']??null,
+                    'permanent_address'=>$data['permanent_address']??null,
+                    'photo'=>$photoPath,
+                    'allocation_percentage'=>$allocation,
+                    'priority'=>$priority,
+                    'is_active'=>$data['is_active']??true,
+                    'verification_status'=>'unverified',
+                    'notes'=>$data['notes']??null,
+                    'created_by'=>$userId,
+                    'updated_by'=>$userId
+                ]);
+
+                if($identityDocument){
+                    $this->uploadDocument(
+                        $nominee,
+                        $identityDocument,
+                        $data['identity_type']??'identity',
+                        $userId
+                    );
+                }
+
+                $this->forgetCaches($member->id);
+
+                return $nominee;
+            });
+        }catch(\Throwable $e){
+            if($photoPath){
+                Storage::disk('public')->delete($photoPath);
             }
 
-            $nominee=MemberNominee::create([
-                'member_id'=>$member->id,
-                'name'=>trim($data['name']),
-                'relationship'=>trim($data['relationship']),
-                'father_or_husband_name'=>$data['father_or_husband_name']??null,
-                'mother_name'=>$data['mother_name']??null,
-                'phone'=>$data['phone']??null,
-                'identity_type'=>$data['identity_type']??null,
-                'identity_number'=>$data['identity_number']??null,
-                'date_of_birth'=>$data['date_of_birth']??null,
-                'gender'=>$data['gender']??null,
-                'profession'=>$data['profession']??null,
-                'address'=>$data['address']??null,
-                'permanent_address'=>$data['permanent_address']??null,
-                'allocation_percentage'=>$allocation,
-                'priority'=>$priority,
-                'is_active'=>$data['is_active']??true,
-                'verification_status'=>'unverified',
-                'notes'=>$data['notes']??null,
-                'created_by'=>$userId,
-                'updated_by'=>$userId
-            ]);
+            throw $e;
+        }
 
-            $this->forgetCaches($member->id);
-
-            return $this->freshNominee($nominee);
-        });
+        return $this->freshNominee($nominee);
     }
 
     public function update(
         MemberNominee $nominee,
         array $data,
-        int $userId
+        int $userId,
+        ?UploadedFile $photo=null,
+        ?UploadedFile $identityDocument=null
     ): MemberNominee{
-        return DB::transaction(function()use(
-            $nominee,
-            $data,
-            $userId
-        ){
-            $nominee=MemberNominee::query()
-                ->whereKey($nominee->id)
-                ->lockForUpdate()
-                ->firstOrFail();
+        $newPhotoPath=$photo
+            ?$photo->store(
+                "nominees/{$nominee->member_id}/photos",
+                'public'
+            )
+            :null;
 
-            $member=Member::query()
-                ->whereKey($nominee->member_id)
-                ->lockForUpdate()
-                ->firstOrFail();
+        $oldPhotoPath=null;
 
-            $allocation=round(
-                (float)($data['allocation_percentage']
-                    ??$nominee->allocation_percentage),
-                2
-            );
-
-            $priority=(int)($data['priority']
-                ??$nominee->priority);
-
-            $isActive=array_key_exists('is_active',$data)
-                ?(bool)$data['is_active']
-                :$nominee->is_active;
-
-            if($isActive){
-                $this->validateAllocation(
-                    $member,
-                    $allocation,
-                    $nominee->id
-                );
-
-                $this->validatePriority(
-                    $member,
-                    $priority,
-                    $nominee->id
-                );
-            }
-
-            $verificationSensitiveFields=[
-                'name',
-                'relationship',
-                'identity_type',
-                'identity_number',
-                'date_of_birth',
-                'allocation_percentage'
-            ];
-
-            $requiresReverification=false;
-
-            foreach($verificationSensitiveFields as $field){
-                if(
-                    array_key_exists($field,$data)&&
-                    $this->verificationValue(
-                        $field,
-                        $nominee->{$field}
-                    )!==$this->verificationValue(
-                        $field,
-                        $data[$field]
-                    )
-                ){
-                    $requiresReverification=true;
-                    break;
-                }
-            }
-
-            $nominee->fill([
-                'name'=>isset($data['name'])
-                    ?trim($data['name'])
-                    :$nominee->name,
-
-                'relationship'=>isset($data['relationship'])
-                    ?trim($data['relationship'])
-                    :$nominee->relationship,
-
-                'phone'=>$data['phone']
-                    ??$nominee->phone,
-
-                'identity_type'=>$data['identity_type']
-                    ??$nominee->identity_type,
-
-                'identity_number'=>$data['identity_number']
-                    ??$nominee->identity_number,
-
-                'date_of_birth'=>$data['date_of_birth']
-                    ??$nominee->date_of_birth,
-
-                'father_or_husband_name'=>$data['father_or_husband_name']
-                    ??$nominee->father_or_husband_name,
-
-                'mother_name'=>$data['mother_name']
-                    ??$nominee->mother_name,
-
-                'gender'=>$data['gender']
-                    ??$nominee->gender,
-
-                'profession'=>$data['profession']
-                    ??$nominee->profession,
-
-                'address'=>$data['address']
-                    ??$nominee->address,
-
-                'permanent_address'=>$data['permanent_address']
-                    ??$nominee->permanent_address,
-
-                'allocation_percentage'=>$allocation,
-                'priority'=>$priority,
-                'is_active'=>$isActive,
-
-                'notes'=>$data['notes']
-                    ??$nominee->notes,
-
-                'updated_by'=>$userId
-            ]);
-
-            if(
-                $requiresReverification&&
-                $nominee->verification_status==='verified'
+        try{
+            $nominee=DB::transaction(function()use(
+                $nominee,
+                $data,
+                $userId,
+                $newPhotoPath,
+                $identityDocument,
+                &$oldPhotoPath
             ){
-                $nominee->verification_status='pending';
-                $nominee->verified_by=null;
-                $nominee->verified_at=null;
-                $nominee->verification_note=null;
-                $nominee->rejection_reason=null;
+                $nominee=MemberNominee::query()
+                    ->whereKey($nominee->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                $member=Member::query()
+                    ->whereKey($nominee->member_id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                $allocation=round(
+                    (float)($data['allocation_percentage']
+                        ??$nominee->allocation_percentage),
+                    2
+                );
+
+                $priority=(int)($data['priority']
+                    ??$nominee->priority);
+
+                $isActive=array_key_exists('is_active',$data)
+                    ?(bool)$data['is_active']
+                    :$nominee->is_active;
+
+                if($isActive){
+                    $this->validateAllocation(
+                        $member,
+                        $allocation,
+                        $nominee->id
+                    );
+
+                    $this->validatePriority(
+                        $member,
+                        $priority,
+                        $nominee->id
+                    );
+                }
+
+                $verificationSensitiveFields=[
+                    'name',
+                    'relationship',
+                    'identity_type',
+                    'identity_number',
+                    'date_of_birth',
+                    'allocation_percentage'
+                ];
+
+                $requiresReverification=false;
+
+                foreach($verificationSensitiveFields as $field){
+                    if(
+                        array_key_exists($field,$data)&&
+                        $this->verificationValue(
+                            $field,
+                            $nominee->{$field}
+                        )!==$this->verificationValue(
+                            $field,
+                            $data[$field]
+                        )
+                    ){
+                        $requiresReverification=true;
+                        break;
+                    }
+                }
+
+                $oldPhotoPath=$nominee->photo;
+
+                $nominee->fill([
+                    'name'=>isset($data['name'])
+                        ?trim($data['name'])
+                        :$nominee->name,
+
+                    'relationship'=>isset($data['relationship'])
+                        ?trim($data['relationship'])
+                        :$nominee->relationship,
+
+                    'phone'=>$data['phone']
+                        ??$nominee->phone,
+
+                    'identity_type'=>$data['identity_type']
+                        ??$nominee->identity_type,
+
+                    'identity_number'=>$data['identity_number']
+                        ??$nominee->identity_number,
+
+                    'date_of_birth'=>$data['date_of_birth']
+                        ??$nominee->date_of_birth,
+
+                    'father_or_husband_name'=>$data['father_or_husband_name']
+                        ??$nominee->father_or_husband_name,
+
+                    'mother_name'=>$data['mother_name']
+                        ??$nominee->mother_name,
+
+                    'gender'=>$data['gender']
+                        ??$nominee->gender,
+
+                    'profession'=>$data['profession']
+                        ??$nominee->profession,
+
+                    'address'=>$data['address']
+                        ??$nominee->address,
+
+                    'permanent_address'=>$data['permanent_address']
+                        ??$nominee->permanent_address,
+
+                    'photo'=>$newPhotoPath
+                        ?:$nominee->photo,
+
+                    'allocation_percentage'=>$allocation,
+                    'priority'=>$priority,
+                    'is_active'=>$isActive,
+
+                    'notes'=>$data['notes']
+                        ??$nominee->notes,
+
+                    'updated_by'=>$userId
+                ]);
+
+                if(
+                    ($requiresReverification||$identityDocument)&&
+                    $nominee->verification_status==='verified'
+                ){
+                    $nominee->verification_status='pending';
+                    $nominee->verified_by=null;
+                    $nominee->verified_at=null;
+                    $nominee->verification_note=null;
+                    $nominee->rejection_reason=null;
+                }
+
+                $nominee->save();
+
+                if($identityDocument){
+                    $this->uploadDocument(
+                        $nominee,
+                        $identityDocument,
+                        $data['identity_type']
+                            ??$nominee->identity_type
+                            ??'identity',
+                        $userId
+                    );
+                }
+
+                $this->forgetCaches($member->id);
+
+                return $nominee;
+            });
+        }catch(\Throwable $e){
+            if($newPhotoPath){
+                Storage::disk('public')->delete($newPhotoPath);
             }
 
-            $nominee->save();
+            throw $e;
+        }
 
-            $this->forgetCaches($member->id);
+        if(
+            $newPhotoPath&&
+            $oldPhotoPath&&
+            $oldPhotoPath!==$newPhotoPath&&
+            Storage::disk('public')->exists($oldPhotoPath)
+        ){
+            Storage::disk('public')->delete($oldPhotoPath);
+        }
 
-            return $this->freshNominee($nominee);
-        });
+        return $this->freshNominee($nominee);
     }
 
     public function submitForVerification(
@@ -449,6 +533,7 @@ class NomineeService
                 ->firstOrFail();
 
             $memberId=$nominee->member_id;
+            $photoPath=$nominee->photo;
 
             $documents=NomineeDocument::query()
                 ->where('member_nominee_id',$nominee->id)
@@ -472,13 +557,20 @@ class NomineeService
 
             $nominee->delete();
 
-            DB::afterCommit(function()use($paths){
+            DB::afterCommit(function()use($paths,$photoPath){
                 foreach($paths as $path){
                     foreach(['local','public'] as $disk){
                         if(Storage::disk($disk)->exists($path)){
                             Storage::disk($disk)->delete($path);
                         }
                     }
+                }
+
+                if(
+                    $photoPath&&
+                    Storage::disk('public')->exists($photoPath)
+                ){
+                    Storage::disk('public')->delete($photoPath);
                 }
             });
 

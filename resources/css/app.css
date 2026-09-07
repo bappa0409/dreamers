@@ -87,17 +87,6 @@ button:not(:disabled):active,
     transform:scale(1.025);
 }
 
-/* Global Modal Header */
-.app-modal-header{
-    background:
-        linear-gradient(
-            90deg,
-            rgb(238 242 255),
-            rgb(255 255 255),
-            rgb(245 243 255)
-        );
-}
-
 /* Global Modal Close Button */
 .app-modal-close{
     cursor:pointer;
@@ -107,11 +96,6 @@ button:not(:disabled):active,
     transition:all .18s ease;
 }
 
-.app-modal-close:hover{
-    background:#fff;
-    color:rgb(51 65 85);
-    box-shadow:0 1px 3px rgba(15,23,42,.08);
-}
 
 /* Modal animation */
 @keyframes appModalEnter{

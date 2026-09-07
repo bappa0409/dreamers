@@ -143,7 +143,7 @@ CONFIRM BACKUP MODAL
 >
     <div class="app-modal-panel w-full max-w-sm overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
 
             <div class="flex items-center gap-3">
 
@@ -216,7 +216,7 @@ CONFIRM IMPORT MODAL
 >
     <div class="app-modal-panel w-full max-w-sm overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
 
             <div class="flex items-center gap-3">
 

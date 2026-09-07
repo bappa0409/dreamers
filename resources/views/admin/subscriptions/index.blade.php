@@ -116,7 +116,7 @@
 {{-- Assign Subscription Modal --}}
 <div id="subscriptionModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Assign Subscription</h3>
                 <p class="text-xs 2xl:text-sm text-slate-400">Assign an active subscription plan to a member.</p>
@@ -179,7 +179,7 @@
 {{-- Bulk Generate Modal --}}
 <div id="bulkModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-md overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div>
                 <h3 class="text-base font-bold text-slate-800">Generate Monthly Dues</h3>
                 <p class="text-xs 2xl:text-sm text-slate-400">Generate dues for all active member subscriptions.</p>

@@ -154,7 +154,7 @@
 {{-- Role Modal --}}
 <div id="roleModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3 sm:px-6">
+        <div class="flex shrink-0 items-start justify-between border-b border-slate-200 px-5 py-3 sm:px-6">
             <div class="flex min-w-0 items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-shield-lock"></i>

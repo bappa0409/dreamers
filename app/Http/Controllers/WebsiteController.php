@@ -34,4 +34,9 @@ class WebsiteController extends Controller
     {
         return view('landing.faq');
     }
+
+    public function contact()
+    {
+        return view('landing.contact');
+    }
 }

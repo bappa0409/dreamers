@@ -107,7 +107,9 @@
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-x-auto">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[980px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -159,6 +161,11 @@
             </table>
         </div>
 
+        {{-- Mobile card list --}}
+        <div id="accountCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading accounts...</div>
+        </div>
+
         <div
             id="paginationContainer"
             class="border-t border-slate-200 px-4 py-3">
@@ -171,17 +178,23 @@
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <div>
-                <h2
-                    id="accountModalTitle"
-                    class="text-sm font-semibold text-slate-800">
-                    Add Account
-                </h2>
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
 
-                <p class=" text-xs 2xl:text-sm text-slate-500">
-                    Create a posting or parent account.
-                </p>
+                <div>
+                    <h2
+                        id="accountModalTitle"
+                        class="text-sm font-semibold text-slate-800">
+                        Add Account
+                    </h2>
+
+                    <p class=" text-xs 2xl:text-sm text-slate-500">
+                        Create a posting or parent account.
+                    </p>
+                </div>
             </div>
 
             <button
@@ -196,13 +209,30 @@
             id="accountForm"
             class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
 
-            <div class="space-y-4 overflow-y-auto p-5">
+            <div class="space-y-5 overflow-y-auto p-5">
                 <div
                     id="formError"
                     class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">
+                                Account Information
+                            </h3>
+
+                            <p class="text-[11px] text-slate-400">
+                                Enter the account code, type and structure.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <label class="form-label">
                             Account Code *
@@ -320,25 +350,31 @@
                             class="app-input resize-none"></textarea>
                     </div>
                 </div>
+                </section>
 
-                <div class="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm leading-5 text-slate-500">
-                    Parent and child accounts must have the same account type.
-                    Only leaf accounts can receive journal postings.
+                <div class="flex items-start gap-2 rounded-md border border-slate-200 bg-slate-50 p-3 text-[11px] leading-5 text-slate-500">
+                    <i class="bi bi-info-circle mt-0.5 text-slate-400"></i>
+                    <span>
+                        Parent and child accounts must have the same account type.
+                        Only leaf accounts can receive journal postings.
+                    </span>
                 </div>
             </div>
 
-            <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('accountModal')"
-                    class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
 
                 <button
                     id="saveAccountButton"
                     type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Save Account
                 </button>
             </div>
@@ -350,16 +386,22 @@
     id="accountDetailsModal"
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 
-    <div class="app-modal-panel w-full max-w-3xl overflow-hidden rounded-md bg-white">
-        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <div>
-                <h2 class="text-sm font-semibold text-slate-800">
-                    Account Details
-                </h2>
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
 
-                <p class=" text-xs 2xl:text-sm text-slate-500">
-                    Account structure and current balance.
-                </p>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-800">
+                        Account Details
+                    </h2>
+
+                    <p class=" text-xs 2xl:text-sm text-slate-500">
+                        Account structure and current balance.
+                    </p>
+                </div>
             </div>
 
             <button
@@ -372,7 +414,17 @@
 
         <div
             id="accountDetailsBody"
-            class="max-h-[75vh] overflow-y-auto p-5">
+            class="min-h-0 flex-1 overflow-y-auto p-5">
+        </div>
+
+        <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
+            <button
+                type="button"
+                onclick="AdminUI.closeModal('accountDetailsModal')"
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <i class="bi bi-x-lg"></i>
+                Close
+            </button>
         </div>
     </div>
 </div>
@@ -401,6 +453,7 @@ let currentPage=1;
 
 const el={
     table:document.getElementById('accountTable'),
+    cards:document.getElementById('accountCards'),
     pagination:document.getElementById('paginationContainer'),
     search:document.getElementById('searchInput'),
     type:document.getElementById('typeFilter'),
@@ -424,6 +477,22 @@ const money=value=>
         Number(value??0),
         2
     )}`;
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${esc(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${esc(message)}
+        </div>
+    `;
+}
 
 function accountBalance(account){
     const debit=Number(
@@ -486,6 +555,11 @@ async function loadAccounts(page=1){
             9
         );
 
+    el.cards.innerHTML=
+        cardsLoadingHtml(
+            'Loading accounts...'
+        );
+
     const query=AdminUI.query({
         page,
         per_page:25,
@@ -518,7 +592,76 @@ async function loadAccounts(page=1){
                 AdminUI.extractError(error),
                 9
             );
+
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                AdminUI.extractError(error)
+            );
     }
+}
+
+function accountActionButtons(account,{withLabel=false}={}){
+    const posting=
+        Number(account.children_count||0)===0;
+
+    const actions=[
+        `
+            <button
+                type="button"
+                onclick="viewAccount(${account.id})"
+                title="View Details"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 shrink-0 items-center justify-center rounded-md'} cursor-pointer bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
+                <i class="bi bi-eye text-sm"></i>
+                ${withLabel?'View':''}
+            </button>
+        `
+    ];
+
+    if(canUpdate){
+        actions.push(`
+            <button
+                type="button"
+                onclick="editAccount(${account.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+                title="Edit">
+                <i class="bi bi-pencil-square text-sm"></i>
+                ${withLabel?'Edit':''}
+            </button>
+        `);
+
+        if(!account.is_system){
+            actions.push(`
+                <button
+                    type="button"
+                    onclick="toggleAccount(${account.id})"
+                    class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} ${account.is_active?'bg-amber-50 text-amber-600 hover:bg-amber-100':'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'} transition"
+                    title="${account.is_active?'Deactivate':'Activate'}">
+                    <i class="bi ${account.is_active?'bi-toggle-off':'bi-toggle-on'} text-sm"></i>
+                    ${withLabel?(account.is_active?'Deactivate':'Activate'):''}
+                </button>
+            `);
+        }
+    }
+
+    if(
+        canDelete&&
+        !account.is_system&&
+        Number(account.children_count||0)===0&&
+        Number(account.entries_count||0)===0
+    ){
+        actions.push(`
+            <button
+                type="button"
+                onclick="deleteAccount(${account.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100"
+                title="Delete">
+                <i class="bi bi-trash3 text-sm"></i>
+                ${withLabel?'Delete':''}
+            </button>
+        `);
+    }
+
+    return actions.join('');
 }
 
 function renderAccounts(){
@@ -527,6 +670,11 @@ function renderAccounts(){
             AdminUI.emptyState(
                 'No accounts found.',
                 9
+            );
+
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                'No accounts found.'
             );
 
         return;
@@ -560,50 +708,6 @@ function renderAccounts(){
                         Parent
                     </span>
                 `;
-
-            const actions=[
-                `
-                    <button type="button" onclick="viewAccount(${account.id})" title="View Details" class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
-                        <i class="bi bi-eye text-sm"></i>
-                    </button>
-                `
-            ];
-
-            if(canUpdate){
-                actions.push(`
-                    <button type="button" onclick="editAccount(${account.id})" class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100" title="Edit">
-                        <i class="bi bi-pencil-square text-sm"></i>
-                        
-                    </button>
-                `);
-
-                if(!account.is_system){
-                    actions.push(`
-                        <button
-                            type="button"
-                            onclick="toggleAccount(${account.id})"
-                            class="rounded border border-slate-300 px-2 py-1  text-xs 2xl:text-sm text-slate-600 hover:bg-slate-50">
-                            ${account.is_active?'Deactivate':'Activate'}
-                        </button>
-                    `);
-                }
-            }
-
-            if(
-                canDelete&&
-                !account.is_system&&
-                Number(account.children_count||0)===0&&
-                Number(account.entries_count||0)===0
-            ){
-                actions.push(`
-                    <button
-                        type="button"
-                        onclick="deleteAccount(${account.id})"
-                        class="rounded border border-red-300 px-2 py-1 text-sm text-red-700 hover:bg-red-50">
-                        Delete
-                    </button>
-                `);
-            }
 
             return `
                 <tr class="border-b border-slate-100 hover:bg-slate-50/60">
@@ -656,10 +760,113 @@ function renderAccounts(){
 
                     <td class="px-4 py-3">
                         <div class="flex flex-wrap justify-end gap-1">
-                            ${actions.join('')}
+                            ${accountActionButtons(account)}
                         </div>
                     </td>
                 </tr>
+            `;
+        })
+        .join('');
+
+    el.cards.innerHTML=accounts
+        .map(account=>{
+            const posting=
+                Number(account.children_count||0)===0;
+
+            const parent=account.parent
+                ?`${esc(account.parent.code)} - ${esc(account.parent.name)}`
+                :'—';
+
+            const systemBadge=account.is_system
+                ?`
+                    <span class="rounded bg-indigo-50 px-1.5 py-0.5 text-[9px] font-semibold text-indigo-700">
+                        System
+                    </span>
+                `
+                :'';
+
+            const postingBadge=posting
+                ?`
+                    <span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700">
+                        Posting
+                    </span>
+                `
+                :`
+                    <span class="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600">
+                        Parent
+                    </span>
+                `;
+
+            return`
+                <div class="p-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <p class="font-mono text-xs 2xl:text-sm font-semibold text-slate-700">
+                                ${esc(account.code)}
+                            </p>
+
+                            <p class="mt-1 truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                                ${esc(account.name)}
+                            </p>
+
+                            <div class="mt-1.5 flex flex-wrap gap-1">
+                                ${systemBadge}
+                                ${postingBadge}
+                            </div>
+                        </div>
+
+                        <div class="shrink-0">
+                            ${AdminUI.statusBadge(
+                                account.is_active
+                                    ?'active'
+                                    :'inactive'
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Type</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${esc(AdminUI.titleCase(account.type))}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Sub Type</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${account.sub_type
+                                    ?esc(AdminUI.titleCase(account.sub_type))
+                                    :'—'}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Parent</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${parent}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Opening</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${money(account.opening_balance)}
+                            </p>
+                        </div>
+
+                        <div class="col-span-2 min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Balance</p>
+                            <p class="truncate font-semibold text-slate-800">
+                                ${money(accountBalance(account))}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
+                        ${accountActionButtons(account,{withLabel:true})}
+                    </div>
+                </div>
             `;
         })
         .join('');

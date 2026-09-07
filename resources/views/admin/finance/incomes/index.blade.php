@@ -103,7 +103,8 @@
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-x-auto">
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -128,6 +129,11 @@
             </table>
         </div>
 
+        {{-- Mobile card list --}}
+        <div id="incomeCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading income...</div>
+        </div>
+
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
 </div>
@@ -135,7 +141,7 @@
 {{-- Add Income Modal --}}
 <div id="incomeModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                     <i class="bi bi-arrow-down-circle"></i>
@@ -305,6 +311,7 @@
                     type="button"
                     onclick="closeIncomeModal()"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
@@ -312,6 +319,7 @@
                     id="saveButton"
                     type="submit"
                     class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Save Income
                 </button>
             </div>
@@ -322,7 +330,7 @@
 {{-- Income Details Modal --}}
 <div id="incomeDetailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-receipt-cutoff"></i>

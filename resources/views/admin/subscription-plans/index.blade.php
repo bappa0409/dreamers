@@ -39,7 +39,7 @@
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-slate-700">Search Plans</p>
+                    <p class="text-xs 2xl:text-sm font-semibold text-slate-700">Search Plans</p>
                     <p class="hidden text-[11px] text-slate-400 sm:block">Search by plan name</p>
                 </div>
             </div>
@@ -95,7 +95,7 @@
 
                 <tbody id="planTableBody">
                     <tr>
-                        <td colspan="7" class="px-5 py-10 text-center text-base text-slate-400">
+                        <td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
                             Loading plans...
                         </td>
                     </tr>
@@ -103,14 +103,16 @@
             </table>
         </div>
 
-        <div id="planMobileGrid" class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:hidden"></div>
+        <div id="planMobileGrid" class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:hidden">
+            <div class="col-span-full px-4 py-10 text-center text-sm text-slate-400">Loading plans...</div>
+        </div>
     </div>
 </div>
 
 {{-- Plan Modal --}}
 <div id="planModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel w-full max-w-2xl overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-card-checklist"></i>
@@ -127,40 +129,70 @@
             </button>
         </div>
 
-        <form id="planForm" novalidate data-js-validation="1">
-            <div class="max-h-[70vh] space-y-4 overflow-y-auto p-5 sm:p-6">
-                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
+        <form id="planForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
+            <div class="space-y-5 overflow-y-auto p-5">
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-card-checklist"></i>
+                        </div>
 
-                <div>
-                    <label class="form-label">Plan Name <span class="text-red-500">*</span></label>
-
-                    <input id="planName" type="text" maxlength="100" class="app-input">
-
-                    <p data-field-error="planName" class="mt-1 hidden text-sm text-red-600"></p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Monthly Amount <span class="text-red-500">*</span></label>
-
-                        <input id="planAmount" type="number" min="0.01" step="0.01" class="app-input">
-
-                        <p data-field-error="planAmount" class="mt-1 hidden text-sm text-red-600"></p>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Plan Information</h3>
+                            <p class="text-[11px] text-slate-400">Enter the subscription plan details.</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Due Day <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div class="md:col-span-2">
+                            <label class="form-label">Plan Name <span class="text-red-500">*</span></label>
 
-                        <input id="planDueDay" type="number" min="1" max="31" class="app-input">
+                            <input id="planName" type="text" maxlength="100" class="app-input">
 
-                        <p class="mt-1 text-[10px] text-slate-400">Day of month the payment is due (1&ndash;31).</p>
+                            <p data-field-error="planName" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
+                        </div>
 
-                        <p data-field-error="planDueDay" class="mt-1 hidden text-sm text-red-600"></p>
+                        <div>
+                            <label class="form-label">Monthly Amount <span class="text-red-500">*</span></label>
+
+                            <input id="planAmount" type="number" min="0.01" step="0.01" class="app-input">
+
+                            <p data-field-error="planAmount" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Due Day <span class="text-red-500">*</span></label>
+
+                            <input id="planDueDay" type="number" min="1" max="31" class="app-input">
+
+                            <p class="mt-1 text-[10px] text-slate-400">Day of month the payment is due (1&ndash;31).</p>
+
+                            <p data-field-error="planDueDay" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="rounded-md border border-slate-200 bg-slate-50/60 p-4">
-                    <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Late Fine Rules</p>
+                    <div class="mt-4">
+                        <label class="form-label">Description</label>
+
+                        <textarea id="planDescription" rows="3" maxlength="1000" class="app-input resize-none"></textarea>
+
+                        <p data-field-error="planDescription" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
+                    </div>
+                </section>
+
+                <section class="rounded-md border border-slate-200 p-4">
+                    <div class="mb-3 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Late Fine Rules</h3>
+                            <p class="text-[11px] text-slate-400">
+                                Applied automatically when a payment is overdue.
+                            </p>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
@@ -178,56 +210,64 @@
 
                             <input id="planFineValue" type="number" min="0" step="0.01" class="app-input">
 
-                            <p data-field-error="planFineValue" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="planFineValue" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
 
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="form-label">Grace Days</label>
 
                             <input id="planGraceDays" type="number" min="0" max="365" class="app-input">
 
                             <p class="mt-1 text-[10px] text-slate-400">Days after due date before a fine applies.</p>
 
-                            <p data-field-error="planGraceDays" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="planGraceDays" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <input id="planDefault" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-3 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-toggles"></i>
+                        </div>
 
                         <div>
-                            <p class="text-sm font-semibold text-slate-700">Default Plan</p>
-                            <p class="text-[10px] text-slate-400">Used for automatic subscription assignment.</p>
+                            <h3 class="text-sm font-semibold text-slate-800">Plan Settings</h3>
+                            <p class="text-[11px] text-slate-400">Control availability and default assignment.</p>
                         </div>
-                    </label>
+                    </div>
 
-                    <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <input id="planActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
+                            <input id="planDefault" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
 
-                        <div>
-                            <p class="text-sm font-semibold text-slate-700">Active</p>
-                            <p class="text-[10px] text-slate-400">Available for new subscriptions.</p>
-                        </div>
-                    </label>
-                </div>
+                            <div>
+                                <p class="text-xs 2xl:text-sm font-semibold text-slate-700">Default Plan</p>
+                                <p class="text-[10px] text-slate-400">Used for automatic subscription assignment.</p>
+                            </div>
+                        </label>
 
-                <div>
-                    <label class="form-label">Description</label>
+                        <label class="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
+                            <input id="planActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
 
-                    <textarea id="planDescription" rows="3" maxlength="1000" class="app-input resize-none"></textarea>
+                            <div>
+                                <p class="text-xs 2xl:text-sm font-semibold text-slate-700">Active</p>
+                                <p class="text-[10px] text-slate-400">Available for new subscriptions.</p>
+                            </div>
+                        </label>
+                    </div>
+                </section>
 
-                    <p data-field-error="planDescription" class="mt-1 hidden text-sm text-red-600"></p>
-                </div>
+                <div id="planError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
-            <div class="flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
+            <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('planModal')"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
@@ -236,7 +276,8 @@
                     type="submit"
                     class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
-                    Save Plan
+                    <i class="bi bi-check2-circle"></i>
+                    <span id="savePlanButtonLabel">Save Plan</span>
                 </button>
             </div>
         </form>
@@ -269,11 +310,12 @@ const el={
     status:document.getElementById('statusFilter'),
     form:document.getElementById('planForm'),
     saveButton:document.getElementById('savePlanButton'),
+    saveButtonLabel:document.getElementById('savePlanButtonLabel'),
     fineType:document.getElementById('planFineType'),
     fineValueField:document.getElementById('planFineValueField')
 };
 
-const money=value=>`${currency}${Number(value||0).toLocaleString('en-BD',{
+const money=value=>`${currency}${Number(value||0).toLocaleString('en-US',{
     minimumFractionDigits:2,
     maximumFractionDigits:2
 })}`;
@@ -288,7 +330,7 @@ function fineLabel(plan){
         :money(plan.fine_value);
 
     return`
-        <span class="text-sm font-semibold text-slate-700">${value}</span>
+        <span class="text-xs 2xl:text-sm font-semibold text-slate-700">${value}</span>
         <span class="block text-[10px] text-slate-400">
             after ${Number(plan.grace_days||0)} grace day${Number(plan.grace_days||0)===1?'':'s'}
         </span>
@@ -309,7 +351,10 @@ el.fineType.addEventListener(
 
 async function loadPlans(){
     el.tableBody.innerHTML=AdminUI.loadingState('Loading plans...',7);
-    el.mobileGrid.innerHTML='';
+
+    el.mobileGrid.innerHTML=`
+        <div class="col-span-full px-4 py-10 text-center text-sm text-slate-400">Loading plans...</div>
+    `;
 
     const query=AdminUI.query({
         search:el.search.value.trim(),
@@ -501,7 +546,7 @@ window.openPlanModal=function(){
     AdminUI.clearFieldErrors('planForm');
 
     document.getElementById('planModalTitle').textContent='Add Subscription Plan';
-    el.saveButton.textContent='Save Plan';
+    el.saveButtonLabel.textContent='Save Plan';
 
     document.getElementById('planFineType').value='none';
     document.getElementById('planGraceDays').value=0;
@@ -539,7 +584,7 @@ window.editPlan=function(id){
     document.getElementById('planDescription').value=plan.description||'';
 
     document.getElementById('planModalTitle').textContent='Edit Subscription Plan';
-    el.saveButton.textContent='Update Plan';
+    el.saveButtonLabel.textContent='Update Plan';
 
     toggleFineValueVisibility();
 
@@ -690,7 +735,8 @@ async function initSubscriptionPlansPage(){
         setTimeout(initSubscriptionPlansPage,50);
         return;
     }
-el.search.addEventListener(
+
+    el.search.addEventListener(
         'input',
         AdminUI.debounce(
             ()=>loadPlans()

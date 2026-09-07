@@ -128,7 +128,9 @@
 
     {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-x-auto">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -153,15 +155,20 @@
             </table>
         </div>
 
+        {{-- Mobile card list --}}
+        <div id="assetCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading assets...</div>
+        </div>
+
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
 </div>
 
 {{-- Add / Edit Asset Modal --}}
 <div id="assetModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-md bg-white">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-building-add"></i>
@@ -412,14 +419,16 @@
                 <button
                     type="button"
                     onclick="closeAssetModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button
                     id="assetSaveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Save Asset
                 </button>
             </div>
@@ -431,7 +440,7 @@
 <div id="assetDetailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-building"></i>
@@ -462,7 +471,8 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('assetDetailsModal')"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <i class="bi bi-x-lg"></i>
                 Close
             </button>
         </div>
@@ -473,7 +483,7 @@
 <div id="sellModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                     <i class="bi bi-cash-coin"></i>
@@ -567,14 +577,16 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('sellModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
 
                 <button
                     id="sellButton"
                     type="submit"
-                    class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+                    <i class="bi bi-cash-coin"></i>
                     Sell Asset
                 </button>
             </div>
@@ -586,7 +598,7 @@
 <div id="disposeModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
                     <i class="bi bi-trash3"></i>
@@ -656,14 +668,16 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('disposeModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
 
                 <button
                     id="disposeButton"
                     type="submit"
-                    class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
+                    <i class="bi bi-trash3"></i>
                     Dispose Asset
                 </button>
             </div>
@@ -675,7 +689,7 @@
 <div id="depreciationModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                     <i class="bi bi-graph-down-arrow"></i>
@@ -761,14 +775,16 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('depreciationModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
 
                 <button
                     id="depreciationButton"
                     type="submit"
-                    class="rounded-md bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700">
+                    class="inline-flex items-center justify-center gap-1.5 rounded-md bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700">
+                    <i class="bi bi-graph-down-arrow"></i>
                     Post Depreciation
                 </button>
             </div>
@@ -780,7 +796,7 @@
 <div id="depreciationHistoryModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
 
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                     <i class="bi bi-clock-history"></i>
@@ -809,7 +825,8 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('depreciationHistoryModal')"
-                class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                <i class="bi bi-x-lg"></i>
                 Close
             </button>
         </div>
@@ -851,6 +868,7 @@ const canUpdate=@json(auth()->user()->hasPermission('Finance.update'));
 
 const el={
     table:document.getElementById('assetTable'),
+    cards:document.getElementById('assetCards'),
     search:document.getElementById('searchInput'),
     dateRange:document.getElementById('dateRangeFilter'),
     status:document.getElementById('statusFilter'),
@@ -893,6 +911,22 @@ function money(value){
             maximumFractionDigits:2
         }
     )}`;
+}
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
 }
 
 function initDateRangePicker(){
@@ -1060,6 +1094,11 @@ async function loadAssets(page=1){
             8
         );
 
+    el.cards.innerHTML=
+        cardsLoadingHtml(
+            'Loading assets...'
+        );
+
     const query=AdminUI.query({
         search:el.search.value.trim(),
         from:selectedFrom,
@@ -1108,7 +1147,89 @@ async function loadAssets(page=1){
                 AdminUI.extractError(error),
                 8
             );
+
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                AdminUI.extractError(error)
+            );
     }
+}
+
+function assetActionButtons(item,{withLabel=false}={}){
+    const buttons=[];
+
+    buttons.push(`
+        <button
+            type="button"
+            onclick="viewAsset(${item.id})"
+            class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-slate-50 text-slate-500 transition hover:bg-slate-100"
+            title="View">
+            <i class="bi bi-eye text-sm"></i>
+            ${withLabel?'View':''}
+        </button>
+    `);
+
+    if(
+        canUpdate&&
+        item.status==='active'
+    ){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="editAsset(${item.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+                title="Edit">
+                <i class="bi bi-pencil text-sm"></i>
+                ${withLabel?'Edit':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openDepreciationModal(${item.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-violet-50 text-violet-600 transition hover:bg-violet-100"
+                title="Depreciate">
+                <i class="bi bi-graph-down-arrow text-sm"></i>
+                ${withLabel?'Depreciate':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openSellModal(${item.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+                title="Sell">
+                <i class="bi bi-cash-coin text-sm"></i>
+                ${withLabel?'Sell':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openDisposeModal(${item.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100"
+                title="Dispose">
+                <i class="bi bi-trash3 text-sm"></i>
+                ${withLabel?'Dispose':''}
+            </button>
+        `);
+    }
+
+    buttons.push(`
+        <button
+            type="button"
+            onclick="viewDepreciationHistory(${item.id})"
+            class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-slate-50 text-slate-500 transition hover:bg-slate-100"
+            title="Depreciation History">
+            <i class="bi bi-clock-history text-sm"></i>
+            ${withLabel?'History':''}
+        </button>
+    `);
+
+    return buttons.join('');
 }
 
 function renderAssetTable(){
@@ -1117,6 +1238,11 @@ function renderAssetTable(){
             AdminUI.emptyState(
                 'No asset records found.',
                 8
+            );
+
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                'No asset records found.'
             );
 
         return;
@@ -1182,64 +1308,86 @@ function renderAssetTable(){
 
                     <td class="px-4 py-3">
                         <div class="flex justify-end gap-1">
-
-                            <button
-                                type="button"
-                                onclick="viewAsset(${item.id})"
-                                class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
-                                title="View">
-                                <i class="bi bi-eye text-sm"></i>
-                            </button>
-
-                            ${
-                                canUpdate&&
-                                item.status==='active'
-                                    ?`
-                                        <button
-                                            type="button"
-                                            onclick="editAsset(${item.id})"
-                                            class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
-                                            title="Edit">
-                                            <i class="bi bi-pencil text-sm"></i>
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            onclick="openDepreciationModal(${item.id})"
-                                            class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600 hover:bg-violet-100"
-                                            title="Depreciate">
-                                            <i class="bi bi-graph-down-arrow text-sm"></i>
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            onclick="openSellModal(${item.id})"
-                                            class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
-                                            title="Sell">
-                                            <i class="bi bi-cash-coin text-sm"></i>
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            onclick="openDisposeModal(${item.id})"
-                                            class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100"
-                                            title="Dispose">
-                                            <i class="bi bi-trash3 text-sm"></i>
-                                        </button>
-                                    `
-                                    :''
-                            }
-
-                            <button
-                                type="button"
-                                onclick="viewDepreciationHistory(${item.id})"
-                                class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-500 hover:bg-slate-100"
-                                title="Depreciation History">
-                                <i class="bi bi-clock-history text-sm"></i>
-                            </button>
+                            ${assetActionButtons(item)}
                         </div>
                     </td>
                 </tr>
+            `;
+        }).join('');
+
+    el.cards.innerHTML=
+        assets.map(item=>{
+            const bookValue=Math.max(
+                Number(item.purchase_cost??0)-
+                Number(item.accumulated_depreciation??0),
+                0
+            );
+
+            return`
+                <div class="p-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <button
+                                type="button"
+                                onclick="viewAsset(${item.id})"
+                                class="font-mono text-xs 2xl:text-sm font-semibold text-indigo-600 hover:underline">
+                                ${AdminUI.escapeHtml(item.asset_code)}
+                            </button>
+
+                            <p class="mt-1 truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(item.name)}
+                            </p>
+
+                            ${
+                                item.serial_no
+                                    ?`
+                                        <p class="text-[10px] text-slate-400">
+                                            SN: ${AdminUI.escapeHtml(item.serial_no)}
+                                        </p>
+                                    `
+                                    :''
+                            }
+                        </div>
+
+                        <div class="shrink-0">
+                            ${AdminUI.statusBadge(item.status)}
+                        </div>
+                    </div>
+
+                    <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Category</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${AdminUI.escapeHtml(item.category??'—')}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Purchase Date</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${AdminUI.formatDate(item.purchase_date)}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Cost</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${money(item.purchase_cost)}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs 2xl:text-sm">Book Value</p>
+                            <p class="truncate font-semibold text-slate-800">
+                                ${money(bookValue)}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
+                        ${assetActionButtons(item,{withLabel:true})}
+                    </div>
+                </div>
             `;
         }).join('');
 }

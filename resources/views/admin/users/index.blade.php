@@ -109,7 +109,7 @@
 {{-- User Modal --}}
 <div id="userModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-2xl overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
+        <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-person"></i>
@@ -192,7 +192,7 @@
 {{-- Reset Password Modal --}}
 <div id="passwordModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel w-full max-w-md overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+        <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-600">
                     <i class="bi bi-key"></i>

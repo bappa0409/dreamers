@@ -180,43 +180,52 @@
         </div>
     </div>
 
-    {{-- Table: fixed layout, no horizontal scroll. Type/Source are shown in the details receipt instead. --}}
+    {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <table class="w-full table-fixed text-sm">
-            <thead class="border-b border-slate-200 bg-slate-50">
-                <tr>
-                    <th class="w-[16%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                        Journal
-                    </th>
-                    <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                        Date
-                    </th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                        Description
-                    </th>
-                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                        Debit
-                    </th>
-                    <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                        Credit
-                    </th>
-                    <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                        Status
-                    </th>
-                    <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
 
-            <tbody id="journalTable">
-                <tr>
-                    <td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-400">
-                        Loading journal entries...
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full table-fixed text-sm">
+                <thead class="border-b border-slate-200 bg-slate-50">
+                    <tr>
+                        <th class="w-[16%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                            Journal
+                        </th>
+                        <th class="w-[11%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                            Date
+                        </th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                            Description
+                        </th>
+                        <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                            Debit
+                        </th>
+                        <th class="w-[13%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                            Credit
+                        </th>
+                        <th class="w-[10%] px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                            Status
+                        </th>
+                        <th class="w-[14%] px-4 py-3 text-right text-xs font-semibold text-slate-600">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="journalTable">
+                    <tr>
+                        <td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-400">
+                            Loading journal entries...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="journalCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading journal entries...</div>
+        </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
     </div>
@@ -227,7 +236,7 @@ MANUAL JOURNAL MODAL
 ========================================================= --}}
 <div id="journalModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-journal-plus"></i>
@@ -329,7 +338,7 @@ MANUAL JOURNAL MODAL
                         <button
                             type="button"
                             onclick="addJournalLine()"
-                            class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100">
+                            class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100">
                             <i class="bi bi-plus-lg"></i>
                             Add Line
                         </button>
@@ -398,14 +407,16 @@ MANUAL JOURNAL MODAL
                 <button
                     type="button"
                     onclick="closeJournalModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button
                     id="postJournalButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Post Journal
                 </button>
             </div>
@@ -418,7 +429,7 @@ DETAILS MODAL
 ========================================================= --}}
 <div id="detailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-journal-text"></i>
@@ -457,7 +468,7 @@ REVERSE MODAL
 ========================================================= --}}
 <div id="reverseModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
                     <i class="bi bi-arrow-counterclockwise"></i>
@@ -565,14 +576,16 @@ REVERSE MODAL
                 <button
                     type="button"
                     onclick="closeReverseModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button
                     id="reverseButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                    <i class="bi bi-arrow-counterclockwise"></i>
                     Reverse Journal
                 </button>
             </div>
@@ -623,6 +636,22 @@ const money=value=>`${currency}${Number(value||0).toLocaleString(undefined,{
     minimumFractionDigits:2,
     maximumFractionDigits:2
 })}`;
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${esc(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${esc(message)}
+        </div>
+    `;
+}
 
 function localDate(date=new Date()){
     const year=date.getFullYear();
@@ -783,6 +812,11 @@ async function loadJournals(page=1){
             7
         );
 
+    $('journalCards').innerHTML=
+        cardsLoadingHtml(
+            'Loading journal entries...'
+        );
+
     const query=AdminUI.query({
         page,
         per_page:20,
@@ -818,7 +852,48 @@ async function loadJournals(page=1){
                 AdminUI.extractError(error),
                 7
             );
+
+        $('journalCards').innerHTML=
+            cardsEmptyHtml(
+                AdminUI.extractError(error)
+            );
     }
+}
+
+function journalActionButtons(journal,{withLabel=false}={}){
+    const actions=[
+        `
+            <button
+                type="button"
+                onclick="viewJournal(${journal.id})"
+                title="View Details"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 shrink-0 items-center justify-center rounded-md'} cursor-pointer bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100">
+                <i class="bi bi-eye text-sm"></i>
+                ${withLabel?'View':''}
+            </button>
+        `
+    ];
+
+    if(
+        canUpdate&&
+        journal.status==='posted'&&
+        journal.type==='manual_journal'&&
+        journal.source_module==='manual'&&
+        !journal.reversed_at
+    ){
+        actions.push(`
+            <button
+                type="button"
+                onclick="openReverseModal(${journal.id})"
+                class="flex ${withLabel?'h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold':'h-8 w-8 items-center justify-center rounded-md'} bg-red-50 text-red-600 transition hover:bg-red-100"
+                title="Reverse">
+                <i class="bi bi-arrow-counterclockwise text-sm"></i>
+                ${withLabel?'Reverse':''}
+            </button>
+        `);
+    }
+
+    return actions.join('');
 }
 
 function renderJournals(){
@@ -829,40 +904,15 @@ function renderJournals(){
                 7
             );
 
+        $('journalCards').innerHTML=
+            cardsEmptyHtml(
+                'No journal entries found.'
+            );
+
         return;
     }
 
     $('journalTable').innerHTML=journals.map(journal=>{
-        const actions=[
-            `
-                <button
-                    type="button"
-                    onclick="viewJournal(${journal.id})"
-                    title="View Details"
-                    class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
-                >
-                    <i class="bi bi-eye text-sm"></i>
-                </button>
-            `
-        ];
-
-        if(
-            canUpdate&&
-            journal.status==='posted'&&
-            journal.type==='manual_journal'&&
-            journal.source_module==='manual'&&
-            !journal.reversed_at
-        ){
-            actions.push(`
-                <button
-                    type="button"
-                    onclick="openReverseModal(${journal.id})"
-                    class="rounded border border-red-300 px-2 py-1 text-sm text-red-700 hover:bg-red-50">
-                    Reverse
-                </button>
-            `);
-        }
-
         return `
             <tr class="border-b border-slate-100 hover:bg-slate-50/60">
                 <td class="px-4 py-3">
@@ -906,10 +956,77 @@ function renderJournals(){
 
                 <td class="px-4 py-3">
                     <div class="flex flex-wrap justify-end gap-1">
-                        ${actions.join('')}
+                        ${journalActionButtons(journal)}
                     </div>
                 </td>
             </tr>
+        `;
+    }).join('');
+
+    $('journalCards').innerHTML=journals.map(journal=>{
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                            ${esc(journal.transaction_no)}
+                        </p>
+
+                        <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                            #${journal.id} • ${esc(AdminUI.titleCase(journal.type))}
+                        </p>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${AdminUI.statusBadge(journal.status)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Date</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${
+                                journal.transaction_date
+                                    ?AdminUI.formatDate(journal.transaction_date)
+                                    :'—'
+                            }
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Source</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${esc(AdminUI.titleCase(journal.source_module||'—'))}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Debit</p>
+                        <p class="truncate font-semibold text-slate-800">
+                            ${money(journal.total_debit)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Credit</p>
+                        <p class="truncate font-semibold text-slate-800">
+                            ${money(journal.total_credit)}
+                        </p>
+                    </div>
+
+                    <div class="col-span-2 min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Description</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${esc(journal.description||'—')}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
+                    ${journalActionButtons(journal,{withLabel:true})}
+                </div>
+            </div>
         `;
     }).join('');
 }
@@ -1494,15 +1611,16 @@ window.viewJournal=async function(id){
             <button
                 type="button"
                 onclick="closeDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                <i class="bi bi-x-lg"></i>
                 Close
             </button>
 
             <button
                 type="button"
                 onclick="downloadPdf('/api/finance/transactions/${journal.id}/voucher','journal-voucher-${journal.transaction_no}.pdf',this)"
-                class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
-                <i class="bi bi-file-earmark-pdf mr-1"></i>
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
+                <i class="bi bi-file-earmark-pdf"></i>
                 Download PDF
             </button>
         `;

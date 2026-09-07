@@ -196,6 +196,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{nominee}', [NomineeController::class, 'show'])->middleware('permission:Nominee.view');
         Route::put('/{nominee}', [NomineeController::class, 'update'])->middleware('permission:Nominee.update');
         Route::patch('/{nominee}', [NomineeController::class, 'update'])->middleware('permission:Nominee.update');
+        Route::get('/members/{member}/summary', [NomineeController::class, 'memberSummary']);
         Route::post('/{nominee}/verify', [NomineeController::class, 'verify'])->middleware('permission:Nominee.verify');
         Route::post('/{nominee}/reject', [NomineeController::class, 'reject'])->middleware('permission:Nominee.verify');
         Route::patch('/{nominee}/active', [NomineeController::class, 'toggle'])->middleware('permission:Nominee.update');

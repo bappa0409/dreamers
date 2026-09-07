@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class MemberNominee extends Model
 {
@@ -29,6 +30,7 @@ class MemberNominee extends Model
         'profession',
         'address',
         'permanent_address',
+        'photo',
         'allocation_percentage',
         'priority',
         'is_active',
@@ -48,6 +50,23 @@ class MemberNominee extends Model
         'is_active'=>'boolean',
         'verified_at'=>'datetime'
     ];
+
+    protected $appends=[
+        'photo_url'
+    ];
+
+    /**
+     * Public URL for the nominee's photo (stored on the "public" disk,
+     * same convention as Member::profile_photo).
+     */
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if(!$this->photo){
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->photo);
+    }
 
     public function member(): BelongsTo
     {

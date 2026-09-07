@@ -15,7 +15,7 @@
                 <p class=" text-xs 2xl:text-sm text-slate-500">Account balances derived from posted journal entries.</p>
             </div>
         </div>
-        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-sm font-semibold"></div>
+        <div id="balanceState" class="hidden rounded-md border px-3 py-2 text-xs 2xl:text-sm font-semibold"></div>
     </div>
 
     {{-- Filters --}}

@@ -143,7 +143,7 @@ Clear
 <div id="createModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
 
-<div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div class="flex items-center gap-3">
 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
 <i class="bi bi-headset"></i>
@@ -241,7 +241,7 @@ Clear
 <div id="manageModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
 <div class="app-modal-panel flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
 
-<div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div class="flex items-center gap-3">
 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
 <i class="bi bi-headset"></i>
@@ -299,7 +299,7 @@ Clear
 <div id="assignModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
 <div class="app-modal-panel w-full max-w-lg overflow-hidden rounded-md bg-white">
 
-<div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Assign Request</h3>
 <p class=" text-xs 2xl:text-sm text-slate-500">Assign this request to an active user.</p>
@@ -337,7 +337,7 @@ Clear
 <div id="messageModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
 <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
 
-<div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
 <p id="messageModalSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
@@ -366,7 +366,7 @@ Clear
 <div id="resolveModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
 <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
 
-<div class="app-modal-header flex items-start justify-between border-b border-slate-200 px-5 py-4">
+<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h3 class="text-base font-bold text-slate-800">Resolve Request</h3>
 <p class=" text-xs 2xl:text-sm text-slate-500">Provide the final resolution for the member.</p>
@@ -809,7 +809,7 @@ slate:'border-slate-300 bg-white text-slate-600 hover:bg-slate-50'
 };
 
 return`
-<button type="button" onclick="${handler}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold transition ${styles[color]}">
+<button type="button" onclick="${handler}" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-xs 2xl:text-sm font-semibold transition ${styles[color]}">
 <i class="bi ${icon}"></i>
 ${label}
 </button>`;

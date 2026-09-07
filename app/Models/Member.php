@@ -112,11 +112,13 @@ class Member extends Model
     {
         return $this->hasMany(Loan::class);
     }
+    
 
     public function nominees(): HasMany
     {
         return $this->hasMany(MemberNominee::class);
     }
+
 
     public function activeNominees(): HasMany
     {

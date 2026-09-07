@@ -56,6 +56,8 @@ $secondaryName = $nameParts[1] ?? '';
                         class="block text-sm text-brand-200 hover:text-white transition">স্বচ্ছতা</a>
                     <a href="{{ route('faq') }}"
                         class="block text-sm text-brand-200 hover:text-white transition">প্রশ্নোত্তর</a>
+                    <a href="{{ route('contact') }}"
+                        class="block text-sm text-brand-200 hover:text-white transition">যোগাযোগ</a>
                 </div>
             </div>
 

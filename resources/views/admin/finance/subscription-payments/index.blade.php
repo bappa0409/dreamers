@@ -110,7 +110,9 @@
     </div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-x-auto">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
             <table class="w-full min-w-[860px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -126,10 +128,17 @@
 
                 <tbody id="paymentTable">
                     <tr>
-                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading payments...</td>
+                        <td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+                            Loading payments...
+                        </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="paymentCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading payments...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -139,7 +148,7 @@
 {{-- Payment Details Modal --}}
 <div id="paymentModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-receipt"></i>
@@ -166,7 +175,7 @@
 {{-- Reject Payment Modal --}}
 <div id="rejectModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 text-red-600">
                     <i class="bi bi-x-circle"></i>
@@ -183,20 +192,35 @@
         </div>
 
         <div class="space-y-4 overflow-y-auto p-5">
+            <div class="rounded-md border border-red-200 bg-red-50 p-4">
+                <div class="flex gap-3">
+                    <i class="bi bi-exclamation-triangle text-red-600"></i>
+
+                    <div>
+                        <p class="text-base font-semibold text-red-800">This cannot be undone</p>
+                        <p class="mt-1 text-sm leading-5 text-red-700">
+                            The member will be notified and this payment will no longer count toward their subscription due.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <div>
                 <label class="form-label">Rejection Reason <span class="text-red-500">*</span></label>
                 <textarea id="rejectReason" rows="4" maxlength="1000" class="app-input resize-none" placeholder="Enter rejection reason..."></textarea>
             </div>
 
-            <div id="rejectFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
+            <div id="rejectFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
         </div>
 
         <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
             <button type="button" onclick="AdminUI.closeModal('rejectModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                Close
+                <i class="bi bi-arrow-left"></i>
+                Back
             </button>
 
             <button id="confirmRejectButton" type="button" onclick="confirmReject()" class="cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60">
+                <i class="bi bi-x-circle"></i>
                 Reject Payment
             </button>
         </div>
@@ -206,7 +230,7 @@
 {{-- Add Payment Modal --}}
 <div id="addPaymentModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-plus-lg"></i>
@@ -223,66 +247,83 @@
         </div>
 
         <form id="addPaymentForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
-            <div class="space-y-4 overflow-y-auto p-5">
-                <div>
-                    <label class="form-label">Member <span class="text-red-500">*</span></label>
+            <div class="space-y-5 overflow-y-auto p-5">
+                <section class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
 
-                    <select id="paymentMemberSelect" class="app-input">
-                        <option value="">Loading members...</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="form-label">Outstanding Due <span class="text-red-500">*</span></label>
-
-                    <select id="paymentDueSelect" class="app-input" disabled>
-                        <option value="">Select a member first</option>
-                    </select>
-
-                    <p id="paymentDueHelp" class="mt-1.5 hidden text-[11px] text-amber-600">This member has no outstanding subscription dues.</p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Amount <span class="text-red-500">*</span></label>
-
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
-                            <input id="paymentAmount" type="number" step="0.01" min="0.01" class="app-input !pl-8" placeholder="0.00">
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Payment Information</h3>
+                            <p class="text-[11px] text-slate-400">Select the member and the due this payment settles.</p>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Payment Method <span class="text-red-500">*</span></label>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="form-label">Member <span class="text-red-500">*</span></label>
 
-                        <select id="paymentMethod" class="app-input">
-                            <option value="cash">Cash</option>
-                            <option value="bank">Bank</option>
-                            <option value="mobile_banking">Mobile Banking</option>
-                            <option value="online">Online</option>
-                        </select>
+                            <select id="paymentMemberSelect" class="app-input">
+                                <option value="">Loading members...</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Outstanding Due <span class="text-red-500">*</span></label>
+
+                            <select id="paymentDueSelect" class="app-input" disabled>
+                                <option value="">Select a member first</option>
+                            </select>
+
+                            <p id="paymentDueHelp" class="mt-1.5 hidden text-[11px] text-amber-600">This member has no outstanding subscription dues.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="form-label">Amount <span class="text-red-500">*</span></label>
+
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                                    <input id="paymentAmount" type="number" step="0.01" min="0.01" class="app-input !pl-8" placeholder="0.00">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Payment Method <span class="text-red-500">*</span></label>
+
+                                <select id="paymentMethod" class="app-input">
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank</option>
+                                    <option value="mobile_banking">Mobile Banking</option>
+                                    <option value="online">Online</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="form-label">Transaction Reference</label>
+                                <input id="paymentReference" type="text" maxlength="255" class="app-input" placeholder="Optional">
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Transaction Reference</label>
-                        <input id="paymentReference" type="text" maxlength="255" class="app-input" placeholder="Optional">
+                    <div class="mt-4">
+                        <label class="form-label">Note</label>
+                        <textarea id="paymentNote" rows="3" maxlength="2000" class="app-input resize-none" placeholder="Optional verification note..."></textarea>
                     </div>
-                </div>
+                </section>
 
-                <div>
-                    <label class="form-label">Note</label>
-                    <textarea id="paymentNote" rows="3" maxlength="2000" class="app-input resize-none" placeholder="Optional verification note..."></textarea>
-                </div>
-
-                <div id="addPaymentFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-700"></div>
+                <div id="addPaymentFormError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600"></div>
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="closeAddPaymentModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button id="saveAddPaymentButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Record Payment
                 </button>
             </div>
@@ -313,11 +354,32 @@ const canVerifyPayment=@json(
     auth()->user()->hasPermission('Finance.update')
 );
 
+const currencySymbol=@json(
+    setting('currency_symbol','৳')
+);
+
 const el={
     table:document.getElementById('paymentTable'),
+    cards:document.getElementById('paymentCards'),
     search:document.getElementById('searchInput'),
     status:document.getElementById('statusFilter')
 };
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
 
 async function loadPayments(page=1){
     currentPage=page;
@@ -325,6 +387,10 @@ async function loadPayments(page=1){
     el.table.innerHTML=AdminUI.loadingState(
         'Loading payments...',
         7
+    );
+
+    el.cards.innerHTML=cardsLoadingHtml(
+        'Loading payments...'
     );
 
     const query=AdminUI.query({
@@ -378,6 +444,10 @@ async function loadPayments(page=1){
             AdminUI.extractError(error),
             7
         );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
+        );
     }
 }
 
@@ -408,6 +478,11 @@ function renderPayments(){
             'No subscription payments found.',
             7
         );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No subscription payments found.'
+        );
+
         return;
     }
 
@@ -441,7 +516,7 @@ function renderPayments(){
                 </td>
 
                 <td class="px-3 py-3 text-right text-sm font-semibold text-slate-700">
-                    ৳${money(payment.amount)}
+                    ${money(payment.amount)}
                 </td>
 
                 <td class="px-3 py-3  text-xs 2xl:text-sm text-slate-600">
@@ -464,6 +539,75 @@ function renderPayments(){
                     </div>
                 </td>
             </tr>
+        `;
+    }).join('');
+
+    el.cards.innerHTML=payments.map(payment=>{
+        const member=payment.member??{};
+        const user=member.user??{};
+        const due=payment.due??{};
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800">
+                            ${AdminUI.escapeHtml(payment.payment_no??'—')}
+                        </p>
+
+                        <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                            ${AdminUI.formatDate(payment.paid_at)}
+                        </p>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${AdminUI.statusBadge(payment.status)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Member</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.escapeHtml(user.name??'N/A')}
+                        </p>
+                        <p class="truncate font-mono text-[10px] text-indigo-600">
+                            ${AdminUI.escapeHtml(member.member_code??'')}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Amount</p>
+                        <p class="truncate font-semibold text-slate-800">
+                            ${money(payment.amount)}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Period</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${monthName(due.month)} ${due.year??''}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-400 text-xs 2xl:text-sm">Method</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${titleCase(payment.payment_method)}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    <button
+                        type="button"
+                        onclick="showPayment(${payment.id})"
+                        class="flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md bg-indigo-50 px-2 text-[11px] font-semibold text-indigo-600 transition hover:bg-indigo-100">
+                        <i class="bi bi-eye text-sm"></i>
+                        View
+                    </button>
+                </div>
+            </div>
         `;
     }).join('');
 }
@@ -493,7 +637,7 @@ function renderPaymentDetails(payment){
         ${detail('Member',`${AdminUI.escapeHtml(user.name??'-')} (${AdminUI.escapeHtml(member.member_code??'-')})`,false)}
         ${detail('Payment No',payment.payment_no??'-')}
         ${detail('Subscription Period',`${monthName(due.month)} ${due.year??''}`,false)}
-        ${detail('Payment Amount',`৳${money(payment.amount)}`,false)}
+        ${detail('Payment Amount',money(payment.amount),false)}
         ${detail('Payment Method',titleCase(payment.payment_method))}
         ${detail('Status',AdminUI.statusBadge(payment.status),false)}
         ${detail('Transaction Reference',payment.transaction_reference??'-')}
@@ -501,10 +645,10 @@ function renderPaymentDetails(payment){
 
         <div class="sm:col-span-2 border-t border-slate-100 pt-4">
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                ${detail('Base Amount',`৳${money(due.base_amount)}`,false)}
+                ${detail('Base Amount',money(due.base_amount),false)}
                 ${detail('Shares',due.share_count??1,false)}
-                ${detail('Fine',`৳${money(due.fine_amount)}`,false)}
-                ${detail('Total Due',`৳${money(due.amount)}`,false)}
+                ${detail('Fine',money(due.fine_amount),false)}
+                ${detail('Total Due',money(due.amount),false)}
             </div>
         </div>
 
@@ -541,6 +685,7 @@ function renderPaymentDetails(payment){
                 type="button"
                 onclick="openReject()"
                 class="cursor-pointer rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100">
+                <i class="bi bi-x-circle"></i>
                 Reject
             </button>
 
@@ -549,6 +694,7 @@ function renderPaymentDetails(payment){
                 type="button"
                 onclick="verifyPayment()"
                 class="cursor-pointer rounded-md bg-emerald-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60">
+                <i class="bi bi-check2-circle"></i>
                 Verify Payment
             </button>
         `;
@@ -558,6 +704,7 @@ function renderPaymentDetails(payment){
                 type="button"
                 onclick="AdminUI.closeModal('paymentModal')"
                 class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <i class="bi bi-x-lg"></i>
                 Close
             </button>
         `;
@@ -679,13 +826,13 @@ function detail(label,value,escape=true){
 }
 
 function money(value){
-    return Number(value??0).toLocaleString(
+    return `${currencySymbol}${Number(value??0).toLocaleString(
         'en-US',
         {
             minimumFractionDigits:2,
             maximumFractionDigits:2
         }
-    );
+    )}`;
 }
 
 function titleCase(value){

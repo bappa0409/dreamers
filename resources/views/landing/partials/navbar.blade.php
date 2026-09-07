@@ -43,9 +43,10 @@ $secondaryName = $nameParts[1] ?? '';
             <a href="{{ route('activities') }}" class="{{ $navLinkClass('activities') }}">কার্যক্রম</a>
             <a href="{{ route('transparency') }}" class="{{ $navLinkClass('transparency') }}">স্বচ্ছতা</a>
             <a href="{{ route('faq') }}" class="{{ $navLinkClass('faq') }}">প্রশ্নোত্তর</a>
+            <a href="{{ route('contact') }}" class="{{ $navLinkClass('contact') }}">যোগাযোগ</a>
         </nav>
 
-        <a href="{{ route('home') }}#contact"
+        <a href="{{ route('contact') }}"
             class="hidden items-center gap-2 rounded-md bg-teal-700 px-4 py-2 font-semibold text-sm text-white shadow-lg shadow-teal-700/20 transition hover:bg-teal-800 md:flex">
             যোগাযোগ করুন
             <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
@@ -64,7 +65,8 @@ $secondaryName = $nameParts[1] ?? '';
             <a href="{{ route('activities') }}" class="{{ $mobileLinkClass('activities') }}">কার্যক্রম</a>
             <a href="{{ route('transparency') }}" class="{{ $mobileLinkClass('transparency') }}">স্বচ্ছতা</a>
             <a href="{{ route('faq') }}" class="{{ $mobileLinkClass('faq') }}">প্রশ্নোত্তর</a>
-            <a href="{{ route('home') }}#contact"
+            <a href="{{ route('contact') }}" class="{{ $mobileLinkClass('contact') }}">যোগাযোগ</a>
+            <a href="{{ route('contact') }}"
                 class="mt-3 flex items-center justify-center gap-2 rounded-md bg-teal-700 py-3 text-sm font-semibold text-white">
                 যোগাযোগ করুন
                 <i data-lucide="arrow-up-right" class="h-4 w-4"></i>

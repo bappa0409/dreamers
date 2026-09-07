@@ -158,7 +158,7 @@
 {{-- Member Modal --}}
 <div id="memberModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-person-plus"></i>
@@ -205,6 +205,8 @@
                             <p id="memberImageHelp" class="mt-1.5 text-[10px] text-slate-400">
                                 JPG, PNG or WEBP. Max 2MB.
                             </p>
+
+                            <p data-field-error="profile_photo" class="mt-1 hidden  text-xs 2xl:text-sm text-red-600"></p>
                         </div>
                     </div>
 
@@ -297,6 +299,8 @@
                             <input id="nid_document" type="file" accept="image/jpeg,image/png,.pdf" class="hidden">
 
                             <p id="nidDocumentHelp" class="mt-1.5 text-[10px] text-slate-400">JPG, PNG or PDF. Max 5MB.</p>
+
+                            <p data-field-error="nid_document" class="mt-1 hidden  text-xs 2xl:text-sm text-red-600"></p>
                         </div>
 
                         <div>
@@ -394,11 +398,12 @@
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    Close
+                    <i class="bi bi-x-lg"></i> Close
                 </button>
 
                 <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
-                    Create Member
+                    <i class="bi bi-check2-circle"></i>
+                    <span>Create Member</span>
                 </button>
             </div>
         </form>
@@ -409,7 +414,7 @@
 {{-- Share Management Modal --}}
 <div id="shareModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
     <div class="app-modal-panel flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-md bg-white">
-        <div class="app-modal-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                     <i class="bi bi-layers"></i>
@@ -572,7 +577,7 @@
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
             <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                Close
+                <i class="bi bi-x-lg"></i> Close
             </button>
         </div>
     </div>
@@ -1357,11 +1362,6 @@ window.openMemberModal=function(member=null){
             ?'Update member profile information.'
             :'Create member profile and login account.';
 
-    el.saveButton.innerText=
-        member
-            ?'Update Member'
-            :'Create Member';
-
     resetNidDocument();
 
     if(member){
@@ -1544,42 +1544,6 @@ el.form.addEventListener(
                 null
         };
 
-        const requiredChecks=[
-            [data.father_or_husband_name,'Father / Husband name is required.'],
-            [data.mother_name,"Mother's name is required."],
-            [data.date_of_birth,'Date of birth is required.'],
-            [data.gender,'Gender is required.'],
-            [data.nid_or_birth_reg_no,'NID / Birth registration no. is required.'],
-            [data.profession,'Profession is required.'],
-            [data.district,'District is required.'],
-            [data.city,'City is required.'],
-            [data.address,'Present address is required.'],
-            [data.permanent_address,'Permanent address is required.']
-        ];
-
-        for(const[value,message]of requiredChecks){
-            if(!value){
-                AdminUI.showError(
-                    'formError',
-                    message
-                );
-
-                return;
-            }
-        }
-
-        if(
-            !data.alternate_phone||
-            !AdminUI.isValidMobile(data.alternate_phone)
-        ){
-            AdminUI.showError(
-                'formError',
-                'A valid 11 digit alternate mobile number is required.'
-            );
-
-            return;
-        }
-
         if(!editing){
             data.name=
                 el.name.value.trim();
@@ -1594,28 +1558,24 @@ el.form.addEventListener(
             data.language=
                 el.language.value||
                 'en';
+        }
 
-            if(!data.name){
-                AdminUI.showError(
-                    'formError',
-                    'Name is required.'
-                );
+        if(
+            !AdminUI.validateForm(
+                'memberForm',
+                {
+                    alternate_phone:
+                        'A valid 11 digit alternate mobile number is required.'
+                }
+            )
+        ){
+            return;
+        }
 
-                return;
-            }
-
-            if(!data.email){
-                AdminUI.showError(
-                    'formError',
-                    'Email is required.'
-                );
-
-                return;
-            }
-
+        if(!editing){
             if(!el.profilePhoto.files?.[0]){
-                AdminUI.showError(
-                    'formError',
+                AdminUI.showFieldError(
+                    'profile_photo',
                     'Profile photo is required.'
                 );
 
@@ -1623,8 +1583,8 @@ el.form.addEventListener(
             }
 
             if(!el.nidDocument?.files?.[0]){
-                AdminUI.showError(
-                    'formError',
+                AdminUI.showFieldError(
+                    'nid_document',
                     'NID / Birth registration document is required.'
                 );
 

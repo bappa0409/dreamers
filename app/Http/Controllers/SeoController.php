@@ -19,6 +19,7 @@ class SeoController extends Controller
             ['route' => 'activities', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'transparency', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['route' => 'faq', 'priority' => '0.6', 'changefreq' => 'monthly'],
+            ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
         ];
     }
 

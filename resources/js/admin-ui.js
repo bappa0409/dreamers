@@ -11,7 +11,7 @@ function ensureAdminConfirmModal(){
         <div id="adminConfirmModal"
             class="app-modal-overlay fixed inset-0 z-[9999] hidden items-center justify-center p-3 sm:p-5">
             <div class="app-modal-panel w-full max-w-md overflow-hidden rounded-md bg-white">
-                <div class="app-modal-header flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
+                <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
                     <div class="flex min-w-0 items-center gap-3">
                         <div id="adminConfirmIconWrap"
                             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">

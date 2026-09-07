@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div id="loadingBadge" class="hidden items-center gap-2 text-sm font-semibold text-slate-400">
+        <div id="loadingBadge" class="hidden items-center gap-2 text-xs 2xl:text-sm font-semibold text-slate-400">
             <i class="bi bi-arrow-repeat animate-spin"></i>
             Loading settings...
         </div>
@@ -699,7 +699,7 @@
 
                                 <button
                                     type="submit"
-                                    class="settings-section-save inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                                    class="settings-section-save inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
 
                                     <i class="bi bi-check2-circle"></i>
 
@@ -723,7 +723,7 @@
                 <button
                     type="submit"
                     id="settingsSaveBtn"
-                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
 
                     <i class="bi bi-check2-circle"></i>
 
@@ -844,7 +844,7 @@
 
                 <div class="relative">
 
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
 
                     <input
                         type="text"
@@ -941,7 +941,7 @@
         return`
             <div>
 
-                <label class="mb-1.5 block text-sm font-semibold text-slate-700">
+                <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-700">
                     ${
                         AdminUI.escapeHtml(
                             labels[setting.key]||
@@ -1077,7 +1077,7 @@
         return`
             <div>
 
-                <label class="mb-1.5 block text-sm font-semibold text-slate-700">
+                <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -1235,7 +1235,7 @@
                         ${
                             canUpdate
                                 ?`
-                                    <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                                    <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
 
                                         <i class="bi bi-upload text-[11px]"></i>
 
