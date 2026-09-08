@@ -26,15 +26,15 @@
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Charged</p>
-            <p id="summaryCharged" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryCharged" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Collected</p>
-            <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Outstanding</p>
-            <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Unpaid / Partial</p>

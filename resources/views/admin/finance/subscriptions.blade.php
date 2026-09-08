@@ -38,7 +38,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Total Due</p>
-                    <p id="summaryDue" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryDue" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
                 </div>
                 <i class="bi bi-receipt text-xl text-slate-300"></i>
             </div>
@@ -47,7 +47,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Collected</p>
-                    <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryPaid" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
                 </div>
                 <i class="bi bi-check-circle text-xl text-slate-300"></i>
             </div>
@@ -56,7 +56,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Outstanding</p>
-                    <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+                    <p id="summaryOutstanding" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
                 </div>
                 <i class="bi bi-hourglass-split text-xl text-slate-300"></i>
             </div>

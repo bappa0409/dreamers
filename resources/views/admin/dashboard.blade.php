@@ -81,7 +81,7 @@
 
             <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
                 <div class="rounded-md border border-slate-200 bg-white p-4 ">
-                    <p class=" text-xs 2xl:text-sm text-slate-500">Total Members</p>
+                    <p class="text-xs 2xl:text-sm text-slate-500">Total Members</p>
                     <p class="mt-2 text-xl font-bold text-slate-800">
                         {{ $dashboard['members']['total'] }}
                     </p>
@@ -136,14 +136,14 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="rounded-md bg-slate-50 p-3">
-                        <p class="text-[11px] text-slate-400">Total</p>
-                        <p class="mt-1 text-sm font-bold text-slate-800">
+                        <p class="text-xs 2xl:text-sm text-slate-400">Total</p>
+                        <p class="mt-1 text-xl font-bold text-slate-800">
                             {{ $dashboard['investments']['total'] }}
                         </p>
                     </div>
 
                     <div class="rounded-md bg-emerald-50 p-3">
-                        <p class="text-[11px] text-emerald-600">Active</p>
+                        <p class="text-xs 2xl:text-sm text-emerald-600">Active</p>
                         <p class="mt-1 text-xl font-bold text-emerald-600">
                             {{ $dashboard['investments']['active'] }}
                         </p>
@@ -151,10 +151,10 @@
                 </div>
 
                 <div class="mt-3 rounded-md border border-indigo-100 bg-indigo-50/50 p-3">
-                    <p class="text-[11px] text-indigo-500">Total Amount</p>
+                    <p class="text-xs 2xl:text-sm text-indigo-500">Total Amount</p>
 
                     <p class="mt-1 text-lg font-bold text-indigo-700">
-                        ৳{{ money($dashboard['investments']['total_amount']) }}
+                        {{ money($dashboard['investments']['total_amount']) }}
                     </p>
                 </div>
             </div>
@@ -175,21 +175,21 @@
 
                 <div class="grid grid-cols-3 gap-2">
                     <div class="rounded-md bg-slate-50 p-3 text-center">
-                        <p class="text-[10px] text-slate-400">Total</p>
-                        <p class="mt-1 text-sm font-bold text-slate-800">
+                        <p class="text-xs 2xl:text-sm text-slate-400">Total</p>
+                        <p class="mt-1 text-xl font-bold text-slate-800">
                             {{ $dashboard['projects']['total'] }}
                         </p>
                     </div>
 
                     <div class="rounded-md bg-indigo-50 p-3 text-center">
-                        <p class="text-[10px] text-indigo-500">Active</p>
+                        <p class="text-xs 2xl:text-sm text-indigo-500">Active</p>
                         <p class="mt-1 text-xl font-bold text-indigo-600">
                             {{ $dashboard['projects']['active'] }}
                         </p>
                     </div>
 
                     <div class="rounded-md bg-emerald-50 p-3 text-center">
-                        <p class="text-[10px] text-emerald-500">Completed</p>
+                        <p class="text-xs 2xl:text-sm text-emerald-500">Completed</p>
                         <p class="mt-1 text-xl font-bold text-emerald-600">
                             {{ $dashboard['projects']['completed'] }}
                         </p>
@@ -216,28 +216,28 @@
 
             <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div class="rounded-md bg-amber-50 p-3">
-                    <p class="text-[11px] text-amber-600">Pending</p>
+                    <p class="text-xs 2xl:text-sm text-amber-600">Pending</p>
                     <p class="mt-1 text-xl font-bold text-amber-600">
                         {{ $dashboard['approvals']['pending'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md bg-emerald-50 p-3">
-                    <p class="text-[11px] text-emerald-600">Approved</p>
+                    <p class="text-xs 2xl:text-sm text-emerald-600">Approved</p>
                     <p class="mt-1 text-xl font-bold text-emerald-600">
                         {{ $dashboard['approvals']['approved'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md bg-red-50 p-3">
-                    <p class="text-[11px] text-red-600">Rejected</p>
+                    <p class="text-xs 2xl:text-sm text-red-600">Rejected</p>
                     <p class="mt-1 text-xl font-bold text-red-600">
                         {{ $dashboard['approvals']['rejected'] }}
                     </p>
                 </div>
 
                 <div class="rounded-md bg-slate-100 p-3">
-                    <p class="text-[11px] text-slate-500">Cancelled</p>
+                    <p class="text-xs 2xl:text-sm text-slate-500">Cancelled</p>
                     <p class="mt-1 text-xl font-bold text-slate-600">
                         {{ $dashboard['approvals']['cancelled'] }}
                     </p>

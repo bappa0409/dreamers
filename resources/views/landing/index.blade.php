@@ -476,7 +476,7 @@ TRANSPARENCY (TEASER)
                         <p class="text-[10px] text-slate-400">মোট সংগৃহীত তহবিল</p>
 
                         <div class="mt-1 flex items-end justify-between">
-                            <p class="text-2xl font-bold text-slate-900">৳ 12,50,000</p>
+                            <p class="text-2xl font-bold text-slate-900">{{ setting('currency_symbol','৳') }} 12,50,000</p>
                             <span class="text-[10px] font-semibold text-emerald-600">+12.5%</span>
                         </div>
 

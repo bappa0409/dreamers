@@ -41,17 +41,17 @@
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Cost</p>
-            <p id="summaryPurchaseCost" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryPurchaseCost" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Accumulated Depreciation</p>
-            <p id="summaryDepreciation" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryDepreciation" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
 
         <div class="rounded-md border border-slate-200 bg-white p-4">
             <p class=" text-xs 2xl:text-sm text-slate-500">Book Value</p>
-            <p id="summaryBookValue" class="mt-1 text-sm font-bold text-slate-800">৳0.00</p>
+            <p id="summaryBookValue" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
         </div>
     </div>
 

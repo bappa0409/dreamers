@@ -247,7 +247,7 @@
             <label class="form-label">Allocation Amount <span class="text-red-500">*</span></label>
             <div class="relative">
               <span
-                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
               <input id="allocationAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8"
                 placeholder="0.00">
             </div>
@@ -350,7 +350,7 @@
               <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
               <div class="relative">
                 <span
-                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
                 <input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8"
                   placeholder="0.00">
               </div>
@@ -491,7 +491,7 @@
             <label class="form-label">Approved Amount <span class="text-red-500">*</span></label>
             <div class="relative">
               <span
-                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
               <input id="approvedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
             </div>
             <p data-field-error="approvedAmount" class="mt-1 hidden text-sm text-red-600"></p>

@@ -12,83 +12,19 @@
     <link rel="icon" href="{{ asset('storage/'.setting('site_favicon')) }}">
     @endif
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        html,
-        body {
-            height: 100%
-        }
 
-        body {
-            overflow: hidden
-        }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .form-control:focus,
-        .form-select:focus {
-            box-shadow: none
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(100, 116, 139, .35);
-            border-radius: 999px
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 116, 139, .55)
-        }
-
-        .sidebar-scroll::-webkit-scrollbar {
-            width: 5px
-        }
-
-        .sidebar-scroll::-webkit-scrollbar-track {
-            background: transparent
-        }
-
-        .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, .12);
-            border-radius: 999px
-        }
-
-        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, .22)
-        }
-
-        .company-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none
-        }
-
-        .menu-link {
-            position: relative
-        }
-
-        .menu-link.active::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 7px;
-            bottom: 7px;
-            width: 3px;
-            border-radius: 0 999px 999px 0;
-            background: #38bdf8
-        }
-    </style>
     @stack('styles')
 </head>
 
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     @php
     $authUser=auth()->user();
-    $can=static fn(string $permission):bool=>$authUser?$authUser->hasAnyPermission(array_filter(explode(',', $permission))):false;
+    $can=static fn(string $permission):bool=>$authUser?$authUser->hasAnyPermission(array_filter(explode(',',
+    $permission))):false;
 
     $organizationName=setting('organization_name','Dreamers Association');
     $siteLogo=setting('site_logo');
@@ -281,7 +217,7 @@
                             @endforeach
 
                             {{-- <a href="{{ route($route) }}"
-                            class="flex items-center gap-2 rounded-md px-2 py-1 text-[11.5px] transition text-sky-100/60 hover:bg-white/[0.06] hover:text-white">
+                                class="flex items-center gap-2 rounded-md px-2 py-1 text-[11.5px] transition text-sky-100/60 hover:bg-white/[0.06] hover:text-white">
                                 <i class="bi bi-book w-4 text-center text-[11px]"></i>
                                 <span>Accounts Guide</span>
                             </a> --}}
@@ -407,8 +343,10 @@
 
                         <div class="flex min-w-0 items-center gap-3">
                             <div class="flex min-w-0 items-center gap-2">
-                                <span class="h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-[#145da0] to-sky-400"></span>
-                                <h1 class="truncate text-[15px] font-semibold tracking-wide text-slate-800 sm:text-[16px]">
+                                <span
+                                    class="h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-[#145da0] to-sky-400"></span>
+                                <h1
+                                    class="truncate text-[15px] font-semibold tracking-wide text-slate-800 sm:text-[16px]">
                                     @yield('page_title','Dashboard')
                                 </h1>
                             </div>
@@ -418,10 +356,16 @@
                                 <i class="bi bi-person-circle"></i>
                                 <span>Member Dashboard</span>
                             </a>
+
+                            @if($can('Approval.view'))
+                            <a href="{{ route('admin.approvals') }}" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-[11px] font-semibold text-emerald-700 transition hover:border-emerald-300 hover:bg-emerald-100 sm:inline-flex">
+                                <i class="bi bi-check2-square"></i>
+                                <span>Approvals</span>
+                            </a>
+                            @endif
+
                             @if($authUser?->isSystemAnalyst())
-                            <button id="refreshCacheBtn"
-                                type="button"
-                                onclick="refreshSystemCache()"
+                            <button id="refreshCacheBtn" type="button" onclick="refreshSystemCache()"
                                 class="hidden shrink-0 items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[11px] font-semibold text-amber-700 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60 sm:inline-flex">
                                 <i id="refreshCacheIcon" class="bi bi-arrow-repeat"></i>
                                 <span id="refreshCacheText">Refresh Cache</span>
@@ -463,13 +407,14 @@
                                 <div>
                                     <h3 class="text-sm font-semibold text-slate-700">Notifications</h3>
                                     <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-400">
-                                        {{ $unreadNotificationCount>0?$unreadNotificationCount.' unread notification'.($unreadNotificationCount===1?'':'s'):'No unread notifications' }}
+                                        {{ $unreadNotificationCount>0?$unreadNotificationCount.' unread
+                                        notification'.($unreadNotificationCount===1?'':'s'):'No unread notifications' }}
                                     </p>
                                 </div>
 
                                 <button id="notificationMarkAllButton" type="button"
-                                    onclick="event.stopPropagation();markAllNotificationsRead()"
-                                    {{ $unreadNotificationCount<=0?'disabled':'' }}
+                                    onclick="event.stopPropagation();markAllNotificationsRead()" {{
+                                    $unreadNotificationCount<=0?'disabled':'' }}
                                     class="text-[10px] font-semibold text-sky-600 transition hover:text-sky-700 disabled:cursor-not-allowed disabled:opacity-40">
                                     Mark all read
                                 </button>
@@ -477,7 +422,9 @@
 
                             <div id="notificationList" class="max-h-[360px] overflow-y-auto">
                                 <div class="p-8 text-center">
-                                    <div class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
+                                    <div
+                                        class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600">
+                                    </div>
                                     <p class="mt-2 text-[10px] text-slate-400">Loading notifications...</p>
                                 </div>
                             </div>
@@ -585,9 +532,7 @@
                     <p>&copy; {{ date('Y') }} {{ $organizationName }}. All rights reserved.</p>
                     <p>
                         Developed by
-                        <a href="https://www.facebook.com/bappa040976"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <a href="https://www.facebook.com/bappa040976" target="_blank" rel="noopener noreferrer"
                             class="font-semibold text-slate-500 transition-colors hover:text-blue-600">
                             Bappa Sutradhar
                         </a>
@@ -598,7 +543,7 @@
     </div>
 
     <script>
-       async function refreshSystemCache(){
+        async function refreshSystemCache(){
     const btn=document.getElementById('refreshCacheBtn');
     const icon=document.getElementById('refreshCacheIcon');
     const text=document.getElementById('refreshCacheText');

@@ -46,7 +46,7 @@
         <div class="mt-5 flex flex-wrap gap-x-7 gap-y-2.5 text-[11px] text-indigo-100">
             <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">সিস্টেম</span>Double-Entry Bookkeeping</div>
             <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">ভিত্তি</span>Accrual Basis</div>
-            <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">মুদ্রা</span>৳ (BDT) — সেটিংস থেকে পরিবর্তনযোগ্য</div>
+            <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">মুদ্রা</span>{{ setting('currency_symbol','৳') }} (BDT) — সেটিংস থেকে পরিবর্তনযোগ্য</div>
             <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">ধরন</span>Association / Cooperative Finance</div>
             <div><span class="block text-[10px] font-semibold uppercase tracking-wide text-indigo-200">সর্বশেষ আপডেট</span>নতুন সেকশন ৫ — Approval Workflow যোগ করা হয়েছে</div>
         </div>
@@ -544,8 +544,8 @@
             <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">Journal — Type: subscription_due</p>
             <table class="w-full  text-xs 2xl:text-sm">
                 <tbody>
-                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">৳1,000</td></tr>
-                    <tr><td class="py-1 font-semibold text-red-600">Cr. Subscription Income (4100)</td><td class="py-1 text-right text-slate-700">৳1,000</td></tr>
+                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,000</td></tr>
+                    <tr><td class="py-1 font-semibold text-red-600">Cr. Subscription Income (4100)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,000</td></tr>
                 </tbody>
             </table>
         </div>
@@ -556,13 +556,13 @@
                 <div class="flex divide-x divide-slate-200">
                     <div class="w-1/2 p-2">
                         <p class="mb-1 text-[9px] font-bold uppercase text-slate-400">Debit</p>
-                        <div class="flex justify-between border-b border-dotted border-slate-200 py-0.5 text-[11px] text-slate-600"><span>Due generated</span><span>৳1,000</span></div>
+                        <div class="flex justify-between border-b border-dotted border-slate-200 py-0.5 text-[11px] text-slate-600"><span>Due generated</span><span>{{ setting('currency_symbol','৳') }}1,000</span></div>
                     </div>
                     <div class="w-1/2 p-2">
                         <p class="mb-1 text-[9px] font-bold uppercase text-slate-400">Credit</p>
                     </div>
                 </div>
-                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>৳1,000 Dr</span></div>
+                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>{{ setting('currency_symbol','৳') }}1,000 Dr</span></div>
             </div>
             <div class="min-w-[220px] flex-1 overflow-hidden rounded-md border border-slate-200">
                 <div class="bg-slate-800 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-white">Subscription Income</div>
@@ -572,10 +572,10 @@
                     </div>
                     <div class="w-1/2 p-2">
                         <p class="mb-1 text-[9px] font-bold uppercase text-slate-400">Credit</p>
-                        <div class="flex justify-between border-b border-dotted border-slate-200 py-0.5 text-[11px] text-slate-600"><span>Due generated</span><span>৳1,000</span></div>
+                        <div class="flex justify-between border-b border-dotted border-slate-200 py-0.5 text-[11px] text-slate-600"><span>Due generated</span><span>{{ setting('currency_symbol','৳') }}1,000</span></div>
                     </div>
                 </div>
-                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>৳1,000 Cr</span></div>
+                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>{{ setting('currency_symbol','৳') }}1,000 Cr</span></div>
             </div>
         </div>
         <div class="mt-3 rounded-md border border-indigo-200 bg-indigo-50/50 px-4 py-3  text-xs 2xl:text-sm leading-5 text-indigo-700">
@@ -589,13 +589,13 @@
             <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">Journal — Type: subscription_fine</p>
             <table class="w-full  text-xs 2xl:text-sm">
                 <tbody>
-                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">৳50</td></tr>
-                    <tr><td class="py-1 font-semibold text-red-600">Cr. Late Fine Income (4410)</td><td class="py-1 text-right text-slate-700">৳50</td></tr>
+                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}50</td></tr>
+                    <tr><td class="py-1 font-semibold text-red-600">Cr. Late Fine Income (4410)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}50</td></tr>
                 </tbody>
             </table>
         </div>
         <p class="mt-2  text-xs 2xl:text-sm leading-6 text-slate-600">
-            due-এর মোট এমাউন্ট এখন ৳1,000 + ৳50 = <b>৳1,050</b>, স্ট্যাটাস হয়ে যায়
+            due-এর মোট এমাউন্ট এখন ৳1,000 + ৳50 = <b>{{ setting('currency_symbol','৳') }}1,050</b>, স্ট্যাটাস হয়ে যায়
             <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">overdue</code>।
             এই ফাইনটা একবারই বসে — একই due-এর জন্য দ্বিতীয়বার ফাইন বসবে না। সময়মতো জমা দিলে এই ধাপটা ঘটবেই না।
         </p>
@@ -613,8 +613,8 @@
             <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">Journal — Type: subscription_payment</p>
             <table class="w-full  text-xs 2xl:text-sm">
                 <tbody>
-                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank (1100/1200)</td><td class="py-1 text-right text-slate-700">৳600</td></tr>
-                    <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">৳600</td></tr>
+                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank (1100/1200)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}600</td></tr>
+                    <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable (1300)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}600</td></tr>
                 </tbody>
             </table>
         </div>
@@ -623,7 +623,7 @@
             <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">amount = 1,050</code>
             → যেহেতু paid_amount &lt; amount, তাই
             <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">status = 'partial'</code>।
-            Receivable কমে দাঁড়ালো ৳1,050 − ৳600 = <b>৳450</b>।
+            Receivable কমে দাঁড়ালো ৳1,050 − ৳600 = <b>{{ setting('currency_symbol','৳') }}450</b>।
         </p>
         <div class="mt-3 flex flex-wrap gap-3">
             <div class="min-w-[220px] flex-1 overflow-hidden rounded-md border border-slate-200">
@@ -639,7 +639,7 @@
                         <div class="flex justify-between border-b border-dotted border-slate-200 py-0.5 text-[11px] text-slate-600"><span>Payment verified</span><span>600</span></div>
                     </div>
                 </div>
-                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>৳450 Dr</span></div>
+                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>{{ setting('currency_symbol','৳') }}450 Dr</span></div>
             </div>
             <div class="min-w-[220px] flex-1 overflow-hidden rounded-md border border-slate-200">
                 <div class="bg-slate-800 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-white">Cash / Bank</div>
@@ -652,7 +652,7 @@
                         <p class="mb-1 text-[9px] font-bold uppercase text-slate-400">Credit</p>
                     </div>
                 </div>
-                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>৳600 Dr</span></div>
+                <div class="flex justify-between bg-slate-50 px-3 py-1.5  text-xs 2xl:text-sm font-bold text-slate-700"><span>Balance</span><span>{{ setting('currency_symbol','৳') }}600 Dr</span></div>
             </div>
         </div>
         <div class="mt-3 rounded-md border border-indigo-200 bg-indigo-50/50 px-4 py-3  text-xs 2xl:text-sm leading-5 text-indigo-700">
@@ -665,15 +665,15 @@
             <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">Journal — Type: subscription_payment</p>
             <table class="w-full  text-xs 2xl:text-sm">
                 <tbody>
-                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank</td><td class="py-1 text-right text-slate-700">৳450</td></tr>
-                    <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">৳450</td></tr>
+                    <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}450</td></tr>
+                    <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}450</td></tr>
                 </tbody>
             </table>
         </div>
         <p class="mt-2  text-xs 2xl:text-sm leading-6 text-slate-600">
             <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">paid_amount = 600 + 450 = 1,050 = amount</code>
             → <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-indigo-700">status = 'paid'</code>।
-            Receivable এখন <b>৳0</b> — এই due সম্পূর্ণ সেটেল। এরপর Dashboard-এ Total Due দেখলে এই due আর outstanding
+            Receivable এখন <b>{{ setting('currency_symbol','৳') }}0</b> — এই due সম্পূর্ণ সেটেল। এরপর Dashboard-এ Total Due দেখলে এই due আর outstanding
             হিসেবে গণনায় আসবে না।
         </p>
 
@@ -701,7 +701,7 @@
             <div class="relative">
                 <span class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-indigo-600 ring-4 ring-indigo-100"></span>
                 <p class="text-[10px] font-bold uppercase tracking-wide text-indigo-600">দিন ১৫</p>
-                <p class=" text-xs 2xl:text-sm font-bold text-slate-800">৳600 পেমেন্ট সাবমিট + Verify</p>
+                <p class=" text-xs 2xl:text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}600 পেমেন্ট সাবমিট + Verify</p>
                 <p class=" text-xs 2xl:text-sm text-slate-500">Cash +600 · Receivable −600 (বাকি 450) · status: partial</p>
             </div>
             <div class="relative">
@@ -781,8 +781,8 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">৳500</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Other Income (4900 — Admission Fee)</td><td class="py-1 text-right text-slate-700">৳500</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}500</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Other Income (4900 — Admission Fee)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}500</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -790,8 +790,8 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">৳500</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">৳500</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}500</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Accounts Receivable</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}500</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -843,8 +843,8 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">দিন ১ — ঋণ প্রদান</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Member Loan Receivable</td><td class="py-1 text-right text-slate-700">৳50,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash / Bank</td><td class="py-1 text-right text-slate-700">৳50,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Member Loan Receivable</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}50,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash / Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}50,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -852,9 +852,9 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">১ম মাস কিস্তি</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank</td><td class="py-1 text-right text-slate-700">৳5,500</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Member Loan Receivable</td><td class="py-1 text-right text-slate-700">৳5,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Loan Interest Income</td><td class="py-1 text-right text-slate-700">৳500</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash / Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,500</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Member Loan Receivable</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Loan Interest Income</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}500</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -919,8 +919,8 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">বিনিয়োগ করার সময়</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Investments</td><td class="py-1 text-right text-slate-700">৳1,00,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Bank</td><td class="py-1 text-right text-slate-700">৳1,00,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Investments</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,00,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,00,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -928,9 +928,9 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">১ বছর পর — মূলধন + মুনাফা একসাথে ফেরত</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">৳1,08,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Investments (মূলধন অংশ)</td><td class="py-1 text-right text-slate-700">৳1,00,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Investment Income (মুনাফা অংশ)</td><td class="py-1 text-right text-slate-700">৳8,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,08,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Investments (মূলধন অংশ)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,00,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Investment Income (মুনাফা অংশ)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}8,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -978,8 +978,8 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">৳5,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Member Share Capital</td><td class="py-1 text-right text-slate-700">৳5,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Member Share Capital</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -987,8 +987,8 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Member Share Capital</td><td class="py-1 text-right text-slate-700">৳5,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash / Bank</td><td class="py-1 text-right text-slate-700">৳5,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Member Share Capital</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash / Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}5,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1036,8 +1036,8 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">ক্রয়ের সময়</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Fixed Assets — Office Equipment</td><td class="py-1 text-right text-slate-700">৳60,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Bank</td><td class="py-1 text-right text-slate-700">৳60,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Fixed Assets — Office Equipment</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}60,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}60,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1045,12 +1045,12 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">প্রতি মাসে</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Depreciation Expense</td><td class="py-1 text-right text-slate-700">৳1,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Fixed Asset (বইমূল্য কমে)</td><td class="py-1 text-right text-slate-700">৳1,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Depreciation Expense</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Fixed Asset (বইমূল্য কমে)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}1,000</td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="mt-2">১২ মাস পর ল্যাপটপের বইমূল্য (Book Value) দাঁড়াবে ৳60,000 − ৳12,000 = <b>৳48,000</b>, এবং P&amp;L-এ বছরে ৳12,000 Depreciation Expense যোগ হবে।</p>
+            <p class="mt-2">১২ মাস পর ল্যাপটপের বইমূল্য (Book Value) দাঁড়াবে ৳60,000 − ৳12,000 = <b>{{ setting('currency_symbol','৳') }}48,000</b>, এবং P&amp;L-এ বছরে ৳12,000 Depreciation Expense যোগ হবে।</p>
         </div>
 
         <h3 class="mb-2 mt-4  text-xs 2xl:text-sm font-bold text-slate-800">সম্পদ বিক্রয়/অপসারণ (Disposal / Sale)</h3>
@@ -1068,9 +1068,9 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">৳20,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Loss on Disposal (5910)</td><td class="py-1 text-right text-slate-700">৳4,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Fixed Asset</td><td class="py-1 text-right text-slate-700">৳24,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}20,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Loss on Disposal (5910)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}4,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Fixed Asset</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}24,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1127,10 +1127,10 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-violet-100">
-                        <tr><td class="px-3 py-1.5 text-slate-600">ওপেনিং ব্যালেন্স</td><td class="px-3 py-1.5 text-right text-slate-600">৳5,000</td></tr>
+                        <tr><td class="px-3 py-1.5 text-slate-600">ওপেনিং ব্যালেন্স</td><td class="px-3 py-1.5 text-right text-slate-600">{{ setting('currency_symbol','৳') }}5,000</td></tr>
                         <tr><td class="px-3 py-1.5 text-slate-600">নগদ অনুদান গ্রহণ (Teller Receive)</td><td class="px-3 py-1.5 text-right text-slate-600">+৳2,000</td></tr>
                         <tr><td class="px-3 py-1.5 text-slate-600">নাস্তার খরচ (Teller Payment)</td><td class="px-3 py-1.5 text-right text-slate-600">−৳800</td></tr>
-                        <tr><td class="px-3 py-1.5 font-bold text-slate-800">প্রত্যাশিত ক্লোজিং ব্যালেন্স</td><td class="px-3 py-1.5 text-right font-bold text-slate-800">৳6,200</td></tr>
+                        <tr><td class="px-3 py-1.5 font-bold text-slate-800">প্রত্যাশিত ক্লোজিং ব্যালেন্স</td><td class="px-3 py-1.5 text-right font-bold text-slate-800">{{ setting('currency_symbol','৳') }}6,200</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1186,8 +1186,8 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">অনুদান গ্রহণ</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">৳10,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Donation Income (4300)</td><td class="py-1 text-right text-slate-700">৳10,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}10,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Donation Income (4300)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}10,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1195,8 +1195,8 @@
                 <p class="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">অফিস ভাড়া পরিশোধ</p>
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Office Expense (5100)</td><td class="py-1 text-right text-slate-700">৳15,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash</td><td class="py-1 text-right text-slate-700">৳15,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Office Expense (5100)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}15,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Cash</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}15,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1234,9 +1234,9 @@
             <div class="mt-2 rounded-md border border-dashed border-violet-300 bg-white p-3">
                 <table class="w-full  text-xs 2xl:text-sm">
                     <tbody>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">৳2,00,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">৳15,000</td></tr>
-                        <tr><td class="py-1 font-semibold text-red-600">Cr. Accumulated Fund (3200)</td><td class="py-1 text-right text-slate-700">৳2,15,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Bank</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}2,00,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-emerald-600">Dr. Cash</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}15,000</td></tr>
+                        <tr><td class="py-1 font-semibold text-red-600">Cr. Accumulated Fund (3200)</td><td class="py-1 text-right text-slate-700">{{ setting('currency_symbol','৳') }}2,15,000</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1311,11 +1311,11 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">This Month's Amount</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">চলতি মাসের due-এর নির্ধারিত মোট এমাউন্ট (paid হোক বা না হোক)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due (Outstanding)</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">সব মাসের unpaid/partial/overdue due-এর বাকি অংশের যোগফল</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due বক্সের ভেতরের "Current Due"</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">শুধু চলতি মাসের বাকি অংশ (outstanding)</td><td class="px-3 py-2 text-right text-slate-600">৳1,050</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Fine</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">unpaid/partial/overdue due-গুলোর মধ্যে জমে থাকা মোট ফাইন</td><td class="px-3 py-2 text-right text-slate-600">৳50</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Deposited</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">ভেরিফাইড পেমেন্টের সমষ্টি + সক্রিয় শেয়ারের মূল্য</td><td class="px-3 py-2 text-right text-slate-600">৳0 (এখনো কোনো পেমেন্ট verify হয়নি)</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">This Month's Amount</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">চলতি মাসের due-এর নির্ধারিত মোট এমাউন্ট (paid হোক বা না হোক)</td><td class="px-3 py-2 text-right text-slate-600">{{ setting('currency_symbol','৳') }}1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due (Outstanding)</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">সব মাসের unpaid/partial/overdue due-এর বাকি অংশের যোগফল</td><td class="px-3 py-2 text-right text-slate-600">{{ setting('currency_symbol','৳') }}1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Due বক্সের ভেতরের "Current Due"</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">শুধু চলতি মাসের বাকি অংশ (outstanding)</td><td class="px-3 py-2 text-right text-slate-600">{{ setting('currency_symbol','৳') }}1,050</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Fine</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">unpaid/partial/overdue due-গুলোর মধ্যে জমে থাকা মোট ফাইন</td><td class="px-3 py-2 text-right text-slate-600">{{ setting('currency_symbol','৳') }}50</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-slate-700">Total Deposited</td><td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">ভেরিফাইড পেমেন্টের সমষ্টি + সক্রিয় শেয়ারের মূল্য</td><td class="px-3 py-2 text-right text-slate-600">{{ setting('currency_symbol','৳') }}0 (এখনো কোনো পেমেন্ট verify হয়নি)</td></tr>
                 </tbody>
             </table>
         </div>

@@ -455,7 +455,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-indigo-700">Active Share Value</p>
-                            <p id="shareValue" class="mt-2 text-xl font-bold text-indigo-600">৳0.00</p>
+                            <p id="shareValue" class="mt-2 text-xl font-bold text-indigo-600">{{ setting('currency_symbol','৳') }}0.00</p>
                         </div>
 
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">

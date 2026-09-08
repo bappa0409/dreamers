@@ -111,7 +111,7 @@
                 <div class="relative sm:col-span-2 xl:col-span-1">
                     <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
                     <input id="searchInput" type="text" placeholder="Search meeting..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 xl:rounded-r-none">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 xl:rounded-r-none">
                 </div>
 
                 <select id="typeFilter"
@@ -150,15 +150,12 @@
     {{-- Desktop Table --}}
     <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[1100px] text-sm">
+            <table class="w-full min-w-[850px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
                         <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
                         <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Attendees</th>
-                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Decisions</th>
+                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Activity</th>
                         <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Expense</th>
                         <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
                         <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
@@ -167,7 +164,7 @@
 
                 <tbody id="meetingTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="9" class="px-4 py-10 text-center text-base text-slate-400">
+                        <td colspan="6" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">
                             Loading meetings...
                         </td>
                     </tr>
@@ -215,7 +212,7 @@ CREATE / EDIT MEETING MODAL
                     <div class="md:col-span-2">
                         <label class="form-label">Meeting Title <span class="text-red-500">*</span></label>
                         <input id="meetingTitle" type="text" maxlength="255" class="app-input w-full">
-                        <p data-field-error="meetingTitle" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="meetingTitle" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -227,7 +224,7 @@ CREATE / EDIT MEETING MODAL
                             <option value="emergency">Emergency</option>
                             <option value="special">Special</option>
                         </select>
-                        <p data-field-error="meetingType" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="meetingType" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -236,19 +233,19 @@ CREATE / EDIT MEETING MODAL
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="meetingDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
-                        <p data-field-error="meetingDate" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="meetingDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Start Time</label>
                         <input id="meetingStartTime" type="time" class="app-input w-full">
-                        <p data-field-error="meetingStartTime" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="meetingStartTime" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">End Time</label>
                         <input id="meetingEndTime" type="time" class="app-input w-full">
-                        <p data-field-error="meetingEndTime" class="mt-1 hidden text-sm text-red-600"></p>
+                        <p data-field-error="meetingEndTime" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                     </div>
 
                     <div class="md:col-span-2">
@@ -276,11 +273,13 @@ CREATE / EDIT MEETING MODAL
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('meetingModal')"
                     class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button id="saveMeetingButton" type="submit"
                     class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
                     Save Meeting
                 </button>
             </div>
@@ -292,7 +291,7 @@ CREATE / EDIT MEETING MODAL
 DETAILS MODAL
 ================================================================ --}}
 <div id="detailsModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-    <div class="app-modal-panel flex max-h-[96vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
+    <div class="app-modal-panel flex max-h-[96vh] w-full max-w-4xl flex-col overflow-hidden rounded-md bg-white">
         <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
@@ -311,6 +310,12 @@ DETAILS MODAL
 
         <div class="min-h-0 flex-1 overflow-y-auto">
             <div id="detailsContent" class="p-4 sm:p-5"></div>
+        </div>
+
+        <div class="flex shrink-0 items-center justify-end border-t border-slate-200 px-5 py-3">
+            <button type="button" onclick="AdminUI.closeModal('detailsModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i> Close
+            </button>
         </div>
     </div>
 </div>
@@ -366,11 +371,11 @@ AGENDA MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('agendaModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
-                    Cancel
+                <button type="button" onclick="AdminUI.closeModal('agendaModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i> Cancel
                 </button>
-                <button id="saveAgendaButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
-                    Save Agenda
+                <button id="saveAgendaButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white">
+                    <i class="bi bi-check2-circle"></i> Save Agenda
                 </button>
             </div>
         </form>
@@ -423,11 +428,11 @@ ATTENDEE MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('attendeeModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
-                    Cancel
+                <button type="button" onclick="AdminUI.closeModal('attendeeModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i> Cancel
                 </button>
-                <button id="saveAttendeeButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
-                    Save Attendee
+                <button id="saveAttendeeButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white">
+                    <i class="bi bi-check2-circle"></i> Save Attendee
                 </button>
             </div>
         </form>
@@ -459,11 +464,13 @@ DECISION MODAL
                     <div class="md:col-span-2">
                         <label class="form-label">Title <span class="text-red-500">*</span></label>
                         <input id="decisionTitle" maxlength="255" class="app-input w-full">
+                        <p data-field-error="decisionTitle" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="form-label">Decision <span class="text-red-500">*</span></label>
                         <textarea id="decisionText" rows="4" maxlength="10000" class="app-input w-full resize-none"></textarea>
+                        <p data-field-error="decisionText" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -531,11 +538,11 @@ DECISION MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('decisionModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
-                    Cancel
+                <button type="button" onclick="AdminUI.closeModal('decisionModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i> Cancel
                 </button>
-                <button id="saveDecisionButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
-                    Save Decision
+                <button id="saveDecisionButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white">
+                    <i class="bi bi-check2-circle"></i> Save Decision
                 </button>
             </div>
         </form>
@@ -566,11 +573,11 @@ MINUTES MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('minutesModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
-                    Cancel
+                <button type="button" onclick="AdminUI.closeModal('minutesModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i> Cancel
                 </button>
-                <button id="saveMinutesButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
-                    Save Minutes
+                <button id="saveMinutesButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white">
+                    <i class="bi bi-check2-circle"></i> Save Minutes
                 </button>
             </div>
         </form>
@@ -600,11 +607,13 @@ EXPENSE MODAL
                     <div>
                         <label class="form-label">Category <span class="text-red-500">*</span></label>
                         <input id="expenseCategory" maxlength="100" class="app-input w-full" placeholder="Food, Venue, Transport...">
+                        <p data-field-error="expenseCategory" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
                         <label class="form-label">Amount <span class="text-red-500">*</span></label>
                         <input id="expenseAmount" type="number" min="0.01" step="0.01" class="app-input w-full">
+                        <p data-field-error="expenseAmount" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -612,6 +621,7 @@ EXPENSE MODAL
                         <select id="expenseAccountId" class="app-input w-full">
                             <option value="">Select expense account</option>
                         </select>
+                        <p data-field-error="expenseAccountId" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -619,6 +629,7 @@ EXPENSE MODAL
                         <select id="paymentAccountId" class="app-input w-full">
                             <option value="">Select Cash/Bank</option>
                         </select>
+                        <p data-field-error="paymentAccountId" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -627,6 +638,7 @@ EXPENSE MODAL
                             <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
                             <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
+                        <p data-field-error="expenseDate" class="mt-1 hidden text-sm text-red-600"></p>
                     </div>
 
                     <div>
@@ -651,11 +663,11 @@ EXPENSE MODAL
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
-                    Cancel
+                <button type="button" onclick="AdminUI.closeModal('expenseModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <i class="bi bi-x-lg"></i> Cancel
                 </button>
-                <button id="saveExpenseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
-                    Post Expense
+                <button id="saveExpenseButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white">
+                    <i class="bi bi-check2-circle"></i> Post Expense
                 </button>
             </div>
         </form>
@@ -862,7 +874,7 @@ async function loadMeetings(page=1){
     const tbody=$('meetingTableBody');
     const grid=$('meetingMobileGrid');
 
-    tbody.innerHTML=AdminUI.loadingState('Loading meetings...',9);
+    tbody.innerHTML=AdminUI.loadingState('Loading meetings...',6);
 
     grid.innerHTML=`
         <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
@@ -909,7 +921,7 @@ async function loadMeetings(page=1){
         const message=AdminUI.extractError(error);
 
         tbody.innerHTML=
-            AdminUI.emptyState(message,9);
+            AdminUI.emptyState(message,6);
 
         grid.innerHTML=`
             <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
@@ -919,16 +931,20 @@ async function loadMeetings(page=1){
     }
 }
 
-function meetingActions(meeting){
+function meetingActions(meeting,{withLabel=false}={}){
+    const base=withLabel
+        ?'flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold'
+        :'flex h-8 w-8 shrink-0 items-center justify-center rounded-md';
+
     const actions=[
         `
         <button
             type="button"
             onclick="viewMeeting(${meeting.id})"
             title="View Details"
-            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+            class="${base} cursor-pointer bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
         >
-            <i class="bi bi-eye text-sm"></i>
+            <i class="bi bi-eye text-sm"></i>${withLabel?' View':''}
         </button>
         `
     ];
@@ -940,9 +956,8 @@ function meetingActions(meeting){
         actions.push(`
             <button type="button"
                 onclick="editMeeting(${meeting.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-indigo-200 bg-indigo-50 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-700 transition hover:bg-indigo-100">
-                <i class="bi bi-pencil"></i>
-                Edit
+                class="${base} cursor-pointer bg-sky-50 text-sky-700 transition hover:bg-sky-100">
+                <i class="bi bi-pencil text-sm"></i>${withLabel?' Edit':''}
             </button>
         `);
     }
@@ -951,9 +966,8 @@ function meetingActions(meeting){
         actions.push(`
             <button type="button"
                 onclick="scheduleMeeting(${meeting.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-sky-200 bg-sky-50 px-2.5 py-1.5 text-[11px] font-semibold text-sky-700 transition hover:bg-sky-100">
-                <i class="bi bi-calendar-check"></i>
-                Schedule
+                class="${base} cursor-pointer bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100">
+                <i class="bi bi-calendar-check text-sm"></i>${withLabel?' Schedule':''}
             </button>
         `);
     }
@@ -966,9 +980,8 @@ function meetingActions(meeting){
         actions.push(`
             <button type="button"
                 onclick="deleteMeeting(${meeting.id})"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-md border border-red-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-red-600 transition hover:bg-red-50">
-                <i class="bi bi-trash3"></i>
-                Delete
+                class="${base} cursor-pointer bg-red-50 text-red-600 transition hover:bg-red-100">
+                <i class="bi bi-trash3 text-sm"></i>${withLabel?' Delete':''}
             </button>
         `);
     }
@@ -984,7 +997,7 @@ function renderMeetings(){
         tbody.innerHTML=
             AdminUI.emptyState(
                 'No meetings found.',
-                9
+                6
             );
 
         grid.innerHTML=`
@@ -995,7 +1008,7 @@ function renderMeetings(){
                 <p class="mt-3 text-base font-semibold text-slate-600">
                     No meetings found
                 </p>
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-xs 2xl:text-sm text-slate-400">
                     Try changing your filters.
                 </p>
             </div>
@@ -1005,68 +1018,70 @@ function renderMeetings(){
     }
 
     tbody.innerHTML=
-        meetings.map(meeting=>`
-            <tr class="transition hover:bg-slate-50/70">
-                <td class="px-4 py-3">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-sm font-semibold text-slate-700">
-                                ${esc(meeting.meeting_no)}
-                            </div>
-                            <div class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400">
-                                ${esc(meeting.title)}
-                            </div>
-                        </div>
+    meetings.map(meeting=>`
+        <tr class="transition hover:bg-slate-50/70">
+            <td class="px-4 py-3">
+                <div class="min-w-0">
+                    <div class="text-xs 2xl:text-sm font-semibold text-slate-700">
+                        ${esc(meeting.meeting_no)}
                     </div>
-                </td>
-
-                <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
-                    ${esc(formatType(meeting.type))}
-                </td>
-
-                <td class="px-4 py-3">
-                    <div class="text-sm text-slate-600">
-                        ${date(meeting.meeting_date)}
+                    <div class="mt-0.5 max-w-[240px] truncate text-xs 2xl:text-sm text-slate-500">
+                        ${esc(meeting.title)}
                     </div>
-                    <div class="mt-0.5 text-[10px] text-slate-400">
-                        ${esc(meetingTime(meeting))}
+                    <div class="mt-1 flex items-center gap-1.5 text-[10px] text-slate-400">
+                        <span class="rounded bg-slate-100 px-1.5 py-0.5 font-medium text-slate-500">
+                            ${esc(formatType(meeting.type))}
+                        </span>
+                        ${
+                            meeting.venue
+                                ?`<span class="truncate max-w-[140px]">
+                                    <i class="bi bi-geo-alt"></i> ${esc(meeting.venue)}
+                                  </span>`
+                                :''
+                        }
                     </div>
-                </td>
+                </div>
+            </td>
 
-                <td class="px-4 py-3">
-                    <div class="max-w-[170px] truncate text-sm text-slate-500">
-                        ${esc(meeting.venue||'—')}
-                    </div>
-                </td>
+            <td class="px-4 py-3">
+                <div class="text-xs 2xl:text-sm text-slate-600">
+                    ${date(meeting.meeting_date)}
+                </div>
+                <div class="mt-0.5 text-[10px] text-slate-400">
+                    ${esc(meetingTime(meeting))}
+                </div>
+            </td>
 
-                <td class="px-4 py-3 text-center font-medium text-slate-600">
-                    ${meeting.attendees_count||0}
-                </td>
-
-                <td class="px-4 py-3 text-center font-medium text-slate-600">
-                    ${meeting.decisions_count||0}
-                </td>
-
-                <td class="px-4 py-3 text-right">
-                    <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
-                        ${money(meeting.actual_expense)}
+            <td class="px-4 py-3">
+                <div class="flex items-center justify-center gap-3 text-xs 2xl:text-sm font-medium text-slate-600">
+                    <span title="Attendees">
+                        <i class="bi bi-people text-slate-400"></i>
+                        ${meeting.attendees_count||0}
                     </span>
-                </td>
+                    <span title="Decisions">
+                        <i class="bi bi-check2-square text-slate-400"></i>
+                        ${meeting.decisions_count||0}
+                    </span>
+                </div>
+            </td>
 
-                <td class="px-4 py-3">
-                    ${AdminUI.statusBadge(meeting.status)}
-                </td>
+            <td class="px-4 py-3 text-right">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
+                    ${money(meeting.actual_expense)}
+                </span>
+            </td>
 
-                <td class="px-4 py-3">
-                    <div class="flex flex-wrap justify-end gap-1">
-                        ${meetingActions(meeting)}
-                    </div>
-                </td>
-            </tr>
-        `).join('');
+            <td class="px-4 py-3">
+                ${AdminUI.statusBadge(meeting.status)}
+            </td>
+
+            <td class="px-4 py-3">
+                <div class="flex flex-wrap justify-end gap-1">
+                    ${meetingActions(meeting)}
+                </div>
+            </td>
+        </tr>
+    `).join('');
 
     grid.innerHTML=
         meetings.map(meeting=>`
@@ -1096,19 +1111,19 @@ function renderMeetings(){
                 <div class="space-y-4 p-4">
                     <div class="grid grid-cols-2 gap-3">
                         <div class="rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="text-[10px] font-semibold text-slate-400">
                                 Attendees
                             </p>
-                            <p class="mt-1 text-sm font-bold text-slate-700">
+                            <p class="mt-1 text-xs 2xl:text-sm font-bold text-slate-700">
                                 ${meeting.attendees_count||0}
                             </p>
                         </div>
 
                         <div class="rounded-md bg-sky-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-sky-600">
+                            <p class="text-[10px] font-semibold text-sky-600">
                                 Expense
                             </p>
-                            <p class="mt-1 truncate text-sm font-bold text-sky-700">
+                            <p class="mt-1 truncate text-xs 2xl:text-sm font-bold text-sky-700">
                                 ${money(meeting.actual_expense)}
                             </p>
                         </div>
@@ -1153,7 +1168,7 @@ function renderMeetings(){
                 </div>
 
                 <div class="flex flex-wrap gap-1.5 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-                    ${meetingActions(meeting)}
+                    ${meetingActions(meeting,{withLabel:true})}
                 </div>
             </article>
         `).join('');
@@ -1476,7 +1491,7 @@ window.viewMeeting=async function(id){
     AdminUI.openModal('detailsModal');
 
     $('detailsContent').innerHTML=`
-        <div class="py-16 text-center text-base text-slate-400">
+        <div class="py-16 text-center text-xs 2xl:text-sm text-slate-400">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
             <p class="mt-2">Loading meeting details...</p>
         </div>
@@ -1526,7 +1541,7 @@ function renderDetails(){
         meeting.decision_summary||{};
 
     $('detailsContent').innerHTML=`
-        <div class="space-y-5">
+        <div class="space-y-4">
             <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex flex-wrap items-center gap-2">
                     ${AdminUI.statusBadge(meeting.status)}
@@ -1550,41 +1565,66 @@ function renderDetails(){
                 ${detailStat('Decisions',decisionSummary.total||0,'indigo')}
             </div>
 
-            <div class="grid gap-4 lg:grid-cols-2">
+            <div class="grid gap-3 lg:grid-cols-2">
                 <div class="rounded-md border border-slate-200 bg-white p-4">
-                    <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
-                        Meeting Information
-                    </p>
+                    <div class="mb-6 flex items-center gap-3">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
 
-                    <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                        ${info('Type',formatType(meeting.type))}
-                        ${info('Date',date(meeting.meeting_date))}
-                        ${info('Start',formatTime(meeting.start_time))}
-                        ${info('End',formatTime(meeting.end_time))}
-                        ${info('Venue',meeting.venue||'—',true)}
-                        ${info('Created By',meeting.creator?.name||'—')}
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Meeting Information</h4>
+                            <p class="text-[11px] text-slate-400">Basic details of this meeting.</p>
+                        </div>
+                    </div>
+
+                    <div class="divide-y divide-slate-100">
+                        ${infoRow(
+                            'bi-calendar3',
+                            'Date & Time',
+                            `${date(meeting.meeting_date)} · ${meetingTime(meeting)}`
+                        )}
+
+                        ${infoRow(
+                            'bi-geo-alt',
+                            'Venue',
+                            meeting.venue || '—'
+                        )}
+
+                        ${infoRow(
+                            'bi-person-badge',
+                            'Created By',
+                            meeting.creator?.name || '—'
+                        )}
                     </div>
 
                     ${
                         meeting.description
-                            ?`
-                            <div class="mt-4 border-t border-slate-100 pt-3">
-                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                                    Description
-                                </p>
-                                <p class="mt-1 whitespace-pre-wrap text-sm leading-5 text-slate-600">
-                                    ${esc(meeting.description)}
-                                </p>
-                            </div>
+                            ? `
+                                <div class="mt-3 border-t border-slate-100 pt-3">
+                                    <p class="text-xs 2xl:text-sm font-semibold text-slate-600">
+                                        Description
+                                    </p>
+
+                                    <p class="mt-1 text-xs 2xl:text-sm text-slate-600">
+                                        ${esc(meeting.description)}
+                                    </p>
+                                </div>
                             `
-                            :''
+                            : ''
                     }
                 </div>
 
                 <div class="rounded-md border border-slate-200 bg-white p-4">
-                    <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
-                        Attendance Summary
-                    </p>
+                    <div class="mb-3 flex items-center gap-3">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Attendance Summary</h4>
+                            <p class="text-[11px] text-slate-400">Overview of member attendance.</p>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         ${miniCount('Invited',attendance.invited||0,'slate')}
@@ -1595,75 +1635,49 @@ function renderDetails(){
                 </div>
             </div>
 
-            ${sectionHeader(
-                'Agenda',
-                'bi-list-check',
-                canUpdate&&!['completed','cancelled'].includes(meeting.status)
-                    ?`<button onclick="openAgendaModal()" class="section-action">
-                        <i class="bi bi-plus-lg"></i> Add Agenda
-                      </button>`
-                    :''
-            )}
-            ${agendaHtml(meeting.agendas||[])}
+            <div class="space-y-3">
+                ${sectionCard(
+                    'Agenda','Topics planned for discussion.','bi-list-check','bg-indigo-50 text-indigo-600',
+                    canUpdate&&!['completed','cancelled'].includes(meeting.status)
+                        ?sectionAction('Add Agenda','bi-plus-lg','openAgendaModal()')
+                        :'',
+                    agendaHtml(meeting.agendas||[])
+                )}
 
-            ${sectionHeader(
-                'Attendees',
-                'bi-people',
-                canUpdate&&!['completed','cancelled'].includes(meeting.status)
-                    ?`<button onclick="openAttendeeModal()" class="section-action">
-                        <i class="bi bi-person-plus"></i> Add Attendee
-                      </button>`
-                    :''
-            )}
-            ${attendeesHtml(meeting.attendees||[])}
+                ${sectionCard(
+                    'Attendees','Members invited to this meeting.','bi-people','bg-sky-50 text-sky-600',
+                    canUpdate&&!['completed','cancelled'].includes(meeting.status)
+                        ?sectionAction('Add Attendee','bi-person-plus','openAttendeeModal()')
+                        :'',
+                    attendeesHtml(meeting.attendees||[])
+                )}
 
-            ${sectionHeader(
-                'Decisions',
-                'bi-check2-square',
-                canUpdate
-                    ?`<button onclick="openDecisionModal()" class="section-action">
-                        <i class="bi bi-plus-lg"></i> Add Decision
-                      </button>`
-                    :''
-            )}
-            ${decisionsHtml(meeting.decisions||[])}
+                ${sectionCard(
+                    'Decisions','Resolutions passed in this meeting.','bi-check2-square','bg-emerald-50 text-emerald-600',
+                    canUpdate
+                        ?sectionAction('Add Decision','bi-plus-lg','openDecisionModal()')
+                        :'',
+                    decisionsHtml(meeting.decisions||[])
+                )}
 
-            ${sectionHeader(
-                'Meeting Minutes',
-                'bi-journal-text',
-                canUpdate
-                    ?`<button onclick="openMinutesModal()" class="section-action">
-                        <i class="bi bi-pencil"></i> Edit Minutes
-                      </button>`
-                    :''
-            )}
-
-            <div class="rounded-md border border-slate-200 bg-white p-4">
-                ${
+                ${sectionCard(
+                    'Meeting Minutes','Official record of the discussion.','bi-journal-text','bg-violet-50 text-violet-600',
+                    canUpdate
+                        ?sectionAction('Edit Minutes','bi-pencil','openMinutesModal()')
+                        :'',
                     meeting.minutes
-                        ?`
-                        <div class="whitespace-pre-wrap text-base leading-6 text-slate-600">
-                            ${esc(meeting.minutes)}
-                        </div>
-                        `
-                        :`
-                        <div class="py-6 text-center text-base text-slate-400">
-                            No meeting minutes recorded.
-                        </div>
-                        `
-                }
-            </div>
+                        ?`<div class="whitespace-pre-wrap text-sm leading-6 text-slate-600">${esc(meeting.minutes)}</div>`
+                        :emptyBlock('No meeting minutes recorded.')
+                )}
 
-            ${sectionHeader(
-                'Expenses',
-                'bi-cash-stack',
-                canUpdate&&!['draft','cancelled'].includes(meeting.status)
-                    ?`<button onclick="openExpenseModal()" class="section-action">
-                        <i class="bi bi-plus-lg"></i> Add Expense
-                      </button>`
-                    :''
-            )}
-            ${expensesHtml(meeting.expenses||[])}
+                ${sectionCard(
+                    'Expenses','Costs posted against this meeting.','bi-cash-stack','bg-amber-50 text-amber-600',
+                    canUpdate&&!['draft','cancelled'].includes(meeting.status)
+                        ?sectionAction('Add Expense','bi-plus-lg','openExpenseModal()')
+                        :'',
+                    expensesHtml(meeting.expenses||[])
+                )}
+            </div>
         </div>
     `;
 }
@@ -1709,26 +1723,56 @@ function info(label,value,wide=false){
     return`
         <div class="${wide?'col-span-2':''}">
             <p class="text-[10px] text-slate-400">${esc(label)}</p>
-            <p class="mt-0.5 break-words font-medium text-slate-600">
+            <p class="mt-0.5 text-xs 2xl:text-sm break-words font-medium text-slate-600">
                 ${esc(value)}
             </p>
         </div>
     `;
 }
 
-function sectionHeader(title,icon,action=''){
+function infoRow(icon,label,value){
     return`
-        <div class="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3">
-            <div class="flex items-center gap-2">
-                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi ${icon}"></i>
-                </div>
-                <h4 class="text-base font-bold text-slate-700">
-                    ${esc(title)}
-                </h4>
-            </div>
-            ${action}
+        <div class="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0">
+            <span class="flex items-center gap-2 text-xs 2xl:text-sm text-slate-600">
+                <i class="bi ${icon} text-slate-300"></i>
+                ${esc(label)}
+            </span>
+            <span class="truncate text-xs 2xl:text-sm font-medium text-slate-600">
+                ${esc(value)}
+            </span>
         </div>
+    `;
+}
+
+function sectionCard(title,subtitle,icon,iconColor,actionHtml,contentHtml){
+    return`
+        <div class="rounded-md border border-slate-200 bg-white">
+            <div class="flex items-center justify-between gap-3 border-b border-slate-100 p-3.5">
+                <div class="flex items-center gap-2.5">
+                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${iconColor}">
+                        <i class="bi ${icon}"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs 2xl:text-sm font-semibold text-slate-800">${esc(title)}</h4>
+                        <p class="text-[11px] text-slate-400">${esc(subtitle)}</p>
+                    </div>
+                </div>
+                ${actionHtml}
+            </div>
+            <div class="p-3.5">
+                ${contentHtml}
+            </div>
+        </div>
+    `;
+}
+
+function sectionAction(label,icon,onclick){
+    return`
+        <button type="button" onclick="${onclick}"
+            class="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-indigo-50 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-600 transition hover:bg-indigo-100">
+            <i class="bi ${icon}"></i>
+            ${esc(label)}
+        </button>
     `;
 }
 
@@ -1739,51 +1783,63 @@ function agendaHtml(items){
         );
     }
 
-    return`
-        <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-            <div class="divide-y divide-slate-100">
-                ${items.map(item=>`
-                    <div class="p-4">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="flex min-w-0 gap-3">
-                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-100 text-sm font-bold text-slate-500">
-                                    ${item.sort_order}
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="flex flex-wrap items-center gap-2">
-                                        <p class="font-semibold  text-xs 2xl:text-sm text-slate-700">
-                                            ${esc(item.title)}
-                                        </p>
-                                        ${AdminUI.statusBadge(item.status)}
-                                    </div>
-                                    ${
-                                        item.description
-                                            ?`<p class="mt-1 text-sm leading-5 text-slate-500">${esc(item.description)}</p>`
-                                            :''
-                                    }
-                                </div>
-                            </div>
+    return `
+        <div class="divide-y divide-slate-100">
+            ${items.map(item => `
+                <div class="py-1 first:pt-0 last:pb-0">
+                    <div class="flex items-center justify-between gap-2">
 
-                            ${
-                                canUpdate&&!['completed','cancelled'].includes(selectedMeeting.status)
-                                    ?`
-                                    <div class="flex shrink-0 gap-1">
-                                        <button onclick="editAgenda(${item.id})"
-                                            class="icon-action text-indigo-600">
+                        <div class="flex min-w-0 items-center gap-2.5">
+                            <span class="shrink-0 text-xs font-semibold text-slate-500">
+                                ${item.sort_order}
+                            </span>
+
+                            <div class="min-w-0">
+                                <div class="flex min-w-0 items-center gap-2">
+                                    <p class="truncate text-xs font-semibold text-slate-700">
+                                        ${esc(item.title)}
+                                    </p>
+
+                                    ${AdminUI.statusBadge(item.status)}
+                                </div>
+
+                                ${
+                                    item.description
+                                        ? `
+                                            <p class="mt-0.5 truncate text-xs text-slate-500">
+                                                ${esc(item.description)}
+                                            </p>
+                                        `
+                                        : ''
+                                }
+                            </div>
+                        </div>
+
+                        ${
+                            canUpdate && !['completed', 'cancelled'].includes(selectedMeeting.status)
+                                ? `
+                                    <div class="flex shrink-0 items-center gap-1">
+                                        <button
+                                            onclick="editAgenda(${item.id})"
+                                            class="icon-action text-xs text-indigo-600"
+                                        >
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button onclick="deleteAgenda(${item.id})"
-                                            class="icon-action text-red-600">
+
+                                        <button
+                                            onclick="deleteAgenda(${item.id})"
+                                            class="icon-action text-xs text-red-600"
+                                        >
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </div>
-                                    `
-                                    :''
-                            }
-                        </div>
+                                `
+                                : ''
+                        }
+
                     </div>
-                `).join('')}
-            </div>
+                </div>
+            `).join('')}
         </div>
     `;
 }
@@ -1909,66 +1965,97 @@ function decisionsHtml(items){
     `;
 }
 
-function expensesHtml(items){
-    if(!items.length){
-        return emptyBlock(
-            'No meeting expenses posted.'
-        );
+function expensesHtml(items) {
+    if (!items.length) {
+        return emptyBlock('No meeting expenses posted.');
     }
 
-    return`
-        <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-            <div class="overflow-x-auto">
-                <table class="w-full min-w-[850px] text-sm">
-                    <thead class="bg-slate-50">
-                        <tr class="border-b border-slate-200">
-                            <th class="px-3 py-2 text-left text-slate-500">Expense</th>
-                            <th class="px-3 py-2 text-left text-slate-500">Category</th>
-                            <th class="px-3 py-2 text-left text-slate-500">Account</th>
-                            <th class="px-3 py-2 text-left text-slate-500">Date</th>
-                            <th class="px-3 py-2 text-right text-slate-500">Amount</th>
-                            <th class="px-3 py-2 text-left text-slate-500">Status</th>
-                            <th class="px-3 py-2 text-right text-slate-500">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        ${items.map(item=>`
-                            <tr>
-                                <td class="px-3 py-2 font-medium text-slate-600">
-                                    ${esc(item.expense_no)}
-                                </td>
-                                <td class="px-3 py-2 text-slate-500">
-                                    ${esc(item.category)}
-                                </td>
-                                <td class="px-3 py-2 text-slate-500">
-                                    ${esc(accountName(item.payment_account))}
-                                </td>
-                                <td class="px-3 py-2 text-slate-500">
-                                    ${date(item.expense_date)}
-                                </td>
-                                <td class="px-3 py-2 text-right font-semibold text-slate-700">
-                                    ${money(item.amount)}
-                                </td>
-                                <td class="px-3 py-2 text-xs 2xl:text-sm">
-                                    ${AdminUI.statusBadge(item.status)}
-                                </td>
-                                <td class="px-3 py-2 text-right">
-                                    ${
-                                        canUpdate&&item.status==='posted'
-                                            ?`
-                                            <button onclick="cancelExpense(${item.id})"
-                                                class="text-[11px] font-semibold text-red-600 hover:text-red-700">
+    return `
+        <div class="-m-3.5 overflow-x-auto">
+            <table class="w-full min-w-[700px] text-xs">
+
+                <thead class="bg-slate-50">
+                    <tr class="border-b border-slate-200">
+                        <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                            Expense
+                        </th>
+                        <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                            Category
+                        </th>
+                        <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                            Account
+                        </th>
+                        <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">
+                            Amount
+                        </th>
+                        <th class="px-3 py-2 text-left text-xs font-semibold text-slate-500">
+                            Status
+                        </th>
+                        <th class="px-3 py-2 text-right text-xs font-semibold text-slate-500">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-100">
+                    ${items.map(item => `
+                        <tr class="transition-colors hover:bg-slate-50/70">
+
+                            <!-- Expense -->
+                            <td class="px-3 py-2.5">
+                                <div class="min-w-0">
+                                    <p class="truncate font-medium text-slate-700">
+                                        ${esc(item.expense_no)}
+                                    </p>
+
+                                    <div class="mt-0.5 flex items-center gap-1.5 text-[12px] text-slate-500">
+                                        <span>${date(item.expense_date)}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <!-- Category -->
+                            <td class="px-3 py-2.5 text-slate-500">
+                                <span>${esc(item.category||'—')}</span>
+                            </td>
+
+                            <!-- Account -->
+                            <td class="px-3 py-2.5 text-slate-500">
+                                ${esc(accountName(item.payment_account))}
+                            </td>
+
+                            <!-- Amount -->
+                            <td class="whitespace-nowrap px-3 py-2.5 text-right font-semibold text-slate-700">
+                                ${money(item.amount)}
+                            </td>
+
+                            <!-- Status -->
+                            <td class="px-3 py-2.5">
+                                ${AdminUI.statusBadge(item.status)}
+                            </td>
+
+                            <!-- Action -->
+                            <td class="px-3 py-2.5 text-right">
+                                ${
+                                    canUpdate && item.status === 'posted'
+                                        ? `
+                                            <button
+                                                onclick="cancelExpense(${item.id})"
+                                                class="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1.5 text-[11px] font-semibold text-red-600 transition hover:bg-red-100"
+                                            >
+                                                <i class="bi bi-arrow-counterclockwise"></i>
                                                 Reverse
                                             </button>
-                                            `
-                                            :'—'
-                                    }
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
+                                        `
+                                        : `<span class="text-slate-300">—</span>`
+                                }
+                            </td>
+
+                        </tr>
+                    `).join('')}
+                </tbody>
+
+            </table>
         </div>
     `;
 }
@@ -1986,7 +2073,7 @@ function infoMini(label,value){
 
 function emptyBlock(message){
     return`
-        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-400">
+        <div class="py-6 text-center text-xs 2xl:text-sm text-slate-400">
             ${esc(message)}
         </div>
     `;
@@ -2009,6 +2096,7 @@ window.openAgendaModal=function(){
     $('agendaSortOrder').value=next;
 
     AdminUI.clearError('agendaError');
+    AdminUI.clearFieldErrors('agendaForm');
     $('agendaModalTitle').textContent='Add Agenda';
 
     AdminUI.openModal('agendaModal');
@@ -2030,15 +2118,19 @@ window.editAgenda=function(id){
     $('agendaModalTitle').textContent='Edit Agenda';
 
     AdminUI.clearError('agendaError');
+    AdminUI.clearFieldErrors('agendaForm');
     AdminUI.openModal('agendaModal');
 };
 
 $('agendaForm').addEventListener('submit',async event=>{
     event.preventDefault();
 
+    AdminUI.clearError('agendaError');
+    AdminUI.clearFieldErrors('agendaForm');
+
     if(!$('agendaTitle').value.trim()){
-        AdminUI.showError(
-            'agendaError',
+        AdminUI.showFieldError(
+            'agendaTitle',
             'Agenda title is required.'
         );
         return;
@@ -2070,10 +2162,23 @@ $('agendaForm').addEventListener('submit',async event=>{
 
         await refreshDetails();
     }catch(error){
-        AdminUI.showError(
-            'agendaError',
-            AdminUI.extractError(error)
-        );
+        if(
+            !AdminUI.showValidationErrors(
+                'agendaForm',
+                error,
+                {
+                    title:'agendaTitle',
+                    sort_order:'agendaSortOrder',
+                    status:'agendaStatus',
+                    description:'agendaDescription'
+                }
+            )
+        ){
+            AdminUI.showError(
+                'agendaError',
+                AdminUI.extractError(error)
+            );
+        }
     }finally{
         AdminUI.resetLoading(button);
     }
@@ -2102,6 +2207,7 @@ window.openAttendeeModal=function(){
     $('attendeeModalTitle').textContent='Add Attendee';
 
     AdminUI.clearError('attendeeError');
+    AdminUI.clearFieldErrors('attendeeForm');
     AdminUI.openModal('attendeeModal');
 };
 
@@ -2123,18 +2229,22 @@ window.editAttendee=function(id){
     $('attendeeModalTitle').textContent='Update Attendance';
 
     AdminUI.clearError('attendeeError');
+    AdminUI.clearFieldErrors('attendeeForm');
     AdminUI.openModal('attendeeModal');
 };
 
 $('attendeeForm').addEventListener('submit',async event=>{
     event.preventDefault();
 
+    AdminUI.clearError('attendeeError');
+    AdminUI.clearFieldErrors('attendeeForm');
+
     if(
         !editingAttendee&&
         !$('attendeeMemberId').value
     ){
-        AdminUI.showError(
-            'attendeeError',
+        AdminUI.showFieldError(
+            'attendeeMemberId',
             'Please select a member.'
         );
         return;
@@ -2175,10 +2285,22 @@ $('attendeeForm').addEventListener('submit',async event=>{
 
         await refreshDetails();
     }catch(error){
-        AdminUI.showError(
-            'attendeeError',
-            AdminUI.extractError(error)
-        );
+        if(
+            !AdminUI.showValidationErrors(
+                'attendeeForm',
+                error,
+                {
+                    member_id:'attendeeMemberId',
+                    status:'attendeeStatus',
+                    notes:'attendeeNotes'
+                }
+            )
+        ){
+            AdminUI.showError(
+                'attendeeError',
+                AdminUI.extractError(error)
+            );
+        }
     }finally{
         AdminUI.resetLoading(button);
     }
@@ -2226,6 +2348,7 @@ window.openDecisionModal=function(){
 
     $('decisionModalTitle').textContent='Add Decision';
     AdminUI.clearError('decisionError');
+    AdminUI.clearFieldErrors('decisionForm');
 
     AdminUI.openModal('decisionModal');
     window.initDatePickers?.();
@@ -2256,6 +2379,7 @@ window.editDecision=function(id){
     $('decisionModalTitle').textContent='Edit Decision';
 
     AdminUI.clearError('decisionError');
+    AdminUI.clearFieldErrors('decisionForm');
     AdminUI.openModal('decisionModal');
 
     window.initDatePickers?.();
@@ -2269,16 +2393,28 @@ window.editDecision=function(id){
 $('decisionForm').addEventListener('submit',async event=>{
     event.preventDefault();
 
-    if(
-        !$('decisionTitle').value.trim()||
-        !$('decisionText').value.trim()
-    ){
-        AdminUI.showError(
-            'decisionError',
-            'Decision title and details are required.'
+    AdminUI.clearError('decisionError');
+    AdminUI.clearFieldErrors('decisionForm');
+
+    let hasError=false;
+
+    if(!$('decisionTitle').value.trim()){
+        AdminUI.showFieldError(
+            'decisionTitle',
+            'Decision title is required.'
         );
-        return;
+        hasError=true;
     }
+
+    if(!$('decisionText').value.trim()){
+        AdminUI.showFieldError(
+            'decisionText',
+            'Decision details are required.'
+        );
+        hasError=true;
+    }
+
+    if(hasError)return;
 
     const agenda=$('decisionAgendaId').value;
     const responsible=$('decisionResponsibleUser').value;
@@ -2321,10 +2457,26 @@ $('decisionForm').addEventListener('submit',async event=>{
 
         await refreshDetails();
     }catch(error){
-        AdminUI.showError(
-            'decisionError',
-            AdminUI.extractError(error)
-        );
+        if(
+            !AdminUI.showValidationErrors(
+                'decisionForm',
+                error,
+                {
+                    title:'decisionTitle',
+                    decision:'decisionText',
+                    meeting_agenda_id:'decisionAgendaId',
+                    result:'decisionResult',
+                    responsible_user_id:'decisionResponsibleUser',
+                    due_date:'decisionDueDate',
+                    status:'decisionStatus'
+                }
+            )
+        ){
+            AdminUI.showError(
+                'decisionError',
+                AdminUI.extractError(error)
+            );
+        }
     }finally{
         AdminUI.resetLoading(button);
     }
@@ -2353,6 +2505,8 @@ window.openMinutesModal=function(){
 
 $('minutesForm').addEventListener('submit',async event=>{
     event.preventDefault();
+
+    AdminUI.clearError('minutesError');
 
     const button=$('saveMinutesButton');
 
@@ -2393,6 +2547,7 @@ window.openExpenseModal=function(){
 
     $('expenseForm').reset();
     AdminUI.clearError('expenseError');
+    AdminUI.clearFieldErrors('expenseForm');
 
     AdminUI.openModal('expenseModal');
     window.initDatePickers?.();
@@ -2407,6 +2562,9 @@ window.openExpenseModal=function(){
 $('expenseForm').addEventListener('submit',async event=>{
     event.preventDefault();
 
+    AdminUI.clearError('expenseError');
+    AdminUI.clearFieldErrors('expenseForm');
+
     const required=[
         ['expenseCategory','Expense category is required.'],
         ['expenseAccountId','Select an expense account.'],
@@ -2415,15 +2573,19 @@ $('expenseForm').addEventListener('submit',async event=>{
         ['expenseDate','Expense date is required.']
     ];
 
+    let hasError=false;
+
     for(const [id,message] of required){
         if(!$(id).value){
-            AdminUI.showError(
-                'expenseError',
+            AdminUI.showFieldError(
+                id,
                 message
             );
-            return;
+            hasError=true;
         }
     }
+
+    if(hasError)return;
 
     const amount=Number(
         $('expenseAmount').value
@@ -2433,8 +2595,8 @@ $('expenseForm').addEventListener('submit',async event=>{
         !Number.isFinite(amount)||
         amount<=0
     ){
-        AdminUI.showError(
-            'expenseError',
+        AdminUI.showFieldError(
+            'expenseAmount',
             'Expense amount must be greater than zero.'
         );
         return;
@@ -2475,10 +2637,27 @@ $('expenseForm').addEventListener('submit',async event=>{
             loadStatistics()
         ]);
     }catch(error){
-        AdminUI.showError(
-            'expenseError',
-            AdminUI.extractError(error)
-        );
+        if(
+            !AdminUI.showValidationErrors(
+                'expenseForm',
+                error,
+                {
+                    category:'expenseCategory',
+                    expense_account_id:'expenseAccountId',
+                    payment_account_id:'paymentAccountId',
+                    amount:'expenseAmount',
+                    expense_date:'expenseDate',
+                    payee:'expensePayee',
+                    reference_no:'expenseReference',
+                    description:'expenseDescription'
+                }
+            )
+        ){
+            AdminUI.showError(
+                'expenseError',
+                AdminUI.extractError(error)
+            );
+        }
     }finally{
         AdminUI.resetLoading(button);
     }

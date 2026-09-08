@@ -191,7 +191,7 @@
                             <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <span
-                                    class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                                    class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
                                 <input id="requestedAmount" type="number" min="0.01" step="0.01"
                                     class="app-input w-full !pl-8" placeholder="0.00">
                             </div>
@@ -340,7 +340,7 @@
                     <label class="form-label">Approved Amount <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <span
-                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
                         <input id="approvedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
                     </div>
                     <p data-field-error="approvedAmount" class="mt-1 hidden text-sm text-red-600"></p>
@@ -528,7 +528,7 @@
                     <label class="form-label">Total Repayment Amount <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <span
-                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">৳</span>
+                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
                         <input id="repaymentAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
                     </div>
                     <p data-field-error="repaymentAmount" class="mt-1 hidden text-sm text-red-600"></p>
