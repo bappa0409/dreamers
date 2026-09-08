@@ -22,7 +22,7 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reset Your Dreamers Association Password'
+            subject: 'Reset Your '.setting('organization_name', 'Dreamers Association').' Password'
         );
     }
 

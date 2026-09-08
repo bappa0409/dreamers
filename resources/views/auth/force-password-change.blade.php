@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Change Password | Dreamers Association</title>
+    <title>Change Password | {{ setting('organization_name', 'Dreamers Association') }}</title>
 
     @vite([
         'resources/css/app.css',
@@ -22,12 +22,19 @@
     <div class="w-full max-w-md overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl">
 
         <div class="bg-gradient-to-r from-[#4680b7] to-[#145da0]  px-6 py-6 text-center text-white">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-white/10">
-                <i class="bi bi-shield-lock text-xl"></i>
-            </div>
+            @if(setting('site_logo'))
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-white/10 overflow-hidden">
+                    <img src="{{ asset('storage/'.setting('site_logo')) }}" alt="{{ setting('organization_name', 'Dreamers Association') }}"
+                        class="h-full w-full object-contain">
+                </div>
+            @else
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-white/10">
+                    <i class="bi bi-shield-lock text-xl"></i>
+                </div>
+            @endif
 
             <h1 class="mt-3 text-xl font-bold">
-                Dreamers Association
+                {{ setting('organization_name', 'Dreamers Association') }}
             </h1>
 
             <p class="mt-1  text-xs 2xl:text-sm text-sky-100">

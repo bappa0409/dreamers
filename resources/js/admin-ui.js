@@ -1,5 +1,62 @@
 /*
 |--------------------------------------------------------------------------
+| Date/Time formatting (driven by the date_format / time_format settings)
+|--------------------------------------------------------------------------
+| Mirrors app_date()/app_datetime() in app/Helpers/Helper.php so dates
+| rendered client-side (DataTables rows, JS-built markup, etc.) respect
+| the same admin-configured format as server-rendered dates.
+*/
+
+const MONTH_SHORT_NAMES=[
+    'Jan','Feb','Mar','Apr','May','Jun',
+    'Jul','Aug','Sep','Oct','Nov','Dec'
+];
+
+const MONTH_FULL_NAMES=[
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+];
+
+function phpStyleDateFormat(date,format){
+    const tokens={
+        d:String(date.getDate()).padStart(2,'0'),
+        m:String(date.getMonth()+1).padStart(2,'0'),
+        Y:String(date.getFullYear()),
+        M:MONTH_SHORT_NAMES[date.getMonth()],
+        F:MONTH_FULL_NAMES[date.getMonth()]
+    };
+
+    return format.replace(
+        /d|m|Y|M|F/g,
+        token=>tokens[token]??token
+    );
+}
+
+function phpStyleTimeFormat(date,use24Hour){
+    const minutes=String(date.getMinutes()).padStart(2,'0');
+
+    if(use24Hour){
+        return `${String(date.getHours()).padStart(2,'0')}:${minutes}`;
+    }
+
+    let hours=date.getHours()%12;
+    if(hours===0)hours=12;
+
+    const meridiem=date.getHours()>=12?'PM':'AM';
+
+    return `${hours}:${minutes} ${meridiem}`;
+}
+
+function resolveAppDateFormat(){
+    return window.AppConfig?.dateFormat||'d-m-Y';
+}
+
+function resolveAppUses24HourTime(){
+    return window.AppConfig?.timeFormat==='24';
+}
+
+/*
+|--------------------------------------------------------------------------
 | Global Confirmation Modal
 |--------------------------------------------------------------------------
 */
@@ -1065,21 +1122,17 @@ window.AdminUI={
             return 'N/A';
         }
 
-        const options={
-            day:'2-digit',
-            month:'short',
-            year:'numeric'
-        };
-
-        if(withTime){
-            options.hour='2-digit';
-            options.minute='2-digit';
-        }
-
-        return date.toLocaleString(
-            'en-GB',
-            options
+        const formatted=phpStyleDateFormat(
+            date,
+            resolveAppDateFormat()
         );
+
+        if(!withTime)return formatted;
+
+        return `${formatted} ${phpStyleTimeFormat(
+            date,
+            resolveAppUses24HourTime()
+        )}`;
     },
 
     formatBytes(bytes){

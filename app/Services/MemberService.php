@@ -66,11 +66,6 @@ class MemberService
 
                 $autoActivate = $this->autoActivateMember();
 
-                $defaultLanguage = setting(
-                    'default_language',
-                    'en'
-                );
-
                 $user = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
@@ -79,8 +74,6 @@ class MemberService
                     'password_setup_token' => null,
                     'password_setup_expires_at' => null,
                     'must_change_password' => true,
-                    'language' => $data['language']
-                        ?? $defaultLanguage,
                     'is_active' => $autoActivate,
                     'role_id' => $memberRole->id,
                 ]);

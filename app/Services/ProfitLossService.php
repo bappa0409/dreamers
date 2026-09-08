@@ -17,9 +17,9 @@ class ProfitLossService
         $income=$accounts->where('type','income')->values();
         $expenses=$accounts->where('type','expense')->values();
 
-        $totalIncome=round((float)$income->sum('balance'),2);
-        $totalExpense=round((float)$expenses->sum('balance'),2);
-        $net=round($totalIncome-$totalExpense,2);
+        $totalIncome=app_round((float)$income->sum('balance'),2);
+        $totalExpense=app_round((float)$expenses->sum('balance'),2);
+        $net=app_round($totalIncome-$totalExpense,2);
 
         return[
             'from'=>$from,
@@ -112,9 +112,9 @@ class ProfitLossService
             'type'=>$account->type,
             'sub_type'=>$account->sub_type,
             'is_active'=>(bool)$account->is_active,
-            'debit'=>round($debit,2),
-            'credit'=>round($credit,2),
-            'balance'=>round($balance,2),
+            'debit'=>app_round($debit,2),
+            'credit'=>app_round($credit,2),
+            'balance'=>app_round($balance,2),
         ];
     }
 }

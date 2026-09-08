@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'সাধারণ জিজ্ঞাসা (FAQ) | ' . setting('organization_name', 'Dreamers Association'))
-@section('description', 'Dreamers Association সম্পর্কে সচরাচর জিজ্ঞাসিত প্রশ্ন ও তার উত্তর — সাধারণ তথ্য, সদস্যপদ,
+@section('description', setting('organization_name', 'Dreamers Association') . ' সম্পর্কে সচরাচর জিজ্ঞাসিত প্রশ্ন ও তার উত্তর — সাধারণ তথ্য, সদস্যপদ,
 আর্থিক বিষয় ও কার্যক্রম অনুযায়ী সাজানো।')
 
 @section('content')

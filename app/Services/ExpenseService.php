@@ -463,7 +463,11 @@ class ExpenseService
     private function generateNumber(): string
     {
         $month=now()->format('Ym');
-        $prefix="EXP-{$month}-";
+
+        $codePrefix=trim((string)setting('expense_code_prefix','EXP'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'EXP';
+
+        $prefix="{$codePrefix}-{$month}-";
 
         return $this->numberSequenceService->next(
             key:"expense:{$month}",

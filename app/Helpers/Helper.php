@@ -9,13 +9,27 @@ if(!function_exists('setting')){
     }
 }
 
+if(!function_exists('app_round')){
+    function app_round(float|int|string|null $value,int $precision=2): float
+    {
+        $value=(float)($value??0);
+        $factor=10**$precision;
+
+        return match(setting('rounding_mode','nearest')){
+            'up'=>ceil($value*$factor)/$factor,
+            'down'=>floor($value*$factor)/$factor,
+            default=>round($value,$precision),
+        };
+    }
+}
+
 if(!function_exists('money')){
     function money(float|int|string|null $amount): string
     {
         $symbol=setting('currency_symbol','৳');
 
         return $symbol.number_format(
-            (float)($amount??0),
+            app_round($amount),
             2
         );
     }

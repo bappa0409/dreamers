@@ -2,7 +2,7 @@
 
 @section('title', setting('organization_name', 'Dreamers Association') . ' | স্বচ্ছতা, ঐক্য ও সম্মিলিত আর্থিক উন্নয়ন')
 @section('description', setting('organization_name', 'Dreamers Association') . ' — সদস্যদের সম্মিলিত সঞ্চয়, বিনিয়োগ ও সম্পদ গঠনের মাধ্যমে স্বচ্ছ ও দীর্ঘমেয়াদি আর্থিক উন্নয়ন নিশ্চিত করার একটি ঐক্যবদ্ধ উদ্যোগ।')
-@section('keywords', 'Dreamers Association, Dreamers Association Bangladesh, সম্মিলিত সঞ্চয়, সম্মিলিত বিনিয়োগ, আর্থিক উন্নয়ন, সদস্যভিত্তিক সঞ্চয়, সম্পদ গঠন, স্বচ্ছ আর্থিক ব্যবস্থাপনা')
+@section('keywords', setting('organization_name', 'Dreamers Association') . ', ' . setting('organization_name', 'Dreamers Association') . ' Bangladesh, সম্মিলিত সঞ্চয়, সম্মিলিত বিনিয়োগ, আর্থিক উন্নয়ন, সদস্যভিত্তিক সঞ্চয়, সম্পদ গঠন, স্বচ্ছ আর্থিক ব্যবস্থাপনা')
 
 @section('content')
 @php

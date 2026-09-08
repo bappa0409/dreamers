@@ -61,7 +61,7 @@ class MemberController extends Controller
                 'updated_at'
             ])
             ->with([
-                'user:id,name,email,mobile,language,is_active',
+                'user:id,name,email,mobile,is_active',
                 'user.roles:id,name,display_name'
             ]);
 
@@ -120,7 +120,7 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'data' => $member->load([
-                'user:id,name,email,mobile,language,is_active',
+                'user:id,name,email,mobile,is_active',
                 'user.roles:id,name,display_name'
             ]),
         ]);
@@ -133,7 +133,6 @@ class MemberController extends Controller
             'email' => 'required|email:rfc|max:255|unique:users,email',
             'mobile' => 'required|string|max:20|unique:users,mobile',
             'profile_photo' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'language' => 'nullable|in:en,bn',
             'father_or_husband_name' => 'required|string|max:150',
             'mother_name' => 'required|string|max:150',
             'alternate_phone' => 'required|string|regex:/^01[3-9][0-9]{8}$/',
@@ -237,7 +236,7 @@ class MemberController extends Controller
             'success' => true,
             'message' => 'Member updated successfully.',
             'data' => $member->fresh()->load([
-                'user:id,name,email,mobile,language,is_active',
+                'user:id,name,email,mobile,is_active',
                 'user.roles:id,name,display_name'
             ]),
         ]);

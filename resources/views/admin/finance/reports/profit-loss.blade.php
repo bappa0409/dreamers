@@ -52,7 +52,7 @@
                     onclick="setCurrentYear()"
                     class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar3 me-1"></i>
-                    Current Year
+                    Financial Year
                 </button>
             </div>
 
@@ -290,17 +290,36 @@ function monthRange(){
 function yearRange(){
     const now=new Date();
 
+    // Financial year start is stored as 'dd-mm' (e.g. '01-07' = 1 July).
+    const[fyDay,fyMonth]=(window.AppConfig?.financialYearStart||'01-01')
+        .split('-')
+        .map(Number);
+
+    let startYear=now.getFullYear();
+
+    const startsAfterToday=(
+        now.getMonth()+1<fyMonth
+    )||(
+        now.getMonth()+1===fyMonth&&now.getDate()<fyDay
+    );
+
+    if(startsAfterToday)startYear-=1;
+
+    const from=new Date(
+        startYear,
+        fyMonth-1,
+        fyDay
+    );
+
+    const to=new Date(
+        startYear+1,
+        fyMonth-1,
+        fyDay-1
+    );
+
     return{
-        from:new Date(
-            now.getFullYear(),
-            0,
-            1
-        ),
-        to:new Date(
-            now.getFullYear(),
-            11,
-            31
-        )
+        from,
+        to
     };
 }
 

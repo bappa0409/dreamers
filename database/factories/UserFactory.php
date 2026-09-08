@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'mobile' => fake()->unique()->numerify('01#########'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'language' => 'en',
             'is_active' => true,
             'role_id' => null,
             'must_change_password' => false,

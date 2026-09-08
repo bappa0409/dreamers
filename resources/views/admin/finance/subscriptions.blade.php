@@ -842,8 +842,10 @@ function monthName(month){
         .toLocaleString('en',{month:'short'});
 }
 
+const currency=@json(setting('currency_symbol','৳'));
+
 function money(value){
-    return '৳'+Number(value??0).toLocaleString('en-US',{
+    return currency+Number(value??0).toLocaleString('en-US',{
         minimumFractionDigits:2,
         maximumFractionDigits:2
     });

@@ -84,42 +84,42 @@ class FinanceDashboardService
             ->count();
 
         return[
-            'cash'=>round($cash,2),
-            'bank'=>round($bank,2),
-            'cash_bank'=>round($cash+$bank,2),
-            'receivable'=>round($receivable,2),
+            'cash'=>app_round($cash,2),
+            'bank'=>app_round($bank,2),
+            'cash_bank'=>app_round($cash+$bank,2),
+            'receivable'=>app_round($receivable,2),
 
-            'subscription_outstanding'=>round(
+            'subscription_outstanding'=>app_round(
                 $subscriptionDue,
                 2
             ),
 
-            'subscription_collected'=>round(
+            'subscription_collected'=>app_round(
                 $subscriptionCollected,
                 2
             ),
 
-            'monthly_income'=>round(
+            'monthly_income'=>app_round(
                 $monthly['income'],
                 2
             ),
 
-            'monthly_expense'=>round(
+            'monthly_expense'=>app_round(
                 $monthly['expense'],
                 2
             ),
 
-            'net_surplus'=>round(
+            'net_surplus'=>app_round(
                 $monthly['income']-$monthly['expense'],
                 2
             ),
 
-            'asset_book_value'=>round(
+            'asset_book_value'=>app_round(
                 $assetBookValue,
                 2
             ),
 
-            'investment_balance'=>round(
+            'investment_balance'=>app_round(
                 $investments,
                 2
             ),
@@ -182,7 +182,7 @@ class FinanceDashboardService
                     'type'=>$account->type,
                     'sub_type'=>$account->sub_type,
 
-                    'balance'=>round(
+                    'balance'=>app_round(
                         $account->calculateBalance(
                             (float)($account->total_debit??0),
                             (float)($account->total_credit??0)
@@ -341,9 +341,9 @@ class FinanceDashboardService
                 return[
                     'month'=>$month['key'],
                     'label'=>$month['label'],
-                    'income'=>round($income,2),
-                    'expense'=>round($expense,2),
-                    'net'=>round(
+                    'income'=>app_round($income,2),
+                    'expense'=>app_round($expense,2),
+                    'net'=>app_round(
                         $income-$expense,
                         2
                     ),

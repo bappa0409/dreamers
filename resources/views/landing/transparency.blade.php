@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'স্বচ্ছতা ও জবাবদিহিতা | ' . setting('organization_name', 'Dreamers Association'))
-@section('description', 'Dreamers Association-এর আর্থিক স্বচ্ছতা, হিসাবরক্ষণ, প্রতিবেদন প্রকাশ ও পর্যালোচনা প্রক্রিয়া সম্পর্কে বিস্তারিত জানুন।')
+@section('description', setting('organization_name', 'Dreamers Association') . '-এর আর্থিক স্বচ্ছতা, হিসাবরক্ষণ, প্রতিবেদন প্রকাশ ও পর্যালোচনা প্রক্রিয়া সম্পর্কে বিস্তারিত জানুন।')
 
 @section('content')
 @php

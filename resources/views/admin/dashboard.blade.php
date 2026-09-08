@@ -20,7 +20,7 @@
                 </h1>
 
                 <p class=" text-xs 2xl:text-sm text-slate-500">
-                    Dreamers Association overview and recent activities.
+                    {{ setting('organization_name', 'Dreamers Association') }} overview and recent activities.
                 </p>
             </div>
         </div>
@@ -338,7 +338,7 @@
                     </h2>
 
                     <p class=" text-xs 2xl:text-sm text-slate-500">
-                        Welcome to Dreamers Association. Use the available menu items to access your personal information and association services.
+                        Welcome to {{ setting('organization_name', 'Dreamers Association') }}. Use the available menu items to access your personal information and association services.
                     </p>
                 </div>
             </div>

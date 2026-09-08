@@ -964,7 +964,11 @@ class AssetService
     protected function generateNumber(): string
     {
         $month=now()->format('Ym');
-        $prefix="AST-{$month}-";
+
+        $codePrefix=trim((string)setting('asset_code_prefix','AST'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'AST';
+
+        $prefix="{$codePrefix}-{$month}-";
 
         return $this->numberSequenceService->next(
             key:"asset:{$month}",

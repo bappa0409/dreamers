@@ -48,17 +48,17 @@ class TrialBalanceService
             )
             ->values();
 
-        $totalDebit=round(
+        $totalDebit=app_round(
             (float)$summaryRows->sum('debit_balance'),
             2
         );
 
-        $totalCredit=round(
+        $totalCredit=app_round(
             (float)$summaryRows->sum('credit_balance'),
             2
         );
 
-        $difference=round(
+        $difference=app_round(
             $totalDebit-$totalCredit,
             2
         );
@@ -116,12 +116,12 @@ class TrialBalanceService
         |
         */
 
-        $filteredDebit=round(
+        $filteredDebit=app_round(
             (float)$rows->sum('debit_balance'),
             2
         );
 
-        $filteredCredit=round(
+        $filteredCredit=app_round(
             (float)$rows->sum('credit_balance'),
             2
         );
@@ -274,7 +274,7 @@ class TrialBalanceService
             'sub_type'=>$account->sub_type,
             'is_active'=>(bool)$account->is_active,
 
-            'opening_balance'=>round(
+            'opening_balance'=>app_round(
                 $opening,
                 2
             ),
@@ -288,22 +288,22 @@ class TrialBalanceService
             |
             */
 
-            'period_debit'=>round(
+            'period_debit'=>app_round(
                 $debit,
                 2
             ),
 
-            'period_credit'=>round(
+            'period_credit'=>app_round(
                 $credit,
                 2
             ),
 
-            'debit_balance'=>round(
+            'debit_balance'=>app_round(
                 $debitBalance,
                 2
             ),
 
-            'credit_balance'=>round(
+            'credit_balance'=>app_round(
                 $creditBalance,
                 2
             ),

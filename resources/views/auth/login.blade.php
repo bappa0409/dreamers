@@ -59,7 +59,7 @@
         </h2>
 
         <p class="text-sm sm:text-base text-slate-500 leading-relaxed">
-            Sign in to manage your Dreamers Association account.
+            Sign in to manage your {{ setting('organization_name', 'Dreamers Association') }} account.
         </p>
     </div>
 
@@ -139,7 +139,7 @@
             <div class="h-px bg-slate-200 flex-1"></div>
         </div>
         <p class="mt-5 text-center  text-xs 2xl:text-sm text-slate-400 leading-relaxed">
-            Your account information is protected and securely handled by the Dreamers Association member portal.
+            Your account information is protected and securely handled by the {{ setting('organization_name', 'Dreamers Association') }} member portal.
         </p>
     </div>
 

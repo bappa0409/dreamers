@@ -225,14 +225,6 @@
                             <label class="form-label">Mobile <span class="text-red-500">*</span></label>
                             <input id="mobile" type="tel" inputmode="numeric" data-mobile="true" placeholder="01XXXXXXXXX" class="app-input" maxlength="11">
                         </div>
-
-                        <div>
-                            <label class="form-label">Language</label>
-                            <select id="language" class="app-input">
-                                <option value="en">English</option>
-                                <option value="bn">বাংলা</option>
-                            </select>
-                        </div>
                     </div>
                 </section>
 
@@ -648,7 +640,6 @@ const el={
     name:document.getElementById('name'),
     email:document.getElementById('email'),
     mobile:document.getElementById('mobile'),
-    language:document.getElementById('language'),
     alternatePhone:document.getElementById('alternate_phone'),
     fatherOrHusbandName:document.getElementById('father_or_husband_name'),
     motherName:document.getElementById('mother_name'),
@@ -1370,7 +1361,6 @@ window.openMemberModal=function(member=null){
         el.name.value=user.name??'';
         el.email.value=user.email??'';
         el.mobile.value=user.mobile??'';
-        el.language.value=user.language??'en';
 
         el.alternatePhone.value=
             member.alternate_phone??'';
@@ -1420,7 +1410,6 @@ window.openMemberModal=function(member=null){
             member
         );
     }else{
-        el.language.value='en';
         populateCitySelect('');
     }
 
@@ -1554,10 +1543,6 @@ el.form.addEventListener(
             data.mobile=
                 el.mobile.value.trim()||
                 null;
-
-            data.language=
-                el.language.value||
-                'en';
         }
 
         if(

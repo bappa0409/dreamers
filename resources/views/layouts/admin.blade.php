@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('partials.app-config')
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>@yield('title','Dashboard') | {{ setting('organization_name','Dreamers Association') }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
@@ -207,7 +208,7 @@
 
             <div class="flex h-[76px] shrink-0 items-center border-b border-white/[0.08] px-4">
                 <a href="{{ route('dashboard') }}" class="flex w-full items-center gap-3 focus:outline-none">
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full">
                         @if($siteLogo)
                         <img src="{{ asset('storage/'.$siteLogo) }}" alt="{{ $organizationName }}"
                             class="h-full w-full object-contain">

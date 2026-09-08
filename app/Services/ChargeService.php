@@ -31,7 +31,7 @@ class ChargeService
                 ->accountingService
                 ->account('receivable');
 
-            $amount=round(
+            $amount=app_round(
                 (float)$data['amount'],
                 2
             );
@@ -116,7 +116,7 @@ class ChargeService
                 ->accountingService
                 ->account('receivable');
 
-            $amount=round(
+            $amount=app_round(
                 (float)$charge->amount,
                 2
             );
@@ -248,7 +248,7 @@ class ChargeService
                 ]);
             }
 
-            $amount=round(
+            $amount=app_round(
                 (float)$data['amount'],
                 2
             );
@@ -262,7 +262,7 @@ class ChargeService
             }
 
             $outstanding=max(
-                round(
+                app_round(
                     (float)$charge->amount-
                     (float)$charge->paid_amount,
                     2
@@ -344,7 +344,7 @@ class ChargeService
                 'finance_transaction_id'=>$journal->id,
             ]);
 
-            $newPaid=round(
+            $newPaid=app_round(
                 (float)$charge->paid_amount+$amount,
                 2
             );
@@ -459,7 +459,7 @@ class ChargeService
                 'status'=>'cancelled',
             ]);
 
-            $paidAmount=round(
+            $paidAmount=app_round(
                 (float)$charge
                     ->payments()
                     ->where('status','posted')
@@ -612,7 +612,7 @@ class ChargeService
                     $clean
                 )
             ){
-                $clean['amount']=round(
+                $clean['amount']=app_round(
                     (float)$clean['amount'],
                     2
                 );
@@ -1015,7 +1015,11 @@ class ChargeService
     private function generateChargeNumber(): string
     {
         $month=now()->format('Ym');
-        $prefix="CHG-{$month}-";
+
+        $codePrefix=trim((string)setting('charge_code_prefix','CHG'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'CHG';
+
+        $prefix="{$codePrefix}-{$month}-";
 
         return $this->numberSequenceService->next(
             key:"charge:{$month}",

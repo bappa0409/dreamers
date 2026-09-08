@@ -21,7 +21,7 @@
                 </h1>
 
                 <p class=" text-xs 2xl:text-sm text-slate-500">
-                    Manage organization, system, membership and finance configuration.
+                    Manage organization, system and finance configuration.
                 </p>
             </div>
         </div>
@@ -84,36 +84,24 @@
     const groupIcons={
         general:'bi-sliders',
         system:'bi-hdd-stack',
-        membership:'bi-people',
         loan: 'bi-bank',
         finance:'bi-cash-coin',
-        mail:'bi-envelope-at',
-        security:'bi-shield-lock',
-        maintenance:'bi-cone-striped',
         backup:'bi-database-down'
     };
 
     const groupLabels={
         general:'General',
         system:'System',
-        membership:'Membership',
         loan: 'Loan',
         finance:'Finance',
-        mail:'Mail / SMTP',
-        security:'Security',
-        maintenance:'Maintenance',
         backup:'Backup'
     };
 
     const groupOrder=[
         'general',
-        'system',
-        'membership',
         'loan',
         'finance',
-        'mail',
-        'security',
-        'maintenance',
+        'system',
         'backup'
     ];
 
@@ -144,6 +132,10 @@
         'subscription_fine_enabled'
     ];
 
+    const membershipKeys=[
+        'auto_activate_member'
+    ];
+
     const generalPrefixKeys=[
         'member_code_prefix',
         'investment_code_prefix',
@@ -157,6 +149,33 @@
         'site_logo_other',
         'logo',
         'favicon'
+    ];
+
+    const systemAppKeys=[
+        'date_format',
+        'time_format',
+    ];
+
+    const mailKeys=[
+        'mail_mailer',
+        'smtp_host',
+        'smtp_port',
+        'smtp_username',
+        'smtp_password',
+        'smtp_encryption',
+        'mail_from_address',
+        'mail_from_name'
+    ];
+
+    const securityKeys=[
+        'session_lifetime_minutes',
+        'max_login_attempts',
+        'password_reset_expiry_minutes'
+    ];
+
+    const maintenanceKeys=[
+        'maintenance_mode',
+        'maintenance_message'
     ];
 
     // Display label shown above each image upload field. Falls back
@@ -360,6 +379,11 @@
             return;
         }
 
+        if(activeGroup==='system'){
+            renderSystemPanel(fields);
+            return;
+        }
+
         renderStandardPanel(fields);
     }
 
@@ -392,6 +416,12 @@
             orderedFields(
                 fields,
                 subscriptionKeys
+            );
+
+        const membershipFields=
+            orderedFields(
+                fields,
+                membershipKeys
             );
 
         panelsEl.innerHTML=`
@@ -509,6 +539,28 @@
                         :''
                 }
 
+                ${
+                    membershipFields.length
+                        ?sectionForm({
+                            section:'membership',
+                            icon:'bi-people',
+                            title:'Membership Configuration',
+                            subtitle:'Configure how new members are activated.',
+                            fields:membershipFields,
+                            body:`
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    ${
+                                        membershipFields
+                                            .map(renderSettingField)
+                                            .join('')
+                                    }
+                                </div>
+                            `,
+                            buttonText:'Save Membership Settings'
+                        })
+                        :''
+                }
+
             </div>
         `;
 
@@ -516,7 +568,8 @@
             organization:organizationFields,
             prefixes:prefixFields,
             shares:shareFields,
-            subscriptions:subscriptionFields
+            subscriptions:subscriptionFields,
+            membership:membershipFields
         });
 
         bindImageEvents(
@@ -533,6 +586,140 @@
                 window.initDatePickers();
             }
         },0);
+    }
+
+    function renderSystemPanel(fields){
+        const appFields=
+            orderedFields(
+                fields,
+                systemAppKeys
+            );
+
+        const mailFields=
+            orderedFields(
+                fields,
+                mailKeys
+            );
+
+        const securityFields=
+            orderedFields(
+                fields,
+                securityKeys
+            );
+
+        const maintenanceFields=
+            orderedFields(
+                fields,
+                maintenanceKeys
+            );
+
+        panelsEl.innerHTML=`
+            <div class="space-y-6 p-5">
+
+                <div
+                    id="settingsAlert"
+                    class="hidden rounded-md border px-4 py-3 text-base">
+                </div>
+
+                ${
+                    appFields.length
+                        ?sectionForm({
+                            section:'app',
+                            icon:'bi-sliders',
+                            title:'Application Preferences',
+                            subtitle:'Configure language, date and time display for the whole application.',
+                            fields:appFields,
+                            body:`
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    ${
+                                        appFields
+                                            .map(renderSettingField)
+                                            .join('')
+                                    }
+                                </div>
+                            `,
+                            buttonText:'Save Application Settings'
+                        })
+                        :''
+                }
+
+                ${
+                    mailFields.length
+                        ?sectionForm({
+                            section:'mail',
+                            icon:'bi-envelope-at',
+                            title:'Mail / SMTP',
+                            subtitle:'Configure the mail driver used to send system emails.',
+                            fields:mailFields,
+                            body:`
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    ${
+                                        mailFields
+                                            .map(renderSettingField)
+                                            .join('')
+                                    }
+                                </div>
+                            `,
+                            buttonText:'Save Mail Settings'
+                        })
+                        :''
+                }
+
+                ${
+                    securityFields.length
+                        ?sectionForm({
+                            section:'security',
+                            icon:'bi-shield-lock',
+                            title:'Security',
+                            subtitle:'Configure session lifetime and login protection rules.',
+                            fields:securityFields,
+                            body:`
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    ${
+                                        securityFields
+                                            .map(renderSettingField)
+                                            .join('')
+                                    }
+                                </div>
+                            `,
+                            buttonText:'Save Security Settings'
+                        })
+                        :''
+                }
+
+                ${
+                    maintenanceFields.length
+                        ?sectionForm({
+                            section:'maintenance',
+                            icon:'bi-cone-striped',
+                            title:'Maintenance',
+                            subtitle:'Put the site into maintenance mode and customize the message shown to visitors.',
+                            fields:maintenanceFields,
+                            body:`
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    ${
+                                        maintenanceFields
+                                            .map(renderSettingField)
+                                            .join('')
+                                    }
+                                </div>
+                            `,
+                            buttonText:'Save Maintenance Settings'
+                        })
+                        :''
+                }
+
+            </div>
+        `;
+
+        bindGeneralSectionEvents({
+            app:appFields,
+            mail:mailFields,
+            security:securityFields,
+            maintenance:maintenanceFields
+        });
+
+        bindPasswordToggles();
     }
 
     function renderStandardPanel(fields){

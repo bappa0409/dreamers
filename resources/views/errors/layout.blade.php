@@ -62,7 +62,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('code') — @yield('title') | Dreamers Association</title>
+    <title>@yield('code') — @yield('title') | {{ setting('organization_name', 'Dreamers Association') }}</title>
 
     @vite(['resources/css/app.css'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -157,7 +157,7 @@
         </div>
 
         <p class="relative mt-6 text-[11px] font-medium text-slate-400">
-            Dreamers Association
+            {{ setting('organization_name', 'Dreamers Association') }}
         </p>
 
     </div>

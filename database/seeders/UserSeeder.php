@@ -42,7 +42,6 @@ class UserSeeder extends Seeder
                     'name' => 'System Analyst',
                     'mobile' => '01928040976',
                     'password' => Hash::make('admin@gmail.com'),
-                    'language' => 'en',
                     'is_active' => true,
 
                     /*

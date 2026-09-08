@@ -1210,7 +1210,11 @@ class MeetingService
     protected function generateMeetingNo(): string
     {
         $year=now()->format('Y');
-        $prefix="MTG-{$year}-";
+
+        $codePrefix=trim((string)setting('meeting_code_prefix','MTG'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'MTG';
+
+        $prefix="{$codePrefix}-{$year}-";
 
         return $this->numberSequence->next(
             "meeting:{$year}",

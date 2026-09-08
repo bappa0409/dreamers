@@ -1548,7 +1548,7 @@
 
     {{-- Footer --}}
     <p class="pt-2 text-center text-[11px] text-slate-400">
-        Dreamers Association — Internal Admin Manual (Combined &amp; Detailed Edition) · SubscriptionService, AccountingService এবং সংশ্লিষ্ট মডিউল সার্ভিসসমূহের ভিত্তিতে প্রস্তুতকৃত · অভ্যন্তরীণ ব্যবহারের জন্য
+        {{ setting('organization_name', 'Dreamers Association') }} — Internal Admin Manual (Combined &amp; Detailed Edition) · SubscriptionService, AccountingService এবং সংশ্লিষ্ট মডিউল সার্ভিসসমূহের ভিত্তিতে প্রস্তুতকৃত · অভ্যন্তরীণ ব্যবহারের জন্য
     </p>
 
 </div>

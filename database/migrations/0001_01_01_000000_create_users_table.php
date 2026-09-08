@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('mobile', 20)->nullable()->unique();
-            $table->string('language', 5)->default('en');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('password_setup_token', 64)->nullable()->unique();

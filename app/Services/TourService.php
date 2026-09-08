@@ -677,7 +677,11 @@ class TourService
     protected function generateTourNo(): string
     {
         $year=now()->format('Y');
-        $prefix="TOUR-{$year}-";
+
+        $codePrefix=trim((string)setting('tour_code_prefix','TOUR'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'TOUR';
+
+        $prefix="{$codePrefix}-{$year}-";
 
         return $this->numberSequence->next(
             "tour:{$year}",

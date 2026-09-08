@@ -171,10 +171,6 @@
                         <span class=" text-xs 2xl:text-sm text-slate-500">Membership Status</span>
                         <span id="sideMembershipStatus" class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">-</span>
                     </div>
-                    <div class="flex items-center justify-between gap-3 px-5 py-4">
-                        <span class=" text-xs 2xl:text-sm text-slate-500">Language</span>
-                        <span id="language" class="text-sm font-semibold text-slate-700">-</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -347,7 +343,6 @@ async function loadMemberProfile(){
         document.getElementById('sideMemberCode').textContent=memberCode;
         document.getElementById('sideJoiningDate').textContent=joiningDate;
         setProfileStatus('sideMembershipStatus',status);
-        document.getElementById('language').textContent=resolveLanguage(user.language);
 
         document.getElementById('address').textContent=member.address??'-';
         document.getElementById('city').textContent=member.city??'-';
@@ -596,14 +591,6 @@ function formatProfileDate(value){
     });
 }
 
-function resolveLanguage(value){
-    const languages={
-        en:'English',
-        bn:'বাংলা'
-    };
-
-    return languages[value]??titleCase(value??'');
-}
 
 function titleCase(value){
     if(!value){

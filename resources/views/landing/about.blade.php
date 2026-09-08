@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'আমাদের সম্পর্কে | ' . setting('organization_name', 'Dreamers Association'))
-@section('description', 'Dreamers Association-এর লক্ষ্য, দৃষ্টিভঙ্গি, দর্শন, যাত্রা, পরিচালনা কাঠামো ও সদস্যপদ সম্পর্কে বিস্তারিত জানুন।')
+@section('description', setting('organization_name', 'Dreamers Association') . '-এর লক্ষ্য, দৃষ্টিভঙ্গি, দর্শন, যাত্রা, পরিচালনা কাঠামো ও সদস্যপদ সম্পর্কে বিস্তারিত জানুন।')
 
 @section('content')
 @php

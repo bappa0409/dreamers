@@ -457,7 +457,11 @@ class IncomeService
     private function generateNumber(): string
     {
         $month=now()->format('Ym');
-        $prefix="INC-{$month}-";
+
+        $codePrefix=trim((string)setting('income_code_prefix','INC'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'INC';
+
+        $prefix="{$codePrefix}-{$month}-";
 
         return $this->numberSequenceService->next(
             key:"income:{$month}",

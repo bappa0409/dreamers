@@ -86,7 +86,6 @@
                         <th class="w-[25%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">User</th>
                         <th class="w-[14%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
                         <th class="w-[20%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
-                        <th class="w-[10%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Language</th>
                         <th class="w-[11%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
                         <th class="w-[20%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
@@ -144,14 +143,6 @@
                     <div>
                         <label class="form-label">Mobile</label>
                         <input id="mobile" type="text" maxlength="30" class="app-input">
-                    </div>
-
-                    <div>
-                        <label class="form-label">Language</label>
-                        <select id="language" class="app-input cursor-pointer">
-                            <option value="en">English</option>
-                            <option value="bn">বাংলা</option>
-                        </select>
                     </div>
 
                     <div id="passwordField">
@@ -418,12 +409,6 @@ function renderUsers(){
                 </td>
 
                 <td class="px-4 py-3">
-                    <span class="text-[11px] font-medium text-slate-600">
-                        ${user.language==='bn'?'বাংলা':'English'}
-                    </span>
-                </td>
-
-                <td class="px-4 py-3">
                     ${
                         user.is_active
                             ?`
@@ -519,13 +504,10 @@ window.openUserModal=function(user=null){
         document.getElementById('name').value=user.name??'';
         document.getElementById('email').value=user.email??'';
         document.getElementById('mobile').value=user.mobile??'';
-        document.getElementById('language').value=user.language??'en';
 
         passwordField.classList.add('hidden');
         passwordConfirmationField.classList.add('hidden');
     }else{
-        document.getElementById('language').value='en';
-
         passwordField.classList.remove('hidden');
         passwordConfirmationField.classList.remove('hidden');
     }
@@ -579,7 +561,6 @@ el.form.addEventListener('submit',async event=>{
         name,
         email,
         mobile:document.getElementById('mobile').value.trim()||null,
-        language:document.getElementById('language').value||'en'
     };
 
     if(!editingUser){

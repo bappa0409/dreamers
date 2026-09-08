@@ -17,7 +17,10 @@
 
                     <tr>
                         <td style="background:#0d3b66;padding:24px;text-align:center;color:#ffffff;">
-                            <h2 style="margin:0;font-size:22px;">Dreamers Association</h2>
+                            @if(setting('site_logo'))
+                                <img src="{{ asset('storage/'.setting('site_logo')) }}" alt="{{ setting('organization_name', 'Dreamers Association') }}" style="max-height:40px;margin-bottom:8px;">
+                            @endif
+                            <h2 style="margin:0;font-size:22px;">{{ setting('organization_name', 'Dreamers Association') }}</h2>
                         </td>
                     </tr>
 
@@ -29,7 +32,7 @@
                             </h3>
 
                             <p style="font-size:14px;line-height:1.7;">
-                                Your Dreamers Association membership has been approved.
+                                Your {{ setting('organization_name', 'Dreamers Association') }} membership has been approved.
                             </p>
 
                             <p style="font-size:14px;line-height:1.7;">
@@ -48,7 +51,7 @@
                             </p>
 
                             <p style="font-size:13px;color:#64748b;">
-                                If you did not expect this email, please contact Dreamers Association administration.
+                                If you did not expect this email, please contact {{ setting('organization_name', 'Dreamers Association') }} administration.
                             </p>
 
                             <hr style="border:none;border-top:1px solid #e2e8f0;margin:25px 0;">

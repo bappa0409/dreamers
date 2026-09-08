@@ -387,7 +387,8 @@ let currentPage=1;
 
 const $=id=>document.getElementById(id);
 const esc=value=>AdminUI.escapeHtml(value??'');
-const money=value=>'৳'+Number(value||0).toLocaleString('en-BD',{minimumFractionDigits:2,maximumFractionDigits:2});
+const currency=@json(setting('currency_symbol','৳'));
+const money=value=>currency+Number(value||0).toLocaleString('en-BD',{minimumFractionDigits:2,maximumFractionDigits:2});
 const formatDate=value=>value?AdminUI.formatDate(value):'—';
 
 const createFieldMap={

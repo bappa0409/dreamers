@@ -300,12 +300,12 @@ class AccountingService
             ->map(function($entry,$index){
                 $accountId=(int)($entry['account_id']??0);
 
-                $debit=round(
+                $debit=app_round(
                     (float)($entry['debit']??0),
                     2
                 );
 
-                $credit=round(
+                $credit=app_round(
                     (float)($entry['credit']??0),
                     2
                 );
@@ -457,7 +457,11 @@ class AccountingService
     private function generateNumber(): string
     {
         $month=now()->format('Ym');
-        $prefix="JV-{$month}-";
+
+        $codePrefix=trim((string)setting('journal_code_prefix','JV'));
+        $codePrefix=$codePrefix!==''?strtoupper($codePrefix):'JV';
+
+        $prefix="{$codePrefix}-{$month}-";
 
         return $this->numberSequenceService->next(
             key:"journal:{$month}",

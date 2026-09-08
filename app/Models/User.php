@@ -33,7 +33,6 @@ class User extends Authenticatable
         'email',
         'mobile',
         'password',
-        'language',
         'is_active',
         'role_id',
         'password_setup_token',

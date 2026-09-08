@@ -17,16 +17,16 @@ class BalanceSheetService
         $liabilities=$accounts->where('type','liability')->values();
         $equity=$accounts->where('type','equity')->values();
 
-        $income=round((float)$accounts->where('type','income')->sum('balance'),2);
-        $expenses=round((float)$accounts->where('type','expense')->sum('balance'),2);
-        $currentSurplus=round($income-$expenses,2);
+        $income=app_round((float)$accounts->where('type','income')->sum('balance'),2);
+        $expenses=app_round((float)$accounts->where('type','expense')->sum('balance'),2);
+        $currentSurplus=app_round($income-$expenses,2);
 
-        $totalAssets=round((float)$assets->sum('balance'),2);
-        $totalLiabilities=round((float)$liabilities->sum('balance'),2);
-        $baseEquity=round((float)$equity->sum('balance'),2);
-        $totalEquity=round($baseEquity+$currentSurplus,2);
-        $liabilitiesAndEquity=round($totalLiabilities+$totalEquity,2);
-        $difference=round($totalAssets-$liabilitiesAndEquity,2);
+        $totalAssets=app_round((float)$assets->sum('balance'),2);
+        $totalLiabilities=app_round((float)$liabilities->sum('balance'),2);
+        $baseEquity=app_round((float)$equity->sum('balance'),2);
+        $totalEquity=app_round($baseEquity+$currentSurplus,2);
+        $liabilitiesAndEquity=app_round($totalLiabilities+$totalEquity,2);
+        $difference=app_round($totalAssets-$liabilitiesAndEquity,2);
 
         return[
             'as_of'=>$asOf,
@@ -118,7 +118,7 @@ class BalanceSheetService
             'type'=>$account->type,
             'sub_type'=>$account->sub_type,
             'is_active'=>(bool)$account->is_active,
-            'balance'=>round($balance,2),
+            'balance'=>app_round($balance,2),
         ];
     }
 }

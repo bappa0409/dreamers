@@ -9,7 +9,7 @@
     @php
         $seoOrgName = setting('organization_name', 'Dreamers Association');
 
-        $seoDefaultDescription = 'Dreamers Association — সদস্যদের সম্মিলিত সঞ্চয়, বিনিয়োগ ও সম্পদ গঠনের মাধ্যমে স্বচ্ছ ও দীর্ঘমেয়াদি আর্থিক উন্নয়ন নিশ্চিত করার একটি ঐক্যবদ্ধ উদ্যোগ।';
+        $seoDefaultDescription = $seoOrgName . ' — সদস্যদের সম্মিলিত সঞ্চয়, বিনিয়োগ ও সম্পদ গঠনের মাধ্যমে স্বচ্ছ ও দীর্ঘমেয়াদি আর্থিক উন্নয়ন নিশ্চিত করার একটি ঐক্যবদ্ধ উদ্যোগ।';
         $seoDefaultTitle = $seoOrgName . ' | স্বচ্ছতা, ঐক্য ও সম্মিলিত আর্থিক উন্নয়ন';
 
         $seoTitle = trim($__env->yieldContent('title', $seoDefaultTitle));

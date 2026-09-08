@@ -9,6 +9,7 @@
         @yield('title', setting('organization_name', 'Dreamers Association'))
     </title>
 
+    @include('partials.app-config')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
      @if(setting('site_favicon'))
@@ -239,6 +240,11 @@
     @stack('styles')
 </head>
 
+@php
+    $organizationName = setting('organization_name', 'Dreamers Association');
+    $siteLogo = setting('site_logo');
+@endphp
+
 <body class="min-h-screen bg-slate-50">
     <div class="min-h-screen flex">
 
@@ -262,16 +268,21 @@
                 <div>
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-14 h-14 rounded-md bg-white/95 flex items-center justify-center shadow-xl shadow-black/10">
-                            <div
-                                class="w-9 h-9 rounded-md bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl">
-                                D
-                            </div>
+                            class="w-14 h-14 rounded-md bg-white/95 flex items-center justify-center shadow-xl shadow-black/10 overflow-hidden">
+                            @if($siteLogo)
+                                <img src="{{ asset('storage/'.$siteLogo) }}" alt="{{ $organizationName }}"
+                                    class="h-full w-full object-contain">
+                            @else
+                                <div
+                                    class="w-9 h-9 rounded-md bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl">
+                                    {{ mb_substr($organizationName, 0, 1) }}
+                                </div>
+                            @endif
                         </div>
 
                         <div>
                             <h1 class="text-xl font-bold tracking-wide">
-                                Dreamers Association
+                                {{ $organizationName }}
                             </h1>
 
                             <p class="text-emerald-100 text-sm mt-1">
@@ -282,10 +293,6 @@
                 </div>
 
                 <div class="max-w-xl">
-                    <p class="text-emerald-200 uppercase tracking-[0.3em] text-sm font-semibold mb-3">
-                        @yield('brand-eyebrow', 'DREAMERS ASSOCIATION')
-                    </p>
-
                     <h2 class="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight">
                         @yield('brand-heading')
                     </h2>
@@ -300,7 +307,7 @@
                     </div>
                 </div>
 
-                <div class="text-sm text-emerald-100/60">© {{ date('Y') }} Dreamers Association
+                <div class="text-sm text-emerald-100/60">© {{ date('Y') }} {{ $organizationName }}
                     <span class="mx-2">•</span> Secure Member Portal
                 </div>
             </div>
@@ -315,12 +322,17 @@
 
                 <div class="lg:hidden text-center mb-10">
                     <div
-                        class="mobile-logo mx-auto w-16 h-16 rounded-md bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center text-white text-2xl font-extrabold">
-                        D
+                        class="mobile-logo mx-auto w-16 h-16 rounded-md bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center text-white text-2xl font-extrabold overflow-hidden">
+                        @if($siteLogo)
+                            <img src="{{ asset('storage/'.$siteLogo) }}" alt="{{ $organizationName }}"
+                                class="h-full w-full object-contain">
+                        @else
+                            {{ mb_substr($organizationName, 0, 1) }}
+                        @endif
                     </div>
 
                     <h1 class="mt-4 text-xl font-bold text-slate-900">
-                        Dreamers Association
+                        {{ $organizationName }}
                     </h1>
 
                     <p class=" text-xs 2xl:text-sm text-slate-500">

@@ -43,7 +43,7 @@ class LoanService
 
             $this->ensureNoOutstandingLoan($member);
 
-            $amount=round((float)$data['requested_amount'],2);
+            $amount=app_round((float)$data['requested_amount'],2);
 
             $this->validateMaximumAmount($amount);
 
@@ -87,7 +87,7 @@ class LoanService
             }
 
             if(array_key_exists('requested_amount',$data)){
-                $amount=round((float)$data['requested_amount'],2);
+                $amount=app_round((float)$data['requested_amount'],2);
                 $this->validateMaximumAmount($amount);
                 $loan->requested_amount=$amount;
             }
@@ -141,7 +141,7 @@ class LoanService
 
             $this->ensureNoOutstandingLoan($member,$loan->id);
 
-            $approvedAmount=round(
+            $approvedAmount=app_round(
                 (float)($decisionData['approved_amount']??$loan->requested_amount),
                 2
             );
@@ -194,12 +194,12 @@ class LoanService
             | principal + fixed interest is paid once at maturity.
             |
             */
-            $interestAmount=round(
+            $interestAmount=app_round(
                 $approvedAmount*($interestRate/100),
                 2
             );
 
-            $totalPayable=round(
+            $totalPayable=app_round(
                 $approvedAmount+$interestAmount,
                 2
             );
@@ -388,7 +388,7 @@ class LoanService
                 ->addMonthsNoOverflow((int)$loan->duration_months)
                 ->toDateString();
 
-            $amount=round((float)$loan->approved_amount,2);
+            $amount=app_round((float)$loan->approved_amount,2);
 
             /*
             |--------------------------------------------------------------------------
@@ -480,16 +480,16 @@ class LoanService
                 'receive_account_id'
             );
 
-            $principal=round((float)$loan->approved_amount,2);
-            $interest=round((float)$loan->interest_amount,2);
+            $principal=app_round((float)$loan->approved_amount,2);
+            $interest=app_round((float)$loan->interest_amount,2);
             $penalty=0.00;
 
-            $expectedTotal=round(
+            $expectedTotal=app_round(
                 $principal+$interest+$penalty,
                 2
             );
 
-            $receivedTotal=round(
+            $receivedTotal=app_round(
                 (float)$data['total_amount'],
                 2
             );
@@ -689,7 +689,7 @@ class LoanService
             ->sum('principal_amount');
 
         return max(
-            round(
+            app_round(
                 $approved-$principalRepaid,
                 2
             ),

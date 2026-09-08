@@ -24,7 +24,7 @@ class MemberDashboardController extends Controller
             'success'=>true,
             'data'=>[
                 'member'=>$member->load([
-                    'user:id,name,email,mobile,language,is_active',
+                    'user:id,name,email,mobile,is_active',
                     'subscriptions.plan',
                     'shares',
                 ]),
@@ -45,7 +45,7 @@ class MemberDashboardController extends Controller
             'success'=>true,
             'data'=>[
                 'member'=>$member->load([
-                    'user:id,name,email,mobile,language,is_active',
+                    'user:id,name,email,mobile,is_active',
                 ]),
             ],
         ]);
@@ -101,7 +101,7 @@ class MemberDashboardController extends Controller
                 'message'=>'Profile updated successfully.',
                 'data'=>[
                     'member'=>$member->fresh([
-                        'user:id,name,email,mobile,language,is_active',
+                        'user:id,name,email,mobile,is_active',
                     ]),
                 ],
             ]);

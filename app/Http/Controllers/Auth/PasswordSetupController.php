@@ -73,7 +73,7 @@ class PasswordSetupController extends Controller
             ->route($route)
             ->with(
                 'success',
-                'Password created successfully. Welcome to Dreamers Association.'
+                'Password created successfully. Welcome to '.setting('organization_name', 'Dreamers Association').'.'
             );
     }
 

@@ -17,7 +17,10 @@
 
                     <tr>
                         <td style="background:#0d3b66;padding:24px;text-align:center;color:#ffffff;">
-                            <h2 style="margin:0;font-size:22px;">Dreamers Association</h2>
+                            @if(setting('site_logo'))
+                                <img src="{{ asset('storage/'.setting('site_logo')) }}" alt="{{ setting('organization_name', 'Dreamers Association') }}" style="max-height:40px;margin-bottom:8px;">
+                            @endif
+                            <h2 style="margin:0;font-size:22px;">{{ setting('organization_name', 'Dreamers Association') }}</h2>
                         </td>
                     </tr>
 

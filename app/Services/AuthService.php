@@ -210,7 +210,6 @@ class AuthService
             'name' => $user->name,
             'email' => $user->email,
             'mobile' => $user->mobile,
-            'language' => $user->language,
             'is_active' => (bool) $user->is_active,
             'member' => $user->member,
             'roles' => $user->roles

@@ -89,7 +89,7 @@ class WelfareService
                 ]);
             }
 
-            $amount=round((float)$data['amount'],2);
+            $amount=app_round((float)$data['amount'],2);
 
             if($amount<=0){
                 throw ValidationException::withMessages([
@@ -170,7 +170,7 @@ class WelfareService
                 ]);
             }
 
-            $amount=round(
+            $amount=app_round(
                 (float)$data['requested_amount'],
                 2
             );
@@ -294,7 +294,7 @@ class WelfareService
                 ]);
             }
 
-            $approvedAmount=round(
+            $approvedAmount=app_round(
                 (float)($decisionData['approved_amount']??$request->requested_amount),
                 2
             );
@@ -524,7 +524,7 @@ class WelfareService
                 $request->id
             );
 
-            $amount=round(
+            $amount=app_round(
                 (float)$request->approved_amount,
                 2
             );
@@ -800,12 +800,12 @@ class WelfareService
 
     public function fundSummary(WelfareFund $fund): array
     {
-        $allocated=round(
+        $allocated=app_round(
             (float)$fund->allocations()->sum('amount'),
             2
         );
 
-        $committed=round(
+        $committed=app_round(
             (float)$fund->requests()
                 ->whereIn(
                     'status',
@@ -815,7 +815,7 @@ class WelfareService
             2
         );
 
-        $spent=round(
+        $spent=app_round(
             (float)$fund->requests()
                 ->where('status','completed')
                 ->sum('approved_amount'),
@@ -828,7 +828,7 @@ class WelfareService
             'spent'=>$spent,
             'available'=>max(
                 0,
-                round($allocated-$committed,2)
+                app_round($allocated-$committed,2)
             )
         ];
     }
@@ -859,7 +859,7 @@ class WelfareService
                     'completed'
                 )->count(),
 
-                'total_disbursed'=>round(
+                'total_disbursed'=>app_round(
                     (float)WelfareRequest::where(
                         'status',
                         'completed'
@@ -894,7 +894,7 @@ class WelfareService
 
         return max(
             0,
-            round($allocated-$committed,2)
+            app_round($allocated-$committed,2)
         );
     }
 
@@ -906,7 +906,7 @@ class WelfareService
             $requestId
         );
 
-        return round(
+        return app_round(
             $this->availableForApproval(
                 $fundId,
                 $requestId

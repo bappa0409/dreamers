@@ -22,7 +22,7 @@ class MemberPasswordSetupMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject:'Set Your Dreamers Association Password'
+            subject: 'Set Your '.setting('organization_name', 'Dreamers Association').' Password'
         );
     }
 

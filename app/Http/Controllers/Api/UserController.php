@@ -23,7 +23,7 @@ class UserController extends Controller
         $perPage=min((int)($validated['per_page']??20),100);
 
         $query=User::query()
-            ->select('id','name','email','mobile','language','is_active','created_at')
+            ->select('id','name','email','mobile','is_active','created_at')
             ->with([
                 'member:id,user_id,member_code,status',
                 'roles:id,name,display_name'
@@ -66,8 +66,7 @@ class UserController extends Controller
             'name'=>'required|string|max:150',
             'email'=>'required|email:rfc|max:255|unique:users,email',
             'mobile'=>'nullable|string|max:20|unique:users,mobile',
-            'password'=>'required|string|min:8|confirmed',
-            'language'=>'nullable|in:en,bn',
+            'password'=>'required|string|min:8|confirmed'
         ]);
 
         $user=User::create([
@@ -75,7 +74,6 @@ class UserController extends Controller
             'email'=>$validated['email'],
             'mobile'=>$validated['mobile']??null,
             'password'=>Hash::make($validated['password']),
-            'language'=>$validated['language']??setting('default_language','en'),
             'is_active'=>true,
         ]);
 
@@ -102,14 +100,12 @@ class UserController extends Controller
                 'max:20',
                 Rule::unique('users','mobile')->ignore($user->id)
             ],
-            'language'=>'nullable|in:en,bn',
         ]);
 
         $user->update([
             'name'=>$validated['name'],
             'email'=>$validated['email'],
             'mobile'=>$validated['mobile']??null,
-            'language'=>$validated['language']??setting('default_language','en'),
         ]);
 
         return response()->json([

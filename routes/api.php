@@ -18,7 +18,6 @@ use App\Http\Controllers\Api\IncomeController;
 use App\Http\Controllers\Api\InvestmentController;
 use App\Http\Controllers\Api\LandController;
 use App\Http\Controllers\Api\WebsiteSectionController;
-use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\MailCampaignController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MemberDashboardController;
@@ -41,7 +40,6 @@ use App\Http\Controllers\Api\MeetingDecisionController;
 use App\Http\Controllers\Api\MeetingExpenseController;
 use App\Http\Controllers\Api\MemberChargeController;
 use App\Http\Controllers\Api\ChargePaymentController;
-use App\Http\Controllers\Api\CommitteeController;
 use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NomineeController;
@@ -660,17 +658,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [ActivityLogController::class, 'index']);
         Route::get('/filters', [ActivityLogController::class, 'filters']);
         Route::get('/{activityLog}', [ActivityLogController::class, 'show']);
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Language
-    |--------------------------------------------------------------------------
-    */
-
-    Route::prefix('language')->group(function () {
-        Route::get('/', [LanguageController::class, 'current']);
-        Route::post('/switch', [LanguageController::class, 'switch']);
     });
 
     /*

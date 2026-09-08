@@ -129,6 +129,7 @@ class TellerService
             );
 
             if(
+                !setting('allow_negative_balance',false)&&
                 round((float)$data['amount'],2)>
                 round($balance['balance'],2)
             ){
