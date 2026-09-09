@@ -53,28 +53,28 @@ class DashboardController extends Controller
     }
 
     private function monthlyInvestments(): array
-{
-    $data = [];
+    {
+        $data = [];
 
-    for ($month = 1; $month <= 12; $month++) {
+        for ($month = 1; $month <= 12; $month++) {
 
-        $data[] = [
-            'month' => $month,
+            $data[] = [
+                'month' => $month,
 
-            'amount' => Investment::whereYear(
-                'investment_date',
-                now()->year
-            )
-            ->whereMonth(
-                'investment_date',
-                $month
-            )
-            ->sum('amount'),
-        ];
+                'amount' => Investment::whereYear(
+                    'investment_date',
+                    now()->year
+                )
+                ->whereMonth(
+                    'investment_date',
+                    $month
+                )
+                ->sum('amount'),
+            ];
+        }
+
+        return $data;
     }
-
-    return $data;
-}
 
     private function memberStats(): array
     {
@@ -219,26 +219,26 @@ class DashboardController extends Controller
     }
 
     private function monthlyMembers(): array
-{
-    $data = [];
+    {
+        $data = [];
 
-    for ($month = 1; $month <= 12; $month++) {
+        for ($month = 1; $month <= 12; $month++) {
 
-        $data[] = [
-            'month' => $month,
+            $data[] = [
+                'month' => $month,
 
-            'count' => Member::whereYear(
-                'created_at',
-                now()->year
-            )
-            ->whereMonth(
-                'created_at',
-                $month
-            )
-            ->count(),
-        ];
+                'count' => Member::whereYear(
+                    'created_at',
+                    now()->year
+                )
+                ->whereMonth(
+                    'created_at',
+                    $month
+                )
+                ->count(),
+            ];
+        }
+
+        return $data;
     }
-
-    return $data;
-}
 }

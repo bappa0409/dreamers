@@ -55,52 +55,83 @@
         </div>
     </div>
 
-    {{-- Search / Filter --}}
-    <div class="rounded-md border border-slate-200 bg-white p-3">
-        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    {{-- Search Assets --}}
+<div class="rounded-md border border-slate-200 bg-white p-3">
+    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-            <div class="flex items-center gap-2">
-                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-search text-base"></i>
-                </div>
+        {{-- Header --}}
+        <div class="flex items-center gap-2">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-search text-base"></i>
+            </div>
 
-                <div>
-                    <p class="text-sm font-semibold text-slate-700">
-                        Search Assets
-                    </p>
+            <div>
+                <p class="text-sm font-semibold text-slate-700">
+                    Search Assets
+                </p>
+                <p class="hidden text-[11px] text-slate-400 sm:block">
+                    Search by code, name, category, vendor, serial or reference.
+                </p>
+            </div>
+        </div>
 
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
-                        Search by code, name, category, vendor, serial or reference.
-                    </p>
+        <div class="flex w-full items-center gap-2 lg:w-auto">
+
+            {{-- Search --}}
+            <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                <i
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+
+                <input id="searchInput" type="text" placeholder="Search assets..."
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+            </div>
+
+            {{-- Filter --}}
+            <button type="button" onclick="toggleFilters()" id="filterButton"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                <i class="bi bi-funnel text-xs"></i>
+                <span>Filter</span>
+                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+            </button>
+
+            {{-- Clear --}}
+            <button type="button" onclick="clearFilters()"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                <span class="hidden sm:inline">Reset</span>
+            </button>
+        </div>
+    </div>
+
+
+    {{-- Filter Options --}}
+    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+            {{-- Date Range --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Date Range
+                </label>
+
+                <div class="relative">
+                    <i
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+
+                    <input id="dateRangeFilter" type="text"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        placeholder="Select date range" autocomplete="off">
                 </div>
             </div>
 
-            <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:grid-cols-[minmax(220px,280px)_240px_150px_170px_auto] lg:gap-0">
+            {{-- Status --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Status
+                </label>
 
-                <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-
-                    <input
-                        id="searchInput"
-                        type="text"
-                        placeholder="Search..."
-                        class="h-9 w-full rounded-md border border-slate-300 pl-9 pr-3  text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:rounded-r-none">
-                </div>
-
-                <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-
-                    <input
-                        id="dateRangeFilter"
-                        type="text"
-                        class="js-date-range h-9 w-full border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 lg:border-l-0"
-                        placeholder="Select date range"
-                        autocomplete="off">
-                </div>
-
-                <select
-                    id="statusFilter"
-                    class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+                <select id="statusFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                     <option value="">All Status</option>
                     <option value="pending_approval">Pending Approval</option>
                     <option value="rejected">Rejected</option>
@@ -109,22 +140,23 @@
                     <option value="disposed">Disposed</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
+            </div>
 
-                <select
-                    id="categoryFilter"
-                    class="h-9 border border-slate-300 px-3 text-xs 2xl:text-sm outline-none focus:border-indigo-400 lg:border-l-0">
+            {{-- Category --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Category
+                </label>
+
+                <select id="categoryFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                     <option value="">All Categories</option>
                 </select>
-
-                <button
-                    type="button"
-                    onclick="clearFilters()"
-                    class="h-9 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100 lg:rounded-l-none lg:border-l-0">
-                    Clear
-                </button>
             </div>
+
         </div>
     </div>
+</div>
 
     {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">

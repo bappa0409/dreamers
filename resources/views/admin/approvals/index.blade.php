@@ -327,7 +327,7 @@ DETAIL MODAL
                 onclick="closeDetailModal()"
                 class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
-                Close
+                <i class="bi bi-x-lg"></i> Close
             </button>
         </div>
 

@@ -60,5 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/change-password', [ForcePasswordChangeController::class, 'update'])->middleware('throttle:5,1')->name('password.force-change.submit');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/skip-workflow-setup', [DashboardController::class, 'skipWorkflowSetup'])->name('dashboard.skip-workflow-setup');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

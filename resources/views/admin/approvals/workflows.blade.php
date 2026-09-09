@@ -107,26 +107,43 @@
 
         <form id="workflowForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-4 overflow-y-auto p-5">
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
-                        <label class="form-label">Module *</label>
-                        <select id="module" class="app-input cursor-pointer">
-                            <option value="">Select Module</option>
-                        </select>
+                <section class="rounded-md border border-slate-200 p-4">
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Workflow Trigger</h3>
+                            <p class="text-[11px] text-slate-400">Which module and action this workflow applies to.</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="form-label">Action *</label>
-                        <select id="action" class="app-input cursor-pointer">
-                            <option value="">Select Action</option>
-                        </select>
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="form-label">Module *</label>
+                            <select id="module" class="app-input cursor-pointer">
+                                <option value="">Select Module</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Action *</label>
+                            <select id="action" class="app-input cursor-pointer">
+                                <option value="">Select Action</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                </section>
 
                 <section class="rounded-md border border-slate-200 p-4">
-                    <div class="mb-4">
-                        <h3 class="text-sm font-semibold text-slate-800">Approval Steps</h3>
-                        <p class="mt-1 text-[11px] text-slate-400">Step 1 is required. Step 2 and Step 3 are optional.</p>
+                    <div class="mb-4 flex items-center gap-3">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                            <i class="bi bi-list-ol"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-800">Approval Steps</h3>
+                            <p class="text-[11px] text-slate-400">Step 1 is required. Step 2 and Step 3 are optional.</p>
+                        </div>
                     </div>
 
                     <div class="space-y-3">
@@ -153,22 +170,33 @@
                     </div>
                 </section>
 
-                <label class="flex cursor-pointer items-center justify-between rounded-md border border-slate-200 p-3">
-                    <div>
-                        <p class="text-sm font-semibold text-slate-700">Active Workflow</p>
-                        <p class="mt-1 text-[10px] text-slate-400">New requests will use this workflow.</p>
+                <label class="flex cursor-pointer items-center justify-between gap-3 rounded-md border border-slate-200 p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                            <i class="bi bi-toggle2-on"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-700">Active Workflow</p>
+                            <p class="mt-0.5 text-[10px] text-slate-400">New requests will use this workflow.</p>
+                        </div>
                     </div>
 
-                    <input id="isActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
+                    <input id="isActive" type="checkbox" checked class="h-4 w-4 shrink-0 rounded border-slate-300 text-indigo-600">
                 </label>
 
                 <div id="workflowError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeWorkflowModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeWorkflowModal()" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <i class="bi bi-x-lg"></i>
+                    Cancel
+                </button>
 
-                <button id="saveWorkflowButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Save Workflow</button>
+                <button id="saveWorkflowButton" type="submit" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                    <i class="bi bi-check2-circle"></i>
+                    <span class="workflow-save-label">Save Workflow</span>
+                </button>
             </div>
         </form>
     </div>
@@ -373,7 +401,7 @@ window.openWorkflowModal=function(workflow=null){
     document.getElementById('workflowModalTitle').innerText=
         workflow?'Edit Workflow':'Add Workflow';
 
-    el.saveButton.innerText=
+    el.saveButton.querySelector('.workflow-save-label').textContent=
         workflow?'Update Workflow':'Save Workflow';
 
     el.isActive.checked=true;

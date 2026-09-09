@@ -6,399 +6,486 @@
 @section('content')
 <div class="space-y-5">
 
-{{-- Header --}}
-<div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
-<div class="flex items-start gap-3">
-<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-headset"></i>
-</div>
-<div>
-<h1 class="text-base font-bold text-slate-800">Feedback & Support</h1>
-<p class=" text-xs 2xl:text-sm text-slate-500">Manage member feedback, support requests, complaints, suggestions and service issues.</p>
-</div>
-</div>
+  {{-- Header --}}
+  <div
+    class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
+    <div class="flex items-start gap-3">
+      <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+        <i class="bi bi-headset"></i>
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-slate-800">Feedback & Support</h1>
+        <p class=" text-xs 2xl:text-sm text-slate-500">Manage member feedback, support requests, complaints, suggestions
+          and service issues.</p>
+      </div>
+    </div>
 
-@if(auth()->user()->hasPermission('FeedbackSupport.create'))
-<button type="button" onclick="openCreateModal()" class="inline-flex w-fit items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
-<i class="bi bi-plus-lg"></i>
-New Feedback / Support
-</button>
-@endif
-</div>
+    @if(auth()->user()->hasPermission('FeedbackSupport.create'))
+    <button type="button" onclick="openCreateModal()"
+      class="inline-flex w-fit items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+      <i class="bi bi-plus-lg"></i>
+      New Feedback / Support
+    </button>
+    @endif
+  </div>
 
-{{-- Statistics --}}
-<div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-@php
-$stats=[
-['total','Total','bi-collection','border-slate-200 bg-white','text-slate-800','bg-slate-100 text-slate-500'],
-['open','Open','bi-inbox','border-sky-200 bg-sky-50/40','text-sky-700','bg-sky-100 text-sky-600'],
-['urgent','Urgent','bi-exclamation-triangle','border-red-200 bg-red-50/40','text-red-700','bg-red-100 text-red-600'],
-['resolved','Resolved','bi-patch-check','border-emerald-200 bg-emerald-50/40','text-emerald-700','bg-emerald-100 text-emerald-600'],
-['closed','Closed','bi-check2-circle','border-indigo-200 bg-indigo-50/40','text-indigo-700','bg-indigo-100 text-indigo-600'],
-];
-@endphp
+  {{-- Statistics --}}
+  <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+    @php
+    $stats=[
+    ['total','Total','bi-collection','border-slate-200 bg-white','text-slate-800','bg-slate-100 text-slate-500'],
+    ['open','Open','bi-inbox','border-sky-200 bg-sky-50/40','text-sky-700','bg-sky-100 text-sky-600'],
+    ['urgent','Urgent','bi-exclamation-triangle','border-red-200 bg-red-50/40','text-red-700','bg-red-100
+    text-red-600'],
+    ['resolved','Resolved','bi-patch-check','border-emerald-200 bg-emerald-50/40','text-emerald-700','bg-emerald-100
+    text-emerald-600'],
+    ['closed','Closed','bi-check2-circle','border-indigo-200 bg-indigo-50/40','text-indigo-700','bg-indigo-100
+    text-indigo-600'],
+    ];
+    @endphp
 
-@foreach($stats as [$key,$label,$icon,$box,$text,$iconBox])
-<div class="rounded-md border p-4 {{ $box }}">
-<div class="flex items-start justify-between gap-3">
-<div>
-<p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
-<p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
-</div>
-<div class="flex h-8 w-8 items-center justify-center rounded-md {{ $iconBox }}">
-<i class="bi {{ $icon }} text-base"></i>
-</div>
-</div>
-</div>
-@endforeach
-</div>
+    @foreach($stats as [$key,$label,$icon,$box,$text,$iconBox])
+    <div class="rounded-md border p-4 {{ $box }}">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
+          <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
+        </div>
+        <div class="flex h-8 w-8 items-center justify-center rounded-md {{ $iconBox }}">
+          <i class="bi {{ $icon }} text-base"></i>
+        </div>
+      </div>
+    </div>
+    @endforeach
+  </div>
 
-{{-- Filters --}}
+  {{-- Search Feedback & Support --}}
 <div class="rounded-md border border-slate-200 bg-white p-3">
-<div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-<div class="flex items-center gap-2">
-<div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-search text-base"></i>
-</div>
-<div>
-<p class="text-sm font-semibold text-slate-700">Search Feedback & Support</p>
-<p class="hidden text-[11px] text-slate-400 sm:block">Search by ticket, member or subject.</p>
-</div>
+    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+
+        {{-- Header --}}
+        <div class="flex items-center gap-2">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-search text-base"></i>
+            </div>
+
+            <div>
+                <p class="text-sm font-semibold text-slate-700">
+                    Search Feedback & Support
+                </p>
+                <p class="hidden text-[11px] text-slate-400 sm:block">
+                    Search by ticket, member or subject.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex w-full items-center gap-2 lg:w-auto">
+
+            {{-- Search --}}
+            <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                <i
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+
+                <input id="searchInput" type="text" placeholder="Search tickets..."
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+            </div>
+
+            {{-- Filter --}}
+            <button type="button" onclick="toggleFilters()" id="filterButton"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                <i class="bi bi-funnel text-xs"></i>
+                <span>Filter</span>
+                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+            </button>
+
+            {{-- Clear --}}
+            <button type="button" onclick="clearFilters()"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                <span class="hidden sm:inline">Reset</span>
+            </button>
+        </div>
+    </div>
+
+
+    {{-- Filter Options --}}
+    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+            {{-- Type --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Type
+                </label>
+
+                <select id="typeFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    <option value="">All Types</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="support_request">Support Request</option>
+                    <option value="complaint">Complaint</option>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="service_issue">Service Issue</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            {{-- Status --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Status
+                </label>
+
+                <select id="statusFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    <option value="">All Status</option>
+                    <option value="submitted">Submitted</option>
+                    <option value="under_review">Under Review</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            {{-- Priority --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Priority
+                </label>
+
+                <select id="priorityFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    <option value="">All Priority</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-<div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:w-auto xl:grid-cols-[270px_155px_155px_145px_auto] xl:gap-0">
-<div class="relative sm:col-span-2 xl:col-span-1">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-<input id="searchInput" type="text" placeholder="Search tickets..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 xl:rounded-r-none">
-</div>
+  {{-- Table + Pagination --}}
+  <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[1080px] table-fixed text-base">
+        <thead class="border-b border-slate-200 bg-slate-50">
+          <tr>
+            <th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Ticket</th>
+            <th class="w-[16%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+            <th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+            <th class="w-[13%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
+            <th class="w-[20%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Subject</th>
+            <th class="w-[9%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Priority</th>
+            <th class="w-[10%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+            <th class="w-[8%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
+          </tr>
+        </thead>
 
-<select id="typeFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
-<option value="">All Types</option>
-<option value="feedback">Feedback</option>
-<option value="support_request">Support Request</option>
-<option value="complaint">Complaint</option>
-<option value="suggestion">Suggestion</option>
-<option value="service_issue">Service Issue</option>
-<option value="other">Other</option>
-</select>
+        <tbody id="ticketTable">
+          <tr>
+            <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading Feedback & Support...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<select id="statusFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
-<option value="">All Status</option>
-<option value="submitted">Submitted</option>
-<option value="under_review">Under Review</option>
-<option value="assigned">Assigned</option>
-<option value="in_progress">In Progress</option>
-<option value="resolved">Resolved</option>
-<option value="closed">Closed</option>
-<option value="rejected">Rejected</option>
-<option value="cancelled">Cancelled</option>
-</select>
-
-<select id="priorityFilter" class="h-9 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none xl:rounded-none xl:border-l-0">
-<option value="">All Priority</option>
-<option value="urgent">Urgent</option>
-<option value="high">High</option>
-<option value="normal">Normal</option>
-<option value="low">Low</option>
-</select>
-
-<button type="button" onclick="clearFilters()" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
-<i class="bi bi-x-lg text-[10px]"></i>
-Clear
-</button>
-</div>
-</div>
-</div>
-
-{{-- Table + Pagination --}}
-<div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-<div class="overflow-x-auto">
-<table class="w-full min-w-[1080px] table-fixed text-base">
-<thead class="border-b border-slate-200 bg-slate-50">
-<tr>
-<th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Ticket</th>
-<th class="w-[16%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-<th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-<th class="w-[13%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
-<th class="w-[20%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Subject</th>
-<th class="w-[9%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Priority</th>
-<th class="w-[10%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-<th class="w-[8%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
-</tr>
-</thead>
-
-<tbody id="ticketTable">
-<tr>
-<td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading Feedback & Support...</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
-</div>
+    <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
+  </div>
 </div>
 
 {{-- Create Modal --}}
 <div id="createModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-<div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+  <div class="app-modal-panel flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
 
-<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
-<div class="flex items-center gap-3">
-<div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-headset"></i>
-</div>
-<div>
-<h3 class="text-sm font-semibold text-slate-800">New Feedback & Support</h3>
-<p class=" text-xs 2xl:text-sm text-slate-500">Create a request on behalf of a member.</p>
-</div>
-</div>
-<button type="button" onclick="AdminUI.closeModal('createModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
-</div>
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-slate-800">New Feedback & Support</h3>
+          <p class=" text-xs 2xl:text-sm text-slate-500">Create a request on behalf of a member.</p>
+        </div>
+      </div>
+      <button type="button" onclick="AdminUI.closeModal('createModal')" class="app-modal-close"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
 
-<form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
-<div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
+    <form id="createForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
+      <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
 
-<div id="createError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
+        <div id="createError"
+          class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-<div class="rounded-md border border-slate-200 p-4">
-<div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-md border border-slate-200 p-4">
+          <div class="grid gap-4 md:grid-cols-2">
 
-<div>
-<label class="form-label">Member <span class="text-red-500">*</span></label>
-<select id="memberId" class="app-input w-full">
-<option value="">Select Member</option>
-</select>
-<p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+            <div>
+              <label class="form-label">Member <span class="text-red-500">*</span></label>
+              <select id="memberId" class="app-input w-full">
+                <option value="">Select Member</option>
+              </select>
+              <p data-field-error="memberId" class="mt-1 hidden text-sm text-red-600"></p>
+            </div>
 
-<div>
-<label class="form-label">Category <span class="text-red-500">*</span></label>
-<select id="categoryId" class="app-input w-full">
-<option value="">Select Category</option>
-</select>
-<p data-field-error="categoryId" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+            <div>
+              <label class="form-label">Category <span class="text-red-500">*</span></label>
+              <select id="categoryId" class="app-input w-full">
+                <option value="">Select Category</option>
+              </select>
+              <p data-field-error="categoryId" class="mt-1 hidden text-sm text-red-600"></p>
+            </div>
 
-<div>
-<label class="form-label">Type <span class="text-red-500">*</span></label>
-<select id="ticketType" class="app-input w-full">
-<option value="">Select Type</option>
-<option value="feedback">Feedback</option>
-<option value="support_request">Support Request</option>
-<option value="complaint">Complaint</option>
-<option value="suggestion">Suggestion</option>
-<option value="service_issue">Service Issue</option>
-<option value="other">Other</option>
-</select>
-<p data-field-error="ticketType" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+            <div>
+              <label class="form-label">Type <span class="text-red-500">*</span></label>
+              <select id="ticketType" class="app-input w-full">
+                <option value="">Select Type</option>
+                <option value="feedback">Feedback</option>
+                <option value="support_request">Support Request</option>
+                <option value="complaint">Complaint</option>
+                <option value="suggestion">Suggestion</option>
+                <option value="service_issue">Service Issue</option>
+                <option value="other">Other</option>
+              </select>
+              <p data-field-error="ticketType" class="mt-1 hidden text-sm text-red-600"></p>
+            </div>
 
-<div>
-<label class="form-label">Priority <span class="text-red-500">*</span></label>
-<select id="ticketPriority" class="app-input w-full">
-<option value="normal">Normal</option>
-<option value="low">Low</option>
-<option value="high">High</option>
-<option value="urgent">Urgent</option>
-</select>
-<p data-field-error="ticketPriority" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+            <div>
+              <label class="form-label">Priority <span class="text-red-500">*</span></label>
+              <select id="ticketPriority" class="app-input w-full">
+                <option value="normal">Normal</option>
+                <option value="low">Low</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+              <p data-field-error="ticketPriority" class="mt-1 hidden text-sm text-red-600"></p>
+            </div>
 
-</div>
-</div>
+          </div>
+        </div>
 
-<div class="rounded-md border border-slate-200 p-4">
-<div>
-<label class="form-label">Subject <span class="text-red-500">*</span></label>
-<input id="subject" type="text" maxlength="200" class="app-input w-full" placeholder="Brief subject">
-<p data-field-error="subject" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+        <div class="rounded-md border border-slate-200 p-4">
+          <div>
+            <label class="form-label">Subject <span class="text-red-500">*</span></label>
+            <input id="subject" type="text" maxlength="200" class="app-input w-full" placeholder="Brief subject">
+            <p data-field-error="subject" class="mt-1 hidden text-sm text-red-600"></p>
+          </div>
 
-<div class="mt-4">
-<label class="form-label">Description <span class="text-red-500">*</span></label>
-<textarea id="description" rows="5" maxlength="20000" class="app-input w-full resize-none" placeholder="Describe the feedback or support request..."></textarea>
-<p data-field-error="description" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+          <div class="mt-4">
+            <label class="form-label">Description <span class="text-red-500">*</span></label>
+            <textarea id="description" rows="5" maxlength="20000" class="app-input w-full resize-none"
+              placeholder="Describe the feedback or support request..."></textarea>
+            <p data-field-error="description" class="mt-1 hidden text-sm text-red-600"></p>
+          </div>
 
-<label class="mt-4 flex items-center gap-2 text-sm font-medium text-slate-600">
-<input id="isConfidential" type="checkbox">
-<span>Mark as confidential</span>
-</label>
-</div>
+          <label class="mt-4 flex items-center gap-2 text-sm font-medium text-slate-600">
+            <input id="isConfidential" type="checkbox">
+            <span>Mark as confidential</span>
+          </label>
+        </div>
 
-</div>
+      </div>
 
-<div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('createModal')" class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-<button id="createButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create Request</button>
-</div>
-</form>
-</div>
+      <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+        <button type="button" onclick="AdminUI.closeModal('createModal')"
+          class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+        <button id="createButton" type="submit"
+          class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Create
+          Request</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {{-- Manage Modal --}}
 <div id="manageModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
-<div class="app-modal-panel flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-md bg-white">
+  <div class="app-modal-panel flex max-h-[94vh] w-full max-w-4xl flex-col overflow-hidden rounded-md bg-white">
 
-<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
-<div class="flex items-center gap-3">
-<div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-<i class="bi bi-headset"></i>
-</div>
-<div>
-<h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Feedback & Support</h3>
-<p id="manageSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
-</div>
-</div>
-<button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
-</div>
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div>
+          <h3 id="manageTitle" class="text-sm font-semibold text-slate-800">Feedback & Support</h3>
+          <p id="manageSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
+        </div>
+      </div>
+      <button type="button" onclick="AdminUI.closeModal('manageModal')" class="app-modal-close"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
 
-<div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
+    <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-<div id="manageError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
+      <div id="manageError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700">
+      </div>
 
-<div id="summaryCards" class="grid grid-cols-2 gap-3 md:grid-cols-4"></div>
+      <div id="summaryCards" class="grid grid-cols-2 gap-3 md:grid-cols-4"></div>
 
-<div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
+      <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
 
-<section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-sm font-semibold text-slate-800">Request Information</h4>
-<div id="ticketDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
-</section>
+        <section class="rounded-md border border-slate-200 p-4">
+          <h4 class="text-sm font-semibold text-slate-800">Request Information</h4>
+          <div id="ticketDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
+        </section>
 
-<section class="rounded-md border border-slate-200 p-4">
-<h4 class="text-sm font-semibold text-slate-800">Description</h4>
-<div id="ticketDescription" class="mt-3 whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
+        <section class="rounded-md border border-slate-200 p-4">
+          <h4 class="text-sm font-semibold text-slate-800">Description</h4>
+          <div id="ticketDescription"
+            class="mt-3 whitespace-pre-line rounded-md bg-slate-50 p-3 text-sm leading-5 text-slate-600"></div>
 
-<div id="resolutionWrap" class="mt-3 hidden rounded-md border border-emerald-200 bg-emerald-50 p-3">
-<p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Resolution</p>
-<p id="resolutionText" class="mt-1 whitespace-pre-line text-sm text-emerald-800"></p>
-</div>
-</section>
-</div>
+          <div id="resolutionWrap" class="mt-3 hidden rounded-md border border-emerald-200 bg-emerald-50 p-3">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-emerald-600">Resolution</p>
+            <p id="resolutionText" class="mt-1 whitespace-pre-line text-sm text-emerald-800"></p>
+          </div>
+        </section>
+      </div>
 
-<section class="rounded-md border border-slate-200 p-4">
-<div class="mb-3 flex items-center justify-between">
-<div>
-<h4 class="text-sm font-semibold text-slate-800">Conversation & Updates</h4>
-<p class="text-[11px] text-slate-400">Support responses, member follow-ups and internal notes.</p>
-</div>
-</div>
+      <section class="rounded-md border border-slate-200 p-4">
+        <div class="mb-3 flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-semibold text-slate-800">Conversation & Updates</h4>
+            <p class="text-[11px] text-slate-400">Support responses, member follow-ups and internal notes.</p>
+          </div>
+        </div>
 
-<div id="updateList" class="space-y-2"></div>
-</section>
+        <div id="updateList" class="space-y-2"></div>
+      </section>
 
-</div>
+    </div>
 
-<div id="manageActions" class="flex flex-wrap justify-end gap-2 border-t border-slate-200 px-5 py-4"></div>
-</div>
+    <div id="manageActions" class="flex flex-wrap justify-end gap-2 border-t border-slate-200 px-5 py-4"></div>
+  </div>
 </div>
 
 {{-- Assign Modal --}}
 <div id="assignModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
-<div class="app-modal-panel w-full max-w-lg overflow-hidden rounded-md bg-white">
+  <div class="app-modal-panel w-full max-w-lg overflow-hidden rounded-md bg-white">
 
-<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
-<div>
-<h3 class="text-base font-bold text-slate-800">Assign Request</h3>
-<p class=" text-xs 2xl:text-sm text-slate-500">Assign this request to an active user.</p>
-</div>
-<button type="button" onclick="AdminUI.closeModal('assignModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
-</div>
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
+      <div>
+        <h3 class="text-base font-bold text-slate-800">Assign Request</h3>
+        <p class=" text-xs 2xl:text-sm text-slate-500">Assign this request to an active user.</p>
+      </div>
+      <button type="button" onclick="AdminUI.closeModal('assignModal')" class="app-modal-close"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
 
-<form id="assignForm" novalidate data-js-validation="1">
-<div class="space-y-4 p-5">
-<div id="assignError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
+    <form id="assignForm" novalidate data-js-validation="1">
+      <div class="space-y-4 p-5">
+        <div id="assignError"
+          class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-<div>
-<label class="form-label">Assign To <span class="text-red-500">*</span></label>
-<select id="assignedTo" class="app-input w-full">
-<option value="">Select User</option>
-</select>
-<p data-field-error="assignedTo" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+        <div>
+          <label class="form-label">Assign To <span class="text-red-500">*</span></label>
+          <select id="assignedTo" class="app-input w-full">
+            <option value="">Select User</option>
+          </select>
+          <p data-field-error="assignedTo" class="mt-1 hidden text-sm text-red-600"></p>
+        </div>
 
-<div>
-<label class="form-label">Assignment Note</label>
-<textarea id="assignmentNote" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
-</div>
-</div>
+        <div>
+          <label class="form-label">Assignment Note</label>
+          <textarea id="assignmentNote" rows="3" maxlength="5000" class="app-input w-full resize-none"></textarea>
+        </div>
+      </div>
 
-<div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('assignModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
-<button id="assignButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Assign</button>
-</div>
-</form>
-</div>
+      <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+        <button type="button" onclick="AdminUI.closeModal('assignModal')"
+          class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+        <button id="assignButton" type="submit"
+          class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Assign</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {{-- Note / Response Modal --}}
 <div id="messageModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
-<div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
+  <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
 
-<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
-<div>
-<h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
-<p id="messageModalSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
-</div>
-<button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
-</div>
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
+      <div>
+        <h3 id="messageModalTitle" class="text-base font-bold text-slate-800">Add Response</h3>
+        <p id="messageModalSubtitle" class=" text-xs 2xl:text-sm text-slate-500"></p>
+      </div>
+      <button type="button" onclick="AdminUI.closeModal('messageModal')" class="app-modal-close"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
 
-<form id="messageForm" novalidate data-js-validation="1">
-<div class="p-5">
-<div id="messageError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
+    <form id="messageForm" novalidate data-js-validation="1">
+      <div class="p-5">
+        <div id="messageError"
+          class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-<label class="form-label">Message <span class="text-red-500">*</span></label>
-<textarea id="messageText" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
-<p data-field-error="messageText" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+        <label class="form-label">Message <span class="text-red-500">*</span></label>
+        <textarea id="messageText" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
+        <p data-field-error="messageText" class="mt-1 hidden text-sm text-red-600"></p>
+      </div>
 
-<div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('messageModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
-<button id="messageButton" type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Save</button>
-</div>
-</form>
-</div>
+      <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+        <button type="button" onclick="AdminUI.closeModal('messageModal')"
+          class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+        <button id="messageButton" type="submit"
+          class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Save</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {{-- Resolve Modal --}}
 <div id="resolveModal" class="app-modal-overlay fixed inset-0 z-[60] hidden items-center justify-center p-3">
-<div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
+  <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
 
-<div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
-<div>
-<h3 class="text-base font-bold text-slate-800">Resolve Request</h3>
-<p class=" text-xs 2xl:text-sm text-slate-500">Provide the final resolution for the member.</p>
-</div>
-<button type="button" onclick="AdminUI.closeModal('resolveModal')" class="app-modal-close"><i class="bi bi-x-lg"></i></button>
-</div>
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
+      <div>
+        <h3 class="text-base font-bold text-slate-800">Resolve Request</h3>
+        <p class=" text-xs 2xl:text-sm text-slate-500">Provide the final resolution for the member.</p>
+      </div>
+      <button type="button" onclick="AdminUI.closeModal('resolveModal')" class="app-modal-close"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
 
-<form id="resolveForm" novalidate data-js-validation="1">
-<div class="p-5">
-<div id="resolveError" class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
+    <form id="resolveForm" novalidate data-js-validation="1">
+      <div class="p-5">
+        <div id="resolveError"
+          class="mb-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-<label class="form-label">Resolution <span class="text-red-500">*</span></label>
-<textarea id="resolution" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
-<p data-field-error="resolution" class="mt-1 hidden text-sm text-red-600"></p>
-</div>
+        <label class="form-label">Resolution <span class="text-red-500">*</span></label>
+        <textarea id="resolution" rows="5" maxlength="10000" class="app-input w-full resize-none"></textarea>
+        <p data-field-error="resolution" class="mt-1 hidden text-sm text-red-600"></p>
+      </div>
 
-<div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-<button type="button" onclick="AdminUI.closeModal('resolveModal')" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
-<button id="resolveButton" type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">Resolve Request</button>
-</div>
-</form>
-</div>
+      <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
+        <button type="button" onclick="AdminUI.closeModal('resolveModal')"
+          class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Cancel</button>
+        <button id="resolveButton" type="submit"
+          class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">Resolve Request</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <style>
-.form-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:600;color:rgb(51 65 85)}
+  .form-label {
+    display: block;
+    margin-bottom: .4rem;
+    font-size: .8rem;
+    font-weight: 600;
+    color: rgb(51 65 85)
+  }
 </style>
 @endsection
 
 @push('scripts')
 <script>
-const API='/api/feedback-support';
+  const API='/api/feedback-support';
 
 const permissions={
 review:@json(auth()->user()->hasPermission('FeedbackSupport.review')),

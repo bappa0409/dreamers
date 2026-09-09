@@ -44,7 +44,7 @@
                     <button
                         type="button"
                         onclick="document.getElementById('importFileInput').click()"
-                        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                        class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                     >
                         <i class="bi bi-upload text-[12px]"></i>
                         Import Database
@@ -78,27 +78,27 @@
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[28%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[28%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Filename
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="w-[13%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[13%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Size
                         </th>
 
-                        <th class="w-[14%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[14%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Created By
                         </th>
 
-                        <th class="w-[17%] px-3 py-3 text-sm font-semibold text-slate-600">
+                        <th class="w-[17%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Created At
                         </th>
 
@@ -113,7 +113,7 @@
                     <tr>
                         <td
                             colspan="7"
-                            class="px-5 py-10 text-center text-base text-slate-400"
+                            class="px-5 py-10 text-center text-xs 2xl:text-sm text-slate-400"
                         >
                             Loading backups...
                         </td>

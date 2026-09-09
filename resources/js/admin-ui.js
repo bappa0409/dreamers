@@ -148,6 +148,35 @@ function adminConfirmTheme(type){
 
 /*
 |--------------------------------------------------------------------------
+| Filter Panel Toggle
+|--------------------------------------------------------------------------
+| Shared by every listing page's "Filter" button. Pass custom ids only
+| if a page uses something other than #filterPanel / #filterChevron.
+*/
+
+function toggleFilters(panelId='filterPanel',chevronId='filterChevron'){
+    const panel=document.getElementById(panelId);
+    const chevron=document.getElementById(chevronId);
+
+    if(!panel)return;
+
+    panel.classList.toggle('hidden');
+
+    if(!chevron)return;
+
+    if(panel.classList.contains('hidden')){
+        chevron.classList.remove('bi-chevron-up');
+        chevron.classList.add('bi-chevron-down');
+    }else{
+        chevron.classList.remove('bi-chevron-down');
+        chevron.classList.add('bi-chevron-up');
+    }
+}
+
+window.toggleFilters=toggleFilters;
+
+/*
+|--------------------------------------------------------------------------
 | Admin UI
 |--------------------------------------------------------------------------
 */

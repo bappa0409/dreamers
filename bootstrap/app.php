@@ -34,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append:[
             CheckMaintenanceMode::class,
-            ForcePasswordChange::class,
+            ForcePasswordChange::class
         ]);
     })
     ->withExceptions(function(Exceptions $exceptions): void{

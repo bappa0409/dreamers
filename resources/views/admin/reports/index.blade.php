@@ -24,22 +24,67 @@
         </button>
     </div>
 
-    {{-- Filters --}}
-    <div class="rounded-md border border-slate-200 bg-white p-3">
-        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <div class="flex items-center gap-2">
-                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-file-earmark-bar-graph text-base"></i>
-                </div>
+    {{-- Report Generator --}}
+<div class="rounded-md border border-slate-200 bg-white p-3">
+    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-                <div>
-                    <p class="text-sm font-semibold text-slate-700">Report Generator</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">Select report type, status and reporting period</p>
-                </div>
+        {{-- Header --}}
+        <div class="flex items-center gap-2">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <i class="bi bi-file-earmark-bar-graph text-base"></i>
             </div>
 
-            <div class="flex w-full flex-col gap-2 sm:flex-row xl:w-auto xl:gap-0">
-                <select id="moduleFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400 xl:w-40 xl:rounded-r-none">
+            <div>
+                <p class="text-sm font-semibold text-slate-700">
+                    Report Generator
+                </p>
+                <p class="hidden text-[11px] text-slate-400 sm:block">
+                    Select report type, status and reporting period.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex w-full items-center gap-2 lg:w-auto">
+
+            {{-- Search --}}
+            <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                <i
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+
+                <input id="searchInput" type="text" placeholder="Search report..."
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+            </div>
+
+            {{-- Filter --}}
+            <button type="button" onclick="toggleFilters()" id="filterButton"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                <i class="bi bi-funnel text-xs"></i>
+                <span>Filter</span>
+                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+            </button>
+
+            {{-- Clear --}}
+            <button type="button" onclick="clearReportFilters()"
+                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                <span class="hidden sm:inline">Reset</span>
+            </button>
+        </div>
+    </div>
+
+
+    {{-- Filter Options --}}
+    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+            {{-- Module --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Module
+                </label>
+
+                <select id="moduleFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                     <option value="members">Members</option>
                     <option value="finance">Finance</option>
                     <option value="investments">Investments</option>
@@ -48,30 +93,39 @@
                     <option value="polls">Polls</option>
                     <option value="notices">Notices</option>
                 </select>
+            </div>
 
-                <div class="relative min-w-0 sm:flex-1 xl:w-56">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+            {{-- Status --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Status
+                </label>
 
-                    <input id="searchInput" type="text" placeholder="Search report..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0">
-                </div>
-
-                <select id="statusFilter" class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-600 outline-none focus:border-indigo-400 xl:w-36 xl:rounded-none xl:border-l-0">
+                <select id="statusFilter"
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                     <option value="">All Status</option>
                 </select>
-
-                <div class="relative min-w-0 xl:w-56">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
-
-                    <input id="reportDateRange" type="text" class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-600 outline-none placeholder:text-slate-400 focus:border-indigo-400 xl:rounded-none xl:border-l-0" placeholder="All time" autocomplete="off">
-                </div>
-
-                <button type="button" onclick="clearReportFilters()" class="h-9 cursor-pointer whitespace-nowrap rounded-md border border-slate-300 bg-slate-50 px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 xl:rounded-l-none xl:border-l-0">
-                    <i class="bi bi-x-lg mr-1"></i>
-                    Clear
-                </button>
             </div>
+
+            {{-- Report Date Range --}}
+            <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500">
+                    Reporting Period
+                </label>
+
+                <div class="relative">
+                    <i
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+
+                    <input id="reportDateRange" type="text"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        placeholder="All time" autocomplete="off">
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 
     {{-- Summary --}}
     <div id="summaryContainer">

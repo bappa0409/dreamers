@@ -206,21 +206,15 @@
                         </button>
 
                         <div id="financeSubmenu"
-                            class="ml-[24px] border-l border-white/10 pl-2 pt-2 {{ $financeOpen?'':'hidden' }}">
+                            class="ml-[12px] border-l border-white/10 pl-1 pt-2 {{ $financeOpen?'':'hidden' }}">
                             @foreach($financeItems as [$route,$match,$icon,$label])
                             @php($active=request()->routeIs($match))
                             <a href="{{ route($route) }}"
-                                class="flex items-center gap-2 rounded-md px-2 py-1 text-[11.5px] transition {{ $active?'bg-white/[0.08] font-semibold text-sky-300':'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
+                                class="flex items-center gap-2 rounded-md px-2 py-1.5 text-[11.5px] transition {{ $active?'bg-white/[0.08] font-semibold text-sky-300':'text-sky-100/60 hover:bg-white/[0.06] hover:text-white' }}">
                                 <i class="bi {{ $icon }} w-4 text-center text-[11px]"></i>
                                 <span>{{ $label }}</span>
                             </a>
                             @endforeach
-
-                            {{-- <a href="{{ route($route) }}"
-                                class="flex items-center gap-2 rounded-md px-2 py-1 text-[11.5px] transition text-sky-100/60 hover:bg-white/[0.06] hover:text-white">
-                                <i class="bi bi-book w-4 text-center text-[11px]"></i>
-                                <span>Accounts Guide</span>
-                            </a> --}}
                         </div>
                     </div>
                     @endif
