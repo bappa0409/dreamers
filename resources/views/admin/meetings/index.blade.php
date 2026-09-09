@@ -4,7 +4,7 @@
 @section('page_title','Meetings')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -19,7 +19,7 @@
 
         @if(auth()->user()->hasPermission('Meeting.create'))
         <button type="button" onclick="openMeetingModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Meeting
         </button>
@@ -74,11 +74,11 @@
         @endphp
 
         @foreach($stats as $stat)
-        <div class="rounded-md border p-4 {{ $stat['box'] }}">
+        <div class="rounded-md border px-5 py-2 {{ $stat['box'] }}">
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                     <p class=" text-xs 2xl:text-sm text-slate-500">{{ $stat['label'] }}</p>
-                    <p id="{{ $stat['id'] }}" class="mt-2 truncate text-xl font-bold {{ $stat['text'] }}">
+                    <p id="{{ $stat['id'] }}" class="truncate text-xl font-bold {{ $stat['text'] }}">
                         @if($stat['id']==='actualExpense')
                             {{ setting('currency_symbol','৳') }}0
                         @else
@@ -108,7 +108,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Meetings
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by meeting number, title or venue.
                 </p>
             </div>
@@ -119,10 +119,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search meetings..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -202,18 +202,18 @@
             <table class="w-full min-w-[850px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Activity</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Expense</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-center text-xs 2xl:text-sm font-semibold text-slate-600">Activity</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Expense</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="meetingTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="6" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">
+                        <td colspan="6" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-500">
                             Loading meetings...
                         </td>
                     </tr>
@@ -224,7 +224,7 @@
 
     {{-- Mobile Cards --}}
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">
             Loading meetings...
         </div>
     </div>
@@ -279,7 +279,7 @@ CREATE / EDIT MEETING MODAL
                     <div>
                         <label class="form-label">Meeting Date <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="meetingDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                         <p data-field-error="meetingDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
@@ -321,13 +321,13 @@ CREATE / EDIT MEETING MODAL
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('meetingModal')"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i>
                     Close
                 </button>
 
                 <button id="saveMeetingButton" type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     Save Meeting
                 </button>
@@ -362,7 +362,7 @@ DETAILS MODAL
         </div>
 
         <div class="flex shrink-0 items-center justify-end border-t border-slate-200 px-5 py-3">
-            <button type="button" onclick="AdminUI.closeModal('detailsModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            <button type="button" onclick="AdminUI.closeModal('detailsModal')" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i> Close
             </button>
         </div>
@@ -549,7 +549,7 @@ DECISION MODAL
                     <div>
                         <label class="form-label">Due Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="decisionDueDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -684,7 +684,7 @@ EXPENSE MODAL
                     <div>
                         <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                         <p data-field-error="expenseDate" class="mt-1 hidden text-sm text-red-600"></p>
@@ -926,7 +926,7 @@ async function loadMeetings(page=1){
     tbody.innerHTML=AdminUI.loadingState('Loading meetings...',6);
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -1051,13 +1051,13 @@ function renderMeetings(){
 
         grid.innerHTML=`
             <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
-                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                     <i class="bi bi-inbox"></i>
                 </div>
                 <p class="mt-3 text-base font-semibold text-slate-600">
                     No meetings found
                 </p>
-                <p class="mt-1 text-xs 2xl:text-sm text-slate-400">
+                <p class="mt-1 text-xs 2xl:text-sm text-slate-500">
                     Try changing your filters.
                 </p>
             </div>
@@ -1077,7 +1077,7 @@ function renderMeetings(){
                     <div class="mt-0.5 max-w-[240px] truncate text-xs 2xl:text-sm text-slate-500">
                         ${esc(meeting.title)}
                     </div>
-                    <div class="mt-1 flex items-center gap-1.5 text-[10px] text-slate-400">
+                    <div class="mt-1 flex items-center gap-1.5 text-[10px] text-slate-500">
                         <span class="rounded bg-slate-100 px-1.5 py-0.5 font-medium text-slate-500">
                             ${esc(formatType(meeting.type))}
                         </span>
@@ -1096,7 +1096,7 @@ function renderMeetings(){
                 <div class="text-xs 2xl:text-sm text-slate-600">
                     ${date(meeting.meeting_date)}
                 </div>
-                <div class="mt-0.5 text-[10px] text-slate-400">
+                <div class="mt-0.5 text-[10px] text-slate-500">
                     ${esc(meetingTime(meeting))}
                 </div>
             </td>
@@ -1104,11 +1104,11 @@ function renderMeetings(){
             <td class="px-4 py-3">
                 <div class="flex items-center justify-center gap-3 text-xs 2xl:text-sm font-medium text-slate-600">
                     <span title="Attendees">
-                        <i class="bi bi-people text-slate-400"></i>
+                        <i class="bi bi-people text-slate-500"></i>
                         ${meeting.attendees_count||0}
                     </span>
                     <span title="Decisions">
-                        <i class="bi bi-check2-square text-slate-400"></i>
+                        <i class="bi bi-check2-square text-slate-500"></i>
                         ${meeting.decisions_count||0}
                     </span>
                 </div>
@@ -1160,7 +1160,7 @@ function renderMeetings(){
                 <div class="space-y-4 p-4">
                     <div class="grid grid-cols-2 gap-3">
                         <div class="rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] font-semibold text-slate-400">
+                            <p class="text-[10px] font-semibold text-slate-500">
                                 Attendees
                             </p>
                             <p class="mt-1 text-xs 2xl:text-sm font-bold text-slate-700">
@@ -1180,35 +1180,35 @@ function renderMeetings(){
 
                     <div class="grid grid-cols-2 gap-x-3 gap-y-3 border-t border-slate-100 pt-3 text-sm">
                         <div>
-                            <p class="text-[10px] text-slate-400">Type</p>
+                            <p class="text-[10px] text-slate-500">Type</p>
                             <p class="mt-0.5 font-medium text-slate-600">
                                 ${esc(formatType(meeting.type))}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-[10px] text-slate-400">Date</p>
+                            <p class="text-[10px] text-slate-500">Date</p>
                             <p class="mt-0.5 font-medium text-slate-600">
                                 ${date(meeting.meeting_date)}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-[10px] text-slate-400">Time</p>
+                            <p class="text-[10px] text-slate-500">Time</p>
                             <p class="mt-0.5 font-medium text-slate-600">
                                 ${esc(meetingTime(meeting))}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-[10px] text-slate-400">Decisions</p>
+                            <p class="text-[10px] text-slate-500">Decisions</p>
                             <p class="mt-0.5 font-medium text-slate-600">
                                 ${meeting.decisions_count||0}
                             </p>
                         </div>
 
                         <div class="col-span-2">
-                            <p class="text-[10px] text-slate-400">Venue</p>
+                            <p class="text-[10px] text-slate-500">Venue</p>
                             <p class="mt-0.5 truncate font-medium text-slate-600">
                                 ${esc(meeting.venue||'—')}
                             </p>
@@ -1540,7 +1540,7 @@ window.viewMeeting=async function(id){
     AdminUI.openModal('detailsModal');
 
     $('detailsContent').innerHTML=`
-        <div class="py-16 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="py-16 text-center text-xs 2xl:text-sm text-slate-500">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
             <p class="mt-2">Loading meeting details...</p>
         </div>
@@ -1615,7 +1615,7 @@ function renderDetails(){
             </div>
 
             <div class="grid gap-3 lg:grid-cols-2">
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-6 flex items-center gap-3">
                         <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-info-circle"></i>
@@ -1623,7 +1623,7 @@ function renderDetails(){
 
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Meeting Information</h4>
-                            <p class="text-[11px] text-slate-400">Basic details of this meeting.</p>
+                            <p class="text-[11px] text-slate-500">Basic details of this meeting.</p>
                         </div>
                     </div>
 
@@ -1664,14 +1664,14 @@ function renderDetails(){
                     }
                 </div>
 
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-3 flex items-center gap-3">
                         <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                             <i class="bi bi-people"></i>
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Attendance Summary</h4>
-                            <p class="text-[11px] text-slate-400">Overview of member attendance.</p>
+                            <p class="text-[11px] text-slate-500">Overview of member attendance.</p>
                         </div>
                     </div>
 
@@ -1771,7 +1771,7 @@ function miniCount(label,value,tone){
 function info(label,value,wide=false){
     return`
         <div class="${wide?'col-span-2':''}">
-            <p class="text-[10px] text-slate-400">${esc(label)}</p>
+            <p class="text-[10px] text-slate-500">${esc(label)}</p>
             <p class="mt-0.5 text-xs 2xl:text-sm break-words font-medium text-slate-600">
                 ${esc(value)}
             </p>
@@ -1803,7 +1803,7 @@ function sectionCard(title,subtitle,icon,iconColor,actionHtml,contentHtml){
                     </div>
                     <div>
                         <h4 class="text-xs 2xl:text-sm font-semibold text-slate-800">${esc(title)}</h4>
-                        <p class="text-[11px] text-slate-400">${esc(subtitle)}</p>
+                        <p class="text-[11px] text-slate-500">${esc(subtitle)}</p>
                     </div>
                 </div>
                 ${actionHtml}
@@ -1911,10 +1911,10 @@ function attendeesHtml(items){
                             </div>
 
                             <div class="min-w-0">
-                                <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                                     ${esc(item.member?.user?.name||'Member')}
                                 </p>
-                                <p class="text-[10px] text-slate-400">
+                                <p class="text-[10px] text-slate-500">
                                     ${esc(item.member?.member_code||'')}
                                 </p>
                             </div>
@@ -1961,7 +1961,7 @@ function decisionsHtml(items){
     return`
         <div class="space-y-3">
             ${items.map(item=>`
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <div class="flex flex-wrap items-center gap-2">
@@ -2112,7 +2112,7 @@ function expensesHtml(items) {
 function infoMini(label,value){
     return`
         <div>
-            <p class="text-slate-400 text-xs 2xl:text-sm">${esc(label)}</p>
+            <p class="text-slate-500 text-xs 2xl:text-sm">${esc(label)}</p>
             <p class="mt-0.5 truncate font-medium text-slate-600">
                 ${esc(value)}
             </p>
@@ -2122,7 +2122,7 @@ function infoMini(label,value){
 
 function emptyBlock(message){
     return`
-        <div class="py-6 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="py-6 text-center text-xs 2xl:text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;

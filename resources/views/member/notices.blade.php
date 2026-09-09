@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -57,11 +57,11 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                         Total Notices
                     </p>
 
-                    <p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">
+                    <p id="summaryTotal" class="text-xl font-bold text-slate-800">
                         0
                     </p>
                 </div>
@@ -97,7 +97,7 @@
                         Events
                     </p>
 
-                    <p id="summaryEvents" class="mt-2 text-xl font-bold text-amber-700">
+                    <p id="summaryEvents" class="text-xl font-bold text-amber-700">
                         0
                     </p>
                 </div>
@@ -138,13 +138,13 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="searchInput"
                         type="text"
                         placeholder="Search notice title or content..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -237,7 +237,7 @@
                     Published Notices
                 </h2>
 
-                <p class="text-[11px] text-slate-400">
+                <p class="text-[11px] text-slate-500">
                     Latest association announcements and updates
                 </p>
             </div>
@@ -250,7 +250,7 @@
             <div class="col-span-full py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-sm text-slate-400">
+                <p class="mt-3 text-sm text-slate-500">
                     Loading notices...
                 </p>
             </div>
@@ -282,7 +282,7 @@
                         Notice Details
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Association notice information
                     </p>
                 </div>
@@ -292,7 +292,7 @@
             <button
                 type="button"
                 onclick="closeNoticeModal()"
-                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
             </button>
 
@@ -356,7 +356,7 @@ async function loadNotices(page=1){
 
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-sm text-slate-400">
+            <p class="mt-3 text-sm text-slate-500">
                 Loading notices...
             </p>
 
@@ -532,7 +532,7 @@ function renderNotices(){
                     No notices found
                 </p>
 
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-sm text-slate-500">
                     No published notices match your current filters.
                 </p>
 
@@ -616,7 +616,7 @@ function renderNotices(){
 
                             <div class="min-w-0">
 
-                                <p class="flex items-center gap-1.5 text-[10px] text-slate-400">
+                                <p class="flex items-center gap-1.5 text-[10px] text-slate-500">
                                     <i class="bi bi-calendar3"></i>
 
                                     ${publishedDate(
@@ -627,7 +627,7 @@ function renderNotices(){
                                 ${
                                     item.creator?.name
                                         ?`
-                                            <p class="mt-1 flex items-center gap-1.5 truncate text-[10px] text-slate-400">
+                                            <p class="mt-1 flex items-center gap-1.5 truncate text-[10px] text-slate-500">
 
                                                 <i class="bi bi-person"></i>
 
@@ -697,19 +697,19 @@ function renderNoticePagination(){
 
                 Showing
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${from}
                 </span>
 
                 –
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${to}
                 </span>
 
                 of
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${total}
                 </span>
 
@@ -787,7 +787,7 @@ window.openNoticeModal=function(id){
     document.getElementById(
         'noticeModalBody'
     ).innerHTML=`
-        <div class="space-y-5">
+        <div class="space-y-3">
 
             <div class="rounded-lg ${modalHeroStyle(priority)} p-5">
 
@@ -853,7 +853,7 @@ window.openNoticeModal=function(id){
                         Notice Content
                     </h3>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Full published announcement
                     </p>
 
@@ -893,7 +893,7 @@ window.openNoticeModal=function(id){
                                             Attachment
                                         </p>
 
-                                        <p class="truncate text-[10px] text-slate-400">
+                                        <p class="truncate text-[10px] text-slate-500">
                                             ${escapeValue(
                                                 fileName(
                                                     item.attachment

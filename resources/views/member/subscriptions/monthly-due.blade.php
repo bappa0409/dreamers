@@ -9,7 +9,7 @@
     $shareEnabled=filter_var(setting('share_enabled',false),FILTER_VALIDATE_BOOLEAN);
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-center gap-4">
             <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-sm">
@@ -40,8 +40,8 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Monthly Payable</p>
-                    <p id="monthlyPayable" class="mt-2 text-xl font-bold text-slate-800">{{ $currency }}0.00</p>
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Monthly Payable</p>
+                    <p id="monthlyPayable" class="text-xl font-bold text-slate-800">{{ $currency }}0.00</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                     <i class="bi bi-calendar2-check"></i>
@@ -65,7 +65,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Paid</p>
-                    <p id="currentPaidAmount" class="mt-2 text-xl font-bold text-emerald-700">{{ $currency }}0.00</p>
+                    <p id="currentPaidAmount" class="text-xl font-bold text-emerald-700">{{ $currency }}0.00</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
                     <i class="bi bi-check-circle"></i>
@@ -77,7 +77,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">Fine</p>
-                    <p id="currentFineAmount" class="mt-2 text-xl font-bold text-amber-700">{{ $currency }}0.00</p>
+                    <p id="currentFineAmount" class="text-xl font-bold text-amber-700">{{ $currency }}0.00</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                     <i class="bi bi-clock-history"></i>
@@ -89,7 +89,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-red-500">Outstanding</p>
-                    <p id="currentOutstandingAmount" class="mt-2 text-xl font-bold text-red-600">{{ $currency }}0.00</p>
+                    <p id="currentOutstandingAmount" class="text-xl font-bold text-red-600">{{ $currency }}0.00</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-red-600">
                     <i class="bi bi-exclamation-circle"></i>
@@ -123,7 +123,7 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-semibold text-slate-800">Current Month</h2>
-                        <p id="currentPeriod" class="text-[11px] text-slate-400">-</p>
+                        <p id="currentPeriod" class="text-[11px] text-slate-500">-</p>
                     </div>
                 </div>
                 <span id="currentStatus" class="w-fit rounded-md bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-slate-600">-</span>
@@ -131,7 +131,7 @@
 
             <div id="currentDueLoading" class="p-10 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-                <p class="mt-3 text-sm text-slate-400">Loading current subscription...</p>
+                <p class="mt-3 text-sm text-slate-500">Loading current subscription...</p>
             </div>
 
             <div id="currentDueContent" class="hidden">
@@ -140,7 +140,7 @@
                         <div class="flex items-center justify-between gap-3">
                             <div>
                                 <p class="text-sm font-semibold text-slate-700">Payment Progress</p>
-                                <p id="progressText" class="mt-0.5 text-[11px] text-slate-400">{{ $currency }}0.00 paid</p>
+                                <p id="progressText" class="mt-0.5 text-[11px] text-slate-500">{{ $currency }}0.00 paid</p>
                             </div>
                             <span id="progressPercentage" class="text-xl font-bold text-indigo-600">0%</span>
                         </div>
@@ -153,7 +153,7 @@
 
                 <div class="grid grid-cols-2 gap-3 p-5 md:grid-cols-5">
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">Base Amount</p>
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">Base Amount</p>
                         <p id="baseAmount" class="mt-1.5 text-base font-bold text-slate-800">{{ $currency }}0.00</p>
                     </div>
 
@@ -184,7 +184,7 @@
                             <i class="bi bi-calendar-event"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] uppercase tracking-wide text-slate-400">Due Date</p>
+                            <p class="text-[10px] uppercase tracking-wide text-slate-500">Due Date</p>
                             <p id="dueDate" class="mt-0.5 text-sm font-semibold text-slate-700">-</p>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Subscription Plan</h2>
-                    <p class="text-[11px] text-slate-400">Current active plan</p>
+                    <p class="text-[11px] text-slate-500">Current active plan</p>
                 </div>
             </div>
 
@@ -254,7 +254,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-semibold text-slate-800">Monthly Due History</h2>
-                    <p class="text-[11px] text-slate-400">Monthly subscription, fine, paid and outstanding status</p>
+                    <p class="text-[11px] text-slate-500">Monthly subscription, fine, paid and outstanding status</p>
                 </div>
             </div>
 
@@ -282,7 +282,7 @@
 
                 <tbody id="subscriptionHistory" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="10" class="px-4 py-12 text-center text-sm text-slate-400">Loading monthly dues...</td>
+                        <td colspan="10" class="px-4 py-12 text-center text-sm text-slate-500">Loading monthly dues...</td>
                     </tr>
                 </tbody>
             </table>
@@ -299,12 +299,12 @@
                 </div>
                 <div>
                     <h3 class="text-base font-bold text-slate-800">Submit Payment</h3>
-                    <p id="paymentPeriodText" class="text-xs 2xl:text-sm text-slate-400">Monthly subscription payment</p>
+                    <p id="paymentPeriodText" class="text-xs 2xl:text-sm text-slate-500">Monthly subscription payment</p>
                 </div>
             </div>
 
             <button type="button" onclick="closePaymentModal()"
-                    class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                    class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -326,7 +326,7 @@
                         Payment Amount <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base font-medium text-slate-400">{{ $currency }}</span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base font-medium text-slate-500">{{ $currency }}</span>
                         <input id="paymentAmount" type="number" step="0.01" min="0.01" required
                                class="h-10 w-full rounded-md border border-slate-300 bg-white pl-8 pr-3 text-base text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                     </div>
@@ -349,7 +349,7 @@
                     <label class="mb-1.5 block text-sm font-semibold text-slate-600">Transaction Reference</label>
                     <input id="transactionReference" type="text" maxlength="255"
                            placeholder="Txn ID / Bank reference / Mobile banking reference"
-                           class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                           class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-700 outline-none placeholder:text-slate-500 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
                 <div id="paymentError" class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"></div>
@@ -533,7 +533,7 @@ function renderHistory(){
         tbody.innerHTML=`
             <tr>
                 <td colspan="10" class="px-4 py-14 text-center">
-                    <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                    <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                         <i class="bi bi-calendar-x"></i>
                     </div>
                     <p class="mt-3 text-sm font-semibold text-slate-600">No monthly dues found</p>

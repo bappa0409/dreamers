@@ -4,7 +4,7 @@
 @section('page_title','Tours')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -19,7 +19,7 @@
 
         @if(auth()->user()->hasPermission('Tour.create'))
         <button type="button" onclick="openTourModal()"
-            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Add Tour
         </button>
@@ -72,7 +72,7 @@
                 ],
                 [
                     'id'=>'actualExpense',
-                    'label'=>'Actual Expense',
+                    'label'=>'Expense',
                     'icon'=>'bi-cash-stack',
                     'box'=>'border-rose-200 bg-rose-50/40',
                     'text'=>'text-rose-700',
@@ -82,11 +82,11 @@
         @endphp
 
         @foreach($stats as $stat)
-        <div class="rounded-md border p-4 {{ $stat['box'] }}">
+        <div class="rounded-md border px-5 py-2 {{ $stat['box'] }}">
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                     <p class=" text-xs 2xl:text-sm text-slate-500">{{ $stat['label'] }}</p>
-                    <p id="{{ $stat['id'] }}" class="mt-2 truncate text-xl font-bold {{ $stat['text'] }}">
+                    <p id="{{ $stat['id'] }}" class="truncate text-xl font-bold {{ $stat['text'] }}">
                         @if(in_array($stat['id'],['totalBudget','actualExpense']))
                             {{ setting('currency_symbol','৳') }}0
                         @else
@@ -104,127 +104,124 @@
     </div>
 
     {{-- Search Tours --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Tours
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by tour number, title or destination.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Tours
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by tour number, title or destination.
-                </p>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search tours..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
         </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_140px_auto]">
 
-                <input id="searchInput" type="text" placeholder="Search tours..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="draft">Draft</option>
+                        <option value="approved">Approved</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                {{-- Year --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Year
+                    </label>
+
+                    <select id="yearFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    </select>
+                </div>
+
             </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
         </div>
     </div>
 
+    <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_140px_auto]">
-
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
-
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="draft">Draft</option>
-                    <option value="approved">Approved</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-
-            {{-- Year --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Year
-                </label>
-
-                <select id="yearFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                </select>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-    {{-- Desktop Table --}}
-    <div class="hidden overflow-hidden rounded-md border border-slate-200 bg-white lg:block">
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[1100px] text-base">
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[860px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Tour</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Destination</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Schedule</th>
-                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Participants</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Budget</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Expense</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[30%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Tour &amp; Destination</th>
+                        <th class="w-[18%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Schedule</th>
+                        <th class="w-[12%] px-4 py-3 text-center text-xs 2xl:text-sm font-semibold text-slate-600">Participants</th>
+                        <th class="w-[18%] px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Budget / Expense</th>
+                        <th class="w-[12%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[10%] px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="tourTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">
+                        <td colspan="6" class="px-4 py-10 text-center text-base text-slate-500">
                             Loading tours...
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
-    {{-- Mobile --}}
-    <div id="tourMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
-            Loading tours...
+        {{-- Mobile card list --}}
+        <div id="tourMobileGrid" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading tours...</div>
         </div>
-    </div>
 
-    <div id="paginationWrap" class="rounded-md border border-slate-200 bg-white px-4 py-3"></div>
+        <div id="paginationWrap" class="border-t border-slate-200 px-4 py-3"></div>
+    </div>
 </div>
 
 {{-- =============================================================
@@ -254,14 +251,14 @@ CREATE / EDIT TOUR
                 <div id="tourError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 {{-- Basic Information --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-info-circle"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Basic Information</h3>
-                            <p class="text-[11px] text-slate-400">Title and destination of the tour.</p>
+                            <p class="text-[11px] text-slate-500">Title and destination of the tour.</p>
                         </div>
                     </div>
 
@@ -269,29 +266,29 @@ CREATE / EDIT TOUR
                         <div class="md:col-span-2">
                             <label class="form-label">Tour Title <span class="text-red-500">*</span></label>
                             <input id="tourTitle" type="text" maxlength="255" class="app-input w-full" data-validation-required-message="Tour title is required.">
-                            <p data-field-error="tourTitle" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="tourTitle" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
 
                         <div class="md:col-span-2">
                             <label class="form-label">Destination <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-geo-alt pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-geo-alt pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="tourDestination" type="text" maxlength="255" class="app-input w-full !pl-9" data-validation-required-message="Destination is required.">
                             </div>
-                            <p data-field-error="tourDestination" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="tourDestination" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
                     </div>
                 </section>
 
                 {{-- Schedule --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                             <i class="bi bi-calendar3"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Schedule</h3>
-                            <p class="text-[11px] text-slate-400">When the tour starts and ends.</p>
+                            <p class="text-[11px] text-slate-500">When the tour starts and ends.</p>
                         </div>
                     </div>
 
@@ -299,32 +296,32 @@ CREATE / EDIT TOUR
                         <div>
                             <label class="form-label">Start Date <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="tourStartDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Start date is required.">
                             </div>
-                            <p data-field-error="tourStartDate" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="tourStartDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
 
                         <div>
                             <label class="form-label">End Date <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="tourEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="End date is required." data-on-or-after="tourStartDate" data-validation-compare-message="End date cannot be earlier than start date.">
                             </div>
-                            <p data-field-error="tourEndDate" class="mt-1 hidden text-sm text-red-600"></p>
+                            <p data-field-error="tourEndDate" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
                     </div>
                 </section>
 
                 {{-- Budget --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
                             <i class="bi bi-wallet2"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Budget</h3>
-                            <p class="text-[11px] text-slate-400">Planned spending for this tour.</p>
+                            <p class="text-[11px] text-slate-500">Planned spending for this tour.</p>
                         </div>
                     </div>
 
@@ -337,14 +334,14 @@ CREATE / EDIT TOUR
                 </section>
 
                 {{-- Description & Notes --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                             <i class="bi bi-journal-text"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Description &amp; Notes</h3>
-                            <p class="text-[11px] text-slate-400">Any additional details.</p>
+                            <p class="text-[11px] text-slate-500">Any additional details.</p>
                         </div>
                     </div>
 
@@ -368,12 +365,12 @@ CREATE / EDIT TOUR
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('tourModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i> Close
                 </button>
 
                 <button id="saveTourButton" type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i> Save Tour
                 </button>
             </div>
@@ -436,14 +433,14 @@ PARTICIPANT MODAL
             <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
                 <div id="participantError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                             <i class="bi bi-person-vcard"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Participant Information</h3>
-                            <p class="text-[11px] text-slate-400">Member and participation status.</p>
+                            <p class="text-[11px] text-slate-500">Member and participation status.</p>
                         </div>
                     </div>
 
@@ -518,14 +515,14 @@ EXPENSE MODAL
                 <div id="expenseError" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700"></div>
 
                 {{-- Expense Details --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-rose-50 text-rose-600">
                             <i class="bi bi-receipt"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Expense Details</h3>
-                            <p class="text-[11px] text-slate-400">What this expense is for.</p>
+                            <p class="text-[11px] text-slate-500">What this expense is for.</p>
                         </div>
                     </div>
 
@@ -545,7 +542,7 @@ EXPENSE MODAL
                         <div>
                             <label class="form-label">Expense Date <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="expenseDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off" data-validation-required-message="Expense date is required.">
                             </div>
                             <p data-field-error="expenseDate" class="mt-1 hidden text-sm text-red-600"></p>
@@ -564,14 +561,14 @@ EXPENSE MODAL
                 </section>
 
                 {{-- Accounting --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                             <i class="bi bi-bank"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Accounting</h3>
-                            <p class="text-[11px] text-slate-400">Which accounts this expense posts to.</p>
+                            <p class="text-[11px] text-slate-500">Which accounts this expense posts to.</p>
                         </div>
                     </div>
 
@@ -599,14 +596,14 @@ EXPENSE MODAL
                 </section>
 
                 {{-- Description --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                             <i class="bi bi-journal-text"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Description</h3>
-                            <p class="text-[11px] text-slate-400">Any additional details.</p>
+                            <p class="text-[11px] text-slate-500">Any additional details.</p>
                         </div>
                     </div>
 
@@ -893,11 +890,11 @@ async function loadTours(page=1){
     tbody.innerHTML=
         AdminUI.loadingState(
             'Loading tours...',
-            8
+            6
         );
 
     grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="p-8 text-center text-xs 2xl:text-sm text-slate-500">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading tours...
@@ -960,11 +957,11 @@ async function loadTours(page=1){
         tbody.innerHTML=
             AdminUI.emptyState(
                 message,
-                8
+                6
             );
 
         grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center text-base text-red-600">
+            <div class="p-8 text-center text-base text-red-600">
                 ${esc(message)}
             </div>
         `;
@@ -1043,24 +1040,13 @@ function renderTours(){
         tbody.innerHTML=
             AdminUI.emptyState(
                 'No tours found.',
-                8
+                6
             );
 
-        grid.innerHTML=`
-            <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
-                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                    <i class="bi bi-inbox"></i>
-                </div>
-
-                <p class="mt-3 text-base font-semibold text-slate-600">
-                    No tours found
-                </p>
-
-                <p class="mt-1 text-sm text-slate-400">
-                    Try changing your filters.
-                </p>
-            </div>
-        `;
+        grid.innerHTML=
+            cardsEmptyHtml(
+                'No tours found.'
+            );
 
         return;
     }
@@ -1068,28 +1054,28 @@ function renderTours(){
     tbody.innerHTML=
         tours.map(tour=>`
             <tr class="transition hover:bg-slate-50/70">
-                <td class="px-4 py-3">
-                    <div class="flex items-center gap-3">
+                <td class="min-w-0 px-4 py-3">
+                    <div class="flex min-w-0 items-center gap-3">
                         <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-airplane"></i>
                         </div>
 
                         <div class="min-w-0">
-                            <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
-                                ${esc(tour.tour_no)}
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
+                                    ${esc(tour.tour_no)}
+                                </span>
                             </div>
 
-                            <div class="mt-0.5 max-w-[230px] truncate text-sm text-slate-400">
+                            <div class="mt-0.5 max-w-[230px] truncate text-sm text-slate-600">
                                 ${esc(tour.title)}
                             </div>
-                        </div>
-                    </div>
-                </td>
 
-                <td class="px-4 py-3">
-                    <div class="max-w-[180px] truncate text-base text-slate-500">
-                        <i class="bi bi-geo-alt me-1 text-slate-400"></i>
-                        ${esc(tour.destination)}
+                            <div class="mt-0.5 flex max-w-[230px] items-center gap-1 truncate text-[11px] text-slate-500">
+                                <i class="bi bi-geo-alt text-slate-400"></i>
+                                ${esc(tour.destination)}
+                            </div>
+                        </div>
                     </div>
                 </td>
 
@@ -1098,7 +1084,7 @@ function renderTours(){
                         ${date(tour.start_date)}
                     </div>
 
-                    <div class="mt-0.5 text-[10px] text-slate-400">
+                    <div class="mt-0.5 text-[10px] text-slate-500">
                         to ${date(tour.end_date)}
                     </div>
                 </td>
@@ -1107,12 +1093,14 @@ function renderTours(){
                     ${tour.participants_count||0}
                 </td>
 
-                <td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">
-                    ${money(tour.budget_amount)}
-                </td>
+                <td class="px-4 py-3 text-right">
+                    <div class="text-xs 2xl:text-sm font-semibold text-slate-700">
+                        ${money(tour.budget_amount)}
+                    </div>
 
-                <td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">
-                    ${money(tour.actual_expense)}
+                    <div class="mt-0.5 text-[11px] text-rose-600">
+                        ${money(tour.actual_expense)} spent
+                    </div>
                 </td>
 
                 <td class="px-4 py-3">
@@ -1129,121 +1117,85 @@ function renderTours(){
 
     grid.innerHTML=
         tours.map(tour=>`
-            <article class="overflow-hidden rounded-md border border-slate-200 bg-white">
-                <div class="border-b border-slate-100 px-4 py-3">
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="flex min-w-0 items-start gap-3">
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                                <i class="bi bi-airplane"></i>
-                            </div>
-
-                            <div class="min-w-0">
-                                <p class="truncate text-base font-bold text-slate-700">
-                                    ${esc(tour.title)}
-                                </p>
-
-                                <p class="mt-0.5 text-[11px] font-medium text-indigo-600">
-                                    ${esc(tour.tour_no)}
-                                </p>
-                            </div>
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-indigo-50 text-indigo-600">
+                            <i class="bi bi-airplane"></i>
                         </div>
 
-                        <div class="shrink-0">
-                            ${AdminUI.statusBadge(tour.status)}
+                        <div class="min-w-0">
+                            <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                                ${esc(tour.title)}
+                            </p>
+                            <p class="mt-0.5 truncate text-[11px] text-slate-500">
+                                ${esc(tour.tour_no)}
+                            </p>
                         </div>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${AdminUI.statusBadge(tour.status)}
                     </div>
                 </div>
 
-                <div class="space-y-4 p-4">
-                    <div class="rounded-md bg-slate-50 p-3">
-                        <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                            Destination
-                        </p>
-
-                        <p class="mt-1 truncate text-base font-semibold text-slate-700">
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="col-span-2 min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Destination</p>
+                        <p class="truncate font-medium text-slate-700">
                             <i class="bi bi-geo-alt me-1 text-indigo-500"></i>
                             ${esc(tour.destination)}
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="rounded-md bg-indigo-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-indigo-500">
-                                Budget
-                            </p>
-
-                            <p class="mt-1 truncate text-base font-bold text-indigo-700">
-                                ${money(tour.budget_amount)}
-                            </p>
-                        </div>
-
-                        <div class="rounded-md bg-rose-50 p-3">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-rose-500">
-                                Expense
-                            </p>
-
-                            <p class="mt-1 truncate text-base font-bold text-rose-700">
-                                ${money(tour.actual_expense)}
-                            </p>
-                        </div>
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Schedule</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${date(tour.start_date)} – ${date(tour.end_date)}
+                        </p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-x-3 gap-y-3 border-t border-slate-100 pt-3 text-sm">
-                        <div>
-                            <p class="text-[10px] text-slate-400">
-                                Start
-                            </p>
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Participants</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${tour.participants_count||0}
+                        </p>
+                    </div>
 
-                            <p class="mt-0.5 font-medium text-slate-600">
-                                ${date(tour.start_date)}
-                            </p>
-                        </div>
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Budget</p>
+                        <p class="truncate font-semibold text-indigo-700">
+                            ${money(tour.budget_amount)}
+                        </p>
+                    </div>
 
-                        <div>
-                            <p class="text-[10px] text-slate-400">
-                                End
-                            </p>
-
-                            <p class="mt-0.5 font-medium text-slate-600">
-                                ${date(tour.end_date)}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-[10px] text-slate-400">
-                                Participants
-                            </p>
-
-                            <p class="mt-0.5 font-medium text-slate-600">
-                                ${tour.participants_count||0}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-[10px] text-slate-400">
-                                Variance
-                            </p>
-
-                            <p class="mt-0.5 font-medium ${
-                                Number(tour.budget_amount||0)-
-                                Number(tour.actual_expense||0)>=0
-                                    ?'text-emerald-600'
-                                    :'text-red-600'
-                            }">
-                                ${money(
-                                    Number(tour.budget_amount||0)-
-                                    Number(tour.actual_expense||0)
-                                )}
-                            </p>
-                        </div>
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Expense</p>
+                        <p class="truncate font-semibold text-rose-700">
+                            ${money(tour.actual_expense)}
+                        </p>
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-1.5 border-t border-slate-100 bg-slate-50/50 px-4 py-3">
+                <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
                     ${tourActions(tour)}
                 </div>
-            </article>
+            </div>
         `).join('');
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="p-8 text-center">
+            <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                <i class="bi bi-inbox"></i>
+            </div>
+
+            <p class="mt-3 text-sm font-semibold text-slate-600">
+                ${esc(message)}
+            </p>
+        </div>
+    `;
 }
 
 window.openTourModal=function(){
@@ -1689,7 +1641,7 @@ window.viewTour=async function(id){
     );
 
     $('detailsContent').innerHTML=`
-        <div class="py-16 text-center text-base text-slate-400">
+        <div class="py-16 text-center text-base text-slate-500">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
 
             <p class="mt-2">
@@ -1779,7 +1731,7 @@ function renderDetails(){
             .length;
 
     $('detailsContent').innerHTML=`
-        <div class="space-y-5">
+        <div class="space-y-3">
             <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-slate-50/50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex flex-wrap items-center gap-2">
                     ${AdminUI.statusBadge(tour.status)}
@@ -1843,7 +1795,7 @@ function renderDetails(){
             </div>
 
             <div class="grid gap-4 lg:grid-cols-2">
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
                         Tour Information
                     </p>
@@ -1899,7 +1851,7 @@ function renderDetails(){
                         tour.description
                             ?`
                             <div class="mt-4 border-t border-slate-100 pt-3">
-                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                     Description
                                 </p>
 
@@ -1917,7 +1869,7 @@ function renderDetails(){
                         tour.notes
                             ?`
                             <div class="mt-4 border-t border-slate-100 pt-3">
-                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                     Notes
                                 </p>
 
@@ -1932,7 +1884,7 @@ function renderDetails(){
                     }
                 </div>
 
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <p class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
                         Participant Summary
                     </p>
@@ -2088,7 +2040,7 @@ function info(
 ){
     return`
         <div class="${wide?'col-span-2':''}">
-            <p class="text-[10px] text-slate-400">
+            <p class="text-[10px] text-slate-500">
                 ${esc(label)}
             </p>
 
@@ -2148,7 +2100,7 @@ function participantsHtml(items){
                                     )}
                                 </p>
 
-                                <p class="mt-0.5 text-[10px] text-slate-400">
+                                <p class="mt-0.5 text-[10px] text-slate-500">
                                     ${esc(
                                         item.member
                                             ?.member_code||
@@ -2268,7 +2220,7 @@ function expensesHtml(items){
                                     ${
                                         item.reference_no
                                             ?`
-                                            <div class="mt-0.5 text-[10px] text-slate-400">
+                                            <div class="mt-0.5 text-[10px] text-slate-500">
                                                 Ref: ${esc(
                                                     item.reference_no
                                                 )}
@@ -2342,7 +2294,7 @@ function expensesHtml(items){
 
 function emptyBlock(message){
     return`
-        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-500">
             ${esc(message)}
         </div>
     `;

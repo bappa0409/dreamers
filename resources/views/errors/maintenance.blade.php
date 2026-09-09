@@ -75,13 +75,13 @@
         </p>
 
         <div class="relative mt-4 flex items-start gap-2 rounded-md border border-slate-100 bg-slate-50 px-3.5 py-2.5 text-left">
-            <i class="bi bi-translate mt-0.5 text-[13px] text-slate-400"></i>
+            <i class="bi bi-translate mt-0.5 text-[13px] text-slate-500"></i>
             <p class=" text-xs 2xl:text-sm leading-relaxed text-slate-500">
                 সাময়িকভাবে সাইটটি রক্ষণাবেক্ষণের কাজে বন্ধ আছে। কিছুক্ষণ পর আবার চেষ্টা করুন।
             </p>
         </div>
 
-        <p class="relative mt-6 text-[11px] font-medium text-slate-400">
+        <p class="relative mt-6 text-[11px] font-medium text-slate-500">
             {{ setting('organization_name', 'Dreamers Association') }}
         </p>
 

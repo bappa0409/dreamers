@@ -8,7 +8,7 @@
 $currency=setting('currency_symbol','৳');
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
 
 {{-- Header --}}
 <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -56,8 +56,8 @@ Membership cancel becomes permanent after final settlement and closure. Outstand
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total Requests</p>
-<p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+<p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total Requests</p>
+<p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
 </div>
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
 <i class="bi bi-collection"></i>
@@ -69,7 +69,7 @@ Membership cancel becomes permanent after final settlement and closure. Outstand
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">In Process</p>
-<p id="summaryPending" class="mt-2 text-xl font-bold text-amber-700">0</p>
+<p id="summaryPending" class="text-xl font-bold text-amber-700">0</p>
 </div>
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
 <i class="bi bi-hourglass-split"></i>
@@ -110,7 +110,7 @@ Membership cancel becomes permanent after final settlement and closure. Outstand
 <div class="lg:col-span-7">
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 <input id="exitSearch" type="text" placeholder="Search exit no or reason..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
@@ -150,14 +150,14 @@ Clear
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Exit Requests</h2>
-<p class="text-[11px] text-slate-400">Your resignation, assessment and settlement history</p>
+<p class="text-[11px] text-slate-500">Your resignation, assessment and settlement history</p>
 </div>
 </div>
 
 <div id="exitList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-red-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>
 </div>
 
@@ -178,11 +178,11 @@ Clear
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Resignation Request</h2>
-<p class="text-[11px] text-slate-400">Submit a permanent membership cancel request.</p>
+<p class="text-[11px] text-slate-500">Submit a permanent membership cancel request.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeExitModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeExitModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -211,7 +211,7 @@ Submitting this request starts the exit process only. Your membership remains ac
 <label class="form-label">Preferred Exit Date</label>
 
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
 <input id="exitDate" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select preferred date" autocomplete="off">
 </div>
@@ -246,11 +246,11 @@ Submit Request
 </div>
 <div>
 <h2 class="text-base font-bold text-slate-800">Membership Cancel</h2>
-<p id="detailsExitNo" class="font-mono text-[10px] text-slate-400"></p>
+<p id="detailsExitNo" class="font-mono text-[10px] text-slate-500"></p>
 </div>
 </div>
 
-<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -334,7 +334,7 @@ icon.classList.add('animate-spin');
 $('exitList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-red-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>`;
 
 try{
@@ -424,7 +424,7 @@ $('exitList').innerHTML=`
 </div>
 
 <p class="mt-4 text-base font-semibold text-slate-700">No Exit Request</p>
-<p class="mt-1 text-sm text-slate-400">No membership resignation request matches the current filters.</p>
+<p class="mt-1 text-sm text-slate-500">No membership resignation request matches the current filters.</p>
 </div>`;
 return;
 }
@@ -452,7 +452,7 @@ ${escapeHtml(item.exit_no)}
 ${statusBadge(item.status)}
 </div>
 
-<p class="mt-1 text-[11px] text-slate-400">
+<p class="mt-1 text-[11px] text-slate-500">
 Requested ${dateText(item.request_date)}
 </p>
 </div>
@@ -476,7 +476,7 @@ ${amountBox('Share Refund',money(item.share_refund),'emerald')}
 </div>
 
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">Reason</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">Reason</p>
 <p class="mt-1 line-clamp-3 text-[11px] leading-5 text-slate-600">
 ${escapeHtml(item.reason)}
 </p>
@@ -548,7 +548,7 @@ emerald:'text-emerald-700'
 
 return`
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <p class="mt-1 truncate text-sm font-bold ${map[tone]??'text-slate-700'}">${escapeHtml(value)}</p>
 </div>`;
 }
@@ -556,7 +556,7 @@ return`
 function miniBox(label,value){
 return`
 <div class="rounded-md border border-slate-200 bg-slate-50/50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <p class="mt-1 text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
@@ -578,11 +578,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${from}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${from}</span>
 –
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${to}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${to}</span>
 of
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${total}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${total}</span>
 requests
 </p>
 
@@ -713,7 +713,7 @@ const blockers=(item.items??[]).filter(row=>row.is_blocking);
 $('detailsExitNo').textContent=item.exit_no??'';
 
 $('detailsBody').innerHTML=`
-<div class="space-y-5">
+<div class="space-y-3">
 
 <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
 ${summaryBox('Liability',money(totalLiability(item)))}
@@ -742,7 +742,7 @@ ${detailItem('Final Exit Date',dateText(item.final_exit_date??item.closed_at))}
 </div>
 
 <div class="rounded-lg border border-slate-200 p-4">
-<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Reason</p>
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Reason</p>
 <p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(item.reason??'—')}
 </p>
@@ -775,7 +775,7 @@ return`
 
 <div class="border-b border-slate-200 px-5 py-4">
 <h3 class="text-sm font-semibold text-slate-800">Assessment Items</h3>
-<p class="text-[11px] text-slate-400">Financial and operational exit assessment</p>
+<p class="text-[11px] text-slate-500">Financial and operational exit assessment</p>
 </div>
 
 <div class="divide-y divide-slate-100">
@@ -789,7 +789,7 @@ ${items.map(item=>`
 
 <div>
 <p class="text-sm font-semibold text-slate-700">${escapeHtml(item.description)}</p>
-<p class="mt-0.5 text-[10px] capitalize text-slate-400">
+<p class="mt-0.5 text-[10px] capitalize text-slate-500">
 ${escapeHtml(String(item.category??'').replaceAll('_',' '))}
 </p>
 </div>
@@ -814,7 +814,7 @@ closeModal('detailsModal');
 function summaryBox(label,value){
 return`
 <div class="rounded-lg border border-slate-200 bg-white p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <p class="mt-2 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
@@ -822,7 +822,7 @@ return`
 function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>

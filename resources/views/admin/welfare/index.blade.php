@@ -4,7 +4,7 @@
 @section('page_title','Welfare Fund')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
   {{-- Header --}}
   <div
@@ -23,7 +23,7 @@
     <div class="flex flex-wrap gap-2">
       @if(auth()->user()->hasPermission('Welfare.manage'))
       <button type="button" onclick="openFundModal()"
-        class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+        class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
         <i class="bi bi-wallet2"></i>
         New Fund
       </button>
@@ -31,7 +31,7 @@
 
       @if(auth()->user()->hasPermission('Welfare.create'))
       <button type="button" onclick="openRequestModal()"
-        class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+        class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
         <i class="bi bi-plus-lg"></i>
         New Request
       </button>
@@ -56,11 +56,11 @@
     @endphp
 
     @foreach($stats as [$key,$label,$icon,$box,$text,$iconBox])
-    <div class="rounded-md border p-4 {{ $box }}">
+    <div class="rounded-md border px-5 py-2 {{ $box }}">
       <div class="flex items-start justify-between gap-3">
         <div>
           <p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
-          <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
+          <p id="stat-{{ $key }}" class="text-xl font-bold {{ $text }}">0</p>
         </div>
         <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $iconBox }}">
           <i class="bi {{ $icon }} text-base"></i>
@@ -75,13 +75,13 @@
     <div class="mb-2 flex items-center justify-between">
       <div>
         <h2 class="text-base font-semibold text-slate-700">Welfare Funds</h2>
-        <p class="text-[11px] text-slate-400">Current fund balances and allocations.</p>
+        <p class="text-[11px] text-slate-500">Current fund balances and allocations.</p>
       </div>
     </div>
 
     <div id="fundGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       <div
-        class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">
         Loading funds...</div>
     </div>
   </div>
@@ -100,7 +100,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Welfare Requests
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by request number, member name or code.
                 </p>
             </div>
@@ -111,10 +111,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search welfare requests..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -169,19 +169,19 @@
       <table class="w-full min-w-[1050px] text-sm">
         <thead class="border-b border-slate-200 bg-slate-50">
           <tr>
-            <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Request</th>
-            <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-            <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Fund</th>
-            <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-            <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Requested</th>
-            <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Approved</th>
-            <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-            <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
+            <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Request</th>
+            <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+            <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Fund</th>
+            <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+            <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Requested</th>
+            <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Approved</th>
+            <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+            <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
           </tr>
         </thead>
         <tbody id="requestTableBody" class="divide-y divide-slate-100">
           <tr>
-            <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading welfare requests...</td>
+            <td colspan="8" class="px-4 py-10 text-center text-base text-slate-500">Loading welfare requests...</td>
           </tr>
         </tbody>
       </table>
@@ -189,7 +189,7 @@
 
     {{-- Mobile card list --}}
     <div id="requestMobileGrid" class="divide-y divide-slate-100 md:hidden">
-      <div class="px-4 py-10 text-center text-sm text-slate-400">Loading welfare requests...</div>
+      <div class="px-4 py-10 text-center text-sm text-slate-500">Loading welfare requests...</div>
     </div>
 
     <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -243,11 +243,11 @@
 
         <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
           <button type="button" onclick="AdminUI.closeModal('fundModal')"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
             <i class="bi bi-x-lg"></i> Cancel
           </button>
           <button id="fundButton" type="submit"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
             <i class="bi bi-wallet2"></i> Create Fund
           </button>
         </div>
@@ -281,7 +281,7 @@
             <label class="form-label">Allocation Amount <span class="text-red-500">*</span></label>
             <div class="relative">
               <span
-                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
               <input id="allocationAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8"
                 placeholder="0.00">
             </div>
@@ -304,7 +304,7 @@
               <label class="form-label">Allocation Date <span class="text-red-500">*</span></label>
               <div class="relative">
                 <i
-                  class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                  class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                 <input id="allocationDate" type="text" class="app-input js-date-picker w-full !pl-9"
                   placeholder="Select date" autocomplete="off">
               </div>
@@ -315,11 +315,11 @@
 
         <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
           <button type="button" onclick="AdminUI.closeModal('allocationModal')"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
             <i class="bi bi-x-lg"></i> Cancel
           </button>
           <button id="allocationButton" type="submit"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
             <i class="bi bi-plus-circle"></i> Add Allocation
           </button>
         </div>
@@ -384,7 +384,7 @@
               <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
               <div class="relative">
                 <span
-                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
                 <input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8"
                   placeholder="0.00">
               </div>
@@ -402,11 +402,11 @@
 
         <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
           <button type="button" onclick="AdminUI.closeModal('requestModal')"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
             <i class="bi bi-x-lg"></i> Cancel
           </button>
           <button id="requestButton" type="submit"
-            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
+            class="inline-flex items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
             <i class="bi bi-check2-circle"></i> Create Request
           </button>
         </div>
@@ -525,7 +525,7 @@
             <label class="form-label">Approved Amount <span class="text-red-500">*</span></label>
             <div class="relative">
               <span
-                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
               <input id="approvedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
             </div>
             <p data-field-error="approvedAmount" class="mt-1 hidden text-sm text-red-600"></p>
@@ -620,7 +620,7 @@
             <label class="form-label">Disbursement Date <span class="text-red-500">*</span></label>
             <div class="relative">
               <i
-                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
               <input id="disbursementDate" type="text" class="app-input js-date-picker w-full !pl-9"
                 placeholder="Select date" autocomplete="off">
             </div>
@@ -817,7 +817,7 @@ $('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-red-
 
 function renderFunds(){
 if(!funds.length){
-$('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">No welfare funds found.</div>`;
+$('fundGrid').innerHTML=`<div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">No welfare funds found.</div>`;
 return;
 }
 
@@ -852,13 +852,13 @@ Add Allocation
 }
 
 function fundBox(label,value,text){
-return`<div class="rounded-md bg-slate-50 p-3"><p class="text-[10px] uppercase text-slate-400">${label}</p><p class="mt-1 text-base font-bold ${text}">${value}</p></div>`;
+return`<div class="rounded-md bg-slate-50 p-3"><p class="text-[10px] uppercase text-slate-500">${label}</p><p class="mt-1 text-base font-bold ${text}">${value}</p></div>`;
 }
 
 async function loadRequests(page=1){
 currentPage=page;
 $('requestTableBody').innerHTML=AdminUI.loadingState('Loading welfare requests...',8);
-$('requestMobileGrid').innerHTML=`<div class="px-4 py-10 text-center text-sm text-slate-400">Loading welfare requests...</div>`;
+$('requestMobileGrid').innerHTML=`<div class="px-4 py-10 text-center text-sm text-slate-500">Loading welfare requests...</div>`;
 
 const params=new URLSearchParams({page,per_page:15});
 const search=$('searchInput').value.trim();
@@ -883,24 +883,24 @@ $('requestMobileGrid').innerHTML=`<div class="px-4 py-10 text-center text-sm tex
 function renderRequests(){
 if(!requests.length){
 $('requestTableBody').innerHTML=AdminUI.emptyState('No welfare requests found.',8);
-$('requestMobileGrid').innerHTML=`<div class="px-4 py-10 text-center text-sm text-slate-400">No welfare requests found.</div>`;
+$('requestMobileGrid').innerHTML=`<div class="px-4 py-10 text-center text-sm text-slate-500">No welfare requests found.</div>`;
 return;
 }
 
 $('requestTableBody').innerHTML=requests.map(r=>`
 <tr class="transition hover:bg-slate-50/70">
 <td class="px-4 py-3">
-<div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(r.request_no)}</div>
-<div class="mt-0.5 text-[11px] text-slate-400">${date(r.request_date??r.created_at)}</div>
+<div class="font-semibold text-xs 2xl:text-sm text-slate-700">${esc(r.request_no)}</div>
+<div class="mt-0.5 text-[11px] text-slate-500">${date(r.request_date??r.created_at)}</div>
 </td>
 <td class="px-4 py-3">
-<div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(r.member?.user?.name??'N/A')}</div>
+<div class="font-semibold text-xs 2xl:text-sm text-slate-700">${esc(r.member?.user?.name??'N/A')}</div>
 <div class="mt-0.5 text-[11px] font-medium text-indigo-600">${esc(r.member?.member_code??'')}</div>
 </td>
-<td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${esc(r.fund?.name??'—')}</td>
-<td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${esc(assistanceLabel(r.assistance_type))}</td>
-<td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">${money(r.requested_amount)}</td>
-<td class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-indigo-700">${r.approved_amount?money(r.approved_amount):'—'}</td>
+<td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">${esc(r.fund?.name??'—')}</td>
+<td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">${esc(assistanceLabel(r.assistance_type))}</td>
+<td class="px-4 py-3 text-xs 2xl:text-sm text-right font-semibold text-slate-700">${money(r.requested_amount)}</td>
+<td class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-indigo-700">${r.approved_amount?money(r.approved_amount):'—'}</td>
 <td class="px-4 py-3">${statusBadge(r.status)}</td>
 <td class="px-4 py-3 text-right">
 <button type="button" onclick="openManageModal(${r.id})" class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100" title="Manage">
@@ -918,7 +918,7 @@ $('requestMobileGrid').innerHTML=requests.map(r=>`
 </div>
 <div class="min-w-0">
 <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">${esc(r.request_no)}</p>
-<p class="mt-0.5 truncate text-[11px] text-slate-400">${esc(assistanceLabel(r.assistance_type))}</p>
+<p class="mt-0.5 truncate text-[11px] text-slate-500">${esc(assistanceLabel(r.assistance_type))}</p>
 </div>
 </div>
 <div class="shrink-0">${statusBadge(r.status)}</div>
@@ -931,19 +931,19 @@ $('requestMobileGrid').innerHTML=requests.map(r=>`
 
 <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
 <div class="min-w-0">
-<p class="text-slate-400 text-xs 2xl:text-sm">Requested</p>
+<p class="text-slate-500 text-xs 2xl:text-sm">Requested</p>
 <p class="truncate font-semibold text-slate-700">${money(r.requested_amount)}</p>
 </div>
 <div class="min-w-0">
-<p class="text-slate-400 text-xs 2xl:text-sm">Approved</p>
+<p class="text-slate-500 text-xs 2xl:text-sm">Approved</p>
 <p class="truncate font-semibold text-indigo-700">${r.approved_amount?money(r.approved_amount):'—'}</p>
 </div>
 <div class="min-w-0">
-<p class="text-slate-400 text-xs 2xl:text-sm">Fund</p>
+<p class="text-slate-500 text-xs 2xl:text-sm">Fund</p>
 <p class="truncate font-medium text-slate-700">${esc(r.fund?.name??'—')}</p>
 </div>
 <div class="min-w-0">
-<p class="text-slate-400 text-xs 2xl:text-sm">Date</p>
+<p class="text-slate-500 text-xs 2xl:text-sm">Date</p>
 <p class="truncate font-medium text-slate-700">${date(r.request_date??r.created_at)}</p>
 </div>
 </div>
@@ -1139,7 +1139,7 @@ $('summaryCards').innerHTML=[
 ['Approved',r.approved_amount?money(r.approved_amount):'—','bg-indigo-50','text-indigo-700'],
 ['Fund Available',money(r.fund?.available_amount??0),'bg-emerald-50','text-emerald-700'],
 ['Status',r.status.replaceAll('_',' '),'bg-amber-50','text-amber-700']
-].map(([label,value,bg,text])=>`<div class="rounded-md ${bg} p-3"><p class="text-[10px] uppercase text-slate-400">${label}</p><p class="mt-1 text-base font-bold capitalize ${text}">${esc(value)}</p></div>`).join('');
+].map(([label,value,bg,text])=>`<div class="rounded-md ${bg} p-3"><p class="text-[10px] uppercase text-slate-500">${label}</p><p class="mt-1 text-base font-bold capitalize ${text}">${esc(value)}</p></div>`).join('');
 
 $('requestDetails').innerHTML=[
 ['Member',r.member?.user?.name??'—'],
@@ -1150,7 +1150,7 @@ $('requestDetails').innerHTML=[
 ['Approved Date',date(r.approved_at)],
 ['Completed Date',date(r.completed_at)],
 ['Status',r.status.replaceAll('_',' ')]
-].map(([label,value])=>`<div class="rounded-md border border-slate-200 bg-slate-50 p-3"><p class="text-[10px] uppercase text-slate-400">${esc(label)}</p><p class="mt-1 text-sm font-semibold capitalize text-slate-700">${esc(value)}</p></div>`).join('');
+].map(([label,value])=>`<div class="rounded-md border border-slate-200 bg-slate-50 p-3"><p class="text-[10px] uppercase text-slate-500">${esc(label)}</p><p class="mt-1 text-sm font-semibold capitalize text-slate-700">${esc(value)}</p></div>`).join('');
 
 $('manageReason').textContent=r.reason??'—';
 
@@ -1182,7 +1182,7 @@ if(permissions.manage&&r.status==='completed'){
 actions.push(actionButton('Reverse','bi-arrow-counterclockwise','red','openReverseModal()'));
 }
 
-$('manageActions').innerHTML=actions.length?actions.join(''):'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
+$('manageActions').innerHTML=actions.length?actions.join(''):'<span class="text-xs 2xl:text-sm text-slate-500">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,handler){

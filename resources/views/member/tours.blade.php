@@ -4,7 +4,7 @@
 @section('page_title','Tours')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -22,24 +22,24 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <p class=" text-xs 2xl:text-sm text-slate-500">Available Tours</p>
-            <p id="totalTours" class="mt-2 text-xl font-bold text-slate-800">0</p>
+            <p id="totalTours" class="text-xl font-bold text-slate-800">0</p>
         </div>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
+        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 px-5 py-2">
             <p class="text-xs 2xl:text-sm text-indigo-600">Upcoming</p>
-            <p id="upcomingTours" class="mt-2 text-xl font-bold text-indigo-700">0</p>
+            <p id="upcomingTours" class="text-xl font-bold text-indigo-700">0</p>
         </div>
 
         <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-sm text-amber-600">Ongoing</p>
-            <p id="ongoingTours" class="mt-2 text-xl font-bold text-amber-700">0</p>
+            <p class="text-xs 2xl:text-sm text-amber-600">Ongoing</p>
+            <p id="ongoingTours" class="text-xl font-bold text-amber-700">0</p>
         </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 px-5 py-2">
             <p class="text-xs 2xl:text-sm text-emerald-600">My Participations</p>
-            <p id="myParticipations" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+            <p id="myParticipations" class="text-xl font-bold text-emerald-700">0</p>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
 
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Find Tours</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search by title or destination.
                     </p>
                 </div>
@@ -60,7 +60,7 @@
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-72">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="searchInput"
@@ -91,7 +91,7 @@
     </div>
 
     <div id="tourGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-500">
             Loading tours...
         </div>
     </div>
@@ -129,7 +129,7 @@
         <div class="min-h-0 flex-1 overflow-y-auto p-5">
 
             <div id="tourDetailsLoading">
-                <div class="py-16 text-center text-base text-slate-400">
+                <div class="py-16 text-center text-base text-slate-500">
                     Loading tour details...
                 </div>
             </div>
@@ -138,7 +138,7 @@
 
                 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">Destination</p>
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">Destination</p>
                         <p id="detailDestination" class="mt-1 truncate text-base font-bold text-slate-700"></p>
                     </div>
 
@@ -153,7 +153,7 @@
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">Status</p>
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">Status</p>
                         <div id="detailStatus" class="mt-1"></div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
 
                         <div id="tourDescriptionBlock"
                             class="hidden border-t border-slate-100 pt-4">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Description
                             </p>
 
@@ -179,7 +179,7 @@
 
                         <div id="tourNotesBlock"
                             class="hidden border-t border-slate-100 pt-4">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Notes
                             </p>
 
@@ -217,7 +217,7 @@ const el={
 
 function loadingState(){
     el.grid.innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-500">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading tours...
@@ -229,7 +229,7 @@ function loadingState(){
 function emptyState(){
     el.grid.innerHTML=`
         <div class="col-span-full rounded-md border border-slate-200 bg-white p-10 text-center">
-            <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+            <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                 <i class="bi bi-airplane"></i>
             </div>
 
@@ -237,7 +237,7 @@ function emptyState(){
                 No tours found
             </p>
 
-            <p class="mt-1 text-sm text-slate-400">
+            <p class="mt-1 text-sm text-slate-500">
                 No tour matches the selected filters.
             </p>
         </div>
@@ -350,7 +350,7 @@ function renderTours(){
                             ${AdminUI.escapeHtml(item.title??'Tour')}
                         </h3>
 
-                        <p class="mt-1 truncate text-[11px] text-slate-400">
+                        <p class="mt-1 truncate text-[11px] text-slate-500">
                             <i class="bi bi-geo-alt me-1"></i>
                             ${AdminUI.escapeHtml(item.destination??'—')}
                         </p>
@@ -389,7 +389,7 @@ function renderTours(){
 
                 <div class="mt-3 flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
                     <div>
-                        <p class="text-[10px] text-slate-400">
+                        <p class="text-[10px] text-slate-500">
                             My Status
                         </p>
 
@@ -403,7 +403,7 @@ function renderTours(){
                     </div>
 
                     <div class="text-right">
-                        <p class="text-[10px] text-slate-400">
+                        <p class="text-[10px] text-slate-500">
                             Participants
                         </p>
 
@@ -415,7 +415,7 @@ function renderTours(){
             </div>
 
             <div class="mt-auto flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-                <span class="text-[10px] text-slate-400">
+                <span class="text-[10px] text-slate-500">
                     Association Tour
                 </span>
 
@@ -451,7 +451,7 @@ window.viewTour=async function(id){
     );
 
     loading.innerHTML=`
-        <div class="py-16 text-center text-base text-slate-400">
+        <div class="py-16 text-center text-base text-slate-500">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
 
             <p class="mt-2">
@@ -625,7 +625,7 @@ function renderMyParticipation(participation){
     container.innerHTML=`
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <p class="text-[10px] uppercase tracking-wide text-slate-400">
+                <p class="text-[10px] uppercase tracking-wide text-slate-500">
                     Participation Status
                 </p>
 
@@ -640,7 +640,7 @@ function renderMyParticipation(participation){
                 participation.notes
                     ?`
                     <div class="max-w-xl">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">
                             Notes
                         </p>
 
@@ -660,7 +660,7 @@ function renderMyParticipation(participation){
 function infoItem(label,value){
     return`
         <div class="min-w-0">
-            <p class="text-[10px] uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

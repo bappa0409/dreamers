@@ -28,110 +28,152 @@
     </div>
 
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Total Expenses</p>
-            <p id="totalExpense" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
+        {{-- Total Expenses --}}
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-500 2xl:text-sm">
+                        Total Expenses
+                    </p>
+
+                    <p id="totalExpense" class="text-xl font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">This Month</p>
-            <p id="monthExpense" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
+        {{-- This Month --}}
+        <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-red-700 2xl:text-sm">
+                        This Month
+                    </p>
+
+                    <p id="monthExpense" class="text-xl font-bold text-red-600">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Transactions</p>
-            <p id="expenseCount" class="mt-1 text-sm font-bold text-slate-800">0</p>
+        {{-- Transactions --}}
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-amber-700 2xl:text-sm">
+                        Transactions
+                    </p>
+
+                    <p id="expenseCount" class="text-xl font-bold text-amber-600">
+                        0
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                    <i class="bi bi-receipt"></i>
+                </div>
+            </div>
         </div>
     </div>
 
     {{-- Search Expenses --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
-            </div>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Expenses
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by expense number, payee, reference or description.
-                </p>
-            </div>
-        </div>
-
-        <div class="flex w-full items-center gap-2 lg:w-auto">
-
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                <input id="searchInput" type="text" placeholder="Search expenses..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-            </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
-        </div>
-    </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[220px_180px_auto]">
-
-            {{-- Date Range --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Date Range
-                </label>
-
-                <div class="relative">
-                    <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                    <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
-                        placeholder="Select date range" autocomplete="off">
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Expenses
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by expense number, payee, reference or description.
+                    </p>
                 </div>
             </div>
 
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
 
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="pending_approval">Pending Approval</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="posted">Posted</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search expenses..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
+        </div>
 
+
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[220px_180px_auto]">
+
+                {{-- Date Range --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Date Range
+                    </label>
+
+                    <div class="relative">
+                        <i
+                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                        <input id="dateRangeFilter" type="text"
+                            class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                            placeholder="Select date range" autocomplete="off">
+                    </div>
+                </div>
+
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="pending_approval">Pending Approval</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="posted">Posted</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
@@ -140,20 +182,20 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Expense No</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Payee</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Expense Account</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Payment Account</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Expense No</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Payee</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Expense Account</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Payment Account</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="expenseTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                             Loading expenses...
                         </td>
                     </tr>
@@ -163,7 +205,7 @@
 
         {{-- Mobile card list --}}
         <div id="expenseCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading expenses...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading expenses...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -194,7 +236,7 @@
 
         <form id="expenseForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600">
                             <i class="bi bi-receipt"></i>
@@ -202,7 +244,7 @@
 
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Expense Information</h3>
-                            <p class="text-[11px] text-slate-400">Enter expense transaction details.</p>
+                            <p class="text-[11px] text-slate-500">Enter expense transaction details.</p>
                         </div>
                     </div>
 
@@ -213,7 +255,7 @@
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input
                                     id="expenseDate"
@@ -298,7 +340,7 @@
 
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Automatic Journal</h3>
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 This journal will be posted automatically.
                             </p>
                         </div>
@@ -337,7 +379,7 @@
                 <button
                     type="button"
                     onclick="closeExpenseModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i>
                     Close
                 </button>
@@ -345,7 +387,7 @@
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     Save Expense
                 </button>
@@ -388,7 +430,7 @@
             <button
                 type="button"
                 onclick="closeExpenseDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 <i class="bi bi-x-lg"></i>
                 Close
             </button>
@@ -463,7 +505,7 @@
                 <button
                     type="button"
                     onclick="closeCancelExpenseModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-arrow-left"></i>
                     Back
                 </button>
@@ -597,7 +639,7 @@ function initDateRangePicker(){
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -605,7 +647,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -732,11 +774,11 @@ function renderExpenseTable(){
                 ${AdminUI.escapeHtml(item.expense_no)}
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${AdminUI.formatDate(item.expense_date)}
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${AdminUI.escapeHtml(item.payee??'—')}
             </td>
 
@@ -747,7 +789,7 @@ function renderExpenseTable(){
                     )}
                 </p>
 
-                <p class="text-[10px] text-slate-400">
+                <p class="text-[10px] text-slate-500">
                     ${AdminUI.escapeHtml(
                         item.expense_account?.code??''
                     )}
@@ -761,14 +803,14 @@ function renderExpenseTable(){
                     )}
                 </p>
 
-                <p class="text-[10px] text-slate-400">
+                <p class="text-[10px] text-slate-500">
                     ${AdminUI.escapeHtml(
                         item.payment_account?.code??''
                     )}
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm text-slate-800">
                 ${money(item.amount)}
             </td>
 
@@ -792,7 +834,7 @@ function renderExpenseTable(){
                         ${AdminUI.escapeHtml(item.expense_no)}
                     </p>
 
-                    <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                    <p class="mt-0.5 truncate text-[11px] text-slate-500">
                         ${AdminUI.formatDate(item.expense_date)}
                     </p>
                 </div>
@@ -804,21 +846,21 @@ function renderExpenseTable(){
 
             <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Payee</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Payee</p>
                     <p class="truncate font-medium text-slate-700">
                         ${AdminUI.escapeHtml(item.payee??'—')}
                     </p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Amount</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Amount</p>
                     <p class="truncate font-semibold text-slate-800">
                         ${money(item.amount)}
                     </p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Expense Account</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Expense Account</p>
                     <p class="truncate font-medium text-slate-700">
                         ${AdminUI.escapeHtml(
                             item.expense_account?.name??'—'
@@ -827,7 +869,7 @@ function renderExpenseTable(){
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Payment Account</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Payment Account</p>
                     <p class="truncate font-medium text-slate-700">
                         ${AdminUI.escapeHtml(
                             item.payment_account?.name??'—'
@@ -1186,15 +1228,15 @@ window.viewExpense=async function(id){
                     <table class="w-full min-w-[500px] text-sm">
                         <thead class="bg-slate-50">
                             <tr>
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                     Account
                                 </th>
 
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                     Debit
                                 </th>
 
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                     Credit
                                 </th>
                             </tr>
@@ -1205,7 +1247,7 @@ window.viewExpense=async function(id){
                                 entries.length
                                     ?entries.map(entry=>`
                                         <tr class="border-t border-slate-100">
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-slate-600">
                                                 ${AdminUI.escapeHtml(
                                                     entry.account?.code??''
                                                 )}
@@ -1215,7 +1257,7 @@ window.viewExpense=async function(id){
                                                 )}
                                             </td>
 
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.debit??0)>0
                                                         ?money(entry.debit)
@@ -1223,7 +1265,7 @@ window.viewExpense=async function(id){
                                                 }
                                             </td>
 
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.credit??0)>0
                                                         ?money(entry.credit)
@@ -1234,7 +1276,7 @@ window.viewExpense=async function(id){
                                     `).join('')
                                     :`
                                         <tr>
-                                            <td colspan="3" class="px-3 py-6 text-center text-slate-400">
+                                            <td colspan="3" class="px-3 py-6 text-center text-slate-500">
                                                 No journal entries found.
                                             </td>
                                         </tr>
@@ -1249,7 +1291,7 @@ window.viewExpense=async function(id){
                 item.description
                     ?`
                         <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Description
                             </p>
 
@@ -1396,7 +1438,7 @@ document.getElementById(
 function detail(label,value){
     return`
         <div class="rounded-md border border-slate-200 bg-white p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

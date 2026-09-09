@@ -71,7 +71,7 @@ STORY / MISSION
                 </p>
 
                 <div class="mt-7 grid grid-cols-2 gap-3">
-                    <div class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
                             <i data-lucide="target" class="h-4 w-4"></i>
                         </div>
@@ -82,7 +82,7 @@ STORY / MISSION
                         </p>
                     </div>
 
-                    <div class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-50 text-amber-600">
                             <i data-lucide="eye" class="h-4 w-4"></i>
                         </div>
@@ -113,14 +113,14 @@ STORY / MISSION
 
                         <div class="my-7 h-px bg-white/10"></div>
 
-                        <div class="space-y-5">
+                        <div class="space-y-3">
                             <div class="flex gap-4">
                                 <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10">
                                     <i data-lucide="handshake" class="h-4 w-4 text-teal-300"></i>
                                 </div>
                                 <div>
                                     <h4 class="text-[13px] font-semibold">পারস্পরিক সহযোগিতা</h4>
-                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-500">
                                         সদস্যদের মধ্যে সহযোগিতা ও আস্থার পরিবেশ তৈরি করা।
                                     </p>
                                 </div>
@@ -132,7 +132,7 @@ STORY / MISSION
                                 </div>
                                 <div>
                                     <h4 class="text-[13px] font-semibold">স্বচ্ছতা</h4>
-                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-500">
                                         আর্থিক কার্যক্রমে স্বচ্ছতা ও জবাবদিহিতা নিশ্চিত করা।
                                     </p>
                                 </div>
@@ -144,7 +144,7 @@ STORY / MISSION
                                 </div>
                                 <div>
                                     <h4 class="text-[13px] font-semibold">দীর্ঘমেয়াদি উন্নয়ন</h4>
-                                    <p class="mt-1 text-[13px] leading-5 text-slate-400">
+                                    <p class="mt-1 text-[13px] leading-5 text-slate-500">
                                         তাৎক্ষণিক লাভের পাশাপাশি ভবিষ্যতের জন্য স্থায়ী
                                         সম্পদ তৈরির চেষ্টা।
                                     </p>
@@ -461,7 +461,7 @@ VALUES
                     <i data-lucide="shield-check" class="h-5 w-5"></i>
                 </div>
                 <h3 class="mt-5 text-[15px] font-bold text-white">স্বচ্ছতা</h3>
-                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                <p class="mt-2 text-[13px] leading-5 text-slate-500">
                     প্রতিটি কার্যক্রমে পরিষ্কার হিসাব ও তথ্যের গুরুত্ব।
                 </p>
             </div>
@@ -471,7 +471,7 @@ VALUES
                     <i data-lucide="users" class="h-5 w-5"></i>
                 </div>
                 <h3 class="mt-5 text-[15px] font-bold text-white">ঐক্য</h3>
-                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                <p class="mt-2 text-[13px] leading-5 text-slate-500">
                     সম্মিলিত সিদ্ধান্ত ও পারস্পরিক সহযোগিতার মাধ্যমে এগিয়ে চলা।
                 </p>
             </div>
@@ -481,7 +481,7 @@ VALUES
                     <i data-lucide="scale" class="h-5 w-5"></i>
                 </div>
                 <h3 class="mt-5 text-[15px] font-bold text-white">দায়বদ্ধতা</h3>
-                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                <p class="mt-2 text-[13px] leading-5 text-slate-500">
                     সিদ্ধান্ত ও সম্পদের ব্যবহারে দায়িত্বশীল থাকা।
                 </p>
             </div>
@@ -491,7 +491,7 @@ VALUES
                     <i data-lucide="rocket" class="h-5 w-5"></i>
                 </div>
                 <h3 class="mt-5 text-[15px] font-bold text-white">উন্নয়ন</h3>
-                <p class="mt-2 text-[13px] leading-5 text-slate-400">
+                <p class="mt-2 text-[13px] leading-5 text-slate-500">
                     বর্তমানের পাশাপাশি ভবিষ্যতের জন্য পরিকল্পনা করা।
                 </p>
             </div>

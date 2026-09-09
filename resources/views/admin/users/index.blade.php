@@ -4,7 +4,7 @@
 @section('page_title','User Accounts')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -22,7 +22,7 @@
             <button
                 type="button"
                 onclick="openUserModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg text-[11px]"></i>
                 Add User
@@ -40,19 +40,19 @@
 
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Users</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">Search by name, email, mobile or member code</p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">Search by name, email, mobile or member code</p>
                 </div>
             </div>
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="searchInput"
                         type="text"
                         placeholder="Search users..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
@@ -79,26 +79,32 @@
 
     {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-sm">
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[760px] table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[25%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">User</th>
-                        <th class="w-[14%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-                        <th class="w-[20%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
-                        <th class="w-[11%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="w-[20%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[25%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">User</th>
+                        <th class="w-[14%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="w-[20%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
+                        <th class="w-[11%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[20%] px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="usersTable">
                     <tr>
-                        <td colspan="6" class="px-5 py-10 text-center text-base text-slate-400">
+                        <td colspan="5" class="px-5 py-10 text-center text-base text-slate-500">
                             Loading users...
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="usersCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading users...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -163,7 +169,7 @@
                 <button
                     type="button"
                     onclick="closeUserModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Close
                 </button>
@@ -171,7 +177,7 @@
                 <button
                     id="saveUserButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Save User
                 </button>
@@ -219,7 +225,7 @@
                 <button
                     type="button"
                     onclick="closePasswordModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -227,7 +233,7 @@
                 <button
                     id="resetPasswordButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
                 >
                     Reset Password
                 </button>
@@ -259,6 +265,7 @@ const canDeleteUser=@json(auth()->user()->hasPermission('User.delete'));
 
 const el={
     table:document.getElementById('usersTable'),
+    cards:document.getElementById('usersCards'),
     search:document.getElementById('searchInput'),
     status:document.getElementById('statusFilter'),
     form:document.getElementById('userForm'),
@@ -267,9 +274,26 @@ const el={
     resetPasswordButton:document.getElementById('resetPasswordButton')
 };
 
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
 async function loadUsers(page=1){
     currentPage=page;
-    el.table.innerHTML=AdminUI.loadingState('Loading users...',6);
+    el.table.innerHTML=AdminUI.loadingState('Loading users...',5);
+    el.cards.innerHTML=cardsLoadingHtml('Loading users...');
 
     const query=AdminUI.query({
         search:el.search.value.trim(),
@@ -301,7 +325,11 @@ async function loadUsers(page=1){
     }catch(error){
         el.table.innerHTML=AdminUI.emptyState(
             AdminUI.extractError(error),
-            6
+            5
+        );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
         );
 
         AdminUI.renderPagination({
@@ -318,41 +346,53 @@ function renderUsers(){
     if(!users.length){
         el.table.innerHTML=AdminUI.emptyState(
             'No users found.',
-            6
+            5
         );
+
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No users found.'
+        );
+
         return;
     }
 
     el.table.innerHTML=users.map(user=>{
         const member=user.member??null;
         const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
 
         return`
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                 <td class="min-w-0 px-4 py-3">
-                    <p
-                        class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
-                        title="${AdminUI.escapeHtml(user.name??'')}"
-                    >
-                        ${AdminUI.escapeHtml(user.name??'N/A')}
-                    </p>
+                    <div class="flex items-center gap-3">
+                        ${userAvatar(user.name,photoUrl)}
 
-                    <p
-                        class="mt-1 truncate text-[11px] text-slate-500"
-                        title="${AdminUI.escapeHtml(user.email??'')}"
-                    >
-                        ${AdminUI.escapeHtml(user.email??'')}
-                    </p>
+                        <div class="min-w-0">
+                            <p
+                                class="truncate text-xs 2xl:text-sm font-semibold text-slate-800"
+                                title="${AdminUI.escapeHtml(user.name??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
 
-                    ${
-                        user.mobile
-                            ?`
-                                <p class="mt-1 truncate text-[10px] text-slate-400">
-                                    ${AdminUI.escapeHtml(user.mobile)}
-                                </p>
-                            `
-                            :''
-                    }
+                            <p
+                                class="mt-1 truncate text-[11px] text-slate-500"
+                                title="${AdminUI.escapeHtml(user.email??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
+
+                            ${
+                                user.mobile
+                                    ?`
+                                        <p class="mt-1 truncate text-[10px] text-slate-500">
+                                            ${AdminUI.escapeHtml(user.mobile)}
+                                        </p>
+                                    `
+                                    :''
+                            }
+                        </div>
+                    </div>
                 </td>
 
                 <td class="px-4 py-3">
@@ -368,7 +408,7 @@ function renderUsers(){
                                 </div>
                             `
                             :`
-                                <span class="text-[11px] text-slate-400">
+                                <span class="text-[11px] text-slate-500">
                                     No profile
                                 </span>
                             `
@@ -401,7 +441,7 @@ function renderUsers(){
                                 </div>
                             `
                             :`
-                                <span class="text-[11px] text-slate-400">
+                                <span class="text-[11px] text-slate-500">
                                     No roles
                                 </span>
                             `
@@ -409,79 +449,172 @@ function renderUsers(){
                 </td>
 
                 <td class="px-4 py-3">
-                    ${
-                        user.is_active
-                            ?`
-                                <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
-                                    Active
-                                </span>
-                            `
-                            :`
-                                <span class="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-500">
-                                    Inactive
-                                </span>
-                            `
-                    }
+                    ${userStatusBadge(user.is_active)}
                 </td>
 
                 <td class="px-4 py-3">
                     <div class="flex items-center justify-end gap-1">
-                        ${
-                            canEditUser
-                                ?`
-                                    <button
-                                        type="button"
-                                        onclick="editUser(${user.id})"
-                                        title="Edit User"
-                                        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
-                                    >
-                                        <i class="bi bi-pencil-square text-sm"></i>
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onclick="openPasswordModal(${user.id})"
-                                        title="Reset Password"
-                                        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-amber-50 text-amber-700 transition hover:bg-amber-100"
-                                    >
-                                        <i class="bi bi-key text-sm"></i>
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onclick="toggleUserStatus(${user.id})"
-                                        title="${user.is_active?'Deactivate':'Activate'} User"
-                                        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md ${
-                                            user.is_active
-                                                ?'bg-red-50 text-red-600 hover:bg-red-100'
-                                                :'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
-                                        } transition"
-                                    >
-                                        <i class="bi ${user.is_active?'bi-person-x':'bi-person-check'} text-sm"></i>
-                                    </button>
-                                `
-                                :''
-                        }
-
-                        ${
-                            canDeleteUser&&!member
-                                ?`
-                                    <button
-                                        type="button"
-                                        onclick="deleteUser(${user.id})"
-                                        title="Delete User"
-                                        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
-                                    >
-                                        <i class="bi bi-trash text-sm"></i>
-                                    </button>
-                                `
-                                :''
-                        }
+                        ${userActionButtons(user,member)}
                     </div>
                 </td>
             </tr>
         `;
     }).join('');
+
+    el.cards.innerHTML=users.map(user=>{
+        const member=user.member??null;
+        const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        ${userAvatar(user.name,photoUrl)}
+
+                        <div class="min-w-0">
+                            <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
+                            <p class="mt-0.5 truncate text-[11px] text-slate-500">
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
+                            ${
+                                user.mobile
+                                    ?`
+                                        <p class="mt-0.5 truncate text-[11px] text-slate-500">
+                                            ${AdminUI.escapeHtml(user.mobile)}
+                                        </p>
+                                    `
+                                    :''
+                            }
+                        </div>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${userStatusBadge(user.is_active)}
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Member</p>
+                        ${
+                            member
+                                ?`
+                                    <p class="truncate font-mono font-semibold text-indigo-600">
+                                        ${AdminUI.escapeHtml(member.member_code??'')}
+                                    </p>
+                                    <div class="mt-1">
+                                        ${memberStatusBadge(member.status)}
+                                    </div>
+                                `
+                                :'<p class="font-medium text-slate-700">No profile</p>'
+                        }
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Roles</p>
+                        <div class="mt-0.5">
+                            ${
+                                roles.length
+                                    ?roles.slice(0,2).map(role=>`
+                                        <span class="mb-1 mr-1 inline-block rounded-md bg-indigo-50 px-1.5 py-0.5 text-[9px] font-semibold text-indigo-700">
+                                            ${AdminUI.escapeHtml(role.display_name||role.name||'')}
+                                        </span>
+                                    `).join('')
+                                    :'<span class="text-slate-500 text-xs 2xl:text-sm">No roles</span>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    ${userActionButtons(user,member,{withLabel:true})}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function userStatusBadge(isActive){
+    return isActive
+        ?`
+            <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
+                Active
+            </span>
+        `
+        :`
+            <span class="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-500">
+                Inactive
+            </span>
+        `;
+}
+
+function userActionButtons(user,member,{withLabel=false}={}){
+    const buttons=[];
+
+    const btnClass=withLabel
+        ?'inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold'
+        :'flex h-8 w-8 items-center justify-center rounded-md';
+
+    if(canEditUser){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="editUser(${user.id})"
+                title="Edit User"
+                class="cursor-pointer ${btnClass} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+            >
+                <i class="bi bi-pencil-square text-sm"></i>
+                ${withLabel?'<span>Edit</span>':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openPasswordModal(${user.id})"
+                title="Reset Password"
+                class="cursor-pointer ${btnClass} bg-amber-50 text-amber-700 transition hover:bg-amber-100"
+            >
+                <i class="bi bi-key text-sm"></i>
+                ${withLabel?'<span>Password</span>':''}
+            </button>
+        `);
+
+        buttons.push(`
+            <button
+                type="button"
+                onclick="toggleUserStatus(${user.id})"
+                title="${user.is_active?'Deactivate':'Activate'} User"
+                class="cursor-pointer ${btnClass} ${
+                    user.is_active
+                        ?'bg-red-50 text-red-600 hover:bg-red-100'
+                        :'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+                } transition"
+            >
+                <i class="bi ${user.is_active?'bi-person-x':'bi-person-check'} text-sm"></i>
+                ${withLabel?`<span>${user.is_active?'Deactivate':'Activate'}</span>`:''}
+            </button>
+        `);
+    }
+
+    if(canDeleteUser&&!member){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="deleteUser(${user.id})"
+                title="Delete User"
+                class="cursor-pointer ${btnClass} bg-red-50 text-red-600 transition hover:bg-red-100"
+            >
+                <i class="bi bi-trash text-sm"></i>
+                ${withLabel?'<span>Delete</span>':''}
+            </button>
+        `);
+    }
+
+    return buttons.join('');
 }
 
 window.openUserModal=function(user=null){
@@ -792,6 +925,74 @@ window.clearFilters=function(){
     el.status.value='';
     loadUsers(1);
 };
+
+function getProfilePhotoUrl(member){
+    if(member?.profile_photo_url){
+        return member.profile_photo_url;
+    }
+
+    if(!member?.profile_photo){
+        return null;
+    }
+
+    const value=String(
+        member.profile_photo
+    );
+
+    if(
+        value.startsWith('http://')||
+        value.startsWith('https://')||
+        value.startsWith('/storage/')
+    ){
+        return value;
+    }
+
+    return `/storage/${value.replace(/^\/+/,'')}`;
+}
+
+function userAvatar(name,photoUrl){
+    const label=(name??'').trim();
+
+    const initials=label
+        ?label.split(/\s+/).filter(Boolean).slice(0,2).map(part=>part[0].toUpperCase()).join('')
+        :'?';
+
+    const palette=[
+        'bg-indigo-100 text-indigo-700',
+        'bg-emerald-100 text-emerald-700',
+        'bg-amber-100 text-amber-700',
+        'bg-rose-100 text-rose-700',
+        'bg-sky-100 text-sky-700',
+        'bg-violet-100 text-violet-700',
+        'bg-teal-100 text-teal-700'
+    ];
+
+    let hash=0;
+    for(let i=0;i<label.length;i++){
+        hash=(hash*31+label.charCodeAt(i))>>>0;
+    }
+
+    const colorClass=palette[hash%palette.length];
+
+    return`
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 ${photoUrl?'bg-slate-50':colorClass}" title="${AdminUI.escapeHtml(label)}">
+            ${
+                photoUrl
+                    ?`
+                        <img
+                            src="${AdminUI.escapeHtml(photoUrl)}"
+                            class="h-full w-full object-cover"
+                            alt="${AdminUI.escapeHtml(label||'User')}">
+                    `
+                    :`
+                        <span class="text-[11px] font-semibold">
+                            ${AdminUI.escapeHtml(initials)}
+                        </span>
+                    `
+            }
+        </div>
+    `;
+}
 
 function memberStatusBadge(status){
     const map={

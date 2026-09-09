@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- =========================================================
     HEADER
@@ -36,7 +36,7 @@
             <button
                 type="button"
                 onclick="openCampaignModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-plus-lg"></i>
                 New Campaign
@@ -64,7 +64,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Campaigns
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by subject or email content.
                 </p>
             </div>
@@ -75,10 +75,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search campaigns..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -138,27 +138,27 @@
 
                     <tr>
 
-                        <th class="w-[34%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[34%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Campaign
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[11%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Recipients
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Sent
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[10%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Failed
                         </th>
 
-                        <th class="w-[15%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[15%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[20%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[20%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Actions
                         </th>
 
@@ -172,7 +172,7 @@
                     <tr>
                         <td
                             colspan="6"
-                            class="px-5 py-10 text-center text-slate-400"
+                            class="px-5 py-10 text-center text-slate-500"
                         >
                             Loading campaigns...
                         </td>
@@ -293,7 +293,7 @@ CAMPAIGN MODAL
                 <button
                     type="button"
                     onclick="closeCampaignModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                    class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
@@ -402,7 +402,7 @@ RECIPIENT MODAL
 
                 <div class="relative">
 
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="memberSearch"
@@ -418,7 +418,7 @@ RECIPIENT MODAL
                     id="memberResults"
                     class="mt-2 max-h-64 overflow-y-auto rounded-md border border-slate-200 p-2"
                 >
-                    <p class="p-5 text-center text-sm text-slate-400">
+                    <p class="p-5 text-center text-sm text-slate-500">
                         Search active members.
                     </p>
                 </div>
@@ -479,7 +479,7 @@ RECIPIENT MODAL
             <button
                 type="button"
                 onclick="closeRecipientModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -727,7 +727,7 @@ function renderCampaigns(){
                 <td class="min-w-0 overflow-hidden px-3 py-4">
 
                     <p
-                        class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
+                        class="truncate text-xs 2xl:text-sm font-semibold text-slate-800"
                         title="${AdminUI.escapeHtml(item.subject??'')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -738,7 +738,7 @@ function renderCampaigns(){
 
 
                     <p
-                        class="mt-1 truncate text-[10px] text-slate-400"
+                        class="mt-1 truncate text-[10px] text-slate-500"
                         title="${AdminUI.escapeHtml(AdminUI.formatDate(item.created_at,true))}"
                     >
                         ${AdminUI.formatDate(
@@ -753,7 +753,7 @@ function renderCampaigns(){
                 {{-- Recipients --}}
                 <td class="overflow-hidden px-3 py-4">
 
-                    <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${item.recipients_count??0}
                     </p>
 
@@ -776,7 +776,7 @@ function renderCampaigns(){
                     <p class="truncate text-sm font-semibold ${
                         Number(item.failed_count??0)>0
                             ?'text-red-600'
-                            :'text-slate-400'
+                            :'text-slate-500'
                     }">
                         ${item.failed_count??0}
                     </p>
@@ -1203,7 +1203,7 @@ function updateAudienceSections(){
 
 async function loadMembers(search=''){
     el.memberResults.innerHTML=`
-        <div class="p-5 text-center text-sm text-slate-400">
+        <div class="p-5 text-center text-sm text-slate-500">
             Loading members...
         </div>
     `;
@@ -1226,7 +1226,7 @@ async function loadMembers(search=''){
 
         if(!users.length){
             el.memberResults.innerHTML=`
-                <div class="p-5 text-center text-sm text-slate-400">
+                <div class="p-5 text-center text-sm text-slate-500">
                     No members found.
                 </div>
             `;
@@ -1252,7 +1252,7 @@ async function loadMembers(search=''){
                     <div class="min-w-0 flex-1">
 
                         <p
-                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
+                            class="truncate text-xs 2xl:text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(user.name??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1263,7 +1263,7 @@ async function loadMembers(search=''){
 
 
                         <p
-                            class="truncate text-[10px] text-slate-400"
+                            class="truncate text-[10px] text-slate-500"
                             title="${AdminUI.escapeHtml(user.email??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1472,7 +1472,7 @@ async function(id){
 
                 <div class="rounded-md bg-slate-50 p-3">
 
-                    <p class="text-[10px] text-slate-400">
+                    <p class="text-[10px] text-slate-500">
                         Recipients
                     </p>
 
@@ -1515,7 +1515,7 @@ async function(id){
 
                 <div class="flex items-center justify-between gap-3">
 
-                    <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                         Email Content
                     </p>
 
@@ -1542,7 +1542,7 @@ async function(id){
                         Recipients
                     </p>
 
-                    <span class="text-[10px] text-slate-400">
+                    <span class="text-[10px] text-slate-500">
                         ${item.recipients?.length??0} shown
                     </span>
 
@@ -1561,7 +1561,7 @@ async function(id){
                                         <div class="min-w-0 flex-1">
 
                                             <p
-                                                class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
+                                                class="truncate text-xs 2xl:text-sm font-semibold text-slate-700"
                                                 title="${AdminUI.escapeHtml(recipient.name??recipient.email??'')}"
                                             >
                                                 ${AdminUI.escapeHtml(
@@ -1573,7 +1573,7 @@ async function(id){
 
 
                                             <p
-                                                class="truncate text-[10px] text-slate-400"
+                                                class="truncate text-[10px] text-slate-500"
                                                 title="${AdminUI.escapeHtml(recipient.email??'')}"
                                             >
                                                 ${AdminUI.escapeHtml(
@@ -1595,7 +1595,7 @@ async function(id){
 
                                 `).join('')
                             :`
-                                <div class="p-6 text-center text-sm text-slate-400">
+                                <div class="p-6 text-center text-sm text-slate-500">
                                     No recipients added.
                                 </div>
                             `

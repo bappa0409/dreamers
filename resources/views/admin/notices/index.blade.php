@@ -4,7 +4,7 @@
 @section('page_title','Notice Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -18,7 +18,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Notice.create'))
-            <button type="button" onclick="openNoticeModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openNoticeModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Notice
             </button>
@@ -39,7 +39,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Notices
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by title or notice content.
                 </p>
             </div>
@@ -50,10 +50,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search notices..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -120,17 +120,17 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[32%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Notice</th>
-                        <th class="w-[11%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-                        <th class="w-[11%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Priority</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Publish</th>
-                        <th class="w-[21%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Creator</th>
-                        <th class="w-[12%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[32%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Notice</th>
+                        <th class="w-[11%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="w-[11%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Priority</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Publish</th>
+                        <th class="w-[21%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Creator</th>
+                        <th class="w-[12%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="noticeTable">
                     <tr>
-                        <td colspan="6" class="px-5 py-10 text-center text-slate-400">Loading notices...</td>
+                        <td colspan="6" class="px-5 py-10 text-center text-slate-500">Loading notices...</td>
                     </tr>
                 </tbody>
             </table>
@@ -193,7 +193,7 @@
                     <div>
                         <label class="form-label">Publish At</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="publishAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                     <div>
                         <label class="form-label">Expires At</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="expiresAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off" data-after="publishAt" data-validation-compare-message="Expires At must be after Publish At.">
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                         </div>
                         <div class="min-w-0">
                             <p id="attachmentName" class="truncate text-sm font-semibold text-slate-600">Choose attachment</p>
-                            <p class="mt-0.5 text-[10px] text-slate-400">Maximum 5 MB</p>
+                            <p class="mt-0.5 text-[10px] text-slate-500">Maximum 5 MB</p>
                         </div>
                     </label>
                     <input id="attachment" type="file" class="hidden" data-max-size="5242880" data-validation-file-size-message="Attachment must not exceed 5 MB.">
@@ -225,7 +225,7 @@
                     <input id="isPublished" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                     <div>
                         <p class="text-sm font-semibold text-slate-700">Publish Notice</p>
-                        <p class="mt-0.5 text-[11px] text-slate-400">Visibility follows the publish and expiry time.</p>
+                        <p class="mt-0.5 text-[11px] text-slate-500">Visibility follows the publish and expiry time.</p>
                     </div>
                 </label>
 
@@ -258,12 +258,12 @@
                             <label class="form-label">Users</label>
 
                             <div class="relative">
-                                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="userSearch" type="text" placeholder="Search users..." class="app-input !pl-9">
                             </div>
 
                             <div id="userResults" class="mt-2 max-h-44 overflow-y-auto rounded-md border border-slate-200 bg-white p-2">
-                                <p class="p-3 text-center text-sm text-slate-400">Search users.</p>
+                                <p class="p-3 text-center text-sm text-slate-500">Search users.</p>
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeNoticeModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeNoticeModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Notice</button>
             </div>
         </form>
@@ -389,10 +389,10 @@ function renderNotices(){
     el.table.innerHTML=notices.map(item=>`
         <tr class="border-b border-slate-100 transition last:border-0 hover:bg-slate-50">
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
+                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.title??'')}">
                     ${AdminUI.escapeHtml(item.title??'Untitled')}
                 </p>
-                <p class="mt-1 truncate text-[11px] text-slate-400" title="${AdminUI.escapeHtml(stripHtml(item.content))}">
+                <p class="mt-1 truncate text-[11px] text-slate-500" title="${AdminUI.escapeHtml(stripHtml(item.content))}">
                     ${AdminUI.escapeHtml(stripHtml(item.content))}
                 </p>
                 ${item.attachment?`
@@ -420,7 +420,7 @@ function renderNotices(){
                     ${AdminUI.escapeHtml(item.creator?.name??'System')}
                 </p>
                 ${item.publish_at?`
-                    <p class="mt-1 truncate text-[10px] text-slate-400">
+                    <p class="mt-1 truncate text-[10px] text-slate-500">
                         ${AdminUI.formatDate(item.publish_at,true)}
                     </p>
                 `:''}
@@ -522,7 +522,7 @@ window.openNoticeModal=function(notice=null){
         document.getElementById('roleAudience').classList.add('hidden');
         document.getElementById('userAudience').classList.add('hidden');
         document.getElementById('userSearch').value='';
-        document.getElementById('userResults').innerHTML='<p class="p-3 text-center text-sm text-slate-400">Search users.</p>';
+        document.getElementById('userResults').innerHTML='<p class="p-3 text-center text-sm text-slate-500">Search users.</p>';
 
         if(!notice)loadRecipients();
     }
@@ -708,7 +708,7 @@ async function loadRecipients(search=''){
     const results=document.getElementById('userResults');
 
     if(results){
-        results.innerHTML='<p class="p-3 text-center text-sm text-slate-400">Loading users...</p>';
+        results.innerHTML='<p class="p-3 text-center text-sm text-slate-500">Loading users...</p>';
     }
 
     try{
@@ -747,7 +747,7 @@ function renderUsers(users){
     if(!container)return;
 
     if(!users.length){
-        container.innerHTML='<p class="p-3 text-center text-sm text-slate-400">No users found.</p>';
+        container.innerHTML='<p class="p-3 text-center text-sm text-slate-500">No users found.</p>';
         return;
     }
 
@@ -755,8 +755,8 @@ function renderUsers(users){
         <label class="flex cursor-pointer items-center gap-2 rounded-md p-2 transition hover:bg-slate-50">
             <input type="checkbox" value="${user.id}" ${selectedUsers.has(Number(user.id))?'checked':''} onchange="toggleUser(${user.id},this.checked)" class="h-4 w-4 shrink-0 rounded border-slate-300 text-indigo-600">
             <div class="min-w-0">
-                <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">${AdminUI.escapeHtml(user.name??'User')}</p>
-                <p class="truncate text-[10px] text-slate-400">${AdminUI.escapeHtml(user.email??'')}</p>
+                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">${AdminUI.escapeHtml(user.name??'User')}</p>
+                <p class="truncate text-[10px] text-slate-500">${AdminUI.escapeHtml(user.email??'')}</p>
             </div>
         </label>
     `).join('');

@@ -37,7 +37,7 @@
                 {{ setting('organization_name', 'Dreamers Association') }}
             </h1>
 
-            <p class="mt-1  text-xs 2xl:text-sm text-sky-100">
+            <p class="mt-1 text-xs 2xl:text-sm text-sky-100">
                 Secure account activation
             </p>
         </div>
@@ -85,13 +85,13 @@
                         <button
                             type="button"
                             onclick="togglePassword('password',this)"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
                         >
                             <i class="bi bi-eye"></i>
                         </button>
                     </div>
 
-                    <p class="mt-1  text-xs 2xl:text-sm text-slate-400">
+                    <p class="mt-1 text-xs 2xl:text-sm text-slate-500">
                         Minimum 8 characters.
                     </p>
                 </div>
@@ -115,7 +115,7 @@
                         <button
                             type="button"
                             onclick="togglePassword('password_confirmation',this)"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
                         >
                             <i class="bi bi-eye"></i>
                         </button>

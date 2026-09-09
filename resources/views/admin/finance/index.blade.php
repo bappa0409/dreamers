@@ -27,85 +27,101 @@
         </button>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Cash</p>
-            <p id="cashBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
+    <div class="grid gap-3 xl:grid-cols-[1.1fr_1.7fr]">
+        {{-- Hero: Net Position --}}
+        <div class="overflow-hidden rounded-md border border-indigo-200 bg-indigo-50/40 p-5">
+            <p class="text-xs font-medium text-indigo-600">Net surplus this month</p>
+            <p id="netSurplus" class="mt-1 truncate text-3xl font-bold text-indigo-700">
                 {{ setting('currency_symbol','৳') }}0.00
             </p>
+            <p class="mt-1 text-[11px] text-indigo-500/80">Income minus expense, current month</p>
+
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-[11px] font-semibold text-emerald-700">
+                    <i class="bi bi-arrow-down-circle text-emerald-500"></i>
+                    <span id="monthlyIncome">{{ setting('currency_symbol','৳') }}0.00</span>
+                </span>
+
+                <span class="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-[11px] font-semibold text-red-700">
+                    <i class="bi bi-arrow-up-circle text-red-500"></i>
+                    <span id="monthlyExpense">{{ setting('currency_symbol','৳') }}0.00</span>
+                </span>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Bank</p>
-            <p id="bankBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
+        {{-- Position stat strip --}}
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Cash</p>
+                    <p id="cashBalance" class="truncate text-sm font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Receivable</p>
-            <p id="receivableBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-bank"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Bank</p>
+                    <p id="bankBalance" class="truncate text-sm font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Investments</p>
-            <p id="investmentBalance" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                    <i class="bi bi-arrow-down-left-circle"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Receivable</p>
+                    <p id="receivableBalance" class="truncate text-sm font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Asset Book Value</p>
-            <p id="assetBookValue" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Investments</p>
+                    <p id="investmentBalance" class="truncate text-sm font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Posted This Month</p>
-            <p id="postedTransactionCount" class="mt-2 text-xl font-bold text-slate-800">
-                0
-            </p>
-        </div>
-    </div>
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                    <i class="bi bi-building"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Asset Book Value</p>
+                    <p id="assetBookValue" class="truncate text-sm font-bold text-slate-800">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </p>
+                </div>
+            </div>
 
-    <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
-            <p class="text-xs 2xl:text-sm text-emerald-600">Monthly Income</p>
-            <p id="monthlyIncome" class="mt-2 truncate text-lg font-bold text-emerald-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
-            <p class="text-xs 2xl:text-sm text-red-600">Monthly Expense</p>
-            <p id="monthlyExpense" class="mt-2 truncate text-lg font-bold text-red-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
-            <p class="text-xs 2xl:text-sm text-indigo-600">Net Surplus</p>
-            <p id="netSurplus" class="mt-2 truncate text-lg font-bold text-indigo-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Subscription Outstanding</p>
-            <p id="subscriptionOutstanding" class="mt-2 truncate text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="col-span-2 rounded-md border border-slate-200 bg-white p-4 lg:col-span-1">
-            <p class="text-xs text-slate-500">Subscription Collected</p>
-            <p id="subscriptionCollected" class="mt-2 truncate text-lg font-bold text-emerald-700">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-            <p class="mt-1 text-[10px] text-slate-400">Current month</p>
+            <div class="flex items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-journal-check"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs text-slate-500">Posted This Month</p>
+                    <p id="postedTransactionCount" class="text-sm font-bold text-slate-800">
+                        0
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -115,13 +131,13 @@
                 <h2 class="text-base font-bold text-slate-700">
                     Income vs Expense
                 </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
+                <p class="mt-0.5 text-[11px] text-slate-500">
                     Last six months
                 </p>
             </div>
 
             <div id="trendChart" class="space-y-4 p-5">
-                <div class="py-10 text-center text-base text-slate-400">
+                <div class="py-10 text-center text-base text-slate-500">
                     Loading trend...
                 </div>
             </div>
@@ -144,42 +160,78 @@
                 <h2 class="text-base font-bold text-slate-700">
                     Financial Position
                 </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
+                <p class="mt-0.5 text-[11px] text-slate-500">
                     Current ledger balances
                 </p>
             </div>
 
             <div class="divide-y divide-slate-100">
                 <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-xs 2xl:text-sm text-slate-500">Cash + Bank</span>
-                    <span id="positionCashBank" class="text-base font-bold text-slate-700">
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600"><i class="bi bi-wallet2 text-xs"></i></span>
+                        Cash + Bank
+                    </span>
+                    <span id="positionCashBank" class="text-sm 2xl:text-base font-bold text-slate-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </span>
                 </div>
 
                 <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-xs 2xl:text-sm text-slate-500">Accounts Receivable</span>
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-600"><i class="bi bi-arrow-down-left-circle text-xs"></i></span>
+                        Accounts Receivable
+                    </span>
                     <span id="positionReceivable" class="text-base font-bold text-slate-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </span>
                 </div>
 
                 <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-xs 2xl:text-sm text-slate-500">Investments</span>
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-violet-50 text-violet-600"><i class="bi bi-graph-up-arrow text-xs"></i></span>
+                        Investments
+                    </span>
                     <span id="positionInvestment" class="text-base font-bold text-slate-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </span>
                 </div>
 
                 <div class="flex items-center justify-between gap-3 px-5 py-3">
-                    <span class="text-xs 2xl:text-sm text-slate-500">Fixed Assets</span>
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-sky-50 text-sky-600"><i class="bi bi-building text-xs"></i></span>
+                        Fixed Assets
+                    </span>
                     <span id="positionAssets" class="text-base font-bold text-slate-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </span>
                 </div>
 
+                <div class="flex items-center justify-between gap-3 px-5 py-3">
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-600"><i class="bi bi-exclamation-circle text-xs"></i></span>
+                        Subscription Outstanding
+                    </span>
+                    <span id="subscriptionOutstanding" class="text-base font-bold text-slate-700">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between gap-3 px-5 py-3">
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600"><i class="bi bi-check-circle text-xs"></i></span>
+                        Subscription Collected
+                        <span class="text-[10px] text-slate-400">(this month)</span>
+                    </span>
+                    <span id="subscriptionCollected" class="text-base font-bold text-emerald-700">
+                        {{ setting('currency_symbol','৳') }}0.00
+                    </span>
+                </div>
+
                 <div class="flex items-center justify-between gap-3 bg-slate-50 px-5 py-3">
-                    <span class="text-xs 2xl:text-sm font-semibold text-slate-600">Net Monthly Result</span>
+                    <span class="flex items-center gap-2.5 text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600"><i class="bi bi-bar-chart-line text-xs"></i></span>
+                        Net Monthly Result
+                    </span>
                     <span id="positionNet" class="text-base font-bold text-indigo-700">
                         {{ setting('currency_symbol','৳') }}0.00
                     </span>
@@ -194,7 +246,7 @@
                 <h2 class="text-base font-bold text-slate-700">
                     Recent Posted Journals
                 </h2>
-                <p class="mt-0.5 text-[11px] text-slate-400">
+                <p class="mt-0.5 text-[11px] text-slate-500">
                     Latest accounting activity
                 </p>
             </div>
@@ -239,7 +291,7 @@
 
                 <tbody id="recentTransactionTable">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-center text-slate-400">
+                        <td colspan="7" class="px-4 py-10 text-center text-slate-500">
                             Loading recent journals...
                         </td>
                     </tr>
@@ -354,7 +406,7 @@ function renderSummary(summary){
 function renderTrend(rows){
     if(!rows.length){
         el.trend.innerHTML=`
-            <div class="py-10 text-center text-base text-slate-400">
+            <div class="py-10 text-center text-base text-slate-500">
                 No trend data available.
             </div>
         `;
@@ -453,7 +505,7 @@ function renderRecent(rows){
                         ${esc(transaction.transaction_no)}
                     </div>
 
-                    <div class="mt-0.5 max-w-[240px] truncate text-[10px] text-slate-400">
+                    <div class="mt-0.5 max-w-[240px] truncate text-[10px] text-slate-500">
                         ${esc(transaction.description||'No description')}
                     </div>
                 </td>

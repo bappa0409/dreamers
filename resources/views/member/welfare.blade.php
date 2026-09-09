@@ -8,7 +8,7 @@
 $currency=setting('currency_symbol','৳');
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
 
 {{-- Header --}}
 <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -56,8 +56,8 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total Requests</p>
-<p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+<p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total Requests</p>
+<p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
@@ -70,7 +70,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">In Process</p>
-<p id="summaryPending" class="mt-2 text-xl font-bold text-amber-700">0</p>
+<p id="summaryPending" class="text-xl font-bold text-amber-700">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -83,7 +83,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Completed</p>
-<p id="summaryCompleted" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+<p id="summaryCompleted" class="text-xl font-bold text-emerald-700">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
@@ -117,7 +117,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Available Welfare Funds</h2>
-<p class="text-[11px] text-slate-400">Funds currently available for member assistance</p>
+<p class="text-[11px] text-slate-500">Funds currently available for member assistance</p>
 </div>
 </div>
 
@@ -125,7 +125,7 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 </div>
 
 <div id="fundGrid" class="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3">
-<div class="col-span-full py-8 text-center text-sm text-slate-400">Loading funds...</div>
+<div class="col-span-full py-8 text-center text-sm text-slate-500">Loading funds...</div>
 </div>
 </div>
 
@@ -137,9 +137,9 @@ Welfare support is available for eligible emergency, medical, accident, disaster
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
-<input id="requestSearch" type="text" placeholder="Search request no, fund, type or reason..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+<input id="requestSearch" type="text" placeholder="Search request no, fund, type or reason..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
 
@@ -177,14 +177,14 @@ Clear
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Assistance Requests</h2>
-<p class="text-[11px] text-slate-400">Your welfare support request and approval history</p>
+<p class="text-[11px] text-slate-500">Your welfare support request and approval history</p>
 </div>
 </div>
 
 <div id="requestList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>
 </div>
 
@@ -206,11 +206,11 @@ Clear
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Request Welfare Assistance</h2>
-<p class="text-[11px] text-slate-400">Submit an emergency or welfare support request.</p>
+<p class="text-[11px] text-slate-500">Submit an emergency or welfare support request.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeRequestModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+<button type="button" onclick="closeRequestModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -224,7 +224,7 @@ Clear
 <section class="rounded-lg border border-slate-200 p-4">
 <div class="mb-4">
 <h3 class="text-sm font-semibold text-slate-800">Assistance Information</h3>
-<p class="text-[11px] text-slate-400">Select the welfare fund and type of assistance.</p>
+<p class="text-[11px] text-slate-500">Select the welfare fund and type of assistance.</p>
 </div>
 
 <div class="grid gap-4 sm:grid-cols-2">
@@ -256,7 +256,7 @@ Clear
 <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
 
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ $currency }}</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-500">{{ $currency }}</span>
 
 <input id="requestAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00" data-validation-min-message="Requested amount must be greater than zero.">
 </div>
@@ -306,11 +306,11 @@ Submit Request
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Add Supporting Document</h2>
-<p id="documentSubtitle" class="text-[11px] text-slate-400"></p>
+<p id="documentSubtitle" class="text-[11px] text-slate-500"></p>
 </div>
 </div>
 
-<button type="button" onclick="closeDocumentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeDocumentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -344,7 +344,7 @@ Submit Request
 
 <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-sm text-slate-600" data-validation-required-message="Please select a file." data-validation-file-message="Only PDF, JPG, PNG and WEBP files are allowed.">
 
-<p class="mt-1 text-[10px] text-slate-400">PDF, JPG, JPEG, PNG or WEBP.</p>
+<p class="mt-1 text-[10px] text-slate-500">PDF, JPG, JPEG, PNG or WEBP.</p>
 
 <p data-field-error="documentFile" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
@@ -377,11 +377,11 @@ Upload
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Welfare Request</h2>
-<p id="detailsRequestNo" class="font-mono text-[10px] text-slate-400"></p>
+<p id="detailsRequestNo" class="font-mono text-[10px] text-slate-500"></p>
 </div>
 </div>
 
-<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -473,7 +473,7 @@ if(icon)icon.classList.add('animate-spin');
 $('requestList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>`;
 
 try{
@@ -557,7 +557,7 @@ ${escapeHtml(fund.name)}
 
 if(!funds.length){
 $('fundGrid').innerHTML=`
-<div class="col-span-full py-8 text-center text-sm text-slate-400">
+<div class="col-span-full py-8 text-center text-sm text-slate-500">
 No active welfare funds available.
 </div>`;
 return;
@@ -634,7 +634,7 @@ $('requestList').innerHTML=`
 No Welfare Requests
 </p>
 
-<p class="mt-1 text-sm text-slate-400">
+<p class="mt-1 text-sm text-slate-500">
 You have no welfare assistance requests matching the current filters.
 </p>
 
@@ -667,7 +667,7 @@ ${statusBadge(request.status)}
 
 </div>
 
-<p class="mt-1 truncate text-[11px] text-slate-400">
+<p class="mt-1 truncate text-[11px] text-slate-500">
 ${escapeHtml(request.fund?.name??'Welfare Fund')}
 </p>
 
@@ -704,7 +704,7 @@ request.approved_amount
 
 <div class="flex items-center justify-between rounded-md bg-slate-50 px-3 py-2.5">
 <div>
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 Assistance Type
 </p>
 
@@ -719,7 +719,7 @@ assistanceLabel(request.assistance_type)
 </div>
 
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 Reason
 </p>
 
@@ -790,7 +790,7 @@ red:'text-red-700'
 
 return`
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 
@@ -826,11 +826,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${from}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${from}</span>
 –
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${to}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${to}</span>
 of
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${total}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${total}</span>
 requests
 </p>
 
@@ -1135,7 +1135,7 @@ $('detailsRequestNo').textContent=
 request.request_no??'';
 
 $('detailsBody').innerHTML=`
-<div class="space-y-5">
+<div class="space-y-3">
 
 <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
 
@@ -1233,7 +1233,7 @@ dateText(request.completed_at)
 </div>
 
 <div class="rounded-lg border border-slate-200 p-4">
-<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
 Reason
 </p>
 
@@ -1273,7 +1273,7 @@ return`
 <h3 class="text-sm font-semibold text-slate-800">
 Supporting Documents
 </h3>
-<p class="text-[11px] text-slate-400">
+<p class="text-[11px] text-slate-500">
 ${documents.length} uploaded document${documents.length===1?'':'s'}
 </p>
 </div>
@@ -1288,7 +1288,7 @@ ${documents.map(document=>`
 </div>
 
 <div class="min-w-0 flex-1">
-<p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+<p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
 ${escapeHtml(
 document.original_name??
 document.file_name??
@@ -1296,7 +1296,7 @@ document.file_name??
 )}
 </p>
 
-<p class="mt-0.5 text-[10px] text-slate-400">
+<p class="mt-0.5 text-[10px] text-slate-500">
 ${escapeHtml(
 titleCase(document.document_type)
 )}
@@ -1331,7 +1331,7 @@ red:'bg-red-50 text-red-600'
 
 return`
 <div class="rounded-lg border border-slate-200 bg-white p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 
@@ -1344,7 +1344,7 @@ ${escapeHtml(value)}
 function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 

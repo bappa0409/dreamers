@@ -34,7 +34,7 @@
     <div id="pageAlert" class="hidden rounded-md border px-4 py-3 text-base"></div>
 
     <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Total Due</p>
@@ -43,7 +43,7 @@
                 <i class="bi bi-receipt text-xl text-slate-300"></i>
             </div>
         </div>
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Collected</p>
@@ -52,7 +52,7 @@
                 <i class="bi bi-check-circle text-xl text-slate-300"></i>
             </div>
         </div>
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-slate-500">Outstanding</p>
@@ -103,7 +103,7 @@
                 </thead>
                 <tbody id="subscriptionBody">
                     <tr>
-                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading subscriptions...</td>
+                        <td colspan="8" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">Loading subscriptions...</td>
                     </tr>
                 </tbody>
             </table>
@@ -312,7 +312,7 @@ async function loadPage(page=1){
 
     document.getElementById('subscriptionBody').innerHTML=`
         <tr>
-            <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+            <td colspan="8" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                 <i class="bi bi-arrow-repeat animate-spin"></i>
                 Loading subscriptions...
             </td>
@@ -351,7 +351,7 @@ function renderSubscriptions(items){
     if(!items.length){
         body.innerHTML=`
             <tr>
-                <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">
+                <td colspan="8" class="px-4 py-10 text-center text-base text-slate-500">
                     No subscriptions found.
                 </td>
             </tr>
@@ -370,16 +370,16 @@ function renderSubscriptions(items){
         return`
             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
                 <td class="px-4 py-3">
-                    <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${escapeHtml(user.name??'—')}</div>
-                    <div class="text-xs 2xl:text-sm text-slate-400">${escapeHtml(member.member_code??'—')}</div>
+                    <div class="font-semibold text-xs 2xl:text-sm text-slate-700">${escapeHtml(user.name??'—')}</div>
+                    <div class="text-xs 2xl:text-sm text-slate-500">${escapeHtml(member.member_code??'—')}</div>
                 </td>
-                <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
+                <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">${escapeHtml(item.plan?.name??'—')}</td>
                 <td class="px-4 py-3 text-right font-medium text-slate-700">${money(item.plan?.amount)}</td>
                 <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">${monthName(month)} ${year}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.amount):'—'}</td>
                 <td class="px-4 py-3 text-right">${due?money(due.paid_amount):'—'}</td>
                 <td class="px-4 py-3">
-                    ${due?dueBadge(due.status):'<span class="text-xs 2xl:text-sm text-slate-400">Not Generated</span>'}
+                    ${due?dueBadge(due.status):'<span class="text-xs 2xl:text-sm text-slate-500">Not Generated</span>'}
                 </td>
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-1">
@@ -496,7 +496,7 @@ function renderPlans(){
     const body=document.getElementById('planBody');
 
     if(!plans.length){
-        body.innerHTML=`<tr><td colspan="4" class="px-3 py-8 text-center text-sm text-slate-400">No plans found.</td></tr>`;
+        body.innerHTML=`<tr><td colspan="4" class="px-3 py-8 text-center text-sm text-slate-500">No plans found.</td></tr>`;
         return;
     }
 
@@ -504,7 +504,7 @@ function renderPlans(){
         <tr class="border-t border-slate-100">
             <td class="px-3 py-2 text-xs 2xl:text-sm">
                 <div class="font-medium text-xs 2xl:text-sm text-slate-700">${escapeHtml(item.name)}</div>
-                <div class="text-[10px] text-slate-400">
+                <div class="text-[10px] text-slate-500">
                     ${item.is_default?'Default · ':''}${item.is_active?'Active':'Inactive'}
                 </div>
             </td>
@@ -670,7 +670,7 @@ async function loadPayments(){
     openModal('paymentListModal');
 
     const body=document.getElementById('paymentBody');
-    body.innerHTML=`<tr><td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading payments...</td></tr>`;
+    body.innerHTML=`<tr><td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">Loading payments...</td></tr>`;
 
     try{
         const response=await api('/api/finance/subscription-payments?status=pending');
@@ -685,7 +685,7 @@ function renderPayments(){
     const body=document.getElementById('paymentBody');
 
     if(!payments.length){
-        body.innerHTML=`<tr><td colspan="7" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">No pending payments.</td></tr>`;
+        body.innerHTML=`<tr><td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">No pending payments.</td></tr>`;
         return;
     }
 
@@ -694,7 +694,7 @@ function renderPayments(){
             <td class="px-4 py-3 font-medium text-slate-700">${escapeHtml(item.payment_no)}</td>
             <td class="px-4 py-3">
                 <div>${escapeHtml(item.member?.user?.name??'—')}</div>
-                <div class="text-xs 2xl:text-sm text-slate-400">${escapeHtml(item.member?.member_code??'')}</div>
+                <div class="text-xs 2xl:text-sm text-slate-500">${escapeHtml(item.member?.member_code??'')}</div>
             </td>
             <td class="px-4 py-3">${monthName(item.due?.month)} ${item.due?.year??''}</td>
             <td class="px-4 py-3 text-right font-semibold">${money(item.amount)}</td>

@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-3 rounded-md border border-slate-200 bg-white p-5 md:flex-row md:items-center md:justify-between">
@@ -28,7 +28,7 @@
         <div class="flex flex-wrap items-center gap-2">
             @if($member)
                 <span class="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600">
-                    <i class="bi bi-person-badge text-slate-400"></i>
+                    <i class="bi bi-person-badge text-slate-500"></i>
                     {{ $member->member_code }}
                 </span>
             @endif
@@ -68,172 +68,101 @@
     @endif
 
     {{-- Member Stats --}}
-    {{-- @if($dashboard['members'])
-        <section>
-            <div class="mb-3 flex items-center justify-between">
+    @if($dashboard['members']) 
+        <section class="rounded-lg border border-slate-200 bg-white p-5 transition hover:shadow-sm"> 
+            <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <i class="bi bi-people"></i>
-                    </div>
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600"> <i class="bi bi-people text-base"></i> </div>
+
                     <div>
-                        <h2 class="text-base font-bold text-slate-800">Members</h2>
-                        <p class="text-xs 2xl:text-sm text-slate-400">Membership overview</p>
+                        <h2 class="text-base font-bold tracking-tight text-slate-800">
+                            Members
+                        </h2>
+                        <p class="mt-0.5 text-xs text-slate-500 2xl:text-sm">
+                            Membership overview and current status
+                        </p>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.members') }}" class="inline-flex w-fit shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                <a href="{{ route('admin.members') }}"
+                class="inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto 2xl:text-sm">
                     View Members
                     <i class="bi bi-arrow-right text-[11px]"></i>
                 </a>
             </div>
 
             <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-                <div class="rounded-md border border-slate-200 bg-white p-4 transition hover:shadow-sm">
+                {{-- Total --}}
+                <div class="rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2 transition hover:shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs 2xl:text-sm text-slate-500">Total</p>
+                        <p class="text-xs text-slate-500 2xl:text-sm">
+                            Total
+                        </p>
                         <i class="bi bi-people text-slate-300"></i>
                     </div>
-                    <p class="mt-2 text-xl font-bold text-slate-800">
+
+                    <p class="text-xl font-bold text-slate-800">
                         {{ $dashboard['members']['total'] }}
                     </p>
                 </div>
 
-                <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 transition hover:shadow-sm">
+                {{-- Active --}}
+                <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2 transition hover:shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs 2xl:text-sm text-emerald-700">Active</p>
+                        <p class="text-xs text-emerald-700 2xl:text-sm">
+                            Active
+                        </p>
                         <i class="bi bi-check-circle text-emerald-400"></i>
                     </div>
-                    <p class="mt-2 text-xl font-bold text-emerald-600">
+
+                    <p class="text-xl font-bold text-emerald-600">
                         {{ $dashboard['members']['active'] }}
                     </p>
                 </div>
 
-                <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4 transition hover:shadow-sm">
+                {{-- Pending --}}
+                <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2 transition hover:shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs 2xl:text-sm text-amber-700">Pending</p>
+                        <p class="text-xs text-amber-700 2xl:text-sm">
+                            Pending
+                        </p>
                         <i class="bi bi-hourglass-split text-amber-400"></i>
                     </div>
-                    <p class="mt-2 text-xl font-bold text-amber-600">
+
+                    <p class="text-xl font-bold text-amber-600">
                         {{ $dashboard['members']['pending'] }}
                     </p>
                 </div>
 
-                <div class="rounded-md border border-red-200 bg-red-50/50 p-4 transition hover:shadow-sm">
+                {{-- Suspended --}}
+                <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2 transition hover:shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs 2xl:text-sm text-red-700">Suspended</p>
+                        <p class="text-xs text-red-700 2xl:text-sm">
+                            Suspended
+                        </p>
                         <i class="bi bi-slash-circle text-red-400"></i>
                     </div>
-                    <p class="mt-2 text-xl font-bold text-red-600">
+
+                    <p class="text-xl font-bold text-red-600">
                         {{ $dashboard['members']['suspended'] }}
                     </p>
                 </div>
 
-                <div class="rounded-md border border-slate-200 bg-slate-50 p-4 transition hover:shadow-sm">
+                {{-- Inactive --}}
+                <div class="rounded-md border border-slate-200 bg-slate-50 px-5 py-2 transition hover:shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs 2xl:text-sm text-slate-500">Inactive</p>
-                        <i class="bi bi-pause-circle text-slate-400"></i>
+                        <p class="text-xs text-slate-500 2xl:text-sm">
+                            Inactive
+                        </p>
+                        <i class="bi bi-pause-circle text-slate-500"></i>
                     </div>
-                    <p class="mt-2 text-xl font-bold text-slate-600">
+
+                    <p class="text-xl font-bold text-slate-600">
                         {{ $dashboard['members']['inactive'] }}
                     </p>
                 </div>
             </div>
         </section>
-    @endif --}}
-    @if($dashboard['members']) 
-        <section class="rounded-lg border border-slate-200 bg-white p-5 transition hover:shadow-sm"> 
-            <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"> <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600"> <i class="bi bi-people text-base"></i> </div>
-
-                <div>
-                    <h2 class="text-base font-bold tracking-tight text-slate-800">
-                        Members
-                    </h2>
-                    <p class="mt-0.5 text-xs text-slate-400 2xl:text-sm">
-                        Membership overview and current status
-                    </p>
-                </div>
-            </div>
-
-            <a href="{{ route('admin.members') }}"
-            class="inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto 2xl:text-sm">
-                View Members
-                <i class="bi bi-arrow-right text-[11px]"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-            {{-- Total --}}
-            <div class="rounded-md border border-slate-200 bg-slate-50/70 p-4 transition hover:shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-slate-500 2xl:text-sm">
-                        Total
-                    </p>
-                    <i class="bi bi-people text-slate-300"></i>
-                </div>
-
-                <p class="mt-2 text-xl font-bold text-slate-800">
-                    {{ $dashboard['members']['total'] }}
-                </p>
-            </div>
-
-            {{-- Active --}}
-            <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 transition hover:shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-emerald-700 2xl:text-sm">
-                        Active
-                    </p>
-                    <i class="bi bi-check-circle text-emerald-400"></i>
-                </div>
-
-                <p class="mt-2 text-xl font-bold text-emerald-600">
-                    {{ $dashboard['members']['active'] }}
-                </p>
-            </div>
-
-            {{-- Pending --}}
-            <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4 transition hover:shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-amber-700 2xl:text-sm">
-                        Pending
-                    </p>
-                    <i class="bi bi-hourglass-split text-amber-400"></i>
-                </div>
-
-                <p class="mt-2 text-xl font-bold text-amber-600">
-                    {{ $dashboard['members']['pending'] }}
-                </p>
-            </div>
-
-            {{-- Suspended --}}
-            <div class="rounded-md border border-red-200 bg-red-50/50 p-4 transition hover:shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-red-700 2xl:text-sm">
-                        Suspended
-                    </p>
-                    <i class="bi bi-slash-circle text-red-400"></i>
-                </div>
-
-                <p class="mt-2 text-xl font-bold text-red-600">
-                    {{ $dashboard['members']['suspended'] }}
-                </p>
-            </div>
-
-            {{-- Inactive --}}
-            <div class="rounded-md border border-slate-200 bg-slate-50 p-4 transition hover:shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-slate-500 2xl:text-sm">
-                        Inactive
-                    </p>
-                    <i class="bi bi-pause-circle text-slate-400"></i>
-                </div>
-
-                <p class="mt-2 text-xl font-bold text-slate-600">
-                    {{ $dashboard['members']['inactive'] }}
-                </p>
-            </div>
-        </div>
-    </section>
     @endif
 
 
@@ -251,7 +180,7 @@
                         <h2 class="text-base font-bold tracking-tight text-slate-800">
                             Investments
                         </h2>
-                        <p class="mt-0.5 text-xs text-slate-400 2xl:text-sm">
+                        <p class="mt-0.5 text-xs text-slate-500 2xl:text-sm">
                             Investment summary
                         </p>
                     </div>
@@ -260,7 +189,7 @@
                 <div class="grid grid-cols-3 gap-3">
 
                     {{-- Total --}}
-                    <div class="rounded-md border border-slate-200 bg-slate-50/70 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-slate-500 2xl:text-sm">
                                 Total
@@ -268,13 +197,13 @@
                             <i class="bi bi-graph-up text-slate-300"></i>
                         </div>
 
-                        <p class="mt-2 text-xl font-bold text-slate-800">
+                        <p class="text-xl font-bold text-slate-800">
                             {{ $dashboard['investments']['total'] }}
                         </p>
                     </div>
 
                     {{-- Active --}}
-                    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-emerald-700 2xl:text-sm">
                                 Active
@@ -282,13 +211,13 @@
                             <i class="bi bi-check-circle text-emerald-400"></i>
                         </div>
 
-                        <p class="mt-2 text-xl font-bold text-emerald-600">
+                        <p class="text-xl font-bold text-emerald-600">
                             {{ $dashboard['investments']['active'] }}
                         </p>
                     </div>
 
                     {{-- Amount --}}
-                    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-indigo-600 2xl:text-sm">
                                 Amount
@@ -296,7 +225,7 @@
                             <i class="bi bi-cash-stack text-indigo-400"></i>
                         </div>
 
-                        <p class="mt-2 text-lg font-bold text-indigo-700">
+                        <p class="text-lg font-bold text-indigo-700">
                             {{ money($dashboard['investments']['total_amount']) }}
                         </p>
                     </div>
@@ -317,7 +246,7 @@
                         <h2 class="text-base font-bold tracking-tight text-slate-800">
                             Projects
                         </h2>
-                        <p class="mt-0.5 text-xs text-slate-400 2xl:text-sm">
+                        <p class="mt-0.5 text-xs text-slate-500 2xl:text-sm">
                             Project overview
                         </p>
                     </div>
@@ -326,7 +255,7 @@
                 <div class="grid grid-cols-3 gap-3">
 
                     {{-- Total --}}
-                    <div class="rounded-md border border-slate-200 bg-slate-50/70 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-slate-500 2xl:text-sm">
                                 Total
@@ -334,13 +263,13 @@
                             <i class="bi bi-kanban text-slate-300"></i>
                         </div>
 
-                        <p class="mt-2 text-xl font-bold text-slate-800">
+                        <p class="text-xl font-bold text-slate-800">
                             {{ $dashboard['projects']['total'] }}
                         </p>
                     </div>
 
                     {{-- Active --}}
-                    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-indigo-600 2xl:text-sm">
                                 Active
@@ -348,13 +277,13 @@
                             <i class="bi bi-play-circle text-indigo-400"></i>
                         </div>
 
-                        <p class="mt-2 text-xl font-bold text-indigo-600">
+                        <p class="text-xl font-bold text-indigo-600">
                             {{ $dashboard['projects']['active'] }}
                         </p>
                     </div>
 
                     {{-- Completed --}}
-                    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-3 transition hover:shadow-sm">
+                    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2 transition hover:shadow-sm">
                         <div class="flex items-center justify-between">
                             <p class="text-xs text-emerald-700 2xl:text-sm">
                                 Completed
@@ -362,7 +291,7 @@
                             <i class="bi bi-check-circle text-emerald-400"></i>
                         </div>
 
-                        <p class="mt-2 text-xl font-bold text-emerald-600">
+                        <p class="text-xl font-bold text-emerald-600">
                             {{ $dashboard['projects']['completed'] }}
                         </p>
                     </div>
@@ -385,7 +314,7 @@
                         <h3 class="text-base font-bold tracking-tight text-slate-800">
                             Approval Workflow
                         </h3>
-                        <p class="mt-0.5 text-xs text-slate-400 2xl:text-sm">
+                        <p class="mt-0.5 text-xs text-slate-500 2xl:text-sm">
                             Approval request status
                         </p>
                     </div>
@@ -409,7 +338,7 @@
                         <i class="bi bi-clock-history text-amber-400"></i>
                     </div>
 
-                    <p class="mt-2 text-xl font-bold text-amber-600">
+                    <p class="text-xl font-bold text-amber-600">
                         {{ $dashboard['approvals']['pending'] }}
                     </p>
                 </div>
@@ -423,7 +352,7 @@
                         <i class="bi bi-check-circle text-emerald-400"></i>
                     </div>
 
-                    <p class="mt-2 text-xl font-bold text-emerald-600">
+                    <p class="text-xl font-bold text-emerald-600">
                         {{ $dashboard['approvals']['approved'] }}
                     </p>
                 </div>
@@ -437,7 +366,7 @@
                         <i class="bi bi-x-circle text-red-400"></i>
                     </div>
 
-                    <p class="mt-2 text-xl font-bold text-red-600">
+                    <p class="text-xl font-bold text-red-600">
                         {{ $dashboard['approvals']['rejected'] }}
                     </p>
                 </div>
@@ -448,10 +377,10 @@
                         <p class="text-xs text-slate-500 2xl:text-sm">
                             Cancelled
                         </p>
-                        <i class="bi bi-slash-circle text-slate-400"></i>
+                        <i class="bi bi-slash-circle text-slate-500"></i>
                     </div>
 
-                    <p class="mt-2 text-xl font-bold text-slate-600">
+                    <p class="text-xl font-bold text-slate-600">
                         {{ $dashboard['approvals']['cancelled'] }}
                     </p>
                 </div>
@@ -484,7 +413,7 @@
                                         {{ data_get($recentMember,'user.name','Member') }}
                                     </p>
 
-                                    <p class="mt-0.5 text-xs 2xl:text-sm text-slate-400">
+                                    <p class="mt-0.5 text-xs 2xl:text-sm text-slate-500">
                                         {{ $recentMember['member_code'] }}
                                     </p>
                                 </div>
@@ -526,7 +455,7 @@
                                         {{ $approval['module'] }} — {{ $approval['action'] }}
                                     </p>
 
-                                    <p class="mt-0.5 text-xs 2xl:text-sm text-slate-400">
+                                    <p class="mt-0.5 text-xs 2xl:text-sm text-slate-500">
                                         {{ data_get($approval,'requester.name','System') }}
                                     </p>
                                 </div>

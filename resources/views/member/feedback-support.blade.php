@@ -4,7 +4,7 @@
 @section('page-title','Feedback & Support')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
 {{-- Header --}}
 <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -52,8 +52,8 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total Requests</p>
-<p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+<p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total Requests</p>
+<p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
 </div>
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
 <i class="bi bi-collection"></i>
@@ -65,7 +65,7 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">Open</p>
-<p id="summaryOpen" class="mt-2 text-xl font-bold text-amber-700">0</p>
+<p id="summaryOpen" class="text-xl font-bold text-amber-700">0</p>
 </div>
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
 <i class="bi bi-inbox"></i>
@@ -89,7 +89,7 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Resolved / Closed</p>
-<p id="summaryResolved" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+<p id="summaryResolved" class="text-xl font-bold text-emerald-700">0</p>
 </div>
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
 <i class="bi bi-check2-circle"></i>
@@ -106,7 +106,7 @@ Use this area for feedback, complaints, suggestions, service issues or assistanc
 <div class="xl:col-span-5">
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 <input id="ticketSearch" type="text" placeholder="Ticket no, subject, category..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
@@ -169,14 +169,14 @@ Clear
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Support Requests</h2>
-<p class="text-[11px] text-slate-400">Your feedback, complaint and support request history</p>
+<p class="text-[11px] text-slate-500">Your feedback, complaint and support request history</p>
 </div>
 </div>
 
 <div id="ticketList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>
 </div>
 
@@ -196,11 +196,11 @@ Clear
 </div>
 <div>
 <h2 class="text-base font-bold text-slate-800">New Feedback & Support</h2>
-<p class="text-[11px] text-slate-400">Send a new request to the association.</p>
+<p class="text-[11px] text-slate-500">Send a new request to the association.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeCreateModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeCreateModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -248,7 +248,7 @@ Clear
 <div class="flex items-end">
 <label class="flex h-10 w-full items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 text-sm font-medium text-slate-600">
 <input id="isConfidential" type="checkbox">
-<i class="bi bi-lock text-slate-400"></i>
+<i class="bi bi-lock text-slate-500"></i>
 Confidential request
 </label>
 </div>
@@ -285,10 +285,10 @@ Confidential request
 <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h2 class="text-base font-bold text-slate-800">Add Follow-up</h2>
-<p id="followUpSubtitle" class="text-[11px] text-slate-400"></p>
+<p id="followUpSubtitle" class="text-[11px] text-slate-500"></p>
 </div>
 
-<button type="button" onclick="closeFollowUpModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeFollowUpModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -320,10 +320,10 @@ Confidential request
 <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
 <div>
 <h2 class="text-base font-bold text-slate-800">Add Attachment</h2>
-<p id="attachmentSubtitle" class="text-[11px] text-slate-400"></p>
+<p id="attachmentSubtitle" class="text-[11px] text-slate-500"></p>
 </div>
 
-<button type="button" onclick="closeAttachmentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeAttachmentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -338,7 +338,7 @@ Confidential request
 
 <input id="attachmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-sm text-slate-600" data-validation-required-message="Please select an attachment." data-validation-file-message="PDF, JPG, PNG, WEBP, DOC or DOCX files are allowed.">
 
-<p class="mt-1 text-[10px] text-slate-400">PDF, image, DOC or DOCX.</p>
+<p class="mt-1 text-[10px] text-slate-500">PDF, image, DOC or DOCX.</p>
 <p data-field-error="attachmentFile" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
 
@@ -362,11 +362,11 @@ Confidential request
 </div>
 <div>
 <h2 id="detailsTitle" class="text-base font-bold text-slate-800">Feedback & Support</h2>
-<p id="detailsTicketNo" class="font-mono text-[10px] text-slate-400"></p>
+<p id="detailsTicketNo" class="font-mono text-[10px] text-slate-500"></p>
 </div>
 </div>
 
-<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeDetailsModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -462,7 +462,7 @@ icon.classList.add('animate-spin');
 $('ticketList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading requests...</p>
+<p class="mt-3 text-sm text-slate-500">Loading requests...</p>
 </div>`;
 
 try{
@@ -576,7 +576,7 @@ $('ticketList').innerHTML=`
 <i class="bi bi-headset text-xl"></i>
 </div>
 <p class="mt-4 text-base font-semibold text-slate-700">No Feedback & Support Requests</p>
-<p class="mt-1 text-sm text-slate-400">No requests match the current filters.</p>
+<p class="mt-1 text-sm text-slate-500">No requests match the current filters.</p>
 </div>`;
 return;
 }
@@ -605,7 +605,7 @@ Confidential
 </span>`:''}
 </div>
 
-<p class="mt-1 truncate text-[11px] text-slate-400">
+<p class="mt-1 truncate text-[11px] text-slate-500">
 ${escapeHtml(typeLabel(ticket.type))}
 ${ticket.category?.name?' • '+escapeHtml(ticket.category.name):''}
 </p>
@@ -709,11 +709,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${from}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${from}</span>
 –
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${to}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${to}</span>
 of
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${total}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${total}</span>
 requests
 </p>
 
@@ -985,7 +985,7 @@ $('detailsTitle').textContent=ticket.subject;
 $('detailsTicketNo').textContent=ticket.ticket_no;
 
 $('detailsBody').innerHTML=`
-<div class="space-y-5">
+<div class="space-y-3">
 
 <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
 ${summaryBox('Type',typeLabel(ticket.type))}
@@ -1012,7 +1012,7 @@ ${detailItem('Resolved',dateTimeText(ticket.resolved_at))}
 </div>
 
 <div class="rounded-lg border border-slate-200 p-4">
-<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Description</p>
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Description</p>
 <p class="mt-2 whitespace-pre-line text-sm leading-5 text-slate-600">
 ${escapeHtml(ticket.description)}
 </p>
@@ -1046,7 +1046,7 @@ return`
 
 <div class="border-b border-slate-200 px-5 py-4">
 <h3 class="text-sm font-semibold text-slate-800">Conversation & Updates</h3>
-<p class="text-[11px] text-slate-400">${updates.length} update${updates.length===1?'':'s'}</p>
+<p class="text-[11px] text-slate-500">${updates.length} update${updates.length===1?'':'s'}</p>
 </div>
 
 <div class="space-y-2 p-4">
@@ -1061,7 +1061,7 @@ return`
 ${memberFollowUp?'Your Follow-up':'Support Response'}
 </span>
 
-<span class="text-[9px] text-slate-400">
+<span class="text-[9px] text-slate-500">
 ${dateTimeText(update.created_at)}
 </span>
 </div>
@@ -1085,7 +1085,7 @@ return`
 
 <div class="border-b border-slate-200 px-5 py-4">
 <h3 class="text-sm font-semibold text-slate-800">Attachments</h3>
-<p class="text-[11px] text-slate-400">${attachments.length} uploaded file${attachments.length===1?'':'s'}</p>
+<p class="text-[11px] text-slate-500">${attachments.length} uploaded file${attachments.length===1?'':'s'}</p>
 </div>
 
 <div class="divide-y divide-slate-100">
@@ -1098,7 +1098,7 @@ ${attachments.map(file=>`
 </div>
 
 <div class="min-w-0 flex-1">
-<p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+<p class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
 ${escapeHtml(file.original_name??file.file_name??'Attachment')}
 </p>
 </div>
@@ -1134,7 +1134,7 @@ return ticket;
 function miniBox(label,value){
 return`
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <p class="mt-1 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
@@ -1142,7 +1142,7 @@ return`
 function summaryBox(label,value){
 return`
 <div class="rounded-lg border border-slate-200 bg-white p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <p class="mt-2 truncate text-sm font-bold text-slate-700">${escapeHtml(value)}</p>
 </div>`;
 }
@@ -1150,7 +1150,7 @@ return`
 function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">${escapeHtml(label)}</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
 <div class="mt-1 text-sm font-semibold text-slate-700">
 ${html?value:escapeHtml(value)}
 </div>

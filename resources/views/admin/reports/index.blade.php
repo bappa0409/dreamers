@@ -4,7 +4,7 @@
 @section('page_title','Reports')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex min-w-0 items-start gap-3">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+        <button type="button" onclick="refreshReports()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise"></i>
             Refresh
         </button>
@@ -38,7 +38,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Report Generator
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Select report type, status and reporting period.
                 </p>
             </div>
@@ -49,10 +49,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search report..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -115,10 +115,10 @@
 
                 <div class="relative">
                     <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="reportDateRange" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
                         placeholder="All time" autocomplete="off">
                 </div>
             </div>
@@ -129,7 +129,7 @@
 
     {{-- Summary --}}
     <div id="summaryContainer">
-        <div class="rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
             Loading summary...
         </div>
     </div>
@@ -139,7 +139,7 @@
         <div class="flex flex-col gap-3 border-b border-slate-200 px-4 py-3 md:flex-row md:items-center md:justify-between">
             <div class="min-w-0">
                 <h2 id="reportTitle" class="truncate text-base font-bold text-slate-800">Member Report</h2>
-                <p id="reportSubtitle" class="mt-0.5 truncate text-[11px] text-slate-400">0 records</p>
+                <p id="reportSubtitle" class="mt-0.5 truncate text-[11px] text-slate-500">0 records</p>
             </div>
 
             {{-- <div class="flex flex-wrap items-center gap-1.5">
@@ -190,7 +190,7 @@
 
                 <tbody id="reportBody">
                     <tr>
-                        <td class="px-5 py-10 text-center text-slate-400">
+                        <td class="px-5 py-10 text-center text-slate-500">
                             Loading report...
                         </td>
                     </tr>
@@ -411,22 +411,104 @@ async function loadSummary(){
     }
 }
 
-function summaryCard(label,value,icon){
-    return`
-        <div class="min-w-0 rounded-md border border-slate-200 bg-white p-3">
-            <div class="flex items-center gap-2">
-                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi ${icon} text-sm"></i>
+function summaryCard(label, value, icon) {
+
+    const colors = {
+        'Members': {
+            border: 'border-slate-200',
+            bg: 'bg-white',
+            label: 'text-slate-500',
+            value: 'text-slate-800',
+            iconBg: 'bg-slate-100',
+            icon: 'text-slate-600',
+        },
+
+        'Investments': {
+            border: 'border-indigo-200',
+            bg: 'bg-indigo-50/50',
+            label: 'text-indigo-700',
+            value: 'text-indigo-600',
+            iconBg: 'bg-indigo-100',
+            icon: 'text-indigo-600',
+        },
+
+        'Land': {
+            border: 'border-emerald-200',
+            bg: 'bg-emerald-50/50',
+            label: 'text-emerald-700',
+            value: 'text-emerald-600',
+            iconBg: 'bg-emerald-100',
+            icon: 'text-emerald-600',
+        },
+
+        'Projects': {
+            border: 'border-violet-200',
+            bg: 'bg-violet-50/50',
+            label: 'text-violet-700',
+            value: 'text-violet-600',
+            iconBg: 'bg-violet-100',
+            icon: 'text-violet-600',
+        },
+
+        'Polls': {
+            border: 'border-amber-200',
+            bg: 'bg-amber-50/50',
+            label: 'text-amber-700',
+            value: 'text-amber-600',
+            iconBg: 'bg-amber-100',
+            icon: 'text-amber-600',
+        },
+
+        'Notices': {
+            border: 'border-sky-200',
+            bg: 'bg-sky-50/50',
+            label: 'text-sky-700',
+            value: 'text-sky-600',
+            iconBg: 'bg-sky-100',
+            icon: 'text-sky-600',
+        },
+
+        'Net Finance': {
+            border: 'border-indigo-200',
+            bg: 'bg-indigo-50/50',
+            label: 'text-indigo-700',
+            value: 'text-indigo-600',
+            iconBg: 'bg-indigo-100',
+            icon: 'text-indigo-600',
+        },
+    };
+
+    const color = colors[label] ?? {
+        border: 'border-slate-200',
+        bg: 'bg-white',
+        label: 'text-slate-500',
+        value: 'text-slate-800',
+        iconBg: 'bg-slate-100',
+        icon: 'text-slate-600',
+    };
+
+    return `
+        <div class="min-w-0 rounded-md border ${color.border} ${color.bg} px-5 py-2">
+            <div class="flex items-center justify-between gap-3">
+
+                <div class="min-w-0">
+                    <p class="truncate text-xs ${color.label} 2xl:text-sm">
+                        ${AdminUI.escapeHtml(label)}
+                    </p>
+
+                    <p
+                        class="mt-1 truncate text-xl font-bold ${color.value}"
+                        title="${AdminUI.escapeHtml(String(value))}"
+                    >
+                        ${value}
+                    </p>
                 </div>
 
-                <p class="truncate text-[10px] font-medium text-slate-400">
-                    ${AdminUI.escapeHtml(label)}
-                </p>
-            </div>
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md ${color.iconBg} ${color.icon}">
+                    <i class="bi ${icon}"></i>
+                </div>
 
-            <p class="mt-2 truncate text-base font-bold text-slate-800" title="${AdminUI.escapeHtml(String(value))}">
-                ${value}
-            </p>
+            </div>
         </div>
     `;
 }

@@ -4,7 +4,7 @@
 @section('page_title','Loan Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div
@@ -48,11 +48,11 @@
         @endphp
 
         @foreach($stats as [$key,$label,$icon,$box,$text,$iconBox])
-        <div class="rounded-md border p-4 {{ $box }}">
+        <div class="rounded-md border px-5 py-2 {{ $box }}">
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class="text-xs text-slate-500">{{ $label }}</p>
-                    <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
+                    <p id="stat-{{ $key }}" class="text-xl font-bold {{ $text }}">0</p>
                 </div>
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $iconBox }}">
                     <i class="bi {{ $icon }} text-base"></i>
@@ -63,81 +63,81 @@
     </div>
 
     {{-- Search Loans --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Loans
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by loan number, member name or member code.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Loans
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by loan number, member name or member code.
-                </p>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search loans..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
         </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
 
-                <input id="searchInput" type="text" placeholder="Search loans..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="active">Active</option>
+                        <option value="overdue">Overdue</option>
+                        <option value="defaulted">Defaulted</option>
+                        <option value="repaid">Repaid</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
             </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
         </div>
     </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
-
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
-
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="active">Active</option>
-                    <option value="overdue">Overdue</option>
-                    <option value="defaulted">Defaulted</option>
-                    <option value="repaid">Repaid</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-
-        </div>
-    </div>
-</div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
@@ -158,7 +158,7 @@
                 </thead>
                 <tbody id="loanTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">Loading loans...</td>
+                        <td colspan="8" class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-500">Loading loans...</td>
                     </tr>
                 </tbody>
             </table>
@@ -166,7 +166,7 @@
 
         {{-- Mobile card list --}}
         <div id="loanMobileGrid" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading loans...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading loans...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -206,7 +206,7 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Loan Request</h4>
-                            <p class="text-[11px] text-slate-400">Select member and requested loan amount.</p>
+                            <p class="text-[11px] text-slate-500">Select member and requested loan amount.</p>
                         </div>
                     </div>
 
@@ -223,7 +223,7 @@
                             <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <span
-                                    class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                                    class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
                                 <input id="requestedAmount" type="number" min="0.01" step="0.01"
                                     class="app-input w-full !pl-8" placeholder="0.00">
                             </div>
@@ -234,7 +234,7 @@
                             <label class="form-label">Request Date <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <i
-                                    class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                    class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="requestDate" type="text" class="app-input js-date-picker w-full !pl-9"
                                     placeholder="Select date" autocomplete="off">
                             </div>
@@ -304,15 +304,15 @@
 
             <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-3">
                         <h4 class="text-sm font-semibold text-slate-800">Loan Information</h4>
-                        <p class="text-[11px] text-slate-400">Request, approval and repayment details.</p>
+                        <p class="text-[11px] text-slate-500">Request, approval and repayment details.</p>
                     </div>
                     <div id="loanDetails" class="grid grid-cols-2 gap-3"></div>
                 </section>
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-3">
                         <h4 class="text-sm font-semibold text-slate-800">Purpose</h4>
                     </div>
@@ -330,7 +330,7 @@
             <section id="repaymentHistorySection" class="hidden rounded-md border border-slate-200 bg-white p-4">
                 <div class="mb-3">
                     <h4 class="text-sm font-semibold text-slate-800">Repayment History</h4>
-                    <p class="text-[11px] text-slate-400">Recorded repayments for this loan.</p>
+                    <p class="text-[11px] text-slate-500">Recorded repayments for this loan.</p>
                 </div>
                 <div id="repaymentHistory" class="space-y-2"></div>
             </section>
@@ -372,7 +372,7 @@
                     <label class="form-label">Approved Amount <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <span
-                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
                         <input id="approvedAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
                     </div>
                     <p data-field-error="approvedAmount" class="mt-1 hidden text-sm text-red-600"></p>
@@ -492,7 +492,7 @@
                     <label class="form-label">Disbursement Date <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <i
-                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                         <input id="disbursementDate" type="text" class="app-input js-date-picker w-full !pl-9"
                             placeholder="Select date" autocomplete="off">
                     </div>
@@ -560,7 +560,7 @@
                     <label class="form-label">Total Repayment Amount <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <span
-                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">{{ setting('currency_symbol','৳') }}</span>
                         <input id="repaymentAmount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8">
                     </div>
                     <p data-field-error="repaymentAmount" class="mt-1 hidden text-sm text-red-600"></p>
@@ -570,7 +570,7 @@
                     <label class="form-label">Repayment Date <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <i
-                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                         <input id="repaymentDate" type="text" class="app-input js-date-picker w-full !pl-9"
                             placeholder="Select date" autocomplete="off">
                     </div>
@@ -751,7 +751,7 @@ async function loadOptions(){
 
 function loanCardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;
@@ -801,7 +801,7 @@ function renderLoans(){
         <tr class="transition hover:bg-slate-50/70">
             <td class="px-4 py-3">
                 <div class="font-semibold text-xs text-slate-700">${esc(loan.loan_no)}</div>
-                <div class="mt-0.5 text-[11px] text-slate-400">${date(loan.request_date)}</div>
+                <div class="mt-0.5 text-[11px] text-slate-500">${date(loan.request_date)}</div>
             </td>
 
             <td class="px-4 py-3">
@@ -817,7 +817,7 @@ function renderLoans(){
                 ${loan.approved_amount?money(loan.approved_amount):'—'}
             </td>
 
-            <td class="px-4 py-3 text-right font-semibold ${outstandingAmount(loan)>0?'text-red-600':'text-slate-400'}">
+            <td class="px-4 py-3 text-right font-semibold ${outstandingAmount(loan)>0?'text-red-600':'text-slate-500'}">
                 ${outstandingAmount(loan)>0?money(outstandingAmount(loan)):'—'}
             </td>
 
@@ -843,13 +843,13 @@ function renderLoans(){
         <div class="p-4">
             <div class="flex items-start justify-between gap-3">
                 <div class="flex min-w-0 items-center gap-3">
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-400">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500">
                         <i class="bi bi-bank"></i>
                     </div>
 
                     <div class="min-w-0">
                         <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">${esc(loan.loan_no)}</p>
-                        <p class="mt-0.5 truncate text-[11px] text-slate-400">${date(loan.request_date)}</p>
+                        <p class="mt-0.5 truncate text-[11px] text-slate-500">${date(loan.request_date)}</p>
                     </div>
                 </div>
 
@@ -865,22 +865,22 @@ function renderLoans(){
 
             <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Requested</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Requested</p>
                     <p class="truncate font-semibold text-slate-700">${money(loan.requested_amount)}</p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Approved</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Approved</p>
                     <p class="truncate font-semibold text-indigo-700">${loan.approved_amount?money(loan.approved_amount):'—'}</p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Outstanding</p>
-                    <p class="truncate font-semibold ${outstandingAmount(loan)>0?'text-red-600':'text-slate-400'}">${outstandingAmount(loan)>0?money(outstandingAmount(loan)):'—'}</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Outstanding</p>
+                    <p class="truncate font-semibold ${outstandingAmount(loan)>0?'text-red-600':'text-slate-500'}">${outstandingAmount(loan)>0?money(outstandingAmount(loan)):'—'}</p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Maturity</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Maturity</p>
                     <p class="truncate font-medium text-slate-700">${loan.maturity_date?date(loan.maturity_date):'—'}</p>
                 </div>
             </div>
@@ -992,7 +992,7 @@ function renderManageLoan(loan){
         ['Repaid',loan.total_repaid?money(loan.total_repaid):(loan.status==='repaid'&&loan.total_payable?money(loan.total_payable):'—'),'bg-emerald-50','text-emerald-700']
     ].map(([label,value,bg,text])=>`
         <div class="rounded-md ${bg} p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${label}</p>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${label}</p>
             <p class="mt-1 text-base font-bold ${text}">${value}</p>
         </div>
     `).join('');
@@ -1010,7 +1010,7 @@ function renderManageLoan(loan){
         ['Loan Number',loan.loan_no]
     ].map(([label,value])=>`
         <div class="rounded-md border border-slate-200 bg-slate-50/60 p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${esc(label)}</p>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${esc(label)}</p>
             <p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">${esc(value)}</p>
         </div>
     `).join('');
@@ -1039,7 +1039,7 @@ function renderRepayments(repayments){
         <div class="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50/60 px-3 py-2.5">
             <div>
                 <p class="text-sm font-semibold text-slate-700">${money(payment.total_amount??payment.amount)}</p>
-                <p class="mt-0.5 text-[10px] text-slate-400">${date(payment.repayment_date??payment.payment_date)}</p>
+                <p class="mt-0.5 text-[10px] text-slate-500">${date(payment.repayment_date??payment.payment_date)}</p>
             </div>
 
             <div class="flex items-center gap-2">
@@ -1080,7 +1080,7 @@ function renderLoanActions(loan){
 
     $('manageLoanActions').innerHTML=actions.length
         ?actions.join('')
-        :'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
+        :'<span class="text-xs 2xl:text-sm text-slate-500">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,onclick){

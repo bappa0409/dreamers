@@ -711,11 +711,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Landing Page Sections
+    | Website Page Sections
     |--------------------------------------------------------------------------
     */
 
-    Route::prefix('landing-page-sections')->group(function () {
+    Route::prefix('website-page-sections')->group(function () {
         Route::get('/', [WebsiteSectionController::class, 'index'])->middleware('permission:Setting.view');
         Route::post('/{key}/upload', [WebsiteSectionController::class, 'uploadImage'])->middleware('permission:Setting.update');
         Route::put('/{key}', [WebsiteSectionController::class, 'update'])->middleware('permission:Setting.update');

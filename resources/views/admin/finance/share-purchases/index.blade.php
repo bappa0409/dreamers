@@ -26,101 +26,157 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-slate-500">Total</p>
-            <p id="totalCount" class="mt-1 text-sm font-bold text-slate-800">0</p>
+        {{-- Total --}}
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-500 2xl:text-sm">
+                        Total
+                    </p>
+
+                    <p id="totalCount" class="text-xl font-bold text-slate-800">
+                        0
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                    <i class="bi bi-list-check"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-amber-600">Pending</p>
-            <p id="pendingCount" class="mt-1 text-xl font-bold text-amber-600">0</p>
+        {{-- Pending --}}
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-amber-700 2xl:text-sm">
+                        Pending
+                    </p>
+
+                    <p id="pendingCount" class="text-xl font-bold text-amber-600">
+                        0
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-emerald-600">Active</p>
-            <p id="activeCount" class="mt-1 text-xl font-bold text-emerald-600">0</p>
+        {{-- Active --}}
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-emerald-700 2xl:text-sm">
+                        Active
+                    </p>
+
+                    <p id="activeCount" class="text-xl font-bold text-emerald-600">
+                        0
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-xs text-red-600">Rejected</p>
-            <p id="rejectedCount" class="mt-1 text-xl font-bold text-red-600">0</p>
+        {{-- Rejected --}}
+        <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-red-700 2xl:text-sm">
+                        Rejected
+                    </p>
+
+                    <p id="rejectedCount" class="text-xl font-bold text-red-600">
+                        0
+                    </p>
+                </div>
+
+                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+            </div>
         </div>
     </div>
 
     {{-- Search Share Purchases --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Share Purchases
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by share no, member or reference.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Share Purchases
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by share no, member or reference.
-                </p>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search member, share no, reference..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
         </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
 
-                <input id="searchInput" type="text" placeholder="Search member, share no, reference..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="active">Active</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="transferred">Transferred</option>
+                        <option value="retired">Retired</option>
+                    </select>
+                </div>
+
             </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
         </div>
     </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
-
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
-
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="active">Active</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="cancelled">Cancelled</option>
-                    <option value="transferred">Transferred</option>
-                    <option value="retired">Retired</option>
-                </select>
-            </div>
-
-        </div>
-    </div>
-</div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="w-full overflow-x-auto">
@@ -140,7 +196,7 @@
 
                 <tbody id="shareTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-center text-slate-500">
                             Loading share purchases...
                         </td>
                     </tr>
@@ -367,7 +423,7 @@ function renderShareTable(){
                         ${AdminUI.escapeHtml(user.name??'—')}
                     </p>
 
-                    <p class="text-[10px] text-slate-400">
+                    <p class="text-[10px] text-slate-500">
                         ${AdminUI.escapeHtml(member.member_code??'')}
                     </p>
                 </td>
@@ -520,7 +576,7 @@ function renderShareDetails(){
                 <p class="truncate text-xs font-semibold text-slate-700">
                     ${AdminUI.escapeHtml(user.name??'—')}
                 </p>
-                <p class="text-[11px] text-slate-400">
+                <p class="text-[11px] text-slate-500">
                     ${AdminUI.escapeHtml(member.member_code??'—')}
                 </p>
             </div>
@@ -589,7 +645,7 @@ function renderShareDetails(){
             share.verification_note??share.notes
                 ?`
                     <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                        <p class="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                             <i class="bi bi-sticky"></i>
                             Note
                         </p>
@@ -817,7 +873,7 @@ document.getElementById(
 function detail(label,value){
     return`
         <div class="rounded-md border border-slate-200 bg-white p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

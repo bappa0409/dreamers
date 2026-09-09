@@ -4,7 +4,7 @@
 @section('page_title','Meetings')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -23,24 +23,24 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <p class=" text-xs 2xl:text-sm text-slate-500">Total Meetings</p>
-            <p id="totalMeetings" class="mt-2 text-xl font-bold text-slate-800">0</p>
+            <p id="totalMeetings" class="text-xl font-bold text-slate-800">0</p>
         </div>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
+        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 px-5 py-2">
             <p class="text-xs 2xl:text-sm text-indigo-600">Scheduled</p>
-            <p id="scheduledMeetings" class="mt-2 text-xl font-bold text-indigo-700">0</p>
+            <p id="scheduledMeetings" class="text-xl font-bold text-indigo-700">0</p>
         </div>
 
         <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-sm text-amber-600">Ongoing</p>
-            <p id="ongoingMeetings" class="mt-2 text-xl font-bold text-amber-700">0</p>
+            <p class="text-xs 2xl:text-sm text-amber-600">Ongoing</p>
+            <p id="ongoingMeetings" class="text-xl font-bold text-amber-700">0</p>
         </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 px-5 py-2">
             <p class="text-xs 2xl:text-sm text-emerald-600">My Invitations</p>
-            <p id="myInvitations" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+            <p id="myInvitations" class="text-xl font-bold text-emerald-700">0</p>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
 
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Find Meetings</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search by meeting title, number or venue.
                     </p>
                 </div>
@@ -61,7 +61,7 @@
 
             <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:w-auto xl:grid-cols-[280px_140px_140px_auto] xl:gap-0">
                 <div class="relative sm:col-span-2 xl:col-span-1">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="searchInput"
@@ -104,19 +104,19 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Venue</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">My Status</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Meeting Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Meeting</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Date & Time</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Venue</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">My Status</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Meeting Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
 
                 <tbody id="meetingTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-center text-base text-slate-400">
+                        <td colspan="7" class="px-4 py-10 text-center text-base text-slate-500">
                             Loading meetings...
                         </td>
                     </tr>
@@ -126,7 +126,7 @@
     </div>
 
     <div id="meetingMobileGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">
             Loading meetings...
         </div>
     </div>
@@ -163,7 +163,7 @@
 
         <div class="min-h-0 flex-1 overflow-y-auto">
             <div id="detailsLoading" class="p-5">
-                <div class="py-16 text-center text-base text-slate-400">
+                <div class="py-16 text-center text-base text-slate-500">
                     Loading meeting details...
                 </div>
             </div>
@@ -182,12 +182,12 @@
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">Type</p>
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">Type</p>
                         <p id="detailType" class="mt-1 text-base font-bold text-slate-700"></p>
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">Status</p>
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">Status</p>
                         <div id="detailStatus" class="mt-1"></div>
                     </div>
                 </div>
@@ -205,7 +205,7 @@
 
                         <div id="descriptionBlock"
                             class="hidden border-t border-slate-100 p-4">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Description
                             </p>
 
@@ -264,7 +264,7 @@
                         </h4>
                     </div>
 
-                    <div class="rounded-md border border-slate-200 bg-white p-4">
+                    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                         <div id="minutesContent"></div>
                     </div>
                 </section>
@@ -348,7 +348,7 @@ function loadingState(){
         );
 
     $('meetingMobileGrid').innerHTML=`
-        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-400">
+        <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-xs 2xl:text-sm text-slate-500">
             <div class="flex items-center justify-center gap-2">
                 <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
                 Loading meetings...
@@ -454,7 +454,7 @@ function renderMeetings(){
 
         grid.innerHTML=`
             <div class="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center">
-                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                     <i class="bi bi-calendar-x"></i>
                 </div>
 
@@ -476,11 +476,11 @@ function renderMeetings(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                        <p class="font-semibold text-xs 2xl:text-sm text-slate-700">
                             ${esc(meeting.meeting_no)}
                         </p>
 
-                        <p class="mt-0.5 max-w-[220px] truncate text-sm text-slate-400">
+                        <p class="mt-0.5 max-w-[220px] truncate text-sm text-slate-500">
                             ${esc(meeting.title)}
                         </p>
                     </div>
@@ -498,7 +498,7 @@ function renderMeetings(){
                         :'—'}
                 </p>
 
-                <p class="mt-0.5 text-[10px] text-slate-400">
+                <p class="mt-0.5 text-[10px] text-slate-500">
                     ${esc(meetingTime(meeting))}
                 </p>
             </td>
@@ -581,7 +581,7 @@ function renderMeetings(){
                 </div>
 
                 <div>
-                    <p class="text-[10px] text-slate-400">
+                    <p class="text-[10px] text-slate-500">
                         Venue
                     </p>
 
@@ -592,14 +592,14 @@ function renderMeetings(){
 
                 <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
                     <div>
-                        <p class="text-[10px] text-slate-400">Type</p>
+                        <p class="text-[10px] text-slate-500">Type</p>
                         <p class="mt-1 text-sm font-semibold text-slate-600">
                             ${esc(formatLabel(meeting.type))}
                         </p>
                     </div>
 
                     <div class="text-right">
-                        <p class="text-[10px] text-slate-400">My Status</p>
+                        <p class="text-[10px] text-slate-500">My Status</p>
                         <div class="mt-1">
                             ${attendanceBadge(
                                 myAttendanceStatus(meeting)
@@ -634,7 +634,7 @@ window.viewMeeting=async function(id){
     }
 
     $('detailsLoading').innerHTML=`
-        <div class="py-16 text-center text-base text-slate-400">
+        <div class="py-16 text-center text-base text-slate-500">
             <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-600"></span>
             <p class="mt-2">Loading meeting details...</p>
         </div>
@@ -768,7 +768,7 @@ function renderAttendance(attendance){
     if(!attendance){
         container.innerHTML=`
             <div class="py-4 text-center">
-                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                     <i class="bi bi-person-dash"></i>
                 </div>
 
@@ -784,7 +784,7 @@ function renderAttendance(attendance){
     container.innerHTML=`
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <p class="text-[10px] uppercase tracking-wide text-slate-400">
+                <p class="text-[10px] uppercase tracking-wide text-slate-500">
                     Attendance Status
                 </p>
 
@@ -799,7 +799,7 @@ function renderAttendance(attendance){
                 attendance.notes
                     ?`
                     <div class="max-w-md">
-                        <p class="text-[10px] uppercase tracking-wide text-slate-400">
+                        <p class="text-[10px] uppercase tracking-wide text-slate-500">
                             Notes
                         </p>
 
@@ -882,7 +882,7 @@ function renderDecisions(items){
     container.innerHTML=`
         <div class="space-y-3">
             ${items.map(item=>`
-                <article class="rounded-md border border-slate-200 bg-white p-4">
+                <article class="rounded-md border border-slate-200 bg-white px-5 py-2">
 
                     <div class="flex flex-wrap items-center gap-2">
                         ${
@@ -930,7 +930,7 @@ function renderDecisions(items){
                                     item.agenda?.title
                                         ?`
                                         <div>
-                                            <p class="text-slate-400 text-xs 2xl:text-sm">
+                                            <p class="text-slate-500 text-xs 2xl:text-sm">
                                                 Related Agenda
                                             </p>
 
@@ -946,7 +946,7 @@ function renderDecisions(items){
                                     item.due_date
                                         ?`
                                         <div>
-                                            <p class="text-slate-400 text-xs 2xl:text-sm">
+                                            <p class="text-slate-500 text-xs 2xl:text-sm">
                                                 Due Date
                                             </p>
 
@@ -970,7 +970,7 @@ function renderDecisions(items){
 function renderMinutes(minutes){
     if(!minutes){
         $('minutesContent').innerHTML=`
-            <div class="py-5 text-center text-base text-slate-400">
+            <div class="py-5 text-center text-base text-slate-500">
                 Meeting minutes have not been published yet.
             </div>
         `;
@@ -988,7 +988,7 @@ function renderMinutes(minutes){
 function infoItem(label,value){
     return`
         <div class="min-w-0">
-            <p class="text-[10px] uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] uppercase tracking-wide text-slate-500">
                 ${esc(label)}
             </p>
 
@@ -1001,7 +1001,7 @@ function infoItem(label,value){
 
 function emptyBlock(message){
     return`
-        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-400">
+        <div class="rounded-md border border-slate-200 bg-white py-8 text-center text-base text-slate-500">
             ${esc(message)}
         </div>
     `;

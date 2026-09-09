@@ -56,7 +56,7 @@ CONTACT INFO + FORM
                             <i data-lucide="mail" class="h-4.5 w-4.5"></i>
                         </div>
                         <div>
-                            <p class="text-[12px] text-slate-400">Email</p>
+                            <p class="text-[12px] text-slate-500">Email</p>
                             <p class="text-sm font-semibold text-slate-800">{{ $organizationEmail }}</p>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ CONTACT INFO + FORM
                             <i data-lucide="phone" class="h-4.5 w-4.5"></i>
                         </div>
                         <div>
-                            <p class="text-[12px] text-slate-400">Phone</p>
+                            <p class="text-[12px] text-slate-500">Phone</p>
                             <p class="text-sm font-semibold text-slate-800">{{ $organizationPhone }}</p>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ CONTACT INFO + FORM
                             <i data-lucide="map-pin" class="h-4.5 w-4.5"></i>
                         </div>
                         <div>
-                            <p class="text-[12px] text-slate-400">Location</p>
+                            <p class="text-[12px] text-slate-500">Location</p>
                             <p class="text-sm font-semibold text-slate-800">{{ $organizationAddress }}</p>
                         </div>
                     </div>
@@ -97,14 +97,14 @@ CONTACT INFO + FORM
                         <div>
                             <label for="contactName" class="mb-1.5 block text-[13px] font-semibold text-slate-700">আপনার নাম <span class="text-red-500">*</span></label>
                             <input type="text" id="contactName" name="name" required placeholder="আপনার নাম লিখুন"
-                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                             <p id="contactNameError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
                         </div>
 
                         <div>
                             <label for="contactEmail" class="mb-1.5 block text-[13px] font-semibold text-slate-700">ই-মেইল <span class="text-red-500">*</span></label>
                             <input type="email" id="contactEmail" name="email" required placeholder="আপনার ই-মেইল"
-                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                             <p id="contactEmailError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
                         </div>
                     </div>
@@ -112,14 +112,14 @@ CONTACT INFO + FORM
                     <div class="mt-4">
                         <label for="contactSubject" class="mb-1.5 block text-[13px] font-semibold text-slate-700">বিষয় <span class="text-red-500">*</span></label>
                         <input type="text" id="contactSubject" name="subject" required placeholder="কী বিষয়ে যোগাযোগ করতে চান?"
-                            class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
+                            class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10">
                         <p id="contactSubjectError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
                     </div>
 
                     <div class="mt-4">
                         <label for="contactMessage" class="mb-1.5 block text-[13px] font-semibold text-slate-700">বার্তা <span class="text-red-500">*</span></label>
                         <textarea id="contactMessage" name="message" rows="5" required placeholder="আপনার বার্তা লিখুন..."
-                            class="w-full resize-none rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10"></textarea>
+                            class="w-full resize-none rounded-md border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10"></textarea>
                         <p id="contactMessageError" class="mt-1 hidden text-[12px] font-medium text-rose-600"></p>
                     </div>
 

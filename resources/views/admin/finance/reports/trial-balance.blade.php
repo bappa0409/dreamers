@@ -19,19 +19,19 @@
     </div>
 
     {{-- Filters --}}
-    <div class="rounded-md border border-slate-200 bg-white p-4">
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-12 lg:items-end">
             <div class="lg:col-span-4">
                 <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                     Search
                 </label>
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
                     <input
                         id="searchInput"
                         type="text"
                         placeholder="Code, account or sub type..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                 </label>
                 <select
                     id="typeFilter"
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5  text-xs 2xl:text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white px-2.5 text-xs 2xl:text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                     <option value="">All Types</option>
                     <option value="asset">Asset</option>
                     <option value="liability">Liability</option>
@@ -56,11 +56,11 @@
                     As Of Date
                 </label>
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                     <input
                         id="asOfFilter"
                         type="text"
-                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-picker h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date"
                         autocomplete="off">
                 </div>
@@ -83,7 +83,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-x-circle me-1"></i>
                     Clear
                 </button>
@@ -93,41 +93,89 @@
 
     {{-- Summary --}}
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Accounts</p>
-            <p id="totalAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
-        </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Total Debit</p>
-            <p id="totalDebit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
+    {{-- Accounts --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Accounts
+                </p>
+                <p id="totalAccounts" class="mt-1 text-xl font-bold text-slate-800">
+                    0
+                </p>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Total Credit</p>
-            <p id="totalCredit" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Difference</p>
-            <p id="difference" class="mt-1 truncate text-base 2xl:text-lg font-bold text-slate-800">
-                {{ setting('currency_symbol','৳') }}0.00
-            </p>
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-wallet2"></i>
+            </div>
         </div>
     </div>
+
+    {{-- Total Debit --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Total Debit
+                </p>
+                <p id="totalDebit" class="mt-1 truncate text-xl font-bold text-emerald-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-arrow-down-left"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Total Credit --}}
+    <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-red-700 2xl:text-sm">
+                    Total Credit
+                </p>
+                <p id="totalCredit" class="mt-1 truncate text-xl font-bold text-red-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-red-100 text-red-600">
+                <i class="bi bi-arrow-up-right"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Difference --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Difference
+                </p>
+                <p id="difference" class="mt-1 truncate text-xl font-bold text-indigo-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-bar-chart"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Trial Balance --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h2 class="text-base font-bold text-slate-700">Trial Balance</h2>
-                <p id="reportPeriod" class="text-[11px] text-slate-400"></p>
+                <p id="reportPeriod" class="text-[11px] text-slate-500"></p>
             </div>
-            <p class="text-[11px] text-slate-400">
+            <p class="text-[11px] text-slate-500">
                 Posting accounts only
             </p>
         </div>
@@ -136,18 +184,18 @@
             <table class="w-full min-w-[850px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Account</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Sub Type</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Debit</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Credit</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Account</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Sub Type</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Debit</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Credit</th>
                     </tr>
                 </thead>
 
                 <tbody id="trialBalanceTable">
                     <tr>
-                        <td colspan="6" class="px-4 py-12 text-center text-slate-400">
+                        <td colspan="6" class="px-4 py-12 text-center text-slate-500">
                             Loading Trial Balance...
                         </td>
                     </tr>
@@ -399,14 +447,14 @@ function renderAccounts(accounts){
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <div class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${esc(account.name)}
                 </div>
 
                 ${
                     !account.is_active
                         ?`
-                            <div class="mt-0.5 text-[10px] font-medium text-slate-400">
+                            <div class="mt-0.5 text-[10px] font-medium text-slate-500">
                                 Inactive
                             </div>
                         `
@@ -414,7 +462,7 @@ function renderAccounts(accounts){
                 }
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${esc(
                     AdminUI.titleCase(
                         account.type
@@ -422,7 +470,7 @@ function renderAccounts(accounts){
                 )}
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                 ${
                     account.sub_type
                         ?esc(

@@ -30,68 +30,103 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-slate-500">Total Journals</p>
-                    <p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
-                </div>
-                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
-                    <i class="bi bi-journals"></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-emerald-700">Posted</p>
-                    <p id="summaryPosted" class="mt-2 text-xl font-bold text-emerald-600">0</p>
-                </div>
-                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
-                    <i class="bi bi-check2-circle"></i>
-                </div>
-            </div>
-        </div>
+    {{-- Total Journals --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Total Journals
+                </p>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-indigo-700">Manual</p>
-                    <p id="summaryManual" class="mt-2 text-xl font-bold text-indigo-600">0</p>
-                </div>
-                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
-                    <i class="bi bi-pencil-square"></i>
-                </div>
+                <p id="summaryTotal" class="text-xl font-bold text-slate-800">
+                    0
+                </p>
             </div>
-        </div>
 
-        <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-red-700">Cancelled / Reversed</p>
-                    <p id="summaryCancelled" class="mt-2 text-xl font-bold text-red-600">0</p>
-                </div>
-                <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
-                    <i class="bi bi-arrow-counterclockwise"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 md:col-span-1">
-            <div class="flex items-center justify-between">
-                <div class="min-w-0">
-                    <p class="text-xs text-slate-500">Posted Debit</p>
-                    <p id="summaryDebit" class="mt-2 truncate text-xl font-bold text-slate-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-200 text-slate-600">
-                    <i class="bi bi-cash-stack"></i>
-                </div>
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-journals"></i>
             </div>
         </div>
     </div>
+
+    {{-- Posted --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Posted
+                </p>
+
+                <p id="summaryPosted" class="text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Manual --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Manual
+                </p>
+
+                <p id="summaryManual" class="text-xl font-bold text-indigo-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Cancelled / Reversed --}}
+    <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-red-700 2xl:text-sm">
+                    Cancelled / Reversed
+                </p>
+
+                <p id="summaryCancelled" class="text-xl font-bold text-red-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-red-100 text-red-600">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Posted Debit --}}
+    <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Posted Debit
+                </p>
+
+                <p id="summaryDebit" class="mt-1 truncate text-xl font-bold text-amber-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Search Journal --}}
 <div class="rounded-md border border-slate-200 bg-white p-3">
@@ -107,7 +142,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Journal
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by journal, description or account.
                 </p>
             </div>
@@ -118,10 +153,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Journal, description, account..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -193,10 +228,10 @@
 
                 <div class="relative">
                     <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
                         placeholder="Select date range" autocomplete="off">
                 </div>
             </div>
@@ -239,7 +274,7 @@
 
                 <tbody id="journalTable">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-400">
+                        <td colspan="7" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                             Loading journal entries...
                         </td>
                     </tr>
@@ -249,7 +284,7 @@
 
         {{-- Mobile card list --}}
         <div id="journalCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading journal entries...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading journal entries...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -288,7 +323,7 @@ MANUAL JOURNAL MODAL
 
         <form id="journalForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-file-earmark-text"></i>
@@ -299,7 +334,7 @@ MANUAL JOURNAL MODAL
                                 Journal Information
                             </h3>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 Basic information for this accounting transaction.
                             </p>
                         </div>
@@ -313,7 +348,7 @@ MANUAL JOURNAL MODAL
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input
                                     id="journalDate"
@@ -354,7 +389,7 @@ MANUAL JOURNAL MODAL
                                     Journal Lines
                                 </h3>
 
-                                <p class="text-[11px] text-slate-400">
+                                <p class="text-[11px] text-slate-500">
                                     Each line can contain debit or credit, never both.
                                 </p>
                             </div>
@@ -520,7 +555,7 @@ REVERSE MODAL
             <input id="reverseTransactionId" type="hidden">
 
             <div class="space-y-5 overflow-y-auto p-5">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600">
                             <i class="bi bi-arrow-counterclockwise"></i>
@@ -531,7 +566,7 @@ REVERSE MODAL
                                 Reversal Information
                             </h3>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 A separate opposite journal will be created.
                             </p>
                         </div>
@@ -545,7 +580,7 @@ REVERSE MODAL
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input
                                     id="reverseDate"
@@ -664,7 +699,7 @@ const money=value=>`${currency}${Number(value||0).toLocaleString(undefined,{
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;
@@ -672,7 +707,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;
@@ -945,7 +980,7 @@ function renderJournals(){
                         ${esc(journal.transaction_no)}
                     </div>
 
-                    <div class="truncate text-[10px] text-slate-400">
+                    <div class="truncate text-[10px] text-slate-500">
                         #${journal.id} • ${esc(AdminUI.titleCase(journal.type))}
                     </div>
                 </td>
@@ -962,7 +997,7 @@ function renderJournals(){
                     <p class="truncate text-xs text-slate-600">
                         ${esc(journal.description||'—')}
                     </p>
-                    <p class="truncate text-[10px] text-slate-400">
+                    <p class="truncate text-[10px] text-slate-500">
                         ${esc(AdminUI.titleCase(journal.source_module||'—'))}
                     </p>
                 </td>
@@ -997,7 +1032,7 @@ function renderJournals(){
                             ${esc(journal.transaction_no)}
                         </p>
 
-                        <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                        <p class="mt-0.5 truncate text-[10px] text-slate-500">
                             #${journal.id} • ${esc(AdminUI.titleCase(journal.type))}
                         </p>
                     </div>
@@ -1009,7 +1044,7 @@ function renderJournals(){
 
                 <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Date</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Date</p>
                         <p class="truncate font-medium text-slate-700">
                             ${
                                 journal.transaction_date
@@ -1020,28 +1055,28 @@ function renderJournals(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Source</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Source</p>
                         <p class="truncate font-medium text-slate-700">
                             ${esc(AdminUI.titleCase(journal.source_module||'—'))}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Debit</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Debit</p>
                         <p class="truncate font-semibold text-slate-800">
                             ${money(journal.total_debit)}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Credit</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Credit</p>
                         <p class="truncate font-semibold text-slate-800">
                             ${money(journal.total_credit)}
                         </p>
                     </div>
 
                     <div class="col-span-2 min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Description</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Description</p>
                         <p class="truncate font-medium text-slate-700">
                             ${esc(journal.description||'—')}
                         </p>
@@ -1601,7 +1636,7 @@ window.viewJournal=async function(id){
                 journal.description
                     ?`
                         <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                            <p class="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 <i class="bi bi-sticky"></i>
                                 Description
                             </p>
@@ -1661,7 +1696,7 @@ window.viewJournal=async function(id){
 function journalDetail(label,value,icon){
     return`
         <div class="rounded-md border border-slate-200 bg-white p-3">
-            <p class="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${icon?`<i class="bi ${icon}"></i>`:''}
                 ${esc(label)}
             </p>

@@ -220,9 +220,9 @@ class AdminController extends Controller
         return view('admin.subscription-plans.index');
     }
 
-    public function landingPage(): View
+    public function websitePage(): View
     {
-        return view('admin.landing-page.index');
+        return view('admin.website-page.index');
     }
 
     public function settings(): View

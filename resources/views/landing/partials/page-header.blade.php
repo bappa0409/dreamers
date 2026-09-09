@@ -6,7 +6,7 @@
     <div class="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
 
         {{-- Breadcrumb --}}
-        <div class="reveal mb-3 flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400">
+        <div class="reveal mb-3 flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-500">
             <a href="{{ route('home') }}" class="transition hover:text-teal-700">
                 হোম
             </a>

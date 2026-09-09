@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- =========================================================
     HEADER
@@ -31,7 +31,7 @@
             <button
                 type="button"
                 onclick="openDocumentModal()"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-cloud-arrow-up"></i>
                 Upload Document
@@ -56,7 +56,7 @@
                         Search Documents
                     </p>
 
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search by title, filename, category or description
                     </p>
                 </div>
@@ -65,26 +65,26 @@
             <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
 
                 <div class="relative w-full sm:min-w-[230px] lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="searchInput"
                         type="text"
                         placeholder="Search documents..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
                     >
                 </div>
 
                 <select
                     id="categoryFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[170px] lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[170px] lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Categories</option>
                 </select>
 
                 <select
                     id="extensionFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[130px] lg:rounded-none lg:border-l-0"
+                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:w-[130px] lg:rounded-none lg:border-l-0"
                 >
                     <option value="">All Types</option>
                 </select>
@@ -112,7 +112,7 @@
         class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3"
     >
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-500">
                 Loading documents...
             </div>
         </div>
@@ -281,7 +281,7 @@ DOCUMENT MODAL
 
                         <span
                             id="fileHint"
-                            class="mt-1 text-[11px] text-slate-400"
+                            class="mt-1 text-[11px] text-slate-500"
                         >
                             PDF, Office, image, ZIP or text file. Maximum 20 MB.
                         </span>
@@ -311,7 +311,7 @@ DOCUMENT MODAL
                             Active Document
                         </p>
 
-                        <p class="mt-0.5 text-[11px] text-slate-400">
+                        <p class="mt-0.5 text-[11px] text-slate-500">
                             Inactive documents remain stored but are hidden from normal members.
                         </p>
                     </div>
@@ -342,7 +342,7 @@ DOCUMENT MODAL
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     Upload Document
                 </button>
@@ -638,7 +638,7 @@ function renderDocuments(){
                         </h3>
 
                         <p
-                            class="mt-1 truncate text-[11px] text-slate-400"
+                            class="mt-1 truncate text-[11px] text-slate-500"
                             title="${AdminUI.escapeHtml(item.original_name??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -730,7 +730,7 @@ function renderDocuments(){
                 <div class="mt-4 flex min-w-0 items-center justify-between gap-3 border-t border-slate-100 bg-slate-50/40 px-4 py-3">
 
                     <div class="min-w-0">
-                        <p class="truncate text-[10px] text-slate-400">
+                        <p class="truncate text-[10px] text-slate-500">
                             ${
                                 item.uploader?.name
                                     ?`By ${AdminUI.escapeHtml(item.uploader.name)}`

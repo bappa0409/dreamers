@@ -4,7 +4,7 @@
 @section('page_title','Project Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -18,7 +18,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Project.create'))
-            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openProjectModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Project
             </button>
@@ -27,31 +27,103 @@
 
     {{-- Statistics --}}
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-5">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Projects</p>
-            <p id="totalProjects" class="mt-2 text-xl font-bold text-slate-800">0</p>
-        </div>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-indigo-600">Budget</p>
-            <p id="totalBudget" class="mt-2 truncate text-lg font-bold text-indigo-700">{{ setting('currency_symbol','৳') }}0</p>
-        </div>
+    {{-- Projects --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Projects
+                </p>
 
-        <div class="rounded-md border border-amber-200 bg-amber-50/40 p-4">
-            <p class="text-sm text-amber-600">Actual Cost</p>
-            <p id="actualCost" class="mt-2 truncate text-lg font-bold text-amber-700">{{ setting('currency_symbol','৳') }}0</p>
-        </div>
+                <p id="totalProjects" class="mt-1 text-xl font-bold text-slate-800">
+                    0
+                </p>
+            </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-emerald-600">Completed</p>
-            <p id="completedCount" class="mt-2 text-xl font-bold text-emerald-700">0</p>
-        </div>
-
-        <div class="col-span-2 rounded-md border border-slate-200 bg-white p-4 xl:col-span-1">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Avg. Progress</p>
-            <p id="averageProgress" class="mt-2 text-xl font-bold text-slate-800">0%</p>
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-kanban"></i>
+            </div>
         </div>
     </div>
+
+    {{-- Budget --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Budget
+                </p>
+
+                <p id="totalBudget" class="mt-1 truncate text-xl font-bold text-indigo-600">
+                    {{ setting('currency_symbol','৳') }}0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-wallet2"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Actual Cost --}}
+    <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Actual Cost
+                </p>
+
+                <p id="actualCost" class="mt-1 truncate text-xl font-bold text-amber-600">
+                    {{ setting('currency_symbol','৳') }}0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Completed --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Completed
+                </p>
+
+                <p id="completedCount" class="mt-1 text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Average Progress --}}
+    <div class="col-span-2 rounded-md border border-violet-200 bg-violet-50/50 px-5 py-2 xl:col-span-1">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-violet-700 2xl:text-sm">
+                    Avg. Progress
+                </p>
+
+                <p id="averageProgress" class="mt-1 text-xl font-bold text-violet-600">
+                    0%
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-violet-100 text-violet-600">
+                <i class="bi bi-graph-up"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
    {{-- Search Projects --}}
 <div class="rounded-md border border-slate-200 bg-white p-3">
@@ -67,7 +139,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Projects
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by code, name or location.
                 </p>
             </div>
@@ -78,10 +150,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search projects..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -131,10 +203,10 @@
 
                 <div class="relative">
                     <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
                         placeholder="Start date range" autocomplete="off">
                 </div>
             </div>
@@ -146,7 +218,7 @@
     {{-- Grid --}}
     <div id="projectGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">Loading projects...</div>
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-500">Loading projects...</div>
         </div>
     </div>
 
@@ -203,7 +275,7 @@
                     <div>
                         <label class="form-label">Start Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="startDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -211,7 +283,7 @@
                     <div>
                         <label class="form-label">Expected End Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="expectedEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -219,7 +291,7 @@
                     <div>
                         <label class="form-label">Actual End Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="actualEndDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -250,7 +322,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeProjectModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveProjectButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Save Project</button>
             </div>
         </form>
@@ -301,7 +373,7 @@
                     <div>
                         <label class="form-label">Joined Date</label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="joinedDate" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                         </div>
                     </div>
@@ -319,7 +391,7 @@
             </div>
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Cancel</button>
                 <button id="saveMemberButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Assign Member</button>
             </div>
         </form>
@@ -511,7 +583,7 @@ function renderProjects(){
                                 ${AdminUI.escapeHtml(item.name??'Untitled Project')}
                             </h3>
 
-                            <p class="mt-1 truncate text-[11px] text-slate-400" title="${AdminUI.escapeHtml(item.location??'Location not specified')}">
+                            <p class="mt-1 truncate text-[11px] text-slate-500" title="${AdminUI.escapeHtml(item.location??'Location not specified')}">
                                 <i class="bi bi-geo-alt mr-1"></i>
                                 ${AdminUI.escapeHtml(item.location??'Location not specified')}
                             </p>
@@ -530,7 +602,7 @@ function renderProjects(){
 
                     <div class="mt-4">
                         <div class="mb-1 flex items-center justify-between text-[10px]">
-                            <span class="text-slate-400 text-xs 2xl:text-sm">Progress</span>
+                            <span class="text-slate-500 text-xs 2xl:text-sm">Progress</span>
                             <span class="font-semibold text-slate-600">${progress}%</span>
                         </div>
 
@@ -541,7 +613,7 @@ function renderProjects(){
 
                     <div class="mt-4 grid grid-cols-2 gap-2">
                         <div class="min-w-0 rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] text-slate-400">Budget</p>
+                            <p class="text-[10px] text-slate-500">Budget</p>
                             <p class="mt-1 truncate text-sm font-bold text-slate-700" title="${AdminUI.escapeHtml(money(item.budget))}">
                                 ${money(item.budget)}
                             </p>

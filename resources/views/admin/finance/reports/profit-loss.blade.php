@@ -19,18 +19,18 @@
     </div>
 
     {{-- Filters --}}
-    <div class="rounded-md border border-slate-200 bg-white p-4">
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-12 lg:items-end">
             <div class="lg:col-span-5">
                 <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                     Date Range
                 </label>
                 <div class="relative">
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                     <input
                         id="dateRangeFilter"
                         type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                         placeholder="Select date range"
                         autocomplete="off">
                 </div>
@@ -40,7 +40,7 @@
                 <button
                     type="button"
                     onclick="setCurrentMonth()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-500 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar-month me-1"></i>
                     Current Month
                 </button>
@@ -50,7 +50,7 @@
                 <button
                     type="button"
                     onclick="setCurrentYear()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:border-slate-500 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100">
                     <i class="bi bi-calendar3 me-1"></i>
                     Financial Year
                 </button>
@@ -60,7 +60,7 @@
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    class="h-9 w-full cursor-pointer rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs 2xl:text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-100">
                     <i class="bi bi-x-circle me-1"></i>
                     Clear
                 </button>
@@ -70,48 +70,65 @@
 
     {{-- Summary --}}
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/30 p-4">
-            <div class="flex items-start justify-between gap-3">
-                <div>
-                    <p class="text-xs 2xl:text-sm text-emerald-600">Total Income</p>
-                    <p id="totalIncome" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-emerald-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
-                    <i class="bi bi-arrow-down-left"></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="rounded-md border border-red-200 bg-red-50/30 p-4">
-            <div class="flex items-start justify-between gap-3">
-                <div>
-                    <p class="text-xs 2xl:text-sm text-red-600">Total Expense</p>
-                    <p id="totalExpense" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-red-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-red-100 text-red-600">
-                    <i class="bi bi-arrow-up-right"></i>
-                </div>
-            </div>
-        </div>
+    {{-- Total Income --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Total Income
+                </p>
 
-        <div id="netCard" class="rounded-md border border-indigo-200 bg-indigo-50/30 p-4">
-            <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0">
-                    <p id="netLabel" class="text-xs 2xl:text-sm text-indigo-600">Net Surplus</p>
-                    <p id="netResult" class="mt-2 truncate text-sm 2xl:text-xl font-bold text-indigo-700">
-                        {{ setting('currency_symbol','৳') }}0.00
-                    </p>
-                </div>
-                <div id="netIcon" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
-                    <i class="bi bi-graph-up-arrow"></i>
-                </div>
+                <p id="totalIncome" class="mt-1 truncate text-xl font-bold text-emerald-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-arrow-down-left"></i>
             </div>
         </div>
     </div>
+
+    {{-- Total Expense --}}
+    <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-red-700 2xl:text-sm">
+                    Total Expense
+                </p>
+
+                <p id="totalExpense" class="mt-1 truncate text-xl font-bold text-red-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-red-100 text-red-600">
+                <i class="bi bi-arrow-up-right"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Net Surplus / Deficit --}}
+    <div id="netCard" class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p id="netLabel" class="text-xs text-indigo-700 2xl:text-sm">
+                    Net Surplus
+                </p>
+
+                <p id="netResult" class="mt-1 truncate text-xl font-bold text-indigo-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div id="netIcon" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Income & Expense --}}
     <div class="grid gap-4 xl:grid-cols-2">
@@ -134,7 +151,7 @@
                     </thead>
                     <tbody id="incomeTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">Loading...</td>
                         </tr>
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
@@ -168,7 +185,7 @@
                     </thead>
                     <tbody id="expenseTable">
                         <tr>
-                            <td colspan="2" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading...</td>
+                            <td colspan="2" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">Loading...</td>
                         </tr>
                     </tbody>
                     <tfoot class="border-t border-slate-200 bg-slate-50">
@@ -189,9 +206,9 @@
         <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h2 class="text-base font-bold text-slate-700">Operating Result</h2>
-                <p id="periodLabel" class="mt-0.5 text-[11px] text-slate-400"></p>
+                <p id="periodLabel" class="mt-0.5 text-[11px] text-slate-500"></p>
             </div>
-            <span class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+            <span class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                 Posted journals only
             </span>
         </div>
@@ -566,13 +583,13 @@ function renderNetState(surplus,net,label){
         );
 
         el.netCard.className=
-            'rounded-md border border-emerald-200 bg-emerald-50/30 p-4';
+            'rounded-md border border-emerald-200 bg-emerald-50/30 px-5 py-2';
 
         el.netLabel.className=
             'text-sm text-emerald-600';
 
         el.net.className=
-            'mt-2 truncate text-xl font-bold text-emerald-700';
+            'truncate text-xl font-bold text-emerald-700';
 
         el.netIcon.className=
             'flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600';
@@ -648,7 +665,7 @@ function renderAccounts(target,accounts,type){
                 ${
                     account.sub_type
                         ?`
-                            <div class="mt-0.5 text-[10px] text-slate-400">
+                            <div class="mt-0.5 text-[10px] text-slate-500">
                                 ${esc(
                                     AdminUI.titleCase(
                                         account.sub_type
@@ -662,7 +679,7 @@ function renderAccounts(target,accounts,type){
                 ${
                     !account.is_active
                         ?`
-                            <div class="mt-0.5 text-[10px] font-medium text-slate-400">
+                            <div class="mt-0.5 text-[10px] font-medium text-slate-500">
                                 Inactive account
                             </div>
                         `

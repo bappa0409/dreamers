@@ -75,7 +75,7 @@
     ['User.view','admin.users','admin.users*','bi-people','Users'],
     ['Role.view','admin.roles','admin.roles*','bi-shield-lock','Roles & Permissions'],
     ['Role.view','admin.user-roles','admin.user-roles*','bi-person-gear','User Role Assignment'],
-    ['Setting.view','admin.landing-page','admin.landing-page*','bi-window-stack','Website Page'],
+    ['Setting.view','admin.website-page','admin.website-page*','bi-window-stack','Website Page'],
     ['Setting.view','admin.settings','admin.settings*','bi-gear','Settings'],
     ['Audit.view','admin.activity-logs','admin.activity-logs*','bi-clock-history','Audit Logs'],
     ['Backup.view','admin.backups','admin.backups*','bi-hdd-network','Database Backup'],
@@ -491,7 +491,7 @@
             </header>
 
             <main class="custom-scrollbar flex-1 overflow-y-auto bg-[#f4f6f9]">
-                <div class="min-h-full p-4 sm:p-5 lg:p-6">
+                <div class="min-h-full p-3 sm:p-4 lg:p-4">
 
                     @if(session('success'))
                     <div
@@ -642,6 +642,38 @@ document.querySelectorAll('#sidebar a').forEach(link=>{
         if(window.innerWidth<1024)closeSidebar();
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Sidebar Scroll Position Persistence
+|--------------------------------------------------------------------------
+| Every menu click is a normal page navigation, so the sidebar re-renders
+| from the top on the next page. Remember where the user last scrolled to
+| (per browser tab) and restore it, so clicking a menu item near the
+| bottom doesn't visually "jump" the sidebar back to the top.
+*/
+
+(function(){
+    const sidebarScroll=document.querySelector('.sidebar-scroll');
+    if(!sidebarScroll)return;
+
+    const storageKey='adminSidebarScrollTop';
+
+    const savedScrollTop=Number(
+        sessionStorage.getItem(storageKey)
+    );
+
+    if(!Number.isNaN(savedScrollTop)&&savedScrollTop>0){
+        sidebarScroll.scrollTop=savedScrollTop;
+    }
+
+    sidebarScroll.addEventListener('scroll',()=>{
+        sessionStorage.setItem(
+            storageKey,
+            sidebarScroll.scrollTop
+        );
+    });
+})();
 
 const notificationState={
     unread:@json($unreadNotificationCount),

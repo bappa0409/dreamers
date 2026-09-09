@@ -8,7 +8,7 @@
     $currency=setting('currency_symbol','৳');
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-center gap-4">
@@ -41,8 +41,8 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total</p>
-                    <p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total</p>
+                    <p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
                     <i class="bi bi-receipt"></i>
@@ -54,7 +54,7 @@
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">Pending</p>
-                    <p id="summaryPending" class="mt-2 text-xl font-bold text-amber-700">0</p>
+                    <p id="summaryPending" class="text-xl font-bold text-amber-700">0</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                     <i class="bi bi-hourglass-split"></i>
@@ -66,7 +66,7 @@
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Verified</p>
-                    <p id="summaryVerified" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+                    <p id="summaryVerified" class="text-xl font-bold text-emerald-700">0</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
                     <i class="bi bi-check-circle"></i>
@@ -78,7 +78,7 @@
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wide text-red-500">Rejected</p>
-                    <p id="summaryRejected" class="mt-2 text-xl font-bold text-red-600">0</p>
+                    <p id="summaryRejected" class="text-xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-red-600">
                     <i class="bi bi-x-circle"></i>
@@ -105,10 +105,10 @@
             <div class="lg:col-span-5">
                 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
                     <input id="paymentSearch" type="text"
                            placeholder="Payment no. or transaction reference..."
-                           class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+                           class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none placeholder:text-slate-500 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
                 </div>
             </div>
 
@@ -159,7 +159,7 @@
             </div>
             <div>
                 <h2 class="text-sm font-semibold text-slate-800">Payment History</h2>
-                <p class="text-[11px] text-slate-400">Subscription payment submissions and verification status</p>
+                <p class="text-[11px] text-slate-500">Subscription payment submissions and verification status</p>
             </div>
         </div>
 
@@ -180,7 +180,7 @@
 
                 <tbody id="paymentHistory" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
+                        <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-500">
                             Loading payment history...
                         </td>
                     </tr>
@@ -203,12 +203,12 @@
                 </div>
                 <div>
                     <h3 class="text-base font-bold text-slate-800">Payment Details</h3>
-                    <p class="text-xs 2xl:text-sm text-slate-400">Subscription payment information</p>
+                    <p class="text-xs 2xl:text-sm text-slate-500">Subscription payment information</p>
                 </div>
             </div>
 
             <button type="button" onclick="closePaymentDetails()"
-                    class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+                    class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -287,7 +287,7 @@ async function loadPayments(page=1){
         <tr>
             <td colspan="8" class="px-4 py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-emerald-600"></div>
-                <p class="mt-3 text-sm text-slate-400">Loading payment history...</p>
+                <p class="mt-3 text-sm text-slate-500">Loading payment history...</p>
             </td>
         </tr>`;
 
@@ -352,11 +352,11 @@ function renderPayments(){
         tbody.innerHTML=`
             <tr>
                 <td colspan="8" class="px-4 py-14 text-center">
-                    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                         <i class="bi bi-receipt"></i>
                     </div>
                     <p class="mt-3 text-sm font-semibold text-slate-600">No payments found</p>
-                    <p class="mt-1 text-[10px] text-slate-400">No payment matches the current filters.</p>
+                    <p class="mt-1 text-[10px] text-slate-500">No payment matches the current filters.</p>
                 </td>
             </tr>`;
         return;
@@ -619,7 +619,7 @@ function paymentMethodBadge(method){
 
     return`
         <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
-            <i class="bi ${icons[method]??'bi-credit-card'} text-slate-400"></i>
+            <i class="bi ${icons[method]??'bi-credit-card'} text-slate-500"></i>
             ${escapeHtml(titleCase(method))}
         </span>`;
 }

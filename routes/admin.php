@@ -66,7 +66,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->controller(AdminCont
     Route::get('/documents', 'documents')->middleware('permission:Document.view')->name('documents');
 
     // Settings & System
-    Route::get('/landing-page', 'landingPage')->middleware('permission:Setting.view')->name('landing-page');
+    Route::get('/website-page', 'websitePage')->middleware('permission:Setting.view')->name('website-page');
     Route::get('/settings', 'settings')->middleware('permission:Setting.view')->name('settings');
     Route::get('/backups', 'backups')->middleware('permission:Backup.view')->name('backups');
     Route::get('/activity-logs', 'activityLogs')->middleware('permission:Audit.view')->name('activity-logs');

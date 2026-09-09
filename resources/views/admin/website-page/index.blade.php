@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div
@@ -28,12 +28,12 @@
 
         <div class="flex items-center gap-2">
             <a href="{{ url('/') }}" target="_blank" rel="noopener"
-                class="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                class="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                 <i class="bi bi-box-arrow-up-right"></i>
                 View Live Site
             </a>
 
-            <div id="loadingBadge" class="hidden items-center gap-2 text-sm font-semibold text-slate-400">
+            <div id="loadingBadge" class="hidden items-center gap-2 text-sm font-semibold text-slate-500">
                 <i class="bi bi-arrow-repeat animate-spin"></i>
                 Loading...
             </div>
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingBadge.classList.add('flex');
 
         try {
-            const response = await api('/api/landing-page-sections');
+            const response = await api('/api/website-page-sections');
             sectionsData = response.data;
             renderSections();
 
@@ -110,10 +110,10 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="grid grid-cols-2 gap-2">
                 <input type="text" data-stat-value="${index}" value="${value}"
                     placeholder="Value (e.g. 25)"
-                    class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                    class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
                 <input type="text" data-stat-label="${index}" value="${label}"
                     placeholder="Label"
-                    class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                    class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
             </div>
         `;
     }
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const isContact = section.section_key === 'contact';
 
         const titleHint = ['hero', 'about', 'transparency'].includes(section.section_key)
-            ? `<p class="mt-1 text-[11px] text-slate-400">Use <code class="rounded bg-slate-100 px-1">|</code> to split the heading into two lines &mdash; the second line is highlighted in teal.</p>`
+            ? `<p class="mt-1 text-[11px] text-slate-500">Use <code class="rounded bg-slate-100 px-1">|</code> to split the heading into two lines &mdash; the second line is highlighted in teal.</p>`
             : '';
 
         let bodyHtml = '';
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             bodyHtml = `
                 <div>
-                    <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Stat Cards (4)</label>
+                    <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Stat Cards (4)</label>
                     <div class="space-y-2" data-stats-wrap>${rows}</div>
                 </div>
             `;
@@ -144,35 +144,35 @@ document.addEventListener('DOMContentLoaded', function () {
             bodyHtml = `
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Eyebrow / Badge Text</label>
+                        <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Eyebrow / Badge Text</label>
                         <input type="text" data-field="subtitle" value="${AdminUI.escapeHtml(section.subtitle ?? '')}"
-                            class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                            class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
                     </div>
                     <div>
-                        <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Heading</label>
+                        <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Heading</label>
                         <input type="text" data-field="title" value="${AdminUI.escapeHtml(section.title ?? '')}"
-                            class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                            class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
                         ${titleHint}
                     </div>
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Description</label>
+                    <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Description</label>
                     <textarea data-field="content" rows="3"
-                        class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">${AdminUI.escapeHtml(section.content ?? '')}</textarea>
+                        class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">${AdminUI.escapeHtml(section.content ?? '')}</textarea>
                 </div>
 
                 ${!isContact ? `
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Button Text</label>
+                        <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Button Text</label>
                         <input type="text" data-field="button_text" value="${AdminUI.escapeHtml(section.button_text ?? '')}"
-                            class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                            class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
                     </div>
                     <div>
-                        <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Button URL</label>
+                        <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Button URL</label>
                         <input type="text" data-field="button_url" value="${AdminUI.escapeHtml(section.button_url ?? '')}"
-                            class="w-full rounded-md border border-slate-300 px-3 py-2  text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                            class="w-full rounded-md border border-slate-300 px-3 py-2 text-xs 2xl:text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
                     </div>
                 </div>
                 ` : ''}
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const imageHtml = section.section_key === 'hero' ? `
             <div>
-                <label class="mb-1.5 block  text-xs 2xl:text-sm font-semibold text-slate-600">Section Image</label>
+                <label class="mb-1.5 block text-xs 2xl:text-sm font-semibold text-slate-600">Section Image</label>
                 <div class="flex items-center gap-3">
                     <div id="preview_${section.section_key}"
                         class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-md border border-slate-200 bg-slate-50 text-slate-300">
@@ -192,8 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div>
                         <input type="file" accept="image/png,image/jpeg,image/webp"
                             data-image-input="${section.section_key}" ${disabled}
-                            class="block  text-xs 2xl:text-sm text-slate-500 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file: text-xs 2xl:text-sm file:font-semibold file:text-slate-600 hover:file:bg-slate-200">
-                        <p data-upload-status="${section.section_key}" class="mt-1 text-[10px] text-slate-400">PNG, JPG or WEBP, up to 4MB.</p>
+                            class="block text-xs 2xl:text-sm text-slate-500 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file: text-xs 2xl:text-sm file:font-semibold file:text-slate-600 hover:file:bg-slate-200">
+                        <p data-upload-status="${section.section_key}" class="mt-1 text-[10px] text-slate-500">PNG, JPG or WEBP, up to 4MB.</p>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div>
                             <h2 class="text-sm font-bold text-slate-800">${AdminUI.escapeHtml(section.label)}</h2>
-                            <p class="text-[11px] text-slate-400">Section key: ${section.section_key}</p>
+                            <p class="text-[11px] text-slate-500">Section key: ${section.section_key}</p>
                         </div>
                     </div>
 
@@ -225,9 +225,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
 
                 <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/60 px-5 py-3">
-                    <p data-save-status="${section.section_key}" class="text-[11px] text-slate-400"></p>
+                    <p data-save-status="${section.section_key}" class="text-[11px] text-slate-500"></p>
                     <button type="button" data-save-btn="${section.section_key}" ${disabled}
-                        class="inline-flex items-center gap-2 rounded-md bg-teal-700 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-50">
+                        class="inline-flex items-center gap-2 rounded-md bg-teal-700 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-50">
                         <i class="bi bi-check2"></i>
                         Save Changes
                     </button>
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
         statusEl.className = 'text-[11px] text-indigo-500';
 
         try {
-            const response = await api(`/api/landing-page-sections/${key}`, {
+            const response = await api(`/api/website-page-sections/${key}`, {
                 method: 'PUT',
                 body: JSON.stringify(payload),
             });
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await api(`/api/landing-page-sections/${key}/upload`, {
+            const response = await api(`/api/website-page-sections/${key}/upload`, {
                 method: 'POST',
                 body: formData,
             });

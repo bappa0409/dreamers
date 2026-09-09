@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- =========================================================
     HEADER
@@ -57,13 +57,103 @@
                 <button
                     type="button"
                     onclick="openConfirmBackupModal()"
-                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
+                    class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
                 >
                     <i class="bi bi-play-circle text-[12px]"></i>
                     Run Backup Now
                 </button>
             @endif
 
+        </div>
+    </div>
+
+
+    {{-- =========================================================
+    FILTERS
+    ========================================================== --}}
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Backups
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by filename.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search by filename..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            </div>
+        </div>
+
+
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+                {{-- Type --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Type
+                    </label>
+
+                    <select id="typeFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All types</option>
+                        <option value="manual">Manual</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="pre_import">Pre Import</option>
+                    </select>
+                </div>
+
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All statuses</option>
+                        <option value="completed">Completed</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -102,7 +192,7 @@
                             Created At
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -113,7 +203,7 @@
                     <tr>
                         <td
                             colspan="7"
-                            class="px-5 py-10 text-center text-xs 2xl:text-sm text-slate-400"
+                            class="px-5 py-10 text-center text-xs 2xl:text-sm text-slate-500"
                         >
                             Loading backups...
                         </td>
@@ -175,7 +265,8 @@ CONFIRM BACKUP MODAL
         </div>
 
 
-        <div class="px-5 py-5 text-base leading-6 text-slate-600">
+
+        <div class="px-5 py-5 text-xs 2xl:text-sm text-slate-600">
             This will create a full snapshot of the current database.
             Depending on the database size, this may take a few moments.
         </div>
@@ -186,7 +277,7 @@ CONFIRM BACKUP MODAL
             <button
                 type="button"
                 onclick="closeConfirmBackupModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -195,7 +286,7 @@ CONFIRM BACKUP MODAL
                 id="confirmBackupButton"
                 type="button"
                 onclick="confirmRunBackup()"
-                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
                 <i class="bi bi-play-circle text-[12px]"></i>
                 Yes, Run Backup
@@ -271,7 +362,7 @@ CONFIRM IMPORT MODAL
             <button
                 type="button"
                 onclick="closeConfirmImportModal()"
-                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 Cancel
             </button>
@@ -359,6 +450,21 @@ const importFileInput=
         'importFileInput'
     );
 
+const searchInput=
+    document.getElementById(
+        'searchInput'
+    );
+
+const typeFilter=
+    document.getElementById(
+        'typeFilter'
+    );
+
+const statusFilter=
+    document.getElementById(
+        'statusFilter'
+    );
+
 let currentPage=1;
 let lastPage=1;
 let total=0;
@@ -386,7 +492,12 @@ async function loadBackups(page=1){
     try{
         const response=
             await api(
-                `/api/backups?${AdminUI.query({page})}`
+                `/api/backups?${AdminUI.query({
+                    page,
+                    search:searchInput?.value.trim(),
+                    type:typeFilter?.value,
+                    status:statusFilter?.value
+                })}`
             );
 
 
@@ -502,10 +613,10 @@ function renderTable(backups){
 
                     <div class="flex min-w-0 items-center gap-2">
 
-                        <i class="bi bi-file-earmark-zip shrink-0 text-slate-400"></i>
+                        <i class="bi bi-file-earmark-zip shrink-0 text-slate-500"></i>
 
                         <span
-                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
+                            class="truncate text-xs 2xl:text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(backup.filename??'')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -544,7 +655,7 @@ function renderTable(backups){
                 <td class="overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate  text-xs 2xl:text-sm text-slate-600"
+                        class="truncate text-xs 2xl:text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(AdminUI.formatBytes(backup.size))}"
                     >
                         ${AdminUI.formatBytes(
@@ -558,7 +669,7 @@ function renderTable(backups){
                 <td class="min-w-0 overflow-hidden px-3 py-3">
 
                     <p
-                        class="truncate  text-xs 2xl:text-sm text-slate-600"
+                        class="truncate text-xs 2xl:text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(backup.creator?.name??'—')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -1011,6 +1122,56 @@ function(id){
 
 /*
 |--------------------------------------------------------------------------
+| Clear Filters
+|--------------------------------------------------------------------------
+*/
+
+window.clearFilters=
+function(){
+    if(searchInput){
+        searchInput.value='';
+    }
+
+    if(typeFilter){
+        typeFilter.value='';
+    }
+
+    if(statusFilter){
+        statusFilter.value='';
+    }
+
+    loadBackups(1);
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| Filter Events
+|--------------------------------------------------------------------------
+*/
+
+function registerFilters(){
+    searchInput?.addEventListener(
+        'input',
+        AdminUI.debounce(
+            ()=>loadBackups(1)
+        )
+    );
+
+    typeFilter?.addEventListener(
+        'change',
+        ()=>loadBackups(1)
+    );
+
+    statusFilter?.addEventListener(
+        'change',
+        ()=>loadBackups(1)
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
 | Helpers
 |--------------------------------------------------------------------------
 */
@@ -1045,6 +1206,8 @@ async function initBackupPage(){
         return;
     }
 
+
+    registerFilters();
 
     await loadBackups();
 }

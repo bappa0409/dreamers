@@ -116,7 +116,7 @@ class WebsiteSectionController extends Controller
         $section = WebsiteSection::firstOrNew(['section_key' => $key]);
         $oldPath = $section->image;
 
-        $path = $request->file('file')->store('landing-page', 'public');
+        $path = $request->file('file')->store('website-page', 'public');
 
         $section->section_key = $key;
         $section->image = $path;

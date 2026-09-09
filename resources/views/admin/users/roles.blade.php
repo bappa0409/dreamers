@@ -4,7 +4,7 @@
 @section('page_title','User Role Assignment')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
@@ -45,14 +45,14 @@
                         id="searchInput"
                         type="text"
                         placeholder="Search users..."
-                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                     >
                 </div>
 
                 <button
                     type="button"
                     onclick="clearSearch()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-r-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
@@ -63,28 +63,30 @@
 
     {{-- Table --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-sm">
+
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[760px] table-fixed text-sm">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[27%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[27%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             User
                         </th>
 
-                        <th class="w-[17%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[17%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Member
                         </th>
 
-                        <th class="w-[31%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[31%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Roles
                         </th>
 
-                        <th class="w-[11%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[11%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="w-[14%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[14%] px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Action
                         </th>
                     </tr>
@@ -92,13 +94,18 @@
 
                 <tbody id="usersTable">
                     <tr>
-                        <td colspan="5" class="px-5 py-10 text-center text-base text-slate-400">
+                        <td colspan="5" class="px-5 py-10 text-center text-xs 2xl:text-sm text-slate-400">
                             Loading users...
                         </td>
                     </tr>
                 </tbody>
 
             </table>
+        </div>
+
+        {{-- Mobile card list --}}
+        <div id="usersCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading users...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -110,7 +117,7 @@
     id="roleModal"
     class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5"
 >
-    <div class="app-modal-panel w-full max-w-4xl overflow-hidden rounded-md bg-white">
+    <div class="app-modal-panel w-full max-w-3xl overflow-hidden rounded-md bg-white">
 
         {{-- Modal Header --}}
         <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
@@ -145,7 +152,7 @@
                 id="roleList"
                 class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4"
             >
-                <div class="col-span-full py-8 text-center text-base text-slate-400">
+                <div class="col-span-full py-8 text-center text-xs 2xl:text-sm text-slate-400">
                     Loading roles...
                 </div>
             </div>
@@ -163,18 +170,18 @@
             <button
                 type="button"
                 onclick="closeRoleModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
             >
-                Close
+                <i class="bi bi-x-lg"></i> Close
             </button>
 
             <button
                 id="saveRolesButton"
                 type="button"
                 onclick="saveUserRoles()"
-                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-                Save Roles
+                <i class="bi bi-check2-circle"></i> Save Roles
             </button>
 
         </div>
@@ -191,6 +198,7 @@ let total=0;
 
 const el={
     table:document.getElementById('usersTable'),
+    cards:document.getElementById('usersCards'),
     pagination:document.getElementById('paginationContainer'),
     search:document.getElementById('searchInput'),
     roleList:document.getElementById('roleList'),
@@ -210,6 +218,10 @@ async function loadUsers(page=1){
     el.table.innerHTML=AdminUI.loadingState(
         'Loading users...',
         5
+    );
+
+    el.cards.innerHTML=cardsLoadingHtml(
+        'Loading users...'
     );
 
     const query=AdminUI.query({
@@ -257,6 +269,10 @@ async function loadUsers(page=1){
             5
         );
 
+        el.cards.innerHTML=cardsEmptyHtml(
+            AdminUI.extractError(error)
+        );
+
         AdminUI.renderPagination({
             container:'paginationContainer',
             currentPage:1,
@@ -282,6 +298,10 @@ function renderUsers(){
             5
         );
 
+        el.cards.innerHTML=cardsEmptyHtml(
+            'No users found.'
+        );
+
         return;
     }
 
@@ -289,35 +309,41 @@ function renderUsers(){
 
         const member=user.member??null;
         const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
 
         return`
             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
 
                 <td class="min-w-0 px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        ${userAvatar(user.name,photoUrl)}
 
-                    <p
-                        class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
-                        title="${AdminUI.escapeHtml(user.name??'')}"
-                    >
-                        ${AdminUI.escapeHtml(user.name??'N/A')}
-                    </p>
+                        <div class="min-w-0">
+                            <p
+                                class="truncate text-xs 2xl:text-sm font-semibold text-slate-800"
+                                title="${AdminUI.escapeHtml(user.name??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
 
-                    <p
-                        class="mt-1 truncate text-[11px] text-slate-500"
-                        title="${AdminUI.escapeHtml(user.email??'')}"
-                    >
-                        ${AdminUI.escapeHtml(user.email??'')}
-                    </p>
+                            <p
+                                class="mt-1 truncate text-[11px] text-slate-500"
+                                title="${AdminUI.escapeHtml(user.email??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
 
-                    ${
-                        user.mobile
-                            ?`
-                                <p class="mt-1 truncate text-[10px] text-slate-400">
-                                    ${AdminUI.escapeHtml(user.mobile)}
-                                </p>
-                            `
-                            :''
-                    }
+                            ${
+                                user.mobile
+                                    ?`
+                                        <p class="mt-1 truncate text-[10px] text-slate-400">
+                                            ${AdminUI.escapeHtml(user.mobile)}
+                                        </p>
+                                    `
+                                    :''
+                            }
+                        </div>
+                    </div>
 
                 </td>
 
@@ -418,6 +444,191 @@ function renderUsers(){
         `;
 
     }).join('');
+
+    el.cards.innerHTML=users.map(user=>{
+
+        const member=user.member??null;
+        const roles=user.roles??[];
+        const photoUrl=getProfilePhotoUrl(member);
+
+        return`
+            <div class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-3">
+                        ${userAvatar(user.name,photoUrl,{size:'h-11 w-11'})}
+
+                        <div class="min-w-0">
+                            <p
+                                class="truncate text-xs 2xl:text-sm font-semibold text-slate-800"
+                                title="${AdminUI.escapeHtml(user.name??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.name??'N/A')}
+                            </p>
+                            <p
+                                class="mt-0.5 truncate text-[11px] text-slate-500"
+                                title="${AdminUI.escapeHtml(user.email??'')}"
+                            >
+                                ${AdminUI.escapeHtml(user.email??'')}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0">
+                        ${
+                            user.is_active
+                                ?`
+                                    <span class="rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">
+                                        Active
+                                    </span>
+                                `
+                                :`
+                                    <span class="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-500">
+                                        Inactive
+                                    </span>
+                                `
+                        }
+                    </div>
+                </div>
+
+                <div class="mt-1 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                    <div class="min-w-0">
+                        <p class="text-xs 2xl:text-sm text-slate-400">Mobile</p>
+                        <p class="truncate font-medium text-slate-700">
+                            ${AdminUI.escapeHtml(user.mobile||'N/A')}
+                        </p>
+                    </div>
+
+                    <div class="min-w-0">
+                        <p class="text-xs 2xl:text-sm text-slate-400">Member</p>
+                        ${
+                            member
+                                ?`
+                                    <p class="truncate font-mono font-semibold text-indigo-600">
+                                        ${AdminUI.escapeHtml(member.member_code??'')}
+                                    </p>
+                                    <div class="mt-0.5">
+                                        ${memberStatusBadge(member.status)}
+                                    </div>
+                                `
+                                :`
+                                    <p class="truncate font-medium text-slate-500">
+                                        No member profile
+                                    </p>
+                                `
+                        }
+                    </div>
+
+                    <div class="col-span-2 min-w-0">
+                        <p class="text-xs 2xl:text-sm text-slate-400">Roles</p>
+                        <div class="mt-0.5">
+                            ${
+                                roles.length
+                                    ?`
+                                        <div class="flex flex-wrap gap-1">
+                                            ${roles.slice(0,4).map(role=>`
+                                                <span class="max-w-[130px] truncate rounded-md bg-indigo-50 px-1.5 py-0.5 text-[9px] font-semibold text-indigo-700">
+                                                    ${AdminUI.escapeHtml(role.display_name||role.name||'')}
+                                                </span>
+                                            `).join('')}
+
+                                            ${
+                                                roles.length>4
+                                                    ?`
+                                                        <span class="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600">
+                                                            +${roles.length-4}
+                                                        </span>
+                                                    `
+                                                    :''
+                                            }
+                                        </div>
+                                    `
+                                    :'<span class="font-medium text-slate-500">No roles</span>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    <button
+                        type="button"
+                        onclick="openRoleModal(${user.id})"
+                        class="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-50 px-2 py-1.5 text-indigo-600 transition hover:bg-indigo-100"
+                    >
+                        <i class="bi bi-person-gear text-sm"></i>
+                        <span class="text-[11px] font-semibold">Manage Roles</span>
+                    </button>
+                </div>
+            </div>
+        `;
+
+    }).join('');
+}
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-400">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function getProfilePhotoUrl(member){
+    if(member?.profile_photo_url){
+        return member.profile_photo_url;
+    }
+
+    if(!member?.profile_photo){
+        return null;
+    }
+
+    const value=String(
+        member.profile_photo
+    );
+
+    if(
+        value.startsWith('http://')||
+        value.startsWith('https://')||
+        value.startsWith('/storage/')
+    ){
+        return value;
+    }
+
+    return `/storage/${value.replace(/^\/+/,'')}`;
+}
+
+function userAvatar(name,photoUrl,{size='h-9 w-9'}={}){
+    const label=(name??'').trim();
+
+    const initial=label
+        ?label.charAt(0).toUpperCase()
+        :'?';
+
+    return`
+        <div class="flex ${size} shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-50" title="${AdminUI.escapeHtml(label)}">
+            ${
+                photoUrl
+                    ?`
+                        <img
+                            src="${AdminUI.escapeHtml(photoUrl)}"
+                            class="h-full w-full object-cover"
+                            alt="${AdminUI.escapeHtml(label||'User')}">
+                    `
+                    :`
+                        <span class="text-sm font-bold text-slate-400">
+                            ${AdminUI.escapeHtml(initial)}
+                        </span>
+                    `
+            }
+        </div>
+    `;
 }
 
 /*
@@ -468,7 +679,7 @@ window.openRoleModal=async function(userId){
         }`;
 
     el.roleList.innerHTML=`
-        <div class="col-span-full py-8 text-center text-base text-slate-400">
+        <div class="col-span-full py-8 text-center text-xs 2xl:text-sm text-slate-400">
             <i class="bi bi-arrow-repeat mr-1 animate-spin"></i>
             Loading roles...
         </div>
@@ -561,7 +772,7 @@ function renderRoleList(){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800"
+                            class="truncate text-xs 2xl:text-sm font-semibold text-slate-800"
                             title="${AdminUI.escapeHtml(role.display_name||role.name||'')}"
                         >
                             ${AdminUI.escapeHtml(role.display_name||role.name||'')}

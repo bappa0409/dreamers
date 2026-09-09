@@ -4,7 +4,7 @@
 @section('page_title','Membership Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
@@ -17,7 +17,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Member.create'))
-            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openMemberModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-person-plus"></i>
                 Add Member
             </button>
@@ -25,11 +25,11 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
+        <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-slate-500">Total Members</p>
-                    <p id="totalMembers" class="mt-2 text-xl font-bold text-slate-800">0</p>
+                    <p id="totalMembers" class="text-xl font-bold text-slate-800">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                     <i class="bi bi-people"></i>
@@ -37,11 +37,11 @@
             </div>
         </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-emerald-700">Active</p>
-                    <p id="activeMembers" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+                    <p id="activeMembers" class="text-xl font-bold text-emerald-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
                     <i class="bi bi-person-check"></i>
@@ -49,11 +49,11 @@
             </div>
         </div>
 
-        <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-amber-700">Pending</p>
-                    <p id="pendingMembers" class="mt-2 text-xl font-bold text-amber-600">0</p>
+                    <p id="pendingMembers" class="text-xl font-bold text-amber-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
                     <i class="bi bi-hourglass-split"></i>
@@ -61,11 +61,11 @@
             </div>
         </div>
 
-        <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
+        <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-red-700">Suspended</p>
-                    <p id="suspendedMembers" class="mt-2 text-xl font-bold text-red-600">0</p>
+                    <p id="suspendedMembers" class="text-xl font-bold text-red-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-red-100 text-red-600">
                     <i class="bi bi-person-dash"></i>
@@ -73,11 +73,11 @@
             </div>
         </div>
 
-        <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 md:col-span-1">
+        <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
             <div class="flex items-center justify-between">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-slate-500">Rejected / Inactive</p>
-                    <p id="inactiveMembers" class="mt-2 text-xl font-bold text-slate-600">0</p>
+                    <p id="inactiveMembers" class="text-xl font-bold text-slate-600">0</p>
                 </div>
                 <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-200 text-slate-600">
                     <i class="bi bi-person-x"></i>
@@ -100,7 +100,7 @@
                     <p class="text-sm font-semibold text-slate-700">
                         Search Members
                     </p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search by name, email, mobile or member code.
                     </p>
                 </div>
@@ -111,10 +111,10 @@
                 {{-- Search --}}
                 <div class="relative min-w-0 flex-1 lg:w-[280px]">
                     <i
-                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="searchInput" type="text" placeholder="Search members..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                 </div>
 
                 {{-- Filter --}}
@@ -167,19 +167,19 @@
             <table class="w-full min-w-[820px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[22%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Phone</th>
-                        <th class="w-[17%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Joining</th>
-                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="w-[12%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[22%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Code</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Phone</th>
+                        <th class="w-[17%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Roles</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Joining</th>
+                        <th class="w-[10%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[12%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="membersTable">
                     <tr>
-                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading members...</td>
+                        <td colspan="7" class="px-5 py-10 text-center text-slate-500">Loading members...</td>
                     </tr>
                 </tbody>
             </table>
@@ -187,7 +187,7 @@
 
         {{-- Mobile card list --}}
         <div id="membersCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading members...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading members...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -215,14 +215,14 @@
 
         <form id="memberForm" class="flex min-h-0 flex-1 flex-col" enctype="multipart/form-data" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-person"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Account Information</h3>
-                            <p class="text-[11px] text-slate-400">Login account for this association member.</p>
+                            <p class="text-[11px] text-slate-500">Login account for this association member.</p>
                         </div>
                     </div>
 
@@ -234,18 +234,18 @@
                         <div class="min-w-0">
                             <p class="form-label">Profile Photo <span class="text-red-500">*</span></p>
 
-                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                            <label for="profile_photo" class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                                 <i class="bi bi-camera"></i>
                                 <span id="memberImageButtonText">Choose Photo</span>
                             </label>
 
                             <input id="profile_photo" type="file" accept="image/jpeg,image/png,image/webp" class="hidden">
 
-                            <p id="memberImageHelp" class="mt-1.5 text-[10px] text-slate-400">
+                            <p id="memberImageHelp" class="mt-1.5 text-[10px] text-slate-500">
                                 JPG, PNG or WEBP. Max 2MB.
                             </p>
 
-                            <p data-field-error="profile_photo" class="mt-1 hidden  text-xs 2xl:text-sm text-red-600"></p>
+                            <p data-field-error="profile_photo" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
                     </div>
 
@@ -267,7 +267,7 @@
                     </div>
                 </section>
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                             <i class="bi bi-person-vcard"></i>
@@ -275,7 +275,7 @@
 
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Member Information</h3>
-                            <p class="text-[11px] text-slate-400">Additional association membership details.</p>
+                            <p class="text-[11px] text-slate-500">Additional association membership details.</p>
                         </div>
                     </div>
 
@@ -298,7 +298,7 @@
                         <div>
                             <label class="form-label">Date of Birth <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input id="date_of_birth" type="text" class="app-input js-date-picker !pl-9" placeholder="Select date" autocomplete="off">
                             </div>
@@ -322,16 +322,16 @@
                         <div>
                             <label class="form-label">NID / Birth Registration Document <span class="text-red-500">*</span></label>
 
-                            <label for="nid_document" class="flex h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                            <label for="nid_document" class="flex h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                                 <i class="bi bi-file-earmark-arrow-up"></i>
                                 <span id="nidDocumentButtonText" class="truncate">Choose File</span>
                             </label>
 
                             <input id="nid_document" type="file" accept="image/jpeg,image/png,.pdf" class="hidden">
 
-                            <p id="nidDocumentHelp" class="mt-1.5 text-[10px] text-slate-400">JPG, PNG or PDF. Max 5MB.</p>
+                            <p id="nidDocumentHelp" class="mt-1.5 text-[10px] text-slate-500">JPG, PNG or PDF. Max 5MB.</p>
 
-                            <p data-field-error="nid_document" class="mt-1 hidden  text-xs 2xl:text-sm text-red-600"></p>
+                            <p data-field-error="nid_document" class="mt-1 hidden text-xs 2xl:text-sm text-red-600"></p>
                         </div>
 
                         <div>
@@ -371,14 +371,14 @@
                 </section>
 
                 @if(auth()->user()->hasPermission('Finance.create') && filter_var(setting('share_enabled',false),FILTER_VALIDATE_BOOLEAN))
-                <section id="initialShareSection" class="rounded-md border border-slate-200 bg-white p-4">
+                <section id="initialShareSection" class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                             <i class="bi bi-layers"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Initial Share</h3>
-                            <p class="text-[11px] text-slate-400">Issue this member's first share right away.</p>
+                            <p class="text-[11px] text-slate-500">Issue this member's first share right away.</p>
                         </div>
                     </div>
 
@@ -388,7 +388,7 @@
                                 <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
 
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-500">{{ setting('currency_symbol','৳') }}</span>
 
                                     <input id="initial_share_amount" type="number" step="0.01" min="0.01" value="{{ setting('default_share_value',50000) }}" class="app-input !pl-8" placeholder="0.00">
                                 </div>
@@ -406,7 +406,7 @@
                             </div>
                         </div>
 
-                        <p class="mt-3 flex items-start gap-1.5 text-[11px] text-slate-400">
+                        <p class="mt-3 flex items-start gap-1.5 text-[11px] text-slate-500">
                             <i class="bi bi-info-circle mt-0.5"></i>
                             This one-time initial amount does not need to match the current share price setting — use it for what this member is actually paying now. It's sent for verification. All shares purchased after this will follow the configured share price.
                         </p>
@@ -428,11 +428,11 @@
             </div>
 
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
-                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button type="button" onclick="closeMemberModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i> Close
                 </button>
 
-                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                <button id="saveButton" type="submit" class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     <span>Create Member</span>
                 </button>
@@ -464,11 +464,11 @@
 
         <div class="min-h-0 flex-1 overflow-y-auto p-5">
             <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div class="rounded-md border border-slate-200 bg-white p-4">
+                <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class=" text-xs 2xl:text-sm text-slate-500">Total Shares</p>
-                            <p id="shareTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+                            <p id="shareTotal" class="text-xl font-bold text-slate-800">0</p>
                         </div>
 
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
@@ -477,11 +477,11 @@
                     </div>
                 </div>
 
-                <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
+                <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class=" text-xs 2xl:text-sm text-emerald-700">Active Shares</p>
-                            <p id="shareActive" class="mt-2 text-xl font-bold text-emerald-600">0</p>
+                            <p id="shareActive" class="text-xl font-bold text-emerald-600">0</p>
                         </div>
 
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -494,7 +494,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-indigo-700">Active Share Value</p>
-                            <p id="shareValue" class="mt-2 text-xl font-bold text-indigo-600">{{ setting('currency_symbol','৳') }}0.00</p>
+                            <p id="shareValue" class="text-xl font-bold text-indigo-600">{{ setting('currency_symbol','৳') }}0.00</p>
                         </div>
 
                         <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
@@ -514,7 +514,7 @@
 
                             <div>
                                 <h3 class="text-sm font-semibold text-slate-800">Purchase Additional Share</h3>
-                                <p class="text-[11px] text-slate-400">Issue another share to this existing member.</p>
+                                <p class="text-[11px] text-slate-500">Issue another share to this existing member.</p>
                             </div>
                         </div>
 
@@ -530,7 +530,7 @@
                                 <label class="form-label">Purchase Amount <span class="text-red-500">*</span></label>
 
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ setting('currency_symbol','৳') }}</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-500">{{ setting('currency_symbol','৳') }}</span>
 
                                     <input id="share_purchase_amount" type="number" step="0.01" min="0.01" value="{{ setting('default_share_value',50000) }}" class="app-input !pl-8" placeholder="0.00">
                                 </div>
@@ -575,7 +575,7 @@
                 <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
                     <div>
                         <p class="text-sm font-semibold text-slate-700">Share History</p>
-                        <p class="text-[11px] text-slate-400">All shares issued to this member.</p>
+                        <p class="text-[11px] text-slate-500">All shares issued to this member.</p>
                     </div>
 
                     <span id="shareHistoryCount" class="rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-semibold text-slate-500">
@@ -587,18 +587,18 @@
                     <table class="w-full min-w-[720px] text-base">
                         <thead class="border-b border-slate-200 bg-white">
                             <tr>
-                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Share No.</th>
-                                <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Value</th>
-                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Acquired</th>
-                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Created By</th>
-                                <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Notes</th>
+                                <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Share No.</th>
+                                <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Value</th>
+                                <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Acquired</th>
+                                <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                                <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Created By</th>
+                                <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Notes</th>
                             </tr>
                         </thead>
 
                         <tbody id="shareHistoryTable">
                             <tr>
-                                <td colspan="6" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">Loading shares...</td>
+                                <td colspan="6" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">Loading shares...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -607,7 +607,7 @@
         </div>
 
         <div class="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            <button type="button" onclick="closeShareModal()" class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 <i class="bi bi-x-lg"></i> Close
             </button>
         </div>
@@ -828,7 +828,7 @@ function populateCitySelect(district,selectedCity=''){
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -836,7 +836,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -991,7 +991,7 @@ function renderMembers(){
                                             alt="${AdminUI.escapeHtml(user.name??'Member')}">
                                     `
                                     :`
-                                        <span class="text-sm font-bold text-slate-400">
+                                        <span class="text-sm font-bold text-slate-500">
                                             ${AdminUI.escapeHtml(initial)}
                                         </span>
                                     `
@@ -1003,7 +1003,7 @@ function renderMembers(){
                                 ${AdminUI.escapeHtml(user.name??'N/A')}
                             </p>
 
-                            <p class="mt-0.5 truncate text-[10px] text-slate-400">
+                            <p class="mt-0.5 truncate text-[10px] text-slate-500">
                                 ${AdminUI.escapeHtml(user.email??'')}
                             </p>
                         </div>
@@ -1037,7 +1037,7 @@ function renderMembers(){
                                     )}
                                 </span>
                             `).join('')
-                            :'<span class="text-xs 2xl:text-sm text-slate-400">No roles</span>'
+                            :'<span class="text-xs 2xl:text-sm text-slate-500">No roles</span>'
                     }
                 </td>
 
@@ -1081,7 +1081,7 @@ function renderMembers(){
                                             alt="${AdminUI.escapeHtml(user.name??'Member')}">
                                     `
                                     :`
-                                        <span class="text-sm font-bold text-slate-400">
+                                        <span class="text-sm font-bold text-slate-500">
                                             ${AdminUI.escapeHtml(initial)}
                                         </span>
                                     `
@@ -1092,7 +1092,7 @@ function renderMembers(){
                             <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
                                 ${AdminUI.escapeHtml(user.name??'N/A')}
                             </p>
-                            <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                            <p class="mt-0.5 truncate text-[11px] text-slate-500">
                                 ${AdminUI.escapeHtml(user.email??'')}
                             </p>
                         </div>
@@ -1105,14 +1105,14 @@ function renderMembers(){
 
                 <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Code</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Code</p>
                         <p class="truncate font-mono font-semibold text-indigo-600">
                             ${AdminUI.escapeHtml(member.member_code??'N/A')}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Phone</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Phone</p>
                         <p class="truncate font-medium text-slate-700">
                             ${AdminUI.escapeHtml(
                                 member.phone||
@@ -1123,14 +1123,14 @@ function renderMembers(){
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Joining</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Joining</p>
                         <p class="truncate font-medium text-slate-700">
                             ${AdminUI.formatDate(member.joining_date)}
                         </p>
                     </div>
 
                     <div class="min-w-0">
-                        <p class="text-slate-400 text-xs 2xl:text-sm">Roles</p>
+                        <p class="text-slate-500 text-xs 2xl:text-sm">Roles</p>
                         <div class="mt-0.5">
                             ${
                                 roles.length
@@ -1142,7 +1142,7 @@ function renderMembers(){
                                             )}
                                         </span>
                                     `).join('')
-                                    :'<span class="text-slate-400 text-xs 2xl:text-sm">No roles</span>'
+                                    :'<span class="text-slate-500 text-xs 2xl:text-sm">No roles</span>'
                             }
                         </div>
                     </div>
@@ -1202,7 +1202,7 @@ function resetProfilePhoto(){
         'JPG, PNG or WEBP. Max 2MB.';
 
     el.imageHelp.className=
-        'mt-1.5 text-[10px] text-slate-400';
+        'mt-1.5 text-[10px] text-slate-500';
 }
 
 function showExistingProfilePhoto(member){
@@ -1300,7 +1300,7 @@ function resetNidDocument(){
             'JPG, PNG or PDF. Max 5MB.';
 
         el.nidDocumentHelp.className=
-            'mt-1.5 text-[10px] text-slate-400';
+            'mt-1.5 text-[10px] text-slate-500';
     }
 }
 
@@ -2008,7 +2008,7 @@ function renderShareHistory(){
                         )}
                     </td>
 
-                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                         ${
                             share.acquired_date
                                 ?AdminUI.formatDate(

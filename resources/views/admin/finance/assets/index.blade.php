@@ -34,26 +34,84 @@
 
     {{-- Summary --}}
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Active Assets</p>
-            <p id="summaryActive" class="mt-1 text-sm font-bold text-slate-800">0</p>
-        </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Cost</p>
-            <p id="summaryPurchaseCost" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
-        </div>
+    {{-- Active Assets --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Active Assets
+                </p>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Accumulated Depreciation</p>
-            <p id="summaryDepreciation" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
-        </div>
+                <p id="summaryActive" class="text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Book Value</p>
-            <p id="summaryBookValue" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-box-seam"></i>
+            </div>
         </div>
     </div>
+
+    {{-- Purchase Cost --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Purchase Cost
+                </p>
+
+                <p id="summaryPurchaseCost" class="text-xl font-bold text-indigo-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-cart-check"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Accumulated Depreciation --}}
+    <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Accumulated Depreciation
+                </p>
+
+                <p id="summaryDepreciation" class="text-xl font-bold text-amber-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-graph-down-arrow"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Book Value --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Book Value
+                </p>
+
+                <p id="summaryBookValue" class="text-xl font-bold text-slate-800">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-journal-text"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Search Assets --}}
 <div class="rounded-md border border-slate-200 bg-white p-3">
@@ -69,7 +127,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Assets
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by code, name, category, vendor, serial or reference.
                 </p>
             </div>
@@ -80,10 +138,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search assets..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -116,10 +174,10 @@
 
                 <div class="relative">
                     <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
                         placeholder="Select date range" autocomplete="off">
                 </div>
             </div>
@@ -166,20 +224,20 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Asset</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Cost</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Depreciation</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Book Value</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Date</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Asset</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Category</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Cost</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Depreciation</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Book Value</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Date</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="assetTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                             Loading assets...
                         </td>
                     </tr>
@@ -189,7 +247,7 @@
 
         {{-- Mobile card list --}}
         <div id="assetCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading assets...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading assets...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -228,7 +286,7 @@
         <form id="assetForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-box-seam"></i>
@@ -239,7 +297,7 @@
                                 Asset Information
                             </h3>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 Enter purchase and accounting details.
                             </p>
                         </div>
@@ -326,7 +384,7 @@
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input
                                     id="purchaseDate"
@@ -393,7 +451,7 @@
                                 Depreciation Settings
                             </h3>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 Configure straight-line depreciation.
                             </p>
                         </div>
@@ -451,7 +509,7 @@
                 <button
                     type="button"
                     onclick="closeAssetModal()"
-                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i>
                     Close
                 </button>
@@ -459,7 +517,7 @@
                 <button
                     id="assetSaveButton"
                     type="submit"
-                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     Save Asset
                 </button>
@@ -503,7 +561,7 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('assetDetailsModal')"
-                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 <i class="bi bi-x-lg"></i>
                 Close
             </button>
@@ -578,7 +636,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                         <input
                             id="saleDate"
@@ -663,7 +721,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                         <input
                             id="disposeDate"
@@ -749,7 +807,7 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                        <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                             Monthly
                         </p>
 
@@ -759,7 +817,7 @@
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                        <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                             Remaining
                         </p>
 
@@ -776,7 +834,7 @@
                     </label>
 
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                         <input
                             id="depreciationDate"
@@ -947,7 +1005,7 @@ function money(value){
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -955,7 +1013,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -1306,7 +1364,7 @@ function renderAssetTable(){
                         ${
                             item.serial_no
                                 ?`
-                                    <p class="text-[10px] text-slate-400">
+                                    <p class="text-[10px] text-slate-500">
                                         SN: ${AdminUI.escapeHtml(item.serial_no)}
                                     </p>
                                 `
@@ -1314,11 +1372,11 @@ function renderAssetTable(){
                         }
                     </td>
 
-                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                         ${AdminUI.escapeHtml(item.category??'—')}
                     </td>
 
-                    <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
+                    <td class="px-4 py-3 text-right text-xs 2xl:text-sm text-slate-800">
                         ${money(item.purchase_cost)}
                     </td>
 
@@ -1326,11 +1384,11 @@ function renderAssetTable(){
                         ${money(item.accumulated_depreciation)}
                     </td>
 
-                    <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
+                    <td class="px-4 py-3 text-right text-xs 2xl:text-sm text-slate-800">
                         ${money(bookValue)}
                     </td>
 
-                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                         ${AdminUI.formatDate(item.purchase_date)}
                     </td>
 
@@ -1373,7 +1431,7 @@ function renderAssetTable(){
                             ${
                                 item.serial_no
                                     ?`
-                                        <p class="text-[10px] text-slate-400">
+                                        <p class="text-[10px] text-slate-500">
                                             SN: ${AdminUI.escapeHtml(item.serial_no)}
                                         </p>
                                     `
@@ -1388,28 +1446,28 @@ function renderAssetTable(){
 
                     <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Category</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Category</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${AdminUI.escapeHtml(item.category??'—')}
                             </p>
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Purchase Date</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Purchase Date</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${AdminUI.formatDate(item.purchase_date)}
                             </p>
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Cost</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Cost</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${money(item.purchase_cost)}
                             </p>
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Book Value</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Book Value</p>
                             <p class="truncate font-semibold text-slate-800">
                                 ${money(bookValue)}
                             </p>
@@ -1995,7 +2053,7 @@ window.viewAsset=async function(id){
                 item.description
                     ?`
                         <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Description
                             </p>
 
@@ -2575,27 +2633,27 @@ async function(id){
                 <table class="w-full min-w-[750px] text-sm">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Period
                             </th>
 
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Date
                             </th>
 
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 Amount
                             </th>
 
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 Before
                             </th>
 
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                 After
                             </th>
 
-                            <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
+                            <th class="px-3 py-2 text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                 Journal
                             </th>
                         </tr>
@@ -2613,7 +2671,7 @@ async function(id){
                                             )}
                                         </td>
 
-                                        <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
+                                        <td class="px-3 py-2 text-xs 2xl:text-sm text-slate-600">
                                             ${AdminUI.formatDate(
                                                 row.depreciation_date
                                             )}
@@ -2637,7 +2695,7 @@ async function(id){
                                             )}
                                         </td>
 
-                                        <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
+                                        <td class="px-3 py-2 text-xs 2xl:text-sm text-slate-600">
                                             ${AdminUI.escapeHtml(
                                                 row.finance_transaction
                                                     ?.transaction_no??'—'
@@ -2647,7 +2705,7 @@ async function(id){
                                 `).join('')
                                 :`
                                     <tr>
-                                        <td colspan="6" class="px-3 py-8 text-center text-slate-400">
+                                        <td colspan="6" class="px-3 py-8 text-center text-slate-500">
                                             No depreciation history found.
                                         </td>
                                     </tr>
@@ -2672,7 +2730,7 @@ async function(id){
 function detail(label,value){
     return`
         <div class="rounded-md border border-slate-200 bg-white p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

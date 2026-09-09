@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -70,13 +70,13 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                         Total
                     </p>
 
                     <p
                         id="notificationSummaryTotal"
-                        class="mt-2 text-xl font-bold text-slate-800">
+                        class="text-xl font-bold text-slate-800">
                         0
                     </p>
                 </div>
@@ -96,7 +96,7 @@
 
                     <p
                         id="notificationSummaryUnread"
-                        class="mt-2 text-xl font-bold text-amber-700">
+                        class="text-xl font-bold text-amber-700">
                         0
                     </p>
                 </div>
@@ -116,7 +116,7 @@
 
                     <p
                         id="notificationSummaryRead"
-                        class="mt-2 text-xl font-bold text-emerald-700">
+                        class="text-xl font-bold text-emerald-700">
                         0
                     </p>
                 </div>
@@ -159,13 +159,13 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="notificationPageSearch"
                         type="text"
                         placeholder="Search title or message..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -218,7 +218,7 @@
                     Notification History
                 </h2>
 
-                <p class="text-[11px] text-slate-400">
+                <p class="text-[11px] text-slate-500">
                     All notifications sent to your account
                 </p>
             </div>
@@ -231,7 +231,7 @@
             <div class="py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-sm text-slate-400">
+                <p class="mt-3 text-sm text-slate-500">
                     Loading notifications...
                 </p>
             </div>
@@ -265,7 +265,7 @@
 
                     <p
                         id="notificationDetailsTime"
-                        class="text-[11px] text-slate-400">
+                        class="text-[11px] text-slate-500">
                         -
                     </p>
                 </div>
@@ -274,7 +274,7 @@
             <button
                 type="button"
                 onclick="closeNotificationDetailsModal()"
-                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
 
                 <i class="bi bi-x-lg"></i>
             </button>
@@ -341,7 +341,7 @@ async function loadNotificationPage(page=1){
         <div class="py-14 text-center">
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-sm text-slate-400">
+            <p class="mt-3 text-sm text-slate-500">
                 Loading notifications...
             </p>
         </div>
@@ -624,7 +624,7 @@ function renderNotificationPageItems(){
                     No notifications found
                 </p>
 
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-sm text-slate-500">
                     No notifications match your current filters.
                 </p>
 
@@ -733,7 +733,7 @@ function renderNotificationPageRow(
 
                             </p>
 
-                            <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400">
+                            <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-500">
 
                                 <span class="inline-flex items-center gap-1">
 
@@ -806,7 +806,7 @@ function renderNotificationPageRow(
                                             type="button"
                                             onclick="markPageNotificationRead('${escapeNotificationPageJs(notification.id)}')"
                                             title="Mark as read"
-                                            class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-400 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600">
+                                            class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600">
 
                                             <i class="bi bi-check2"></i>
 
@@ -861,19 +861,19 @@ function renderNotificationPagePagination(){
 
                 Showing
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${from}
                 </span>
 
                 –
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${to}
                 </span>
 
                 of
 
-                <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                     ${notificationPageTotal}
                 </span>
 
@@ -1036,7 +1036,7 @@ function renderNotificationDetails(
     document.getElementById(
         'notificationDetailsBody'
     ).innerHTML=`
-        <div class="space-y-5">
+        <div class="space-y-3">
 
             <div class="rounded-lg border border-slate-200 bg-slate-50/50 p-5">
 

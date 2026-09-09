@@ -102,7 +102,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                             </div>
                             <div>
                                 <p class="text-sm font-bold text-slate-900">Financial Overview</p>
-                                <p class="text-[9px] text-slate-400">{{ $organizationName }}</p>
+                                <p class="text-[9px] text-slate-500">{{ $organizationName }}</p>
                             </div>
                         </div>
                         <div class="rounded-md bg-emerald-50 px-2 py-1 text-[9px] font-semibold text-emerald-600">
@@ -110,7 +110,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                     </div>
 
                     <div class="p-5">
-                        <p class="text-[10px] text-slate-400">মোট সংগৃহীত তহবিল</p>
+                        <p class="text-[10px] text-slate-500">মোট সংগৃহীত তহবিল</p>
 
                         <div class="mt-1 flex items-end justify-between">
                             <p class="text-2xl font-bold text-slate-900">{{ setting('currency_symbol','৳') }} 12,50,000</p>
@@ -131,7 +131,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                         <div class="mt-6">
                             <div class="mb-3 flex items-center justify-between">
                                 <p class="text-[13px] font-bold text-slate-800">সাম্প্রতিক কার্যক্রম</p>
-                                <span class="text-[9px] text-slate-400">View all</span>
+                                <span class="text-[9px] text-slate-500">View all</span>
                             </div>
 
                             <div class="space-y-2">
@@ -143,7 +143,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                                         </div>
                                         <div>
                                             <p class="text-[10px] font-semibold text-slate-700">মাসিক সঞ্চয়</p>
-                                            <p class="text-[8px] text-slate-400">Member Contribution</p>
+                                            <p class="text-[8px] text-slate-500">Member Contribution</p>
                                         </div>
                                     </div>
                                     <p class="text-[10px] font-bold text-emerald-600">+৳ 50,000</p>
@@ -157,7 +157,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                                         </div>
                                         <div>
                                             <p class="text-[10px] font-semibold text-slate-700">বিনিয়োগ</p>
-                                            <p class="text-[8px] text-slate-400">Investment</p>
+                                            <p class="text-[8px] text-slate-500">Investment</p>
                                         </div>
                                     </div>
                                     <p class="text-[10px] font-bold text-slate-700">-{{ setting('currency_symbol','৳') }}30,000</p>
@@ -171,7 +171,7 @@ COMMITMENTS + DASHBOARD PREVIEW
                                         </div>
                                         <div>
                                             <p class="text-[10px] font-semibold text-slate-700">হিসাব আপডেট</p>
-                                            <p class="text-[8px] text-slate-400">Record Updated</p>
+                                            <p class="text-[8px] text-slate-500">Record Updated</p>
                                         </div>
                                     </div>
                                     <span class="text-[9px] font-semibold text-sky-600">Completed</span>

@@ -8,7 +8,7 @@
 $currency=setting('currency_symbol','৳');
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
 
 {{-- Header --}}
 <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -56,8 +56,8 @@ Loan requests remain pending until reviewed and approved. After disbursement, re
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total Loans</p>
-<p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+<p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total Loans</p>
+<p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
@@ -70,7 +70,7 @@ Loan requests remain pending until reviewed and approved. After disbursement, re
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">Pending</p>
-<p id="summaryPending" class="mt-2 text-xl font-bold text-amber-700">0</p>
+<p id="summaryPending" class="text-xl font-bold text-amber-700">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -83,7 +83,7 @@ Loan requests remain pending until reviewed and approved. After disbursement, re
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Active Loans</p>
-<p id="summaryActive" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+<p id="summaryActive" class="text-xl font-bold text-emerald-700">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
@@ -117,9 +117,9 @@ Search
 </label>
 
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
-<input id="loanSearch" type="text" placeholder="Search loan no, purpose or status..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+<input id="loanSearch" type="text" placeholder="Search loan no, purpose or status..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
 
@@ -160,14 +160,14 @@ Clear
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Loan Portfolio</h2>
-<p class="text-[11px] text-slate-400">Your association loan request and repayment history</p>
+<p class="text-[11px] text-slate-500">Your association loan request and repayment history</p>
 </div>
 </div>
 
 <div id="loanList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading loans...</p>
+<p class="mt-3 text-sm text-slate-500">Loading loans...</p>
 </div>
 </div>
 
@@ -188,11 +188,11 @@ Clear
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Loan Details</h2>
-<p id="loanDetailNumber" class="font-mono text-[10px] text-slate-400">-</p>
+<p id="loanDetailNumber" class="font-mono text-[10px] text-slate-500">-</p>
 </div>
 </div>
 
-<button type="button" onclick="closeLoanDetails()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+<button type="button" onclick="closeLoanDetails()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -220,11 +220,11 @@ Close
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Request Loan</h2>
-<p class="text-[11px] text-slate-400">Submit a new association loan request.</p>
+<p class="text-[11px] text-slate-500">Submit a new association loan request.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeRequestModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+<button type="button" onclick="closeRequestModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -254,7 +254,7 @@ Requested amount may be adjusted during approval. No financial transaction is cr
 <label class="form-label">Requested Amount <span class="text-red-500">*</span></label>
 
 <div class="relative">
-<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">{{ $currency }}</span>
+<span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-500">{{ $currency }}</span>
 
 <input id="amount" type="number" min="0.01" step="0.01" class="app-input w-full !pl-8" placeholder="0.00">
 </div>
@@ -362,7 +362,7 @@ currentPage=page;
 $('loanList').innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading loans...</p>
+<p class="mt-3 text-sm text-slate-500">Loading loans...</p>
 </div>`;
 
 $('pagination').innerHTML='';
@@ -469,7 +469,7 @@ root.innerHTML=`
 No loans found
 </p>
 
-<p class="mt-1 text-sm text-slate-400">
+<p class="mt-1 text-sm text-slate-500">
 No loan records match the current filters.
 </p>
 
@@ -507,7 +507,7 @@ ${statusBadge(loan.status)}
 
 </div>
 
-<p class="mt-1 text-[11px] text-slate-400">
+<p class="mt-1 text-[11px] text-slate-500">
 Requested ${dateText(loan.request_date)}
 </p>
 </div>
@@ -572,7 +572,7 @@ ${dateText(loan.maturity_date)}
 
 ${loan.purpose?`
 <div class="rounded-md bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 Purpose
 </p>
 
@@ -623,7 +623,7 @@ red:'text-red-700'
 return`
 <div class="rounded-md bg-slate-50 p-3">
 
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 
@@ -832,7 +832,7 @@ loan.loan_no??'-';
 const outstanding=outstandingAmount(loan);
 
 $('loanDetailsBody').innerHTML=`
-<div class="space-y-5">
+<div class="space-y-3">
 
 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
 
@@ -879,7 +879,7 @@ statusTone(loan.status)
 Loan Information
 </h3>
 
-<p class="text-[11px] text-slate-400">
+<p class="text-[11px] text-slate-500">
 Request, approval, disbursement and repayment details
 </p>
 </div>
@@ -977,7 +977,7 @@ loan.total_repaid!==undefined
 </div>
 
 <div class="rounded-lg border border-slate-200 bg-white p-4">
-<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
 Purpose
 </p>
 
@@ -989,7 +989,7 @@ ${escapeHtml(loan.purpose??'—')}
 ${loan.notes?`
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 
-<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
 Additional Note
 </p>
 
@@ -1036,7 +1036,7 @@ return`
 Repayment History
 </h3>
 
-<p class="text-[11px] text-slate-400">
+<p class="text-[11px] text-slate-500">
 Payments received against this loan
 </p>
 </div>
@@ -1060,7 +1060,7 @@ payment.amount
 )}
 </p>
 
-<p class="mt-0.5 text-[10px] text-slate-400">
+<p class="mt-0.5 text-[10px] text-slate-500">
 ${dateText(
 payment.repayment_date??
 payment.payment_date
@@ -1108,7 +1108,7 @@ return`
 <div class="flex items-start justify-between gap-2">
 
 <div class="min-w-0">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 
@@ -1129,7 +1129,7 @@ function detailItem(label,value,html=false){
 return`
 <div class="border-b border-slate-100 px-5 py-3 sm:odd:border-r">
 
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 

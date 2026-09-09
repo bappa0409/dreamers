@@ -4,7 +4,7 @@
 @section('page_title','Land Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
@@ -19,7 +19,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Land.create'))
-            <button type="button" onclick="openLandModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openLandModal()" class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Add Land
             </button>
@@ -28,128 +28,158 @@
 
     {{-- Statistics --}}
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class=" text-xs 2xl:text-sm text-slate-500">Purchase Value</p>
-                    <p id="purchaseValue" class="mt-2 truncate text-xl font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0</p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
-                    <i class="bi bi-cash-stack"></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class=" text-xs 2xl:text-sm text-indigo-700">Current Value</p>
-                    <p id="currentValue" class="mt-2 truncate text-xl font-bold text-indigo-600">{{ setting('currency_symbol','৳') }}0</p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
-                    <i class="bi bi-graph-up-arrow"></i>
-                </div>
-            </div>
-        </div>
+    {{-- Purchase Value --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Purchase Value
+                </p>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class=" text-xs 2xl:text-sm text-emerald-700">Sold</p>
-                    <p id="soldCount" class="mt-2 text-xl font-bold text-emerald-600">0</p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
-                    <i class="bi bi-check2-circle"></i>
-                </div>
+                <p id="purchaseValue" class="mt-1 truncate text-xl font-bold text-slate-800">
+                    {{ setting('currency_symbol','৳') }}0
+                </p>
             </div>
-        </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class=" text-xs 2xl:text-sm text-slate-500">Profit / Loss</p>
-                    <p id="profitLoss" class="mt-2 truncate text-xl font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0</p>
-                </div>
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
-                    <i class="bi bi-bar-chart"></i>
-                </div>
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-cash-stack"></i>
             </div>
         </div>
     </div>
+
+    {{-- Current Value --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Current Value
+                </p>
+
+                <p id="currentValue" class="mt-1 truncate text-xl font-bold text-indigo-600">
+                    {{ setting('currency_symbol','৳') }}0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Sold --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Sold
+                </p>
+
+                <p id="soldCount" class="mt-1 text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Profit / Loss --}}
+    <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Profit / Loss
+                </p>
+
+                <p id="profitLoss" class="mt-1 truncate text-xl font-bold text-amber-600">
+                    {{ setting('currency_symbol','৳') }}0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-bar-chart"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Search Land --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Land
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Code, title, location, mouza, khatian, dag or deed.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Land
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Code, title, location, mouza, khatian, dag or deed.
-                </p>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search land..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
         </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
 
-                <input id="searchInput" type="text" placeholder="Search land..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="planned">Planned</option>
+                        <option value="negotiating">Negotiating</option>
+                        <option value="purchased">Purchased</option>
+                        <option value="sold">Sold</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
             </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
         </div>
     </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
-
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
-
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="planned">Planned</option>
-                    <option value="negotiating">Negotiating</option>
-                    <option value="purchased">Purchased</option>
-                    <option value="sold">Sold</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-
-        </div>
-    </div>
-</div>
 
     {{-- Listing --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
@@ -159,19 +189,19 @@
             <table class="w-full min-w-[900px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[24%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Land</th>
-                        <th class="w-[18%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Location</th>
-                        <th class="w-[12%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Area</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Price</th>
-                        <th class="w-[13%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Current Value</th>
-                        <th class="w-[10%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="w-[10%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[24%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Land</th>
+                        <th class="w-[18%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Location</th>
+                        <th class="w-[12%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Area</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Purchase Price</th>
+                        <th class="w-[13%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Current Value</th>
+                        <th class="w-[10%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="w-[10%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="landTable">
                     <tr>
-                        <td colspan="7" class="px-5 py-10 text-center text-slate-400">Loading lands...</td>
+                        <td colspan="7" class="px-5 py-10 text-center text-slate-500">Loading lands...</td>
                     </tr>
                 </tbody>
             </table>
@@ -179,7 +209,7 @@
 
         {{-- Mobile card list --}}
         <div id="landCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading lands...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading lands...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -213,14 +243,14 @@ LAND CREATE / EDIT MODAL
             <div class="space-y-5 overflow-y-auto p-5">
 
                 {{-- Basic Information --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-info-circle"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Basic Information</h3>
-                            <p class="text-[11px] text-slate-400">Title and description of the land.</p>
+                            <p class="text-[11px] text-slate-500">Title and description of the land.</p>
                         </div>
                     </div>
 
@@ -238,14 +268,14 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Location --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-50 text-violet-600">
                             <i class="bi bi-geo-alt"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Location</h3>
-                            <p class="text-[11px] text-slate-400">Where the land is situated.</p>
+                            <p class="text-[11px] text-slate-500">Where the land is situated.</p>
                         </div>
                     </div>
 
@@ -272,14 +302,14 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Property --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
                             <i class="bi bi-bounding-box"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Property Information</h3>
-                            <p class="text-[11px] text-slate-400">Legal identifiers and status.</p>
+                            <p class="text-[11px] text-slate-500">Legal identifiers and status.</p>
                         </div>
                     </div>
 
@@ -324,7 +354,7 @@ LAND CREATE / EDIT MODAL
                         <div>
                             <label class="form-label">Purchase Date</label>
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                                 <input id="purchaseDate"
                                        type="text"
                                        class="app-input js-date-picker !pl-9"
@@ -346,14 +376,14 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Finance --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                             <i class="bi bi-cash-stack"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Financial Information</h3>
-                            <p class="text-[11px] text-slate-400">Purchase price and valuation.</p>
+                            <p class="text-[11px] text-slate-500">Purchase price and valuation.</p>
                         </div>
                     </div>
 
@@ -373,7 +403,7 @@ LAND CREATE / EDIT MODAL
                             <select id="paymentAccount" class="app-input">
                                 <option value="">Select cash / bank</option>
                             </select>
-                            <p class="mt-1 text-[10px] text-slate-400">
+                            <p class="mt-1 text-[10px] text-slate-500">
                                 Required when status is Purchased.
                             </p>
                         </div>
@@ -381,14 +411,14 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Seller --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-sky-50 text-sky-600">
                             <i class="bi bi-person"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Seller Information</h3>
-                            <p class="text-[11px] text-slate-400">Contact details of the seller.</p>
+                            <p class="text-[11px] text-slate-500">Contact details of the seller.</p>
                         </div>
                     </div>
 
@@ -406,14 +436,14 @@ LAND CREATE / EDIT MODAL
                 </section>
 
                 {{-- Notes --}}
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
                             <i class="bi bi-journal-text"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Notes</h3>
-                            <p class="text-[11px] text-slate-400">Any additional remarks.</p>
+                            <p class="text-[11px] text-slate-500">Any additional remarks.</p>
                         </div>
                     </div>
 
@@ -427,13 +457,13 @@ LAND CREATE / EDIT MODAL
             <div class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button"
                         onclick="closeLandModal()"
-                        class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                        class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i> Close
                 </button>
 
                 <button id="saveLandButton"
                         type="submit"
-                        class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                        class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     <span>Save Land</span>
                 </button>
@@ -469,7 +499,7 @@ DETAILS MODAL
         </div>
 
         <div class="min-h-0 flex-1 overflow-y-auto p-5">
-            <div id="landDetailsLoading" class="py-16 text-center text-base text-slate-400">
+            <div id="landDetailsLoading" class="py-16 text-center text-base text-slate-500">
                 Loading land...
             </div>
 
@@ -477,7 +507,7 @@ DETAILS MODAL
 
                 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase text-slate-400">Purchase Price</p>
+                        <p class="text-[10px] uppercase text-slate-500">Purchase Price</p>
                         <p id="detailPurchasePrice" class="mt-1 text-base font-bold text-slate-700"></p>
                     </div>
 
@@ -487,12 +517,12 @@ DETAILS MODAL
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase text-slate-400">Area</p>
+                        <p class="text-[10px] uppercase text-slate-500">Area</p>
                         <p id="detailArea" class="mt-1 text-base font-bold text-slate-700"></p>
                     </div>
 
                     <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-                        <p class="text-[10px] uppercase text-slate-400">Status</p>
+                        <p class="text-[10px] uppercase text-slate-500">Status</p>
                         <div id="detailStatus" class="mt-1"></div>
                     </div>
                 </div>
@@ -522,7 +552,7 @@ DETAILS MODAL
                     <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                         <div>
                             <h3 class="text-base font-bold text-slate-700">Valuation History</h3>
-                            <p class="text-[11px] text-slate-400">Historical market value changes.</p>
+                            <p class="text-[11px] text-slate-500">Historical market value changes.</p>
                         </div>
 
                         @if(auth()->user()->hasPermission('Land.update'))
@@ -544,7 +574,7 @@ DETAILS MODAL
                     <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                         <div>
                             <h3 class="text-base font-bold text-slate-700">Documents</h3>
-                            <p class="text-[11px] text-slate-400">Legal and property documents.</p>
+                            <p class="text-[11px] text-slate-500">Legal and property documents.</p>
                         </div>
 
                         @if(auth()->user()->hasPermission('Land.update'))
@@ -617,7 +647,7 @@ VALUATION MODAL
                 <div>
                     <label class="form-label">Valuation Date *</label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                         <input id="valuationDate"
                                type="text"
                                class="app-input js-date-picker !pl-9"
@@ -715,7 +745,7 @@ DOCUMENT MODAL
                 <div>
                     <label class="form-label">Document Date</label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                         <input id="documentDate"
                                type="text"
                                class="app-input js-date-picker !pl-9"
@@ -805,7 +835,7 @@ SELL MODAL
                 <div>
                     <label class="form-label">Sale Date *</label>
                     <div class="relative">
-                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                        <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                         <input id="saleDate"
                                type="text"
                                class="app-input js-date-picker !pl-9"
@@ -847,21 +877,21 @@ SELL MODAL
                 <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
                     <div class="grid grid-cols-3 gap-3 text-sm">
                         <div>
-                            <p class="text-[10px] text-slate-400">Net Receipt</p>
+                            <p class="text-[10px] text-slate-500">Net Receipt</p>
                             <p id="saleNetPreview" class="mt-1 font-bold text-slate-700">
                                 {{ setting('currency_symbol','৳') }}0
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-[10px] text-slate-400">Book Value</p>
+                            <p class="text-[10px] text-slate-500">Book Value</p>
                             <p id="saleBookPreview" class="mt-1 font-bold text-slate-700">
                                 {{ setting('currency_symbol','৳') }}0
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-[10px] text-slate-400">Profit / Loss</p>
+                            <p class="text-[10px] text-slate-500">Profit / Loss</p>
                             <p id="saleProfitPreview" class="mt-1 font-bold text-slate-700">
                                 {{ setting('currency_symbol','৳') }}0
                             </p>
@@ -1080,7 +1110,7 @@ function setPickerDate(element,value){
 function infoItem(label,value){
     return `
         <div class="min-w-0">
-            <p class="text-[10px] uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
             <p class="mt-1 break-words font-semibold text-slate-700">
@@ -1100,7 +1130,7 @@ function locationText(item){
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -1108,7 +1138,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${AdminUI.escapeHtml(message)}
         </div>
     `;
@@ -1317,7 +1347,7 @@ function renderLands(){
                     <p class="mt-0.5 truncate text-xs 2xl:text-sm font-semibold text-slate-800">
                         ${AdminUI.escapeHtml(item.title??'Untitled')}
                     </p>
-                    <p class="mt-1 truncate text-[11px] text-slate-400">
+                    <p class="mt-1 truncate text-[11px] text-slate-500">
                         <i class="bi bi-geo-alt me-1"></i>
                         ${AdminUI.escapeHtml(locationText(item))}
                     </p>
@@ -1330,21 +1360,21 @@ function renderLands(){
 
             <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Purchase Price</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Purchase Price</p>
                     <p class="truncate font-semibold text-slate-700">
                         ${money(item.purchase_price)}
                     </p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Current Value</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Current Value</p>
                     <p class="truncate font-semibold text-indigo-700">
                         ${money(item.current_value)}
                     </p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Area</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Area</p>
                     <p class="truncate font-medium text-slate-700">
                         ${
                             item.land_area
@@ -1355,7 +1385,7 @@ function renderLands(){
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Purchased</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Purchased</p>
                     <p class="truncate font-medium text-slate-700">
                         ${item.purchase_date?AdminUI.formatDate(item.purchase_date):'—'}
                     </p>
@@ -1620,7 +1650,7 @@ function renderValuations(items){
 
     if(!items.length){
         container.innerHTML=`
-            <div class="p-8 text-center text-sm text-slate-400">
+            <div class="p-8 text-center text-sm text-slate-500">
                 No valuation history.
             </div>
         `;
@@ -1636,7 +1666,7 @@ function renderValuations(items){
                             ${money(item.current_value)}
                         </p>
 
-                        <p class="mt-1 text-[10px] text-slate-400">
+                        <p class="mt-1 text-[10px] text-slate-500">
                             ${AdminUI.formatDate(item.valuation_date)}
                             ${
                                 item.valued_by
@@ -1647,7 +1677,7 @@ function renderValuations(items){
                     </div>
 
                     <div class="text-right">
-                        <p class="text-[10px] text-slate-400">
+                        <p class="text-[10px] text-slate-500">
                             Previous
                         </p>
 
@@ -1730,7 +1760,7 @@ function renderDocuments(items){
 
     if(!items.length){
         container.innerHTML=`
-            <div class="p-8 text-center text-sm text-slate-400">
+            <div class="p-8 text-center text-sm text-slate-500">
                 No documents uploaded.
             </div>
         `;
@@ -1751,7 +1781,7 @@ function renderDocuments(items){
                                 ${formatDocumentType(item.document_type)}
                             </p>
 
-                            <p class="mt-1 truncate text-[10px] text-slate-400">
+                            <p class="mt-1 truncate text-[10px] text-slate-500">
                                 ${AdminUI.escapeHtml(
                                     item.document_number||
                                     item.file_name||
@@ -1957,7 +1987,7 @@ function renderAccounting(land){
                 purchaseTransaction
                     ?`
                         <div class="rounded-md bg-slate-50 p-3">
-                            <p class="text-[10px] uppercase text-slate-400">
+                            <p class="text-[10px] uppercase text-slate-500">
                                 Purchase Journal
                             </p>
                             <p class="mt-1 text-sm font-bold text-slate-700">

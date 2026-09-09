@@ -28,111 +28,154 @@
     </div>
 
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Total Income</p>
-            <p id="totalIncome" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
-        </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">This Month</p>
-            <p id="monthIncome" class="mt-1 text-sm font-bold text-slate-800">{{ setting('currency_symbol','৳') }}0.00</p>
-        </div>
+    {{-- Total Income --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Total Income
+                </p>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Transactions</p>
-            <p id="incomeCount" class="mt-1 text-sm font-bold text-slate-800">0</p>
+                <p id="totalIncome" class="text-xl font-bold text-slate-800">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-cash-stack"></i>
+            </div>
         </div>
     </div>
 
-    {{-- Search / Filter --}}
+    {{-- This Month --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    This Month
+                </p>
+
+                <p id="monthIncome" class="text-xl font-bold text-emerald-600">
+                    {{ setting('currency_symbol','৳') }}0.00
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Transactions --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Transactions
+                </p>
+
+                <p id="incomeCount" class="text-xl font-bold text-indigo-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-receipt"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
     {{-- Search Income --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
-            </div>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Income
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by number, member, reference or description.
-                </p>
-            </div>
-        </div>
-
-        <div class="flex w-full items-center gap-2 lg:w-auto">
-
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                <input id="searchInput" type="text" placeholder="Search income..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-            </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
-        </div>
-    </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[220px_180px_auto]">
-
-            {{-- Date Range --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Date Range
-                </label>
-
-                <div class="relative">
-                    <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                    <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
-                        placeholder="Select date range" autocomplete="off">
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Income
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by number, member, reference or description.
+                    </p>
                 </div>
             </div>
 
-            {{-- Status --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Status
-                </label>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
 
-                <select id="statusFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All Status</option>
-                    <option value="pending_approval">Pending Approval</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="posted">Posted</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search income..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
+        </div>
 
+
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[220px_180px_auto]">
+
+                {{-- Date Range --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Date Range
+                    </label>
+
+                    <div class="relative">
+                        <i
+                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                        <input id="dateRangeFilter" type="text"
+                            class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                            placeholder="Select date range" autocomplete="off">
+                    </div>
+                </div>
+
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All Status</option>
+                        <option value="pending_approval">Pending Approval</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="posted">Posted</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
         {{-- Desktop / tablet table --}}
@@ -140,20 +183,20 @@
             <table class="w-full min-w-[950px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Income No</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Date</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Income Account</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Receive Account</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Amount</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Income No</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Date</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Income Account</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Receive Account</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody id="incomeTable">
                     <tr>
-                        <td colspan="8" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+                        <td colspan="8" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                             Loading income...
                         </td>
                     </tr>
@@ -163,7 +206,7 @@
 
         {{-- Mobile card list --}}
         <div id="incomeCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading income...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading income...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -197,7 +240,7 @@
 
         <form id="incomeForm" class="flex min-h-0 flex-1 flex-col" novalidate data-js-validation="1">
             <div class="space-y-5 overflow-y-auto p-5">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
                             <i class="bi bi-receipt"></i>
@@ -205,7 +248,7 @@
 
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Income Information</h3>
-                            <p class="text-[11px] text-slate-400">Enter income transaction details.</p>
+                            <p class="text-[11px] text-slate-500">Enter income transaction details.</p>
                         </div>
                     </div>
 
@@ -217,7 +260,7 @@
                             </label>
 
                             <div class="relative">
-                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                                <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
                                 <input
                                     id="incomeDate"
@@ -303,7 +346,7 @@
 
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Automatic Journal</h3>
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 This journal will be posted automatically.
                             </p>
                         </div>
@@ -342,7 +385,7 @@
                 <button
                     type="button"
                     onclick="closeIncomeModal()"
-                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i>
                     Close
                 </button>
@@ -350,7 +393,7 @@
                 <button
                     id="saveButton"
                     type="submit"
-                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="cursor-pointer rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     Save Income
                 </button>
@@ -390,7 +433,7 @@
             <button
                 type="button"
                 onclick="closeIncomeDetailsModal()"
-                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                 Close
             </button>
         </div>
@@ -587,11 +630,11 @@ function renderIncomeTable(){
                 ${AdminUI.escapeHtml(item.income_no)}
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${AdminUI.formatDate(item.income_date)}
             </td>
 
-            <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+            <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                 ${AdminUI.escapeHtml(
                     item.member?.user?.name??'—'
                 )}
@@ -604,7 +647,7 @@ function renderIncomeTable(){
                     )}
                 </p>
 
-                <p class="text-[10px] text-slate-400">
+                <p class="text-[10px] text-slate-500">
                     ${AdminUI.escapeHtml(
                         item.income_account?.code??''
                     )}
@@ -618,14 +661,14 @@ function renderIncomeTable(){
                     )}
                 </p>
 
-                <p class="text-[10px] text-slate-400">
+                <p class="text-[10px] text-slate-500">
                     ${AdminUI.escapeHtml(
                         item.receive_account?.code??''
                     )}
                 </p>
             </td>
 
-            <td class="px-4 py-3 text-right  text-xs 2xl:text-sm text-slate-800">
+            <td class="px-4 py-3 text-right text-xs 2xl:text-sm text-slate-800">
                 ${money(item.amount)}
             </td>
 
@@ -1021,15 +1064,15 @@ window.viewIncome=async function(id){
                     <table class="w-full min-w-[500px] text-sm">
                         <thead class="bg-slate-50">
                             <tr>
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-left font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-left font-semibold text-slate-500">
                                     Account
                                 </th>
 
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                     Debit
                                 </th>
 
-                                <th class="px-3 py-2  text-xs 2xl:text-sm text-right font-semibold text-slate-500">
+                                <th class="px-3 py-2 text-xs 2xl:text-sm text-right font-semibold text-slate-500">
                                     Credit
                                 </th>
                             </tr>
@@ -1040,7 +1083,7 @@ window.viewIncome=async function(id){
                                 entries.length
                                     ?entries.map(entry=>`
                                         <tr class="border-t border-slate-100">
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-slate-600">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-slate-600">
                                                 ${AdminUI.escapeHtml(
                                                     entry.account?.code??''
                                                 )}
@@ -1050,7 +1093,7 @@ window.viewIncome=async function(id){
                                                 )}
                                             </td>
 
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.debit??0)>0
                                                         ?money(entry.debit)
@@ -1058,7 +1101,7 @@ window.viewIncome=async function(id){
                                                 }
                                             </td>
 
-                                            <td class="px-3 py-2  text-xs 2xl:text-sm text-right font-medium text-slate-700">
+                                            <td class="px-3 py-2 text-xs 2xl:text-sm text-right font-medium text-slate-700">
                                                 ${
                                                     Number(entry.credit??0)>0
                                                         ?money(entry.credit)
@@ -1069,7 +1112,7 @@ window.viewIncome=async function(id){
                                     `).join('')
                                     :`
                                         <tr>
-                                            <td colspan="3" class="px-3 py-6 text-center text-slate-400">
+                                            <td colspan="3" class="px-3 py-6 text-center text-slate-500">
                                                 No journal entries found.
                                             </td>
                                         </tr>
@@ -1084,7 +1127,7 @@ window.viewIncome=async function(id){
                 item.description
                     ?`
                         <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
-                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                 Description
                             </p>
 
@@ -1172,7 +1215,7 @@ window.cancelIncome=async function(id){
 function detail(label,value){
     return`
         <div class="rounded-md border border-slate-200 bg-white p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

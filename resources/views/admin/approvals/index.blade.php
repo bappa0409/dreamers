@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- =========================================================
     HEADER
@@ -55,77 +55,102 @@
     ========================================================== --}}
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class="text-sm font-medium text-slate-500">
-                Total
-            </p>
+    {{-- Total --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Total
+                </p>
 
-            <p
-                id="totalApprovals"
-                class="mt-2 text-xl font-bold text-slate-800"
-            >
-                0
-            </p>
+                <p id="totalApprovals" class="mt-1 text-xl font-bold text-slate-800">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-list-check"></i>
+            </div>
         </div>
-
-
-        <div class="rounded-md border border-amber-200 bg-amber-50/50 p-4">
-            <p class="text-sm font-medium text-amber-700">
-                Pending
-            </p>
-
-            <p
-                id="pendingApprovals"
-                class="mt-2 text-xl font-bold text-amber-600"
-            >
-                0
-            </p>
-        </div>
-
-
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-4">
-            <p class="text-sm font-medium text-emerald-700">
-                Approved
-            </p>
-
-            <p
-                id="approvedApprovals"
-                class="mt-2 text-xl font-bold text-emerald-600"
-            >
-                0
-            </p>
-        </div>
-
-
-        <div class="rounded-md border border-red-200 bg-red-50/50 p-4">
-            <p class="text-sm font-medium text-red-700">
-                Rejected
-            </p>
-
-            <p
-                id="rejectedApprovals"
-                class="mt-2 text-xl font-bold text-red-600"
-            >
-                0
-            </p>
-        </div>
-
-
-        <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
-            <p class="text-sm font-medium text-slate-600">
-                Cancelled
-            </p>
-
-            <p
-                id="cancelledApprovals"
-                class="mt-2 text-xl font-bold text-slate-600"
-            >
-                0
-            </p>
-        </div>
-
     </div>
 
+    {{-- Pending --}}
+    <div class="rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2">
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Pending
+                </p>
+
+                <p id="pendingApprovals" class="mt-1 text-xl font-bold text-amber-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Approved --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Approved
+                </p>
+
+                <p id="approvedApprovals" class="mt-1 text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Rejected --}}
+    <div class="rounded-md border border-red-200 bg-red-50/50 px-5 py-2">
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-xs text-red-700 2xl:text-sm">
+                    Rejected
+                </p>
+
+                <p id="rejectedApprovals" class="mt-1 text-xl font-bold text-red-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-red-100 text-red-600">
+                <i class="bi bi-x-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Cancelled --}}
+    <div class="col-span-2 rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2 lg:col-span-1">
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Cancelled
+                </p>
+
+                <p id="cancelledApprovals" class="mt-1 text-xl font-bold text-slate-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-500">
+                <i class="bi bi-slash-circle"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- =========================================================
     FILTERS
@@ -136,72 +161,99 @@
 
             <div class="flex items-center gap-2">
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                    <i class="bi bi-funnel text-base"></i>
+                    <i class="bi bi-search text-base"></i>
                 </div>
 
                 <div>
                     <p class="text-sm font-semibold text-slate-700">
-                        Filter Approvals
+                        Search Approvals
                     </p>
 
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search and filter approval history
                     </p>
                 </div>
             </div>
 
+            <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:gap-0">
-
-                <div class="relative w-full sm:min-w-[240px] lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input
                         id="searchInput"
                         type="text"
                         placeholder="Search approvals..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 lg:rounded-r-none"
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
                     >
                 </div>
 
-
-                <select
-                    id="statusFilter"
-                    class="h-9 cursor-pointer rounded-md border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 lg:rounded-none lg:border-l-0"
+                {{-- Filter --}}
+                <button
+                    type="button"
+                    onclick="toggleFilters()"
+                    id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm"
                 >
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
 
-
-                <label
-                    class="flex h-9 shrink-0 cursor-pointer items-center gap-2 border border-slate-300 bg-white px-3  text-xs 2xl:text-sm font-medium text-slate-600 lg:border-l-0"
-                    title="যাদের turn এখনো আসেনি, সেই approval request গুলো লুকিয়ে রাখবে — শুধু যার approve করার পালা এখন, তার কাছেই দেখাবে।"
-                >
-                    <input
-                        id="myPendingToggle"
-                        type="checkbox"
-                        checked
-                        class="h-3.5 w-3.5 cursor-pointer rounded border-slate-300 text-indigo-600 focus:ring-indigo-400"
-                    >
-                    My Turn Only
-                </label>
-
-
+                {{-- Clear --}}
                 <button
                     type="button"
                     onclick="clearFilters()"
-                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 lg:rounded-l-none lg:border-l-0"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
                 >
-                    <i class="bi bi-x-lg text-[10px]"></i>
-                    Clear
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
                 </button>
 
             </div>
 
+        </div>
+
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
+
+                {{-- Status --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Status
+                    </label>
+
+                    <select
+                        id="statusFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                    >
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                {{-- My Turn Only --}}
+                <div class="flex items-end">
+                    <label
+                        class="flex h-9 w-fit cursor-pointer items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 2xl:text-sm"
+                        title="যাদের turn এখনো আসেনি, সেই approval request গুলো লুকিয়ে রাখবে — শুধু যার approve করার পালা এখন, তার কাছেই দেখাবে।"
+                    >
+                        <input
+                            id="myPendingToggle"
+                            type="checkbox"
+                            checked
+                            class="h-3.5 w-3.5 cursor-pointer rounded border-slate-300 text-indigo-600 focus:ring-indigo-400"
+                        >
+                        My Turn Only
+                    </label>
+                </div>
+
+            </div>
         </div>
 
     </div>
@@ -212,8 +264,9 @@
     ========================================================== --}}
     <div class="overflow-hidden rounded-md border border-slate-200 bg-white">
 
-        <div class="w-full overflow-hidden">
-            <table class="w-full table-fixed text-sm">
+        {{-- Desktop / tablet table --}}
+        <div class="hidden w-full overflow-x-auto md:block">
+            <table class="w-full min-w-[820px] table-fixed text-sm">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
@@ -262,6 +315,10 @@
             </table>
         </div>
 
+        {{-- Mobile card list --}}
+        <div id="approvalsCards" class="divide-y divide-slate-100 md:hidden">
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading approvals...</div>
+        </div>
 
         <div
             id="paginationContainer"
@@ -523,6 +580,7 @@ let myPendingOnly=true;
 
 const el={
     table:document.getElementById('approvalsTable'),
+    cards:document.getElementById('approvalsCards'),
     search:document.getElementById('searchInput'),
     statusFilter:document.getElementById('statusFilter'),
     myPendingToggle:document.getElementById('myPendingToggle'),
@@ -586,6 +644,11 @@ async function loadApprovals(page=1){
             7
         );
 
+    el.cards.innerHTML=
+        cardsLoadingHtml(
+            'Loading approvals...'
+        );
+
     const query=
         AdminUI.query({
             search:el.search.value.trim(),
@@ -640,6 +703,11 @@ async function loadApprovals(page=1){
                 7
             );
 
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                AdminUI.extractError(error)
+            );
+
         AdminUI.renderPagination({
             container:'paginationContainer',
             currentPage:1,
@@ -648,6 +716,22 @@ async function loadApprovals(page=1){
             onPageChange:loadApprovals
         });
     }
+}
+
+function cardsLoadingHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
+}
+
+function cardsEmptyHtml(message){
+    return`
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
+            ${AdminUI.escapeHtml(message)}
+        </div>
+    `;
 }
 
 
@@ -715,6 +799,11 @@ function renderApprovals(){
                 7
             );
 
+        el.cards.innerHTML=
+            cardsEmptyHtml(
+                'No approval requests found.'
+            );
+
         return;
     }
 
@@ -740,7 +829,7 @@ function renderApprovals(){
                             )}
                         </p>
 
-                        <p class="mt-1 text-[10px] text-slate-400">
+                        <p class="mt-1 text-[10px] text-slate-500">
                             #${approval.id}
                         </p>
 
@@ -791,7 +880,7 @@ function renderApprovals(){
                             approval.requester?.email
                                 ?`
                                     <p
-                                        class="mt-1 truncate text-[10px] text-slate-400"
+                                        class="mt-1 truncate text-[10px] text-slate-500"
                                         title="${AdminUI.escapeHtml(approval.requester.email)}"
                                     >
                                         ${AdminUI.escapeHtml(
@@ -832,64 +921,7 @@ function renderApprovals(){
                     <td class="px-3 py-4">
 
                         <div class="flex items-center justify-end gap-1">
-
-                            <button
-                                type="button"
-                                onclick="viewApproval(${approval.id})"
-                                title="View Details"
-                                class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
-                            >
-                                <i class="bi bi-eye text-sm"></i>
-                            </button>
-
-
-                            ${
-                                canApprove&&pending&&isMyTurn(approval)
-                                    ?`
-                                        <button
-                                            type="button"
-                                            onclick="approveRequest(${approval.id},this)"
-                                            title="Approve"
-                                            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
-                                        >
-                                            <i class="bi bi-check-lg text-sm"></i>
-                                        </button>
-                                    `
-                                    :''
-                            }
-
-
-                            ${
-                                canReject&&pending&&isMyTurn(approval)
-                                    ?`
-                                        <button
-                                            type="button"
-                                            onclick="openRejectModal(${approval.id})"
-                                            title="Reject"
-                                            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-red-50 text-red-600 transition hover:bg-red-100"
-                                        >
-                                            <i class="bi bi-x-lg text-sm"></i>
-                                        </button>
-                                    `
-                                    :''
-                            }
-
-
-                            ${
-                                canCancel&&pending
-                                    ?`
-                                        <button
-                                            type="button"
-                                            onclick="openCancelModal(${approval.id})"
-                                            title="Cancel Request"
-                                            class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-slate-100 text-slate-600 transition hover:bg-slate-200"
-                                        >
-                                            <i class="bi bi-slash-circle text-sm"></i>
-                                        </button>
-                                    `
-                                    :''
-                            }
-
+                            ${approvalActionButtons(approval,pending)}
                         </div>
 
                     </td>
@@ -897,6 +929,136 @@ function renderApprovals(){
                 </tr>
             `;
         }).join('');
+
+    el.cards.innerHTML=
+        approvals.map(approval=>{
+
+            const pending=
+                approval.status==='pending';
+
+            return `
+                <div class="p-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <p
+                                class="truncate text-xs 2xl:text-sm font-semibold capitalize text-slate-800"
+                                title="${AdminUI.escapeHtml(approval.action??'Request')}"
+                            >
+                                ${AdminUI.escapeHtml(approval.action??'Request')}
+                            </p>
+
+                            <p class="mt-0.5 text-[10px] text-slate-500">
+                                #${approval.id}
+                            </p>
+                        </div>
+
+                        <div class="shrink-0">
+                            ${statusBadge(approval.status)}
+                        </div>
+                    </div>
+
+                    <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
+                        <div class="min-w-0">
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Module</p>
+                            <span class="mt-0.5 inline-block truncate rounded-md bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
+                                ${AdminUI.escapeHtml(approval.module??'General')}
+                            </span>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Subject</p>
+                            <p class="truncate font-medium text-slate-700" title="${AdminUI.escapeHtml(approvableLabel(approval))}">
+                                ${AdminUI.escapeHtml(approvableLabel(approval))}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Requested By</p>
+                            <p class="truncate font-medium text-slate-700" title="${AdminUI.escapeHtml(approval.requester?.name??'System')}">
+                                ${AdminUI.escapeHtml(approval.requester?.name??'System')}
+                            </p>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Date</p>
+                            <p class="truncate font-medium text-slate-700">
+                                ${AdminUI.formatDate(approval.created_at,true)}
+                            </p>
+                        </div>
+
+                        <div class="col-span-2 min-w-0">
+                            ${stepHint(approval)}
+                        </div>
+                    </div>
+
+                    <div class="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
+                        ${approvalActionButtons(approval,pending,{withLabel:true})}
+                    </div>
+                </div>
+            `;
+        }).join('');
+}
+
+function approvalActionButtons(approval,pending,{withLabel=false}={}){
+    const btnClass=withLabel
+        ?'inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-[11px] font-semibold'
+        :'flex h-8 w-8 shrink-0 items-center justify-center rounded-md';
+
+    const buttons=[`
+        <button
+            type="button"
+            onclick="viewApproval(${approval.id})"
+            title="View Details"
+            class="cursor-pointer ${btnClass} bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100"
+        >
+            <i class="bi bi-eye text-sm"></i>
+            ${withLabel?'<span>View</span>':''}
+        </button>
+    `];
+
+    if(canApprove&&pending&&isMyTurn(approval)){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="approveRequest(${approval.id},this)"
+                title="Approve"
+                class="cursor-pointer ${btnClass} bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100"
+            >
+                <i class="bi bi-check-lg text-sm"></i>
+                ${withLabel?'<span>Approve</span>':''}
+            </button>
+        `);
+    }
+
+    if(canReject&&pending&&isMyTurn(approval)){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openRejectModal(${approval.id})"
+                title="Reject"
+                class="cursor-pointer ${btnClass} bg-red-50 text-red-600 transition hover:bg-red-100"
+            >
+                <i class="bi bi-x-lg text-sm"></i>
+                ${withLabel?'<span>Reject</span>':''}
+            </button>
+        `);
+    }
+
+    if(canCancel&&pending){
+        buttons.push(`
+            <button
+                type="button"
+                onclick="openCancelModal(${approval.id})"
+                title="Cancel Request"
+                class="cursor-pointer ${btnClass} bg-slate-100 text-slate-600 transition hover:bg-slate-200"
+            >
+                <i class="bi bi-slash-circle text-sm"></i>
+                ${withLabel?'<span>Cancel</span>':''}
+            </button>
+        `);
+    }
+
+    return buttons.join('');
 }
 
 
@@ -994,7 +1156,7 @@ function stepHint(approval){
             class="mt-1 truncate text-[10px] ${
                 isMyTurn(approval)
                     ?'font-semibold text-emerald-600'
-                    :'text-slate-400'
+                    :'text-slate-500'
             }"
             title="Step ${step.step_no} of ${approval.total_steps??'?'}"
         >
@@ -1189,7 +1351,7 @@ function stepsBlock(approval){
                         ${
                             step.acted_at
                                 ?`
-                                    <p class="mt-0.5 text-[10px] text-slate-400">
+                                    <p class="mt-0.5 text-[10px] text-slate-500">
                                         ${AdminUI.formatDate(step.acted_at,true)}
                                     </p>
                                 `
@@ -1210,7 +1372,7 @@ function stepsBlock(approval){
 
     return `
         <div>
-            <p class="mb-2 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="mb-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 Approval Steps
             </p>
 
@@ -1245,7 +1407,7 @@ function detailItem(
     return `
         <div class="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-2.5">
 
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 ${AdminUI.escapeHtml(label)}
             </p>
 

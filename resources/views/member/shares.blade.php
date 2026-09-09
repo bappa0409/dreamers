@@ -9,7 +9,7 @@
     $currency=setting('currency_symbol','৳');
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -71,11 +71,11 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                         Total Shares
                     </p>
 
-                    <p id="totalShares" class="mt-2 text-xl font-bold text-slate-800">
+                    <p id="totalShares" class="text-xl font-bold text-slate-800">
                         0
                     </p>
                 </div>
@@ -93,7 +93,7 @@
                         Active Shares
                     </p>
 
-                    <p id="activeShares" class="mt-2 text-xl font-bold text-emerald-700">
+                    <p id="activeShares" class="text-xl font-bold text-emerald-700">
                         0
                     </p>
                 </div>
@@ -111,7 +111,7 @@
                         Pending Purchases
                     </p>
 
-                    <p id="pendingShares" class="mt-2 text-xl font-bold text-amber-700">
+                    <p id="pendingShares" class="text-xl font-bold text-amber-700">
                         0
                     </p>
                 </div>
@@ -151,13 +151,13 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="shareSearch"
                         type="text"
                         placeholder="Search share no, method or transaction reference..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -204,7 +204,7 @@
                     Share Portfolio
                 </h2>
 
-                <p class="text-[11px] text-slate-400">
+                <p class="text-[11px] text-slate-500">
                     Your association share purchase and ownership history
                 </p>
             </div>
@@ -250,7 +250,7 @@
                         <td colspan="7" class="px-4 py-14 text-center">
                             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                            <p class="mt-3 text-sm text-slate-400">
+                            <p class="mt-3 text-sm text-slate-500">
                                 Loading shares...
                             </p>
                         </td>
@@ -283,7 +283,7 @@
                         Share Details
                     </h2>
 
-                    <p id="shareDetailNumber" class="font-mono text-[10px] text-slate-400">
+                    <p id="shareDetailNumber" class="font-mono text-[10px] text-slate-500">
                         -
                     </p>
                 </div>
@@ -292,7 +292,7 @@
             <button
                 type="button"
                 onclick="closeShareDetails()"
-                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -339,7 +339,7 @@
                         Buy New Share
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Purchase will remain pending until verified.
                     </p>
                 </div>
@@ -348,7 +348,7 @@
             <button
                 type="button"
                 onclick="closePurchaseModal()"
-                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -383,7 +383,7 @@
                     </label>
 
                     <div class="relative">
-                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-400">
+                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base text-slate-500">
                             {{ $currency }}
                         </span>
 
@@ -397,7 +397,7 @@
                             class="app-input !pl-8 bg-slate-50">
                     </div>
 
-                    <p class="mt-1 text-[10px] text-slate-400">
+                    <p class="mt-1 text-[10px] text-slate-500">
                         One purchase creates one share. To purchase more shares, submit another purchase.
                     </p>
                 </div>
@@ -512,7 +512,7 @@ async function loadShares(){
             <td colspan="7" class="px-4 py-14 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-sm text-slate-400">
+                <p class="mt-3 text-sm text-slate-500">
                     Loading shares...
                 </p>
             </td>
@@ -702,7 +702,7 @@ function renderShares(){
                         No shares found
                     </p>
 
-                    <p class="mt-1 text-sm text-slate-400">
+                    <p class="mt-1 text-sm text-slate-500">
                         No share records match the current filters.
                     </p>
 
@@ -736,7 +736,7 @@ function renderShares(){
                                 )}
                             </p>
 
-                            <p class="mt-1 text-[10px] text-slate-400">
+                            <p class="mt-1 text-[10px] text-slate-500">
                                 Share #${Number(share.id)}
                             </p>
                         </div>
@@ -931,7 +931,7 @@ window.openShareDetails=function(id){
     document.getElementById(
         'shareDetailsBody'
     ).innerHTML=`
-        <div class="space-y-5">
+        <div class="space-y-3">
 
             <div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
 
@@ -973,7 +973,7 @@ window.openShareDetails=function(id){
                         Share Information
                     </h3>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Purchase, verification and ownership details
                     </p>
                 </div>
@@ -1182,7 +1182,7 @@ function shareSummaryCard(
             <div class="flex items-start justify-between gap-3">
 
                 <div class="min-w-0">
-                    <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+                    <p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
                         ${escapeShareHtml(label)}
                     </p>
 
@@ -1211,7 +1211,7 @@ function shareInformationItem(
     return`
         <div class="border-b border-slate-100 px-5 py-4 sm:border-r">
 
-            <p class="text-[10px] uppercase tracking-wide text-slate-400">
+            <p class="text-[10px] uppercase tracking-wide text-slate-500">
                 ${escapeShareHtml(label)}
             </p>
 

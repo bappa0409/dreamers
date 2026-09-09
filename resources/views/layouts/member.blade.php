@@ -56,7 +56,7 @@
     $linkInactive='text-slate-600 hover:bg-slate-50 hover:text-slate-800';
     $linkActive='bg-sky-50 text-sky-700';
     $iconClass='w-4 text-center text-base';
-    $sectionClass='mb-1 mt-3 px-2.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-400';
+    $sectionClass='mb-1 mt-3 px-2.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-500';
 
     $overview=[
     ['member.dashboard','member.dashboard','bi-grid-1x2-fill','Dashboard'],
@@ -100,13 +100,13 @@
 
                     <div class="min-w-0">
                         <div class="truncate text-base font-bold text-slate-800">{{ $organizationName }}</div>
-                        <div class="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">Member Portal
+                        <div class="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Member Portal
                         </div>
                     </div>
                 </a>
 
                 <button type="button" onclick="closeSidebar()"
-                    class="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 lg:hidden">
+                    class="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600 lg:hidden">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -279,13 +279,13 @@
 
                     <div class="min-w-0 flex-1">
                         <div class="truncate text-[12px] font-semibold text-slate-700">{{ $userName }}</div>
-                        <div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
+                        <div class="truncate text-[10px] text-slate-500">{{ $memberCode }}</div>
                     </div>
 
                     <form method="POST" action="{{ route('logout') }}" novalidate data-js-validation="1">
                         @csrf
                         <button type="submit" title="Sign Out"
-                            class="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-red-50 hover:text-red-500">
+                            class="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-red-50 hover:text-red-500">
                             <i class="bi bi-box-arrow-right text-[15px]"></i>
                         </button>
                     </form>
@@ -355,20 +355,20 @@
                             </div>
 
                             <div class="hidden max-w-[140px] text-left sm:block">
-                                <div class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">{{ $userName }}
+                                <div class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">{{ $userName }}
                                 </div>
-                                <div class="truncate text-[10px] text-slate-400">{{ $memberCode }}</div>
+                                <div class="truncate text-[10px] text-slate-500">{{ $memberCode }}</div>
                             </div>
 
-                            <i class="bi bi-chevron-down hidden text-[10px] text-slate-400 sm:block"></i>
+                            <i class="bi bi-chevron-down hidden text-[10px] text-slate-500 sm:block"></i>
                         </button>
 
                         <div id="userDropdown"
                             class="absolute right-0 top-[48px] z-50 hidden w-60 overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
                             <div class="border-b border-slate-100 px-4 py-3">
-                                <div class="text-[10px] uppercase tracking-wide text-slate-400">Signed in as</div>
+                                <div class="text-[10px] uppercase tracking-wide text-slate-500">Signed in as</div>
                                 <div class="mt-1 truncate text-base font-semibold text-slate-700">{{ $userName }}</div>
-                                <div class="mt-0.5 truncate text-[11px] text-slate-400">{{ $authUser?->email }}</div>
+                                <div class="mt-0.5 truncate text-[11px] text-slate-500">{{ $authUser?->email }}</div>
                                 <div class="mt-1 font-mono text-[10px] font-semibold text-sky-600">{{ $memberCode }}
                                 </div>
                             </div>
@@ -406,7 +406,7 @@
                                 <div>
                                     <h3 class="text-sm font-semibold text-slate-700">Notifications</h3>
 
-                                    <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-400">
+                                    <p id="notificationUnreadText" class="mt-0.5 text-[10px] text-slate-500">
                                         {{ $notificationUnreadCount>0?$notificationUnreadCount.' unread
                                         notification'.($notificationUnreadCount===1?'':'s'):'No unread notifications' }}
                                     </p>
@@ -425,7 +425,7 @@
                                     <div
                                         class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600">
                                     </div>
-                                    <p class="mt-2 text-[10px] text-slate-400">Loading notifications...</p>
+                                    <p class="mt-2 text-[10px] text-slate-500">Loading notifications...</p>
                                 </div>
                             </div>
 
@@ -443,18 +443,18 @@
                             class="absolute right-2 top-[48px] z-50 hidden w-[330px] overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
                             <div class="border-b border-slate-100 px-4 py-3">
                                 <h3 class="text-sm font-semibold text-slate-700">Inbox</h3>
-                                <p class="text-[10px] text-slate-400">Messages and communication</p>
+                                <p class="text-[10px] text-slate-500">Messages and communication</p>
                             </div>
 
                             <div id="inboxList" class="max-h-[320px] overflow-y-auto">
                                 <div class="p-6 text-center">
                                     <div
-                                        class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400">
+                                        class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-500">
                                         <i class="bi bi-envelope"></i>
                                     </div>
 
                                     <p class="mt-3 text-sm font-semibold text-slate-600">No messages</p>
-                                    <p class="mt-1 text-[10px] text-slate-400">Your inbox is currently empty.</p>
+                                    <p class="mt-1 text-[10px] text-slate-500">Your inbox is currently empty.</p>
                                 </div>
                             </div>
                         </div>
@@ -719,7 +719,7 @@ function renderNotificationItems(notifications){
     if(!notifications.length){
         list.innerHTML=`
             <div class="p-8 text-center">
-                <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-400">
+                <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-500">
                     <i class="bi bi-bell"></i>
                 </div>
 
@@ -727,7 +727,7 @@ function renderNotificationItems(notifications){
                     No notifications
                 </p>
 
-                <p class="mt-1 text-[10px] text-slate-400">
+                <p class="mt-1 text-[10px] text-slate-500">
                     You're all caught up.
                 </p>
             </div>`;
@@ -768,7 +768,7 @@ function renderNotificationItems(notifications){
                     `:''}
                 </div>
 
-                <div class="mt-1 line-clamp-2 text-[10px] leading-4 text-slate-400">
+                <div class="mt-1 line-clamp-2 text-[10px] leading-4 text-slate-500">
                     ${escapeLayoutHtml(
                         notification.message??
                         notification.data?.message??
@@ -776,7 +776,7 @@ function renderNotificationItems(notifications){
                     )}
                 </div>
 
-                <div class="mt-1.5 flex items-center gap-2 text-[9px] text-slate-400">
+                <div class="mt-1.5 flex items-center gap-2 text-[9px] text-slate-500">
                     <span>
                         <i class="bi bi-clock me-1"></i>
                         ${formatLayoutDate(notification.created_at)}
@@ -812,7 +812,7 @@ async function loadNotifications(force=false){
     list.innerHTML=`
         <div class="p-8 text-center">
             <div class="mx-auto h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
-            <p class="mt-2 text-[10px] text-slate-400">
+            <p class="mt-2 text-[10px] text-slate-500">
                 Loading notifications...
             </p>
         </div>`;

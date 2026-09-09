@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -57,11 +57,11 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                         Active Polls
                     </p>
 
-                    <p id="summaryActive" class="mt-2 text-xl font-bold text-slate-800">
+                    <p id="summaryActive" class="text-xl font-bold text-slate-800">
                         0
                     </p>
                 </div>
@@ -97,7 +97,7 @@
                         Voted
                     </p>
 
-                    <p id="summaryVoted" class="mt-2 text-xl font-bold text-emerald-700">
+                    <p id="summaryVoted" class="text-xl font-bold text-emerald-700">
                         0
                     </p>
                 </div>
@@ -138,13 +138,13 @@
                 </label>
 
                 <div class="relative">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
                     <input
                         id="pollSearch"
                         type="text"
                         placeholder="Search poll title or description..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
             </div>
 
@@ -185,7 +185,7 @@
                     <button
                         type="button"
                         onclick="openHistoryModal()"
-                        class="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3  text-xs 2xl:text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100">
+                        class="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-indigo-200 bg-indigo-50 px-3 text-xs 2xl:text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100">
 
                         <i class="bi bi-clock-history"></i>
 
@@ -212,7 +212,7 @@
                     Active Polls
                 </h2>
 
-                <p class="text-[11px] text-slate-400">
+                <p class="text-[11px] text-slate-500">
                     Association polls currently available to members
                 </p>
             </div>
@@ -226,7 +226,7 @@
             <div class="col-span-full py-12 text-center">
                 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-                <p class="mt-3 text-sm text-slate-400">
+                <p class="mt-3 text-sm text-slate-500">
                     Loading polls...
                 </p>
             </div>
@@ -256,7 +256,7 @@
                         Submit Vote
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Select one option and submit your vote.
                     </p>
                 </div>
@@ -349,7 +349,7 @@
                         Voting History
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Poll votes previously submitted by you.
                     </p>
                 </div>
@@ -416,7 +416,7 @@ async function loadPolls(){
 
             <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
 
-            <p class="mt-3 text-sm text-slate-400">
+            <p class="mt-3 text-sm text-slate-500">
                 Loading polls...
             </p>
 
@@ -608,7 +608,7 @@ function renderPolls(){
                     No polls found
                 </p>
 
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-sm text-slate-500">
                     No active polls match the current filters.
                 </p>
 
@@ -678,7 +678,7 @@ function renderPollCard(poll){
                                 )}
                             </h3>
 
-                            <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-400">
+                            <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-500">
 
                                 <span>
                                     <i class="bi bi-calendar-event me-1"></i>
@@ -755,7 +755,7 @@ function renderPollCard(poll){
                                         <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                                             selected
                                                 ?'bg-indigo-600 text-white'
-                                                :'bg-white text-slate-400 ring-1 ring-slate-200'
+                                                :'bg-white text-slate-500 ring-1 ring-slate-200'
                                         } text-[10px] font-bold">
 
                                             ${
@@ -1100,7 +1100,7 @@ window.openHistoryModal=function(){
                     No voting history
                 </p>
 
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-sm text-slate-500">
                     You have not voted in any polls yet.
                 </p>
 
@@ -1128,7 +1128,7 @@ window.openHistoryModal=function(){
                         Submitted Votes
                     </h3>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Your complete voting history
                     </p>
                 </div>
@@ -1190,7 +1190,7 @@ window.openHistoryModal=function(){
 
                                         </td>
 
-                                        <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-500">
+                                        <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-500">
                                             ${dateTime(
                                                 item.created_at
                                             )}

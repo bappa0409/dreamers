@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div id="loadingBadge" class="hidden items-center gap-2 text-xs 2xl:text-sm font-semibold text-slate-400">
+        <div id="loadingBadge" class="hidden items-center gap-2 text-xs 2xl:text-sm font-semibold text-slate-500">
             <i class="bi bi-arrow-repeat animate-spin"></i>
             Loading settings...
         </div>
@@ -266,7 +266,7 @@
 
             if(!groups.length){
                 skeletonEl.innerHTML=`
-                    <div class="p-10 text-center text-base text-slate-400">
+                    <div class="p-10 text-center text-base text-slate-500">
                         No settings found.
                     </div>
                 `;
@@ -819,7 +819,7 @@
         body
     }){
         return`
-            <section class="rounded-md border border-slate-200 bg-white p-4">
+            <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
 
                 <div class="mb-4 flex items-center gap-2">
 
@@ -832,7 +832,7 @@
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
-                        <p class="text-[11px] text-slate-400">
+                        <p class="text-[11px] text-slate-500">
                             ${AdminUI.escapeHtml(subtitle)}
                         </p>
                     </div>
@@ -870,7 +870,7 @@
                             ${AdminUI.escapeHtml(title)}
                         </h3>
 
-                        <p class="text-[11px] text-slate-400">
+                        <p class="text-[11px] text-slate-500">
                             ${AdminUI.escapeHtml(subtitle)}
                         </p>
                     </div>
@@ -1021,7 +1021,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <label class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -1031,7 +1031,7 @@
 
                 <div class="relative">
 
-                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
+                    <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-500"></i>
 
                     <input
                         type="text"
@@ -1044,7 +1044,7 @@
 
                 </div>
 
-                <p class="mt-1 truncate font-mono text-[9px] text-slate-400">
+                <p class="mt-1 truncate font-mono text-[9px] text-slate-500">
                     ${AdminUI.escapeHtml(setting.key)}
                 </p>
 
@@ -1073,7 +1073,7 @@
 
             <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                <label class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                     ${renderLabel(setting)}
                 </label>
 
@@ -1092,7 +1092,7 @@
                     AdminUI.titleCase(setting.key)
                 )}">
 
-            <p class="mt-1 truncate font-mono text-[9px] text-slate-400">
+            <p class="mt-1 truncate font-mono text-[9px] text-slate-500">
                 ${AdminUI.escapeHtml(setting.key)}
             </p>
 
@@ -1153,7 +1153,7 @@
                     class="app-input uppercase"
                     placeholder="${AdminUI.escapeHtml(fallback)}">
 
-                <p class="mt-1 text-[10px] text-slate-400">
+                <p class="mt-1 text-[10px] text-slate-500">
                     Example:
                     <span class="font-mono">
                         ${AdminUI.escapeHtml(value)}-000001
@@ -1231,7 +1231,7 @@
 
                 <div class="mb-1.5 flex items-center justify-between gap-2">
 
-                    <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                    <label class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                         ${renderLabel(setting)}
                     </label>
 
@@ -1252,7 +1252,7 @@
 
                 </select>
 
-                <p class="mt-1 truncate font-mono text-[9px] text-slate-400">
+                <p class="mt-1 truncate font-mono text-[9px] text-slate-500">
                     ${AdminUI.escapeHtml(setting.key)}
                 </p>
 
@@ -1285,7 +1285,7 @@
 
                     <button
                         type="button"
-                        class="settings-password-toggle absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 transition hover:text-slate-600">
+                        class="settings-password-toggle absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer text-slate-500 transition hover:text-slate-600">
 
                         <i class="bi bi-eye text-sm"></i>
 
@@ -1293,7 +1293,7 @@
 
                 </div>
 
-                <p class="mt-1 truncate font-mono text-[9px] text-slate-400">
+                <p class="mt-1 truncate font-mono text-[9px] text-slate-500">
                     ${AdminUI.escapeHtml(setting.key)}
                 </p>
 
@@ -1316,7 +1316,7 @@
                         ${renderLabel(setting)}
                     </p>
 
-                    <p class="mt-1 truncate font-mono text-[9px] text-slate-400">
+                    <p class="mt-1 truncate font-mono text-[9px] text-slate-500">
                         ${AdminUI.escapeHtml(setting.key)}
                     </p>
 
@@ -1376,7 +1376,7 @@
 
                     <div class="flex items-center justify-between gap-2">
 
-                        <label class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700">
+                        <label class="truncate text-xs 2xl:text-sm font-semibold text-slate-700">
                             ${AdminUI.escapeHtml(title)}
                         </label>
 
@@ -1387,7 +1387,7 @@
                     ${
                         subtitle
                             ?`
-                                <p class="mt-0.5 text-[10px] text-slate-400">
+                                <p class="mt-0.5 text-[10px] text-slate-500">
                                     ${AdminUI.escapeHtml(subtitle)}
                                 </p>
                             `
@@ -1445,7 +1445,7 @@
 
                         <p
                             id="uploadStatus_${AdminUI.escapeHtml(setting.key)}"
-                            class="mt-1.5 text-[10px] text-slate-400">
+                            class="mt-1.5 text-[10px] text-slate-500">
 
                             ${AdminUI.escapeHtml(caption)}
 

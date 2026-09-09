@@ -19,7 +19,7 @@
     $isProfit=$profitLoss>=0;
 @endphp
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -35,7 +35,7 @@
 
                 <p class="mt-0.5 text-sm text-slate-500">
                     Welcome back,
-                    <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                    <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                         {{ $member->user?->name??'Member' }}
                     </span>
                 </p>
@@ -57,11 +57,11 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
                         Total Deposited
                     </p>
 
-                    <p class="mt-2 text-xl font-bold text-slate-800">
+                    <p class="text-xl font-bold text-slate-800">
                         ৳{{ number_format($summary['total_deposited']??0,2) }}
                     </p>
                 </div>
@@ -73,7 +73,7 @@
 
             <div class="mt-4 space-y-2 border-t border-slate-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-slate-400 text-xs 2xl:text-sm">Subscriptions</span>
+                    <span class="text-slate-500 text-xs 2xl:text-sm">Subscriptions</span>
 
                     <span class="font-semibold text-slate-600">
                         ৳{{ number_format($summary['subscription_deposited']??0,2) }}
@@ -82,7 +82,7 @@
 
                 @if($shareEnabled)
                     <div class="flex items-center justify-between gap-3 text-[11px]">
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Shares</span>
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Shares</span>
 
                         <span class="font-semibold text-slate-600">
                             ৳{{ number_format($summary['share_deposited']??0,2) }}
@@ -96,11 +96,11 @@
         <div class="rounded-lg border border-slate-200 bg-white p-4">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                    <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
                         Monthly Payable
                     </p>
 
-                    <p class="mt-2 text-xl font-bold text-slate-800">
+                    <p class="text-xl font-bold text-slate-800">
                         ৳{{ number_format($summary['monthly_payable']??0,2) }}
                     </p>
                 </div>
@@ -112,7 +112,7 @@
 
             <div class="mt-4 border-t border-slate-100 pt-3">
                 <div class="flex items-center justify-between gap-3 text-[11px]">
-                    <span class="text-slate-400 text-xs 2xl:text-sm">This Month's Amount</span>
+                    <span class="text-slate-500 text-xs 2xl:text-sm">This Month's Amount</span>
 
                     <span class="font-semibold text-slate-600">
                         ৳{{ number_format($currentDue,2) }}
@@ -129,7 +129,7 @@
                         Total Due
                     </p>
 
-                    <p class="mt-2 text-xl font-bold text-red-600">
+                    <p class="text-xl font-bold text-red-600">
                         ৳{{ number_format($summary['total_outstanding']??0,2) }}
                     </p>
                 </div>
@@ -158,7 +158,7 @@
                         Total Fine
                     </p>
 
-                    <p class="mt-2 text-xl font-bold text-amber-700">
+                    <p class="text-xl font-bold text-amber-700">
                         ৳{{ number_format($summary['total_fine']??0,2) }}
                     </p>
                 </div>
@@ -197,7 +197,7 @@
                             Current Month Subscription
                         </h2>
 
-                        <p class="text-[11px] text-slate-400">
+                        <p class="text-[11px] text-slate-500">
                             {{ now()->format('F Y') }}
                         </p>
                     </div>
@@ -219,7 +219,7 @@
                                 Payment Progress
                             </p>
 
-                            <p class="mt-0.5 text-[11px] text-slate-400">
+                            <p class="mt-0.5 text-[11px] text-slate-500">
                                 ৳{{ number_format($currentPaid,2) }}
                                 paid of
                                 ৳{{ number_format($currentDue,2) }}
@@ -241,7 +241,7 @@
                 {{-- Values --}}
                 <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                             Due
                         </p>
 
@@ -326,7 +326,7 @@
                                 My Shares
                             </h2>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 Share ownership summary
                             </p>
                         </div>
@@ -408,7 +408,7 @@
                         Association Finance
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Current overall financial position
                     </p>
                 </div>
@@ -473,7 +473,7 @@
                         Quick Access
                     </h2>
 
-                    <p class="text-[11px] text-slate-400">
+                    <p class="text-[11px] text-slate-500">
                         Frequently used member services
                     </p>
                 </div>

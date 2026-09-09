@@ -5,19 +5,20 @@
 
 @section('content')
 
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- =========================================================
     HEADER
     ========================================================== --}}
-    <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white py-4 px-5 md:flex-row md:items-center md:justify-between">
+    <div
+        class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white py-4 px-5 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                 <i class="bi bi-clock-history text-base"></i>
             </div>
 
             <div>
-                <h1 class="text-base font-bold tracking-tight text-slate-800">
+                <h1 class="text-sm 2xl:text-base font-bold tracking-tight text-slate-800">
                     Audit Logs
                 </h1>
 
@@ -27,11 +28,8 @@
             </div>
         </div>
 
-        <button
-            type="button"
-            onclick="refreshLogs()"
-            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
+        <button type="button" onclick="refreshLogs()"
+            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
             <i class="bi bi-arrow-clockwise text-[12px]"></i>
             Refresh
         </button>
@@ -41,114 +39,114 @@
     {{-- =========================================================
     FILTERS
     ========================================================== --}}
-    
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
-            </div>
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Activity Log
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by description or user.
-                </p>
-            </div>
-        </div>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
-
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                <input id="searchInput" type="text" placeholder="Description or user..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-            </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
-        </div>
-    </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-
-            {{-- User --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    User
-                </label>
-
-                <select id="userFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All users</option>
-                </select>
-            </div>
-
-            {{-- Module --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Module
-                </label>
-
-                <select id="moduleFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All modules</option>
-                </select>
-            </div>
-
-            {{-- Action --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Action
-                </label>
-
-                <select id="actionFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All actions</option>
-                </select>
-            </div>
-
-            {{-- Date Range --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    Date Range
-                </label>
-
-                <div class="relative">
-                    <i
-                        class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
-
-                    <input id="dateRangeFilter" type="text"
-                        class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
-                        placeholder="Select date range" autocomplete="off">
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Activity Log
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by description or user.
+                    </p>
                 </div>
             </div>
 
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Description or user..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            </div>
+        </div>
+
+
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+                {{-- User --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        User
+                    </label>
+
+                    <select id="userFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All users</option>
+                    </select>
+                </div>
+
+                {{-- Module --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Module
+                    </label>
+
+                    <select id="moduleFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All modules</option>
+                    </select>
+                </div>
+
+                {{-- Action --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Action
+                    </label>
+
+                    <select id="actionFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All actions</option>
+                    </select>
+                </div>
+
+                {{-- Date Range --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        Date Range
+                    </label>
+
+                    <div class="relative">
+                        <i
+                            class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                        <input id="dateRangeFilter" type="text"
+                            class="js-date-range h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm"
+                            placeholder="Select date range" autocomplete="off">
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
 
     {{-- =========================================================
@@ -169,15 +167,11 @@
                             User
                         </th>
 
-                        <th class="w-[10%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
-                            Action
+                        <th class="w-[16%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
+                            Action / Module
                         </th>
 
-                        <th class="w-[11%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
-                            Module
-                        </th>
-
-                        <th class="w-[29%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[34%] px-3 py-3 text-xs 2xl:text-sm font-semibold text-slate-600">
                             Description
                         </th>
 
@@ -185,7 +179,7 @@
                             IP Address
                         </th>
 
-                        <th class="w-[8%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="w-[8%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Details
                         </th>
                     </tr>
@@ -194,10 +188,7 @@
 
                 <tbody id="logsTableBody">
                     <tr>
-                        <td
-                            colspan="7"
-                            class="px-5 py-10 text-center text-base text-slate-400"
-                        >
+                        <td colspan="6" class="px-5 py-10 text-center text-xs 2xl:text-sm text-slate-500">
                             Loading audit logs...
                         </td>
                     </tr>
@@ -207,10 +198,7 @@
         </div>
 
 
-        <div
-            id="logsPagination"
-            class="border-t border-slate-200 px-4 py-3"
-        ></div>
+        <div id="logsPagination" class="border-t border-slate-200 px-4 py-3"></div>
 
     </div>
 
@@ -220,16 +208,14 @@
 {{-- =============================================================
 DETAIL MODAL
 ============================================================= --}}
-<div
-    id="logDetailModal"
-    class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5"
->
-    <div class="app-modal-panel flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-md bg-white">
+<div id="logDetailModal" class="app-modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5">
+    <div class="app-modal-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-md bg-white">
 
         <div class="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
 
             <div class="flex min-w-0 items-center gap-3">
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <div
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                     <i class="bi bi-file-text"></i>
                 </div>
 
@@ -238,136 +224,168 @@ DETAIL MODAL
                         Log Details
                     </h2>
 
-                    <p
-                        id="logDetailSubtitle"
-                        class="mt-1 truncate text-sm text-slate-500"
-                    ></p>
+                    <p id="logDetailSubtitle" class="mt-1 truncate text-xs 2xl:text-sm text-slate-500"></p>
                 </div>
             </div>
 
-            <button
-                type="button"
-                onclick="AdminUI.closeModal('logDetailModal')"
-                class="app-modal-close"
-            >
+            <button type="button" onclick="AdminUI.closeModal('logDetailModal')" class="app-modal-close">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
 
 
-        <div class="min-h-0 flex-1 overflow-y-auto p-5">
+        <div class="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
 
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {{-- Activity Overview --}}
+            <section class="rounded-lg border border-slate-200 bg-white p-5 transition">
 
-                <div class="rounded-md bg-slate-50 p-3">
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                        User
-                    </p>
+                {{-- Header --}}
+                <div class="mb-5 flex items-center gap-3">
+                    <div
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                        <i class="bi bi-person-vcard text-base"></i>
+                    </div>
 
-                    <p
-                        id="detailUser"
-                        class="mt-1 text-sm font-semibold text-slate-700"
-                    >
+                    <div>
+                        <h3 class="text-base font-bold tracking-tight text-slate-800">
+                            Activity Overview
+                        </h3>
+                        <p class="mt-0.5 text-xs text-slate-500 2xl:text-sm">
+                            Who performed this action, when and from where.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Activity Information --}}
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+                    {{-- User --}}
+                    <div class="rounded-md border border-slate-200 bg-slate-50/70 p-3.5">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex min-w-0 items-center gap-2">
+                                <i class="bi bi-person text-sm text-slate-500"></i>
+                                <span class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                                    User
+                                </span>
+                            </div>
+                        </div>
+
+                        <p id="detailUser" class="mt-2 break-words text-xs 2xl:text-sm font-semibold text-slate-700">
+                            —
+                        </p>
+                    </div>
+
+                    {{-- Date & Time --}}
+                    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 p-3.5">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex min-w-0 items-center gap-2">
+                                <i class="bi bi-calendar3 text-sm text-indigo-400"></i>
+                                <span class="text-[11px] font-medium uppercase tracking-wide text-indigo-500">
+                                    Date & Time
+                                </span>
+                            </div>
+                        </div>
+
+                        <p id="detailDate" class="mt-2 break-words text-xs 2xl:text-sm font-semibold text-indigo-700">
+                            —
+                        </p>
+                    </div>
+
+                    {{-- IP Address --}}
+                    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 p-3.5">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex min-w-0 items-center gap-2">
+                                <i class="bi bi-globe2 text-sm text-emerald-400"></i>
+                                <span class="text-[11px] font-medium uppercase tracking-wide text-emerald-600">
+                                    IP Address
+                                </span>
+                            </div>
+                        </div>
+
+                        <p id="detailIp" class="mt-2 break-words text-xs 2xl:text-sm font-semibold text-emerald-700">
+                            —
+                        </p>
+                    </div>
+
+                    {{-- Subject --}}
+                    <div class="rounded-md border border-violet-200 bg-violet-50/50 p-3.5">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex min-w-0 items-center gap-2">
+                                <i class="bi bi-file-earmark-text text-sm text-violet-400"></i>
+                                <span class="text-[11px] font-medium uppercase tracking-wide text-violet-600">
+                                    Subject
+                                </span>
+                            </div>
+                        </div>
+
+                        <p id="detailSubject"
+                            class="mt-2 break-words text-xs 2xl:text-sm font-semibold text-violet-700">
+                            —
+                        </p>
+                    </div>
+
+                </div>
+
+                {{-- Description --}}
+                <div class="mt-3 rounded-md border border-slate-200 bg-white p-3.5">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-card-text text-sm text-slate-500"></i>
+                        <span class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                            Description
+                        </span>
+                    </div>
+
+                    <p id="detailDescription"
+                        class="mt-2 whitespace-pre-wrap break-words text-sm leading-5 text-slate-600">
                         —
                     </p>
                 </div>
 
-                <div class="rounded-md bg-slate-50 p-3">
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                        Date & Time
-                    </p>
+                {{-- User Agent --}}
+                <div class="mt-3 rounded-md border border-slate-200 bg-slate-50/70 p-3.5">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-pc-display text-sm text-slate-500"></i>
+                        <span class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                            User Agent
+                        </span>
+                    </div>
 
-                    <p
-                        id="detailDate"
-                        class="mt-1 text-sm font-semibold text-slate-700"
-                    >
+                    <p id="detailUserAgent" class="mt-2 break-words text-[11px] leading-5 text-slate-500">
                         —
                     </p>
                 </div>
 
-                <div class="rounded-md bg-slate-50 p-3">
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                        IP Address
-                    </p>
+            </section>
 
-                    <p
-                        id="detailIp"
-                        class="mt-1 text-sm font-semibold text-slate-700"
-                    >
-                        —
-                    </p>
-                </div>
-
-                <div class="rounded-md bg-slate-50 p-3">
-                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                        Subject
-                    </p>
-
-                    <p
-                        id="detailSubject"
-                        class="mt-1 break-words text-sm font-semibold text-slate-700"
-                    >
-                        —
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="mt-4 rounded-md border border-slate-200 p-4">
-                <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                    Description
-                </p>
-
-                <p
-                    id="detailDescription"
-                    class="mt-2 whitespace-pre-wrap break-words text-sm leading-5 text-slate-600"
-                >
-                    —
-                </p>
-            </div>
-
-
-            <div class="mt-4 rounded-md border border-slate-200 p-4">
-                <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                    User Agent
-                </p>
-
-                <p
-                    id="detailUserAgent"
-                    class="mt-2 break-words text-[11px] leading-5 text-slate-500"
-                >
-                    —
-                </p>
-            </div>
-
-
-            <div
-                id="detailChangesWrap"
-                class="mt-4 hidden"
-            >
-                <div class="mb-2 flex items-center gap-2">
-                    <i class="bi bi-arrow-left-right text-sm text-indigo-500"></i>
-
-                    <p class="text-sm font-semibold text-slate-700">
-                        Changes
-                    </p>
+            {{-- Changes --}}
+            <section id="detailChangesWrap" class="hidden rounded-md border border-slate-200 bg-white p-4">
+                <div class="mb-4 flex items-center gap-3">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                        <i class="bi bi-arrow-left-right"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-800">Changes</h3>
+                        <p class="text-[11px] text-slate-500">Field-level changes recorded for this action.</p>
+                    </div>
                 </div>
 
                 <div class="overflow-hidden rounded-md border border-slate-200">
-                    <table class="w-full table-fixed text-left text-sm">
+                    <table class="w-full table-fixed text-left text-xs 2xl:text-sm">
 
                         <thead class="bg-slate-50">
                             <tr>
-                                <th class="w-[25%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                                <th
+                                    class="w-[25%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                     Field
                                 </th>
 
-                                <th class="w-[37.5%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                                <th
+                                    class="w-[37.5%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                     Before
                                 </th>
 
-                                <th class="w-[37.5%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                                <th
+                                    class="w-[37.5%] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                                     After
                                 </th>
                             </tr>
@@ -377,7 +395,7 @@ DETAIL MODAL
 
                     </table>
                 </div>
-            </div>
+            </section>
 
         </div>
 
@@ -390,7 +408,7 @@ DETAIL MODAL
 @push('scripts')
 
 <script>
-document.addEventListener('DOMContentLoaded',function(){
+    document.addEventListener('DOMContentLoaded',function(){
 
 const tableBody=document.getElementById('logsTableBody');
 const searchInput=document.getElementById('searchInput');
@@ -554,7 +572,7 @@ async function loadLogs(page=1){
     tableBody.innerHTML=
         AdminUI.loadingState(
             'Loading audit logs...',
-            7
+            6
         );
 
 
@@ -606,7 +624,7 @@ async function loadLogs(page=1){
         tableBody.innerHTML=
             AdminUI.emptyState(
                 AdminUI.extractError(error),
-                7
+                6
             );
 
 
@@ -632,7 +650,7 @@ function renderTable(logs){
         tableBody.innerHTML=
             AdminUI.emptyState(
                 'No activity found for the selected filters.',
-                7
+                6
             );
 
         return;
@@ -644,12 +662,19 @@ function renderTable(logs){
             <tr class="border-b border-slate-100 transition last:border-0 hover:bg-slate-50/60">
 
                 <td class="overflow-hidden px-3 py-3">
-                    <p class="truncate text-xs 2xl:text-sm text-slate-500" title="${AdminUI.escapeHtml(AdminUI.formatDate(log.created_at,true))}">
-                        ${AdminUI.formatDate(
-                            log.created_at,
-                            true
-                        )}
-                    </p>
+                    ${(()=>{
+                        const {datePart,timePart}=
+                            splitDateTime(log.created_at);
+
+                        return `
+                            <p class="truncate text-xs 2xl:text-sm font-medium text-slate-700" title="${AdminUI.escapeHtml(datePart)} ${AdminUI.escapeHtml(timePart)}">
+                                ${AdminUI.escapeHtml(datePart)}
+                            </p>
+                            <p class="truncate text-[10px] text-slate-500">
+                                ${AdminUI.escapeHtml(timePart)}
+                            </p>
+                        `;
+                    })()}
                 </td>
 
 
@@ -657,7 +682,7 @@ function renderTable(logs){
                     <div class="min-w-0">
 
                         <p
-                            class="truncate  text-xs 2xl:text-sm font-semibold text-slate-700"
+                            class="truncate text-xs 2xl:text-sm font-semibold text-slate-700"
                             title="${AdminUI.escapeHtml(log.user?.name||'System')}"
                         >
                             ${AdminUI.escapeHtml(
@@ -670,7 +695,7 @@ function renderTable(logs){
                             log.user?.email
                                 ?`
                                     <p
-                                        class="truncate text-[10px] text-slate-400"
+                                        class="truncate text-[10px] text-slate-500"
                                         title="${AdminUI.escapeHtml(log.user.email)}"
                                     >
                                         ${AdminUI.escapeHtml(
@@ -686,28 +711,27 @@ function renderTable(logs){
 
 
                 <td class="overflow-hidden px-3 py-3">
-                    ${actionBadge(log.action)}
-                </td>
+                    <div class="flex flex-col items-start gap-1">
+                        ${actionBadge(log.action)}
 
-
-                <td class="overflow-hidden px-3 py-3">
-                    <span
-                        class="block truncate rounded-md bg-slate-100 px-2 py-1 text-[10px] font-medium text-slate-600"
-                        title="${AdminUI.escapeHtml(titleCase(log.module||'—'))}"
-                    >
-                        ${AdminUI.escapeHtml(
-                            titleCase(
-                                log.module||
-                                '—'
-                            )
-                        )}
-                    </span>
+                        <span
+                            class="block max-w-full truncate rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600"
+                            title="${AdminUI.escapeHtml(titleCase(log.module||'—'))}"
+                        >
+                            ${AdminUI.escapeHtml(
+                                titleCase(
+                                    log.module||
+                                    '—'
+                                )
+                            )}
+                        </span>
+                    </div>
                 </td>
 
 
                 <td class="min-w-0 overflow-hidden px-3 py-3">
                     <p
-                        class="truncate  text-xs 2xl:text-sm text-slate-600"
+                        class="truncate text-xs 2xl:text-sm text-slate-600"
                         title="${AdminUI.escapeHtml(log.description||'')}"
                     >
                         ${AdminUI.escapeHtml(
@@ -1050,7 +1074,7 @@ function renderChanges(
 
                     <td class="overflow-hidden px-3 py-2">
                         <p
-                            class="truncate font-medium text-slate-600"
+                            class="truncate text-xs 2xl:text-sm font-medium text-slate-600"
                             title="${AdminUI.escapeHtml(titleCase(key))}"
                         >
                             ${AdminUI.escapeHtml(
@@ -1156,6 +1180,34 @@ function formatValue(value){
     return AdminUI.escapeHtml(
         String(value)
     );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Split Date & Time
+|--------------------------------------------------------------------------
+*/
+
+function splitDateTime(value){
+    const datePart=
+        AdminUI.formatDate(value);
+
+    const full=
+        AdminUI.formatDate(
+            value,
+            true
+        );
+
+    const timePart=
+        full
+            .slice(datePart.length)
+            .trim();
+
+    return {
+        datePart,
+        timePart
+    };
 }
 
 

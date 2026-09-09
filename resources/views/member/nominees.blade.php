@@ -4,7 +4,7 @@
 @section('page-title','Nominees')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
 {{-- Header --}}
 <div class="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -52,8 +52,8 @@ You may add multiple nominees. The combined allocation of all active nominees ca
 <div class="rounded-lg border border-slate-200 bg-white p-4">
 <div class="flex items-start justify-between gap-3">
 <div>
-<p class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Total Nominees</p>
-<p id="summaryTotal" class="mt-2 text-xl font-bold text-slate-800">0</p>
+<p class="text-[10px] font-medium uppercase tracking-wide text-slate-500">Total Nominees</p>
+<p id="summaryTotal" class="text-xl font-bold text-slate-800">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
@@ -66,7 +66,7 @@ You may add multiple nominees. The combined allocation of all active nominees ca
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Verified</p>
-<p id="summaryVerified" class="mt-2 text-xl font-bold text-emerald-700">0</p>
+<p id="summaryVerified" class="text-xl font-bold text-emerald-700">0</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
@@ -92,7 +92,7 @@ You may add multiple nominees. The combined allocation of all active nominees ca
 <div class="flex items-start justify-between gap-3">
 <div>
 <p class="text-[10px] font-medium uppercase tracking-wide text-amber-600">Remaining</p>
-<p id="summaryRemaining" class="mt-2 text-xl font-bold text-amber-700">100%</p>
+<p id="summaryRemaining" class="text-xl font-bold text-amber-700">100%</p>
 </div>
 
 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -114,9 +114,9 @@ You may add multiple nominees. The combined allocation of all active nominees ca
 <label class="mb-1.5 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Search</label>
 
 <div class="relative">
-<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
 
-<input id="nomineeSearch" type="text" placeholder="Search nominee, relationship, phone or identity..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+<input id="nomineeSearch" type="text" placeholder="Search nominee, relationship, phone or identity..." class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 </div>
 </div>
 
@@ -151,14 +151,14 @@ Clear
 
 <div>
 <h2 class="text-sm font-semibold text-slate-800">Nominee Portfolio</h2>
-<p class="text-[11px] text-slate-400">Your nominee, allocation and verification records</p>
+<p class="text-[11px] text-slate-500">Your nominee, allocation and verification records</p>
 </div>
 </div>
 
 <div id="nomineeList" class="grid gap-3 p-4 lg:grid-cols-2">
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading nominees...</p>
+<p class="mt-3 text-sm text-slate-500">Loading nominees...</p>
 </div>
 </div>
 
@@ -180,11 +180,11 @@ Clear
 
 <div>
 <h2 id="modalTitle" class="text-base font-bold text-slate-800">Add Nominee</h2>
-<p id="modalSubtitle" class="text-[11px] text-slate-400">Add nominee information and allocation.</p>
+<p id="modalSubtitle" class="text-[11px] text-slate-500">Add nominee information and allocation.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeNomineeModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+<button type="button" onclick="closeNomineeModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-600">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -202,7 +202,7 @@ Clear
 
 <div class="mb-4">
 <h3 class="text-sm font-semibold text-slate-800">Personal Information</h3>
-<p class="text-[11px] text-slate-400">Basic information about your nominee.</p>
+<p class="text-[11px] text-slate-500">Basic information about your nominee.</p>
 </div>
 
 <div class="grid gap-4 sm:grid-cols-2">
@@ -241,7 +241,7 @@ Clear
 <label class="form-label">Date of Birth</label>
 
 <div class="relative">
-<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+<i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
 
 <input id="dob" type="text" class="app-input js-date-picker w-full !pl-9" placeholder="Select date" autocomplete="off">
 </div>
@@ -287,7 +287,7 @@ Clear
 
 <div class="mb-4">
 <h3 class="text-sm font-semibold text-slate-800">Identity Information</h3>
-<p class="text-[11px] text-slate-400">Provide identity details for nominee verification.</p>
+<p class="text-[11px] text-slate-500">Provide identity details for nominee verification.</p>
 </div>
 
 <div class="grid gap-4 sm:grid-cols-2">
@@ -322,7 +322,7 @@ Clear
 
 <div class="mb-4">
 <h3 class="text-sm font-semibold text-slate-800">Allocation</h3>
-<p class="text-[11px] text-slate-400">Define entitlement allocation and nominee priority.</p>
+<p class="text-[11px] text-slate-500">Define entitlement allocation and nominee priority.</p>
 </div>
 
 <div class="grid gap-4 sm:grid-cols-2">
@@ -333,7 +333,7 @@ Clear
 <div class="relative">
 <input id="allocation" type="number" min="0.01" max="100" step="0.01" class="app-input w-full !pr-9" placeholder="0.00" data-validation-min-message="Allocation must be between 0.01% and 100%." data-validation-max-message="Allocation must be between 0.01% and 100%.">
 
-<span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">%</span>
+<span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">%</span>
 </div>
 
 <p data-field-error="allocation" class="mt-1 hidden text-sm text-red-600"></p>
@@ -395,11 +395,11 @@ Save Nominee
 
 <div>
 <h2 class="text-base font-bold text-slate-800">Upload Document</h2>
-<p id="documentModalSubtitle" class="text-[11px] text-slate-400">Add supporting document for nominee verification.</p>
+<p id="documentModalSubtitle" class="text-[11px] text-slate-500">Add supporting document for nominee verification.</p>
 </div>
 </div>
 
-<button type="button" onclick="closeDocumentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
+<button type="button" onclick="closeDocumentModal()" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
 <i class="bi bi-x-lg"></i>
 </button>
 </div>
@@ -432,7 +432,7 @@ Save Nominee
 
 <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-slate-300 bg-white p-2 text-sm text-slate-600" data-validation-required-message="Please select a document." data-validation-file-message="Only PDF, JPG, PNG or WEBP files are allowed.">
 
-<p class="mt-1 text-[10px] text-slate-400">PDF, JPG, JPEG, PNG or WEBP.</p>
+<p class="mt-1 text-[10px] text-slate-500">PDF, JPG, JPEG, PNG or WEBP.</p>
 
 <p data-field-error="documentFile" class="mt-1 hidden text-sm text-red-600"></p>
 </div>
@@ -492,7 +492,7 @@ const root=$('nomineeList');
 root.innerHTML=`
 <div class="col-span-full py-12 text-center">
 <div class="mx-auto h-7 w-7 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600"></div>
-<p class="mt-3 text-sm text-slate-400">Loading nominees...</p>
+<p class="mt-3 text-sm text-slate-500">Loading nominees...</p>
 </div>`;
 
 try{
@@ -617,7 +617,7 @@ root.innerHTML=`
 
 <p class="mt-4 text-base font-semibold text-slate-700">No nominees found</p>
 
-<p class="mt-1 text-sm text-slate-400">No nominee records match the current filters.</p>
+<p class="mt-1 text-sm text-slate-500">No nominee records match the current filters.</p>
 </div>`;
 return;
 }
@@ -651,7 +651,7 @@ ${escapeHtml(nominee.name)}
 ${verificationBadge(nominee.verification_status)}
 </div>
 
-<p class="mt-1 truncate text-[11px] text-slate-400">
+<p class="mt-1 truncate text-[11px] text-slate-500">
 ${escapeHtml(nominee.relationship)}
 ${nominee.phone?' • '+escapeHtml(nominee.phone):''}
 </p>
@@ -704,7 +704,7 @@ nominee.is_active?'bi-check-circle':'bi-pause-circle'
 
 ${nominee.identity_number?`
 <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">Identity Number</p>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">Identity Number</p>
 <p class="mt-1 break-all font-mono text-sm font-medium text-slate-600">
 ${escapeHtml(nominee.identity_number)}
 </p>
@@ -769,11 +769,11 @@ return'';
 return`
 <div class="border-t border-slate-100 pt-3">
 <div class="mb-2 flex items-center justify-between">
-<p class="text-[9px] font-bold uppercase tracking-wide text-slate-400">
+<p class="text-[9px] font-bold uppercase tracking-wide text-slate-500">
 Documents
 </p>
 
-<span class="text-[10px] text-slate-400">
+<span class="text-[10px] text-slate-500">
 ${documents.length}
 </span>
 </div>
@@ -804,8 +804,8 @@ function infoBox(label,value,icon){
 return`
 <div class="rounded-md bg-slate-50 p-3">
 <div class="flex items-center gap-1.5">
-<i class="bi ${icon} text-[10px] text-slate-400"></i>
-<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+<i class="bi ${icon} text-[10px] text-slate-500"></i>
+<p class="text-[9px] font-semibold uppercase tracking-wide text-slate-500">
 ${escapeHtml(label)}
 </p>
 </div>
@@ -841,11 +841,11 @@ container.innerHTML=`
 
 <p class="text-[11px] text-slate-500">
 Showing
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${from}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${from}</span>
 –
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${to}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${to}</span>
 of
-<span class="font-semibold  text-xs 2xl:text-sm text-slate-700">${total}</span>
+<span class="font-semibold text-xs 2xl:text-sm text-slate-700">${total}</span>
 nominees
 </p>
 

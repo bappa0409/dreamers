@@ -4,7 +4,7 @@
 @section('page_title','Approval Workflows')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
@@ -19,14 +19,14 @@
         <div class="flex flex-wrap items-center gap-2">
             <a
                 href="{{ route('admin.approvals') }}"
-                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
                 <i class="bi bi-arrow-left text-[11px]"></i>
                 Back to Approval Requests
             </a>
 
             @if(auth()->user()->hasPermission('Approval.update'))
-                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+                <button type="button" onclick="openWorkflowModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                     <i class="bi bi-plus-lg text-[11px]"></i>
                     Add Workflow
                 </button>
@@ -42,23 +42,23 @@
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-slate-700">Search Workflows</p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">Search by module or action</p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">Search by module or action</p>
                 </div>
             </div>
 
             <div class="flex w-full items-center lg:w-auto">
                 <div class="relative w-full lg:w-80">
-                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
-                    <input id="searchInput" type="text" placeholder="Search workflows..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3  text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+                    <i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500"></i>
+                    <input id="searchInput" type="text" placeholder="Search workflows..." class="h-9 w-full rounded-l-md border border-r-0 border-slate-300 bg-white pl-9 pr-3 text-xs 2xl:text-sm text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
                 </div>
 
-                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3  text-xs 2xl:text-sm text-slate-600 outline-none focus:border-indigo-400">
+                <select id="statusFilter" class="h-9 cursor-pointer border border-slate-300 bg-white px-3 text-xs 2xl:text-sm text-slate-600 outline-none focus:border-indigo-400">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
 
-                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3  text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100">
+                <button type="button" onclick="clearFilters()" class="inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-r-md border border-l-0 border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 hover:bg-slate-100">
                     <i class="bi bi-x-lg text-[10px]"></i>
                     Clear
                 </button>
@@ -70,17 +70,17 @@
         <table class="w-full table-fixed text-sm">
             <thead class="border-b border-slate-200 bg-slate-50">
                 <tr>
-                    <th class="w-[18%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Module</th>
-                    <th class="w-[14%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
-                    <th class="w-[40%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Approval Steps</th>
-                    <th class="w-[12%] px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                    <th class="w-[16%] px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                    <th class="w-[18%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Module</th>
+                    <th class="w-[14%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
+                    <th class="w-[40%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Approval Steps</th>
+                    <th class="w-[12%] px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                    <th class="w-[16%] px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                 </tr>
             </thead>
 
             <tbody id="workflowTable">
                 <tr>
-                    <td colspan="5" class="px-5 py-10 text-center text-base text-slate-400">Loading workflows...</td>
+                    <td colspan="5" class="px-5 py-10 text-center text-base text-slate-500">Loading workflows...</td>
                 </tr>
             </tbody>
         </table>
@@ -114,7 +114,7 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Workflow Trigger</h3>
-                            <p class="text-[11px] text-slate-400">Which module and action this workflow applies to.</p>
+                            <p class="text-[11px] text-slate-500">Which module and action this workflow applies to.</p>
                         </div>
                     </div>
 
@@ -142,7 +142,7 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Approval Steps</h3>
-                            <p class="text-[11px] text-slate-400">Step 1 is required. Step 2 and Step 3 are optional.</p>
+                            <p class="text-[11px] text-slate-500">Step 1 is required. Step 2 and Step 3 are optional.</p>
                         </div>
                     </div>
 
@@ -177,7 +177,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-semibold text-slate-700">Active Workflow</p>
-                            <p class="mt-0.5 text-[10px] text-slate-400">New requests will use this workflow.</p>
+                            <p class="mt-0.5 text-[10px] text-slate-500">New requests will use this workflow.</p>
                         </div>
                     </div>
 
@@ -317,7 +317,7 @@ function renderWorkflows(){
     el.table.innerHTML=rows.map(workflow=>`
         <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50">
             <td class="px-4 py-3">
-                <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800">
+                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">
                     ${AdminUI.escapeHtml(workflow.module)}
                 </p>
             </td>

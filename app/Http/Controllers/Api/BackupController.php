@@ -27,8 +27,20 @@ class BackupController extends Controller
     public function index(Request $request)
     {
         $backups = Backup::with('creator')
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->string('search');
+
+                $query->where('filename', 'like', "%{$search}%");
+            })
+            ->when($request->filled('type'), function ($query) use ($request) {
+                $query->where('type', $request->string('type'));
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->string('status'));
+            })
             ->latest()
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
         return response()->json([
             'success' => true,

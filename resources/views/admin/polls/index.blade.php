@@ -4,7 +4,7 @@
 @section('page_title','Poll Management')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-start gap-3">
@@ -18,7 +18,7 @@
         </div>
 
         @if(auth()->user()->hasPermission('Poll.create'))
-            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            <button type="button" onclick="openPollModal()" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
                 <i class="bi bi-plus-lg"></i>
                 Create Poll
             </button>
@@ -27,109 +27,181 @@
 
     {{-- Stats --}}
     <div class="grid grid-cols-2 gap-3 xl:grid-cols-5">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Polls</p>
-            <p id="totalPolls" class="mt-2 text-xl font-bold text-slate-800">0</p>
-        </div>
 
-        <div class="rounded-md border border-emerald-200 bg-emerald-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-emerald-600">Active</p>
-            <p id="activePolls" class="mt-2 text-xl font-bold text-emerald-700">0</p>
-        </div>
+    {{-- Polls --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Polls
+                </p>
 
-        <div class="rounded-md border border-indigo-200 bg-indigo-50/40 p-4">
-            <p class="text-xs 2xl:text-sm text-indigo-600">Upcoming</p>
-            <p id="upcomingPolls" class="mt-2 text-xl font-bold text-indigo-700">0</p>
-        </div>
+                <p id="totalPolls" class="mt-1 text-xl font-bold text-slate-800">
+                    0
+                </p>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Ended</p>
-            <p id="endedPolls" class="mt-2 text-xl font-bold text-slate-800">0</p>
-        </div>
-
-        <div class="col-span-2 rounded-md border border-amber-200 bg-amber-50/40 p-4 xl:col-span-1">
-            <p class="text-sm text-amber-600">Total Votes</p>
-            <p id="totalVotes" class="mt-2 text-xl font-bold text-amber-700">0</p>
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-bar-chart"></i>
+            </div>
         </div>
     </div>
+
+    {{-- Active --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Active
+                </p>
+
+                <p id="activePolls" class="mt-1 text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Upcoming --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Upcoming
+                </p>
+
+                <p id="upcomingPolls" class="mt-1 text-xl font-bold text-indigo-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Ended --}}
+    <div class="rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Ended
+                </p>
+
+                <p id="endedPolls" class="mt-1 text-xl font-bold text-slate-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-500">
+                <i class="bi bi-check2-square"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Total Votes --}}
+    <div class="col-span-2 rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2 xl:col-span-1">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-xs text-amber-700 2xl:text-sm">
+                    Total Votes
+                </p>
+
+                <p id="totalVotes" class="mt-1 text-xl font-bold text-amber-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-600">
+                <i class="bi bi-hand-thumbs-up"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Search Polls --}}
-<div class="rounded-md border border-slate-200 bg-white p-3">
-    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="rounded-md border border-slate-200 bg-white p-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        {{-- Header --}}
-        <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                <i class="bi bi-search text-base"></i>
+            {{-- Header --}}
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-search text-base"></i>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-slate-700">
+                        Search Polls
+                    </p>
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
+                        Search by title or description.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <p class="text-sm font-semibold text-slate-700">
-                    Search Polls
-                </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
-                    Search by title or description.
-                </p>
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+
+                {{-- Search --}}
+                <div class="relative min-w-0 flex-1 lg:w-[280px]">
+                    <i
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
+
+                    <input id="searchInput" type="text" placeholder="Search polls..."
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                </div>
+
+                {{-- Filter --}}
+                <button type="button" onclick="toggleFilters()" id="filterButton"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
+                    <i class="bi bi-funnel text-xs"></i>
+                    <span>Filter</span>
+                    <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
+                </button>
+
+                {{-- Clear --}}
+                <button type="button" onclick="clearFilters()"
+                    class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
+                    <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
             </div>
         </div>
 
-        <div class="flex w-full items-center gap-2 lg:w-auto">
 
-            {{-- Search --}}
-            <div class="relative min-w-0 flex-1 lg:w-[280px]">
-                <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+        {{-- Filter Options --}}
+        <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
 
-                <input id="searchInput" type="text" placeholder="Search polls..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                {{-- State --}}
+                <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500">
+                        State
+                    </label>
+
+                    <select id="stateFilter"
+                        class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        <option value="">All State</option>
+                        <option value="active">Active</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="ended">Ended</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
             </div>
-
-            {{-- Filter --}}
-            <button type="button" onclick="toggleFilters()" id="filterButton"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 2xl:text-sm">
-                <i class="bi bi-funnel text-xs"></i>
-                <span>Filter</span>
-                <i id="filterChevron" class="bi bi-chevron-down text-[10px]"></i>
-            </button>
-
-            {{-- Clear --}}
-            <button type="button" onclick="clearFilters()"
-                class="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-slate-50 px-3 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-100 2xl:text-sm">
-                <i class="bi bi-arrow-counterclockwise text-[10px]"></i>
-                <span class="hidden sm:inline">Reset</span>
-            </button>
         </div>
     </div>
-
-
-    {{-- Filter Options --}}
-    <div id="filterPanel" class="mt-3 hidden border-t border-slate-100 pt-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[180px_auto]">
-
-            {{-- State --}}
-            <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500">
-                    State
-                </label>
-
-                <select id="stateFilter"
-                    class="h-9 w-full cursor-pointer rounded-md border border-slate-300 bg-white px-3 text-xs font-medium text-slate-600 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
-                    <option value="">All State</option>
-                    <option value="active">Active</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="ended">Ended</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-            </div>
-
-        </div>
-    </div>
-</div>
 
     {{-- Poll Grid --}}
     <div id="pollGrid" class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <div class="col-span-full">
-            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-400">
+            <div class="rounded-md border border-slate-200 bg-white p-10 text-center text-base text-slate-500">
                 Loading polls...
             </div>
         </div>
@@ -173,7 +245,7 @@
                     <div>
                         <label class="form-label">Start <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="startAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -181,7 +253,7 @@
                     <div>
                         <label class="form-label">End <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-400"></i>
+                            <i class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-slate-500"></i>
                             <input id="endAt" type="text" class="app-input js-datetime-picker !pl-9" placeholder="Select date & time" autocomplete="off">
                         </div>
                     </div>
@@ -191,7 +263,7 @@
                     <input id="isActive" type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-indigo-600">
                     <div>
                         <p class="text-sm font-semibold text-slate-700">Poll Active</p>
-                        <p class="mt-0.5 text-[11px] text-slate-400">Voting still follows the configured start and end time.</p>
+                        <p class="mt-0.5 text-[11px] text-slate-500">Voting still follows the configured start and end time.</p>
                     </div>
                 </label>
 
@@ -212,7 +284,7 @@
             </div>
 
             <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                <button type="button" onclick="closePollModal()" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Cancel
                 </button>
 
@@ -389,7 +461,7 @@ function renderPolls(){
                             ${AdminUI.escapeHtml(item.title??'Untitled Poll')}
                         </h3>
 
-                        <p class="mt-1 truncate text-[11px] text-slate-400">
+                        <p class="mt-1 truncate text-[11px] text-slate-500">
                             ${AdminUI.formatDate(item.start_at,true)} → ${AdminUI.formatDate(item.end_at,true)}
                         </p>
                     </div>

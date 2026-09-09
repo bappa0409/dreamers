@@ -75,7 +75,7 @@
 
             <input type="email" id="email" name="email" autocomplete="username" autofocus
                 placeholder="you@example.com" required value="{{ old('email') }}"
-                class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
+                class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
         </div>
 
         <button type="submit"
@@ -87,10 +87,10 @@
     <div class="mt-8">
         <div class="flex items-center gap-3">
             <div class="h-px bg-slate-200 flex-1"></div>
-            <span class=" text-xs 2xl:text-sm text-slate-400 uppercase tracking-wider">Secure Access</span>
+            <span class=" text-xs 2xl:text-sm text-slate-500 uppercase tracking-wider">Secure Access</span>
             <div class="h-px bg-slate-200 flex-1"></div>
         </div>
-        <p class="mt-5 text-center  text-xs 2xl:text-sm text-slate-400 leading-relaxed">
+        <p class="mt-5 text-center text-xs 2xl:text-sm text-slate-500 leading-relaxed">
             Remembered your password?
             <a href="{{ route('login') }}" class="font-semibold text-emerald-600 hover:text-emerald-700">
                 Sign in instead

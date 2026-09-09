@@ -25,7 +25,7 @@ class UserController extends Controller
         $query=User::query()
             ->select('id','name','email','mobile','is_active','created_at')
             ->with([
-                'member:id,user_id,member_code,status',
+                'member:id,user_id,profile_photo,member_code,status',
                 'roles:id,name,display_name'
             ]);
 

@@ -4,7 +4,7 @@
 @section('page_title','Contact Messages')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
     {{-- Header --}}
     <div class="flex flex-col gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-3">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <span id="unreadBadge" class="hidden w-fit items-center gap-1.5 rounded-md bg-red-50 px-3 py-1.5  text-xs 2xl:text-sm font-semibold text-red-600">
+        <span id="unreadBadge" class="hidden w-fit items-center gap-1.5 rounded-md bg-red-50 px-3 py-1.5 text-xs 2xl:text-sm font-semibold text-red-600">
             <i class="bi bi-envelope-exclamation"></i>
             <span id="unreadCount">0</span> unread
         </span>
@@ -37,7 +37,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Search Messages
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by name, email or subject.
                 </p>
             </div>
@@ -48,10 +48,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search messages..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -100,17 +100,17 @@
             <table class="w-full table-fixed text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="w-[5%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600"></th>
-                        <th class="w-[20%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Name</th>
-                        <th class="w-[20%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Email</th>
-                        <th class="w-[25%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Subject</th>
-                        <th class="w-[15%] px-3 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Received</th>
-                        <th class="w-[15%] px-3 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
+                        <th class="w-[5%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600"></th>
+                        <th class="w-[20%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Name</th>
+                        <th class="w-[20%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Email</th>
+                        <th class="w-[25%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Subject</th>
+                        <th class="w-[15%] px-3 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Received</th>
+                        <th class="w-[15%] px-3 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="messageTable">
                     <tr>
-                        <td colspan="6" class="px-5 py-10 text-center text-slate-400">Loading messages...</td>
+                        <td colspan="6" class="px-5 py-10 text-center text-slate-500">Loading messages...</td>
                     </tr>
                 </tbody>
             </table>
@@ -140,7 +140,7 @@
         <div id="messageModalBody" class="space-y-4 overflow-y-auto p-5"></div>
 
         <div class="flex shrink-0 justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-            <button type="button" onclick="AdminUI.closeModal('messageModal')" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Close</button>
+            <button type="button" onclick="AdminUI.closeModal('messageModal')" class="cursor-pointer rounded-md border border-slate-300 px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Close</button>
         </div>
     </div>
 </div>
@@ -235,25 +235,25 @@ function renderMessages(){
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate  text-xs 2xl:text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
+                <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800" title="${AdminUI.escapeHtml(item.name??'')}">
                     ${AdminUI.escapeHtml(item.name??'—')}
                 </p>
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate  text-xs 2xl:text-sm text-slate-600" title="${AdminUI.escapeHtml(item.email??'')}">
+                <p class="truncate text-xs 2xl:text-sm text-slate-600" title="${AdminUI.escapeHtml(item.email??'')}">
                     ${AdminUI.escapeHtml(item.email??'—')}
                 </p>
             </td>
 
             <td class="min-w-0 overflow-hidden px-3 py-4">
-                <p class="truncate  text-xs 2xl:text-sm text-slate-600" title="${AdminUI.escapeHtml(item.subject??'')}">
+                <p class="truncate text-xs 2xl:text-sm text-slate-600" title="${AdminUI.escapeHtml(item.subject??'')}">
                     ${AdminUI.escapeHtml(item.subject??'—')}
                 </p>
             </td>
 
             <td class="overflow-hidden px-3 py-4">
-                <p class="truncate text-[11px] text-slate-400">
+                <p class="truncate text-[11px] text-slate-500">
                     ${AdminUI.formatDate(item.created_at,true)}
                 </p>
             </td>
@@ -290,26 +290,26 @@ window.viewMessage=async function(id){
     document.getElementById('messageModalBody').innerHTML=`
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Name</p>
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Name</p>
                 <p class="mt-0.5 text-sm font-medium text-slate-700">${AdminUI.escapeHtml(message.name??'—')}</p>
             </div>
             <div>
-                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Email</p>
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Email</p>
                 <p class="mt-0.5 text-sm font-medium text-slate-700">${AdminUI.escapeHtml(message.email??'—')}</p>
             </div>
         </div>
 
         <div>
-            <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Subject</p>
+            <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Subject</p>
             <p class="mt-0.5 text-sm font-medium text-slate-700">${AdminUI.escapeHtml(message.subject??'—')}</p>
         </div>
 
         <div>
-            <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Message</p>
+            <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Message</p>
             <p class="mt-1 whitespace-pre-line rounded-md border border-slate-200 bg-slate-50 p-3 text-sm leading-6 text-slate-700">${AdminUI.escapeHtml(message.message??'')}</p>
         </div>
 
-        <p class="text-[11px] text-slate-400">Received ${AdminUI.formatDate(message.created_at,true)}</p>
+        <p class="text-[11px] text-slate-500">Received ${AdminUI.formatDate(message.created_at,true)}</p>
     `;
 
     AdminUI.openModal('messageModal');

@@ -31,31 +31,103 @@
     </div>
 
     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Total Accounts</p>
-            <p id="totalAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
-        </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Active</p>
-            <p id="activeAccounts" class="mt-1 text-xl font-bold text-emerald-700">0</p>
-        </div>
+    {{-- Total Accounts --}}
+    <div class="rounded-md border border-slate-200 bg-white px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Total Accounts
+                </p>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Inactive</p>
-            <p id="inactiveAccounts" class="mt-1 text-xl font-bold text-slate-600">0</p>
-        </div>
+                <p id="totalAccounts" class="text-xl font-bold text-slate-800">
+                    0
+                </p>
+            </div>
 
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">Posting Accounts</p>
-            <p id="postingAccounts" class="mt-1 text-xl font-bold text-indigo-700">0</p>
-        </div>
-
-        <div class="rounded-md border border-slate-200 bg-white p-4">
-            <p class=" text-xs 2xl:text-sm text-slate-500">System Accounts</p>
-            <p id="systemAccounts" class="mt-1 text-sm font-bold text-slate-800">0</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                <i class="bi bi-wallet2"></i>
+            </div>
         </div>
     </div>
+
+    {{-- Active --}}
+    <div class="rounded-md border border-emerald-200 bg-emerald-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-emerald-700 2xl:text-sm">
+                    Active
+                </p>
+
+                <p id="activeAccounts" class="text-xl font-bold text-emerald-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Inactive --}}
+    <div class="rounded-md border border-slate-200 bg-slate-50/70 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 2xl:text-sm">
+                    Inactive
+                </p>
+
+                <p id="inactiveAccounts" class="text-xl font-bold text-slate-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-slate-500">
+                <i class="bi bi-pause-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- Posting Accounts --}}
+    <div class="rounded-md border border-indigo-200 bg-indigo-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-indigo-700 2xl:text-sm">
+                    Posting Accounts
+                </p>
+
+                <p id="postingAccounts" class="text-xl font-bold text-indigo-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-100 text-indigo-600">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+        </div>
+    </div>
+
+    {{-- System Accounts --}}
+    <div class="rounded-md border border-violet-200 bg-violet-50/50 px-5 py-2">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-violet-700 2xl:text-sm">
+                    System Accounts
+                </p>
+
+                <p id="systemAccounts" class="text-xl font-bold text-violet-600">
+                    0
+                </p>
+            </div>
+
+            <div class="flex h-9 w-9 items-center justify-center rounded-md bg-violet-100 text-violet-600">
+                <i class="bi bi-gear"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     {{-- Account Search --}}
 <div class="rounded-md border border-slate-200 bg-white p-3">
@@ -71,7 +143,7 @@
                 <p class="text-sm font-semibold text-slate-700">
                     Account Search
                 </p>
-                <p class="hidden text-[11px] text-slate-400 sm:block">
+                <p class="hidden text-[11px] text-slate-500 sm:block">
                     Search by account code, name or subtype.
                 </p>
             </div>
@@ -82,10 +154,10 @@
             {{-- Search --}}
             <div class="relative min-w-0 flex-1 lg:w-[280px]">
                 <i
-                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                    class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                 <input id="searchInput" type="text" placeholder="Search accounts..."
-                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                    class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
             </div>
 
             {{-- Filter --}}
@@ -152,39 +224,39 @@
             <table class="w-full min-w-[980px] text-base">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Code
                         </th>
 
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Account
                         </th>
 
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Type
                         </th>
 
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Sub Type
                         </th>
 
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Parent
                         </th>
 
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Opening
                         </th>
 
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Balance
                         </th>
 
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">
                             Status
                         </th>
 
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">
                             Actions
                         </th>
                     </tr>
@@ -192,7 +264,7 @@
 
                 <tbody id="accountTable">
                     <tr>
-                        <td colspan="9" class="px-4 py-10  text-xs 2xl:text-sm text-center text-slate-400">
+                        <td colspan="9" class="px-4 py-10 text-xs 2xl:text-sm text-center text-slate-500">
                             Loading accounts...
                         </td>
                     </tr>
@@ -202,7 +274,7 @@
 
         {{-- Mobile card list --}}
         <div id="accountCards" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-sm text-slate-400">Loading accounts...</div>
+            <div class="px-4 py-10 text-center text-sm text-slate-500">Loading accounts...</div>
         </div>
 
         <div
@@ -254,7 +326,7 @@
                     class="hidden rounded-md border border-red-200 bg-red-50 p-3 text-base text-red-600">
                 </div>
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-4 flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                             <i class="bi bi-diagram-3"></i>
@@ -265,7 +337,7 @@
                                 Account Information
                             </h3>
 
-                            <p class="text-[11px] text-slate-400">
+                            <p class="text-[11px] text-slate-500">
                                 Enter the account code, type and structure.
                             </p>
                         </div>
@@ -392,7 +464,7 @@
                 </section>
 
                 <div class="flex items-start gap-2 rounded-md border border-slate-200 bg-slate-50 p-3 text-[11px] leading-5 text-slate-500">
-                    <i class="bi bi-info-circle mt-0.5 text-slate-400"></i>
+                    <i class="bi bi-info-circle mt-0.5 text-slate-500"></i>
                     <span>
                         Parent and child accounts must have the same account type.
                         Only leaf accounts can receive journal postings.
@@ -404,7 +476,7 @@
                 <button
                     type="button"
                     onclick="AdminUI.closeModal('accountModal')"
-                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
                     <i class="bi bi-x-lg"></i>
                     Cancel
                 </button>
@@ -412,7 +484,7 @@
                 <button
                     id="saveAccountButton"
                     type="submit"
-                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
+                    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                     <i class="bi bi-check2-circle"></i>
                     Save Account
                 </button>
@@ -460,7 +532,7 @@
             <button
                 type="button"
                 onclick="AdminUI.closeModal('accountDetailsModal')"
-                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 <i class="bi bi-x-lg"></i>
                 Close
             </button>
@@ -519,7 +591,7 @@ const money=value=>
 
 function cardsLoadingHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;
@@ -527,7 +599,7 @@ function cardsLoadingHtml(message){
 
 function cardsEmptyHtml(message){
     return`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">
+        <div class="px-4 py-10 text-center text-sm text-slate-500">
             ${esc(message)}
         </div>
     `;
@@ -751,13 +823,13 @@ function renderAccounts(){
             return `
                 <tr class="border-b border-slate-100 hover:bg-slate-50/60">
                     <td class="px-4 py-3">
-                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                        <span class="font-semibold text-xs 2xl:text-sm text-slate-700">
                             ${esc(account.code)}
                         </span>
                     </td>
 
                     <td class="px-4 py-3">
-                        <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">
+                        <div class="font-semibold text-xs 2xl:text-sm text-slate-700">
                             ${esc(account.name)}
                         </div>
 
@@ -767,7 +839,7 @@ function renderAccounts(){
                         </div>
                     </td>
 
-                    <td class="px-4 py-3  text-xs 2xl:text-sm text-slate-600">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-slate-600">
                         ${esc(AdminUI.titleCase(account.type))}
                     </td>
 
@@ -785,7 +857,7 @@ function renderAccounts(){
                         ${money(account.opening_balance)}
                     </td>
 
-                    <td class="px-4 py-3  text-xs 2xl:text-sm text-right font-semibold text-slate-700">
+                    <td class="px-4 py-3 text-xs 2xl:text-sm text-right font-semibold text-slate-700">
                         ${money(accountBalance(account))}
                     </td>
 
@@ -865,14 +937,14 @@ function renderAccounts(){
 
                     <div class="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 rounded-md bg-slate-50/60 p-3 text-[11px]">
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Type</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Type</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${esc(AdminUI.titleCase(account.type))}
                             </p>
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Sub Type</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Sub Type</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${account.sub_type
                                     ?esc(AdminUI.titleCase(account.sub_type))
@@ -881,21 +953,21 @@ function renderAccounts(){
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Parent</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Parent</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${parent}
                             </p>
                         </div>
 
                         <div class="min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Opening</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Opening</p>
                             <p class="truncate font-medium text-slate-700">
                                 ${money(account.opening_balance)}
                             </p>
                         </div>
 
                         <div class="col-span-2 min-w-0">
-                            <p class="text-slate-400 text-xs 2xl:text-sm">Balance</p>
+                            <p class="text-slate-500 text-xs 2xl:text-sm">Balance</p>
                             <p class="truncate font-semibold text-slate-800">
                                 ${money(accountBalance(account))}
                             </p>
@@ -1177,28 +1249,28 @@ window.viewAccount=async function(id){
         ).innerHTML=`
             <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
                 <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">Code</p>
+                    <p class="text-[11px] text-slate-500">Code</p>
                     <p class="mt-1 font-semibold text-slate-700">
                         ${esc(account.code)}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">Type</p>
+                    <p class="text-[11px] text-slate-500">Type</p>
                     <p class="mt-1 font-semibold text-slate-700">
                         ${esc(AdminUI.titleCase(account.type))}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">Opening Balance</p>
+                    <p class="text-[11px] text-slate-500">Opening Balance</p>
                     <p class="mt-1 font-semibold text-slate-700">
                         ${money(account.opening_balance)}
                     </p>
                 </div>
 
                 <div class="rounded-md border border-slate-200 p-3">
-                    <p class="text-[11px] text-slate-400">Current Balance</p>
+                    <p class="text-[11px] text-slate-500">Current Balance</p>
                     <p class="mt-1 font-semibold text-slate-700">
                         ${money(account.balance)}
                     </p>
@@ -1208,38 +1280,38 @@ window.viewAccount=async function(id){
             <div class="mt-4 rounded-md border border-slate-200 p-4">
                 <div class="grid gap-1 md:grid-cols-2">
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Name:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Name:
                         ${esc(account.name)}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Sub Type:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Sub Type:
                         ${account.sub_type
                             ?esc(AdminUI.titleCase(account.sub_type))
                             :'—'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Parent:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Parent:
                         ${account.parent
                             ?`${esc(account.parent.code)} - ${esc(account.parent.name)}`
                             :'—'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Account Class:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Account Class:
                         ${account.is_posting
                             ?'Posting Account'
                             :'Parent Account'}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Journal Entries:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Journal Entries:
                         ${account.entries_count||0}</span>
                     </div>
 
                     <div>
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Status:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Status:
                         ${AdminUI.statusBadge(
                             account.is_active
                                 ?'active'
@@ -1248,7 +1320,7 @@ window.viewAccount=async function(id){
                     </div>
 
                     <div class="md:col-span-2">
-                        <span class="text-slate-400 text-xs 2xl:text-sm">Description:
+                        <span class="text-slate-500 text-xs 2xl:text-sm">Description:
                         ${esc(account.description||'—')}</span>
                     </div>
                 </div>
@@ -1303,7 +1375,7 @@ window.viewAccount=async function(id){
                             </div>
                         `
                         :`
-                            <div class="rounded-md border border-slate-200 p-5 text-center text-base text-slate-400">
+                            <div class="rounded-md border border-slate-200 p-5 text-center text-base text-slate-500">
                                 No child accounts.
                             </div>
                         `

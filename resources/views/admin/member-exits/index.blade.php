@@ -4,7 +4,7 @@
 @section('page_title','Member Exit')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-3">
 
     {{-- Header --}}
     <div
@@ -22,7 +22,7 @@
 
         @if(auth()->user()->hasPermission('MemberExit.create'))
         <button type="button" onclick="openCreateModal()"
-            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2  text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
+            class="inline-flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-xs 2xl:text-sm font-semibold text-white transition hover:bg-indigo-700">
             <i class="bi bi-plus-lg"></i>
             Start Exit Process
         </button>
@@ -47,11 +47,11 @@
         @endphp
 
         @foreach($stats as [$key,$label,$icon,$box,$text,$iconBox])
-        <div class="rounded-md border p-4 {{ $box }}">
+        <div class="rounded-md border px-5 py-2 {{ $box }}">
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <p class=" text-xs 2xl:text-sm text-slate-500">{{ $label }}</p>
-                    <p id="stat-{{ $key }}" class="mt-2 text-xl font-bold {{ $text }}">0</p>
+                    <p id="stat-{{ $key }}" class="text-xl font-bold {{ $text }}">0</p>
                 </div>
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md {{ $iconBox }}">
                     <i class="bi {{ $icon }} text-base"></i>
@@ -75,7 +75,7 @@
                     <p class="text-sm font-semibold text-slate-700">
                         Search Exit Records
                     </p>
-                    <p class="hidden text-[11px] text-slate-400 sm:block">
+                    <p class="hidden text-[11px] text-slate-500 sm:block">
                         Search by exit number, member name or member code.
                     </p>
                 </div>
@@ -86,10 +86,10 @@
                 {{-- Search --}}
                 <div class="relative min-w-0 flex-1 lg:w-[280px]">
                     <i
-                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 2xl:text-sm"></i>
+                        class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 2xl:text-sm"></i>
 
                     <input id="searchInput" type="text" placeholder="Search exit records..."
-                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
+                        class="h-9 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-700 outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 2xl:text-sm">
                 </div>
 
                 {{-- Filter --}}
@@ -165,22 +165,22 @@
             <table class="w-full min-w-[1050px] text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50">
                     <tr>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Exit</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Liabilities
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Exit</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Member</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Type</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Liabilities
                         </th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Share Refund
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Share Refund
                         </th>
-                        <th class="px-4 py-3 text-center  text-xs 2xl:text-sm font-semibold text-slate-600">Blockers
+                        <th class="px-4 py-3 text-center text-xs 2xl:text-sm font-semibold text-slate-600">Blockers
                         </th>
-                        <th class="px-4 py-3 text-left  text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
-                        <th class="px-4 py-3 text-right  text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
+                        <th class="px-4 py-3 text-left text-xs 2xl:text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-right text-xs 2xl:text-sm font-semibold text-slate-600">Action</th>
                     </tr>
                 </thead>
                 <tbody id="exitTableBody" class="divide-y divide-slate-100">
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-base text-slate-400">Loading exit records...
+                        <td colspan="8" class="px-4 py-10 text-center text-base text-slate-500">Loading exit records...
                         </td>
                     </tr>
                 </tbody>
@@ -189,7 +189,7 @@
 
         {{-- Mobile card list --}}
         <div id="exitMobileGrid" class="divide-y divide-slate-100 md:hidden">
-            <div class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-400">Loading exit records...</div>
+            <div class="px-4 py-10 text-center text-xs 2xl:text-sm text-slate-500">Loading exit records...</div>
         </div>
 
         <div id="paginationContainer" class="border-t border-slate-200 px-4 py-3"></div>
@@ -230,7 +230,7 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Member & Exit Type</h4>
-                            <p class="text-[11px] text-slate-400">Select the member and reason category.</p>
+                            <p class="text-[11px] text-slate-500">Select the member and reason category.</p>
                         </div>
                     </div>
 
@@ -267,7 +267,7 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Exit Information</h4>
-                            <p class="text-[11px] text-slate-400">Reason and preferred effective date.</p>
+                            <p class="text-[11px] text-slate-500">Reason and preferred effective date.</p>
                         </div>
                     </div>
 
@@ -283,7 +283,7 @@
                         <label class="form-label">Proposed Cancel Date</label>
                         <div class="relative">
                             <i
-                                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
+                                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-500"></i>
                             <input id="proposedExitDate" type="text" class="app-input js-date-picker w-full !pl-9"
                                 placeholder="Select date" autocomplete="off">
                         </div>
@@ -304,10 +304,10 @@
             <div
                 class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-200 bg-white px-5 py-4 sm:flex-row sm:justify-end">
                 <button type="button" onclick="AdminUI.closeModal('createModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i
                         class="bi bi-x-lg mr-1"></i>Cancel</button>
                 <button id="createButton" type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2  text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"><i
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-xs 2xl:text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"><i
                         class="bi bi-play-fill mr-1"></i>Start Process</button>
             </div>
         </form>
@@ -342,11 +342,11 @@
             <div id="summaryCards" class="grid grid-cols-2 gap-3 lg:grid-cols-5"></div>
 
             <div class="grid gap-4 xl:grid-cols-[1.2fr_.8fr]">
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <div class="mb-3 flex items-center justify-between">
                         <div>
                             <h4 class="text-sm font-semibold text-slate-800">Financial & Operational Assessment</h4>
-                            <p class="text-[11px] text-slate-400">Blocking items must be resolved before approval.</p>
+                            <p class="text-[11px] text-slate-500">Blocking items must be resolved before approval.</p>
                         </div>
                         @if(auth()->user()->hasPermission('MemberExit.review'))
                         <button type="button" onclick="refreshAssessment()"
@@ -360,7 +360,7 @@
                     <div id="assessmentItems" class="space-y-2"></div>
                 </section>
 
-                <section class="rounded-md border border-slate-200 bg-white p-4">
+                <section class="rounded-md border border-slate-200 bg-white px-5 py-2">
                     <h4 class="text-sm font-semibold text-slate-800">Case Information</h4>
                     <div id="caseDetails" class="mt-3 grid grid-cols-2 gap-3"></div>
                 </section>
@@ -375,7 +375,7 @@
                 <div id="nomineeAllocations" class="space-y-2"></div>
             </section>
 
-            <section id="reviewSection" class="rounded-md border border-slate-200 bg-white p-4">
+            <section id="reviewSection" class="rounded-md border border-slate-200 bg-white px-5 py-2">
                 <label class="form-label">Review Note</label>
                 <textarea id="reviewNote" rows="3" maxlength="5000" class="app-input w-full resize-none"
                     placeholder="Optional review note..."></textarea>
@@ -404,7 +404,7 @@
                         <label class="form-label">Settlement Date <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <i
-                                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-400"></i>
+                                class="bi bi-calendar3 pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs 2xl:text-sm text-slate-500"></i>
                             <input id="settlementDate" type="text" class="app-input js-date-picker w-full !pl-9"
                                 placeholder="Select date" autocomplete="off"
                                 data-validation-required-message="Settlement date is required.">
@@ -449,7 +449,7 @@
 
             <div class="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">
                 <button type="button" onclick="AdminUI.closeModal('rejectModal')"
-                    class="rounded-md border border-slate-300 bg-white px-4 py-2  text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i
+                    class="rounded-md border border-slate-300 bg-white px-4 py-2 text-xs 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-50"><i
                         class="bi bi-x-lg mr-1"></i>Cancel</button>
                 <button id="rejectButton" type="submit"
                     class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"><i
@@ -603,7 +603,7 @@ async function loadExits(page=1){
     $('exitTableBody').innerHTML=AdminUI.loadingState('Loading exit records...',8);
 
     $('exitMobileGrid').innerHTML=`
-        <div class="px-4 py-10 text-center text-sm text-slate-400">Loading exit records...</div>`;
+        <div class="px-4 py-10 text-center text-sm text-slate-500">Loading exit records...</div>`;
 
     const params=new URLSearchParams({page,per_page:15});
 
@@ -629,7 +629,7 @@ async function loadExits(page=1){
 
         $('exitTableBody').innerHTML=AdminUI.emptyState(message,8);
         $('exitMobileGrid').innerHTML=`
-            <div class="px-4 py-10 text-center text-sm text-slate-400">${esc(message)}</div>`;
+            <div class="px-4 py-10 text-center text-sm text-slate-500">${esc(message)}</div>`;
     }
 }
 
@@ -638,19 +638,19 @@ function renderRecords(){
         $('exitTableBody').innerHTML=AdminUI.emptyState('No member exit records found.',8);
 
         $('exitMobileGrid').innerHTML=`
-            <div class="px-4 py-10 text-center text-sm text-slate-400">No exit records found.</div>`;
+            <div class="px-4 py-10 text-center text-sm text-slate-500">No exit records found.</div>`;
         return;
     }
 
     $('exitTableBody').innerHTML=records.map(item=>`
         <tr class="transition hover:bg-slate-50/70">
             <td class="px-4 py-3">
-                <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(item.exit_no)}</div>
-                <div class="mt-0.5 text-[11px] text-slate-400">${formatDate(item.request_date)}</div>
+                <div class="font-semibold text-xs 2xl:text-sm text-slate-700">${esc(item.exit_no)}</div>
+                <div class="mt-0.5 text-[11px] text-slate-500">${formatDate(item.request_date)}</div>
             </td>
 
             <td class="px-4 py-3">
-                <div class="font-semibold  text-xs 2xl:text-sm text-slate-700">${esc(item.member?.user?.name??'N/A')}</div>
+                <div class="font-semibold text-xs 2xl:text-sm text-slate-700">${esc(item.member?.user?.name??'N/A')}</div>
                 <div class="mt-0.5 text-[11px] font-medium text-indigo-600">${esc(item.member?.member_code??'')}</div>
             </td>
 
@@ -683,7 +683,7 @@ function renderRecords(){
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                     <p class="truncate text-xs 2xl:text-sm font-semibold text-slate-800">${esc(item.exit_no)}</p>
-                    <p class="mt-0.5 truncate text-[11px] text-slate-400">${esc(typeLabel(item.exit_type))} • ${formatDate(item.request_date)}</p>
+                    <p class="mt-0.5 truncate text-[11px] text-slate-500">${esc(typeLabel(item.exit_type))} • ${formatDate(item.request_date)}</p>
                 </div>
 
                 <div class="shrink-0">
@@ -698,17 +698,17 @@ function renderRecords(){
 
             <div class="mt-3 grid grid-cols-3 gap-x-3 gap-y-2.5 text-[11px]">
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Liabilities</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Liabilities</p>
                     <p class="truncate font-semibold ${Number(item.total_liabilities)>0?'text-red-600':'text-slate-700'}">${money(item.total_liabilities)}</p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Share Refund</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Share Refund</p>
                     <p class="truncate font-semibold text-emerald-700">${money(item.share_refund)}</p>
                 </div>
 
                 <div class="min-w-0">
-                    <p class="text-slate-400 text-xs 2xl:text-sm">Blockers</p>
+                    <p class="text-slate-500 text-xs 2xl:text-sm">Blockers</p>
                     <p class="truncate font-semibold ${Number(item.blocking_items_count)>0?'text-red-600':'text-emerald-600'}">${item.blocking_items_count}</p>
                 </div>
             </div>
@@ -806,7 +806,7 @@ function renderManageModal(item){
         ['Net Settlement',money(item.net_settlement_amount),'text-indigo-700','bg-indigo-50']
     ].map(([label,value,text,bg])=>`
         <div class="rounded-md ${bg} p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${label}</p>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${label}</p>
             <p class="mt-1 text-base font-bold ${text}">${value}</p>
         </div>
     `).join('');
@@ -822,7 +822,7 @@ function renderManageModal(item){
         ['Reason',item.reason??'—']
     ].map(([label,value])=>`
         <div class="${label==='Reason'?'col-span-2':''} rounded-md border border-slate-200 bg-slate-50/60 p-3">
-            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">${esc(label)}</p>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${esc(label)}</p>
             <p class="mt-1 break-words text-sm font-semibold capitalize text-slate-700">${esc(value)}</p>
         </div>
     `).join('');
@@ -856,7 +856,7 @@ function renderAssessment(items){
                     <i class="bi ${item.is_blocking?'bi-exclamation-circle text-red-500':'bi-check-circle text-emerald-500'}"></i>
                     <p class="text-sm font-semibold text-slate-700">${esc(item.description)}</p>
                 </div>
-                <p class="ml-6 mt-1 text-[10px] uppercase text-slate-400">${esc(item.category?.replaceAll('_',' ')??'')}</p>
+                <p class="ml-6 mt-1 text-[10px] uppercase text-slate-500">${esc(item.category?.replaceAll('_',' ')??'')}</p>
             </div>
 
             ${Number(item.amount)>0
@@ -881,12 +881,12 @@ function renderNomineeAllocations(allocations){
         <div class="flex items-center justify-between rounded-md border border-violet-200 bg-white px-3 py-2">
             <div>
                 <p class="text-sm font-semibold text-slate-700">${esc(item.nominee?.name??'Nominee')}</p>
-                <p class="text-[10px] text-slate-400">${esc(item.nominee?.relationship??'')}</p>
+                <p class="text-[10px] text-slate-500">${esc(item.nominee?.relationship??'')}</p>
             </div>
 
             <div class="text-right">
                 <p class="text-sm font-bold text-violet-700">${money(item.amount)}</p>
-                <p class="text-[10px] text-slate-400">${Number(item.allocation_percentage||0).toFixed(2)}%</p>
+                <p class="text-[10px] text-slate-500">${Number(item.allocation_percentage||0).toFixed(2)}%</p>
             </div>
         </div>
     `).join('');
@@ -945,7 +945,7 @@ function renderManageActions(item){
 
     $('manageActions').innerHTML=actions.length
         ?actions.join('')
-        :'<span class="text-xs 2xl:text-sm text-slate-400">No further action available.</span>';
+        :'<span class="text-xs 2xl:text-sm text-slate-500">No further action available.</span>';
 }
 
 function actionButton(label,icon,color,onclick,outline=false){

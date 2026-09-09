@@ -250,7 +250,7 @@ FUND ALLOCATION OVERVIEW
                     নীতি অনুসরণ করা হয়, যাতে দীর্ঘমেয়াদে স্থিতিশীলতা বজায়
                     থাকে।
                 </p>
-                <p class="mt-3 text-[12px] leading-5 text-slate-400">
+                <p class="mt-3 text-[12px] leading-5 text-slate-500">
                     * নিচের চিত্রটি একটি সাধারণ ধারণা দেওয়ার জন্য; প্রকৃত
                     বরাদ্দ সময়ে সময়ে সদস্যদের সিদ্ধান্ত অনুযায়ী পরিবর্তিত
                     হতে পারে।
@@ -260,7 +260,7 @@ FUND ALLOCATION OVERVIEW
             <div class="reveal space-y-4 rounded-md border border-slate-200 bg-slate-50 p-6">
                 <div>
                     <div class="flex items-center justify-between text-[12px]">
-                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">বিনিয়োগ</span>
+                        <span class="font-semibold text-xs 2xl:text-sm text-slate-700">বিনিয়োগ</span>
                         <span class="text-slate-500">৩৫%</span>
                     </div>
                     <div class="mt-1.5 h-2 rounded-full bg-slate-200">
@@ -269,7 +269,7 @@ FUND ALLOCATION OVERVIEW
                 </div>
                 <div>
                     <div class="flex items-center justify-between text-[12px]">
-                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">জমি ও সম্পদ</span>
+                        <span class="font-semibold text-xs 2xl:text-sm text-slate-700">জমি ও সম্পদ</span>
                         <span class="text-slate-500">৩০%</span>
                     </div>
                     <div class="mt-1.5 h-2 rounded-full bg-slate-200">
@@ -278,7 +278,7 @@ FUND ALLOCATION OVERVIEW
                 </div>
                 <div>
                     <div class="flex items-center justify-between text-[12px]">
-                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">ব্যবসায়িক উদ্যোগ ও পণ্য</span>
+                        <span class="font-semibold text-xs 2xl:text-sm text-slate-700">ব্যবসায়িক উদ্যোগ ও পণ্য</span>
                         <span class="text-slate-500">২০%</span>
                     </div>
                     <div class="mt-1.5 h-2 rounded-full bg-slate-200">
@@ -287,7 +287,7 @@ FUND ALLOCATION OVERVIEW
                 </div>
                 <div>
                     <div class="flex items-center justify-between text-[12px]">
-                        <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">সদস্য কল্যাণ তহবিল</span>
+                        <span class="font-semibold text-xs 2xl:text-sm text-slate-700">সদস্য কল্যাণ তহবিল</span>
                         <span class="text-slate-500">১৫%</span>
                     </div>
                     <div class="mt-1.5 h-2 rounded-full bg-slate-200">

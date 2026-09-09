@@ -48,7 +48,7 @@
 
         <p class="text-sm sm:text-base text-slate-500 leading-relaxed">
             Set a new password for
-            <span class="font-semibold  text-xs 2xl:text-sm text-slate-700">{{ $email }}</span>
+            <span class="font-semibold text-xs 2xl:text-sm text-slate-700">{{ $email }}</span>
         </p>
     </div>
 
@@ -72,10 +72,10 @@
             <div class="relative">
                 <input type="password" id="password" name="password" minlength="8" autocomplete="new-password"
                     placeholder="Enter new password" required
-                    class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
+                    class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
 
                 <button type="button" onclick="togglePassword('password',this)"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center cursor-pointer text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center cursor-pointer text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
                     aria-label="Show password">
 
                     <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -91,7 +91,7 @@
             <div class="mt-2 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
                 <div id="strengthBar" class="strength-bar h-full w-0 bg-red-400"></div>
             </div>
-            <p id="strengthLabel" class="mt-1  text-xs 2xl:text-sm text-slate-400">
+            <p id="strengthLabel" class="mt-1 text-xs 2xl:text-sm text-slate-500">
                 Minimum 8 characters
             </p>
         </div>
@@ -104,10 +104,10 @@
             <div class="relative">
                 <input type="password" id="password_confirmation" name="password_confirmation" minlength="8"
                     autocomplete="new-password" placeholder="Re-enter new password" required
-                    class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
+                    class="login-input w-full h-12 rounded-md border border-slate-200 bg-slate-50 px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10">
 
                 <button type="button" onclick="togglePassword('password_confirmation',this)"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center cursor-pointer text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center cursor-pointer text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
                     aria-label="Show password">
 
                     <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -130,10 +130,10 @@
     <div class="mt-8">
         <div class="flex items-center gap-3">
             <div class="h-px bg-slate-200 flex-1"></div>
-            <span class=" text-xs 2xl:text-sm text-slate-400 uppercase tracking-wider">Secure Access</span>
+            <span class=" text-xs 2xl:text-sm text-slate-500 uppercase tracking-wider">Secure Access</span>
             <div class="h-px bg-slate-200 flex-1"></div>
         </div>
-        <p class="mt-5 text-center  text-xs 2xl:text-sm text-slate-400 leading-relaxed">
+        <p class="mt-5 text-center text-xs 2xl:text-sm text-slate-500 leading-relaxed">
             This link expires 60 minutes after it was requested.
         </p>
     </div>
