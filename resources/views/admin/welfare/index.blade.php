@@ -200,7 +200,7 @@
     <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
       <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
             <i class="bi bi-wallet2"></i>
           </div>
           <div>
@@ -260,7 +260,7 @@
     <div class="app-modal-panel w-full max-w-xl overflow-hidden rounded-md bg-white">
       <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
             <i class="bi bi-plus-circle"></i>
           </div>
           <div>
@@ -465,7 +465,7 @@
     <div class="app-modal-panel w-full max-w-lg rounded-md bg-white">
       <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
             <i class="bi bi-search"></i>
           </div>
           <div>
@@ -591,7 +591,7 @@
     <div class="app-modal-panel w-full max-w-lg rounded-md bg-white">
       <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
         <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
             <i class="bi bi-cash-stack"></i>
           </div>
           <div>

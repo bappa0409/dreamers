@@ -71,7 +71,7 @@ function ensureAdminConfirmModal(){
                 <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4">
                     <div class="flex min-w-0 items-center gap-3">
                         <div id="adminConfirmIconWrap"
-                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
                             <i id="adminConfirmIcon" class="bi bi-question-circle"></i>
                         </div>
 

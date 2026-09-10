@@ -14,7 +14,7 @@
 
         <div class="flex items-start gap-3">
 
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
                 <i class="bi bi-envelope-paper"></i>
             </div>
 
@@ -209,7 +209,7 @@ CAMPAIGN MODAL
 
             <div class="flex min-w-0 items-center gap-3">
 
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
                     <i class="bi bi-envelope-plus"></i>
                 </div>
 

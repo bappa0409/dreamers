@@ -7,7 +7,7 @@
 <div class="space-y-4">
     <div class="rounded-md border border-slate-200 bg-white px-5 py-4">
         <div class="flex items-start gap-3">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 border border-slate-300 ">
                 <i class="bi bi-journal-bookmark"></i>
             </div>
             <div>
